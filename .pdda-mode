@@ -1,0 +1,9 @@
+# PDDA enforcement mode for this repo: observe | light | full
+# Resolution: env PDDA_MODE overrides this file; this file overrides the built-in default (observe).
+#   observe : report only, never moves files, never blocks (safe for a fresh install)
+#   light   : reports findings including stale flags; never moves files, but never blocks the build (transition)
+#   full    : errors block with a non-zero exit (fully on PDDA rails)
+observe
+# releases.db (via releases.sql) is the planning source of truth. No ROADMAP.md / RELEASES.md:
+# park work with `releases roadmap add`; `releases roadmap sync` is a no-op while this marker is present.
+ROADMAP_SOURCE=releases
