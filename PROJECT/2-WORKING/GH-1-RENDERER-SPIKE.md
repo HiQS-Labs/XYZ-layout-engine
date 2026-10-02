@@ -97,7 +97,7 @@ From the full task clone, the reviewed invocation is:
 .xyz/relay-automation/marathon.sh --plan PROJECT/2-WORKING/renderer-spike/MARATHON.yaml --builder agy --pre-advance-cmd 'pnpm run spike:verify'
 ```
 
-Add `--dry-run` for no-dispatch verification. Preserve every phase's gate. The installed receipt validator requires the final block's literal `VERDICT: PASS|FAIL|PARKED` and nonempty `Basis:`; conversational approval goes in `Review outcome:` and the STATUS header. Every phase brief states this contract. The first plan review's free-form verdict was rejected (exit 8); its findings are retained but it is not an approval receipt. Runtime files remain unchanged.
+Add `--dry-run` for no-dispatch verification. Preserve every phase's gate. The installed receipt validator requires the final block's literal `VERDICT: PASS|FAIL|PARKED` and nonempty `Basis:`; conversational approval goes in `Review outcome:` and the STATUS header. Every phase brief states this contract. The first plan review's free-form verdict was rejected (exit 8); its findings are retained but it is not an approval receipt. The second textual approval was also refused (exit 4) because the legacy end-marker insertion changed the append-only body prefix. An EOF-only receipt template is the bounded recovery; no dispatch may rely on the refused receipt. Runtime files remain unchanged.
 
 ## Safety, diagnosis, and rollback
 
@@ -113,7 +113,7 @@ Undo class Easy: delete/revert only spike-owned files in the task clone. Referen
 - [ ] Wave 1 Post-Build Codex QA Relay executed (receipt under `relay-system/2026-10-01/gh1-spike-postbuild.codex.md`, STATUS Approved or Closed)
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated
 
-Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan.codex.md` (pending actual independent review).
+Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan-attested.codex.md` (pending protocol-corrected independent receipt; legacy receipt not accepted).
 Human artwork acceptance: pending; agent approval never substitutes for it.
 
 ## Swarm Preflight Contract
