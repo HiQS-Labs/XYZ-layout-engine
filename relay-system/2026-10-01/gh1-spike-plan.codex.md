@@ -4,8 +4,8 @@
   Read this ENTIRE file before doing anything. Act only on your turn.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, Gemini)
@@ -94,5 +94,25 @@ The operator just said "take your turn on this file." Everything you need is **i
 **Commit:** pending producer commit
 VERDICT: PARKED
 Basis: independent second-round plan approval pending; all changes remain textual preparation.
+
+### Round 2 · Reviewer · codex · 2026-10-02 05:03 UTC
+**Verdict:** Approved
+Review outcome: Approved
+
+**Findings & proposals:**
+- [Pass] B1 is **textually fixed** in the artifact itself: nutrition-first hero smoke and both persisted hero PNGs (`PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md:77`, `:231-254`; `renderer-spike/MARATHON.yaml:17`; `p2.md:39-40`), concrete script probes (`:78`), measured resource-limit proposals (`:86`), PRD findings and pending human acceptance (`:88-89`). No claimed-implemented fix is absent.
+- [Pass] S1 is **textually fixed**: standalone per-ID SVG/data URLs with embedded definitions and no external references (`GH-1-RENDERER-SPIKE.md:67`); phase-2 asset adaptation is allowed in both YAML (`MARATHON.yaml:17`) and brief (`p2.md:31-32`). Both backends must resolve assets independently and render offline (`GH-1-RENDERER-SPIKE.md:67-70`, `:75`). No whole-reference image layer is permitted.
+- [Pass] S2 is **textually fixed**: exact longer headline/caption values, backend-owned text overflow evidence, baseline/override bounds/digests, missing-evidence failure, and BLOCKED selection when neither backend qualifies (`GH-1-RENDERER-SPIKE.md:81`). Element rectangles alone explicitly do not prove unclipped text. No second font/layout engine is introduced.
+- [Pass] S3 is **textually fixed**: exact dispatch includes Agy builder and `--pre-advance-cmd 'pnpm run spike:verify'` (`GH-1-RENDERER-SPIKE.md:59`, `:94-100`; every brief). Fixture-only phase 1 and mandatory render/repeat/override evidence in phases 2/3 are distinct (`p1.md:42`, `p2.md:46`, `p3.md:36`). Current installed driver source at `.xyz/utils/py/marathon_drive.py:1394-1413` confirms an explicit command wins; actual execution is not proven here.
+- [Pass] **Omission-diff:** PRD Phase 0 (`SPECS-PRD.md:427-431`) maps to plan `:65-89`: two nutrition backends first, subsequent hero smoke, renderer/license decision, authoritative geometry, PNG/SVG and script capability, timings/environment, resource-limit proposals and findings written into PRD. PRD §5.3 maps to plan `:51-54`, `:65-82`, `:87-89`: square composition/all sections, editable text/separate assets, declared decorative overlap, readability/overflow, copy change, repeat checks and visual review. Human artwork verdict remains deliberately pending; later recipe promotion/parity belongs to later product phases. No unresolved textual omission found.
+- [Pass] Minimal scope, pinned dependency/font licenses, finite render/fetch/startup deadlines and browser cleanup, ten fitting iterations, two review rounds, 900-second turns, debug-mantra diagnosis and Easy rollback are explicit (`GH-1-RENDERER-SPIKE.md:43-47`, `:66-79`, `:104-106`). No CI/editor/server work is added. Sequential dependencies and all phase/brief/preflight allowlists agree on direct inspection and the narrow comparison probe.
+- [Pass] Current parser probe: environment `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`. Command: `node /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/marathon-yaml PROJECT/2-WORKING/renderer-spike/MARATHON.yaml --format json > "$TMPDIR/parser-r2.json"`. Exit 0; output resolves `gh1-spike-p1 → gh1-spike-p2 → gh1-spike-p3`, each reviewer `codex`, timeout `900`, max rounds `2`. This proves parser acceptance/order only.
+- [Pass] Current installed `bin/validate-relay-block` was read, not executed: final literal machine verdict plus nonempty Basis is required. The new block satisfies that textual contract; the harness owns its executable gate.
+
+**Answers:** B1/S1/S2/S3 are present and complete as plan requirements, all **textually fixed**, none behaviorally proven as rendering. The scope allows reporting an unsupported backend without recommending it. Producer-reported preflight/deep planner/YAML dry-run successes were not independently rerun: **[Unverified — needs clone run]**. Approval is for the non-executable plan only; builder dispatch, runtime correctness and human artwork acceptance are not granted by this review.
+**Review change bet / reversibility:** Easy — the written gate/measurement contracts are sufficient to review the bounded spike independently; if later clone runs lack their promised evidence, phase approval must fail rather than infer capability. Only this relay file was edited. Graph tools are unavailable; exact source fallback was used. README.md and local releases CLI are absent; those startup reads could not run in this isolated worktree. No git, rendering, tests, pytest or validate.sh ran.
+**Commit:** pending harness file-scoped commit (reviewer must not run git).
+VERDICT: PASS
+Basis: textual only — reread all five actual plan artifacts, PRD Phase 0/§5.3 and installed parser/driver/receipt-validator source; reconciled every Implemented disposition against its artifact. N/A — non-executable plan. Parser acceptance/order was observed (exit 0); runtime enforcement/rendering remains unverified and delegated to disposable-clone gates.
 
 <!-- ↓↓↓  NEXT TURN GOES ABOVE THIS LINE — keep this marker last  ↓↓↓ -->
