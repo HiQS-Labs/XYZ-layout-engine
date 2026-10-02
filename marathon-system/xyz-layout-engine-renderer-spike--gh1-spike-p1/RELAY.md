@@ -1,5 +1,5 @@
 # Marathon Phase gh1-spike-p1
-STATUS: Open
+STATUS: Approved
 NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH1-SPIKE-P1-TURN-2 builder=agy reviewer=codex round-cap=5 -->
@@ -324,3 +324,129 @@ handing off to codex — codex, take your turn.
 
 VERDICT: PASS
 Basis: Executed `node tools/spike/verify.mjs` locally which now strictly hashes and validates the actual bytes of the font and complete license against expected digests, correctly rejecting truncated/altered files.
+
+### Extension · System
+relay-drive: round cap (5) reached but lane is converging (new commits or resolved items) — bounded extension granted to cap 6
+
+### Round 3 · Reviewer · codex
+
+**Verdict:** Approved
+Review outcome: Approved
+swept file: yes
+
+Read the whole package.json, pnpm-lock.yaml, fixture.json, scene.mjs, verify.mjs, assets.mjs, illustrations.svg, SOURCES.md and OFL.txt; inspected font.ttf's binary identity and embedded name/license records. Pre-existing content was in scope. No additional defect was found in the seeded Phase 1 artifacts.
+
+Bet / reversibility: Easy. The standard-library digest comparisons close the prior evidence-integrity finding without additional machinery. Approval covers the bounded fixture/assets source review and observed probes below; the harness must still run the full phase gate. The failure mode would be treating this approval as evidence of rendered fidelity or backend capability, which remains unmeasured.
+
+#### [Unverified — no citation] Round 2 evidence-integrity finding resolved
+
+tools/spike/verify.mjs now hashes the actual loaded font and CRLF-to-LF-normalized full license, compares both with pinned digests, and binds SOURCES.md's digest to the actual font hash. The narrow read-only predicate probe below reads the pins directly from the verifier source without executing it. Both unchanged assets match; non-font bytes, one altered font byte, a license truncated after its conditions heading, the old four-line placeholder, and wrong provenance fail their respective comparisons. CRLF conversion remains accepted as documented.
+
+The font remains Inter Regular, Version 4.000;git-a52131595, with embedded OFL 1.1 attribution; its digest matches the asset reviewed in Round 2. The bundled license includes all five conditions, termination and disclaimer. Round 2's upstream review is retained; this turn did not independently compare a downloaded release archive.
+
+Root cause resolved: labels were previously accepted without binding them to asset bytes; Fix site: existing verify.mjs font/license assertions; Why not upstream/downstream: the bundled assets were already consistent, and the missing enforcement belonged at the phase acceptance gate.
+
+#### [Unverified — no citation] Fixture and asset structure retained
+
+The same probe observed five independently resolved SVG roots with no href/url references, all five scene sections, and upper-aligned callout nodes flanking the hero. Full source inspection confirms editable copy in JSON, separate illustration nodes, local font/asset loading, a dependency-free package/lockfile, and backend-owned layout properties without custom metrics. The asset extractor is scoped to the trusted hand-authored source format; this is not a general SVG ingestion implementation.
+
+Exact Node probe command (exit 0, Node v22.22.3; in-memory controls only, no verifier or executable fixture execution):
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+node --input-type=module <<'PROBE'
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {resolveIllustration, getFont} from './tools/spike/assets.mjs';
+import {createScene} from './tools/spike/scene.mjs';
+const hash = value => createHash('sha256').update(value).digest('hex');
+const font = await getFont();
+const ofl = await fs.readFile('tools/spike/assets/OFL.txt', 'utf8');
+const sources = await fs.readFile('tools/spike/assets/SOURCES.md', 'utf8');
+const code = await fs.readFile('tools/spike/verify.mjs', 'utf8');
+const fontPin = code.match(/assert.strictEqual\(fontHash, '([a-f0-9]{64})'/)[1];
+const oflPin = code.match(/assert.strictEqual\(oflHash, '([a-f0-9]{64})'/)[1];
+const licenseMatches = value => hash(value.replace(/\r\n/g, '\n')) === oflPin;
+console.log('runtime:', process.version);
+console.log('font bytes:', font.length, 'sha256:', hash(font), 'matches pin:', hash(font) === fontPin);
+console.log('license sha256:', hash(ofl.replace(/\r\n/g, '\n')), 'matches pin:', licenseMatches(ofl));
+console.log('provenance matches:', sources.includes('Digest: ' + hash(font)));
+console.log('non-font matches:', hash(Buffer.from('not a font')) === fontPin);
+const altered = Buffer.from(font); altered[100] ^= 1;
+console.log('one-byte alteration matches:', hash(altered) === fontPin);
+console.log('truncated license matches:', licenseMatches(ofl.slice(0, ofl.indexOf('PERMISSION AND CONDITIONS') + 25)));
+console.log('old four-line placeholder matches:', licenseMatches('SIL Open Font License\nPREAMBLE\nPERMISSION AND CONDITIONS\n...'));
+console.log('CRLF license matches:', licenseMatches(ofl.replace(/\n/g, '\r\n')));
+console.log('wrong provenance matches:', 'Inter Regular\nDigest: wrong'.includes('Digest: ' + hash(font)));
+const fixture = JSON.parse(await fs.readFile('tools/spike/fixture.json', 'utf8'));
+for (const id of [fixture.sections.hero.illustrationId, ...fixture.sections.items.map(i => i.illustrationId)]) {
+ const svg = Buffer.from((await resolveIllustration(id)).split(',')[1], 'base64').toString();
+ console.log('asset:', id, 'standalone:', svg.startsWith('<svg') && svg.endsWith('</svg>'), 'external refs:', /href\s*=|url\s*\(/i.test(svg));
+}
+const scene = await createScene(fixture);
+console.log('sections:', scene.props.children.map(n => n.props.id).join(','));
+const hero = scene.props.children.find(n => n.props.id === 'hero');
+console.log('hero:', hero.props.children.map(n => n.type + ':' + n.props.id).join(','));
+console.log('callout alignment:', [hero.props.children[0], hero.props.children[2]].map(n => n.props.style.alignSelf).join(','));
+PROBE
+```
+Decisive output:
+```text
+runtime: v22.22.3
+font bytes: 407056 sha256: 64f8be6e55c37e32ef03da99714bf3aa58b8f2099bfe4f759a7578e3b8291123 matches pin: true
+license sha256: 262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a matches pin: true
+provenance matches: true
+non-font matches: false
+one-byte alteration matches: false
+truncated license matches: false
+old four-line placeholder matches: false
+CRLF license matches: true
+wrong provenance matches: false
+asset: leaf_and_glow standalone: true external refs: false
+asset: apple standalone: true external refs: false
+asset: water_drop standalone: true external refs: false
+asset: leaf standalone: true external refs: false
+asset: grain standalone: true external refs: false
+sections: header,hero,items,benefitsPanel,footer
+hero: div:callout_1,img:hero_img,div:callout_2
+callout alignment: flex-start,flex-start
+```
+
+Exact binary-identity probe command (exit 0, read-only):
+```sh
+python3 - <<'PROBE'
+from pathlib import Path
+import struct
+b=Path('tools/spike/assets/font.ttf').read_bytes()
+tables={}
+for i in range(struct.unpack_from('>H',b,4)[0]):
+    tag,_,off,size=struct.unpack_from('>4sIII',b,12+i*16)
+    tables[tag]=(off,size)
+off,_=tables[b'name']
+_,count,start=struct.unpack_from('>HHH',b,off)
+for i in range(count):
+    plat,enc,lang,nid,size,pos=struct.unpack_from('>HHHHHH',b,off+6+i*12)
+    if nid in (1,2,5,13,14) and plat==3:
+        print('name',nid,':',b[off+start+pos:off+start+pos+size].decode('utf-16-be'))
+PROBE
+```
+Decisive output:
+```text
+name 1 : Inter
+name 2 : Regular
+name 5 : Version 4.000;git-a52131595
+name 13 : This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL
+name 14 : http://scripts.sil.org/OFL
+```
+
+#### Limits and completion
+
+- [Unverified — needs clone run] Full spike:verify and file-mutating negative-control gate runs were not executed here. Builder reports a successful verifier run; actual process exit behavior remains for the disposable clone/harness. Predicate results above are not represented as a full gate run.
+- Both-backend decoding/rendering, pixel fidelity, text extents, geometry, repeats, overrides, performance and human artwork acceptance remain pending. The plan's both-backend asset criterion requires Phase 2's dependencies; no capability pass is inferred from standalone source inspection.
+- No graph tools are callable in this session; bounded exact source reads were used. Read ROUTER.md, principles, AGENTS.md, canonical spike plan, PRD §5.3, prior relay history, ESCALATION.md and pinned harness DEBUG-MANTRA.md. README.md is absent. Ledger/PDDA execution was deferred under the explicit narrow reviewer restrictions; no git commands, test suites or artifact edits were performed.
+- Only RELAY.md was edited. Scratch setup stayed under .relay-scratch/tmp. Existing relay bytes are preserved except for the authorized STATUS header change.
+
+relay closed, no further turn needed.
+
+VERDICT: PASS
+Basis: Whole-file source review and the quoted exit-0 read-only probes confirm the previously requested digest enforcement, rejection predicates, asset resolution and scene structure. No unresolved seeded Phase 1 source defect remains; full gate execution stays with the harness and later rendering/human acceptance is explicitly pending.
