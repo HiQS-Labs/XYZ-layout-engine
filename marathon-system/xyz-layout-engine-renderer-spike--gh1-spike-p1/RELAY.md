@@ -1,6 +1,6 @@
 # Marathon Phase gh1-spike-p1
 STATUS: Open
-NEXT: codex (Reviewer)
+NEXT: agy (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH1-SPIKE-P1-TURN-2 builder=agy reviewer=codex round-cap=5 -->
 
@@ -116,3 +116,132 @@ Implemented Phase 1: Fixture and assets.
 
 VERDICT: PASS
 Basis: `pnpm run spike:verify` succeeds and confirms fixture, independent illustration mapping, font offline capability, and scene translation logic.
+
+
+### Round 1 · Reviewer · codex
+
+**Verdict:** Changes requested
+Review outcome: Changes requested
+swept file: yes
+
+Reviewed the complete package.json, pnpm-lock.yaml, fixture.json, scene.mjs, verify.mjs, assets.mjs, illustrations.svg, SOURCES.md and OFL.txt; inspected font.ttf's binary identity and embedded name/license records. Pre-existing content in these files was in scope. Findings below are the defects found in that sweep; this is not a whole-repository audit.
+
+Bet / reversibility: Easy. Correcting the asset provenance and strengthening the existing gate should meet Phase 1 without new machinery. A green substring check can otherwise carry a wrongly attributed, incompletely licensed font into both render backends.
+
+#### [Blocker] Wrong and incomplete font license; current license checks accept it
+
+- Evidence: tools/spike/assets/SOURCES.md:3 declares OFL 1.1. tools/spike/assets/OFL.txt:1-4 consists of three introductory lines followed by literal `...`; it contains no license terms. The seeded tools/spike/assets/font.ttf identifies itself as Roboto Regular, version 2.001047 (2015), and its name-table records 13/14 explicitly declare Apache License 2.0 and its URL. The cited upstream source also identifies Apache-2.0: [Roboto source repository](https://github.com/googlefonts/roboto-2).
+- Observed input: seeded font SHA-256 `56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d`; seeded OFL.txt ending `...
+`; seeded SOURCES.md OFL attribution. Narrow probes below observe the mismatch and show every existing license predicate true despite it.
+- Affected scope: Phase 1's verified source-license acceptance; tools/spike/verify.mjs:38-47 prints "Fonts and licenses are valid" after only nonempty font and substring checks.
+- Request: within the existing asset allowlist, supply a pinned font with matching, complete upstream license and exact download/revision provenance (plus digest), correct SOURCES.md, and make the existing verifier reject truncated/mismatched license evidence. If retaining the supplied binary, document its actual license accurately; if retaining the OFL artifact convention, replace the font with a verified OFL font rather than relabeling this binary. No new test framework is needed.  [Unverified — no citation]
+- Falsifier: the pinned font's embedded identity, exact upstream source, full bundled terms and documented license agree; the existing gate rejects this four-line placeholder and the mismatched attribution in a disposable clone.
+- Root cause: license acceptance is based on labels/substrings instead of the actual asset's provenance; Fix site: assets/font.ttf, OFL.txt, SOURCES.md and existing verify.mjs license checks; Why not upstream/downstream: upstream font metadata is explicit, and rendering cannot repair incorrect license evidence.
+
+Probe command (exit 0; stdlib-only, non-mutating):
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+python3 - <<'PROBE'
+from pathlib import Path
+import struct, hashlib
+b=Path('tools/spike/assets/font.ttf').read_bytes()
+tables={}
+for i in range(struct.unpack_from('>H',b,4)[0]):
+    tag,_,off,size=struct.unpack_from('>4sIII',b,12+i*16)
+    tables[tag]=(off,size)
+off,_=tables[b'name']
+_,count,start=struct.unpack_from('>HHH',b,off)
+print('sha256:',hashlib.sha256(b).hexdigest())
+for i in range(count):
+    plat,enc,lang,nid,size,pos=struct.unpack_from('>HHHHHH',b,off+6+i*12)
+    if nid in (0,1,2,5,13,14) and plat==3:
+        print('name',nid,':',b[off+start+pos:off+start+pos+size].decode('utf-16-be'))
+print('OFL.txt:',repr(Path('tools/spike/assets/OFL.txt').read_text()))
+PROBE
+```
+Decisive output:
+```text
+sha256: 56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d
+name 1 : Roboto
+name 2 : Regular
+name 5 : Version 2.001047; 2015
+name 13 : Licensed under the Apache License, Version 2.0
+name 14 : http://www.apache.org/licenses/LICENSE-2.0
+OFL.txt: 'This Font Software is licensed under the SIL Open Font License, Version 1.1.\nThis license is copied below, and is also available with a FAQ at:\nhttp://scripts.sil.org/OFL\n...\n'
+```
+
+Predicate query command (exit 0; does not execute the verifier):
+```sh
+node --input-type=module <<'PROBE'
+import fs from 'node:fs/promises';
+const font=await fs.readFile('tools/spike/assets/font.ttf');
+const ofl=await fs.readFile('tools/spike/assets/OFL.txt','utf8');
+const sources=await fs.readFile('tools/spike/assets/SOURCES.md','utf8');
+console.log('verify.mjs:39 predicate=',Boolean(font && font.length>0));
+console.log('verify.mjs:42 predicate=',ofl.includes('SIL Open Font License'));
+console.log('verify.mjs:45 predicate=',sources.includes('Roboto Regular'));
+console.log('license lines=',ofl.trim().split('\n').length,'last line=',ofl.trim().split('\n').at(-1));
+PROBE
+```
+Decisive output:
+```text
+verify.mjs:39 predicate= true
+verify.mjs:42 predicate= true
+verify.mjs:45 predicate= true
+license lines= 4 last line= ...
+```
+
+#### [Should] Preserve the reference's two upper side callouts
+
+- Evidence: tools/spike/scene.mjs:51-74 puts a single callout column before the hero image; both seeded callouts occupy that column. PRD §5.3 requires a dominant central leaf/glow with two upper side callouts.
+- Observed input: fixture.sections.hero.callouts = `[{"id":"callout_1","text":"100% Organic"},{"id":"callout_2","text":"Sustainably Sourced"}]`; the seeded scene query returns `hero children= div:callout-column,img:hero_img`, with the callout parent `{"display":"flex","flexDirection":"column","gap":10,"marginRight":20}`.
+- Affected scope: the shared nutrition reference scene feeding both future renderers. This is a structural observation, not a measured pixel-fidelity claim.
+- Request: express separate upper side callout nodes flanking the central hero using backend-owned layout properties; retain text in JSON and avoid custom geometry/font metrics.
+- Falsifier: scene structure positions one callout on each side of the central illustration; Phase 2's rendered comparison confirms upper-side placement without clipping/overlap.
+
+Scene/asset query command (exit 0; imports only asset/scene modules, not the verifier or an executable fixture):
+```sh
+node --input-type=module <<'PROBE'
+import fs from 'node:fs/promises';
+import {resolveIllustration} from './tools/spike/assets.mjs';
+import {createScene} from './tools/spike/scene.mjs';
+const fixture=JSON.parse(await fs.readFile('tools/spike/fixture.json','utf8'));
+for (const id of [fixture.sections.hero.illustrationId,...fixture.sections.items.map(i=>i.illustrationId)]) {
+    const svg=Buffer.from((await resolveIllustration(id)).split(',')[1],'base64').toString();
+    console.log(id,'standalone=',svg.startsWith('<svg')&&svg.endsWith('</svg>'),'externalRefs=',/href\s*=|url\s*\(/i.test(svg),'bytes=',Buffer.byteLength(svg));
+}
+const scene=await createScene(fixture);
+const hero=scene.props.children.find(n=>n.props.id==='hero');
+console.log('sections=',scene.props.children.map(n=>n.props.id).join(','));
+console.log('hero children=',hero.props.children.map(n=>n.type+':'+(n.props.id??'callout-column')).join(','));
+console.log('callout parent=',JSON.stringify(hero.props.children[0].props.style));
+console.log('callout texts=',JSON.stringify(hero.props.children[0].props.children.map(n=>n.props.children)));
+PROBE
+```
+Decisive output:
+```text
+leaf_and_glow standalone= true externalRefs= false bytes= 240
+apple standalone= true externalRefs= false bytes= 210
+water_drop standalone= true externalRefs= false bytes= 166
+leaf standalone= true externalRefs= false bytes= 141
+grain standalone= true externalRefs= false bytes= 140
+sections= header,hero,items,benefitsPanel,footer
+hero children= div:callout-column,img:hero_img
+callout parent= {"display":"flex","flexDirection":"column","gap":10,"marginRight":20}
+callout texts= ["100% Organic","Sustainably Sourced"]
+```
+
+#### Passes and limits
+
+- [Pass] The seeded fixture is square, keeps its copy in JSON and resolves all five independent local illustration IDs. Decoded SVGs have individual SVG roots, embedded xmlns/viewBox and no href/url references; no whole-reference image layer was found in the swept files.
+- [Pass] Minimal dependency-free .mjs package/lockfile; scene styles delegate layout to future backends rather than implementing text metrics.
+- [Unverified — needs clone run] Builder's full `pnpm run spike:verify` success is not independently reproduced here. Per reviewer containment instructions, no verifier/test suite, executable fixture, git command or artifact edit was run. Full gate and negative controls belong in the disposable clone/harness.
+- [Unverified — needs clone run] Independent asset decoding by both actual render backends has not been demonstrated in these files. Current probes establish standalone source structure only; both-backend decode/render and geometry evidence remain for the phase gates, not an inferred capability pass.
+- Graph tooling is unavailable in this session; used bounded exact source reads. README.md and worktree-local .xyz runtime are absent; read the pinned harness DEBUG-MANTRA.md and prior ESCALATION.md. Did not rerun the prior containment failure or installed PDDA/ledger commands because this turn authorizes only narrow non-mutating artifact probes and a relay edit.
+- Human artwork acceptance remains pending. Later render/repeat/override/performance phases remain unverified.
+
+handing off to agy — agy, take your turn.
+
+VERDICT: FAIL
+Basis: Observed font-license mismatch and truncated bundled terms violate Phase 1's verified-license requirement; current license predicates accept that invalid evidence. Whole-file review and quoted exit-0 narrow probes support the requested corrections; the full gate remains for the harness.  [Unverified — no citation]
