@@ -2,7 +2,7 @@
 STATUS: Open
 NEXT: agy (Builder)
 
-<!-- marathon-drive: task=MARATHON-GH1-SPIKE-P1-TURN builder=agy reviewer=codex round-cap=5 -->
+<!-- marathon-drive: task=MARATHON-GH1-SPIKE-P1-TURN-2 builder=agy reviewer=codex round-cap=5 -->
 
 ## Phase Brief
 
@@ -52,6 +52,11 @@ Verifier scope: phase 1 fixture/assets only; phases 2/3 must require all nutriti
 Harness transcript contract: every builder/reviewer block must end with a literal `VERDICT: PASS`, `VERDICT: FAIL`, or `VERDICT: PARKED` plus a nonempty `Basis:` line before any tick handoff. Use `Review outcome: Approved` or `Review outcome: Changes requested` for conversational labels; do not make the last verdict a free-form value. PASS requires observed checks appropriate to that phase; missing evidence is FAIL/PARKED. Preserve earlier log blocks and change only permitted header pointers. This aligns with the installed validator without editing runtime code.
 
 
+## Debug mantra (auto-triggered — 1 prior attempt(s) on this phase did not reach Approved)
+
+Before trying again, read `relay-automation/DEBUG-MANTRA.md` (relative to the harness root) and follow its four-step discipline: reproduce reliably, know the fail path, question the hypothesis, treat this round as a breadcrumb for the next one.
+Last recorded reason (`marathon-system/xyz-layout-engine-renderer-spike--gh1-spike-p1/ESCALATION.md`): `containment-violation (off-lane edit reverted by a turn-taker)`. Read it before re-guessing.
+
 ---
 
 ▶ TAKE YOUR TURN (agy — BUILDER role)
@@ -61,9 +66,9 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
 1. Implement the brief by creating/editing the artifact file(s): package.json,pnpm-lock.yaml,tools/spike/fixture.json,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/assets/font.ttf,tools/spike/assets/OFL.txt,tools/spike/assets/SOURCES.md
 2. Append a build block to this relay file: `### Round N · Builder · agy` summarizing what you did (files touched, key decisions).
 3. Use this exact tick binary (run it from any directory): /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick
-   - /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick claim MARATHON-GH1-SPIKE-P1-TURN --agent agy --paths "marathon-system/xyz-layout-engine-renderer-spike--gh1-spike-p1/RELAY.md,package.json,pnpm-lock.yaml,tools/spike/fixture.json,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/assets/font.ttf,tools/spike/assets/OFL.txt,tools/spike/assets/SOURCES.md"
-   - /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick ping MARATHON-GH1-SPIKE-P1-TURN --agent agy
-   - /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick release MARATHON-GH1-SPIKE-P1-TURN --agent agy --to codex
+   - /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick claim MARATHON-GH1-SPIKE-P1-TURN-2 --agent agy --paths "marathon-system/xyz-layout-engine-renderer-spike--gh1-spike-p1/RELAY.md,package.json,pnpm-lock.yaml,tools/spike/fixture.json,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/assets/font.ttf,tools/spike/assets/OFL.txt,tools/spike/assets/SOURCES.md"
+   - /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick ping MARATHON-GH1-SPIKE-P1-TURN-2 --agent agy
+   - /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick release MARATHON-GH1-SPIKE-P1-TURN-2 --agent agy --to codex
 4. Edit ONLY these paths: marathon-system/xyz-layout-engine-renderer-spike--gh1-spike-p1/RELAY.md and package.json,pnpm-lock.yaml,tools/spike/fixture.json,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/assets/font.ttf,tools/spike/assets/OFL.txt,tools/spike/assets/SOURCES.md. Do NOT run git. Do NOT touch any other file — the harness commits for you.
 5. HAND OFF EXPLICITLY (GH-268): after releasing the token, end your turn by naming who acts next —
    "handing off to codex — codex, take your turn." A turn that ends without that line
@@ -77,8 +82,8 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
 You are the REVIEWER for this phase. Read the latest builder block above AND review the artifact file(s) on disk: package.json,pnpm-lock.yaml,tools/spike/fixture.json,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/assets/font.ttf,tools/spike/assets/OFL.txt,tools/spike/assets/SOURCES.md. REVIEW THE WHOLE FILE, NOT JUST THE DIFF (GH-268): a beta test had this loop reach 'Approved' in two rounds while an independent audit of the same branch found 20 issues (1 critical, 4 high) — every one of them in the pre-existing code the change sat on, which nobody had read. Pre-existing defects in a file you are touching are IN SCOPE; say so explicitly if you find none. DECLARE IT: your review block MUST contain a literal 'swept file: yes' or 'swept file: no' line — without it a reviewer that skipped the sweep is indistinguishable in the transcript from one that did it and found nothing, which is exactly how those 20 issues stayed invisible.
 APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delete, reorder, or rewrite any existing content — the terminal attestation refuses the approval if any byte above your block changed, even a tidy-up.
 1. Append a review block: `### Round N · Reviewer · codex` followed by your assessment.
-2. If changes needed: add `**Verdict:** Changes requested`, update the `NEXT:` line to exactly `NEXT: agy (Builder)`, then: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick release MARATHON-GH1-SPIKE-P1-TURN --agent codex --to agy
-3. If satisfied: add `**Verdict:** Approved`, set `STATUS: Approved`, then: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick done MARATHON-GH1-SPIKE-P1-TURN --agent codex
+2. If changes needed: add `**Verdict:** Changes requested`, update the `NEXT:` line to exactly `NEXT: agy (Builder)`, then: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick release MARATHON-GH1-SPIKE-P1-TURN-2 --agent codex --to agy
+3. If satisfied: add `**Verdict:** Approved`, set `STATUS: Approved`, then: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick done MARATHON-GH1-SPIKE-P1-TURN-2 --agent codex
 4. Use this exact tick binary (run it from any directory) for all token operations: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/tick
    Edit ONLY marathon-system/xyz-layout-engine-renderer-spike--gh1-spike-p1/RELAY.md (your review block + STATUS). Do NOT edit the artifact yourself — request changes instead. Do NOT run git.
 4b. TO VERIFY A FINDING, WRITE PROBE FILES OUTSIDE THE REPO — under $TMPDIR, never inside the
