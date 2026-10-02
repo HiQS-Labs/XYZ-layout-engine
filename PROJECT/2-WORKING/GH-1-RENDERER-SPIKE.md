@@ -29,7 +29,7 @@ reversibility: Easy — local spike files and reports; no production state.
 
 | What was just completed | What's next |
 |---|---|
-| Independent Codex plan QA Approved and attested; direct preflight, primary planner/check and full clone YAML dry-run pass. No implementation started. | Confirm the exact three-phase order and Agy/Codex pairing, then dispatch from marathon-gh-1-renderer-spike. |
+| First Phase 1 turn discarded (containment exit 6); reproduced missing node_modules ignore rule and corrected repository setup. No accepted implementation. | Retry Phase 1 with Agy/Codex, unchanged source allowlist, and spike:verify gate; later phases remain unstarted. |
 
 ## Table of contents
 
@@ -61,6 +61,8 @@ The executor runs strictly sequentially with **Agy builder and independent Codex
 The executor runs strictly sequentially. All three phases belong to the single GH-1 candidate; shared package.json/lockfile/scene/checker paths mean they MUST NOT run concurrently. No parallel lanes are claimed.
 
 ### Phase 1 — Fixture and assets
+
+Retry preparation (2026-10-02, orchestrator-owned): the original turn failed because dependency installation created unignored root `node_modules/`. Add only `/node_modules/` to the existing `.gitignore` before dispatch; the builder cannot edit ignore rules. A controlled authoritative containment replay accepts relay/fixture paths, rejects dependency installation without the ignore rule, accepts it with the rule, and still rejects an unrelated source file. See `relay-system/2026-10-02/gh1-spike-containment-diagnosis.md`. Retry this phase with a fresh token; retain the original failed transcript.
 
 - [ ] Create the minimal Node package and structured square nutrition fixture matching PRD §5.3, with all text in JSON and separately addressable illustration nodes.
 - [ ] Use hand-authored vector approximations (sprite symbols are acceptable only as source storage) and one locally stored font with its verified license and sources. The whole reference image must never be rendered as a layer. No generated-image service is required.
