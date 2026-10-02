@@ -16,7 +16,7 @@ export async function createScene(fixture) {
         width: fixture.width,
         height: fixture.height,
         backgroundColor: fixture.theme.background,
-        fontFamily: 'Roboto',
+        fontFamily: 'Inter',
         padding: 40,
         gap: 20
       },
@@ -53,15 +53,9 @@ export async function createScene(fixture) {
               {
                 type: 'div',
                 props: {
-                  style: { display: 'flex', flexDirection: 'column', gap: 10, marginRight: 20 },
-                  children: fixture.sections.hero.callouts.map((c, i) => ({
-                    type: 'div',
-                    props: {
-                      id: c.id,
-                      style: { padding: 10, backgroundColor: fixture.theme.palette.secondary, borderRadius: 5 },
-                      children: c.text
-                    }
-                  }))
+                  id: fixture.sections.hero.callouts[0].id,
+                  style: { padding: 10, backgroundColor: fixture.theme.palette.secondary, borderRadius: 5, alignSelf: 'flex-start', marginTop: 20 },
+                  children: fixture.sections.hero.callouts[0].text
                 }
               },
               {
@@ -69,7 +63,15 @@ export async function createScene(fixture) {
                 props: {
                   id: 'hero_img',
                   src: heroImage,
-                  style: { width: 300, height: 300 }
+                  style: { width: 300, height: 300, margin: '0 20px' }
+                }
+              },
+              {
+                type: 'div',
+                props: {
+                  id: fixture.sections.hero.callouts[1].id,
+                  style: { padding: 10, backgroundColor: fixture.theme.palette.secondary, borderRadius: 5, alignSelf: 'flex-start', marginTop: 20 },
+                  children: fixture.sections.hero.callouts[1].text
                 }
               }
             ]

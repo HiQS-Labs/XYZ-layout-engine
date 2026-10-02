@@ -39,10 +39,11 @@ async function verify() {
   assert(fontData && fontData.length > 0, 'Font data must be accessible');
   
   const ofl = await fs.readFile(new URL('./assets/OFL.txt', import.meta.url), 'utf-8');
-  assert(ofl.includes('SIL Open Font License'), 'Missing or invalid OFL.txt license');
+  assert(ofl.includes('SIL Open Font License') && ofl.includes('PREAMBLE') && ofl.includes('CONDITIONS'), 'Missing, invalid, or truncated OFL.txt license');
 
   const sources = await fs.readFile(new URL('./assets/SOURCES.md', import.meta.url), 'utf-8');
-  assert(sources.includes('Roboto Regular'), 'Missing SOURCES.md attribution');
+  assert(sources.includes('Inter Regular'), 'Missing SOURCES.md attribution');
+  assert(sources.includes('Digest: '), 'Missing provenance digest in SOURCES.md');
 
   console.log('✔ Fonts and licenses are valid');
 
