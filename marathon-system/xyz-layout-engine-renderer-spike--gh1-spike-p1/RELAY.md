@@ -450,3 +450,11 @@ relay closed, no further turn needed.
 
 VERDICT: PASS
 Basis: Whole-file source review and the quoted exit-0 read-only probes confirm the previously requested digest enforcement, rejection predicates, asset resolution and scene structure. No unresolved seeded Phase 1 source defect remains; full gate execution stays with the harness and later rendering/human acceptance is explicitly pending.
+
+### Attestation · relay-drive — 2026-10-02T15:41:27Z
+task: MARATHON-GH1-SPIKE-P1-TURN-2
+reviewer: codex
+status: Approved
+reviewed-head: af4e1c220feff8302853126cdf2dbc9cce2a5632
+added-range: 27969+8819
+added-sha256: 783b5eaa6c0e57f97844039ed78d9fdaa52e0a873c1aab8d0931199b868613cf
