@@ -1,5 +1,6 @@
 # Umbrella GH-1; one candidate, three sequential executor phases. Base main.
 # Clone: marathon-gh-1-renderer-spike; no concurrent writers.
+# Dispatch: --builder agy --pre-advance-cmd 'pnpm run spike:verify'
 name: xyz-layout-engine-renderer-spike
 phases:
   - id: gh1-spike-p1
@@ -13,7 +14,7 @@ phases:
     name: Phase 2
     reviewer: codex
     brief: PROJECT/2-WORKING/renderer-spike/p2.md
-    artifact: package.json,pnpm-lock.yaml,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/render.mjs,tools/spike/output/satori.png,tools/spike/output/satori.svg,tools/spike/output/playwright.png,tools/spike/output/measurements.json,tools/spike/output/runtime.json
+    artifact: package.json,pnpm-lock.yaml,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/render.mjs,tools/spike/output/satori.png,tools/spike/output/satori.svg,tools/spike/output/playwright.png,tools/spike/output/measurements.json,tools/spike/output/runtime.json,tools/spike/output/hero-satori.png,tools/spike/output/hero-playwright.png
     turn_timeout_s: 900
     max_review_rounds: 2
     depends_on: gh1-spike-p1

@@ -6,7 +6,7 @@
 
 NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 2
+ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, Gemini)
 The operator just said "take your turn on this file." Everything you need is **in this file** — don't wait for pasted instructions.
@@ -53,5 +53,46 @@ The operator just said "take your turn on this file." Everything you need is **i
 **Verification:** ran PDDA frontmatter/status-table/roadmap-coverage → zero errors · skipped runtime spike checks (why) · impossible render measurements (why) — or "N/A — non-executable artifact"
 **Open questions:** No backend selected yet; independent review is required before dispatch.
 **Commit:** 698bbc7
+
+### Round 1 · Reviewer · codex · 2026-10-02 UTC
+**Verdict:** Changes requested.
+**Basis:** Textual only — independent review of all five artifact files and PRD Phase 0/§5.3; N/A for execution of this non-executable plan. One non-mutating installed-parser probe passed; no rendering, tests, validate.sh, or git commands ran. No prior Implemented dispositions exist to reconcile. Graph tools are unavailable in this session; exact source inspection was the fallback. README.md and installed .xyz are absent from this isolated worktree; installed parser/driver were read from the env-pinned full clone. Full preflight/dry-run/runtime gates are [Unverified — needs clone run].
+
+**Findings & proposals:**
+- [Blocker] B1 — Phase 0 omission-diff is not closed @ `PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md:55-77`, against `PROJECT/2-WORKING/SPECS-PRD.md:427-430`. Observed documentary failure: the three phases never deliver the required subsequent product-hero smoke output, explicit required text/script capability probe, or proposed resource limits in the PRD. Fix: add these small experiments/report fields within the existing sequential phases, including their verifier criteria and output allowlists; retain nutrition-first order. Do not mark all Phase 0 complete while human artwork acceptance is pending.
+  - Observed input: PRD line 427 says “Follow with a simple product-hero smoke check”; line 429 requires “required text/script support using pinned fonts”; line 430 requires “proposed resource limits recorded back into this PRD.” The complete phase task lists at plan lines 55-77 omit these deliverables.
+  - Affected scope: Phase 0 exit completeness, p1/p2/p3 briefs by reference, MARATHON artifact lists, and preflight artifact/new-artifact lists.
+  - Falsifier: point to explicit tasks, allowed persisted outputs and acceptance criteria for all three requirements, or an operator-approved scope reduction that leaves those Phase 0 obligations visibly pending.
+- [Should] S1 — Safe illustration embedding remains an unresolved execution choice @ plan `:56`, `:64`, `renderer-spike/p2.md:25-36`. “Sprite symbols are acceptable” does not specify how each illustration becomes a self-contained image/vector node in both backends. Phase 2 cannot edit assets.mjs or illustrations.svg under its current allowlist. Fix: define a phase-1 asset API returning standalone SVG bytes/data URLs per illustration ID (all needed definitions included, no external fragment references), or another explicit shared embedding path; authorize necessary phase-2 adaptation if still exploratory. Verify each required illustration resolves independently and renders offline. This is a plan gap, not a claim that either backend has already failed.
+  - Observed input: plan line 56 permits sprite symbols; phase-1 allowlist contains assets.mjs/illustrations.svg, while phase-2 list omits both; Producer explicitly asks for a safe embedding path.
+  - Affected scope: shared asset normalization, backend fidelity and offline rendering.
+  - Falsifier: the plan names a self-contained per-node representation, its owning phase/file, and a check covering both backends without whole-reference embedding.
+- [Should] S2 — Clarify the no-clipping/long-copy proof @ plan `:65-68`, PRD `:139-140`. Finite in-canvas element rectangles and pair-overlap checks do not specify a text-content clipping check; “change” does not require longer copy. Fix: name concrete longer headline/caption overrides and record backend-derived text-content extents/overflow evidence against their allocated regions, with missing measurements failing the capability gate. Keep baseline and override digests/bounds in allowed measurements.json; do not add a separate text measurement engine.
+  - Observed input: plan line 67 enumerates dimensions/IDs/geometry/overlap/nonempty/digests, but no explicit text clipping assertion; line 68 leaves override values unspecified.
+  - Affected scope: §5.3 readable/unclipped text and changed-copy acceptance, including selected-backend geometry sufficiency.
+  - Falsifier: explicit override values and a backend-owned measurement/assertion contract demonstrating unclipped content, with an honest unsupported outcome when unavailable.
+- [Should] S3 — Bind the promised machine gate to dispatch @ plan `:104`, briefs `p1.md:38`, `p2.md:38`, `p3.md:32`. The installed CLI parser has no gate field, and driver gate selection uses `--pre-advance-cmd` or default validation/target checks (`.xyz/utils/py/marathon_drive.py:1394-1413` in the pinned clone). Fix: write the dispatch requirement `--pre-advance-cmd 'pnpm run spike:verify'` for every phase, and require the full-clone dry-run receipt to show that effective gate. Explain phase-1 fixture-only verification versus mandatory phase-2/3 render/repeat/override checks; missing render evidence must not pass later phases merely because fixture validation does.
+  - Observed input: parsed YAML carries brief/artifact/timeout/dependencies only; a prose “Gate:” and the preflight JSON gate do not establish the driver's effective gate.
+  - Affected scope: independent pre-advance enforcement and cold-agent reproducibility.
+  - Falsifier: documented dispatch wiring plus a dry-run receipt showing the effective verifier gate for each phase. Actual enforcement remains [Unverified — needs clone run].
+- [Pass] Scope and ownership @ plan `:43-51`, `:63-83`: greenfield recon rationale, one backend-owned geometry path, shared fixture, pinned dependencies/license review, local assets, ten fitting iterations, finite-operation deadlines, browser cleanup, two review rounds, and explicit failure diagnostics are stated. No CI/editor/server/queue work is introduced. Human acceptance is honestly pending; measured versus predicted performance is separated.
+- [Pass] Current executable parser accepts the seeded YAML and resolves p1 → p2 → p3; each phase has reviewer codex, max_review_rounds 2 and turn_timeout_s 900. Probe command: `node /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/.xyz/bin/marathon-yaml PROJECT/2-WORKING/renderer-spike/MARATHON.yaml --format json > "$TMPDIR/parser.json"`, after `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`. Exit 0. Decisive output: IDs `gh1-spike-p1`, `gh1-spike-p2`, `gh1-spike-p3`; dependencies empty / `gh1-spike-p1` / `gh1-spike-p2`; timeout `900` for each. This verifies parsing/order only, not dispatch or rendering.
+
+**Answers:** Safe sprite embedding is not yet specified sufficiently (S1). §5.3 composition, separate editable text/assets, repeat checks and human-versus-agent visual review are represented; the Phase 0 omission-diff is B1, and clipping/long-copy proof needs S2. Artifact lists and brief lists match the current YAML, but must expand consistently for B1/S1 as needed.
+**Review change bet / reversibility:** Easy — recording evidence and requesting narrowly scoped plan fixes prevents dispatch against incomplete exit criteria; the Producer can rebut with exact artifact evidence. No artifact was edited.
+**Commit:** pending harness file-scoped commit (reviewer must not run git).
+
+### Round 2 · Producer · 2026-10-01 America/Los_Angeles
+**Decisions on proposals:**
+- B1 Implemented: product-hero outputs, explicit script probes, proposed resource limits, and pending human acceptance are now tasks; both output allowlists updated.
+- S1 Implemented: phase 1 assets.mjs returns standalone self-contained SVG/data URLs per ID; phase 2 may adapt asset source and verifies independent offline resolution.
+- S2 Implemented: concrete longer copy, backend-owned text-content/overflow evidence, baseline/override bounds/digests, and unsupported capability gates are explicit. A reported unsupported backend is not eligible for recommendation.
+- S3 Implemented: exact driver command passes `--pre-advance-cmd 'pnpm run spike:verify'`; phase 1 fixture versus phase 2/3 complete evidence scope is explicit.
+**Did:** Also aligned source issue acceptance verbatim and fixed artifacts_new probes required by the installed preflight; registered release/marathon identity. Installed harness rejects equal builder/reviewer IDs, so pairing is explicitly Agy builder/Codex reviewer. Per-brief transcript contract supplies exact machine verdicts required by the validator without editing runtime.
+**Verification:** direct preflight exit 0 (5/5 issue acceptance match); planner dry-run/deep exit 0, one candidate/one wave, no drift/held; full YAML dry-run with Agy/Codex and verifier gate exit 0 (three phases in order). Rendering remains unimplemented. First review shim exited 8 for its free-form verdict and is NOT an approval receipt.
+**Re-review this:** Read the latest canonical plan and every brief/YAML on disk; confirm B1/S1/S2/S3 and omission-diff against PRD §5.3/Phase 0. Check current parser/validator if material. Do not edit artifact files or run git. In your new review block use `Review outcome: Approved` or `Review outcome: Changes requested`, and end with literal `VERDICT: PASS` (if approved), `VERDICT: FAIL` (changes), or `VERDICT: PARKED`, followed by `Basis:`. This machine field must be the last verdict in the file, with no suffix/punctuation. STATUS must be Approved only for a supported PASS. Prior reviewer block is immutable; do not rewrite its free-form verdict. No builder dispatch is authorized by this review.
+**Commit:** pending producer commit
+VERDICT: PARKED
+Basis: independent second-round plan approval pending; all changes remain textual preparation.
 
 <!-- ↓↓↓  NEXT TURN GOES ABOVE THIS LINE — keep this marker last  ↓↓↓ -->
