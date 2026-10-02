@@ -29,7 +29,7 @@ reversibility: Easy — local spike files and reports; no production state.
 
 | What was just completed | What's next |
 |---|---|
-| Captured umbrella issue #1 and scoped the PRD Phase 0; no implementation started. | Independent plan QA, direct preflight, planner and full YAML dry-run; dispatch only after exact-plan confirmation. |
+| Independent Codex plan QA Approved and attested; direct preflight, primary planner/check and full clone YAML dry-run pass. No implementation started. | Confirm the exact three-phase order and Agy/Codex pairing, then dispatch from marathon-gh-1-renderer-spike. |
 
 ## Table of contents
 
@@ -113,7 +113,7 @@ Undo class Easy: delete/revert only spike-owned files in the task clone. Referen
 - [ ] Wave 1 Post-Build Codex QA Relay executed (receipt under `relay-system/2026-10-01/gh1-spike-postbuild.codex.md`, STATUS Approved or Closed)
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated
 
-Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan-attested.codex.md` (pending protocol-corrected independent receipt; legacy receipt not accepted).
+Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan-attested.codex.md` (Approved, textual plan review; driver attested exit 0 against reviewed head `d43274edf6eb`).
 Human artwork acceptance: pending; agent approval never substitutes for it.
 
 ## Swarm Preflight Contract
