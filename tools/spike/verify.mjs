@@ -38,12 +38,20 @@ async function verify() {
   const fontData = await getFont();
   assert(fontData && fontData.length > 0, 'Font data must be accessible');
   
-  const ofl = await fs.readFile(new URL('./assets/OFL.txt', import.meta.url), 'utf-8');
-  assert(ofl.includes('SIL Open Font License') && ofl.includes('PREAMBLE') && ofl.includes('CONDITIONS'), 'Missing, invalid, or truncated OFL.txt license');
+  const crypto = await import('crypto');
+  const fontHash = crypto.createHash('sha256').update(fontData).digest('hex');
+  assert.strictEqual(fontHash, '64f8be6e55c37e32ef03da99714bf3aa58b8f2099bfe4f759a7578e3b8291123', 'Font SHA-256 digest mismatch');
+  
+  const oflText = await fs.readFile(new URL('./assets/OFL.txt', import.meta.url), 'utf-8');
+  // Normalize CRLF to LF in case of git checkout conversion differences
+  const normalizedOflText = oflText.replace(/\r\n/g, '\n');
+  const oflHash = crypto.createHash('sha256').update(normalizedOflText).digest('hex');
+  
+  assert.strictEqual(oflHash, '262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a', 'OFL.txt SHA-256 digest mismatch (truncated or modified)');
 
   const sources = await fs.readFile(new URL('./assets/SOURCES.md', import.meta.url), 'utf-8');
   assert(sources.includes('Inter Regular'), 'Missing SOURCES.md attribution');
-  assert(sources.includes('Digest: '), 'Missing provenance digest in SOURCES.md');
+  assert(sources.includes(`Digest: ${fontHash}`), 'Missing or incorrect provenance digest in SOURCES.md');
 
   console.log('✔ Fonts and licenses are valid');
 
