@@ -51,3 +51,11 @@ b97cc36adcf70084add3dad1b91a8568bb9c8bdfc09bd24cd679f78106939c88 SPECS-PRD.md
 Unverified — needs clone run: deterministic preflight/planner/full YAML dry-run and any eventual render, verifier, dependency/license or PDDA execution. None was claimed as passing here. No runtime implementation exists at the sampled paths; backend feasibility and human artwork acceptance remain pending. The harness owns receipt validation, attestation and the file-scoped commit. Only permitted STATUS/NEXT headers changed; this reviewer block was appended after the original EOF. Reversibility: Easy.
 VERDICT: PASS
 Basis: independent direct review of the current plan/PRD/YAML/briefs and the exit-0 allowlist probe supports bounded plan-text approval; current text retains the required fixes, ownership, experiments, failure gates and sequencing without claiming runtime or human acceptance.
+
+### Attestation · relay-drive — 2026-10-02T05:11:18Z
+task: RELAY-GH1-SPIKE-ATTEST
+reviewer: codex
+status: Approved
+reviewed-head: d43274edf6eb2bc158fb0a49d6abf975b6c68faa
+added-range: 2841+5789
+added-sha256: abab0111b3e16d7f4499e5c5b4aa040f70d07dd78d198ecc8c9da099e5945969
