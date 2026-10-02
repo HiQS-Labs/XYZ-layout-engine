@@ -1,6 +1,6 @@
 # Marathon Phase gh1-spike-p1
 STATUS: Open
-NEXT: codex (Reviewer)
+NEXT: agy (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH1-SPIKE-P1-TURN-2 builder=agy reviewer=codex round-cap=5 -->
 
@@ -256,3 +256,59 @@ Resolved Reviewer's findings:
 
 VERDICT: PASS
 Basis: Re-ran `node tools/spike/verify.mjs` locally without modifying runtime tests; it passes all fixture, layout, independent resolution, and hardened license provenance checks.
+
+### Round 2 · Reviewer · codex
+
+**Verdict:** Changes requested
+Review outcome: Changes requested
+swept file: yes
+
+Read the whole package.json, pnpm-lock.yaml, fixture.json, scene.mjs, verify.mjs, assets.mjs, illustrations.svg, OFL.txt and SOURCES.md; inspected font.ttf binary identity and embedded name/license records. Pre-existing content was in scope. No additional seeded-artifact defect was found beyond the unresolved verifier issue below.
+
+Bet / reversibility: Easy. Complete the existing evidence checks using standard-library comparisons against reviewed asset digests. Otherwise the machine gate can again report invalid font/license evidence as valid. No new framework or production validation subsystem is warranted.
+
+#### Resolved from Round 1
+
+- A read-only Python struct/hashlib probe (exit 0) observed a 407056-byte TrueType font, Inter Regular, Version 4.000;git-a52131595, with embedded OFL 1.1 attribution. Actual SHA-256 equals SOURCES.md: `64f8be6e55c37e32ef03da99714bf3aa58b8f2099bfe4f759a7578e3b8291123`. The complete bundled terms agree with the [upstream v4.0 license](https://raw.githubusercontent.com/rsms/inter/v4.0/LICENSE.txt). The [v4.0 release](https://github.com/rsms/inter/releases/tag/v4.0) exists. No archive-byte comparison was performed.
+- A read-only scene/asset import probe (exit 0) returned `hero: div:callout_1,img:hero_img,div:callout_2` and `callout alignment: flex-start,flex-start`. This resolves the structural callout request; rendered placement remains for Phase 2.
+- The same probe observed all five illustration IDs resolving to standalone SVG roots with no href/url external references. All five scene sections remain present and fixture text remains editable JSON.
+
+#### [Should] Finish the previously requested rejection of mismatched/truncated evidence
+
+- Observed input: the concrete in-memory negative control below uses `Buffer.from('not a font')`, a four-line license ending `...`, and `Inter Regular\nDigest: wrong`. All four predicates copied from tools/spike/verify.mjs:39-46 return true. This is a predicate probe, not an executed verifier or a claim that the currently bundled font is invalid.
+- Affected scope: the Phase 1 gate's “Fonts and licenses are valid” claim. Round 1 requested rejection of truncated/mismatched evidence; Round 2 still checks labels without verifying the corresponding asset bytes or complete terms.
+- Request: compare the loaded font's SHA-256 against the pinned reviewed digest, and validate the complete license against reviewed canonical evidence, such as a pinned digest with an explicit newline-normalization policy. Keep provenance attribution consistent. Use the existing verifier and Node standard library; no generic font parser, new suite or dependency is needed. Record a normal gate run and failing altered-font/truncated-license controls in the disposable builder clone.
+- Falsifier: unchanged reviewed assets pass, but altered font bytes or license text truncated after the conditions heading fail the existing verifier. A wrong digest must not pass merely because `Digest: ` occurs.
+- Root cause: assertions accept textual labels without binding them to asset integrity; Fix site: verify.mjs existing font/license section; Why not upstream/downstream: the new bundled files are consistent, while rendering cannot enforce the acceptance gate's evidence contract.
+
+Command (exit 0; in-memory predicate query only, no artifact writes or verifier execution):
+```sh
+node --input-type=module <<'PROBE'
+const ofl = 'SIL Open Font License\nPREAMBLE\nPERMISSION AND CONDITIONS\n...';
+const sources = 'Inter Regular\nDigest: wrong';
+const fontData = Buffer.from('not a font');
+console.log('font nonempty:', Boolean(fontData && fontData.length > 0));
+console.log('license predicate:', ofl.includes('SIL Open Font License') && ofl.includes('PREAMBLE') && ofl.includes('CONDITIONS'));
+console.log('attribution predicate:', sources.includes('Inter Regular'));
+console.log('digest predicate:', sources.includes('Digest: '));
+PROBE
+```
+Decisive output:
+```text
+font nonempty: true
+license predicate: true
+attribution predicate: true
+digest predicate: true
+```
+
+#### Limits and handoff
+
+- [Unverified — needs clone run] Full spike:verify and actual negative-control gate runs were not executed here, per reviewer containment. Builder reports a passing gate; the harness must independently execute the phase gate.
+- Backend decode/render, geometry, text extents, repeats, overrides, performance and human artwork acceptance remain unverified. No backend capability pass is inferred from source-level SVG inspection.
+- No graph tools are callable in this session; used bounded whole-file source reads. README.md is absent. Read ROUTER.md, principles, AGENTS.md, the phase plan, PRD §5.3, pinned harness debug mantra and prior escalation. Ledger/PDDA commands, tests, executable fixtures and git were not run under this narrower authorization.
+- Only RELAY.md was edited; scratch setup stayed under .relay-scratch/tmp. Prior relay body is preserved except for the authorized NEXT pointer.
+
+handing off to agy — agy, take your turn.
+
+VERDICT: FAIL
+Basis: Seeded font/license and callout corrections are verified, but the requested machine rejection of invalid license/provenance evidence remains incomplete: the quoted exit-0 predicate probe accepts non-font bytes, truncated terms and an invalid digest. Full gate execution remains for the disposable clone/harness.  [Unverified — no citation]
