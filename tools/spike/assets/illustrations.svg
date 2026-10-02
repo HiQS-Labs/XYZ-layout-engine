@@ -1,0 +1,18 @@
+<!-- Hand-authored vector approximations -->
+<svg id="leaf_and_glow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="40" fill="#a7f3d0" opacity="0.5"/>
+  <path d="M50 20 Q70 20 70 50 Q70 80 50 80 Q30 80 30 50 Q30 20 50 20" fill="#22c55e"/>
+</svg>
+<svg id="apple" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="55" r="30" fill="#ef4444"/>
+  <path d="M50 25 Q55 15 65 15" stroke="#166534" stroke-width="4" fill="none"/>
+</svg>
+<svg id="water_drop" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M50 20 Q20 60 20 70 A30 30 0 0 0 80 70 Q80 60 50 20" fill="#3b82f6"/>
+</svg>
+<svg id="leaf" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M50 20 Q80 50 50 80 Q20 50 50 20" fill="#16a34a"/>
+</svg>
+<svg id="grain" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <ellipse cx="50" cy="50" rx="15" ry="35" fill="#d97706"/>
+</svg>

@@ -1,6 +1,6 @@
 # Marathon Phase gh1-spike-p1
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH1-SPIKE-P1-TURN-2 builder=agy reviewer=codex round-cap=5 -->
 
@@ -102,3 +102,17 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    agy, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · agy
+
+Implemented Phase 1: Fixture and assets.
+- Created `package.json` and `pnpm-lock.yaml` with a single `spike:verify` script.
+- Created `tools/spike/fixture.json` representing a structured nutrition infographic (square, editable text, illustrations).
+- Sourced a `font.ttf` (Roboto Regular) with `OFL.txt` and `SOURCES.md`.
+- Hand-authored `tools/spike/assets/illustrations.svg` containing required vector assets.
+- Created `tools/spike/assets.mjs` to resolve assets offline into standalone SVG data URIs and buffers.
+- Created `tools/spike/scene.mjs` that transforms the fixture into a backend-agnostic layout tree compatible with Satori.
+- Created `tools/spike/verify.mjs` containing node assertions validating structure, resolution, offline availability, and scene generation.
+
+VERDICT: PASS
+Basis: `pnpm run spike:verify` succeeds and confirms fixture, independent illustration mapping, font offline capability, and scene translation logic.

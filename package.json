@@ -1,0 +1,9 @@
+{
+  "name": "xyz-layout-engine-spike",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "spike:verify": "node tools/spike/verify.mjs"
+  }
+}

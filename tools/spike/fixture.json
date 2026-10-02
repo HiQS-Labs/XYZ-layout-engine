@@ -1,0 +1,42 @@
+{
+  "id": "nutrition-infographic",
+  "width": 1000,
+  "height": 1000,
+  "theme": {
+    "background": "#F0Fdf4",
+    "palette": {
+      "primary": "#166534",
+      "secondary": "#22c55e",
+      "text": "#052e16",
+      "background": "#f0fdf4"
+    }
+  },
+  "sections": {
+    "header": {
+      "headline": "Fuel your day with balanced nutrition",
+      "subtitle": "Discover the essential building blocks for lasting energy"
+    },
+    "hero": {
+      "illustrationId": "leaf_and_glow",
+      "callouts": [
+        { "id": "callout_1", "text": "100% Organic" },
+        { "id": "callout_2", "text": "Sustainably Sourced" }
+      ]
+    },
+    "items": [
+      { "id": "item_1", "illustrationId": "apple", "caption": "Fresh Fruits" },
+      { "id": "item_2", "illustrationId": "water_drop", "caption": "Hydration" },
+      { "id": "item_3", "illustrationId": "leaf", "caption": "Leafy Greens" },
+      { "id": "item_4", "illustrationId": "grain", "caption": "Whole Grains" }
+    ],
+    "benefitsPanel": [
+      { "id": "benefit_1", "text": "More energy" },
+      { "id": "benefit_2", "text": "Better focus" },
+      { "id": "benefit_3", "text": "Stronger immunity" },
+      { "id": "benefit_4", "text": "Improved recovery" }
+    ],
+    "footer": {
+      "bannerText": "Visit our store for the freshest ingredients."
+    }
+  }
+}
