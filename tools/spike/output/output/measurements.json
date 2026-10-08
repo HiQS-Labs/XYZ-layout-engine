@@ -1,0 +1,323 @@
+{
+  "baseline": {
+    "satori": {
+      "error": "Satori does not preserve node IDs in SVG, cannot extract geometry"
+    },
+    "playwright": {
+      "bounds": {
+        "header": {
+          "x": 40,
+          "y": 40,
+          "width": 920,
+          "height": 88
+        },
+        "hero": {
+          "x": 40,
+          "y": 148,
+          "width": 920,
+          "height": 521
+        },
+        "callout_1": {
+          "x": 179.21875,
+          "y": 168,
+          "width": 126.171875,
+          "height": 40
+        },
+        "hero_img": {
+          "x": 325.390625,
+          "y": 258.5,
+          "width": 300,
+          "height": 300
+        },
+        "callout_2": {
+          "x": 645.390625,
+          "y": 168,
+          "width": 175.375,
+          "height": 40
+        },
+        "items": {
+          "x": 40,
+          "y": 689,
+          "width": 920,
+          "height": 111
+        },
+        "item_1": {
+          "x": 40,
+          "y": 689,
+          "width": 99.375,
+          "height": 111
+        },
+        "item_2": {
+          "x": 309.40625,
+          "y": 689,
+          "width": 82.8125,
+          "height": 111
+        },
+        "item_3": {
+          "x": 562.234375,
+          "y": 689,
+          "width": 113.828125,
+          "height": 111
+        },
+        "item_4": {
+          "x": 846.09375,
+          "y": 689,
+          "width": 113.90625,
+          "height": 111
+        },
+        "benefitsPanel": {
+          "x": 40,
+          "y": 820,
+          "width": 920,
+          "height": 60
+        },
+        "benefit_1": {
+          "x": 111.3125,
+          "y": 840,
+          "width": 96.3125,
+          "height": 20
+        },
+        "benefit_2": {
+          "x": 310.265625,
+          "y": 840,
+          "width": 91.671875,
+          "height": 20
+        },
+        "benefit_3": {
+          "x": 504.59375,
+          "y": 840,
+          "width": 139.203125,
+          "height": 20
+        },
+        "benefit_4": {
+          "x": 746.4375,
+          "y": 840,
+          "width": 142.234375,
+          "height": 20
+        },
+        "footer": {
+          "x": 40,
+          "y": 900,
+          "width": 920,
+          "height": 60
+        }
+      }
+    }
+  },
+  "override": {
+    "satori": {
+      "error": "Satori does not preserve node IDs in SVG, cannot extract geometry"
+    },
+    "playwright": {
+      "bounds": {
+        "header": {
+          "x": 40,
+          "y": 40,
+          "width": 920,
+          "height": 147
+        },
+        "hero": {
+          "x": 40,
+          "y": 207,
+          "width": 920,
+          "height": 462
+        },
+        "callout_1": {
+          "x": 179.21875,
+          "y": 227,
+          "width": 126.171875,
+          "height": 40
+        },
+        "hero_img": {
+          "x": 325.390625,
+          "y": 288,
+          "width": 300,
+          "height": 300
+        },
+        "callout_2": {
+          "x": 645.390625,
+          "y": 227,
+          "width": 175.375,
+          "height": 40
+        },
+        "items": {
+          "x": 40,
+          "y": 689,
+          "width": 920,
+          "height": 111
+        },
+        "item_1": {
+          "x": 40,
+          "y": 689,
+          "width": 99.375,
+          "height": 111
+        },
+        "item_2": {
+          "x": 309.40625,
+          "y": 689,
+          "width": 82.8125,
+          "height": 111
+        },
+        "item_3": {
+          "x": 562.234375,
+          "y": 689,
+          "width": 113.828125,
+          "height": 111
+        },
+        "item_4": {
+          "x": 846.09375,
+          "y": 689,
+          "width": 113.90625,
+          "height": 111
+        },
+        "benefitsPanel": {
+          "x": 40,
+          "y": 820,
+          "width": 920,
+          "height": 60
+        },
+        "benefit_1": {
+          "x": 111.3125,
+          "y": 840,
+          "width": 96.3125,
+          "height": 20
+        },
+        "benefit_2": {
+          "x": 310.265625,
+          "y": 840,
+          "width": 91.671875,
+          "height": 20
+        },
+        "benefit_3": {
+          "x": 504.59375,
+          "y": 840,
+          "width": 139.203125,
+          "height": 20
+        },
+        "benefit_4": {
+          "x": 746.4375,
+          "y": 840,
+          "width": 142.234375,
+          "height": 20
+        },
+        "footer": {
+          "x": 40,
+          "y": 900,
+          "width": 920,
+          "height": 60
+        }
+      }
+    }
+  },
+  "probes": {
+    "satori": {
+      "error": "Satori does not preserve node IDs in SVG, cannot extract geometry"
+    },
+    "playwright": {
+      "bounds": {
+        "header": {
+          "x": 40,
+          "y": 40,
+          "width": 920,
+          "height": 96
+        },
+        "hero": {
+          "x": 40,
+          "y": 156,
+          "width": 920,
+          "height": 513
+        },
+        "callout_1": {
+          "x": 179.21875,
+          "y": 176,
+          "width": 126.171875,
+          "height": 40
+        },
+        "hero_img": {
+          "x": 325.390625,
+          "y": 262.5,
+          "width": 300,
+          "height": 300
+        },
+        "callout_2": {
+          "x": 645.390625,
+          "y": 176,
+          "width": 175.375,
+          "height": 40
+        },
+        "items": {
+          "x": 40,
+          "y": 689,
+          "width": 920,
+          "height": 111
+        },
+        "item_1": {
+          "x": 40,
+          "y": 689,
+          "width": 99.375,
+          "height": 111
+        },
+        "item_2": {
+          "x": 309.40625,
+          "y": 689,
+          "width": 82.8125,
+          "height": 111
+        },
+        "item_3": {
+          "x": 562.234375,
+          "y": 689,
+          "width": 113.828125,
+          "height": 111
+        },
+        "item_4": {
+          "x": 846.09375,
+          "y": 689,
+          "width": 113.90625,
+          "height": 111
+        },
+        "benefitsPanel": {
+          "x": 40,
+          "y": 820,
+          "width": 920,
+          "height": 60
+        },
+        "benefit_1": {
+          "x": 111.3125,
+          "y": 840,
+          "width": 96.3125,
+          "height": 20
+        },
+        "benefit_2": {
+          "x": 310.265625,
+          "y": 840,
+          "width": 91.671875,
+          "height": 20
+        },
+        "benefit_3": {
+          "x": 504.59375,
+          "y": 840,
+          "width": 139.203125,
+          "height": 20
+        },
+        "benefit_4": {
+          "x": 746.4375,
+          "y": 840,
+          "width": 142.234375,
+          "height": 20
+        },
+        "footer": {
+          "x": 40,
+          "y": 900,
+          "width": 920,
+          "height": 60
+        }
+      }
+    }
+  },
+  "digests": {
+    "baseline": {
+      "satori": "8c4107176ba88d6e7a1a1d21c378b00642ab32c602622581946f2fb6bb0dd646",
+      "playwright": "8f438577c28f3ab40e4732f894f3cb6a985b8c05fcdaa0a6c2d9609fe621eb3f"
+    }
+  }
+}
