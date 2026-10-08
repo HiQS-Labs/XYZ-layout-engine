@@ -458,3 +458,6 @@ status: Approved
 reviewed-head: af4e1c220feff8302853126cdf2dbc9cce2a5632
 added-range: 27969+8819
 added-sha256: 783b5eaa6c0e57f97844039ed78d9fdaa52e0a873c1aab8d0931199b868613cf
+
+### Extension · System
+relay-drive: round cap (6) reached but lane is converging (new commits or resolved items) — bounded extension granted to cap 7
