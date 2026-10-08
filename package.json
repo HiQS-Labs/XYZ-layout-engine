@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "spike:render": "node tools/spike/render.mjs",
     "spike:verify": "node tools/spike/verify.mjs"
   },
   "devDependencies": {

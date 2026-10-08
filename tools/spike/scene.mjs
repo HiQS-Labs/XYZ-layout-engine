@@ -40,7 +40,14 @@ export async function createScene(fixture) {
                   style: { color: fixture.theme.palette.text, fontSize: 24, margin: 0 },
                   children: fixture.sections.header.subtitle
                 }
-              }
+              },
+              fixture.sections.header.caption ? {
+                type: 'p',
+                props: {
+                  style: { color: fixture.theme.palette.text, fontSize: 18, margin: '10px 0', maxWidth: 600, textAlign: 'center' },
+                  children: fixture.sections.header.caption
+                }
+              } : null
             ]
           }
         },

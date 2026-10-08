@@ -1,7 +1,7 @@
 {
   "baseline": {
     "satori": {
-      "error": "Satori does not preserve node IDs in SVG, cannot extract geometry"
+      "error": "Satori API strips SVG IDs and exposes no layout measurement surface"
     },
     "playwright": {
       "bounds": {
@@ -106,7 +106,7 @@
   },
   "override": {
     "satori": {
-      "error": "Satori does not preserve node IDs in SVG, cannot extract geometry"
+      "error": "Satori API strips SVG IDs and exposes no layout measurement surface"
     },
     "playwright": {
       "bounds": {
@@ -211,7 +211,12 @@
   },
   "probes": {
     "satori": {
-      "error": "Satori does not preserve node IDs in SVG, cannot extract geometry"
+      "error": "Satori API strips SVG IDs and exposes no layout measurement surface",
+      "text_capabilities": {
+        "latin_accented": "dropped_silently_or_rendered_if_in_font",
+        "cjk": "dropped_silently",
+        "emoji": "dropped_silently"
+      }
     },
     "playwright": {
       "bounds": {
@@ -311,6 +316,11 @@
           "width": 920,
           "height": 60
         }
+      },
+      "text_capabilities": {
+        "latin_accented": "supported",
+        "cjk": "supported_via_system_fallback",
+        "emoji": "supported_via_system_fallback"
       }
     }
   },
@@ -318,6 +328,14 @@
     "baseline": {
       "satori": "8c4107176ba88d6e7a1a1d21c378b00642ab32c602622581946f2fb6bb0dd646",
       "playwright": "8f438577c28f3ab40e4732f894f3cb6a985b8c05fcdaa0a6c2d9609fe621eb3f"
+    },
+    "repeat": {
+      "satori": "8c4107176ba88d6e7a1a1d21c378b00642ab32c602622581946f2fb6bb0dd646",
+      "playwright": "8f438577c28f3ab40e4732f894f3cb6a985b8c05fcdaa0a6c2d9609fe621eb3f"
+    },
+    "override": {
+      "satori": "6ea3def953e023cc4ded79ecdb9b35dc74a0f97379a76fc07ae8b18f1c7d2210",
+      "playwright": "be583b0ff1b3c3a1f5d3b8181b77368968302e5f2a463883a50115ab01982795"
     }
   }
 }

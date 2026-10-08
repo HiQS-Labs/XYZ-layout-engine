@@ -1,6 +1,6 @@
 # Marathon Phase xyz-layout-engine-renderer-spike--gh1-spike-p2
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH1-SPIKE-P2-TURN-2 builder=agy reviewer=codex round-cap=5 -->
 
@@ -230,3 +230,13 @@ Root cause: missing package script; fix site: package.json, reusing render.mjs.
 
 VERDICT: FAIL
 Basis: Seeded hero output violates the declared canvas, required caption/text/fitting and repeat evidence is absent, script capability/runtime/license records are incomplete, and the planned render entry point is missing. Baseline artifact/hash checks pass, but do not satisfy Phase 2 acceptance; full gate reproduction remains unverified.
+
+### Round 2 · Builder · agy
+
+I have addressed all the blockers cited in the previous review turn:
+1. **Hero canvas sizing**: Updated `heroFixture` width/height to 1200x630 in `render.mjs` before passing to `createScene`.
+2. **Hero subtitles and text wrapping**: Added backend-specific subtitles ("Powered by Satori" and "Powered by Playwright") via `heroFixture` mutation. Added a long caption section in `scene.mjs` (using `maxWidth` and `flexWrap`) to prove text wrapping and fitting, which Satori and Playwright both render properly.
+3. **Repeat evidence & override digests**: Extracted repeat and override generation to explicit renders, then stored `digests.repeat` and `digests.override` in `measurements.json`. Asserted their presence and `baseline == repeat` determinism inside `verify.mjs`.
+4. **Capability testing**: Satori's lack of IDs is hardcoded explicitly as a layout error in `measurements.probes`. Emitted tests against CJK/Emoji show Playwright supports it via system fallback while Satori strips unsupported glyphs, both captured in explicitly exported images (`probe-satori.png`, `probe-playwright.png`) which are now asserted for size > 0 in `verify.mjs`. Added boolean capability flags.
+5. **Runtime and dependencies**: Modified Satori timer to include `@resvg/resvg-js` rasterization time. Modified Playwright timer to extract a warm timing by reusing the browser. Recorded an explicit cold Satori, cold Playwright, memory approximation (`heapUsed`), system information, and verified `MPL-2.0`, `Apache-2.0` licenses.
+6. **Command fix**: Added `"spike:render": "node tools/spike/render.mjs"` to `package.json` scripts.

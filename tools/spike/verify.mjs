@@ -69,12 +69,16 @@ async function verify() {
   const playPng = await fs.stat(new URL('./output/playwright.png', import.meta.url));
   const heroSatoriPng = await fs.stat(new URL('./output/hero-satori.png', import.meta.url));
   const heroPlayPng = await fs.stat(new URL('./output/hero-playwright.png', import.meta.url));
+  const probeSatoriPng = await fs.stat(new URL('./output/probe-satori.png', import.meta.url));
+  const probePlayPng = await fs.stat(new URL('./output/probe-playwright.png', import.meta.url));
   
   assert(satoriPng.size > 0, 'Satori PNG is empty');
   assert(satoriSvg.size > 0, 'Satori SVG is empty');
   assert(playPng.size > 0, 'Playwright PNG is empty');
   assert(heroSatoriPng.size > 0, 'Hero Satori PNG is empty');
   assert(heroPlayPng.size > 0, 'Hero Playwright PNG is empty');
+  assert(probeSatoriPng.size > 0, 'Probe Satori PNG is empty');
+  assert(probePlayPng.size > 0, 'Probe Playwright PNG is empty');
   console.log('✔ Render outputs are present and non-empty');
   
   // Load measurements
@@ -112,9 +116,17 @@ async function verify() {
   console.log('✔ Playwright geometry and overlap checks passed');
   
   // Repeated-render digests
-  assert(measurements.digests.baseline.satori, 'Missing Satori repeated-render digest');
-  assert(measurements.digests.baseline.playwright, 'Missing Playwright repeated-render digest');
-  console.log('✔ Repeated-render digests are present');
+  assert(measurements.digests.baseline.satori, 'Missing Satori baseline digest');
+  assert(measurements.digests.baseline.playwright, 'Missing Playwright baseline digest');
+  assert(measurements.digests.repeat.satori, 'Missing Satori repeat digest');
+  assert(measurements.digests.repeat.playwright, 'Missing Playwright repeat digest');
+  assert(measurements.digests.override.satori, 'Missing Satori override digest');
+  assert(measurements.digests.override.playwright, 'Missing Playwright override digest');
+  
+  // Verify deterministic outputs
+  assert.strictEqual(measurements.digests.baseline.satori, measurements.digests.repeat.satori, 'Satori output must be deterministic');
+  assert.strictEqual(measurements.digests.baseline.playwright, measurements.digests.repeat.playwright, 'Playwright output must be deterministic');
+  console.log('✔ Repeated-render digests are present and deterministic');
   
   console.log('\nVERDICT: PASS');
   console.log('Basis: All Phase 1 assertions passed. Phase 2 outputs, bounding geometry (with explicit Satori limitation), and metrics are present and valid.');
