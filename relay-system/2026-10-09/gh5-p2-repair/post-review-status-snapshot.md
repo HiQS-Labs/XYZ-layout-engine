@@ -1,3 +1,148 @@
+# Post-review status update preserved as transcript
+
+The native exact-revision gate rejected these coordinator status-only updates after independent Phase2 approval. Their full text is retained here; current source documents are restored to reviewed head 3bf0ff4 before gate resumption. No runtime change, altered attestation or cap bypass.
+
+
+## CHANGELOG.md
+
+# Changelog
+
+## 2026-10-09 — GH-5 local MVP marathon preparation
+
+- Rebased a fresh full clone onto the operator-confirmed origin/main integration branch (a8e7e574; no development branch). Promoted GH-5 with the canonical roadmap writer, registered its marathon and LocalMVP release, and prepared five strictly sequential phase briefs/YAML. Main checkout is untouched.
+- Applied ponytail: reuse ESM/Python modules, existing HiQS caller and four canaries; no provider client, framework, service/queue/editor or extra CI. Preserved Later work and human/provider acceptance as pending. Codex implementation-plan QA is Approved/attested; fixed its concrete contact-sheet migration omission. All eleven selected display-asset digests match.
+- Reversibility: Easy — plan/ledger/receipts only, no runtime change or paid generation. Fresh baseline pnpm test passed four canaries in 8.2s, 216 geometry boxes and 12 byte-identical artifacts. Planner write/check exited 0 with one wave/no held items/no drift; added the required pending wave QA overlay after checking the generated core. Direct preflight/full YAML admission are recorded separately; execution completion is not claimed.
+
+## 2026-10-09 — GH-5 local MVP Phase 2
+
+- Extended shared render tools (`tools/request.mjs`, `tools/render.mjs`) to dynamically load recipes and support adaptive text fitting (shrinks overflowing text by 10% at most 10 total attempts down to 12px, tracking bounds natively).
+- Promoted the Solar System scene to `tools/recipes/solar-system.mjs` and integrated its display assets natively via the shared pipeline.
+- Refactored `examples/2026-10-08-solar-system/render-diagram.mjs` and `contact-sheet.mjs` to be thin callers of the shared pipeline (publishing to owned tools/output roots via the shared atomic manifest), allowing the ad-hoc `runtime/` directory to be completely deleted.
+- Native monitored build halted on an off-lane shrink-canary probe (gate not run); observer recorded check 1/6 then cancelled outstanding checks. Preserved the failed attempt and repaired through existing owners; current four-canary verification passes in 24.4s, with golden geometry/digests preserved. Independent Phase 2 review and resumption remain pending.
+
+## 2026-10-08 — Agy QA of MVP improvement plan
+
+- Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.
+- Revised GH-5 to accept nutrition first with the product-hero smoke, extend the existing four canaries within the ratchet, qualify generation/render measurements separately, and use the published Solar System display assets for future offline recipe promotion. Original image inputs remain omitted; the generator does not produce the two selected refinements. All eleven selected display image digests match committed evidence.
+- Reversibility: Easy — plan/recon/QA records only. Main checkout unchanged by this task; no runtime implementation or paid image calls. Verification: matched the approved plan bytes to the reviewed commit; Agy shim, review-once, lock-resolver and attestation checks pass within their recorded limits. The aggregate vendor-snapshot gate was not green and is explicitly disqualified in `relay-system/2026-10-08/gh5-qa-receipt.json`. Targeted PDDA frontmatter, roadmap coverage and changelog checks pass with zero errors/warnings; diff whitespace passes.
+
+## 2026-10-08 — Solar System diagram with Milky Way inset
+
+- Created a standalone 2400×1700 diagram (originally local in `artifacts/solar-system-2026-10-08/`), using the existing GH-1 Satori/resvg and Chromium render functions from origin commit `591971d`. Eleven independent transparent assets (Sun, eight planets, main asteroid belt, Milky Way) were generated through the operator-selected resolve-image skill with `gpt-image-2.5-flare`; retained prompts, recipe receipts, original images and display-size exports. Outputs include PNG, SVG, offline HTML with editable labels, fixture JSON, and an individual-assets ZIP.
+- Bet: the existing backend-owned layout/render operations compose this educational scene without a production-engine change. Failure mode: inaccurate visual scale or missing assets; the poster explicitly marks sizes, spacing, density and positions schematic, and includes NASA sources. Reversibility: Easy — standalone artifact files and this changelog entry. Verified eleven distinct image nodes, source hashes and transparency, canvas dimensions, browser text overflow and label-container overlap checks; agent visually inspected the primary output. The asteroid belt uses a direct PNG node after a nested-SVG raster disappeared in the Satori output.
+- Published as `examples/2026-10-08-solar-system/` with a README: final Satori and Chromium PNGs, the responsive HTML viewer, contact sheet, fixture, scripts, prompts, receipts, provenance, verification evidence, web-size assets and the pinned runtime source. Full-size originals, the SVG/scene/render-HTML (regenerable, image-inlined) and the assets ZIP stay local (about 17 MB committed of 114 MB). Absolute device paths were removed from receipts and the generator now reads `HIQS_CHAIN_CALLER`.
+
+## 2026-10-08 — Post-landing reconciliation and restored intake
+
+- GH-1 (#3) and GH-2 (#4) landed on `main`; the roadmap writer moved both to Completed (`roadmap reconcile-state --apply`).
+- Restored work that was parked off the primary checkout so it could receive the landings (`park/primary-2026-10-08`, `park/gh5-intake-2026-10-08`): the GH-5 capture and recon map, GH-5 re-registered through `roadmap add` with its original provisional rating (new gid; the parked row was never on `main`), the marathon launch log and its changelog entry below. Moved the GH-1 and GH-2 plans to `PROJECT/3-COMPLETED/` and repointed their roadmap rows. Parked copies of the GH-1 plan, PRD and marathon plan were older than `main` and are not restored.
+- Reversibility: Easy — documentation and ledger rows only. Verification: `releases check` clean; PDDA run.
+
+## 2026-10-08 — MVP foundation assessment and improvement umbrella
+
+- Assessed the GH-1 candidate at origin `591971d` and the local Solar System demonstration: engineering judgment 7/10 for the foundation, 4/10 for a reusable local MVP. Created [GH-5](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5) with a prioritized checklist for shared recipe/runtime operations, reliable publication, resumable/cached paid generation, faster cached redraw, measured performance, durable editing, and later remote work. Reuses GH-1 acceptance and GH-2 regression/CI scope.
+- Captured the bounded source trace and issue in `PROJECT/1-INBOX/`, and parked GH-5 through the canonical releases roadmap writer with provisional ratings. The Solar System demonstration is published separately under `examples/solar-system/`; GH-1 artwork acceptance has since been recorded. No runtime changes or generation speedups are claimed.
+- Bet: shared render operations and validated asset reuse remove avoidable work before deeper tuning. Failure mode: stale cache identity or geometry-only checks hide wrong/missing artwork. Reversibility: Easy — intake and planning records only. Verification: GitHub body and local capture match (29 unchecked items); frontmatter/changelog checks and diff whitespace pass. Roadmap coverage reports one unrelated missing pointer for `PROJECT/2-WORKING/SPECS-PRD.md`; GH-5's parked pointer is present.
+
+## 2026-10-08 — GH-2: regression canaries and a test/CI ratchet
+
+- Added four canaries for the GH-1 renderer spike, run by `pnpm test` (`tools/spike/test/canaries.test.mjs`, plain `node:test`, no new dependency):
+  - a fresh render plus verify into a temp folder
+  - golden geometry, plus byte digests on the recorded host
+  - the committed-evidence gate
+  - verifier tamper detection
+  
+  The only production change is a `SPIKE_OUTPUT_ROOT` override in `render.mjs` and `verify.mjs`, so tests never touch committed evidence. Recorded `output/<run>/…` paths are unchanged.
+- Added the ratchet: `test-budget.json` sets the budget (1 test file, 4 tests, 60 s, 0 CI workflows), and `tools/spike/test/run.mjs` enforces it before running tests. It rejects:
+  - extra test-like files
+  - `describe`, `it`, `skip`, `todo` and `only`
+  - unnamed or zero canaries
+  - workflows beyond the budget
+  - a budget change without a matching history entry
+  
+  It runs the suite under a process-group deadline and checks executed TAP counts. AGENTS.md points to the budget file, and the policy text lives only there.
+- Bet: four end-to-end canaries catch the regressions that matter for this spike (render breakage, layout or visual drift, evidence-gate drift, verifier neutering) better than per-module unit tests. The failure mode is a regression in a path the canaries do not exercise, such as the fitting shrink loop. That would earn a budget raise with a named failure mode. Supported host is the recorded darwin-arm64 machine; other hosts skip digests and fail the platform-bound evidence gate by design.
+- Reversibility: Easy (delete the test folder, budget file, script, override lines and AGENTS pointer). Verification: `pnpm test` exit 0 in 8.2 s; eleven red controls each fail at the intended check; timeout leaves no stray processes. Plan QA: `relay-system/2026-10-09/gh2-plan-qa.md` (Codex, Approved round 3).
+
+## 2026-10-08 — GH-1 human artwork acceptance
+
+- The operator reviewed the reference-matched baseline renders and accepted the generated artwork ("Generated artwork looks good"). Recorded in the GH-1 plan (status Accepted), the PRD §5.3 checklist and `tools/spike/REPORT.md`. Reversibility: Easy — documentation only.
+
+## 2026-10-09 — Phase 0 spike artwork revision: reference-matched infographic
+
+- Rebuilt the nutrition fixture and scene to follow `PROJECT/2-WORKING/layout-engine-reference.png`: bold headline with leaf ornaments, illustrated callouts flanking a large glowing leaf, four captioned items, a vertical benefits panel, and a footer pill. Seven transparent illustrations were generated with OpenAI gpt-image-2.5-flare (HiQS resolve-image recipe r2, local_candidate, reference as style input, high quality); Inter Bold (same Inter 4.0 release, OFL) added for headings; benefit icons and ornaments are hand-authored SVG. Provenance, digests and transparency checks in `tools/spike/assets/SOURCES.md` and `generated/*.result.json`; full-size originals are gitignored and web copies (640 px) committed.
+- New backend findings, both caught by the existing verifier during development (figures are orchestrator observations from superseded intermediate renders, not delivered evidence): Chromium reports glyph-box overflow at line-height 1.15 that Satori cannot see, and font-size fitting cannot cure it (headline shrank 50 → 29.5 px), so Phase 1 fitting needs a line-height floor or knob; image stretch sizing differs between backends, so recipes must size images explicitly. Raster art raised warm upper medians to about 133 ms (Satori) and 260 ms (Chromium); the backend decision is unchanged.
+- Render output now goes to one dated folder per run, `tools/spike/output/<YYYY-MM-DD>-xyz-layout-engine-spike/` (this run: `2026-10-08-xyz-layout-engine-spike`), and includes the exact HTML document Chromium rendered for each case; the verifier checks the newest folder and binds each HTML file to its recorded digest (tampered-HTML red control fails). Shared-process Node rss with raster art is about 488–673 MiB, so the proposed Satori worker limit moves from 512 MiB to a 1 GiB placeholder.
+- Bet: generated raster illustrations plus the unchanged backend-owned geometry path reproduce the reference closely enough for human acceptance; failure mode is an artwork rejection, which only replaces assets and does not touch the engine path. Reversibility: Easy — spike assets, fixture, scene and documents in a local clone. Verification: `pnpm run spike:verify` exit 0 (new checks: bold font digest, generated asset digests and alpha; red control on a tampered web PNG fails). Codex QA of this revision: `relay-system/2026-10-09/gh1-spike-artwork-qa.md`. Human visual acceptance still pending.
+
+## 2026-10-08 — Phase 0 spike executed: backend comparison, evidence report, and decision
+
+- Phase 1 (fixture, assets, verifier) landed via the agy/Codex marathon driver on 2026-10-02 (retry after the containment fix). Phase 2 under agy failed containment twice (probe scripts written off-lane: repo root, then `tools/spike/test_satori.mjs`) and parked at the lane attempt cap; filed XYZ-forge #1001 (global `XYZ_HARNESS` overrides the vendored `.xyz/` root, so the issue-closed guard queried the harness repo) and #1002 (one stray scratch file discards a converging phase).
+- Orchestrator built Phases 2 and 3 directly in the task clone. `tools/spike/render.mjs` renders the same scene tree through Satori→resvg and Chromium, collects backend-owned geometry (Satori `onNodeDetected`; Chromium rects, `Range`, scroll metrics), runs bounded font-size fitting (≤10) for baseline, the prescribed long-copy override, and a structured product hero, probes script coverage with the pinned font, records versions/licences with manifest provenance, stage-bounded timings, and memory caveats. `verify.mjs` binds every PNG to its digest, checks dimensions, geometry, containment-aware overlap, recomputes overflow/fit/eligibility from raw evidence, and requires licence records; eleven red controls each fail on a named assertion.
+- Independent Codex post-build QA of Phase 2 (`relay-system/2026-10-08/gh1-spike-p2-postbuild.md`): three rounds, Approved and driver-attested. Round 1 caught failed licence lookups masked by prose, a mislabelled timer, over-claimed probe wording, and gate gaps; round 2 caught unhashed probe PNGs, a coverage-only English check, and an untested document-overflow flag. All fixed with receipts.
+- Phase 3: `tools/spike/REPORT.md` and PRD Phase 0 findings record timings (Satori warm median 26.5 ms, Chromium 68.8 ms on M1 Max; cold 152.7 / 425.7 ms, in-process; from the delivered runtime.json), licence memo (MPL-2.0/MIT/Apache-2.0/OFL; Chrome for Testing notices unverified), script coverage (English/accented Latin covered; CJK/emoji uncovered by the pinned font), proposed resource limits, and the decision: **Satori→resvg default, Chromium declared fallback**. Human visual acceptance of the artwork remains pending; agent assessment records the fidelity gap against the reference.
+- Bet: each backend's own reported geometry (Satori `onNodeDetected` boxes; Chromium rects and scroll metrics) is sufficient to drive fitting and constraint checks, so no second layout engine is needed; failure mode is a fitting defect this spike's six cases did not exercise (the shrink path never ran). Reversibility: Easy — spike-owned files, documents, and a local clone; no package published, no CI, server, queue, or editor framework added. Verification: `pnpm run spike:verify` exit 0; PDDA 0 errors; Phase 2 Codex QA Approved; Phase 3 Codex QA Approved and attested (2 rounds) at `relay-system/2026-10-08/gh1-spike-p3-postbuild.md`.
+
+## 2026-10-02 — Phase 1 containment diagnosis and retry preparation
+
+- Reproduced the first turn's containment failure: dependency installation wrote unignored root node_modules/. Added its standard project ignore rule before retry; preserved source allowlists and installed harness. Controls accept allowed files and still reject an unrelated source file.
+- Original turn remains rejected; Codex review/verifier did not run. Phase 1 retry is authorized; phases 2/3 remain unstarted. Evidence: relay-system/2026-10-02/gh1-spike-containment-diagnosis.md.
+
+## 2026-10-01 — Phase 0 marathon launched
+
+- Operator confirmed the reviewed three-phase plan and Agy-builder/Codex-reviewer pairing. Dispatched in the isolated full clone; Agy claimed Phase 1. No implementation completion or artwork acceptance claimed.
+- Available worker checks passed (Codex 43, Agy 65); the vendored harness does not include top-level validate.sh. Launch log and warnings are recorded in relay-system/2026-10-01/gh1-spike-launch.md.
+
+## 2026-10-01 — Phase 0 marathon prepared
+
+- Created umbrella issue #1, captured/promoted its bounded renderer-spike plan with three sequential briefs/YAML, registered roadmap/marathon/draft release membership, and prepared a full task clone. No build dispatched.
+- Independent Codex plan review is Approved and driver-attested (reviewed head d43274edf6eb); resolved scope/asset/text-overflow/gate findings and corrected legacy receipt formatting with an EOF-only template. Installed harness runtime unchanged.
+- Verified direct preflight exit 0; primary planner/deep/check exit 0 with one wave/no held or drift; full clone YAML dry-run exit 0 with Agy builder, Codex reviewer, and explicit verifier gate. PDDA run has zero errors and nine existing governance warnings. Additional clone scheduler emitted a nonblocking partial-preparation warning, preserved in readiness evidence. See `relay-system/2026-10-01/gh1-spike-readiness.md`.
+- Reversibility: Easy, preparation artifacts and local-only clone. Awaiting exact-plan/order confirmation as required by start-marathon; rendering, production scope, and human artwork approval remain unverified.
+
+## 2026-10-01 — Canonical project name
+
+- Renamed the project to **XYZ Layout Engine** in the active PRD and guiding principles; AGENTS.md now enforces the canonical name. Updated proposed CLI/package/factory examples to `xyz-layout-engine`, `@xyz-layout-engine/*`, and `createLayoutEngine`. Historical changelog wording is preserved.
+- Reversibility: Easy, documentation/example identifiers only; no published packages or runtime interfaces changed.
+- Verification: installed PDDA frontmatter, status-table, and hardcoded-path checks pass with zero findings; naming consistency check confirms no former-name references remain in the active PRD, guiding principles, or AGENTS.md.
+
+## 2026-10-01 — Backend scope and first proof of concept
+
+- Codified the Satori/resvg versus Playwright spike, backend ownership of layout/text measurement, Composer-only missing-layer scope, and Fabric/Konva deferral until direct editing is required. Aligned implementation phases with the selected backend.
+- Inspected `PROJECT/2-WORKING/layout-engine-reference.png` and designated its nutrition infographic composition as the first proof-of-concept litmus reference, with structured content, separate assets, visual acceptance, and a content-change check. Promote that fixture to the initial infographic recipe and reuse it for local/remote parity.
+- Reversibility: Easy, document changes only. Bet: existing backends can supply enough geometry for fitting/constraints; Phase 0 must record any gap before implementation. No code, dependencies, tests, or CI configuration added.
+- Verification: installed PDDA frontmatter, status-table, and hardcoded-path checks pass with zero findings. Reference/document links, fenced blocks, and selected-backend consistency checks pass. Rendering remains unimplemented and unverified.
+
+## 2026-10-01
+
+- Reviewed and revised the Composer PRD to specify local/offline and remote engine workflows through a shared library/CLI/HTTP/MCP contract. Added bounded job recovery, tenant/asset boundaries, reproducibility/cache identity, phase acceptance criteria, and explicit spike decisions.
+- Sharpened AGENTS.md and GUIDING-PRINCIPLES.md around DRY, durability, maintainability, security, and measured performance, using the ponytail lens. No engine code, tests, CI configuration, or installed PDDA runtime changed.
+- Bet: shared application operations with thin protocol adapters satisfy both deployment modes without duplicate engine behavior. Reversibility: Easy (documents only); revisit after the geometry and deployment spikes.
+- Verification: `utils/pdda/pdda.sh run` completed in observe mode: frontmatter/status/path checks pass; one pre-existing roadmap-coverage error remains (empty releases ledger; `releases` CLI unavailable on PATH), with ten existing governance warnings. PRD anchors, relative document links, fenced blocks, and edited-file whitespace pass. No runtime behavior was tested; this is a specification-only change.
+
+## [Unreleased]
+### Added
+- Reusable local library operations (\`tools/render.mjs\`, \`tools/request.mjs\`) for Satori and Chromium rendering without side-effects on import.
+- Nutrition recipe explicitly versioned and exported in \`tools/recipes/nutrition.mjs\`.
+### Changed
+- \`tools/spike/render.mjs\` uses an atomic staging directory for output and implements a direct-execution guard.
+- Validation semantics enforce input dimensions, and symlink/realpath containment.
+
+
+## 2026-10-09 — GH-5 workhorse Phase 1 recovery
+
+- Repaired the existing request/recipe/render owners: bounded confined JSON and strict nutrition fields, explicit fixed-canvas/scale subset, bounded valid PNG admission, escaped HTML and browser finally cleanup; shared requested artifacts and usable local CLI.
+- Replaced mixed mutable publication with immutable runs and one atomic manifest selector; verifier/C2 resolve that shared selector while preserving manifest-free historical goldens. Added tools/spike/verify.mjs to the Phase 1 write contract for this necessary reader seam.
+- Extended existing C1 for boundary/failure controls. Orchestrator pnpm test passed 4/4 in 10.8s, 216 geometry boxes and 12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p1-repair/. Independent committed-code QA and continuation remain pending; failed native lane/cap preserved.
+- Filed canonical XYZ Forge #1006 for opt-in bounded 600-second × 6 progress reporting. Existing heartbeat/timeouts/read-only monitors remain; no installed harness runtime edits or paid calls.
+
+- Independent recovery QA round 1 found and reproduced cross-date last-good discovery and default comparison-root mismatch. Reused shared selectedSpikeRun for verifier/C2 and aligned defaults; existing C1 verifies no-override flow, later-date failure discovery and selected-output tampering. Updated suite: 4/4 in 11.3s; second independent QA pending.
+
+- Independent Phase2 review caught native resvg abort for radiusX=8192. Repaired recipe-owned pre-render spatial admission; existing C1 rejects radius/centre/image-size/label escape controls. Four canaries pass in24.7s with goldens preserved; second independent Codex review Approved/attested against3bf0ff4; native gate resumption pending.
+
+
+## PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md
+
 ---
 gh_issue: 5
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5
@@ -25,7 +170,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Workhorse Phase 1 repair independently Approved/attested against b914323; four canaries passed in 11.3s, goldens preserved. The failed native lane remains retained. | Continuation independently Agy Approved/attested; direct preflight and four-phase dry-run exit 0. Fire phases 2 -> 3 -> 4 -> 5 with 600-second x 6 progress observation. |
+| Phase 1 remains independently accepted; Phase 2 containment failure repaired and independently Codex Approved/attested at 3bf0ff4, four canaries24.7s. Timer check1/6 and halt preserved. | Resume exact four-phase YAML: driver runs approved Phase2 gate, then builds phases3 -> 4 -> 5. Fresh 600-second x6 monitoring; final wave QA and human/provider acceptance remain pending. |
 
 ## Table of contents
 
@@ -354,3 +499,45 @@ The same GH-5 umbrella/ledger/full clone is reused. Original Phase 1 is not re-f
 The operator explicitly authorized continuation after repair and QA. The session-local observer uses the existing marathon launcher, records live read-only state at 600 seconds x 6, distinguishes liveness from accepted progress, emits terminal state within five seconds and cancels outstanding checks. Six checks end the scheduled observation window, not the authorized executor. Fake-clock controls passed at 600/1200/1800/2400/3000/3600 seconds and early halt; no real executor was launched during smoke. Observer source/receipt: relay-system/2026-10-09/gh5-continuation/. No installed harness edit, second executor or new daemon. Monitoring feature issue: https://github.com/HiQS-Labs/XYZ-forge/issues/1006.
 
 Final wave green-suite/post-build Codex QA/checklist are still required before any feature push or ready PR; phases 2–5 and human/live-provider acceptance remain pending.
+
+
+### Phase 2 monitored halt and native resumption — 2026-10-09
+The four-phase continuation actually fired. Phase2 halted on containment exit6 (extra shrink-canary probe), with no gate run; remaining phases never started. Check1/6 recorded at600s and terminal observation cancelled outstanding5. Original failed receipts/history retained. Orchestrator repaired within the same phase owners and four-test budget; independent Codex round1 caught/reproduced native geometry abort, recipe-specific pre-raster spatial constraints fixed it, round2 Approved/attested against3bf0ff4. Existing suite exit0 four canaries24.7s,216 boxes/12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p2-repair/ and original marathon-system phase relay. No self-approval, new phase identity, force or cap reset. Resumption uses the unchanged YAML/plain driver: recognize original approved/done Phase2, run its native pre-advance gate, then3->4->5. This is not final-wave approval. Fresh observer timer starts with the resumed launcher and preserves the earlier launch receipts; six scheduled checks cancel on terminal.
+
+
+## tools/MVP-REPORT.md
+
+# MVP Report
+
+## Phase 1 recovery — 2026-10-09
+
+The initial native Phase 1 lane halted at `cap-progressing-extended`, exit 4; its test gate never ran. Its escalation remains unchanged. The operator authorized workhorse repair and independent QA before a continuation. This report records orchestrator verification while no builder is active; it does not forge `phase.approved`.
+
+Delivered local subset: nutrition recipe 1.0.0 on its 1000×1000 canvas, scale 1, Satori by default; PNG/SVG/self-contained HTML artifacts and explicit Playwright PNG/HTML. Other dimensions/scale and remote/fallback fields fail with field paths. API: `processRequest(request, {root})` returns normalized request, validation, pinned versions, input provenance, SHA-256 and requested artifact bytes/MIME/dimensions. CLI: `node tools/render.mjs tools/spike/fixture.json --out tools/output/local [--format svg|html] [--backend playwright]`. Inputs and output are confined to the authorized local root; committed spike output is read-only. JSON is limited to 256 KiB; images to direct 8-bit RGBA non-interlaced PNG or the trusted bundled SVG subset. PNG chunk bounds/order/CRC, scanline inflation/filter bytes and positive dimensions are validated before native rendering. Per-image limit: 5 MiB and 16,777,216 pixels; scene aggregate: 35 MiB encoded and 16,777,216 pixels; render area 16,777,216 pixels; total published bytes 64 MiB. The local filesystem is trusted against concurrent hostile mutation; this is not remote tenant isolation.
+
+One publisher owns immutable `runs/<UUID>` and atomically commits `manifest.json` after all staged files are admitted/hashed. Shared operation validates text presence/region/canvas, fonts and raster size first; spike validates mandatory capability outcomes and case digests/dimensions first. No postcommit compatibility copies. `selectedRun` resolves the pointer once for readers; legacy manifest-free goldens remain readable. Browser/context/page owners close in finally; Chromium loads only for explicit browser requests or the explicit legacy comparison.
+
+## Receipts
+
+Host: Node v22.22.3, pnpm 12.4.1, darwin-arm64. Pinned installed renderers: Satori 0.36.0, resvg 2.6.2, Playwright 1.64.0. No dependency, test-block, test-budget or CI-workflow addition.
+
+- Original baseline `pnpm test`: exit 0, 4/4 in 9.8s, despite the witnessed admission and markup failures. Receipt: `relay-system/2026-10-09/gh5-p1-repair/baseline.log`.
+- Red controls: oversized 8192² canvas with scale 0.1 admitted; literal injected script serialized. Receipt: `relay-system/2026-10-09/gh5-p1-repair/red-controls.log`.
+- Revised C1 exposed macOS `/var` versus `/private/var` guard/root aliases. Canonicalization fixed both. Root red receipt: `relay-system/2026-10-09/gh5-p1-repair/macos-root-red.log`; the earlier empty-CLI failure is recorded in repair plan/tool transcript.
+- Current `pnpm test`: exit 0, four canaries in 11.3s, 216 geometry boxes within 0.5 px and 12 artifacts byte-identical. Receipt: `relay-system/2026-10-09/gh5-p1-repair/verification.log`. C1 now checks actual imports, local CLI in a space path with dependency linkage, format export, strict input/asset/HTML controls, owning browser cleanup via native launch substitution, and two successful same-day publications followed by a late failure. It re-reads selection and compares target, manifest bytes and all referenced digests, and checks orphan cleanup.
+- Preservation: `git diff origin/main -- tools/spike/output examples/2026-10-08-solar-system/assets test-budget.json` is empty. Historical content, test budget and original checkout preserved. Easy rollback: revert task-branch repair; prior immutable runs/selectors and goldens are retained.
+- Consult: both Codex/Agy advisory seats answered; disagreements adjudicated in `relay-system/2026-10-09/gh5-p1-repair/plan.md`. Consult is not runtime acceptance.
+
+Independent Codex review round 1 passed the seven original repaired boundaries but found two reader defects; both repaired; round 2 independently Approved and attested against b91432380184. Receipt: relay-system/2026-10-09/gh5-p1-repair.codex.md and gh5-p1-repair/attestation.json. Default comparison render/verify roots now match, and shared selectedSpikeRun skips unpublished later-date folders. C1 exercises no-override comparison, default verification/tamper failure and cross-date last-good discovery. Phases 2–5, adaptive fitting/Solar System, generation resume, measured optimization and final integration remain pending. Human artwork acceptance and live provider measurements remain pending; no paid calls, push, PR, merge or issue closure is authorized by these receipts.
+
+## Phase 2 recovery — offline Solar System and fitting
+
+The monitored continuation launched at 15:44:13Z and halted at 16:03:19Z on containment exit 6: the builder left an extra shrink-canary.mjs probe outside its allowed files. The driver gate did not run. One ten-minute interval was recorded and the five outstanding checks cancelled at terminal observation. Transient image copies were removed before the turn ended; they were not the final rejection. The preserved builder patch/extra probe remains in local recovery evidence. Its claim of passing pnpm test was disproved by the budget gate: five tests exceed four.
+
+Orchestrator repair uses the same owners and phase/task, without new tests/dependencies/CI or widening paths. Both recipes share bounded delivered-shape validation. Explicit trusted recipe selection admits the original Solar System fixture unchanged. Recipe-owned canvases remain nutrition 1000×1000 and Solar System 2400×1700, scale 1; unsupported resizing/scaling fails explicitly rather than silently changing/ignoring geometry. Eleven pinned display derivatives, including refined Saturn/belt assets, are descriptor-bounded, PNG/aggregate-budget checked, digest verified on each read and confined to the trusted example namespace. Missing full-size originals remain absent; no provider call was made.
+
+The shared renderer fits only overflowing text sizes, at most ten total attempts, with a 12px minimum; explicit non-fit prevents artifacts/publication. A fixed header region and non-shrinking text boxes make the shrink control real. Native Satori missing-segment evidence also rejects unsupported glyphs before explicit Chromium rendering can silently use host fallback. Context/browser cleanup remains nested finally. Thin CLI callers reuse admission/parsing/render/publication; the contact sheet shares verified images, pinned fonts, native rendering and atomic publication. Copied runtime removed after both workflows rendered offline using root tools.
+
+Verification: current existing four canaries passed in 24.4s (60s budget); 216 golden boxes within 0.5px and twelve byte-identical artifacts. C1 covers painted raster pixels (not PNG size/alpha metadata), actual multi-attempt shrink, non-fit exhaustion, strict Solar fields/geometry/assets, unsupported canvas and CJK rejection on both backends. Fresh poster/contact-sheet entry points exited 0. Agent inspection saw all eleven individual illustrations, separate readable labels and schematic disclaimer; this does not substitute for pending human artwork acceptance. Independent Phase 2 Codex review and native gate/resumption are pending.
+
+Independent Codex round1 reproduced native resvg SIGABRT (exit134) for an admitted Mercury radiusX=8192. The existing Solar recipe now validates its orbit/image/label/centre spatial envelope on the fixed canvas before SVG/native rendering; Sun imageSize also drives its actual node. The exact failing radius and equivalent centre/image-size/label controls are inside C1. Updated suite passed four canaries in24.7s with216 boxes and12 artifacts preserved. Round2 independent Codex review is Approved and supervisor-attested against 3bf0ff4; first review failure is preserved in the original phase relay. No catch-and-ignore, renderer replacement, cap reset or additional test was used.
