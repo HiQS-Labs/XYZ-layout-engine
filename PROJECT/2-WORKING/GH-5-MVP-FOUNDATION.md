@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Phase3 native attempt2 halted at Agy model-probe timeout; counter2/2 retained. Finish local recovery QA; phases4/5 held. Final wave QA and human/provider acceptance remain pending. |
+| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Phase3 native attempt2 halted at Agy model-probe timeout; counter2/2 retained. Recovery independently Approved/attested f780bc4,4/4 tests28.6s; native gate and phases4/5 await held-lane firing disposition. Final wave QA and human/provider acceptance remain pending. |
 
 ## Table of contents
 
@@ -369,3 +369,5 @@ Native Phase3 attempt1 halted before gate: independent Codex second review inter
 The approved Phase2 source at3bf0ff4 and native gate26.1s are accepted external prerequisites for Phase3; final integration QA will review later legitimate modifications. Native exact-revision candidate_ok correctly refuses to reuse the Phase2 attestation for the changed Phase3 source. Do not undo Phase3 or falsify that attestation. Canonical YAML now contains remaining gh5-p3 -> gh5-p4 -> gh5-p5, retaining existing phase IDs, briefs, owners and caps. No --force/--retry/token suffix/counter reset. Preserve original four/five-phase YAML in Git history and failed transcripts. The native driver owns final gates; human/provider and final wave QA remain pending.
 
 Attempt2 fired17:26:37Z and halted17:27:07Z before Agy build because its model probe exceeded20s. Native counter2/2 retained; no approval/gate. Observer correctly cancelled all six intervals before the first due time. Independent recovery QA is a separate read-only review of the current repair, not a third phase fire or forged native phase approval. Resume requires working model backends plus standing-queue disposition under the recovery rules; phases4/5/final wave remain held.
+
+Recovery review round2 independently Approved/attested atf780bc4; all four concrete findings closed with scratch probes. Current source suite4/4 in28.6s,216goldenboxes/12byte-identical artifacts. Receipt relay-system/2026-10-09/gh5-p3-recovery.codex.md and gh5-p3-repair/recovery-attestation.json. The attestation names the reviewed commit, not these later status-document updates; runtime source bytes are unchanged. Agy model probe recovered(exit0/configured model present). Original native Phase3 still held2/2 with gate not run; no third fire/reset/suffix/forced action. Await fresh operator disposition for the held lane; phases4/5 and finalWave1/PR/human/provider gates remain pending.
