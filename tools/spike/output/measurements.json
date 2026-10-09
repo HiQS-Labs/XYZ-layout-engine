@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T00:10:31.318Z",
+  "generatedAt": "2026-10-09T00:16:57.399Z",
   "fixture": {
     "id": "nutrition-infographic",
     "width": 1000,
@@ -2590,6 +2590,24 @@
       "failedMandatory": [],
       "eligibleForRecommendation": true,
       "status": "eligible"
+    }
+  },
+  "probeArtifacts": {
+    "satori": {
+      "png": "output/probe-satori.png",
+      "pngSize": {
+        "width": 600,
+        "height": 400
+      },
+      "sha256": "8470c194405c51360039256875081125112c7a5768fa6161528c278cd052552a"
+    },
+    "playwright": {
+      "png": "output/probe-playwright.png",
+      "pngSize": {
+        "width": 600,
+        "height": 400
+      },
+      "sha256": "6c74d8081ae8b312700f7ea3c6af6f32c7c00b51c8a81311ef71846464acb7b9"
     }
   },
   "selection": {

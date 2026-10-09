@@ -138,7 +138,14 @@ async function phase2(fixture) {
   const svg = await fs.readFile(out('satori.svg'), 'utf-8');
   assert(svg.includes('<svg') && svg.includes(`viewBox="0 0 ${W} ${H}"`), 'satori.svg missing or wrong viewBox');
   assert(m.svgExport.playwright.startsWith('unsupported'), 'browser SVG export must be declared unsupported, not faked');
-  for (const f of ['probe-satori.png', 'probe-playwright.png']) assert((await fs.stat(out(f))).size > 0, `${f} missing`);
+  for (const b of BACKENDS) {
+    const pa = m.probeArtifacts?.[b];
+    assert(pa && pa.png === `output/probe-${b}.png`, `probeArtifacts missing for ${b}`);
+    const buf = await fs.readFile(out(`probe-${b}.png`));
+    assert(buf.length > 0, `probe-${b}.png is empty`);
+    assert.deepStrictEqual(pngSize(buf), pa.pngSize, `probe-${b}.png dimensions do not match the record`);
+    assert.strictEqual(sha256(buf), pa.sha256, `probe-${b}.png does not match the recorded digest`);
+  }
   console.log('✔ Render outputs present, correctly sized, and digest-bound');
 
   // 2. Geometry, overlap, and text-fitting evidence per case per backend.
@@ -147,7 +154,13 @@ async function phase2(fixture) {
     checkGeometry(`baseline/${b}`, m.cases.baseline[b], W, H, NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT, sections);
     checkGeometry(`override/${b}`, m.cases.override[b], W, H, NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT, sections);
     checkGeometry(`hero/${b}`, m.cases.hero[b], HW, HH, HERO_TEXT_IDS, HERO_CONTAINMENT, ['hero_copy', 'hero_visual', 'hero_product']);
-    if (b === 'playwright') for (const c of ['baseline', 'override', 'hero']) assert(m.cases[c][b].documentOverflow && m.cases[c][b].documentOverflow.overflows === false, `${c}/playwright: document overflows the canvas`);
+    if (b === 'playwright') for (const c of ['baseline', 'override', 'hero']) {
+      const d = m.cases[c][b].documentOverflow; const cw = c === 'hero' ? HW : W, chh = c === 'hero' ? HH : H;
+      assert(d && Number.isFinite(d.scrollWidth) && Number.isFinite(d.scrollHeight) && d.canvas, `${c}/playwright: documentOverflow record missing`);
+      const actual = d.scrollWidth > cw || d.scrollHeight > chh || d.canvas.scrollWidth > cw || d.canvas.scrollHeight > chh;
+      assert.strictEqual(d.overflows, actual, `${c}/playwright: documentOverflow flag disagrees with measured dimensions`);
+      assert.strictEqual(actual, false, `${c}/playwright: document overflows the ${cw}x${chh} canvas`);
+    }
   }
   // Override case must carry the prescribed long copy and differ from baseline.
   assert.strictEqual(m.override.applied['sections.header.headline'], 'Fuel your whole day with balanced nutrition and lasting energy');
@@ -213,7 +226,7 @@ async function phase2(fixture) {
     const cap = m.capabilities[b];
     assert(cap, `capabilities missing for ${b}`);
     const recomputed = {
-      englishReferenceText: m.probes.english[b].observation === 'rendered_by_pinned_font',
+      englishReferenceText: m.probes.english[b].observation === 'rendered_by_pinned_font' && m.probes.english[b].layoutBoxNonEmpty === true && m.probes.english[b].layoutBox.width > 0 && m.probes.english[b].layoutBox.height > 0,
       baselineFit: m.cases.baseline[b].fitting.fit,
       longCopyFit: m.cases.override[b].fitting.fit,
       heroFit: m.cases.hero[b].fitting.fit,

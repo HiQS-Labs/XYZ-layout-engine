@@ -420,9 +420,12 @@ async function main() {
     const pProbe = await renderPlaywright(context, probeScene(SCRIPT_PROBES), font, 600, 400);
     await fs.writeFile(path.join(OUT, 'probe-satori.png'), sProbe.png);
     await fs.writeFile(path.join(OUT, 'probe-playwright.png'), pProbe.png);
-    // Chromium glyph-coverage evidence: canvas measureText with the pinned family vs a nonexistent
-    // family (forcing system fallback). Equal advance widths mean the pinned font did not supply the
-    // glyphs and Chromium fell back; the fallback face identity is not exposed by the DOM.
+    measurements.probeArtifacts = {
+      satori: { png: 'output/probe-satori.png', pngSize: pngSize(sProbe.png), sha256: sha256(sProbe.png) },
+      playwright: { png: 'output/probe-playwright.png', pngSize: pngSize(pProbe.png), sha256: sha256(pProbe.png) }
+    };
+    // Chromium advance widths with the pinned family vs a nonexistent family (forcing system fallback):
+    // corroboration only, interpreted below; the fallback face identity is not exposed by the DOM.
     const page = await context.newPage();
     let widths;
     try {
@@ -490,7 +493,9 @@ async function main() {
     // ---- Capability table + eligibility (a held backend is a recorded outcome, not a pass)
     for (const b of Object.keys(backends)) {
       const cases = measurements.cases;
-      const englishOk = measurements.probes.english[b].observation === 'rendered_by_pinned_font';
+      // Mandatory English evidence: pinned-font coverage AND a finite, positive laid-out text box.
+      const en = measurements.probes.english[b];
+      const englishOk = en.observation === 'rendered_by_pinned_font' && en.layoutBoxNonEmpty === true && en.layoutBox.width > 0 && en.layoutBox.height > 0;
       const cap = {
         englishReferenceText: englishOk,
         baselineFit: cases.baseline[b].fitting.fit,

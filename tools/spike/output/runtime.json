@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T00:10:31.318Z",
+  "generatedAt": "2026-10-09T00:16:57.399Z",
   "environment": {
     "node": "v22.22.3",
     "platform": "darwin",
@@ -116,76 +116,76 @@
   ],
   "satori": {
     "cold": {
-      "totalMs": 149.92,
-      "importMs": 70.88,
-      "firstStageMs": 72.96
+      "totalMs": 152.71,
+      "importMs": 72.41,
+      "firstStageMs": 74.78
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        27.83,
-        28.25,
-        27.82,
-        26.71,
-        26.79,
-        27.35,
-        26.12,
-        26.59,
-        26.88,
-        26.14
+        27.66,
+        27.11,
+        26.54,
+        25.51,
+        27.2,
+        26.98,
+        25.71,
+        26.19,
+        26.11,
+        26.08
       ],
-      "min": 26.12,
-      "median": 26.88,
-      "mean": 27.05,
-      "max": 28.25,
+      "min": 25.51,
+      "median": 26.54,
+      "mean": 26.51,
+      "max": 27.66,
       "split": [
         {
-          "satoriMs": 9.07,
-          "resvgMs": 18.76
+          "satoriMs": 8.62,
+          "resvgMs": 19.05
         },
         {
-          "satoriMs": 9.21,
-          "resvgMs": 19.04
+          "satoriMs": 8.45,
+          "resvgMs": 18.66
         },
         {
-          "satoriMs": 8.56,
-          "resvgMs": 19.26
+          "satoriMs": 7.73,
+          "resvgMs": 18.81
         },
         {
-          "satoriMs": 7.82,
-          "resvgMs": 18.89
+          "satoriMs": 7.43,
+          "resvgMs": 18.07
         },
         {
-          "satoriMs": 7.78,
-          "resvgMs": 19.01
+          "satoriMs": 8.53,
+          "resvgMs": 18.67
         },
         {
-          "satoriMs": 8.34,
-          "resvgMs": 19.01
+          "satoriMs": 7.91,
+          "resvgMs": 19.07
         },
         {
-          "satoriMs": 7.55,
-          "resvgMs": 18.58
+          "satoriMs": 7.52,
+          "resvgMs": 18.2
         },
         {
-          "satoriMs": 7.86,
-          "resvgMs": 18.73
+          "satoriMs": 7.47,
+          "resvgMs": 18.72
         },
         {
-          "satoriMs": 7.78,
-          "resvgMs": 19.1
+          "satoriMs": 7.6,
+          "resvgMs": 18.5
         },
         {
-          "satoriMs": 7.41,
-          "resvgMs": 18.73
+          "satoriMs": 7.22,
+          "resvgMs": 18.86
         }
       ]
     },
     "memory": {
       "nodeProcess": {
-        "rss": 284393472,
-        "heapTotal": 96780288,
-        "heapUsed": 68775784,
+        "rss": 283213824,
+        "heapTotal": 95322112,
+        "heapUsed": 68084400,
         "external": 23511278,
         "arrayBuffers": 1969862
       }
@@ -193,36 +193,36 @@
   },
   "playwright": {
     "cold": {
-      "totalMs": 231.43,
-      "firstStageMs": 66.72,
+      "totalMs": 425.68,
+      "firstStageMs": 103.7,
       "fontLoaded": true
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        72.5,
-        69.9,
-        70.94,
-        80.35,
-        71.75,
-        69.84,
-        67.76,
-        68.36,
-        69.33,
-        69.77
+        70.66,
+        70.9,
+        67.34,
+        72.1,
+        66.77,
+        68.12,
+        68.49,
+        69.24,
+        68.74,
+        68.79
       ],
-      "min": 67.76,
-      "median": 69.9,
-      "mean": 71.05,
-      "max": 80.35
+      "min": 66.77,
+      "median": 68.79,
+      "mean": 69.12,
+      "max": 72.1
     },
     "memory": {
       "nodeProcess": {
-        "rss": 293552128,
-        "heapTotal": 100499456,
-        "heapUsed": 68821008,
-        "external": 26797659,
-        "arrayBuffers": 5372005
+        "rss": 289243136,
+        "heapTotal": 99827712,
+        "heapUsed": 68217992,
+        "external": 26797657,
+        "arrayBuffers": 5372003
       },
       "chromium": {
         "browserProcessRssKb": null,
