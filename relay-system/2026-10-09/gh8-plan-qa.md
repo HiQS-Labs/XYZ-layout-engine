@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -83,5 +83,35 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+
+* **[Blocker]** Secrets: The plan dictates that "Rejected probes are recorded with their exact error bodies" (Requirement 1). If a 4xx validation rejection from Higgsfield echoes the submitted `Authorization` header or token, recording it verbatim will write the secret to disk and tracked files.
+  * Observed input: `{"error": "Invalid token Key ID:SECRET"}` returned in a 4xx body.
+  * Affected scope: Error body recording in `higgsfield-spike.py` (Requirement 1).
+  * Falsifier: A control test injecting a mock 4xx error body containing the secret, expecting the secret-scan to pass (proving the script successfully scrubbed the error before writing it).
+  * Fix: Explicitly mandate scrubbing the key ID and secret (e.g., replacing with `***`) from any exact error body before recording it.
+
+* **[Blocker]** Spend safety: Requirement 2 states the script "adds it to a running total... and refuses to submit if the total would pass $1.90". If the script processes jobs concurrently (like the Solar System's `generate-assets.py`), multiple workers could pass the `$1.90` check simultaneously, dispatch calls, and overshoot the $2.00 hard cap.
+  * Observed input: 3 concurrent workers checking a ledger at $1.85, all seeing it is under $1.90, and submitting $0.05 calls (totaling $2.00, or more if the ledger was at $1.89).
+  * Affected scope: Concurrency model of the submissions (Requirement 2).
+  * Falsifier: A dry-run of the script with 5 parallel workers, expecting the final ledger total to strictly respect the $1.90 threshold.
+  * Fix: Explicitly require the script to run submissions sequentially, or enforce a strict atomic file lock around the check-and-reserve ledger operation.
+
+* **[Blocker]** Scope/Complexity: Requirement 4 mandates extracting decoded alpha statistics "using a stdlib-only decoder." Decompressing IDAT chunks and unfiltering PNG scanlines in pure Python stdlib is highly complex, reinventing the wheel and violating the ponytail principle, especially when a pinned Playwright runtime is available in `examples/2026-10-08-solar-system/runtime/`.
+  * Observed input: A complex >100-line pure Python scanline unfiltering implementation.
+  * Affected scope: The PNG inspection method (Requirement 4).
+  * Falsifier: An alternative inspection using the existing Node/Playwright runtime (e.g. `node verify-alpha.mjs` drawing to a Canvas), expecting accurate pixel alpha extraction in <20 lines.
+  * Fix: Remove the "stdlib-only decoder" requirement and explicitly allow delegating pixel inspection to a short Node script using the pinned runtime.
+
+* **[Pass]** The inspection method is falsifiable and proven first: "The method is proven first on known files: a committed transparent Solar System web PNG must pass and the opaque Solar System poster must fail" (Requirement 4).
+* **[Pass]** Scope constraints and non-goals are correctly bounded: "No provider contract, shared layer... No new test, workflow or dependency" (Non-goals).
+* **[Pass]** The example follows the RAG pattern correctly: "rendered through the pinned runtime... by the same pattern as the RAG example" (Requirement 6).
+
+**VERDICT: FAIL**
+**Basis:** The error logging risks leaking the API key via echoed headers, the concurrency model risks breaching the $2.00 hard cap, and the custom stdlib PNG decoder requirement is an extreme over-engineering violation of project principles.
+
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
