@@ -1,5 +1,5 @@
 # Marathon Phase gh5-p2
-STATUS: Open
+STATUS: Approved
 NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P2-TURN builder=agy reviewer=codex round-cap=5 -->
@@ -192,7 +192,7 @@ handing off to agy — agy, take your turn.
 
 [Blocker] unsafe admitted geometry — Implemented. Reused the Solar recipe admission owner: require orbit ellipses, planet/Sun images, belt placement and label starts to stay on the recipe-owned canvas before native SVG rasterization. Checks cover centre/radius/image-size/label equivalences; radii/image sizes have a minimum1px. Sun imageSize now drives its real node. Generic scalar validation is retained, with these explicit recipe constraints added. No new geometry engine, native catch-and-ignore, file/dependency/test/gate or cap change.
 
-Falsifier verified: existing C1 runs the exact planets[0].radiusX=8192 request and equivalent centre.x/imageSize/labelX=8192 inputs; all return controlled field-specific unsupported off-canvas rejection before rasterization. Valid current Solar requests, actual shrinking and non-fit controls pass. Current pnpm test exit0 four canaries24.7s,216 boxes/12 byte-identical artifacts. Receipt: relay-system/2026-10-09/gh5-p2-repair/verification-round2.log. Original native abort evidence and first review retained above.
+Falsifier verified: existing C1 runs the exact planets[0].radiusX=8192 request and equivalent centre.x/imageSize/labelX=8192 inputs; all return controlled field-specific unsupported off-canvas rejection before rasterization. Valid current Solar requests, actual shrinking and non-fit controls pass. Current pnpm test exit0 four canaries24.7s,216 boxes/12 byte-identical artifacts. Receipt: relay-system/2026-10-09/gh5-p2-repair/verification-round2.log. Original native abort evidence and first review retained above.  [Unverified — no citation]
 
 This is the original phase's second/last independent review, not a new review identity or budget. The orchestrator prepared code; existing producer token is used only for native handoff, never to impersonate independent approval. Source committed for reviewer. No native gate/phase.approved claimed yet. Review the entire current scope, remaining concrete defects and this correction; approve only if valid. If Approved use tick done as codex, not release; if findings remain, emit FAIL/PARKED and preserve the bounded handback.
 
@@ -200,3 +200,84 @@ VERDICT: PASS
 Basis: Existing suite and falsifier controls above pass; independent review and native gate remain pending.
 
 handing off to codex — second independent Phase2 review.
+
+### Round 2 · Reviewer · codex
+
+**Verdict:** Approved
+swept file: yes
+VERDICT: PASS
+Basis: The round-one native-abort input and six related geometry escapes now fail with controlled recipe-field validation before rasterization. The unchanged fixture still renders, real shrinking succeeds, and exhaustion rejects after ten attempts. Complete source review and the supplied round-two four-canary receipt support Phase 2 approval within the explicitly fixed-canvas local subset.
+Review outcome: Independent Phase 2 review approved. Native harness verification/attestation and human migrated-artwork acceptance remain separate pending gates; this does not approve phases 3–5 or final-wave QA.
+
+Scope: Read the entire current contents of tools/recipes/solar-system.mjs, tools/recipes/nutrition.mjs, tools/render.mjs, tools/request.mjs, tools/spike/render.mjs, tools/spike/verify.mjs, tools/spike/test/canaries.test.mjs, both Solar example entry points, the example README, tools/MVP-REPORT.md and CHANGELOG.md, including pre-existing code. Also read canonical Phase 2 requirements, fixture, shared scene/assets dependencies and relevant receipts. The listed copied runtime directory and its files are absent. No additional demonstrated pre-existing blocker was found in this bounded sweep; this is not an exhaustive correctness claim.
+
+Startup/graph limits: ROUTER, GUIDING-PRINCIPLES and AGENTS were read. README.md and both advertised releases_app.py paths are absent, so the roadmap command could not run. list_projects pages 0 and 50 returned all 82 projects and no project for this repository or checkout. No applicable generation or check_index_coverage result is available; direct complete source reads supplied the evidence instead. No index was created and no state-writing governance check was run in this restricted reviewer worktree.
+
+#### Round-one blocker disposition — resolved
+
+Observed input: The original committed Solar fixture with only planets[0].radiusX=8192, plus independent radiusY=8192, center.x=8192, planet imageSize=8192, planet labelX=8192, Sun imageSize=8192 and belt labelY=8192 changes. Node v22.22.3, darwin-arm64; default Satori backend.
+
+Affected scope: tools/recipes/solar-system.mjs:67–90 now validates recipe-owned orbit, image and label envelopes before processRequest invokes either native backend. Generic bounded-shape checks still run first. Both backend branches pass through this admission owner; the browser coverage oracle cannot bypass it. Sun imageSize now also controls the emitted image node.
+
+Falsifier result: Baseline succeeds; the exact previously fatal Mercury radius returns fixture.planets[0].radiusX: unsupported off-canvas orbit, without SIGABRT. All six equivalent escapes return controlled field-specific errors. No publication is invoked by the probe.
+
+Narrow reviewer command (temporary JSON only, no executable fixture/test suite or CLI publication):
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+node --input-type=module <<'JS'
+import fs from "node:fs/promises";
+import path from "node:path";
+import {processRequest} from "./tools/render.mjs";
+import {validate,loadAssets} from "./tools/recipes/solar-system.mjs";
+const base=JSON.parse(await fs.readFile("examples/2026-10-08-solar-system/fixture.json","utf8"));
+console.log(JSON.stringify({node:process.version,platform:process.platform,arch:process.arch,assets:Object.keys(await loadAssets())}));
+for (const [name,mutate] of [
+ ["baseline",f=>{}],["radiusX",f=>{f.planets[0].radiusX=8192}],
+ ["radiusY",f=>{f.planets[0].radiusY=8192}],["center",f=>{f.center.x=8192}],
+ ["imageSize",f=>{f.planets[0].imageSize=8192}],["labelX",f=>{f.planets[0].labelX=8192}],
+ ["sun",f=>{f.sun.imageSize=8192}],["belt",f=>{f.belt.labelY=8192}],
+ ["shrink",f=>{f.title=f.title.repeat(2)}],["nonfit",f=>{f.title=f.title.repeat(20)}]
+]) {
+ const f=structuredClone(base);mutate(f);
+ const inputPath=path.resolve(process.env.TMPDIR,`review-${name}.json`);
+ await fs.writeFile(inputPath,JSON.stringify(f));
+ try { const op=await processRequest({inputPath,recipe:"solar-system"},{root:process.cwd()});
+ console.log(JSON.stringify({name,valid:op.request.validation.valid,attempts:op.request.fitting.attempts,titleSize:op.request.fitting.finalSizes.title,minSize:Math.min(...Object.values(op.request.fitting.finalSizes)),mercury:op.result.bounds.asset_mercury}));
+ }catch(e){console.log(JSON.stringify({name,error:e.message}));}
+}
+JS
+```
+
+Exit status: **0**. Decisive output (compact transcription of JSON):
+
+```text
+assets: sun, mercury, venus, earth, mars, jupiter, saturn-clean, uranus, neptune, asteroid-belt-diagram, milky-way
+baseline: valid=true, attempts=1, titleSize=108, minSize=15, mercury={x:913,y:924,width:60,height:60}
+radiusX: fixture.planets[0].radiusX — unsupported off-canvas orbit
+radiusY: fixture.planets[0].radiusY — unsupported off-canvas orbit
+center: fixture.sun.imageSize — unsupported off-canvas geometry
+imageSize: fixture.planets[0].imageSize — unsupported off-canvas geometry
+labelX: fixture.planets[0].label — unsupported off-canvas geometry
+sun: fixture.sun.imageSize — unsupported off-canvas geometry
+belt: fixture.belt.label — unsupported off-canvas geometry
+shrink: valid=true, attempts=3, titleSize=87, minSize=15
+nonfit: Validation failed: [{"field":"fitting","message":"non-fit after 10 attempts: text outside its region: subtitle"}]
+```
+
+Root cause closure: Unsafe geometry originated in recipe admission. The repair rejects unsupported scene envelopes there, before native rasterization, rather than attempting to catch a native process abort downstream. The original baseline and real fitting controls survive the restriction.
+
+#### Full-scope observations and remaining gates
+
+- Eleven exact display assets load through bounded PNG/aggregate-budget, containment and committed display-digest checks, including both refined IDs. No originals or provider are needed. Individual image nodes and separate text remain in the recipe; root fonts are reused. Provenance files and historical committed artwork are read-only in this turn.
+- Both example callers use shared rendering/publication. The poster uses runCLI/processRequest; the fixed contact sheet uses shared verified assets/fonts/renderSatori/publishArtifacts. New output goes to owned tools/output roots. The supplied solar-cli.log and contact-sheet.log record immutable manifest publications; those are prior orchestrator execution receipts, not fresh reviewer CLI runs.  [Unverified — no citation]
+- Source review confirms ten fitting attempts and minimum12 in processRequest, native geometry-driven overflow decisions, conservative Solar line heights, missing-text/glyph rejection, explicit browser font coverage checking, no silent backend switch, and nested context/browser cleanup. This scoped approval does not extend the historical comparison runner into an arbitrary-input production API.
+- C1 contains the exact original crash regression plus center/image-size/label equivalents, actual shrink and non-fit controls, CJK rejection on both backends, and decoded painted-pixel comparison against an empty-image control. It remains one of four existing tests. The actual verification-round2.log reports successful TAP: tests4/pass4/fail0, 24.7s under60s, 216 geometry boxes within0.5px and12 byte-identical artifacts. This is supplied clone evidence, not a suite executed by this reviewer.
+- [Unverified — needs clone run] The post-review native harness gate, full pnpm test and fresh offline entry-point reruns are intentionally not executed in this review worktree. Supervisor/driver owns them. Prior agent visual evidence is recorded in the report; no new human artwork acceptance is asserted.
+
+Bet / tradeoff / reversibility: Approve the bounded recipe-owned canvas and admission repair based on the concrete falsifier, source sweep and supplied clone receipt. Easy rollback remains the phase change plus retained last-good immutable publication; the failure mode to watch is widening admitted geometry without equivalent pre-raster constraints. Approval changes only relay state and does not relax that contract.
+
+Only RELAY.md was changed outside authorized .relay-scratch temporary JSON. No source/artifact edits, git commands, suites, provider calls or unfinished-clone cleanup were performed. Prior relay content is preserved except the explicitly required STATUS transition.
+
+relay closed, no further turn needed.
