@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -83,5 +83,41 @@ Questions:
 Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, and `swept file: yes|no`. Set STATUS Approved only if nothing blocking remains. Hand off to claude-a if changes are requested.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: The four-canary design is proportionate to issue #2, but its success assertion, comparison proof, and budget enforcement need bounded corrections before implementation. These are plan findings from source inspection, not a runtime-suite result.
+swept file: yes
+
+Read the entire plan and every Setup source/document in full; also inspected the committed measurements/runtime and targeted REPORT evidence. Verify-tier intent, direct-source fallback: `list_projects(limit=100)` returned all 82 projects, none for this checkout or its task clone; `check_index_coverage` for the nine Setup/artifact paths and `tools/spike` returned `project not found or not indexed`. No graph generation is available. Local reference search traced package scripts → renderer/verifier → scene/assets; no extra runtime caller appeared in that bounded source/config search. Startup README and local releases CLI are absent from the seeded worktree. Issue #2 was fetched through the GitHub connector; its acceptance asks for one local command “in well under a minute,” named guards, a mechanically reviewable budget/admission rule, and no new framework.
+
+- [Should] **R1 — C1 requires output the renderer cannot emit.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:59` requires exit 0 and `VERDICT: PASS` “from both.” Renderer success output is `render: wrote`, backend status, and selection (`tools/spike/render.mjs:538`); only the verifier prints that verdict (`tools/spike/verify.mjs:290`). Fix the plan to require renderer exit 0 and verifier exit 0 + PASS; retain the output-root override as the only runtime change.
+  Observed input: the existing successful renderer contract, also recorded at `tools/spike/REPORT.md:18`. Read-only probe `python3 -c 'from pathlib import Path; s=Path("tools/spike/render.mjs").read_text(); print("VERDICT: PASS occurrences:", s.count("VERDICT: PASS"))'` exited 0: `VERDICT: PASS occurrences: 0` (output stored in `.relay-scratch/tmp/c1-log-probe.out`).
+  Affected scope: C1's assertion on renderer stdout.
+  Falsifier: in a disposable clone, an unchanged successful render must satisfy C1; `SPIKE_INJECT_FAILURE=1` must make C1 fail (existing injection at `render.mjs:369`). If success actually emits PASS without a runtime change, this finding is unnecessary.
+
+- [Should] **R2 — the ratchet permits ordinary uncounted test forms.** Plan lines 70–72 count only `*.test.mjs` and `test(`, with no restriction on other Node test APIs or locations/extensions. Fix by defining and mechanically enforcing one bounded test-file/API convention, rejecting alternate test declarations/discovery forms rather than adding a parser framework. Include executed-test accounting so skip/todo/zero execution cannot masquerade as four passing canaries. Add a red control for the ordinary bypass below.
+  Observed input: append `import { it } from 'node:test'; it("guards: fifth canary", () => {});` to the sole test file: file count stays one and the added declaration contains zero `test(` calls. Probe `python3 -c 'import re; s="it(\"guards: fifth canary\", () => {});"; print("append to canaries.test.mjs:", s); print("test( count:",len(re.findall(r"\btest\(",s))); print("extra.test.js counted by *.test.mjs:", "extra.test.js".endswith(".test.mjs"))'` exited 0: `test( count: 0`; `extra.test.js counted by *.test.mjs: False` (scratch output `ratchet-probe.out`). This measures the plan's literal predicates, not an implemented runner.
+  Affected scope: spike-owned tests and the test runner's discovered/executed declarations; exclude installed harness/dependency/scratch trees explicitly. Account for `it`, suites/subtests, skipped tests, and normal `.test.js`/`.spec.*` or alternate-directory additions by rejecting or counting them under the chosen convention.
+  Falsifier: clone red controls must reject the fifth `it` and alternate-extension test before tests execute; the original four canaries must execute and pass without a budget increase. If the chosen enforcement already rejects both, this gap is closed.
+
+- [Should] **R3 — make C2 non-vacuous and give its comparator a red control.** Plan lines 60–62 say geometry matches but do not require exact case/backend/label sets, finite coordinates, or a positive comparison count; line 81 records only runner controls and C4. Fix by comparing the committed and fresh case/backend/label key sets first, then finite `x/y/width/height` values within 0.5 px, with an explicit compared-box count. Pin the golden artifact list independently of the fresh output. Specify clone red controls for missing labels, geometry drift, and an enabled golden digest mismatch, plus C1's existing failure injection; reuse C4 as the verifier/C3 red control.
+  Observed input: committed baseline/satori `bounds.callout_1_img` exists at `tools/spike/output/2026-10-08-xyz-layout-engine-spike/measurements.json:81`. Removing that image label from fresh measurements leaves it outside the verifier's required-section list (`tools/spike/verify.mjs:186`); the verifier iterates only remaining bounds (`verify.mjs:87`). An intersection-only C2 comparison could miss this loss while PNG bytes stay unchanged. The plan does not exclude that implementation; no comparator exists yet to run.
+  Affected scope: C2 comparisons of all three existing cases × both backends; no new fixtures or platforms.
+  Falsifier: clone controls removing that one fresh label, moving one coordinate by 1 px, and changing one golden-comparison artifact byte must each fail C2 at the intended assertion; unchanged evidence must compare a nonzero number of boxes and pass. A digest-ineligible host must still exercise geometry and report digest checks skipped.
+
+- [Should] **R4 — a post-exit stopwatch does not bound a stalled run.** Plan line 77 checks wall time only after `node --test` returns. Specify a finite parent-controlled deadline for the test subprocess and its render child, with cleanup on timeout/failure, using Node facilities and the existing renderer deadline where possible. Add one clone timeout red control; no new service or watchdog package.
+  Observed input: plan budget `maxSeconds: 60` (line 66) versus existing `SPIKE_RENDER_DEADLINE_MS || 240_000` (`tools/spike/render.mjs:33`). A render waiting for its existing deadline can outlive the suite budget; a never-returning test prevents the proposed after-return check entirely. This is a source-derived gap, not an observed hung run.
+  Affected scope: the local runner's test subprocess and descendants, including Chromium; preserve normal renderer cleanup (`render.mjs:346`, `render.mjs:541`).
+  Falsifier: a disposable-clone controlled stall with a short temporary budget must exit nonzero within the deadline plus a documented small cleanup allowance, leaving no test/render/browser child; the normal suite must stay green. If the planned runner already enforces that deadline, no additional mechanism is needed.
+
+- [Nit] **State the supported host honestly.** C2's digest skip does not make the whole suite portable: C3 checks the committed native binding against the current process platform/arch (`tools/spike/verify.mjs:242`), while committed `runtime.json:28` is `@resvg/resvg-js-darwin-arm64`. Prefer explicitly limiting this spike command to the recorded developer host and stating the existing verifier limitation; cross-platform gate redesign is outside this issue. Also replace “pure builders” (plan line 33) with scene builders and filesystem asset loaders (`tools/spike/assets.mjs:11`, `tools/spike/scene.mjs:68`). This sweep found the host coupling in pre-existing source; no other material pre-existing defect was identified within the stated local-spike scope.
+- [Nit] **Resolve the budget-decrease contradiction.** Line 79 says budgets can drop freely; line 74 requires exact history equality for any change. State whether decreases need a history entry without new admission justification, or adjust the equality rule accordingly. Keep the detailed policy in `test-budget.json` and only its pointer in AGENTS.md. Rollback should also remove that added pointer (line 50).
+- [Pass] **Reuse and scope are appropriate.** Plan lines 46–49 and 54–56 extend the existing writer/reader, use `node:test`, and add no workflow/dependency. Writer paths are physical `OUT` plus logical `rel()` (`tools/spike/render.mjs:30`); verifier has both scan and physical `out()` reads (`tools/spike/verify.mjs:15`, `verify.mjs:18`). Implementation must route both physical reader operations through the override while keeping logical `output/<run>/...` unchanged. Four canaries need no additional parallel suite; C3 deliberately reuses the existing gate and C4 targets its recorded-digest assertion (`verify.mjs:161`).
+- [Unverified — needs clone run] Plan line 35's fresh-render byte stability and 8.1-second observation were not reproduced here. Its same-machine/environment limits are stated, and the report records repeat determinism (`tools/spike/REPORT.md:72`), but this review does not certify fresh golden equality, suite timing, runtime red controls, or PDDA results. Those runs belong to implementation/clone validation and the harness gate.
+
+Review outcome: changes requested. Reversibility: Easy — amend the plan, then implement its single runner and existing-source override; no artifact/source edits were made by this reviewer.
+Handing off to claude-a (Producer) — disposition R1–R4 and the nits, revise the plan, then return for round 2. Go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
