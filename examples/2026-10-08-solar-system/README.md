@@ -1,6 +1,6 @@
 # Example: Solar System diagram with Milky Way inset
 
-A 2400×1700 educational poster rendered with the GH-1 spike's existing render functions (Satori → resvg, and Playwright/Chromium), using eleven transparent illustrations generated with OpenAI `gpt-image-2.5-flare` through the HiQS resolve-image skill.
+A 2400×1700 educational poster rendered with XYZ Layout Engine's shared render operations (Satori → resvg, and Playwright/Chromium), using eleven transparent illustrations generated with OpenAI `gpt-image-2.5-flare` through the HiQS resolve-image skill.
 
 ![Solar System diagram](solar-system.png)
 
@@ -15,7 +15,7 @@ Sizes, distances, belt density and positions are schematic, not to scale. The ar
 | `solar-system.html` | Self-contained responsive viewer (images inlined) |
 | `contact-sheet.png` | All generated assets side by side |
 | `fixture.json` | Scene content: planets, labels, layout, disclaimer, sources |
-| `render-diagram.mjs` | Builds the scene and renders both backends; writes `verification.json` |
+| `render-diagram.mjs` | Thin shared CLI caller; publishes a new immutable run |
 | `contact-sheet.mjs` | Builds the contact sheet |
 | `generate-assets.py` | Generates the illustrations through the hiqs-chain caller |
 | `assets/prompts.json` | The exact prompts sent |
@@ -23,15 +23,25 @@ Sizes, distances, belt density and positions are schematic, not to scale. The ar
 | `assets/web/*.png` | Downscaled copies of the generated illustrations |
 | `provenance.json` | Per-asset model, recipe, transparency verdict and sha256 of the original |
 | `verification.json` | Render evidence: image nodes, text ids, Satori bounds, Chromium text metrics, artifact digests |
-| `runtime/` | Pinned copy of the GH-1 spike render code this example ran against (`runtime/SOURCE.json` names the commit) |
+| Root `tools/` | Shared pinned fonts, request admission, trusted recipe and renderer; copied runtime removed after offline proof |
 
 ## Reproducing
 
-Full-size generated originals (`assets/<id>.png`, about 17 MB) are not committed; `render-diagram.mjs` reads them, so re-rendering needs either those originals or a fresh generation run.
+Run from the repository root after `pnpm install --frozen-lockfile`:
 
-1. Install the pinned runtime: `cd runtime && pnpm install`.
-2. To regenerate artwork (paid OpenAI calls, one per asset): set `HIQS_CHAIN_CALLER` to your deployed `hiqs-chain/scripts/chain.mjs` and run `python3 generate-assets.py`. It refuses to overwrite existing outputs.
-3. Render: `node render-diagram.mjs`.
+```sh
+node examples/2026-10-08-solar-system/render-diagram.mjs
+node examples/2026-10-08-solar-system/contact-sheet.mjs
+# Explicit browser render or vector export:
+node examples/2026-10-08-solar-system/render-diagram.mjs --backend playwright
+node examples/2026-10-08-solar-system/render-diagram.mjs --format svg
+```
+
+These workflows read the eleven committed `assets/web/*.png` derivatives, checking their pinned display digests and PNG/aggregate budgets. They need no full-size originals, provider credentials or paid calls. Satori is the default; Chromium runs only when explicitly requested. New artifacts use the shared atomic manifest publisher under root `tools/output/solar-system/` and `tools/output/solar-system-contact-sheet/`; resolve `manifest.json.current` to find `render.png` (or the requested export). The committed artwork and `verification.json` remain historical provenance.
+
+The delivered recipe-owned canvases are nutrition 1000×1000 and Solar System 2400×1700, scale 1. Other dimensions and scale are explicitly rejected; arbitrary resolution/upscaling awaits suitable originals and recipe geometry. Fitting uses at most ten total native layout attempts and a 12px minimum, rejecting non-fit before publication. Text and illustrations remain separate nodes. Agent visual inspection passed for the migrated poster/contact sheet; human acceptance remains pending.
+
+Optional asset regeneration uses `generate-assets.py` and the deployed HiQS caller and incurs provider charges. Its resumable workflow is Phase 3 work; no paid call was used for this migration.
 
 ## Provenance
 

@@ -132,45 +132,143 @@ export async function renderPlaywright(context, scene, font, width, height, font
 
 export async function processRequest(reqObj, options = {}) {
   const { getFonts } = await import('./spike/assets.mjs');
-  const { buildNutritionScene, validateNutrition, version: recipeVersion, NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT } = await import('./recipes/nutrition.mjs');
   const { normalized, fixture, input } = await normalizeRequest(reqObj, options);
-  await validateNutrition(fixture);
+
+  let recipe;
+  if (normalized.recipe === 'nutrition') {
+    recipe = await import('./recipes/nutrition.mjs');
+  } else if (normalized.recipe === 'solar-system') {
+    recipe = await import('./recipes/solar-system.mjs');
+  } else {
+    throw new Error('Validation failed: ' + JSON.stringify([{ field: 'fixture.id', message: 'unsupported recipe identity' }]));
+  }
+
+  await recipe.validate(fixture);
   fixture.width = normalized.width; fixture.height = normalized.height;
   const fonts = await getFonts();
-  const scene = await buildNutritionScene(fixture, {});
-  let result;
-  if (normalized.backend === 'playwright') {
-    const browser = await launchPlaywright();
-    try {
-      const context = await browser.newContext({ viewport: { width: normalized.width, height: normalized.height }, deviceScaleFactor: 1, javaScriptEnabled: false });
+
+  const TEXT_IDS = recipe.TEXT_IDS;
+  const CONTAINMENT = recipe.CONTAINMENT;
+  const parents = Object.fromEntries(Object.entries(CONTAINMENT).flatMap(([parent, kids]) => kids.map(kid => [kid, parent])));
+
+  let browser, context;
+  try {
+    if (normalized.backend === 'playwright') {
+      browser = await launchPlaywright();
+      context = await browser.newContext({ viewport: { width: normalized.width, height: normalized.height }, deviceScaleFactor: 1, javaScriptEnabled: false });
       await context.route('**/*', route => route.abort());
-      try { result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height); }
-      finally { await context.close(); }
-    } finally { await browser.close(); }
-  } else {
-    result = await renderSatori(scene, fonts, normalized.width, normalized.height);
-  }
-  const errors = [];
-  const parents = Object.fromEntries(Object.entries(NUTRITION_CONTAINMENT).flatMap(([parent, kids]) => kids.map(kid => [kid, parent])));
-  for (const id of NUTRITION_TEXT_IDS.filter(id => id !== 'header_caption' || fixture.sections.header.caption)) {
-    const box = result.textBoxes[id];
-    if (!box || ![box.x, box.y, box.width, box.height].every(Number.isFinite) || box.width <= 0 || box.height <= 0) errors.push({ field: id, message: 'missing/invalid text geometry' });
-    else if (box.x < -0.5 || box.y < -0.5 || box.x + box.width > normalized.width + 0.5 || box.y + box.height > normalized.height + 0.5) errors.push({ field: id, message: 'text outside canvas' });
-    else {
-      const region = result.bounds[parents[id]];
-      if (!region || box.x < region.x - 0.5 || box.y < region.y - 0.5 || box.x + box.width > region.x + region.width + 0.5 || box.y + box.height > region.y + region.height + 0.5 || box.scrollWidth > box.clientWidth + 1 || box.scrollHeight > box.clientHeight + 1) errors.push({ field: id, message: 'text outside its region' });
     }
+
+    const MAX_ATTEMPTS = 10;
+    const MIN_SIZE = 12; // readable minimum font size
+    const SHRINK_FACTOR = 0.9;
+
+    let sizes = { ...recipe.DEFAULT_SIZES };
+    let result;
+    let errors = [];
+    let steps = [];
+    let unresolved = [];
+    let scene;
+
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      errors = [];
+      scene = await recipe.buildScene(fixture, sizes);
+
+      if (normalized.backend === 'playwright') {
+        // The same pinned-font coverage oracle prevents Chromium's per-glyph system fallback.
+        if (attempt === 0) {
+          const coverage = await renderSatori(scene, fonts, normalized.width, normalized.height);
+          if (coverage.missingSegments.length) throw invalid('font', 'unsupported text/font');
+        }
+        result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height);
+      } else {
+        result = await renderSatori(scene, fonts, normalized.width, normalized.height);
+      }
+
+      if (result.missingSegments?.length || result.fontLoaded === false) errors.push({ field: 'font', message: 'unsupported text/font' });
+      if (!result.png || result.png.readUInt32BE(16) !== normalized.width || result.png.readUInt32BE(20) !== normalized.height) errors.push({ field: 'artifact', message: 'wrong PNG dimensions' });
+
+      if (errors.length) break;
+
+      const overflowing = [];
+      for (const id of TEXT_IDS) {
+        if (id === 'header_caption' && !fixture.sections?.header?.caption) continue; // Skip optional
+        const box = result.textBoxes[id];
+        if (!box || ![box.x, box.y, box.width, box.height].every(Number.isFinite) || box.width <= 0 || box.height <= 0) {
+          errors.push({ field: id, message: 'missing/invalid text geometry' });
+        } else if (box.x < -0.5 || box.y < -0.5 || box.x + box.width > normalized.width + 0.5 || box.y + box.height > normalized.height + 0.5) {
+          overflowing.push(id);
+        } else {
+          const region = result.bounds[parents[id]];
+          if (!region || box.x < region.x - 0.5 || box.y < region.y - 0.5 || box.x + box.width > region.x + region.width + 0.5 || box.y + box.height > region.y + region.height + 0.5 || box.scrollWidth > box.clientWidth + 1 || box.scrollHeight > box.clientHeight + 1) {
+            overflowing.push(id);
+          }
+        }
+      }
+
+      if (errors.length) break;
+
+      steps.push({ iteration: attempt, overflowing, sizes: { ...sizes } });
+      if (overflowing.length === 0) {
+        unresolved = [];
+        break;
+      }
+
+      if (attempt === MAX_ATTEMPTS - 1) {
+        unresolved = overflowing;
+        break;
+      }
+
+      let shrunk = false;
+      for (const id of overflowing) {
+        if ((sizes[id] || 28) > MIN_SIZE) {
+          sizes[id] = Math.max(MIN_SIZE, Math.floor((sizes[id] || 28) * SHRINK_FACTOR));
+          shrunk = true;
+        }
+      }
+      if (!shrunk) {
+        unresolved = overflowing;
+        break;
+      }
+    }
+
+    if (unresolved.length) throw invalid('fitting', `non-fit after ${steps.length} attempts: text outside its region: ${unresolved.join(', ')}`);
+    if (errors.length) throw new Error('Validation failed: ' + JSON.stringify(errors));
+
+    // Build structure expected by verify.mjs for `text` mapping
+
+  const canvasBounds = { x: 0, y: 0, width: normalized.width, height: normalized.height };
+  const contained = (a, o) => a.x >= o.x - 0.5 && a.y >= o.y - 0.5 && a.x + a.width <= o.x + o.width + 0.5 && a.y + a.height <= o.y + o.height + 0.5;
+  for (const id of TEXT_IDS) {
+    if (id === 'header_caption' && !fixture.sections?.header?.caption) {
+      result.textBoxes[id] = { present: false };
+      continue;
+    }
+    const box = result.textBoxes[id];
+    const region = result.bounds[parents[id]] || canvasBounds;
+    const sm = box.scrollWidth ? { scrollWidth: box.scrollWidth, clientWidth: box.clientWidth, scrollHeight: box.scrollHeight, clientHeight: box.clientHeight } : undefined;
+    const scrollOverflow = sm ? (sm.scrollWidth > sm.clientWidth + 1 || sm.scrollHeight > sm.clientHeight + 1) : false;
+    const insideRegion = contained(box, region);
+    const insideCanvas = contained(box, canvasBounds);
+
+    result.textBoxes[id] = {
+      present: true, text: box.text, box: { x: box.x, y: box.y, width: box.width, height: box.height },
+      region, insideRegion, insideCanvas,
+      ...(sm ? { scrollMetrics: sm, scrollOverflow } : {}),
+      overflow: !insideRegion || !insideCanvas || scrollOverflow
+    };
   }
-  if (result.missingSegments?.length || result.fontLoaded === false) errors.push({ field: 'font', message: 'unsupported text/font' });
-  if (!result.png || result.png.readUInt32BE(16) !== normalized.width || result.png.readUInt32BE(20) !== normalized.height) errors.push({ field: 'artifact', message: 'wrong PNG dimensions' });
-  if (errors.length) throw new Error('Validation failed: ' + JSON.stringify(errors));
+
   const format = normalized.format;
   const bytes = format === 'png' ? result.png : Buffer.from(format === 'svg' ? result.svg : (result.html ?? toDocument(scene, fonts, normalized.width, normalized.height)));
   if (!bytes.length || bytes.length > LIMITS.outputBytes) throw invalid('artifact', 'output byte budget exceeded');
   const digest = sha256(bytes);
   const artifact = { name: `render.${format}`, mime: { png: 'image/png', svg: 'image/svg+xml', html: 'text/html' }[format], width: normalized.width, height: normalized.height, bytes, sha256: digest };
-  const request = { normalized, versions: { recipe: recipeVersion, backend: normalized.backend === 'playwright' ? '1.64.0' : '0.36.0' }, validation: { valid: true, errors: [] }, digests: { [format]: digest }, provenance: { inputPath: normalized.inputPath, inputSha256: sha256(input), backend: normalized.backend } };
+  const request = { normalized, versions: { recipe: recipe.version, backend: normalized.backend === 'playwright' ? '1.64.0' : '0.36.0' }, validation: { valid: true, errors: [] }, digests: { [format]: digest }, provenance: { inputPath: normalized.inputPath, inputSha256: sha256(input), backend: normalized.backend }, fitting: { fit: unresolved.length === 0, attempts: steps.length, iterations: steps.length - 1, unresolved, steps, finalSizes: sizes } };
   return { request, result, artifacts: [artifact] };
+  } finally {
+    try { if (context) await context.close(); } finally { if (browser) await browser.close(); }
+  }
 }
 
 const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -255,19 +353,21 @@ export async function publishArtifacts(operation, destination, options = {}) {
   } finally { await fs.rm(stage, { recursive: true, force: true }); }
 }
 
-// Thin local CLI: node tools/render.mjs fixture.json --out tools/output/local [--format svg] [--backend playwright]
+// Shared CLI operation; example entry points reuse parsing, admission and the sole publisher.
+export async function runCLI(argv, options = {}) {
+  const [inputPath, ...args] = argv, req = { inputPath };
+  let destination = 'tools/output/local';
+  for (let i = 0; i < args.length; i += 2) {
+    if (!args[i + 1]) throw invalid(args[i], 'missing option value');
+    if (args[i] === '--out') destination = args[i + 1];
+    else if (['--format', '--backend', '--recipe'].includes(args[i])) req[args[i].slice(2)] = args[i + 1];
+    else throw invalid(args[i], 'unsupported option');
+  }
+  const operation = await processRequest(req, options);
+  const publication = await publishArtifacts(operation, destination, { ...options, failBeforeCommit: process.env.RENDER_INJECT_PUBLICATION_FAILURE === '1' });
+  return { ...operation.request, publication };
+}
 if (process.argv[1] && existsSync(process.argv[1]) && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  (async () => {
-    const [inputPath, ...args] = process.argv.slice(2), req = { inputPath };
-    let destination = 'tools/output/local';
-    for (let i = 0; i < args.length; i += 2) {
-      if (!args[i + 1]) throw invalid(args[i], 'missing option value');
-      if (args[i] === '--out') destination = args[i + 1];
-      else if (['--format', '--backend'].includes(args[i])) req[args[i].slice(2)] = args[i + 1];
-      else throw invalid(args[i], 'unsupported option');
-    }
-    const operation = await processRequest(req);
-    const publication = await publishArtifacts(operation, destination, { failBeforeCommit: process.env.RENDER_INJECT_PUBLICATION_FAILURE === '1' });
-    console.log(JSON.stringify({ ...operation.request, publication }, null, 2));
-  })().catch(error => { console.error(error.message); process.exitCode = 1; });
+  runCLI(process.argv.slice(2)).then(receipt => console.log(JSON.stringify(receipt, null, 2)))
+    .catch(error => { console.error(error.message); process.exitCode = 1; });
 }

@@ -1,0 +1,126 @@
+{
+  "normalized": {
+    "inputPath": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/examples/2026-10-08-solar-system/fixture.json",
+    "width": 2400,
+    "height": 1700,
+    "format": "png",
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "solar-system"
+  },
+  "versions": {
+    "recipe": "1.0.0",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "b55c036c76275ae7f07bfaddf93aaac2f4bb94c0e43504fadf748da982b32d9b"
+  },
+  "provenance": {
+    "inputPath": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/examples/2026-10-08-solar-system/fixture.json",
+    "inputSha256": "79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "eyebrow": 23,
+          "title": 108,
+          "subtitle": 30,
+          "intro_heading": 28,
+          "intro_note": 23,
+          "galaxy_title": 23,
+          "galaxy_note": 15,
+          "location_title": 15,
+          "location_name": 24,
+          "location_arm": 20,
+          "sun_name": 34,
+          "sun_kind": 18,
+          "mercury_name": 34,
+          "mercury_kind": 18,
+          "venus_name": 34,
+          "venus_kind": 18,
+          "earth_name": 34,
+          "earth_kind": 18,
+          "mars_name": 34,
+          "mars_kind": 18,
+          "jupiter_name": 34,
+          "jupiter_kind": 18,
+          "saturn_name": 34,
+          "saturn_kind": 18,
+          "uranus_name": 34,
+          "uranus_kind": 18,
+          "neptune_name": 34,
+          "neptune_kind": 18,
+          "belt_name": 30,
+          "belt_detail": 20,
+          "footer_message": 22,
+          "footer_credit": 17,
+          "scale_note": 19,
+          "source_note": 16
+        }
+      }
+    ],
+    "finalSizes": {
+      "eyebrow": 23,
+      "title": 108,
+      "subtitle": 30,
+      "intro_heading": 28,
+      "intro_note": 23,
+      "galaxy_title": 23,
+      "galaxy_note": 15,
+      "location_title": 15,
+      "location_name": 24,
+      "location_arm": 20,
+      "sun_name": 34,
+      "sun_kind": 18,
+      "mercury_name": 34,
+      "mercury_kind": 18,
+      "venus_name": 34,
+      "venus_kind": 18,
+      "earth_name": 34,
+      "earth_kind": 18,
+      "mars_name": 34,
+      "mars_kind": 18,
+      "jupiter_name": 34,
+      "jupiter_kind": 18,
+      "saturn_name": 34,
+      "saturn_kind": 18,
+      "uranus_name": 34,
+      "uranus_kind": 18,
+      "neptune_name": 34,
+      "neptune_kind": 18,
+      "belt_name": 30,
+      "belt_detail": 20,
+      "footer_message": 22,
+      "footer_credit": 17,
+      "scale_note": 19,
+      "source_note": 16
+    }
+  },
+  "publication": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system",
+    "directory": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system/runs/2ac051bd-b704-4aa1-b314-65179a729e98",
+    "manifest": {
+      "current": "runs/2ac051bd-b704-4aa1-b314-65179a729e98",
+      "files": [
+        "render.png",
+        "result.json"
+      ],
+      "digests": {
+        "render.png": "b55c036c76275ae7f07bfaddf93aaac2f4bb94c0e43504fadf748da982b32d9b",
+        "result.json": "d10249daac0d9c69eaa0ad57a53b1ad7d6f6743559622ac971c24e580cc8dd41"
+      }
+    }
+  }
+}

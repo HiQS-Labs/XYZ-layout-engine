@@ -6,6 +6,13 @@
 - Applied ponytail: reuse ESM/Python modules, existing HiQS caller and four canaries; no provider client, framework, service/queue/editor or extra CI. Preserved Later work and human/provider acceptance as pending. Codex implementation-plan QA is Approved/attested; fixed its concrete contact-sheet migration omission. All eleven selected display-asset digests match.
 - Reversibility: Easy — plan/ledger/receipts only, no runtime change or paid generation. Fresh baseline pnpm test passed four canaries in 8.2s, 216 geometry boxes and 12 byte-identical artifacts. Planner write/check exited 0 with one wave/no held items/no drift; added the required pending wave QA overlay after checking the generated core. Direct preflight/full YAML admission are recorded separately; execution completion is not claimed.
 
+## 2026-10-09 — GH-5 local MVP Phase 2
+
+- Extended shared render tools (`tools/request.mjs`, `tools/render.mjs`) to dynamically load recipes and support adaptive text fitting (shrinks overflowing text by 10% at most 10 total attempts down to 12px, tracking bounds natively).
+- Promoted the Solar System scene to `tools/recipes/solar-system.mjs` and integrated its display assets natively via the shared pipeline.
+- Refactored `examples/2026-10-08-solar-system/render-diagram.mjs` and `contact-sheet.mjs` to be thin callers of the shared pipeline (publishing to owned tools/output roots via the shared atomic manifest), allowing the ad-hoc `runtime/` directory to be completely deleted.
+- Native monitored build halted on an off-lane shrink-canary probe (gate not run); observer recorded check 1/6 then cancelled outstanding checks. Preserved the failed attempt and repaired through existing owners; current four-canary verification passes in 24.4s, with golden geometry/digests preserved. Independent Phase 2 review and resumption remain pending.
+
 ## 2026-10-08 — Agy QA of MVP improvement plan
 
 - Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.

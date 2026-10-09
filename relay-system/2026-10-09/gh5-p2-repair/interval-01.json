@@ -1,0 +1,90 @@
+{
+  "kind": "interval",
+  "observed_at": "2026-10-09T15:54:13.571006+00:00",
+  "elapsed_seconds": 600.1,
+  "interval_seconds": 600,
+  "check": 1,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 71228,
+  "exit": null,
+  "approved_remaining_phases": 0,
+  "total_remaining_phases": 4,
+  "last_qualified_progress": {
+    "schema_version": "0.2.0",
+    "ts": "2026-10-09T15:44:14.577Z",
+    "type": "marathon.phase.start",
+    "task": "MARATHON-GH5-P2-TURN",
+    "agent": "marathon"
+  },
+  "heartbeat": {
+    "phase_id": "gh5-p2",
+    "pid": 71453,
+    "plan": "gh5-p2",
+    "relay_task": "MARATHON-GH5-P2-TURN",
+    "started_utc": "2026-10-09T15:44:14Z",
+    "updated_utc": "2026-10-09T15:53:44Z"
+  },
+  "heartbeat_age_seconds": 29.6,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": [
+      {
+        "task": "MARATHON-GH5-P2-TURN",
+        "agent": "agy",
+        "paths": [
+          "marathon-system/gh5-mvp-foundation--gh5-p2/RELAY.md",
+          "tools/recipes/solar-system.mjs",
+          "tools/recipes/nutrition.mjs",
+          "tools/render.mjs",
+          "tools/request.mjs",
+          "tools/spike/render.mjs",
+          "tools/spike/verify.mjs",
+          "examples/2026-10-08-solar-system/render-diagram.mjs",
+          "examples/2026-10-08-solar-system/contact-sheet.mjs",
+          "examples/2026-10-08-solar-system/README.md",
+          "examples/2026-10-08-solar-system/runtime/.gitignore",
+          "examples/2026-10-08-solar-system/runtime/SOURCE.json",
+          "examples/2026-10-08-solar-system/runtime/package.json",
+          "examples/2026-10-08-solar-system/runtime/pnpm-lock.yaml",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/assets.mjs",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/assets/OFL.txt",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/assets/SOURCES.md",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/assets/font-bold.ttf",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/assets/font.ttf",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs",
+          "tools/spike/verify.mjs",
+          "examples/2026-10-08-solar-system/runtime/tools/spike/scene.mjs",
+          "tools/spike/test/canaries.test.mjs",
+          "CHANGELOG.md",
+          "tools/MVP-REPORT.md"
+        ],
+        "epoch": 2
+      }
+    ]
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p2/RELAY.md",
+    "headers": [
+      "STATUS: Open",
+      "NEXT: agy (Builder)"
+    ]
+  },
+  "log_tail": [
+    "marathon-drive: warn: host free swap is critically low (0MB < 1024MB)",
+    "marathon-drive: memory-telemetry: phase gh5-p2-start boundary \u2014 compressor=7308MB, swap_free=0MB",
+    "marathon-drive: phase start: running relay-drive --round-cap 5",
+    "relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=1",
+    "agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.uuXk59)",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=0",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=1",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=13",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=14",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=14",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=15",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=15",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=15",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.uuXk59) changed-files=15"
+  ],
+  "observer_only": true
+}

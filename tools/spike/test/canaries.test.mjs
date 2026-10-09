@@ -120,6 +120,57 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   assert.equal(tampered.status, 1, 'default verifier ignored new selected output');
   assert.match(tampered.stderr, /does not match the recorded digest/);
   writeFileSync(file, original);
+  { // Solar System controls extend C1; no fifth test.
+  const ssFixturePath = path.join(SPIKE, '../../examples/2026-10-08-solar-system/fixture.json');
+  const data = JSON.parse(readFileSync(ssFixturePath, 'utf8'));
+
+  // 1. Image visibility canary (pixels instead of metadata)
+  const { loadSatori, renderSatori } = await import('../../render.mjs');
+  const { getFonts } = await import('../assets.mjs');
+  await loadSatori();
+  const fonts = await getFonts();
+  const sunPng = readFileSync(path.join(SPIKE, '../../examples/2026-10-08-solar-system/assets/web/sun.png'));
+  const sunDataUri = 'data:image/png;base64,' + sunPng.toString('base64');
+
+  const scene = {
+    type: 'div',
+    props: {
+      style: { display: 'flex', width: 220, height: 220, backgroundColor: '#000000' },
+      children: [{ type: 'img', props: { src: sunDataUri, style: { width: 220, height: 220, objectFit: 'contain' } } }]
+    }
+  };
+  const res = await renderSatori(scene, fonts, 220, 220);
+
+  const emptyScene = { type: 'div', props: { style: { display: 'flex', width: 220, height: 220, backgroundColor: '#000000' } } };
+  const emptyRes = await renderSatori(emptyScene, fonts, 220, 220);
+  const { Resvg } = await import('@resvg/resvg-js');
+  const painted = new Resvg(res.svg).render(), empty = new Resvg(emptyRes.svg).render();
+  assert.notDeepEqual(Buffer.from(painted.pixels), Buffer.from(empty.pixels), 'actual painted pixels required for image visibility');
+
+  // 2. Real shrink (success after iterations)
+  const shrinkFixture = { ...data, title: data.title.repeat(2) };
+  const p1 = path.join(FRESH, 'shrink.json');
+  writeFileSync(p1, JSON.stringify(shrinkFixture));
+  const op1 = await processRequest({ inputPath: p1, format: 'png', recipe: 'solar-system' }, { root: FRESH });
+  assert.equal(op1.request.fitting.attempts > 1, true, 'must actually shrink');
+  assert.equal(op1.request.validation.valid, true);
+  assert.ok(op1.request.fitting.attempts <= 10);
+  assert.ok(Object.values(op1.request.fitting.finalSizes).every(size => size >= 12));
+  const { validate: validateSolar } = await import('../../recipes/solar-system.mjs');
+  await assert.rejects(validateSolar({ ...data, surprise: 1 }), /fixture.surprise/);
+  await assert.rejects(validateSolar({ ...data, planets: [{ ...data.planets[0], asset: '../outside' }, ...data.planets.slice(1)] }), /asset/);
+  await assert.rejects(validateSolar({ ...data, center: { ...data.center, x: '<script>' } }), /bounded geometry/);
+  await assert.rejects(normalizeRequest({ inputPath: ssFixturePath, recipe: 'solar-system', width: 1200, height: 850 }), /recipe-owned/);
+  const unsupported = path.join(FRESH, 'unsupported-script.json');
+  writeFileSync(unsupported, JSON.stringify({ ...data, title: '营养' }));
+  for (const backend of ['satori', 'playwright']) await assert.rejects(processRequest({ inputPath: unsupported, recipe: 'solar-system', backend }, { root: FRESH }), /unsupported text\/font/);
+
+  // 3. Exhaustion (non-fit)
+  const failFixture = { ...data, title: data.title.repeat(20) };
+  const p2 = path.join(FRESH, 'fail.json');
+  writeFileSync(p2, JSON.stringify(failFixture));
+  await assert.rejects(processRequest({ inputPath: p2, format: 'png', recipe: 'solar-system' }, { root: FRESH }), /text outside its region|missing\/invalid text geometry|text outside canvas/);
+  }
   console.log('# C1: import/space CLI, admission, HTML, browser cleanup and two-success/late-failure publication controls passed');
 });
 
