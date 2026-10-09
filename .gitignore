@@ -1,3 +1,6 @@
 PROJECT/PDDA-ACTIVITY.jsonl
 .pdda-gh-state.tsv
 /node_modules/
+
+# GH-1 spike: full-size generated originals (sha256 kept in *.result.json); web copies are committed
+tools/spike/assets/generated/*.png

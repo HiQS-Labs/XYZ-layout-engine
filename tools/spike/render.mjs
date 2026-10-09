@@ -16,7 +16,7 @@ import { createRequire } from 'module';
 import { Resvg } from '@resvg/resvg-js';
 import { chromium } from 'playwright';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT, DEFAULT_SIZES } from './scene.mjs';
-import { getFont } from './assets.mjs';
+import { getFonts } from './assets.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 // Source limitation (observed, satori 0.36.0): the ESM bundle's wasm loader reads the CommonJS
@@ -61,7 +61,7 @@ async function renderSatori(scene, font, width, height) {
   const t0 = performance.now();
   const svg = await satori(scene, {
     width, height,
-    fonts: [{ name: FONT_FAMILY, data: font, weight: 400, style: 'normal' }],
+    fonts: [{ name: FONT_FAMILY, data: font.regular, weight: 400, style: 'normal' }, { name: FONT_FAMILY, data: font.bold, weight: 700, style: 'normal' }],
     onNodeDetected: n => nodes.push(n),
     // Fires once per text segment the pinned font cannot cover. Returning [] provides no fallback
     // font, so the observation is: segment uncovered, glyphs not supplied by the pinned font.
@@ -103,7 +103,8 @@ function toHtml(node) {
 }
 function toDocument(scene, font, width, height) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face{font-family:'${FONT_FAMILY}';src:url(data:font/ttf;base64,${font.toString('base64')})}
+@font-face{font-family:'${FONT_FAMILY}';font-weight:400;src:url(data:font/ttf;base64,${font.regular.toString('base64')})}
+@font-face{font-family:'${FONT_FAMILY}';font-weight:700;src:url(data:font/ttf;base64,${font.bold.toString('base64')})}
 *{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}
 h1,h2,p{margin:0}span,div,p,h1,h2{display:flex}
 </style></head><body>${toHtml(scene)}</body></html>`;
@@ -277,7 +278,7 @@ async function main() {
   await fs.mkdir(OUT, { recursive: true });
   const fixture = JSON.parse(await fs.readFile(path.join(HERE, 'fixture.json'), 'utf8'));
   const heroFixture = JSON.parse(await fs.readFile(path.join(HERE, 'hero-fixture.json'), 'utf8'));
-  const font = await getFont();
+  const font = await getFonts();
   const { width: W, height: H } = fixture;
   const { width: HW, height: HH } = heroFixture;
 
@@ -294,7 +295,7 @@ async function main() {
       playwright: pkgInfo('playwright'),
       transitive: ['yoga-layout', 'harfbuzzjs', '@shuding/opentype.js', 'linebreak'].map(n => pkgInfo(n, 'satori')),
       chromium: null,
-      font: { file: 'tools/spike/assets/font.ttf', family: 'Inter Regular 4.0', license: 'OFL-1.1', verified: true, provenance: 'tools/spike/assets/SOURCES.md + verifier sha256 constants' }
+      font: { files: ['tools/spike/assets/font.ttf', 'tools/spike/assets/font-bold.ttf'], family: 'Inter 4.0 Regular 400 + Bold 700', license: 'OFL-1.1', verified: true, provenance: 'tools/spike/assets/SOURCES.md + verifier sha256 constants' }
     },
     licenseNotes: null,
     units: { time: 'milliseconds (performance.now)', memory: 'bytes unless named *Kb (ps rss, kilobytes)' },

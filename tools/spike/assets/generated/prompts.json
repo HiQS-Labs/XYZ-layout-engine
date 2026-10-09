@@ -1,0 +1,16 @@
+{
+  "model": "gpt-image-2.5-flare",
+  "quality": "high",
+  "background": "transparent",
+  "reference": "PROJECT/2-WORKING/layout-engine-reference.png (style reference only, passed via --reference; never rendered as a layer)",
+  "suffix": "Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+  "items": [
+    { "id": "leaf_glow", "size": "1024x1536", "prompt": "Recreate only the large central glowing green leaf from the reference image, upright, with its soft yellow-green radiant glow, light veins and a few faint sparkles." },
+    { "id": "balance_scale", "size": "1536x1024", "prompt": "Recreate only the dark green balance scale from the upper-left of the reference image: the left pan holds spinach leaves, half an avocado, almonds and blueberries; the right pan holds a bowl of chickpeas, a salmon fillet and nuts." },
+    { "id": "skip_spike", "size": "1024x1024", "prompt": "Recreate only the upper-right group from the reference image: a red soda cup with a straw, a bag of chips and a chocolate donut with sprinkles, behind a large faded pale-red circle-and-slash prohibition symbol." },
+    { "id": "parfait_jar", "size": "1024x1536", "prompt": "Recreate only the glass mason jar of layered yogurt parfait from the lower-left of the reference image, with oats, strawberries and blueberries, silver lid." },
+    { "id": "snack_container", "size": "1024x1024", "prompt": "Recreate only the clear plastic food container of green grapes and mixed nuts from the bottom row of the reference image, lid off, three-quarter view." },
+    { "id": "chicken_wrap", "size": "1536x1024", "prompt": "Recreate only the halved chicken wrap from the bottom row of the reference image, showing grilled chicken, lettuce and tomatoes inside a toasted tortilla." },
+    { "id": "water_bottle", "size": "1024x1536", "prompt": "Recreate only the sage-green insulated steel water bottle with a dark loop cap and a white water-drop emblem from the bottom row of the reference image, upright." }
+  ]
+}

@@ -34,10 +34,10 @@ async function phase1(fixture) {
   console.log('✔ Fixture structure is valid');
 
   const heroImg = await resolveIllustration(s.hero.illustrationId);
-  assert(heroImg.startsWith('data:image/svg+xml;base64,'), 'Hero image must be a standalone SVG data URL');
+  assert(/^data:image\/(svg\+xml|png);base64,/.test(heroImg), 'Hero image must be a standalone SVG or PNG data URL');
   for (const item of s.items) {
     const img = await resolveIllustration(item.illustrationId);
-    assert(img.startsWith('data:image/svg+xml;base64,'), `Item image ${item.id} must be a standalone SVG data URL`);
+    assert(/^data:image\/(svg\+xml|png);base64,/.test(img), `Item image ${item.id} must be a standalone SVG or PNG data URL`);
   }
   console.log('✔ Illustration resolution is valid');
 
@@ -50,11 +50,24 @@ async function phase1(fixture) {
   const sources = await fs.readFile(new URL('./assets/SOURCES.md', import.meta.url), 'utf-8');
   assert(sources.includes('Inter Regular'), 'Missing SOURCES.md attribution');
   assert(sources.includes(`Digest: ${fontHash}`), 'Missing or incorrect provenance digest in SOURCES.md');
+  const boldHash = sha256(await fs.readFile(new URL('./assets/font-bold.ttf', import.meta.url)));
+  assert.strictEqual(boldHash, '0cb1bc1335372d9e3a0cf6f5311c7cce87af90d2a777fdeec18be605a2a70bc1', 'Bold font SHA-256 digest mismatch');
+  assert(sources.includes(`Digest: ${boldHash}`), 'Missing or incorrect bold font provenance digest in SOURCES.md');
+  // Generated illustrations: each committed web copy must be listed in SOURCES.md with its digest and
+  // must carry a provider result proving it was generated transparent.
+  const prompts = JSON.parse(await fs.readFile(new URL('./assets/generated/prompts.json', import.meta.url), 'utf-8'));
+  for (const it of prompts.items) {
+    const web = await fs.readFile(new URL(`./assets/generated/web/${it.id}.png`, import.meta.url));
+    assert(sources.includes(sha256(web)), `generated/web/${it.id}.png digest not recorded in SOURCES.md`);
+    const r = JSON.parse(await fs.readFile(new URL(`./assets/generated/${it.id}.result.json`, import.meta.url), 'utf-8'));
+    assert(r.alpha && r.alpha.hasAlphaChannel === true && r.alpha.transparentPixelRatio > 0, `generated ${it.id} lacks verified transparency`);
+    assert(web.readUInt8(25) === 6, `generated/web/${it.id}.png is not RGBA`);
+  }
   console.log('✔ Fonts and licenses are valid');
 
   const scene = await createScene(fixture);
   assert(scene.type === 'div', 'Scene root must be a div');
-  assert(scene.props.children.length === 5, 'Scene must contain 5 main sections');
+  assert.deepStrictEqual(scene.props.children.filter(Boolean).map(c => c.props.id), ['header', 'hero', 'lower', 'footer'], 'Scene must contain header, hero, lower (items + benefits) and footer');
   console.log('✔ Scene generation is successful');
 }
 

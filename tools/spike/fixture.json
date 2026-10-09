@@ -3,40 +3,47 @@
   "width": 1000,
   "height": 1000,
   "theme": {
-    "background": "#F0Fdf4",
+    "background": "#fbfaf3",
     "palette": {
-      "primary": "#166534",
-      "secondary": "#22c55e",
-      "text": "#052e16",
-      "background": "#f0fdf4"
+      "primary": "#2f5d27",
+      "secondary": "#7fb04a",
+      "text": "#1f2a1c",
+      "muted": "#3d4639",
+      "panelBorder": "#b9d79b",
+      "panelFill": "#f4f8ea",
+      "background": "#fbfaf3"
     }
   },
   "sections": {
     "header": {
-      "headline": "Fuel your day with balanced nutrition",
-      "subtitle": "Discover the essential building blocks for lasting energy"
+      "headline": "FUEL WELL. LIVE WELL.",
+      "subtitle": "Optimized Nutrition. Sustained Energy.",
+      "ornamentId": "leaf_small"
     },
     "hero": {
-      "illustrationId": "leaf_and_glow",
+      "illustrationId": "leaf_glow",
       "callouts": [
-        { "id": "callout_1", "text": "100% Organic" },
-        { "id": "callout_2", "text": "Sustainably Sourced" }
+        { "id": "callout_1", "illustrationId": "balance_scale", "title": "BALANCED NUTRITION", "text": "The right fuel for your body and mind." },
+        { "id": "callout_2", "illustrationId": "skip_spike", "title": "SKIP THE SPIKE", "text": "Avoid sugary drinks and processed snacks." }
       ]
     },
     "items": [
-      { "id": "item_1", "illustrationId": "apple", "caption": "Fresh Fruits" },
-      { "id": "item_2", "illustrationId": "water_drop", "caption": "Hydration" },
-      { "id": "item_3", "illustrationId": "leaf", "caption": "Leafy Greens" },
-      { "id": "item_4", "illustrationId": "grain", "caption": "Whole Grains" }
+      { "id": "item_1", "illustrationId": "parfait_jar", "title": "NUTRITIOUS", "caption": "Real, whole foods that nourish." },
+      { "id": "item_2", "illustrationId": "snack_container", "title": "PORTABLE", "caption": "Easy to take wherever you go." },
+      { "id": "item_3", "illustrationId": "chicken_wrap", "title": "CONVENIENT", "caption": "Simple choices for your busy day." },
+      { "id": "item_4", "illustrationId": "water_bottle", "title": "HYDRATED", "caption": "Water fuels your cells and keeps you going." }
     ],
     "benefitsPanel": [
-      { "id": "benefit_1", "text": "More energy" },
-      { "id": "benefit_2", "text": "Better focus" },
-      { "id": "benefit_3", "text": "Stronger immunity" },
-      { "id": "benefit_4", "text": "Improved recovery" }
+      { "id": "benefit_1", "iconId": "icon_energy", "text": "SUSTAINED ENERGY" },
+      { "id": "benefit_2", "iconId": "icon_focus", "text": "SHARP FOCUS" },
+      { "id": "benefit_3", "iconId": "icon_immunity", "text": "STRONG IMMUNITY" },
+      { "id": "benefit_4", "iconId": "icon_wellbeing", "text": "BETTER WELL-BEING" }
     ],
     "footer": {
-      "bannerText": "Visit our store for the freshest ingredients."
+      "bannerText": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
+      "tagline": "Small choices. Big impact.",
+      "ornamentId": "leaf_small",
+      "endIconId": "heart"
     }
   }
 }

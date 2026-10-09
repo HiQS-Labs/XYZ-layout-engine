@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T00:16:57.399Z",
+  "generatedAt": "2026-10-09T03:35:09.431Z",
   "fixture": {
     "id": "nutrition-infographic",
     "width": 1000,
@@ -33,7 +33,7 @@
           "width": 1000,
           "height": 1000
         },
-        "sha256": "2c5c8104521037accc866dfa69d7f22644e0de640fb7abcfdf2654ba7104e147",
+        "sha256": "f4451bfa94dc2657ee68fd061eaacd37c61a17e79a01c8814460c055cde6ba1a",
         "bounds": {
           "canvas": {
             "x": 0,
@@ -42,159 +42,309 @@
             "height": 1000
           },
           "header": {
-            "x": 40,
-            "y": 40,
-            "width": 920,
-            "height": 87
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 98
+          },
+          "header_row": {
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 63
           },
           "header_headline": {
-            "x": 82,
-            "y": 40,
-            "width": 837,
-            "height": 58
+            "x": 202,
+            "y": 28,
+            "width": 597,
+            "height": 63
           },
           "header_subtitle": {
-            "x": 184,
-            "y": 98,
-            "width": 633,
+            "x": 281,
+            "y": 97,
+            "width": 438,
             "height": 29
           },
           "hero": {
-            "x": 40,
-            "y": 147,
-            "width": 920,
-            "height": 515
+            "x": 30,
+            "y": 138,
+            "width": 940,
+            "height": 518
           },
           "callout_1": {
-            "x": 146,
-            "y": 167,
-            "width": 153,
-            "height": 44
+            "x": 30,
+            "y": 253,
+            "width": 300,
+            "height": 289
+          },
+          "callout_1_img": {
+            "x": 40,
+            "y": 253,
+            "width": 280,
+            "height": 210
+          },
+          "callout_1_title": {
+            "x": 78,
+            "y": 471,
+            "width": 205,
+            "height": 23
+          },
+          "callout_1_text": {
+            "x": 65,
+            "y": 502,
+            "width": 230,
+            "height": 40
           },
           "hero_img": {
-            "x": 319,
-            "y": 255,
-            "width": 300,
-            "height": 300
+            "x": 340,
+            "y": 138,
+            "width": 320,
+            "height": 518
           },
           "callout_2": {
-            "x": 639,
-            "y": 167,
-            "width": 215,
-            "height": 44
+            "x": 670,
+            "y": 253,
+            "width": 300,
+            "height": 289
+          },
+          "callout_2_img": {
+            "x": 680,
+            "y": 253,
+            "width": 280,
+            "height": 210
+          },
+          "callout_2_title": {
+            "x": 751,
+            "y": 471,
+            "width": 139,
+            "height": 23
+          },
+          "callout_2_text": {
+            "x": 705,
+            "y": 502,
+            "width": 230,
+            "height": 40
+          },
+          "lower": {
+            "x": 30,
+            "y": 668,
+            "width": 940,
+            "height": 244
           },
           "items": {
-            "x": 40,
-            "y": 682,
-            "width": 920,
-            "height": 112
+            "x": 30,
+            "y": 675,
+            "width": 700,
+            "height": 237
           },
           "item_1": {
-            "x": 40,
-            "y": 682,
-            "width": 210,
-            "height": 112
+            "x": 30,
+            "y": 675,
+            "width": 167,
+            "height": 237
+          },
+          "item_1_img": {
+            "x": 34,
+            "y": 675,
+            "width": 160,
+            "height": 170
+          },
+          "item_1_title": {
+            "x": 61,
+            "y": 850,
+            "width": 106,
+            "height": 21
           },
           "item_1_caption": {
-            "x": 95,
-            "y": 772,
-            "width": 100,
-            "height": 22
+            "x": 34,
+            "y": 876,
+            "width": 160,
+            "height": 36
           },
           "item_2": {
-            "x": 277,
-            "y": 682,
-            "width": 210,
-            "height": 112
+            "x": 207,
+            "y": 675,
+            "width": 167,
+            "height": 237
+          },
+          "item_2_img": {
+            "x": 211,
+            "y": 675,
+            "width": 160,
+            "height": 170
+          },
+          "item_2_title": {
+            "x": 246,
+            "y": 850,
+            "width": 89,
+            "height": 21
           },
           "item_2_caption": {
-            "x": 341,
-            "y": 772,
-            "width": 83,
-            "height": 22
+            "x": 211,
+            "y": 876,
+            "width": 160,
+            "height": 36
           },
           "item_3": {
-            "x": 513,
-            "y": 682,
-            "width": 210,
-            "height": 112
+            "x": 384,
+            "y": 675,
+            "width": 167,
+            "height": 237
+          },
+          "item_3_img": {
+            "x": 388,
+            "y": 675,
+            "width": 160,
+            "height": 170
+          },
+          "item_3_title": {
+            "x": 410,
+            "y": 850,
+            "width": 115,
+            "height": 21
           },
           "item_3_caption": {
-            "x": 561,
-            "y": 772,
-            "width": 114,
-            "height": 22
+            "x": 388,
+            "y": 876,
+            "width": 160,
+            "height": 36
           },
           "item_4": {
-            "x": 750,
-            "y": 682,
-            "width": 210,
-            "height": 112
+            "x": 561,
+            "y": 675,
+            "width": 167,
+            "height": 237
+          },
+          "item_4_img": {
+            "x": 565,
+            "y": 675,
+            "width": 160,
+            "height": 170
+          },
+          "item_4_title": {
+            "x": 598,
+            "y": 850,
+            "width": 94,
+            "height": 21
           },
           "item_4_caption": {
-            "x": 798,
-            "y": 772,
-            "width": 114,
-            "height": 22
+            "x": 565,
+            "y": 876,
+            "width": 160,
+            "height": 36
           },
           "benefitsPanel": {
-            "x": 40,
-            "y": 814,
-            "width": 920,
-            "height": 62
+            "x": 750,
+            "y": 668,
+            "width": 220,
+            "height": 244
+          },
+          "benefit_1_row": {
+            "x": 768,
+            "y": 684,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_1_icon": {
+            "x": 768,
+            "y": 684,
+            "width": 44,
+            "height": 44
           },
           "benefit_1": {
-            "x": 104,
-            "y": 834,
-            "width": 109,
-            "height": 22
+            "x": 824,
+            "y": 690,
+            "width": 120,
+            "height": 32
+          },
+          "benefit_2_row": {
+            "x": 768,
+            "y": 740,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_2_icon": {
+            "x": 768,
+            "y": 740,
+            "width": 44,
+            "height": 44
           },
           "benefit_2": {
-            "x": 300,
-            "y": 834,
-            "width": 104,
-            "height": 22
+            "x": 824,
+            "y": 754,
+            "width": 94,
+            "height": 16
+          },
+          "benefit_3_row": {
+            "x": 768,
+            "y": 796,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_3_icon": {
+            "x": 768,
+            "y": 796,
+            "width": 44,
+            "height": 44
           },
           "benefit_3": {
-            "x": 491,
-            "y": 834,
-            "width": 157,
-            "height": 22
+            "x": 824,
+            "y": 802,
+            "width": 120,
+            "height": 32
+          },
+          "benefit_4_row": {
+            "x": 768,
+            "y": 852,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_4_icon": {
+            "x": 768,
+            "y": 852,
+            "width": 44,
+            "height": 44
           },
           "benefit_4": {
-            "x": 735,
-            "y": 834,
-            "width": 161,
-            "height": 22
+            "x": 824,
+            "y": 858,
+            "width": 120,
+            "height": 32
           },
           "footer": {
-            "x": 40,
-            "y": 896,
-            "width": 920,
-            "height": 64
+            "x": 60,
+            "y": 924,
+            "width": 880,
+            "height": 52
           },
           "footer_text": {
-            "x": 301,
-            "y": 916,
-            "width": 399,
+            "x": 187,
+            "y": 938,
+            "width": 413,
             "height": 24
+          },
+          "footer_tagline": {
+            "x": 634,
+            "y": 941,
+            "width": 186,
+            "height": 18
           }
         },
         "text": {
           "header_headline": {
             "present": true,
-            "text": "Fuel your day with balanced nutrition",
+            "text": "FUEL WELL. LIVE WELL.",
             "box": {
-              "x": 82,
-              "y": 40,
-              "width": 837,
-              "height": 58
+              "x": 202,
+              "y": 28,
+              "width": 597,
+              "height": 63
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 87
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 63
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -202,18 +352,18 @@
           },
           "header_subtitle": {
             "present": true,
-            "text": "Discover the essential building blocks for lasting energy",
+            "text": "Optimized Nutrition. Sustained Energy.",
             "box": {
-              "x": 184,
-              "y": 98,
-              "width": 633,
+              "x": 281,
+              "y": 97,
+              "width": 438,
               "height": 29
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 87
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 98
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -222,39 +372,96 @@
           "header_caption": {
             "present": false
           },
-          "callout_1": {
+          "callout_1_title": {
             "present": true,
-            "text": "100% Organic",
+            "text": "BALANCED NUTRITION",
             "box": {
-              "x": 146,
-              "y": 167,
-              "width": 153,
-              "height": 44
+              "x": 78,
+              "y": 471,
+              "width": 205,
+              "height": 23
             },
             "region": {
-              "x": 40,
-              "y": 147,
-              "width": 920,
-              "height": 515
+              "x": 30,
+              "y": 253,
+              "width": 300,
+              "height": 289
             },
             "insideRegion": true,
             "insideCanvas": true,
             "overflow": false
           },
-          "callout_2": {
+          "callout_1_text": {
             "present": true,
-            "text": "Sustainably Sourced",
+            "text": "The right fuel for your body and mind.",
             "box": {
-              "x": 639,
-              "y": 167,
-              "width": 215,
-              "height": 44
+              "x": 65,
+              "y": 502,
+              "width": 230,
+              "height": 40
             },
             "region": {
-              "x": 40,
-              "y": 147,
-              "width": 920,
-              "height": 515
+              "x": 30,
+              "y": 253,
+              "width": 300,
+              "height": 289
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "callout_2_title": {
+            "present": true,
+            "text": "SKIP THE SPIKE",
+            "box": {
+              "x": 751,
+              "y": 471,
+              "width": 139,
+              "height": 23
+            },
+            "region": {
+              "x": 670,
+              "y": 253,
+              "width": 300,
+              "height": 289
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "callout_2_text": {
+            "present": true,
+            "text": "Avoid sugary drinks and processed snacks.",
+            "box": {
+              "x": 705,
+              "y": 502,
+              "width": 230,
+              "height": 40
+            },
+            "region": {
+              "x": 670,
+              "y": 253,
+              "width": 300,
+              "height": 289
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_1_title": {
+            "present": true,
+            "text": "NUTRITIOUS",
+            "box": {
+              "x": 61,
+              "y": 850,
+              "width": 106,
+              "height": 21
+            },
+            "region": {
+              "x": 30,
+              "y": 675,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -262,18 +469,37 @@
           },
           "item_1_caption": {
             "present": true,
-            "text": "Fresh Fruits",
+            "text": "Real, whole foods that nourish.",
             "box": {
-              "x": 95,
-              "y": 772,
-              "width": 100,
-              "height": 22
+              "x": 34,
+              "y": 876,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 40,
-              "y": 682,
-              "width": 210,
-              "height": 112
+              "x": 30,
+              "y": 675,
+              "width": 167,
+              "height": 237
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_2_title": {
+            "present": true,
+            "text": "PORTABLE",
+            "box": {
+              "x": 246,
+              "y": 850,
+              "width": 89,
+              "height": 21
+            },
+            "region": {
+              "x": 207,
+              "y": 675,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -281,18 +507,37 @@
           },
           "item_2_caption": {
             "present": true,
-            "text": "Hydration",
+            "text": "Easy to take wherever you go.",
             "box": {
-              "x": 341,
-              "y": 772,
-              "width": 83,
-              "height": 22
+              "x": 211,
+              "y": 876,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 277,
-              "y": 682,
-              "width": 210,
-              "height": 112
+              "x": 207,
+              "y": 675,
+              "width": 167,
+              "height": 237
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_3_title": {
+            "present": true,
+            "text": "CONVENIENT",
+            "box": {
+              "x": 410,
+              "y": 850,
+              "width": 115,
+              "height": 21
+            },
+            "region": {
+              "x": 384,
+              "y": 675,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -300,18 +545,37 @@
           },
           "item_3_caption": {
             "present": true,
-            "text": "Leafy Greens",
+            "text": "Simple choices for your busy day.",
             "box": {
-              "x": 561,
-              "y": 772,
-              "width": 114,
-              "height": 22
+              "x": 388,
+              "y": 876,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 513,
-              "y": 682,
-              "width": 210,
-              "height": 112
+              "x": 384,
+              "y": 675,
+              "width": 167,
+              "height": 237
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_4_title": {
+            "present": true,
+            "text": "HYDRATED",
+            "box": {
+              "x": 598,
+              "y": 850,
+              "width": 94,
+              "height": 21
+            },
+            "region": {
+              "x": 561,
+              "y": 675,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -319,18 +583,18 @@
           },
           "item_4_caption": {
             "present": true,
-            "text": "Whole Grains",
+            "text": "Water fuels your cells and keeps you going.",
             "box": {
-              "x": 798,
-              "y": 772,
-              "width": 114,
-              "height": 22
+              "x": 565,
+              "y": 876,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 750,
-              "y": 682,
-              "width": 210,
-              "height": 112
+              "x": 561,
+              "y": 675,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -338,18 +602,18 @@
           },
           "benefit_1": {
             "present": true,
-            "text": "More energy",
+            "text": "SUSTAINED ENERGY",
             "box": {
-              "x": 104,
-              "y": 834,
-              "width": 109,
-              "height": 22
+              "x": 824,
+              "y": 690,
+              "width": 120,
+              "height": 32
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 684,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -357,18 +621,18 @@
           },
           "benefit_2": {
             "present": true,
-            "text": "Better focus",
+            "text": "SHARP FOCUS",
             "box": {
-              "x": 300,
-              "y": 834,
-              "width": 104,
-              "height": 22
+              "x": 824,
+              "y": 754,
+              "width": 94,
+              "height": 16
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 740,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -376,18 +640,18 @@
           },
           "benefit_3": {
             "present": true,
-            "text": "Stronger immunity",
+            "text": "STRONG IMMUNITY",
             "box": {
-              "x": 491,
-              "y": 834,
-              "width": 157,
-              "height": 22
+              "x": 824,
+              "y": 802,
+              "width": 120,
+              "height": 32
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 796,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -395,18 +659,18 @@
           },
           "benefit_4": {
             "present": true,
-            "text": "Improved recovery",
+            "text": "BETTER WELL-BEING",
             "box": {
-              "x": 735,
-              "y": 834,
-              "width": 161,
-              "height": 22
+              "x": 824,
+              "y": 858,
+              "width": 120,
+              "height": 32
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 852,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -414,18 +678,37 @@
           },
           "footer_text": {
             "present": true,
-            "text": "Visit our store for the freshest ingredients.",
+            "text": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
             "box": {
-              "x": 301,
-              "y": 916,
-              "width": 399,
+              "x": 187,
+              "y": 938,
+              "width": 413,
               "height": 24
             },
             "region": {
-              "x": 40,
-              "y": 896,
-              "width": 920,
-              "height": 64
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "footer_tagline": {
+            "present": true,
+            "text": "Small choices. Big impact.",
+            "box": {
+              "x": 634,
+              "y": 941,
+              "width": 186,
+              "height": 18
+            },
+            "region": {
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -453,7 +736,7 @@
           "width": 1000,
           "height": 1000
         },
-        "sha256": "763fc3c7b4f5830afe7c2c41aacca25c8f307d36ee10a4b314e4c249e0f31b44",
+        "sha256": "4d7050949c22ddf7a831712d5c25828f25f62eb9560bc5e601b62d7f86f2abf2",
         "bounds": {
           "canvas": {
             "x": 0,
@@ -462,193 +745,343 @@
             "height": 1000
           },
           "header": {
-            "x": 40,
-            "y": 40,
-            "width": 920,
-            "height": 88
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 97.5
+          },
+          "header_row": {
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 62.5
           },
           "header_headline": {
-            "x": 81.5,
-            "y": 40,
-            "width": 837,
-            "height": 59
+            "x": 199.7,
+            "y": 28,
+            "width": 600.58,
+            "height": 62.5
           },
           "header_subtitle": {
-            "x": 183.64,
-            "y": 99,
-            "width": 632.72,
+            "x": 281.2,
+            "y": 96.5,
+            "width": 437.58,
             "height": 29
           },
           "hero": {
-            "x": 40,
-            "y": 148,
-            "width": 920,
-            "height": 516
+            "x": 30,
+            "y": 137.5,
+            "width": 940,
+            "height": 518.5
           },
           "callout_1": {
-            "x": 146.53,
-            "y": 168,
-            "width": 152.72,
-            "height": 44
+            "x": 30,
+            "y": 253,
+            "width": 300,
+            "height": 287.5
+          },
+          "callout_1_img": {
+            "x": 40,
+            "y": 253,
+            "width": 280,
+            "height": 210
+          },
+          "callout_1_title": {
+            "x": 77.67,
+            "y": 471,
+            "width": 204.64,
+            "height": 22.5
+          },
+          "callout_1_text": {
+            "x": 65,
+            "y": 501.5,
+            "width": 230,
+            "height": 39
           },
           "hero_img": {
-            "x": 319.25,
-            "y": 256,
-            "width": 300,
-            "height": 300
+            "x": 340,
+            "y": 137.5,
+            "width": 320,
+            "height": 518.5
           },
           "callout_2": {
-            "x": 639.25,
-            "y": 168,
-            "width": 214.22,
-            "height": 44
+            "x": 670,
+            "y": 253,
+            "width": 300,
+            "height": 287.5
+          },
+          "callout_2_img": {
+            "x": 680,
+            "y": 253,
+            "width": 280,
+            "height": 210
+          },
+          "callout_2_title": {
+            "x": 750.61,
+            "y": 471,
+            "width": 138.77,
+            "height": 22.5
+          },
+          "callout_2_text": {
+            "x": 705,
+            "y": 501.5,
+            "width": 230,
+            "height": 39
+          },
+          "lower": {
+            "x": 30,
+            "y": 668,
+            "width": 940,
+            "height": 244
           },
           "items": {
-            "x": 40,
-            "y": 684,
-            "width": 920,
-            "height": 111
+            "x": 30,
+            "y": 674.38,
+            "width": 700,
+            "height": 237.63
           },
           "item_1": {
-            "x": 40,
-            "y": 684,
-            "width": 210,
-            "height": 111
+            "x": 30,
+            "y": 674.38,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_1_img": {
+            "x": 33.5,
+            "y": 674.38,
+            "width": 160,
+            "height": 170
+          },
+          "item_1_title": {
+            "x": 60.75,
+            "y": 849.38,
+            "width": 105.48,
+            "height": 21.25
           },
           "item_1_caption": {
-            "x": 95.31,
-            "y": 774,
-            "width": 99.38,
-            "height": 21
+            "x": 33.5,
+            "y": 875.63,
+            "width": 160,
+            "height": 36.38
           },
           "item_2": {
-            "x": 276.67,
-            "y": 684,
-            "width": 210,
-            "height": 111
+            "x": 207,
+            "y": 674.38,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_2_img": {
+            "x": 210.5,
+            "y": 674.38,
+            "width": 160,
+            "height": 170
+          },
+          "item_2_title": {
+            "x": 246,
+            "y": 849.38,
+            "width": 89,
+            "height": 21.25
           },
           "item_2_caption": {
-            "x": 340.27,
-            "y": 774,
-            "width": 82.81,
-            "height": 21
+            "x": 210.5,
+            "y": 875.63,
+            "width": 160,
+            "height": 36.38
           },
           "item_3": {
-            "x": 513.33,
-            "y": 684,
-            "width": 210,
-            "height": 111
+            "x": 384,
+            "y": 674.38,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_3_img": {
+            "x": 387.5,
+            "y": 674.38,
+            "width": 160,
+            "height": 170
+          },
+          "item_3_title": {
+            "x": 410.48,
+            "y": 849.38,
+            "width": 114.02,
+            "height": 21.25
           },
           "item_3_caption": {
-            "x": 561.41,
-            "y": 774,
-            "width": 113.83,
-            "height": 21
+            "x": 387.5,
+            "y": 875.63,
+            "width": 160,
+            "height": 36.38
           },
           "item_4": {
-            "x": 750,
-            "y": 684,
-            "width": 210,
-            "height": 111
+            "x": 561,
+            "y": 674.38,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_4_img": {
+            "x": 564.5,
+            "y": 674.38,
+            "width": 160,
+            "height": 170
+          },
+          "item_4_title": {
+            "x": 597.64,
+            "y": 849.38,
+            "width": 93.7,
+            "height": 21.25
           },
           "item_4_caption": {
-            "x": 798.05,
-            "y": 774,
-            "width": 113.91,
-            "height": 21
+            "x": 564.5,
+            "y": 875.63,
+            "width": 160,
+            "height": 36.38
           },
           "benefitsPanel": {
-            "x": 40,
-            "y": 815,
-            "width": 920,
-            "height": 61
+            "x": 750,
+            "y": 668,
+            "width": 220,
+            "height": 244
+          },
+          "benefit_1_row": {
+            "x": 768,
+            "y": 684,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_1_icon": {
+            "x": 768,
+            "y": 684,
+            "width": 44,
+            "height": 44
           },
           "benefit_1": {
-            "x": 103.98,
-            "y": 835,
-            "width": 108.34,
-            "height": 21
+            "x": 824,
+            "y": 690.41,
+            "width": 120,
+            "height": 31.19
+          },
+          "benefit_2_row": {
+            "x": 768,
+            "y": 740,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_2_icon": {
+            "x": 768,
+            "y": 740,
+            "width": 44,
+            "height": 44
           },
           "benefit_2": {
-            "x": 300.31,
-            "y": 835,
-            "width": 103.13,
-            "height": 21
+            "x": 824,
+            "y": 754.2,
+            "width": 93.27,
+            "height": 15.59
+          },
+          "benefit_3_row": {
+            "x": 768,
+            "y": 796,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_3_icon": {
+            "x": 768,
+            "y": 796,
+            "width": 44,
+            "height": 44
           },
           "benefit_3": {
-            "x": 491.41,
-            "y": 835,
-            "width": 156.61,
-            "height": 21
+            "x": 824,
+            "y": 802.41,
+            "width": 120,
+            "height": 31.19
+          },
+          "benefit_4_row": {
+            "x": 768,
+            "y": 852,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_4_icon": {
+            "x": 768,
+            "y": 852,
+            "width": 44,
+            "height": 44
           },
           "benefit_4": {
-            "x": 736,
-            "y": 835,
-            "width": 160.02,
-            "height": 21
+            "x": 824,
+            "y": 858.41,
+            "width": 120,
+            "height": 31.19
           },
           "footer": {
-            "x": 40,
-            "y": 896,
-            "width": 920,
-            "height": 64
+            "x": 60,
+            "y": 924,
+            "width": 880,
+            "height": 52
           },
           "footer_text": {
-            "x": 300.88,
-            "y": 916,
-            "width": 398.23,
+            "x": 185.23,
+            "y": 938,
+            "width": 415.81,
             "height": 24
+          },
+          "footer_tagline": {
+            "x": 635.05,
+            "y": 940.5,
+            "width": 185.7,
+            "height": 19
           }
         },
         "text": {
           "header_headline": {
             "present": true,
-            "text": "Fuel your day with balanced nutrition",
+            "text": "FUEL WELL. LIVE WELL.",
             "box": {
-              "x": 81.5,
-              "y": 40,
-              "width": 837,
-              "height": 59
+              "x": 199.7,
+              "y": 29,
+              "width": 600.58,
+              "height": 60
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 88
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 62.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 837,
-              "clientWidth": 837,
-              "scrollHeight": 59,
-              "clientHeight": 59
+              "scrollWidth": 601,
+              "clientWidth": 601,
+              "scrollHeight": 63,
+              "clientHeight": 63
             },
             "lineCount": 1,
             "overflow": false
           },
           "header_subtitle": {
             "present": true,
-            "text": "Discover the essential building blocks for lasting energy",
+            "text": "Optimized Nutrition. Sustained Energy.",
             "box": {
-              "x": 183.64,
-              "y": 99,
-              "width": 632.72,
+              "x": 281.2,
+              "y": 96.5,
+              "width": 437.58,
               "height": 29
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 88
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 97.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 633,
-              "clientWidth": 633,
+              "scrollWidth": 438,
+              "clientWidth": 438,
               "scrollHeight": 29,
               "clientHeight": 29
             },
@@ -658,81 +1091,189 @@
           "header_caption": {
             "present": false
           },
-          "callout_1": {
+          "callout_1_title": {
             "present": true,
-            "text": "100% Organic",
+            "text": "BALANCED NUTRITION",
             "box": {
-              "x": 156.53,
-              "y": 178,
-              "width": 132.72,
-              "height": 24
+              "x": 77.67,
+              "y": 471,
+              "width": 204.64,
+              "height": 21
             },
             "region": {
-              "x": 40,
-              "y": 148,
-              "width": 920,
-              "height": 516
+              "x": 30,
+              "y": 253,
+              "width": 300,
+              "height": 287.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 153,
-              "clientWidth": 153,
-              "scrollHeight": 44,
-              "clientHeight": 44
+              "scrollWidth": 205,
+              "clientWidth": 205,
+              "scrollHeight": 23,
+              "clientHeight": 23
             },
             "lineCount": 1,
             "overflow": false
           },
-          "callout_2": {
+          "callout_1_text": {
             "present": true,
-            "text": "Sustainably Sourced",
+            "text": "The right fuel for your body and mind.",
             "box": {
-              "x": 649.25,
-              "y": 178,
-              "width": 194.22,
-              "height": 24
+              "x": 67.17,
+              "y": 501.5,
+              "width": 225.64,
+              "height": 38.5
             },
             "region": {
-              "x": 40,
-              "y": 148,
-              "width": 920,
-              "height": 516
+              "x": 30,
+              "y": 253,
+              "width": 300,
+              "height": 287.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 214,
-              "clientWidth": 214,
-              "scrollHeight": 44,
-              "clientHeight": 44
+              "scrollWidth": 230,
+              "clientWidth": 230,
+              "scrollHeight": 39,
+              "clientHeight": 39
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "callout_2_title": {
+            "present": true,
+            "text": "SKIP THE SPIKE",
+            "box": {
+              "x": 750.61,
+              "y": 471,
+              "width": 138.77,
+              "height": 21
+            },
+            "region": {
+              "x": 670,
+              "y": 253,
+              "width": 300,
+              "height": 287.5
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 139,
+              "clientWidth": 139,
+              "scrollHeight": 23,
+              "clientHeight": 23
+            },
+            "lineCount": 1,
+            "overflow": false
+          },
+          "callout_2_text": {
+            "present": true,
+            "text": "Avoid sugary drinks and processed snacks.",
+            "box": {
+              "x": 734.58,
+              "y": 501.5,
+              "width": 170.84,
+              "height": 38.5
+            },
+            "region": {
+              "x": 670,
+              "y": 253,
+              "width": 300,
+              "height": 287.5
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 230,
+              "clientWidth": 230,
+              "scrollHeight": 39,
+              "clientHeight": 39
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_1_title": {
+            "present": true,
+            "text": "NUTRITIOUS",
+            "box": {
+              "x": 60.75,
+              "y": 849.38,
+              "width": 105.48,
+              "height": 20
+            },
+            "region": {
+              "x": 30,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 105,
+              "clientWidth": 105,
+              "scrollHeight": 21,
+              "clientHeight": 21
             },
             "lineCount": 1,
             "overflow": false
           },
           "item_1_caption": {
             "present": true,
-            "text": "Fresh Fruits",
+            "text": "Real, whole foods that nourish.",
             "box": {
-              "x": 95.31,
-              "y": 774,
-              "width": 99.38,
-              "height": 21
+              "x": 40.14,
+              "y": 875.63,
+              "width": 146.72,
+              "height": 35.19
             },
             "region": {
-              "x": 40,
-              "y": 684,
-              "width": 210,
-              "height": 111
+              "x": 30,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 99,
-              "clientWidth": 99,
+              "scrollWidth": 160,
+              "clientWidth": 160,
+              "scrollHeight": 36,
+              "clientHeight": 36
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_2_title": {
+            "present": true,
+            "text": "PORTABLE",
+            "box": {
+              "x": 246,
+              "y": 849.38,
+              "width": 89,
+              "height": 20
+            },
+            "region": {
+              "x": 207,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 89,
+              "clientWidth": 89,
               "scrollHeight": 21,
               "clientHeight": 21
             },
@@ -741,25 +1282,52 @@
           },
           "item_2_caption": {
             "present": true,
-            "text": "Hydration",
+            "text": "Easy to take wherever you go.",
             "box": {
-              "x": 340.27,
-              "y": 774,
-              "width": 82.81,
-              "height": 21
+              "x": 217.45,
+              "y": 875.63,
+              "width": 146.08,
+              "height": 35.19
             },
             "region": {
-              "x": 276.67,
-              "y": 684,
-              "width": 210,
-              "height": 111
+              "x": 207,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 83,
-              "clientWidth": 83,
+              "scrollWidth": 160,
+              "clientWidth": 160,
+              "scrollHeight": 36,
+              "clientHeight": 36
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_3_title": {
+            "present": true,
+            "text": "CONVENIENT",
+            "box": {
+              "x": 410.48,
+              "y": 849.38,
+              "width": 114.02,
+              "height": 20
+            },
+            "region": {
+              "x": 384,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 114,
+              "clientWidth": 114,
               "scrollHeight": 21,
               "clientHeight": 21
             },
@@ -768,25 +1336,52 @@
           },
           "item_3_caption": {
             "present": true,
-            "text": "Leafy Greens",
+            "text": "Simple choices for your busy day.",
             "box": {
-              "x": 561.41,
-              "y": 774,
-              "width": 113.83,
-              "height": 21
+              "x": 389.41,
+              "y": 875.63,
+              "width": 156.17,
+              "height": 35.19
             },
             "region": {
-              "x": 513.33,
-              "y": 684,
-              "width": 210,
-              "height": 111
+              "x": 384,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 114,
-              "clientWidth": 114,
+              "scrollWidth": 160,
+              "clientWidth": 160,
+              "scrollHeight": 36,
+              "clientHeight": 36
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_4_title": {
+            "present": true,
+            "text": "HYDRATED",
+            "box": {
+              "x": 597.64,
+              "y": 849.38,
+              "width": 93.7,
+              "height": 20
+            },
+            "region": {
+              "x": 561,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 94,
+              "clientWidth": 94,
               "scrollHeight": 21,
               "clientHeight": 21
             },
@@ -795,126 +1390,18 @@
           },
           "item_4_caption": {
             "present": true,
-            "text": "Whole Grains",
+            "text": "Water fuels your cells and keeps you going.",
             "box": {
-              "x": 798.05,
-              "y": 774,
-              "width": 113.91,
-              "height": 21
+              "x": 573.05,
+              "y": 875.63,
+              "width": 142.91,
+              "height": 35.19
             },
             "region": {
-              "x": 750,
-              "y": 684,
-              "width": 210,
-              "height": 111
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 114,
-              "clientWidth": 114,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_1": {
-            "present": true,
-            "text": "More energy",
-            "box": {
-              "x": 103.98,
-              "y": 835,
-              "width": 108.34,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 108,
-              "clientWidth": 108,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_2": {
-            "present": true,
-            "text": "Better focus",
-            "box": {
-              "x": 300.31,
-              "y": 835,
-              "width": 103.13,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 103,
-              "clientWidth": 103,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_3": {
-            "present": true,
-            "text": "Stronger immunity",
-            "box": {
-              "x": 491.41,
-              "y": 835,
-              "width": 156.61,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 157,
-              "clientWidth": 157,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_4": {
-            "present": true,
-            "text": "Improved recovery",
-            "box": {
-              "x": 736,
-              "y": 835,
-              "width": 160.02,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
+              "x": 561,
+              "y": 674.38,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -922,35 +1409,170 @@
             "scrollMetrics": {
               "scrollWidth": 160,
               "clientWidth": 160,
-              "scrollHeight": 21,
-              "clientHeight": 21
+              "scrollHeight": 36,
+              "clientHeight": 36
             },
-            "lineCount": 1,
+            "lineCount": 2,
             "overflow": false
           },
-          "footer_text": {
+          "benefit_1": {
             "present": true,
-            "text": "Visit our store for the freshest ingredients.",
+            "text": "SUSTAINED ENERGY",
             "box": {
-              "x": 300.88,
-              "y": 916,
-              "width": 398.23,
-              "height": 24
+              "x": 824,
+              "y": 689.41,
+              "width": 74.63,
+              "height": 31.59
             },
             "region": {
-              "x": 40,
-              "y": 896,
-              "width": 920,
-              "height": 64
+              "x": 768,
+              "y": 684,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 398,
-              "clientWidth": 398,
+              "scrollWidth": 120,
+              "clientWidth": 120,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "benefit_2": {
+            "present": true,
+            "text": "SHARP FOCUS",
+            "box": {
+              "x": 824,
+              "y": 753.2,
+              "width": 93.27,
+              "height": 16
+            },
+            "region": {
+              "x": 768,
+              "y": 740,
+              "width": 184,
+              "height": 44
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 93,
+              "clientWidth": 93,
+              "scrollHeight": 16,
+              "clientHeight": 16
+            },
+            "lineCount": 1,
+            "overflow": false
+          },
+          "benefit_3": {
+            "present": true,
+            "text": "STRONG IMMUNITY",
+            "box": {
+              "x": 824,
+              "y": 801.41,
+              "width": 69.25,
+              "height": 31.59
+            },
+            "region": {
+              "x": 768,
+              "y": 796,
+              "width": 184,
+              "height": 44
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 120,
+              "clientWidth": 120,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "benefit_4": {
+            "present": true,
+            "text": "BETTER WELL-BEING",
+            "box": {
+              "x": 824,
+              "y": 857.41,
+              "width": 94.67,
+              "height": 31.59
+            },
+            "region": {
+              "x": 768,
+              "y": 852,
+              "width": 184,
+              "height": 44
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 120,
+              "clientWidth": 120,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "footer_text": {
+            "present": true,
+            "text": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
+            "box": {
+              "x": 185.23,
+              "y": 938,
+              "width": 415.81,
+              "height": 24
+            },
+            "region": {
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 416,
+              "clientWidth": 416,
               "scrollHeight": 24,
               "clientHeight": 24
+            },
+            "lineCount": 1,
+            "overflow": false
+          },
+          "footer_tagline": {
+            "present": true,
+            "text": "Small choices. Big impact.",
+            "box": {
+              "x": 635.05,
+              "y": 940.5,
+              "width": 185.7,
+              "height": 19
+            },
+            "region": {
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 186,
+              "clientWidth": 186,
+              "scrollHeight": 19,
+              "clientHeight": 19
             },
             "lineCount": 1,
             "overflow": false
@@ -987,7 +1609,7 @@
           "width": 1000,
           "height": 1000
         },
-        "sha256": "2c96f1118b7e6e9ddf8000ef511caae40b099da32c28418384da11217dc4f134",
+        "sha256": "3a243668332fa12ce0bfc24c17c12435cde00d340d92c7f1606256a695c9ab97",
         "bounds": {
           "canvas": {
             "x": 0,
@@ -996,142 +1618,292 @@
             "height": 1000
           },
           "header": {
-            "x": 40,
-            "y": 40,
-            "width": 920,
-            "height": 145
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 224
+          },
+          "header_row": {
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 189
           },
           "header_headline": {
-            "x": 40,
-            "y": 40,
-            "width": 920,
-            "height": 116
+            "x": 110,
+            "y": 28,
+            "width": 780,
+            "height": 189
           },
           "header_subtitle": {
-            "x": 184,
-            "y": 156,
-            "width": 633,
+            "x": 281,
+            "y": 223,
+            "width": 438,
             "height": 29
           },
           "hero": {
-            "x": 40,
-            "y": 205,
-            "width": 920,
-            "height": 413
+            "x": 30,
+            "y": 264,
+            "width": 940,
+            "height": 363
           },
           "callout_1": {
-            "x": 146,
-            "y": 225,
-            "width": 153,
-            "height": 44
+            "x": 30,
+            "y": 301,
+            "width": 300,
+            "height": 289
+          },
+          "callout_1_img": {
+            "x": 40,
+            "y": 301,
+            "width": 280,
+            "height": 210
+          },
+          "callout_1_title": {
+            "x": 78,
+            "y": 519,
+            "width": 205,
+            "height": 23
+          },
+          "callout_1_text": {
+            "x": 65,
+            "y": 550,
+            "width": 230,
+            "height": 40
           },
           "hero_img": {
-            "x": 319,
-            "y": 262,
-            "width": 300,
-            "height": 300
+            "x": 340,
+            "y": 264,
+            "width": 320,
+            "height": 363
           },
           "callout_2": {
-            "x": 639,
-            "y": 225,
-            "width": 215,
-            "height": 44
+            "x": 670,
+            "y": 301,
+            "width": 300,
+            "height": 289
+          },
+          "callout_2_img": {
+            "x": 680,
+            "y": 301,
+            "width": 280,
+            "height": 210
+          },
+          "callout_2_title": {
+            "x": 751,
+            "y": 519,
+            "width": 139,
+            "height": 23
+          },
+          "callout_2_text": {
+            "x": 705,
+            "y": 550,
+            "width": 230,
+            "height": 40
+          },
+          "lower": {
+            "x": 30,
+            "y": 639,
+            "width": 940,
+            "height": 273
           },
           "items": {
-            "x": 40,
-            "y": 638,
-            "width": 920,
-            "height": 156
+            "x": 30,
+            "y": 639,
+            "width": 700,
+            "height": 273
           },
           "item_1": {
-            "x": 40,
-            "y": 638,
-            "width": 210,
-            "height": 156
+            "x": 30,
+            "y": 639,
+            "width": 167,
+            "height": 273
+          },
+          "item_1_img": {
+            "x": 34,
+            "y": 639,
+            "width": 160,
+            "height": 170
+          },
+          "item_1_title": {
+            "x": 61,
+            "y": 814,
+            "width": 106,
+            "height": 21
           },
           "item_1_caption": {
-            "x": 40,
-            "y": 728,
-            "width": 210,
-            "height": 66
+            "x": 34,
+            "y": 840,
+            "width": 160,
+            "height": 72
           },
           "item_2": {
-            "x": 277,
-            "y": 638,
-            "width": 210,
-            "height": 156
+            "x": 207,
+            "y": 639,
+            "width": 167,
+            "height": 237
+          },
+          "item_2_img": {
+            "x": 211,
+            "y": 639,
+            "width": 160,
+            "height": 170
+          },
+          "item_2_title": {
+            "x": 246,
+            "y": 814,
+            "width": 89,
+            "height": 21
           },
           "item_2_caption": {
-            "x": 341,
-            "y": 728,
-            "width": 83,
-            "height": 22
+            "x": 211,
+            "y": 840,
+            "width": 160,
+            "height": 36
           },
           "item_3": {
-            "x": 513,
-            "y": 638,
-            "width": 210,
-            "height": 156
+            "x": 384,
+            "y": 639,
+            "width": 167,
+            "height": 237
+          },
+          "item_3_img": {
+            "x": 388,
+            "y": 639,
+            "width": 160,
+            "height": 170
+          },
+          "item_3_title": {
+            "x": 410,
+            "y": 814,
+            "width": 115,
+            "height": 21
           },
           "item_3_caption": {
-            "x": 561,
-            "y": 728,
-            "width": 114,
-            "height": 22
+            "x": 388,
+            "y": 840,
+            "width": 160,
+            "height": 36
           },
           "item_4": {
-            "x": 750,
-            "y": 638,
-            "width": 210,
-            "height": 156
+            "x": 561,
+            "y": 639,
+            "width": 167,
+            "height": 237
+          },
+          "item_4_img": {
+            "x": 565,
+            "y": 639,
+            "width": 160,
+            "height": 170
+          },
+          "item_4_title": {
+            "x": 598,
+            "y": 814,
+            "width": 94,
+            "height": 21
           },
           "item_4_caption": {
-            "x": 798,
-            "y": 728,
-            "width": 114,
-            "height": 22
+            "x": 565,
+            "y": 840,
+            "width": 160,
+            "height": 36
           },
           "benefitsPanel": {
-            "x": 40,
-            "y": 814,
-            "width": 920,
-            "height": 62
+            "x": 750,
+            "y": 668,
+            "width": 220,
+            "height": 244
+          },
+          "benefit_1_row": {
+            "x": 768,
+            "y": 684,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_1_icon": {
+            "x": 768,
+            "y": 684,
+            "width": 44,
+            "height": 44
           },
           "benefit_1": {
-            "x": 104,
-            "y": 834,
-            "width": 109,
-            "height": 22
+            "x": 824,
+            "y": 690,
+            "width": 120,
+            "height": 32
+          },
+          "benefit_2_row": {
+            "x": 768,
+            "y": 740,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_2_icon": {
+            "x": 768,
+            "y": 740,
+            "width": 44,
+            "height": 44
           },
           "benefit_2": {
-            "x": 300,
-            "y": 834,
-            "width": 104,
-            "height": 22
+            "x": 824,
+            "y": 754,
+            "width": 94,
+            "height": 16
+          },
+          "benefit_3_row": {
+            "x": 768,
+            "y": 796,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_3_icon": {
+            "x": 768,
+            "y": 796,
+            "width": 44,
+            "height": 44
           },
           "benefit_3": {
-            "x": 491,
-            "y": 834,
-            "width": 157,
-            "height": 22
+            "x": 824,
+            "y": 802,
+            "width": 120,
+            "height": 32
+          },
+          "benefit_4_row": {
+            "x": 768,
+            "y": 852,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_4_icon": {
+            "x": 768,
+            "y": 852,
+            "width": 44,
+            "height": 44
           },
           "benefit_4": {
-            "x": 735,
-            "y": 834,
-            "width": 161,
-            "height": 22
+            "x": 824,
+            "y": 858,
+            "width": 120,
+            "height": 32
           },
           "footer": {
-            "x": 40,
-            "y": 896,
-            "width": 920,
-            "height": 64
+            "x": 60,
+            "y": 924,
+            "width": 880,
+            "height": 52
           },
           "footer_text": {
-            "x": 301,
-            "y": 916,
-            "width": 399,
+            "x": 187,
+            "y": 938,
+            "width": 413,
             "height": 24
+          },
+          "footer_tagline": {
+            "x": 634,
+            "y": 941,
+            "width": 186,
+            "height": 18
           }
         },
         "text": {
@@ -1139,16 +1911,16 @@
             "present": true,
             "text": "Fuel your whole day with balanced nutrition and lasting energy",
             "box": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 116
+              "x": 110,
+              "y": 28,
+              "width": 780,
+              "height": 189
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 145
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 189
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1156,18 +1928,18 @@
           },
           "header_subtitle": {
             "present": true,
-            "text": "Discover the essential building blocks for lasting energy",
+            "text": "Optimized Nutrition. Sustained Energy.",
             "box": {
-              "x": 184,
-              "y": 156,
-              "width": 633,
+              "x": 281,
+              "y": 223,
+              "width": 438,
               "height": 29
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 145
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 224
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1176,39 +1948,96 @@
           "header_caption": {
             "present": false
           },
-          "callout_1": {
+          "callout_1_title": {
             "present": true,
-            "text": "100% Organic",
+            "text": "BALANCED NUTRITION",
             "box": {
-              "x": 146,
-              "y": 225,
-              "width": 153,
-              "height": 44
+              "x": 78,
+              "y": 519,
+              "width": 205,
+              "height": 23
             },
             "region": {
-              "x": 40,
-              "y": 205,
-              "width": 920,
-              "height": 413
+              "x": 30,
+              "y": 301,
+              "width": 300,
+              "height": 289
             },
             "insideRegion": true,
             "insideCanvas": true,
             "overflow": false
           },
-          "callout_2": {
+          "callout_1_text": {
             "present": true,
-            "text": "Sustainably Sourced",
+            "text": "The right fuel for your body and mind.",
             "box": {
-              "x": 639,
-              "y": 225,
-              "width": 215,
-              "height": 44
+              "x": 65,
+              "y": 550,
+              "width": 230,
+              "height": 40
             },
             "region": {
-              "x": 40,
-              "y": 205,
-              "width": 920,
-              "height": 413
+              "x": 30,
+              "y": 301,
+              "width": 300,
+              "height": 289
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "callout_2_title": {
+            "present": true,
+            "text": "SKIP THE SPIKE",
+            "box": {
+              "x": 751,
+              "y": 519,
+              "width": 139,
+              "height": 23
+            },
+            "region": {
+              "x": 670,
+              "y": 301,
+              "width": 300,
+              "height": 289
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "callout_2_text": {
+            "present": true,
+            "text": "Avoid sugary drinks and processed snacks.",
+            "box": {
+              "x": 705,
+              "y": 550,
+              "width": 230,
+              "height": 40
+            },
+            "region": {
+              "x": 670,
+              "y": 301,
+              "width": 300,
+              "height": 289
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_1_title": {
+            "present": true,
+            "text": "NUTRITIOUS",
+            "box": {
+              "x": 61,
+              "y": 814,
+              "width": 106,
+              "height": 21
+            },
+            "region": {
+              "x": 30,
+              "y": 639,
+              "width": 167,
+              "height": 273
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1218,16 +2047,35 @@
             "present": true,
             "text": "Fresh whole foods, easy to carry, wherever your busy day takes you",
             "box": {
-              "x": 40,
-              "y": 728,
-              "width": 210,
-              "height": 66
+              "x": 34,
+              "y": 840,
+              "width": 160,
+              "height": 72
             },
             "region": {
-              "x": 40,
-              "y": 638,
-              "width": 210,
-              "height": 156
+              "x": 30,
+              "y": 639,
+              "width": 167,
+              "height": 273
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_2_title": {
+            "present": true,
+            "text": "PORTABLE",
+            "box": {
+              "x": 246,
+              "y": 814,
+              "width": 89,
+              "height": 21
+            },
+            "region": {
+              "x": 207,
+              "y": 639,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1235,18 +2083,37 @@
           },
           "item_2_caption": {
             "present": true,
-            "text": "Hydration",
+            "text": "Easy to take wherever you go.",
             "box": {
-              "x": 341,
-              "y": 728,
-              "width": 83,
-              "height": 22
+              "x": 211,
+              "y": 840,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 277,
-              "y": 638,
-              "width": 210,
-              "height": 156
+              "x": 207,
+              "y": 639,
+              "width": 167,
+              "height": 237
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_3_title": {
+            "present": true,
+            "text": "CONVENIENT",
+            "box": {
+              "x": 410,
+              "y": 814,
+              "width": 115,
+              "height": 21
+            },
+            "region": {
+              "x": 384,
+              "y": 639,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1254,18 +2121,37 @@
           },
           "item_3_caption": {
             "present": true,
-            "text": "Leafy Greens",
+            "text": "Simple choices for your busy day.",
             "box": {
-              "x": 561,
-              "y": 728,
-              "width": 114,
-              "height": 22
+              "x": 388,
+              "y": 840,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 513,
-              "y": 638,
-              "width": 210,
-              "height": 156
+              "x": 384,
+              "y": 639,
+              "width": 167,
+              "height": 237
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "item_4_title": {
+            "present": true,
+            "text": "HYDRATED",
+            "box": {
+              "x": 598,
+              "y": 814,
+              "width": 94,
+              "height": 21
+            },
+            "region": {
+              "x": 561,
+              "y": 639,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1273,18 +2159,18 @@
           },
           "item_4_caption": {
             "present": true,
-            "text": "Whole Grains",
+            "text": "Water fuels your cells and keeps you going.",
             "box": {
-              "x": 798,
-              "y": 728,
-              "width": 114,
-              "height": 22
+              "x": 565,
+              "y": 840,
+              "width": 160,
+              "height": 36
             },
             "region": {
-              "x": 750,
-              "y": 638,
-              "width": 210,
-              "height": 156
+              "x": 561,
+              "y": 639,
+              "width": 167,
+              "height": 237
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1292,18 +2178,18 @@
           },
           "benefit_1": {
             "present": true,
-            "text": "More energy",
+            "text": "SUSTAINED ENERGY",
             "box": {
-              "x": 104,
-              "y": 834,
-              "width": 109,
-              "height": 22
+              "x": 824,
+              "y": 690,
+              "width": 120,
+              "height": 32
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 684,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1311,18 +2197,18 @@
           },
           "benefit_2": {
             "present": true,
-            "text": "Better focus",
+            "text": "SHARP FOCUS",
             "box": {
-              "x": 300,
-              "y": 834,
-              "width": 104,
-              "height": 22
+              "x": 824,
+              "y": 754,
+              "width": 94,
+              "height": 16
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 740,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1330,18 +2216,18 @@
           },
           "benefit_3": {
             "present": true,
-            "text": "Stronger immunity",
+            "text": "STRONG IMMUNITY",
             "box": {
-              "x": 491,
-              "y": 834,
-              "width": 157,
-              "height": 22
+              "x": 824,
+              "y": 802,
+              "width": 120,
+              "height": 32
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 796,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1349,18 +2235,18 @@
           },
           "benefit_4": {
             "present": true,
-            "text": "Improved recovery",
+            "text": "BETTER WELL-BEING",
             "box": {
-              "x": 735,
-              "y": 834,
-              "width": 161,
-              "height": 22
+              "x": 824,
+              "y": 858,
+              "width": 120,
+              "height": 32
             },
             "region": {
-              "x": 40,
-              "y": 814,
-              "width": 920,
-              "height": 62
+              "x": 768,
+              "y": 852,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1368,18 +2254,37 @@
           },
           "footer_text": {
             "present": true,
-            "text": "Visit our store for the freshest ingredients.",
+            "text": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
             "box": {
-              "x": 301,
-              "y": 916,
-              "width": 399,
+              "x": 187,
+              "y": 938,
+              "width": 413,
               "height": 24
             },
             "region": {
-              "x": 40,
-              "y": 896,
-              "width": 920,
-              "height": 64
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "overflow": false
+          },
+          "footer_tagline": {
+            "present": true,
+            "text": "Small choices. Big impact.",
+            "box": {
+              "x": 634,
+              "y": 941,
+              "width": 186,
+              "height": 18
+            },
+            "region": {
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1407,7 +2312,7 @@
           "width": 1000,
           "height": 1000
         },
-        "sha256": "12f30219f0b756cf4a32b8c9882ff1813e72045fa2fb7bca70e4baafd93963b7",
+        "sha256": "fa45581e6e51506a892ab283d84a8dca95e77f37b48e26d7eb580c3956e0c768",
         "bounds": {
           "canvas": {
             "x": 0,
@@ -1416,142 +2321,292 @@
             "height": 1000
           },
           "header": {
-            "x": 40,
-            "y": 40,
-            "width": 920,
-            "height": 147
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 222.5
+          },
+          "header_row": {
+            "x": 30,
+            "y": 28,
+            "width": 940,
+            "height": 187.5
           },
           "header_headline": {
-            "x": 40,
-            "y": 40,
-            "width": 920,
-            "height": 118
+            "x": 110,
+            "y": 28,
+            "width": 780,
+            "height": 187.5
           },
           "header_subtitle": {
-            "x": 183.64,
-            "y": 158,
-            "width": 632.72,
+            "x": 281.2,
+            "y": 221.5,
+            "width": 437.58,
             "height": 29
           },
           "hero": {
-            "x": 40,
-            "y": 207,
-            "width": 920,
-            "height": 415
+            "x": 30,
+            "y": 262.5,
+            "width": 940,
+            "height": 363.5
           },
           "callout_1": {
-            "x": 146.53,
-            "y": 227,
-            "width": 152.72,
-            "height": 44
+            "x": 30,
+            "y": 300.5,
+            "width": 300,
+            "height": 287.5
+          },
+          "callout_1_img": {
+            "x": 40,
+            "y": 300.5,
+            "width": 280,
+            "height": 210
+          },
+          "callout_1_title": {
+            "x": 77.67,
+            "y": 518.5,
+            "width": 204.64,
+            "height": 22.5
+          },
+          "callout_1_text": {
+            "x": 65,
+            "y": 549,
+            "width": 230,
+            "height": 39
           },
           "hero_img": {
-            "x": 319.25,
-            "y": 264.5,
-            "width": 300,
-            "height": 300
+            "x": 340,
+            "y": 262.5,
+            "width": 320,
+            "height": 363.5
           },
           "callout_2": {
-            "x": 639.25,
-            "y": 227,
-            "width": 214.22,
-            "height": 44
+            "x": 670,
+            "y": 300.5,
+            "width": 300,
+            "height": 287.5
+          },
+          "callout_2_img": {
+            "x": 680,
+            "y": 300.5,
+            "width": 280,
+            "height": 210
+          },
+          "callout_2_title": {
+            "x": 750.61,
+            "y": 518.5,
+            "width": 138.77,
+            "height": 22.5
+          },
+          "callout_2_text": {
+            "x": 705,
+            "y": 549,
+            "width": 230,
+            "height": 39
+          },
+          "lower": {
+            "x": 30,
+            "y": 638,
+            "width": 940,
+            "height": 274
           },
           "items": {
-            "x": 40,
-            "y": 642,
-            "width": 920,
-            "height": 153
+            "x": 30,
+            "y": 638,
+            "width": 700,
+            "height": 274
           },
           "item_1": {
-            "x": 40,
-            "y": 642,
-            "width": 210,
-            "height": 153
+            "x": 30,
+            "y": 638,
+            "width": 167,
+            "height": 274
+          },
+          "item_1_img": {
+            "x": 33.5,
+            "y": 638,
+            "width": 160,
+            "height": 170
+          },
+          "item_1_title": {
+            "x": 60.75,
+            "y": 813,
+            "width": 105.48,
+            "height": 21.25
           },
           "item_1_caption": {
-            "x": 40,
-            "y": 732,
-            "width": 210,
-            "height": 63
+            "x": 33.5,
+            "y": 839.25,
+            "width": 160,
+            "height": 72.75
           },
           "item_2": {
-            "x": 276.67,
-            "y": 642,
-            "width": 210,
-            "height": 153
+            "x": 207,
+            "y": 638,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_2_img": {
+            "x": 210.5,
+            "y": 638,
+            "width": 160,
+            "height": 170
+          },
+          "item_2_title": {
+            "x": 246,
+            "y": 813,
+            "width": 89,
+            "height": 21.25
           },
           "item_2_caption": {
-            "x": 340.27,
-            "y": 732,
-            "width": 82.81,
-            "height": 21
+            "x": 210.5,
+            "y": 839.25,
+            "width": 160,
+            "height": 36.38
           },
           "item_3": {
-            "x": 513.33,
-            "y": 642,
-            "width": 210,
-            "height": 153
+            "x": 384,
+            "y": 638,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_3_img": {
+            "x": 387.5,
+            "y": 638,
+            "width": 160,
+            "height": 170
+          },
+          "item_3_title": {
+            "x": 410.48,
+            "y": 813,
+            "width": 114.02,
+            "height": 21.25
           },
           "item_3_caption": {
-            "x": 561.41,
-            "y": 732,
-            "width": 113.83,
-            "height": 21
+            "x": 387.5,
+            "y": 839.25,
+            "width": 160,
+            "height": 36.38
           },
           "item_4": {
-            "x": 750,
-            "y": 642,
-            "width": 210,
-            "height": 153
+            "x": 561,
+            "y": 638,
+            "width": 167,
+            "height": 237.63
+          },
+          "item_4_img": {
+            "x": 564.5,
+            "y": 638,
+            "width": 160,
+            "height": 170
+          },
+          "item_4_title": {
+            "x": 597.64,
+            "y": 813,
+            "width": 93.7,
+            "height": 21.25
           },
           "item_4_caption": {
-            "x": 798.05,
-            "y": 732,
-            "width": 113.91,
-            "height": 21
+            "x": 564.5,
+            "y": 839.25,
+            "width": 160,
+            "height": 36.38
           },
           "benefitsPanel": {
-            "x": 40,
-            "y": 815,
-            "width": 920,
-            "height": 61
+            "x": 750,
+            "y": 668,
+            "width": 220,
+            "height": 244
+          },
+          "benefit_1_row": {
+            "x": 768,
+            "y": 684,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_1_icon": {
+            "x": 768,
+            "y": 684,
+            "width": 44,
+            "height": 44
           },
           "benefit_1": {
-            "x": 103.98,
-            "y": 835,
-            "width": 108.34,
-            "height": 21
+            "x": 824,
+            "y": 690.41,
+            "width": 120,
+            "height": 31.19
+          },
+          "benefit_2_row": {
+            "x": 768,
+            "y": 740,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_2_icon": {
+            "x": 768,
+            "y": 740,
+            "width": 44,
+            "height": 44
           },
           "benefit_2": {
-            "x": 300.31,
-            "y": 835,
-            "width": 103.13,
-            "height": 21
+            "x": 824,
+            "y": 754.2,
+            "width": 93.27,
+            "height": 15.59
+          },
+          "benefit_3_row": {
+            "x": 768,
+            "y": 796,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_3_icon": {
+            "x": 768,
+            "y": 796,
+            "width": 44,
+            "height": 44
           },
           "benefit_3": {
-            "x": 491.41,
-            "y": 835,
-            "width": 156.61,
-            "height": 21
+            "x": 824,
+            "y": 802.41,
+            "width": 120,
+            "height": 31.19
+          },
+          "benefit_4_row": {
+            "x": 768,
+            "y": 852,
+            "width": 184,
+            "height": 44
+          },
+          "benefit_4_icon": {
+            "x": 768,
+            "y": 852,
+            "width": 44,
+            "height": 44
           },
           "benefit_4": {
-            "x": 736,
-            "y": 835,
-            "width": 160.02,
-            "height": 21
+            "x": 824,
+            "y": 858.41,
+            "width": 120,
+            "height": 31.19
           },
           "footer": {
-            "x": 40,
-            "y": 896,
-            "width": 920,
-            "height": 64
+            "x": 60,
+            "y": 924,
+            "width": 880,
+            "height": 52
           },
           "footer_text": {
-            "x": 300.88,
-            "y": 916,
-            "width": 398.23,
+            "x": 185.23,
+            "y": 938,
+            "width": 415.81,
             "height": 24
+          },
+          "footer_tagline": {
+            "x": 635.05,
+            "y": 940.5,
+            "width": 185.7,
+            "height": 19
           }
         },
         "text": {
@@ -1559,50 +2614,50 @@
             "present": true,
             "text": "Fuel your whole day with balanced nutrition and lasting energy",
             "box": {
-              "x": 107.14,
-              "y": 40,
-              "width": 785.7,
-              "height": 118
+              "x": 121.83,
+              "y": 29,
+              "width": 756.33,
+              "height": 185
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 147
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 187.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 920,
-              "clientWidth": 920,
-              "scrollHeight": 118,
-              "clientHeight": 118
+              "scrollWidth": 780,
+              "clientWidth": 780,
+              "scrollHeight": 188,
+              "clientHeight": 188
             },
-            "lineCount": 2,
+            "lineCount": 3,
             "overflow": false
           },
           "header_subtitle": {
             "present": true,
-            "text": "Discover the essential building blocks for lasting energy",
+            "text": "Optimized Nutrition. Sustained Energy.",
             "box": {
-              "x": 183.64,
-              "y": 158,
-              "width": 632.72,
+              "x": 281.2,
+              "y": 221.5,
+              "width": 437.58,
               "height": 29
             },
             "region": {
-              "x": 40,
-              "y": 40,
-              "width": 920,
-              "height": 147
+              "x": 30,
+              "y": 28,
+              "width": 940,
+              "height": 222.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 633,
-              "clientWidth": 633,
+              "scrollWidth": 438,
+              "clientWidth": 438,
               "scrollHeight": 29,
               "clientHeight": 29
             },
@@ -1612,56 +2667,137 @@
           "header_caption": {
             "present": false
           },
-          "callout_1": {
+          "callout_1_title": {
             "present": true,
-            "text": "100% Organic",
+            "text": "BALANCED NUTRITION",
             "box": {
-              "x": 156.53,
-              "y": 237,
-              "width": 132.72,
-              "height": 24
+              "x": 77.67,
+              "y": 518.5,
+              "width": 204.64,
+              "height": 21
             },
             "region": {
-              "x": 40,
-              "y": 207,
-              "width": 920,
-              "height": 415
+              "x": 30,
+              "y": 300.5,
+              "width": 300,
+              "height": 287.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 153,
-              "clientWidth": 153,
-              "scrollHeight": 44,
-              "clientHeight": 44
+              "scrollWidth": 205,
+              "clientWidth": 205,
+              "scrollHeight": 23,
+              "clientHeight": 23
             },
             "lineCount": 1,
             "overflow": false
           },
-          "callout_2": {
+          "callout_1_text": {
             "present": true,
-            "text": "Sustainably Sourced",
+            "text": "The right fuel for your body and mind.",
             "box": {
-              "x": 649.25,
-              "y": 237,
-              "width": 194.22,
-              "height": 24
+              "x": 67.17,
+              "y": 549,
+              "width": 225.64,
+              "height": 38.5
             },
             "region": {
-              "x": 40,
-              "y": 207,
-              "width": 920,
-              "height": 415
+              "x": 30,
+              "y": 300.5,
+              "width": 300,
+              "height": 287.5
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 214,
-              "clientWidth": 214,
-              "scrollHeight": 44,
-              "clientHeight": 44
+              "scrollWidth": 230,
+              "clientWidth": 230,
+              "scrollHeight": 39,
+              "clientHeight": 39
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "callout_2_title": {
+            "present": true,
+            "text": "SKIP THE SPIKE",
+            "box": {
+              "x": 750.61,
+              "y": 518.5,
+              "width": 138.77,
+              "height": 21
+            },
+            "region": {
+              "x": 670,
+              "y": 300.5,
+              "width": 300,
+              "height": 287.5
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 139,
+              "clientWidth": 139,
+              "scrollHeight": 23,
+              "clientHeight": 23
+            },
+            "lineCount": 1,
+            "overflow": false
+          },
+          "callout_2_text": {
+            "present": true,
+            "text": "Avoid sugary drinks and processed snacks.",
+            "box": {
+              "x": 734.58,
+              "y": 549,
+              "width": 170.84,
+              "height": 38.5
+            },
+            "region": {
+              "x": 670,
+              "y": 300.5,
+              "width": 300,
+              "height": 287.5
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 230,
+              "clientWidth": 230,
+              "scrollHeight": 39,
+              "clientHeight": 39
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_1_title": {
+            "present": true,
+            "text": "NUTRITIOUS",
+            "box": {
+              "x": 60.75,
+              "y": 813,
+              "width": 105.48,
+              "height": 20
+            },
+            "region": {
+              "x": 30,
+              "y": 638,
+              "width": 167,
+              "height": 274
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 105,
+              "clientWidth": 105,
+              "scrollHeight": 21,
+              "clientHeight": 21
             },
             "lineCount": 1,
             "overflow": false
@@ -1670,50 +2806,104 @@
             "present": true,
             "text": "Fresh whole foods, easy to carry, wherever your busy day takes you",
             "box": {
-              "x": 41.38,
-              "y": 732,
-              "width": 207.25,
-              "height": 63
+              "x": 35.41,
+              "y": 839.25,
+              "width": 156.19,
+              "height": 71.56
             },
             "region": {
-              "x": 40,
-              "y": 642,
-              "width": 210,
-              "height": 153
+              "x": 30,
+              "y": 638,
+              "width": 167,
+              "height": 274
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 210,
-              "clientWidth": 210,
-              "scrollHeight": 63,
-              "clientHeight": 63
+              "scrollWidth": 160,
+              "clientWidth": 160,
+              "scrollHeight": 73,
+              "clientHeight": 73
             },
-            "lineCount": 3,
+            "lineCount": 4,
+            "overflow": false
+          },
+          "item_2_title": {
+            "present": true,
+            "text": "PORTABLE",
+            "box": {
+              "x": 246,
+              "y": 813,
+              "width": 89,
+              "height": 20
+            },
+            "region": {
+              "x": 207,
+              "y": 638,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 89,
+              "clientWidth": 89,
+              "scrollHeight": 21,
+              "clientHeight": 21
+            },
+            "lineCount": 1,
             "overflow": false
           },
           "item_2_caption": {
             "present": true,
-            "text": "Hydration",
+            "text": "Easy to take wherever you go.",
             "box": {
-              "x": 340.27,
-              "y": 732,
-              "width": 82.81,
-              "height": 21
+              "x": 217.45,
+              "y": 839.25,
+              "width": 146.08,
+              "height": 35.19
             },
             "region": {
-              "x": 276.67,
-              "y": 642,
-              "width": 210,
-              "height": 153
+              "x": 207,
+              "y": 638,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 83,
-              "clientWidth": 83,
+              "scrollWidth": 160,
+              "clientWidth": 160,
+              "scrollHeight": 36,
+              "clientHeight": 36
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_3_title": {
+            "present": true,
+            "text": "CONVENIENT",
+            "box": {
+              "x": 410.48,
+              "y": 813,
+              "width": 114.02,
+              "height": 20
+            },
+            "region": {
+              "x": 384,
+              "y": 638,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 114,
+              "clientWidth": 114,
               "scrollHeight": 21,
               "clientHeight": 21
             },
@@ -1722,25 +2912,52 @@
           },
           "item_3_caption": {
             "present": true,
-            "text": "Leafy Greens",
+            "text": "Simple choices for your busy day.",
             "box": {
-              "x": 561.41,
-              "y": 732,
-              "width": 113.83,
-              "height": 21
+              "x": 389.41,
+              "y": 839.25,
+              "width": 156.17,
+              "height": 35.19
             },
             "region": {
-              "x": 513.33,
-              "y": 642,
-              "width": 210,
-              "height": 153
+              "x": 384,
+              "y": 638,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 114,
-              "clientWidth": 114,
+              "scrollWidth": 160,
+              "clientWidth": 160,
+              "scrollHeight": 36,
+              "clientHeight": 36
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "item_4_title": {
+            "present": true,
+            "text": "HYDRATED",
+            "box": {
+              "x": 597.64,
+              "y": 813,
+              "width": 93.7,
+              "height": 20
+            },
+            "region": {
+              "x": 561,
+              "y": 638,
+              "width": 167,
+              "height": 237.63
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 94,
+              "clientWidth": 94,
               "scrollHeight": 21,
               "clientHeight": 21
             },
@@ -1749,126 +2966,18 @@
           },
           "item_4_caption": {
             "present": true,
-            "text": "Whole Grains",
+            "text": "Water fuels your cells and keeps you going.",
             "box": {
-              "x": 798.05,
-              "y": 732,
-              "width": 113.91,
-              "height": 21
+              "x": 573.05,
+              "y": 839.25,
+              "width": 142.91,
+              "height": 35.19
             },
             "region": {
-              "x": 750,
-              "y": 642,
-              "width": 210,
-              "height": 153
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 114,
-              "clientWidth": 114,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_1": {
-            "present": true,
-            "text": "More energy",
-            "box": {
-              "x": 103.98,
-              "y": 835,
-              "width": 108.34,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 108,
-              "clientWidth": 108,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_2": {
-            "present": true,
-            "text": "Better focus",
-            "box": {
-              "x": 300.31,
-              "y": 835,
-              "width": 103.13,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 103,
-              "clientWidth": 103,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_3": {
-            "present": true,
-            "text": "Stronger immunity",
-            "box": {
-              "x": 491.41,
-              "y": 835,
-              "width": 156.61,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
-            },
-            "insideRegion": true,
-            "insideCanvas": true,
-            "scrollOverflow": false,
-            "scrollMetrics": {
-              "scrollWidth": 157,
-              "clientWidth": 157,
-              "scrollHeight": 21,
-              "clientHeight": 21
-            },
-            "lineCount": 1,
-            "overflow": false
-          },
-          "benefit_4": {
-            "present": true,
-            "text": "Improved recovery",
-            "box": {
-              "x": 736,
-              "y": 835,
-              "width": 160.02,
-              "height": 21
-            },
-            "region": {
-              "x": 40,
-              "y": 815,
-              "width": 920,
-              "height": 61
+              "x": 561,
+              "y": 638,
+              "width": 167,
+              "height": 237.63
             },
             "insideRegion": true,
             "insideCanvas": true,
@@ -1876,35 +2985,170 @@
             "scrollMetrics": {
               "scrollWidth": 160,
               "clientWidth": 160,
-              "scrollHeight": 21,
-              "clientHeight": 21
+              "scrollHeight": 36,
+              "clientHeight": 36
             },
-            "lineCount": 1,
+            "lineCount": 2,
             "overflow": false
           },
-          "footer_text": {
+          "benefit_1": {
             "present": true,
-            "text": "Visit our store for the freshest ingredients.",
+            "text": "SUSTAINED ENERGY",
             "box": {
-              "x": 300.88,
-              "y": 916,
-              "width": 398.23,
-              "height": 24
+              "x": 824,
+              "y": 689.41,
+              "width": 74.63,
+              "height": 31.59
             },
             "region": {
-              "x": 40,
-              "y": 896,
-              "width": 920,
-              "height": 64
+              "x": 768,
+              "y": 684,
+              "width": 184,
+              "height": 44
             },
             "insideRegion": true,
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 398,
-              "clientWidth": 398,
+              "scrollWidth": 120,
+              "clientWidth": 120,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "benefit_2": {
+            "present": true,
+            "text": "SHARP FOCUS",
+            "box": {
+              "x": 824,
+              "y": 753.2,
+              "width": 93.27,
+              "height": 16
+            },
+            "region": {
+              "x": 768,
+              "y": 740,
+              "width": 184,
+              "height": 44
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 93,
+              "clientWidth": 93,
+              "scrollHeight": 16,
+              "clientHeight": 16
+            },
+            "lineCount": 1,
+            "overflow": false
+          },
+          "benefit_3": {
+            "present": true,
+            "text": "STRONG IMMUNITY",
+            "box": {
+              "x": 824,
+              "y": 801.41,
+              "width": 69.25,
+              "height": 31.59
+            },
+            "region": {
+              "x": 768,
+              "y": 796,
+              "width": 184,
+              "height": 44
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 120,
+              "clientWidth": 120,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "benefit_4": {
+            "present": true,
+            "text": "BETTER WELL-BEING",
+            "box": {
+              "x": 824,
+              "y": 857.41,
+              "width": 94.67,
+              "height": 31.59
+            },
+            "region": {
+              "x": 768,
+              "y": 852,
+              "width": 184,
+              "height": 44
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 120,
+              "clientWidth": 120,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            "lineCount": 2,
+            "overflow": false
+          },
+          "footer_text": {
+            "present": true,
+            "text": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
+            "box": {
+              "x": 185.23,
+              "y": 938,
+              "width": 415.81,
+              "height": 24
+            },
+            "region": {
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 416,
+              "clientWidth": 416,
               "scrollHeight": 24,
               "clientHeight": 24
+            },
+            "lineCount": 1,
+            "overflow": false
+          },
+          "footer_tagline": {
+            "present": true,
+            "text": "Small choices. Big impact.",
+            "box": {
+              "x": 635.05,
+              "y": 940.5,
+              "width": 185.7,
+              "height": 19
+            },
+            "region": {
+              "x": 60,
+              "y": 924,
+              "width": 880,
+              "height": 52
+            },
+            "insideRegion": true,
+            "insideCanvas": true,
+            "scrollOverflow": false,
+            "scrollMetrics": {
+              "scrollWidth": 186,
+              "clientWidth": 186,
+              "scrollHeight": 19,
+              "clientHeight": 19
             },
             "lineCount": 1,
             "overflow": false
@@ -1941,7 +3185,7 @@
           "width": 1200,
           "height": 630
         },
-        "sha256": "d5710528aaf7e05e56d06d96e9ee226df79177055305a7d21e363543a8eb734f",
+        "sha256": "f1bd8ca1481771aceaf68ec4e8f80e77642ff10d44921129bc35ae50727c7995",
         "bounds": {
           "canvas": {
             "x": 0,
@@ -1982,11 +3226,11 @@
           "hero_price": {
             "x": 60,
             "y": 447,
-            "width": 77,
+            "width": 80,
             "height": 48
           },
           "hero_cta": {
-            "x": 161,
+            "x": 164,
             "y": 444,
             "width": 170,
             "height": 53
@@ -2068,7 +3312,7 @@
             "box": {
               "x": 60,
               "y": 447,
-              "width": 77,
+              "width": 80,
               "height": 48
             },
             "region": {
@@ -2085,7 +3329,7 @@
             "present": true,
             "text": "Shop now",
             "box": {
-              "x": 161,
+              "x": 164,
               "y": 444,
               "width": 170,
               "height": 53
@@ -2122,7 +3366,7 @@
           "width": 1200,
           "height": 630
         },
-        "sha256": "e4fbb9dedb479dd663ecee90142496e2ba2b8ca6ad25f924b98ffac6a1b1cf9a",
+        "sha256": "c48ed00e4d6da4059f2327d9dd2bb71d45e2b8676c16d320a819fde40560cd79",
         "bounds": {
           "canvas": {
             "x": 0,
@@ -2163,11 +3407,11 @@
           "hero_price": {
             "x": 60,
             "y": 445.09,
-            "width": 76.22,
+            "width": 79.06,
             "height": 49
           },
           "hero_cta": {
-            "x": 160.22,
+            "x": 163.06,
             "y": 443.09,
             "width": 169.2,
             "height": 53
@@ -2219,7 +3463,7 @@
             "box": {
               "x": 60,
               "y": 174.91,
-              "width": 589.41,
+              "width": 612.75,
               "height": 153.8
             },
             "region": {
@@ -2273,7 +3517,7 @@
             "box": {
               "x": 60,
               "y": 445.09,
-              "width": 76.22,
+              "width": 79.06,
               "height": 49
             },
             "region": {
@@ -2286,8 +3530,8 @@
             "insideCanvas": true,
             "scrollOverflow": false,
             "scrollMetrics": {
-              "scrollWidth": 76,
-              "clientWidth": 76,
+              "scrollWidth": 79,
+              "clientWidth": 79,
               "scrollHeight": 49,
               "clientHeight": 49
             },
@@ -2298,7 +3542,7 @@
             "present": true,
             "text": "Shop now",
             "box": {
-              "x": 188.22,
+              "x": 191.06,
               "y": 455.09,
               "width": 113.2,
               "height": 29
@@ -2537,16 +3781,16 @@
   },
   "digests": {
     "satori": {
-      "baseline": "2c5c8104521037accc866dfa69d7f22644e0de640fb7abcfdf2654ba7104e147",
-      "repeat": "2c5c8104521037accc866dfa69d7f22644e0de640fb7abcfdf2654ba7104e147",
-      "override": "2c96f1118b7e6e9ddf8000ef511caae40b099da32c28418384da11217dc4f134",
+      "baseline": "f4451bfa94dc2657ee68fd061eaacd37c61a17e79a01c8814460c055cde6ba1a",
+      "repeat": "f4451bfa94dc2657ee68fd061eaacd37c61a17e79a01c8814460c055cde6ba1a",
+      "override": "3a243668332fa12ce0bfc24c17c12435cde00d340d92c7f1606256a695c9ab97",
       "deterministic": true,
       "svgRepeat": true
     },
     "playwright": {
-      "baseline": "763fc3c7b4f5830afe7c2c41aacca25c8f307d36ee10a4b314e4c249e0f31b44",
-      "repeat": "763fc3c7b4f5830afe7c2c41aacca25c8f307d36ee10a4b314e4c249e0f31b44",
-      "override": "12f30219f0b756cf4a32b8c9882ff1813e72045fa2fb7bca70e4baafd93963b7",
+      "baseline": "4d7050949c22ddf7a831712d5c25828f25f62eb9560bc5e601b62d7f86f2abf2",
+      "repeat": "4d7050949c22ddf7a831712d5c25828f25f62eb9560bc5e601b62d7f86f2abf2",
+      "override": "fa45581e6e51506a892ab283d84a8dca95e77f37b48e26d7eb580c3956e0c768",
       "deterministic": true
     }
   },

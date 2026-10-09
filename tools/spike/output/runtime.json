@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T00:16:57.399Z",
+  "generatedAt": "2026-10-09T03:35:09.431Z",
   "environment": {
     "node": "v22.22.3",
     "platform": "darwin",
@@ -84,8 +84,11 @@
       "licenseEvidenceLimit": "third-party notices are inside the browser (chrome://credits), not a file this spike can read; treat as unverified for shipping until the operator reviews them"
     },
     "font": {
-      "file": "tools/spike/assets/font.ttf",
-      "family": "Inter Regular 4.0",
+      "files": [
+        "tools/spike/assets/font.ttf",
+        "tools/spike/assets/font-bold.ttf"
+      ],
+      "family": "Inter 4.0 Regular 400 + Bold 700",
       "license": "OFL-1.1",
       "verified": true,
       "provenance": "tools/spike/assets/SOURCES.md + verifier sha256 constants"
@@ -116,113 +119,113 @@
   ],
   "satori": {
     "cold": {
-      "totalMs": 152.71,
-      "importMs": 72.41,
-      "firstStageMs": 74.78
+      "totalMs": 267.65,
+      "importMs": 68.16,
+      "firstStageMs": 191.48
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        27.66,
-        27.11,
-        26.54,
-        25.51,
-        27.2,
-        26.98,
-        25.71,
-        26.19,
-        26.11,
-        26.08
+        137.03,
+        137.32,
+        138.75,
+        138.44,
+        137.93,
+        138.82,
+        136.02,
+        137.79,
+        137.82,
+        137.86
       ],
-      "min": 25.51,
-      "median": 26.54,
-      "mean": 26.51,
-      "max": 27.66,
+      "min": 136.02,
+      "median": 137.86,
+      "mean": 137.78,
+      "max": 138.82,
       "split": [
         {
-          "satoriMs": 8.62,
-          "resvgMs": 19.05
+          "satoriMs": 30.04,
+          "resvgMs": 107
         },
         {
-          "satoriMs": 8.45,
-          "resvgMs": 18.66
+          "satoriMs": 30.1,
+          "resvgMs": 107.22
         },
         {
-          "satoriMs": 7.73,
-          "resvgMs": 18.81
+          "satoriMs": 30.1,
+          "resvgMs": 108.64
         },
         {
-          "satoriMs": 7.43,
-          "resvgMs": 18.07
+          "satoriMs": 29.78,
+          "resvgMs": 108.65
         },
         {
-          "satoriMs": 8.53,
-          "resvgMs": 18.67
+          "satoriMs": 28.55,
+          "resvgMs": 109.38
         },
         {
-          "satoriMs": 7.91,
-          "resvgMs": 19.07
+          "satoriMs": 29.75,
+          "resvgMs": 109.07
         },
         {
-          "satoriMs": 7.52,
-          "resvgMs": 18.2
+          "satoriMs": 29.48,
+          "resvgMs": 106.53
         },
         {
-          "satoriMs": 7.47,
-          "resvgMs": 18.72
+          "satoriMs": 29.15,
+          "resvgMs": 108.63
         },
         {
-          "satoriMs": 7.6,
-          "resvgMs": 18.5
+          "satoriMs": 29.75,
+          "resvgMs": 108.08
         },
         {
-          "satoriMs": 7.22,
-          "resvgMs": 18.86
+          "satoriMs": 28.94,
+          "resvgMs": 108.92
         }
       ]
     },
     "memory": {
       "nodeProcess": {
-        "rss": 283213824,
-        "heapTotal": 95322112,
-        "heapUsed": 68084400,
-        "external": 23511278,
-        "arrayBuffers": 1969862
+        "rss": 494960640,
+        "heapTotal": 178257920,
+        "heapUsed": 139206520,
+        "external": 29432337,
+        "arrayBuffers": 5594829
       }
     }
   },
   "playwright": {
     "cold": {
-      "totalMs": 425.68,
-      "firstStageMs": 103.7,
+      "totalMs": 429.73,
+      "firstStageMs": 274.87,
       "fontLoaded": true
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        70.66,
-        70.9,
-        67.34,
-        72.1,
-        66.77,
-        68.12,
-        68.49,
-        69.24,
-        68.74,
-        68.79
+        260.37,
+        260.59,
+        262.21,
+        260.74,
+        262.12,
+        262.81,
+        256.95,
+        260.93,
+        260.95,
+        261.85
       ],
-      "min": 66.77,
-      "median": 68.79,
-      "mean": 69.12,
-      "max": 72.1
+      "min": 256.95,
+      "median": 260.95,
+      "mean": 260.95,
+      "max": 262.81
     },
     "memory": {
       "nodeProcess": {
-        "rss": 289243136,
-        "heapTotal": 99827712,
-        "heapUsed": 68217992,
-        "external": 26797657,
-        "arrayBuffers": 5372003
+        "rss": 693665792,
+        "heapTotal": 324730880,
+        "heapUsed": 288986176,
+        "external": 47208347,
+        "arrayBuffers": 23920803
       },
       "chromium": {
         "browserProcessRssKb": null,
