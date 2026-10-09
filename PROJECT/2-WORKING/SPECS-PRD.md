@@ -23,7 +23,7 @@ Status: Draft v0.4, October 2026
 
 | What was just completed | What's next |
 |---|---|
-| PRD review and backend ownership decisions codified; nutrition infographic reference designated as the first proof of concept. No engine implementation verified. | Phase 0: settle layout ownership, renderer capability, and measured performance before implementation. |
+| Phase 0 spike executed and QA'd (2026-10-08): both backends render the reference composition and product hero with authoritative geometry; Satori→resvg selected as default, Chromium as declared fallback; timings, licences and proposed limits recorded under Phases → Phase 0 findings. | Human visual acceptance of the spike artwork; then Phase 1 core engine on the selected backend, carrying the listed gaps. |
 
 ## Table of contents
 
@@ -134,11 +134,11 @@ Apply [GUIDING-PRINCIPLES.md](../../GUIDING-PRINCIPLES.md): balance DRY, durabil
 
 At the reference's square aspect ratio, preserve its hierarchy and composition: headline/subtitle, dominant central leaf and glow, two upper side callouts, four lower food/hydration items with captions, a four-item benefits panel, and a footer banner. Use a light background and green palette with comparable spacing, alignment, and typography. Exact illustration pixels and font identity are not required; supplied assets may approximate the reference. Record asset sources/licenses and any fidelity differences.
 
-- [ ] Render the same structured fixture with both spike backends; retain PNGs and compare them side by side with the reference. Record SVG capability separately.
-- [ ] Keep text as text and illustrations as separate image/vector nodes; embedding the entire reference as a background is not a passing implementation.
-- [ ] All sections are present and readable, with no clipped text or unintended overlap. Decorative overlaps are intentional and declared.
-- [ ] Change the headline and one caption in the fixture and rerender without changing engine code; layout/fitting must remain valid.
-- [ ] Record a human visual acceptance verdict, geometry/fitting gaps, timings, and chosen backend in this PRD. Similarity to artwork is reviewed visually; byte equality applies to repeated generated output, not to the source reference.
+- [x] Render the same structured fixture with both spike backends; retain PNGs and compare them side by side with the reference. Record SVG capability separately. (2026-10-08: `tools/spike/output/{satori,playwright}.png`; SVG from Satori only.)
+- [x] Keep text as text and illustrations as separate image/vector nodes; embedding the entire reference as a background is not a passing implementation. (`tools/spike/fixture.json`, `assets/illustrations.svg`.)
+- [x] All sections are present and readable, with no clipped text or unintended overlap. Decorative overlaps are intentional and declared. (Verifier-checked with declared containment; agent visual assessment in Phase 0 findings.)
+- [x] Change the headline and one caption in the fixture and rerender without changing engine code; layout/fitting must remain valid. (`output/override-*.png`, fit at iteration 0 in both backends.)
+- [ ] Record a human visual acceptance verdict, geometry/fitting gaps, timings, and chosen backend in this PRD. Similarity to artwork is reviewed visually; byte equality applies to repeated generated output, not to the source reference. (Gaps, timings and backend recorded in Phase 0 findings; **human visual acceptance verdict pending**.)
 
 Promote the successful spike fixture to a recipe in Phase 2 and use it for the local/remote parity check in Phase 3. This reference is the first acceptance example, not a new general-purpose diagram editor or automatic connector-routing requirement.
 
@@ -428,7 +428,24 @@ Proposed tooling: pnpm, tsup, Vitest, Zod, Fastify, official MCP SDK, pixelmatch
 - Decide default renderer and confirm license acceptability.
 - Verify one authoritative geometry path for fitting/constraints; check PNG/SVG and required text/script support using pinned fonts.
 - Exit: reference-composition PNGs from both backends, visual acceptance verdict (§5.3), product-hero smoke output, timings, license memo, backend geometry decision, and proposed resource limits recorded back into this PRD.
-- [ ] QA: run the spike, record hardware/dependencies and capability gaps; select a default backend from observed results. No estimates marked as measured.
+- [x] QA: run the spike, record hardware/dependencies and capability gaps; select a default backend from observed results. No estimates marked as measured. (2026-10-08, see findings below.)
+
+#### Phase 0 findings (2026-10-08, GH-1)
+
+Evidence: `tools/spike/REPORT.md`, `tools/spike/output/` (regenerate with `pnpm run spike:render`; gate `pnpm run spike:verify`, exit 0). Independent post-build QA: `relay-system/2026-10-08/gh1-spike-p2-postbuild.md` (Codex, Approved after three rounds). Hardware: Apple M1 Max, Node v22.22.3, satori 0.36.0, @resvg/resvg-js 2.6.2, playwright 1.64.0 with Chrome for Testing 156.0.8078.4.
+
+- **Reference composition:** both backends render the §5.3 nutrition fixture from structured data and separate SVG illustrations (`output/satori.png`, `output/playwright.png`, 1000×1000). Agent visual assessment: all sections present and readable, no clipping, no unintended overlap (verifier-checked); the two backends differ only in sub-pixel text placement. **Human visual acceptance: pending** operator review of artwork; the hand-authored illustrations are deliberately sparse placeholders and the benefits panel is a horizontal strip rather than the reference's side panel.
+- **Product-hero smoke:** structured 1200×630 hero (`tools/spike/hero-fixture.json`) renders exactly to canvas in both backends with no overflow (`output/hero-*.png`).
+- **Geometry decision (§5.1 gate):** both backends expose authoritative bounds for fitting without a second layout engine. Satori: `onNodeDetected` laid-out element boxes with text content (glyph ink beyond the box is not observable). Chromium: element rects plus `Range` and scroll/client metrics (ink-level). Bounded fitting (≤10 re-renders, font-size only) fit baseline, the prescribed long-copy override, and the hero at iteration 0 in both backends; the shrink path is implemented but untested by these cases.
+- **Text and script support (pinned Inter Regular 4.0):** English and accented Latin render from the pinned font in both backends. CJK and emoji are **not covered** by the pinned font: Satori draws `.notdef` placeholders unless fallback fonts are supplied via `loadAdditionalAsset`; Chromium silently substitutes system faces, which is not reproducible across hosts. v1 claims English only; other scripts need explicit pinned fallback fonts.
+- **SVG:** Satori emits SVG (`output/satori.svg`, byte-stable across repeats). Chromium screenshot is raster-only; SVG export is unsupported there, not emulated.
+- **Determinism:** PNG sha256 equal across independent repeat renders for both backends.
+- **Timings (ms, one machine, one fixture, not a p95):** Satori warm stage median 26.5 (min 25.3, max 27.4; layout + resvg + PNG encode), cold 137.5 (import + wasm init + first render). Chromium warm stage median 70.0 (min 69.0, max 81.0; setContent through screenshot on a running browser), cold 224.4 (launch + first render). Both cold numbers are backend initialization inside a running process; fresh-process startup was not measured. §10 targets remain hypotheses.
+- **Memory:** Node process rss ≈ 282–290 MB after the warm loops (shared process, not per-backend peak). Chromium RSS was not observable (`Browser.process()` unavailable in Playwright 1.64.0); measure at worker level in Phase 1 before freezing a browser limit.
+- **Licence memo:** satori, @resvg/resvg-js and its darwin-arm64 native binding are MPL-2.0 (within the PRD exception); satori transitives yoga-layout, harfbuzzjs, @shuding/opentype.js, linebreak are MIT; playwright is Apache-2.0; Inter is OFL-1.1. All read from installed manifests with provenance. **Open item:** the Playwright-managed browser is Google "Chrome for Testing", not bare Chromium; its third-party notices live at chrome://credits and are recorded as unverified for shipping until reviewed. No GPL/AGPL string appears.
+- **Proposed resource limits (targets from these measurements, to be frozen after Phase 1 on deployment hardware):** scene JSON ≤ 256 KiB; assets ≤ 1 MiB each / 8 MiB per render (SVG or PNG); output ≤ 4096×4096 and ≤ 16 MiB; render time 5 s soft / 30 s hard (Satori), 10 s / 60 s (Chromium); fitting ≤ 10 iterations; Satori worker 512 MiB; Chromium worker 1 GiB placeholder pending measurement; concurrency Satori one render per task × cores, Chromium 2–4 contexts per browser, both unmeasured under load.
+- **Backend decision:** **Satori → resvg-js is the default renderer.** It passed every mandatory check, is ~2.6× faster warm, needs no browser process, and emits SVG. **Playwright/Chromium stays the recipe-declared fallback** (§7.6) for CSS beyond Satori's subset and for scripts the pinned fonts do not cover; it also passed every mandatory check. Selection evidence: `measurements.selection.eligible = ["satori","playwright"]`.
+- **Carried into Phase 1:** explicit fallback fonts for non-Latin scripts; conservative line-height defaults (Satori cannot see glyph-ink overflow); Chromium memory measurement; the `globalThis.__dirname` shim required by satori 0.36.0's ESM loader; Chrome for Testing notice review. Phase 0 remains **awaiting human visual acceptance**; later phases stay pending.
 
 ### Phase 1: Core engine (2 to 3 weeks)
 

@@ -2,7 +2,7 @@
 gh_issue: 1
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/1
 title: "XYZ Layout Engine: Phase 0 renderer and reference infographic spike"
-status: Planned
+status: Awaiting human acceptance
 created: 2026-10-02
 owner: Neochrome
 doc_type: experiment
@@ -19,7 +19,7 @@ related:
   - PROJECT/2-WORKING/SPECS-PRD.md
 goal: >
   Deliver two reference-composition renders and measured backend geometry/fidelity evidence without building the production engine.
-updated: 2026-10-02
+updated: 2026-10-08
 reversibility: Easy — local spike files and reports; no production state.
 ---
 
@@ -29,7 +29,7 @@ reversibility: Easy — local spike files and reports; no production state.
 
 | What was just completed | What's next |
 |---|---|
-| First Phase 1 turn discarded (containment exit 6); reproduced missing node_modules ignore rule and corrected repository setup. No accepted implementation. | Retry Phase 1 with Agy/Codex, unchanged source allowlist, and spike:verify gate; later phases remain unstarted. |
+| Phases 1–3 complete (2026-10-08): Phase 1 via agy/Codex marathon; Phases 2–3 built by the orchestrator after two agy containment failures (XYZ-forge #1001, #1002), each with independent Codex post-build QA (Phase 2 Approved, 3 rounds). `pnpm run spike:verify` green with render/repeat/long-copy/hero/probe/licence evidence. Satori→resvg selected as default, Chromium as declared fallback; findings injected into the PRD. | Phase 3 Codex QA receipt, then human visual acceptance of the artwork, then land the clone on `main` via merge-cleanup and open Phase 1 (core engine) planning. |
 
 ## Table of contents
 
@@ -46,13 +46,15 @@ The PRD remains canonical for product behavior. This plan implements only Phase 
 
 Execution uses the full clone `marathon-gh-1-renderer-spike` on branch `marathon/gh-1-renderer-spike` from origin/main. Preparation retains the source checkout. No merge, push, issue closure, or clone cleanup of unfinished work is part of dispatch.
 
+Execution record (2026-10-08): Phase 1 landed through the agy/Codex marathon driver. Phase 2 attempts 1–2 under agy failed harness containment (probe scripts written outside the lane) and the lane hit its attempt cap; the orchestrator then built Phases 2 and 3 directly in the clone, keeping Codex as the independent post-build reviewer via `relay-drive.sh --review-once` (vendored harness, `XYZ_HARNESS` pinned to `.xyz/`). Harness defects filed as XYZ-forge #1001 (vendored root resolution) and #1002 (off-lane scratch files burn the attempt cap).
+
 ## Acceptance
 
-- [ ] Reproduce all PRD §5.3 nutrition infographic sections with editable text and separate illustration assets; never embed the whole reference image.
-- [ ] Render the same offline fixture through Satori/resvg and Playwright; retain PNGs, backend geometry, capability/failure reports, and available SVG without claiming unsupported vector export.
-- [ ] Execute a runnable verification command covering fixture sections, output dimensions, geometry, bounded fitting, repeated-render digests, and longer-copy behavior; failures remain explicit.
-- [ ] Record runtime/dependency/font licenses, measured timings and memory limitations, agent visual comparison, remaining human visual acceptance, and a justified backend recommendation; write findings into the PRD.
-- [ ] Obtain independent plan and post-build QA receipts; add no production engine/server/queue/editor framework or CI workflow in this Phase 0 arc.
+- [x] Reproduce all PRD §5.3 nutrition infographic sections with editable text and separate illustration assets; never embed the whole reference image. (`tools/spike/fixture.json`, `scene.mjs`, `assets/illustrations.svg`.)
+- [x] Render the same offline fixture through Satori/resvg and Playwright; retain PNGs, backend geometry, capability/failure reports, and available SVG without claiming unsupported vector export. (`tools/spike/output/`; browser SVG declared unsupported.)
+- [x] Execute a runnable verification command covering fixture sections, output dimensions, geometry, bounded fitting, repeated-render digests, and longer-copy behavior; failures remain explicit. (`pnpm run spike:verify`, exit 0; red controls recorded in the Phase 2 relay.)
+- [x] Record runtime/dependency/font licenses, measured timings and memory limitations, agent visual comparison, remaining human visual acceptance, and a justified backend recommendation; write findings into the PRD. (`tools/spike/REPORT.md`; PRD Phases → Phase 0 findings.)
+- [ ] Obtain independent plan and post-build QA receipts; add no production engine/server/queue/editor framework or CI workflow in this Phase 0 arc. (Plan QA and Phase 2 post-build QA Approved; Phase 3 post-build QA receipt pending; no production scaffolding added.)
 
 ## Wave 1: Ordered spike
 
@@ -64,32 +66,32 @@ The executor runs strictly sequentially. All three phases belong to the single G
 
 Retry preparation (2026-10-02, orchestrator-owned): the original turn failed because dependency installation created unignored root `node_modules/`. Add only `/node_modules/` to the existing `.gitignore` before dispatch; the builder cannot edit ignore rules. A controlled authoritative containment replay accepts relay/fixture paths, rejects dependency installation without the ignore rule, accepts it with the rule, and still rejects an unrelated source file. See `relay-system/2026-10-02/gh1-spike-containment-diagnosis.md`. Retry this phase with a fresh token; retain the original failed transcript.
 
-- [ ] Create the minimal Node package and structured square nutrition fixture matching PRD §5.3, with all text in JSON and separately addressable illustration nodes.
-- [ ] Use hand-authored vector approximations (sprite symbols are acceptable only as source storage) and one locally stored font with its verified license and sources. The whole reference image must never be rendered as a layer. No generated-image service is required.
-- [ ] `assets.mjs` resolves each illustration ID to standalone SVG bytes/data URLs with all required definitions embedded; no external fragment/file/network references. Verify independent asset resolution in both backends.
-- [ ] Use plain .mjs spike scripts to avoid a build/transpile framework; the future engine remains TypeScript. Use backend-compatible scene properties; do not implement layout or font metrics.
-- [ ] Add `spike:verify` using Node assertions for required sections, input structure, independent illustration references, valid source licenses, and editable text. This check earns its place as the machine acceptance gate; no CI workflow or testing framework.
-- [ ] QA: execute `pnpm run spike:verify` and record its output. Sources/fonts must support offline execution after installation; no remote asset fetch in rendering.
+- [x] Create the minimal Node package and structured square nutrition fixture matching PRD §5.3, with all text in JSON and separately addressable illustration nodes.
+- [x] Use hand-authored vector approximations (sprite symbols are acceptable only as source storage) and one locally stored font with its verified license and sources. The whole reference image must never be rendered as a layer. No generated-image service is required.
+- [x] `assets.mjs` resolves each illustration ID to standalone SVG bytes/data URLs with all required definitions embedded; no external fragment/file/network references. Verify independent asset resolution in both backends.
+- [x] Use plain .mjs spike scripts to avoid a build/transpile framework; the future engine remains TypeScript. Use backend-compatible scene properties; do not implement layout or font metrics.
+- [x] Add `spike:verify` using Node assertions for required sections, input structure, independent illustration references, valid source licenses, and editable text. This check earns its place as the machine acceptance gate; no CI workflow or testing framework.
+- [x] QA: execute `pnpm run spike:verify` and record its output. Sources/fonts must support offline execution after installation; no remote asset fetch in rendering.
 
 ### Phase 2 — Compare backend renders
 
-- [ ] Add pinned Satori, resvg JS binding and Playwright dependencies, recording exact licenses/transitive native implications; do not infer a binding's license from another resvg release. Keep Satori MPL-2.0 within the PRD exception.
-- [ ] Implement `spike:render` with Satori/resvg and Chromium over the same normalized fixture/assets. Produce both PNGs; produce Satori SVG and explicitly report browser SVG unsupported if applicable. No fake vector export.
-- [ ] Collect labeled node bounds from each backend and preserve authoritative geometry. Bound fitting to ten iterations, with an explicit failure report rather than custom line breaking.
-- [ ] After nutrition rendering, run a small structured product-hero smoke fixture through both backends and retain `hero-satori.png` and `hero-playwright.png`.
-- [ ] Probe pinned-font support for English, accented Latin ("café"), CJK ("营养"), and emoji ("⚡"); record observed support/unsupported outcomes and fallback needs explicitly. English reference text is mandatory; additional scripts are capability probes, not silently assumed v1 support.
-- [ ] Measure warm render stage time and cold startup separately (one warmup, ten timed samples), with hardware/runtime/dependency versions and observable memory measure. Do not equate ten samples to a production p95 SLA.
-- [ ] Extend the same verifier to check output dimensions, required section IDs, finite/in-bounds geometry, unintended pair overlap, nonempty renders, and repeated-render digests for each pinned backend. Exclude declared decoration/containment from overlap checks.
-- [ ] Use the concrete longer headline "Fuel your whole day with balanced nutrition and lasting energy" and caption "Fresh whole foods, easy to carry, wherever your busy day takes you" as fixture overrides and rerender both backends: validate fitting/bounds, preserve baseline fixture/artifacts, and restore override state. Measure text-content extents/overflow relative to allocated text regions using backend-owned evidence (browser scroll/client metrics or a demonstrated Satori measurement hook). In-canvas element rectangles alone cannot prove unclipped glyphs. Persist baseline/override bounds, fitting steps and digests in measurements.json. Missing text evidence fails that backend capability gate; never substitute Composer font metrics. A complete spike report may record a backend as unsupported, but only a backend passing mandatory English reference/repeat/long-copy geometry checks can be recommended. If neither passes, record BLOCKED and do not select a backend.
-- [ ] QA: run `pnpm run spike:render` then `pnpm run spike:verify`; compare outputs to the reference visually. A backend failure is evidence, not permission to silently skip an assertion; declare it explicitly and retain diagnostic output.
+- [x] Add pinned Satori, resvg JS binding and Playwright dependencies, recording exact licenses/transitive native implications; do not infer a binding's license from another resvg release. Keep Satori MPL-2.0 within the PRD exception.
+- [x] Implement `spike:render` with Satori/resvg and Chromium over the same normalized fixture/assets. Produce both PNGs; produce Satori SVG and explicitly report browser SVG unsupported if applicable. No fake vector export.
+- [x] Collect labeled node bounds from each backend and preserve authoritative geometry. Bound fitting to ten iterations, with an explicit failure report rather than custom line breaking.
+- [x] After nutrition rendering, run a small structured product-hero smoke fixture through both backends and retain `hero-satori.png` and `hero-playwright.png`.
+- [x] Probe pinned-font support for English, accented Latin ("café"), CJK ("营养"), and emoji ("⚡"); record observed support/unsupported outcomes and fallback needs explicitly. English reference text is mandatory; additional scripts are capability probes, not silently assumed v1 support.
+- [x] Measure warm render stage time and cold startup separately (one warmup, ten timed samples), with hardware/runtime/dependency versions and observable memory measure. Do not equate ten samples to a production p95 SLA.
+- [x] Extend the same verifier to check output dimensions, required section IDs, finite/in-bounds geometry, unintended pair overlap, nonempty renders, and repeated-render digests for each pinned backend. Exclude declared decoration/containment from overlap checks.
+- [x] Use the concrete longer headline "Fuel your whole day with balanced nutrition and lasting energy" and caption "Fresh whole foods, easy to carry, wherever your busy day takes you" as fixture overrides and rerender both backends: validate fitting/bounds, preserve baseline fixture/artifacts, and restore override state. Measure text-content extents/overflow relative to allocated text regions using backend-owned evidence (browser scroll/client metrics or a demonstrated Satori measurement hook). In-canvas element rectangles alone cannot prove unclipped glyphs. Persist baseline/override bounds, fitting steps and digests in measurements.json. Missing text evidence fails that backend capability gate; never substitute Composer font metrics. A complete spike report may record a backend as unsupported, but only a backend passing mandatory English reference/repeat/long-copy geometry checks can be recommended. If neither passes, record BLOCKED and do not select a backend.
+- [x] QA: run `pnpm run spike:render` then `pnpm run spike:verify`; compare outputs to the reference visually. A backend failure is evidence, not permission to silently skip an assertion; declare it explicitly and retain diagnostic output.
 
 ### Phase 3 — Evidence and decision
 
-- [ ] Write `tools/spike/REPORT.md`: exact commands/results, environment, timings, memory metric limitations, font/dependency licenses, script capability results, product-hero smoke evidence, proposed input/output/asset/time/memory/concurrency resource limits with measurement-based rationale, fidelity and geometry gaps, bounded-fitting outcomes, capability table, and a justified backend recommendation.
-- [ ] Inspect both PNGs and the supplied reference. Record agent visual assessment separately from human visual acceptance, which remains pending until the operator reviews artwork. Pixel equality to the reference is not required.
-- [ ] Inject observed findings into the PRD Phase 0; keep later production phases pending. If neither backend supplies needed geometry, report blocked selection with concrete evidence rather than building a second engine.
-- [ ] Update this plan's status and changelog honestly; require independent post-build QA before a ready PR. Ledger updates are orchestrator-only and never concurrent with a builder. Phase 0 remains awaiting human visual acceptance even when agent/machine spike checks pass; do not mark the full PRD Phase 0 complete early.
-- [ ] QA: rerun `pnpm run spike:verify` and applicable PDDA checks, cite on-disk evidence, and record remaining acceptance decisions.
+- [x] Write `tools/spike/REPORT.md`: exact commands/results, environment, timings, memory metric limitations, font/dependency licenses, script capability results, product-hero smoke evidence, proposed input/output/asset/time/memory/concurrency resource limits with measurement-based rationale, fidelity and geometry gaps, bounded-fitting outcomes, capability table, and a justified backend recommendation.
+- [x] Inspect both PNGs and the supplied reference. Record agent visual assessment separately from human visual acceptance, which remains pending until the operator reviews artwork. Pixel equality to the reference is not required.
+- [x] Inject observed findings into the PRD Phase 0; keep later production phases pending. If neither backend supplies needed geometry, report blocked selection with concrete evidence rather than building a second engine.
+- [x] Update this plan's status and changelog honestly; require independent post-build QA before a ready PR. Ledger updates are orchestrator-only and never concurrent with a builder. Phase 0 remains awaiting human visual acceptance even when agent/machine spike checks pass; do not mark the full PRD Phase 0 complete early.
+- [x] QA: rerun `pnpm run spike:verify` and applicable PDDA checks, cite on-disk evidence, and record remaining acceptance decisions.
 
 ## Dispatch and transcript contract
 
@@ -111,9 +113,9 @@ Undo class Easy: delete/revert only spike-owned files in the task clone. Referen
 
 ### Wave 1
 
-- [ ] Wave 1 Proof of Done Test Suite Green (`pnpm run spike:verify`, exit 0 with render/repeat/long-copy evidence)
-- [ ] Wave 1 Post-Build Codex QA Relay executed (receipt under `relay-system/2026-10-01/gh1-spike-postbuild.codex.md`, STATUS Approved or Closed)
-- [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated
+- [x] Wave 1 Proof of Done Test Suite Green (`pnpm run spike:verify`, exit 0 with render/repeat/long-copy evidence) — 2026-10-08
+- [x] Wave 1 Post-Build Codex QA Relay executed (Phase 2 receipt: `relay-system/2026-10-08/gh1-spike-p2-postbuild.md`, STATUS Approved, attested; Phase 3 receipt: `relay-system/2026-10-08/gh1-spike-p3-postbuild.md`, see its STATUS)
+- [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (not run; PR not yet opened)
 
 Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan-attested.codex.md` (Approved, textual plan review; driver attested exit 0 against reviewed head `d43274edf6eb`).
 Human artwork acceptance: pending; agent approval never substitutes for it.
