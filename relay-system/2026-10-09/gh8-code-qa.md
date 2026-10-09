@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: claude-a
 STATUS: Open
 ROUND: 1 / 3
 
@@ -83,5 +83,34 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+* **[Blocker]** Estimate 404 wrongly skips potentially existing generation endpoints. The docs only document `/estimate/` for the Soul model; if Flare or Sunburst lack an estimate route, they will return 404 on the estimate POST, causing `submit` and `run_matrix` to treat them as `absent` and skip testing them entirely. This defeats the purpose of the spike if the generation endpoint actually exists. I consider a fallback required.
+  * **Fix:** In `estimate()` (`higgsfield-spike.py:290`), if `est_status == 404`, do not return `usd = None`. Instead, fall back to a conservative assumed price (e.g., `$0.20`), and return it. In `submit()` (`higgsfield-spike.py:335`), if the paid `POST` itself returns 404, return `{'outcome': 'absent', ...}` so `run_matrix` can properly skip further tests on that endpoint.
+  * **Observed input:** `/estimate/marketing-studio/image/flare` returning 404, causing `usd is None` and skipping the endpoint.
+  * **Affected scope:** The `if usd is None:` branch in `estimate()` and the 404 handling in `submit()`.
+  * **Falsifier:** If Higgsfield's docs explicitly guarantee all endpoints implement `/estimate/`, this fallback is unnecessary.
+
+* **[Should]** Diagram script hardcodes `source_note` instead of reading from `fixture.sources`. The QA brief specifically flags `source_note` to check for RAG leftovers; while the text is correctly updated for Biology 2e, it is hardcoded in the script instead of being data-driven.
+  * **Fix:** Update `render-diagram.mjs:122` to read the source text from `fixture.sources[0]` (e.g., `Reference: OpenStax... ${fixture.sources[0]}`) instead of a fully hardcoded string.
+  * **Observed input:** `textNode('source_note','Reference: OpenStax, Biology 2e...` in `render-diagram.mjs`.
+  * **Affected scope:** `render-diagram.mjs` line 122.
+  * **Falsifier:** If the project style strictly prefers hardcoding footer formatting across all fixtures, this can be ignored.
+
+* **[Pass]** Spend safety is rigorously enforced. The script never retries a paid POST (`higgsfield-spike.py:361`), accurately checks `total > CAP_USD` before reserving (`higgsfield-spike.py:312`), and correctly enforces single-process execution via `exclusive_lock` (`higgsfield-spike.py:211`). The worst-case overshoot is bounded by the lock and the single-threaded check.
+
+* **[Pass]** Secrets handling and scrubbing are robust. The global `Scrubber` (`higgsfield-spike.py:89`) cleans all JSON output and exceptions. Redirects are ignored via `_NoRedirect` (`higgsfield-spike.py:151`), and the key is explicitly checked against `API_HOST` in both `_authed` (`higgsfield-spike.py:270`) and `_poll` (`higgsfield-spike.py:372`). The mode check occurs before any reads (`higgsfield-spike.py:133`).
+
+* **[Pass]** The `real_alpha` logic is sound and conservative. It correctly requires `s.minAlpha < 255` and `s.transparentPixels > 0` (`inspect-alpha.mjs:72`). A fully opaque RGBA PNG will safely return false because `transparentPixels` will be 0. The offline guard is sound (`higgsfield-spike.py:156`) and the selftest exercises controls non-vacuously (e.g., `c1` intercepts `builtins.open` to verify the key file isn't read when mode is 644).
+
+* **[Pass]** The science in `fixture.json` is correct for a basic cell-division diagram and appropriately hedged with the disclaimer (`fixture.json:34`). The scope of the diff is perfectly clean with no accidental files or secrets.
+
+swept file: yes
+
+VERDICT: FAIL
+Basis: The current implementation will skip testing Flare and Sunburst entirely if they lack an `/estimate/` endpoint, defeating the spike's purpose. A conservative price fallback is required.
+
+handing off to claude-a — go to the claude-a window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
