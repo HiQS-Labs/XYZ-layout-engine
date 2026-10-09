@@ -1,5 +1,5 @@
 {
-  "status": "prepared, final Agy input review pending; not launched",
+  "status": "Approved and attested; launch pending",
   "base": "a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c",
   "base_authorization": "operator confirmed origin/main; no development branch",
   "clone": "marathon-gh-5-mvp-foundation",
@@ -87,5 +87,13 @@
     "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p3.md": "96e6aa11053170116a26484677b933cd4fcfdcf2c8e360221e91edd9f697823f",
     "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p4.md": "b32555fd4de602aa5ba69751fb4508d6d8a839eb21d09f26451f9abff1de892f",
     "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p5.md": "05c67f818ec0b59622d3e0a3081d24296b5b0c5d9a4751d42a0e55c807797eaf"
+  },
+  "final_plan_qa": {
+    "reviewer": "agy",
+    "model": "gemini-3.1-pro-high",
+    "driver_exit": 0,
+    "reviewed_head": "6137a0d8dfb45b80decfd8d5217a77d76196d8bc",
+    "receipt": "relay-system/2026-10-09/gh5-readiness.agy.md",
+    "artifact_sha256": "1a965ae6309dca48456f0635f5e89078c2804bbf498e3d526696c70820972566"
   }
 }
