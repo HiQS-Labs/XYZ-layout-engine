@@ -2,7 +2,7 @@
 
 ## 2026-10-09 — GH-13 and GH-8 Phase 0 landed and reconciled
 
-- PR #14 (design-diagram skill, `87de428`) and PR #15 (Higgsfield Phase 0 spike and cell-division example, `4d9aa2c`) squash-merged to `main`; issue #13 closed. The roadmap writer moved GH-13 to Completed (`roadmap reconcile-state --apply`); the GH-13 plan moved to `PROJECT/3-COMPLETED/` with its row repointed. GH-8 stays In progress (issue #8 open; its Phases 1 to 4 are not started). PR #15's changelog and ledger collision with #14 was resolved by the merge tool's additive-disjoint path. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
+- PR #14 (design-diagram skill, `87de428`) and PR #15 (Higgsfield Phase 0 spike and cell-division example, `4d9aa2c`) squash-merged to `main`; issue #13 closed. The roadmap writer moved GH-13 to Completed (`roadmap reconcile-state --apply`); the GH-13 plan moved to `PROJECT/3-COMPLETED/` with its row repointed. The same reconcile also moved GH-8 to Completed because the merged PR title begins "GH-8", which was wrong (issue #8 is open and its Phases 1 to 4 are not started); it was moved back to Queue / parked intake through the writer (`roadmap update --section`). PR #15's changelog and ledger collision with #14 was resolved by the merge tool's additive-disjoint path. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
 
 ## 2026-10-09 — GH-8 Phase 0: Higgsfield transparency spike and cell-division example
 
