@@ -1,0 +1,71 @@
+{
+  "kind": "interval",
+  "observed_at": "2026-10-09T16:50:11.422761+00:00",
+  "elapsed_seconds": 1200.1,
+  "interval_seconds": 600,
+  "check": 2,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 17489,
+  "exit": null,
+  "approved_remaining_phases": 1,
+  "total_remaining_phases": 4,
+  "last_qualified_progress": {
+    "schema_version": "0.2.0",
+    "ts": "2026-10-09T16:30:41.243Z",
+    "type": "marathon.phase.start",
+    "task": "MARATHON-GH5-P3-TURN",
+    "agent": "marathon"
+  },
+  "heartbeat": {
+    "phase_id": "gh5-p3",
+    "pid": 62018,
+    "plan": "gh5-p3",
+    "relay_task": "MARATHON-GH5-P3-TURN",
+    "started_utc": "2026-10-09T16:30:41Z",
+    "updated_utc": "2026-10-09T16:49:41Z"
+  },
+  "heartbeat_age_seconds": 30.4,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": [
+      {
+        "task": "MARATHON-GH5-P3-TURN",
+        "agent": "codex",
+        "paths": [
+          "marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
+          "examples/2026-10-08-solar-system/generate-assets.py",
+          "examples/2026-10-08-solar-system/README.md",
+          "tools/spike/test/canaries.test.mjs",
+          "CHANGELOG.md",
+          "tools/MVP-REPORT.md"
+        ],
+        "epoch": 5
+      }
+    ]
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
+    "headers": [
+      "STATUS: Open",
+      "NEXT: codex (Reviewer)"
+    ]
+  },
+  "log_tail": [
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.rEgOfb) changed-files=0",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.rEgOfb) changed-files=1",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.rEgOfb) changed-files=5",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.rEgOfb) changed-files=6",
+    "rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
+    "rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
+    "agy-turn: committed agy turn (file-scoped, no push)",
+    "agy-turn: dependency.drift \u2014 agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn",
+    "agy-turn: dependency.drift \u2014 agy changed src/project.js (0 lines); signalled for the next turn",
+    "agy-turn: dependency.drift \u2014 agy changed src/events.js (0 lines); signalled for the next turn",
+    "relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2",
+    "codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.QhNNb8)",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QhNNb8) changed-files=0",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QhNNb8) changed-files=1"
+  ],
+  "observer_only": true
+}

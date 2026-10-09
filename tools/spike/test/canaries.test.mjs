@@ -3,7 +3,7 @@
 // Supported host: the recorded darwin-arm64 developer host (see PROJECT/3-COMPLETED/GH-2-REGRESSION-CANARIES.md).
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { mkdtempSync, readdirSync, readFileSync, cpSync, appendFileSync, rmSync, mkdirSync, symlinkSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import os from 'node:os';
@@ -181,90 +181,78 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   writeFileSync(p2, JSON.stringify(failFixture));
   await assert.rejects(processRequest({ inputPath: p2, format: 'png', recipe: 'solar-system' }, { root: FRESH }), /text outside its region|missing\/invalid text geometry|text outside canvas/);
 
-  // 4. Generator phase 3 contract
-  const stubJS = path.join(FRESH, 'stub.mjs');
+  // Generator recovery controls stay inside C1 and never invoke a provider.
+  const stubJS = path.join(FRESH, 'stub.mjs'), stubCount = path.join(FRESH, 'stub-count');
   writeFileSync(stubJS, `
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { readFileSync, writeFileSync, appendFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-const args = process.argv;
-const out = args[args.indexOf('--out') + 1];
-mkdirSync(dirname(out), { recursive: true });
-if (process.env.STUB_CORRUPT) {
-  writeFileSync(out, 'bad');
-  console.log('not json');
-} else {
-  const png = Buffer.concat([Buffer.from('\\x89PNG\\r\\n\\x1a\\n', 'binary'), Buffer.from('mock')]);
-  writeFileSync(out, png);
-  const sha = createHash('sha256').update(png).digest('hex');
-  console.log(JSON.stringify({ status: 'ok', image: { sha256: sha }, alpha: { hasAlphaChannel: true }, recipeRef: 'mock', attempts: 1, cost: { usd: 0.01 } }));
+import { fileURLToPath } from 'node:url';
+const args=process.argv, out=args[args.indexOf('--out')+1];
+appendFileSync(process.env.STUB_COUNT, 'call\\n');
+if(process.env.STUB_SLEEP) await new Promise(resolve=>setTimeout(resolve, Number(process.env.STUB_SLEEP)));
+if(process.env.STUB_CORRUPT) { writeFileSync(out,'bad'); console.log('not json'); }
+else {
+ const png=readFileSync(process.env.STUB_PNG); if(!process.env.STUB_MISSING) writeFileSync(out,png);
+ const hash=b=>createHash('sha256').update(b).digest('hex');
+ console.log(JSON.stringify({status:'success', image:{sha256:hash(png),bytes:png.length}, alpha:{hasAlphaChannel:true,verified:true,transparentPixelRatio:0.5}, recipeRef:'configured-caller:'+hash(readFileSync(fileURLToPath(import.meta.url))), argv:args.slice(2),attempts:[{status:'success'}],usage:{images:1},cost:{usd:0.01}}));
 }
-  `);
-
+`);
   const py = path.join(SPIKE, '../../examples/2026-10-08-solar-system/generate-assets.py');
-  const genRoot = path.join(FRESH, 'gen');
-  mkdirSync(genRoot);
-  const jobsFile = path.join(genRoot, 'jobs.json');
-
-  const runGen = (env = {}, addArgs = []) => spawnSync(process.env.PYTHON || 'python3', [py, '--caller', stubJS, '--assets-dir', genRoot, '--jobs', jobsFile, ...addArgs], { env: { ...process.env, ...env }, encoding: 'utf8' });
-
-  // one changed input -> one call
-  writeFileSync(jobsFile, JSON.stringify([{ id: 'test1', prompt: 'a', model: 'm', size: 's', quality: 'q', background: 'b' }]));
-  const r1 = runGen();
-  assert.equal(r1.status, 0, r1.stderr);
-  assert.match(r1.stdout, /Planned calls: 1/);
-
-  // valid resume -> zero calls
-  const r2 = runGen();
-  assert.equal(r2.status, 0, r2.stderr);
-  assert.match(r2.stdout, /0 planned calls/);
-
-  // cap exceeded -> zero calls
-  writeFileSync(jobsFile, JSON.stringify([
-    { id: 'test3', prompt: 'c', model: 'm', size: 's', quality: 'q', background: 'b' },
-    { id: 'test4', prompt: 'd', model: 'm', size: 's', quality: 'q', background: 'b' }
-  ]));
-  const r4 = runGen({}, ['--max-calls', '1']);
-  assert.equal(r4.status, 4, r4.stderr);
-  assert.match(r4.stdout, /Cap exceeded/);
-
-  // corrupt output -> explicit report/replacement
-  writeFileSync(jobsFile, JSON.stringify([{ id: 'test5', prompt: 'e', model: 'm', size: 's', quality: 'q', background: 'b' }]));
-  const r5 = runGen({ STUB_CORRUPT: '1' });
-  assert.equal(r5.status, 4, r5.stderr);
-  assert.match(r5.stdout, /corrupt output/);
-
-  // interrupted in-flight -> no automatic second call
-  writeFileSync(jobsFile, JSON.stringify([{ id: 'test6', prompt: 'f', model: 'm', size: 's', quality: 'q', background: 'b' }]));
-  const manifestFile = path.join(genRoot, 'manifest.json');
-  const d6 = createHash('sha256').update(JSON.stringify({ background: 'b', model: 'm', prompt: 'f', quality: 'q', size: 's' })).digest('hex');
-  const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
-  manifest[d6] = { status: 'in-flight', job_id: 'test6' };
-  writeFileSync(manifestFile, JSON.stringify(manifest));
-  const r6 = runGen();
-  assert.equal(r6.status, 0, r6.stderr);
-  assert.match(r6.stdout, /in-flight requires explicit retry/);
-
-  // concurrent manifest ownership -> safe refusal
-  writeFileSync(jobsFile, JSON.stringify([{ id: 'test7', prompt: 'g', model: 'm', size: 's', quality: 'q', background: 'b' }]));
-  const lockScript = path.join(FRESH, 'lock.py');
-  writeFileSync(lockScript, `
-import fcntl, sys, time
-f = open(sys.argv[1], 'w')
-fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
-time.sleep(2)
-  `);
-  const lockProc = spawn(process.env.PYTHON || 'python3', [lockScript, path.join(genRoot, 'test7.lock')]);
-  spawnSync(process.env.PYTHON || 'python3', ['-c', 'import time; time.sleep(0.5)']); // Wait for python to acquire lock
+  const genRoot = path.join(FRESH, 'gen'); mkdirSync(genRoot);
+  const jobsFile = path.join(genRoot, 'jobs.json'), manifestFile = path.join(genRoot, 'manifest.json');
+  const job = { id: 'sun', prompt: 'a', model: 'm', size: '1024x1024', quality: 'medium', background: 'transparent' };
+  const genEnv = { ...process.env, STUB_COUNT: stubCount, STUB_PNG: path.join(SPIKE, 'assets/generated/web/balance_scale.png') };
+  const argv = ['--caller',stubJS,'--assets-dir',genRoot,'--jobs',jobsFile];
+  const runGen = (extra=[],env={}) => spawnSync(process.env.PYTHON || 'python3',[py,...argv,...extra], {env:{...genEnv,...env},encoding:'utf8',timeout:15000});
+  const calls = () => readFileSync(stubCount,'utf8').trim().split('\n').filter(Boolean).length;
+  writeFileSync(jobsFile, JSON.stringify([job]));
+  let result=runGen(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),1);
+  result=runGen(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),1,'resume dispatched another call');
+  const publishedPrompts=path.join(genRoot,'prompts.json'); writeFileSync(publishedPrompts,'historical input');
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'changed'}]));
+  result=runGen(['--dry-run']); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),1); assert.equal(readFileSync(publishedPrompts,'utf8'),'historical input');
+  result=runGen(['--max-calls','0']); assert.equal(result.status,4); assert.equal(calls(),1);
+  result=runGen(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),2,'one change must dispatch once');
+  writeFileSync(jobsFile,JSON.stringify([job])); result=runGen(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),2,'A -> B -> A lost immutable lineage');
+  let manifest=JSON.parse(readFileSync(manifestFile,'utf8'));
+  const original=Object.entries(manifest).find(([,state])=>state.input.prompt==='a');
+  writeFileSync(path.join(genRoot,original[1].output),'tampered');
+  result=runGen(); assert.equal(result.status,4); assert.match(result.stdout,/corrupt output/); assert.equal(calls(),2,'corruption caused blind paid retry');
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'unknown'}]));
+  result=runGen([],{STUB_CORRUPT:'1'}); assert.equal(result.status,4); const paidCalls=calls();
+  result=runGen(); assert.equal(result.status,4); assert.match(result.stdout,/unknown requires explicit retry/); assert.equal(calls(),paidCalls);
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'unknown'},{...job,id:'earth',prompt:'earth'}]));
+  result=runGen(); assert.equal(result.status,4); assert.equal(calls(),paidCalls,'unresolved Sun permitted Earth');
+  manifest=JSON.parse(readFileSync(manifestFile,'utf8')); const unknown=Object.values(manifest).find(state=>state.input.prompt==='unknown'); unknown.status='in-flight';writeFileSync(manifestFile,JSON.stringify(manifest));
+  result=runGen(); assert.equal(result.status,4); assert.match(result.stdout,/in-flight requires explicit retry/);assert.equal(calls(),paidCalls);
+  writeFileSync(jobsFile,JSON.stringify([{...job,id:'../escape',prompt:'unsafe'}]));result=runGen(); assert.equal(result.status,4);assert.equal(calls(),paidCalls);
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'concurrency'}]));
+  const holder=spawn(process.env.PYTHON || 'python3',[py,...argv],{env:{...genEnv,STUB_SLEEP:'900'},stdio:['ignore','pipe','pipe']});
+  let holderOut='',holderError=''; holder.stdout.on('data',data=>holderOut+=data);holder.stderr.on('data',data=>holderError+=data);
+  const closed=new Promise(resolve=>holder.on('close',resolve));
   try {
-    const r7 = runGen();
-    assert.equal(r7.status, 4, r7.stderr);
-    assert.match(r7.stdout, /concurrent manifest ownership/);
-  } finally {
-    lockProc.kill();
+    const until=Date.now()+3000; while(calls()===paidCalls && Date.now()<until) await new Promise(resolve=>setTimeout(resolve,20));
+    assert.equal(calls(),paidCalls+1,'first caller did not start');
+    result=runGen(); assert.equal(result.status,4); assert.match(result.stdout,/concurrent manifest ownership/);
+    assert.equal(await closed,0,holderOut+holderError);assert.equal(calls(),paidCalls+1,'overlap dispatched twice');
+  } finally { if(holder.exitCode===null) holder.kill(); }
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'deadline'}]));
+  result=runGen(['--timeout','0.1','--run-timeout','0.2'],{STUB_SLEEP:'3000'});assert.equal(result.status,4);const afterTimeout=calls();
+  result=runGen();assert.equal(result.status,4);assert.equal(calls(),afterTimeout,'timeout blindly retried');
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'missing-output'}]));
+  result=runGen([],{STUB_MISSING:'1'});assert.equal(result.status,4);const afterMissing=calls();
+  result=runGen();assert.equal(result.status,4);assert.equal(calls(),afterMissing,'missing output caused replay');
+  const ref=path.join(genRoot,'reference.png');writeFileSync(ref,validPng);
+  const edit={...job,prompt:'reference-edit',references:[ref],parameters:{moderation:'low'},refinement_id:'sun-r2'};
+  writeFileSync(jobsFile,JSON.stringify([edit]));result=runGen();assert.equal(result.status,0,result.stdout+result.stderr);
+  const edited=Object.values(JSON.parse(readFileSync(manifestFile,'utf8'))).find(state=>state.input.prompt==='reference-edit');
+  const editReceipt=JSON.parse(readFileSync(path.join(genRoot,edited.receipt),'utf8'));
+  assert.equal(editReceipt.argv[editReceipt.argv.indexOf('--param')+1],'moderation=low');
+  const snapshot=editReceipt.argv[editReceipt.argv.indexOf('--reference')+1];assert.notEqual(snapshot,ref);assert.equal(sha256(readFileSync(snapshot)),sha256(validPng));
+  const beforeReferenceChange=calls();writeFileSync(ref,sunPng);result=runGen();assert.equal(result.status,0,result.stdout+result.stderr);assert.equal(calls(),beforeReferenceChange+1,'reference content change did not invalidate one job');
+  const manifestBytes=readFileSync(manifestFile);writeFileSync(manifestFile,'{broken');result=runGen();assert.equal(result.status,4);const afterBroken=calls();writeFileSync(manifestFile,manifestBytes);assert.equal(calls(),afterBroken);
+  console.log('# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed');
   }
-  }
-  console.log('# C1: import/space CLI, admission, HTML, browser cleanup and two-success/late-failure publication controls passed');
 });
 
 test('guards: unintended visual or layout drift', () => {

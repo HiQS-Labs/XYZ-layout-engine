@@ -1,6 +1,5 @@
 import argparse
 import concurrent.futures
-import contextlib
 import fcntl
 import hashlib
 import json
@@ -31,297 +30,293 @@ subjects = {
 jobs=[{'id':k,'prompt':style+v,'model':'gpt-image-2.5-flare','size':'1024x1024','quality':'medium','background':'transparent'} for k,v in subjects.items()]
 
 def job_digest(job):
-    core = {k: v for k, v in job.items() if k != 'id'}
-    if 'references' in core:
-        ref_digests = []
-        for ref in core['references']:
-            p = Path(ref)
-            if p.exists():
-                ref_digests.append(hashlib.sha256(p.read_bytes()).hexdigest())
-            else:
-                ref_digests.append('missing')
-        core['references_hash'] = ref_digests
-    return hashlib.sha256(json.dumps(core, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    core = dict(job)
+    core['reference_digests'] = [hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in job.get('references', [])]
+    return hashlib.sha256(json.dumps(core, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
 
-def update_manifest(manifest_path, d, updates):
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    lock_path = manifest_path.parent / 'manifest.lock'
-    with open(lock_path, 'w') as lf:
-        fcntl.flock(lf, fcntl.LOCK_EX)
-        try:
-            manifest = read_manifest_internal(manifest_path)
-            if d not in manifest:
-                manifest[d] = {}
-            manifest[d].update(updates)
-            
-            tmp = manifest_path.with_name(manifest_path.name + f".{os.getpid()}.tmp")
-            with open(tmp, 'w') as f:
-                json.dump(manifest, f, indent=2, separators=(',', ': '))
-                f.flush()
-                os.fsync(f.fileno())
-            os.replace(tmp, manifest_path)
-        finally:
-            fcntl.flock(lf, fcntl.LOCK_UN)
-    return manifest[d]
 
-def read_manifest_internal(manifest_path):
-    if not manifest_path.exists():
+def read_manifest_internal(path):
+    if not path.exists():
         return {}
-    with open(manifest_path, 'r') as f:
-        try:
-            return json.load(f)
-        except Exception:
-            return {}
+    if path.is_symlink() or path.stat().st_size > 8 * 1024 * 1024:
+        raise ValueError('unsafe manifest or manifest byte budget exceeded')
+    data = json.loads(path.read_text())
+    if not isinstance(data, dict) or any(not isinstance(v, dict) for v in data.values()):
+        raise ValueError('invalid manifest; reconcile before dispatch')
+    return data
 
-def read_manifest(manifest_path):
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    lock_path = manifest_path.parent / 'manifest.lock'
-    with open(lock_path, 'w') as lf:
-        fcntl.flock(lf, fcntl.LOCK_SH)
+
+def read_manifest(path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path.parent / 'manifest.lock', 'a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_SH)
+        return read_manifest_internal(path)
+
+
+def update_manifest(path, digest, updates):
+    import tempfile
+    with open(path.parent / 'manifest.lock', 'a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        manifest = read_manifest_internal(path)
+        manifest.setdefault(digest, {}).update(updates)
+        temporary = None
         try:
-            return read_manifest_internal(manifest_path)
+            with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as output:
+                temporary = Path(output.name)
+                json.dump(manifest, output, indent=2, ensure_ascii=False, allow_nan=False)
+                output.flush()
+                os.fsync(output.fileno())
+            os.replace(temporary, path)
         finally:
-            fcntl.flock(lf, fcntl.LOCK_UN)
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
+        return manifest[digest]
 
-def validate_output(out_png, receipt_path):
-    if not out_png.exists() or not receipt_path.exists():
-        return False
-    if out_png.stat().st_size == 0:
-        return False
+
+def validate_output(out, receipt, state=None, background='transparent'):
     try:
-        content = out_png.read_bytes()
-        if not content.startswith(b'\x89PNG\r\n\x1a\n'):
+        if any(p.is_symlink() or not p.is_file() or p.stat().st_size > 35 * 1024 * 1024 for p in (out, receipt)):
             return False
-            
-        receipt = json.loads(receipt_path.read_text())
-        img_hash = hashlib.sha256(content).hexdigest()
-        
-        rec_image = receipt.get('image')
-        if isinstance(rec_image, dict):
-            rec_hash = rec_image.get('sha256')
-            if rec_hash and img_hash != rec_hash:
-                return False
-                
-        alpha_info = receipt.get('alpha')
-        if isinstance(alpha_info, dict):
-            if not alpha_info.get('hasAlphaChannel'):
-                return False
-        elif not alpha_info:
+        result = json.loads(receipt.read_text())
+        image = result.get('image', {})
+        digest = hashlib.sha256(out.read_bytes()).hexdigest()
+        if result.get('status') not in ('success', 'ok') or image.get('sha256') != digest or image.get('bytes') != out.stat().st_size:
             return False
-            
-        return True
-    except Exception:
+        if state and (state.get('image_sha256') != digest or state.get('receipt_sha256') != hashlib.sha256(receipt.read_bytes()).hexdigest()):
+            return False
+        if background == 'transparent':
+            alpha = result.get('alpha', {})
+            if not isinstance(alpha, dict) or alpha.get('verified') is not True or alpha.get('hasAlphaChannel') is not True or not 0 < alpha.get('transparentPixelRatio', 0) <= 1:
+                return False
+        # Reuse the existing bounded CRC/inflate PNG admission owner, rather than add a decoder.
+        inspector = ROOT.parent.parent / 'tools/spike/assets.mjs'
+        script = "import {readFileSync} from 'node:fs'; import {Resvg} from '@resvg/resvg-js'; const {inspectPng}=await import(process.argv[2]); const bytes=readFileSync(process.argv[1]); const {width,height}=inspectPng(bytes); if(process.argv[3]==='transparent'){ const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}'><image width='${width}' height='${height}' href='data:image/png;base64,${bytes.toString('base64')}'/></svg>`; const pixels=new Resvg(svg).render().pixels; let transparent=false; for(let i=3;i<pixels.length;i+=4) if(pixels[i]<255){transparent=true;break;} if(!transparent) process.exit(1); }"
+        probe = subprocess.run(['node', '--input-type=module', '-e', script, str(out), inspector.as_uri(), background], capture_output=True, timeout=10, cwd=ROOT.parent.parent)
+        return probe.returncode == 0
+    except (OSError, ValueError, TypeError, subprocess.SubprocessError):
         return False
 
-def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=None):
-    job_id = job['id']
-    short_digest = digest[:8]
-    out = assets_dir / f"{job_id}_{short_digest}.png"
-    receipt = assets_dir / f"{job_id}_{short_digest}.result.json"
-    
-    lock_file = assets_dir / f"{job_id}_{short_digest}.lock"
-    try:
-        lf = open(lock_file, 'w')
-        fcntl.flock(lf, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except BlockingIOError:
-        print(f"{job_id}: concurrent manifest ownership (lock busy); safely refusing", flush=True)
-        return False
-        
-    try:
-        manifest = read_manifest(manifest_path)
-        state = manifest.get(digest, {})
-        
-        if state.get('status') == 'complete':
-            if validate_output(out, receipt):
-                return True
-        elif state.get('status') in ('in-flight', 'unknown'):
-            print(f"{job_id}: {state.get('status')} requires explicit retry", flush=True)
-            return False
-            
-        if max_budget is not None:
-            spent = 0.0
-            for k, v in manifest.items():
-                if isinstance(v.get('cost'), dict):
-                    spent += v['cost'].get('usd', 0.0)
-                elif isinstance(v.get('cost'), (int, float)):
-                    spent += v['cost']
-            if spent >= max_budget:
-                print(f"{job_id}: limitation: observable cost budget exceeded ({spent} >= {max_budget}), refusing dispatch", flush=True)
-                return False
 
-        update_manifest(manifest_path, digest, {'status': 'in-flight', 'job_id': job_id})
-        
-        start_time = time.time()
-        args = ['node', str(caller), 'image', '--prompt', job['prompt']]
-        if 'references' in job:
-            for ref in job['references']:
-                args.extend(['--reference', ref])
-        if 'recipe_version' in job:
-            args.extend(['--recipe-version', job['recipe_version']])
-        if 'parameters' in job:
-            args.extend(['--parameters', json.dumps(job['parameters'], separators=(',', ':'))])
-        
-        args.extend(['--out', str(out), '--model', job['model'], '--size', job['size'], '--quality', job['quality'], '--background', job['background']])
-        
+def admit_jobs(job_list, caller):
+    import math
+    import re
+    if not caller.is_file() or caller.is_symlink():
+        raise ValueError('configured caller must be a regular file')
+    manifest_path = caller.parent.parent / 'assets/image-manifest.json'
+    manifest_bytes = manifest_path.read_bytes() if manifest_path.exists() else b''
+    recipe = json.loads(manifest_bytes)['recipes']['image_generation'] if manifest_bytes else 'configured-caller:' + hashlib.sha256(caller.read_bytes()).hexdigest()
+    caller_digest = hashlib.sha256(caller.read_bytes()).hexdigest()
+    if not isinstance(job_list, list) or len(job_list) > 32:
+        raise ValueError('jobs must be a list of at most 32 exact inputs')
+    seen, admitted = set(), []
+    required = {'id', 'prompt', 'model', 'size', 'quality', 'background'}
+    optional = {'references', 'parameters', 'recipe_version', 'refinement_id'}
+    reserved = {'model', 'prompt', 'n', 'size', 'quality', 'output_format', 'stream', 'partial_images', 'response_format', 'images', 'image', 'mask'}
+    for original in job_list:
+        if not isinstance(original, dict) or not required <= original.keys() or original.keys() - required - optional:
+            raise ValueError('unknown or missing job fields')
+        job = dict(original)
+        if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}', job['id']) or job['id'] in seen:
+            raise ValueError('unsafe or duplicate asset ID')
+        seen.add(job['id'])
+        for field in required:
+            if not isinstance(job[field], str) or not job[field] or len(job[field]) > (12000 if field == 'prompt' else 100) or job[field].startswith('--'):
+                raise ValueError('invalid job ' + field)
+        if job['background'] not in ('transparent', 'opaque', 'auto'):
+            raise ValueError('invalid background')
+        if 'recipe_version' in job and job['recipe_version'] != recipe:
+            raise ValueError('recipe_version must match the configured caller manifest recipe')
+        refs = job.get('references', [])
+        if not isinstance(refs, list) or len(refs) > 16:
+            raise ValueError('invalid references')
+        total = 0
+        for ref in refs:
+            if not isinstance(ref, str) or not Path(ref).is_absolute() or not Path(ref).is_file() or Path(ref).is_symlink():
+                raise ValueError('references must be absolute regular image files')
+            total += Path(ref).stat().st_size
+        if total > 35 * 1024 * 1024:
+            raise ValueError('reference byte budget exceeded')
+        params = job.get('parameters', {})
+        if not isinstance(params, dict) or len(params) > 32:
+            raise ValueError('invalid parameters')
+        for name, value in params.items():
+            if not re.fullmatch(r'[a-zA-Z][a-zA-Z0-9_]{0,63}', name) or name in reserved or not isinstance(value, (str, bool, int, float)) or isinstance(value, float) and not math.isfinite(value):
+                raise ValueError('unsupported parameter')
+            if isinstance(value, str) and (len(value) > 1000 or value in ('true', 'false') or re.fullmatch(r'-?\d+(\.\d+)?', value)):
+                raise ValueError('ambiguous or oversized parameter string')
+        if 'refinement_id' in job and (not isinstance(job['refinement_id'], str) or len(job['refinement_id']) > 128):
+            raise ValueError('invalid refinement_id')
+        job['_caller_sha256'] = caller_digest
+        job['_manifest_sha256'] = hashlib.sha256(manifest_bytes).hexdigest()
+        job['_recipe_ref'] = recipe
+        admitted.append(job)
+    if any(j['id'] in subjects and j['id'] != 'sun' for j in admitted) and 'sun' not in seen:
+        raise ValueError('Solar System generation requires Sun admission in the requested batch')
+    return admitted, manifest_path if manifest_bytes else None
+
+
+def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=None, deadline=None, max_attempts=1, caller_manifest=None):
+    import signal
+    import uuid
+    state = read_manifest(manifest_path).get(digest, {})
+    if state.get('status') == 'complete':
+        return validate_output(assets_dir / state['output'], assets_dir / state['receipt'], state, job['background'])
+    if state.get('status') not in ('pending', None):
+        print(f"{job['id']}: unresolved state requires explicit retry", flush=True)
+        return False
+    remaining = min(timeout, deadline - time.monotonic()) if deadline else timeout
+    if remaining <= 0:
+        print('whole-run deadline exceeded before dispatch', flush=True)
+        return False
+    if max_budget is not None:
+        records = list(read_manifest(manifest_path).values())
+        costs = [r.get('cost') for v in records for r in [v, *v.get('history', [])]]
+        spent = sum(c.get('usd', 0) for c in costs if isinstance(c, dict) and isinstance(c.get('usd'), (int, float)))
+        if spent >= max_budget:
+            print('observable cost budget exceeded before dispatch', flush=True)
+            return False
+    attempt = assets_dir / f"{job['id']}_{digest}_{uuid.uuid4().hex}"
+    attempt.mkdir()
+    out, receipt = attempt / 'image.png', attempt / 'receipt.json'
+    args = ['node', str(caller), 'image', '--prompt', job['prompt'], '--out', str(out)]
+    for field in ('model', 'size', 'quality', 'background'):
+        args.extend(['--' + field, job[field]])
+    if caller_manifest:
+        if hashlib.sha256(caller_manifest.read_bytes()).hexdigest() != job['_manifest_sha256']:
+            raise ValueError('caller manifest changed after admission')
+        args.extend(['--manifest', str(caller_manifest)])
+    if hashlib.sha256(caller.read_bytes()).hexdigest() != job['_caller_sha256']:
+        raise ValueError('caller changed after admission')
+    for i, ref in enumerate(job.get('references', [])):
+        snapshot = attempt / f'reference-{i}{Path(ref).suffix}'
+        if Path(ref).stat().st_size > 35 * 1024 * 1024:
+            raise ValueError('reference grew after admission')
+        snapshot.write_bytes(Path(ref).read_bytes())
+        if hashlib.sha256(snapshot.read_bytes()).hexdigest() != job['reference_digests'][i]:
+            raise ValueError('reference changed after admission')
+        args.extend(['--reference', str(snapshot)])
+    for key, value in sorted(job.get('parameters', {}).items()):
+        text = json.dumps(value, separators=(',', ':')) if not isinstance(value, str) else value
+        args.extend(['--param', f'{key}={text}'])
+    update_manifest(manifest_path, digest, {'status': 'in-flight', 'output': str(out.relative_to(assets_dir)), 'receipt': str(receipt.relative_to(assets_dir))})
+    start = time.monotonic()
+    try:
+        process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
         try:
-            p = subprocess.run(args, capture_output=True, text=True, timeout=timeout)
+            stdout, stderr = process.communicate(timeout=remaining)
         except subprocess.TimeoutExpired:
-            update_manifest(manifest_path, digest, {'status': 'unknown', 'reason': 'timeout'})
-            print(f"{job_id}: timeout while in-flight remains unknown", flush=True)
+            os.killpg(process.pid, signal.SIGKILL)
+            stdout, stderr = process.communicate()
+            receipt.write_text(stdout)
+            update_manifest(manifest_path, digest, {'status': 'unknown', 'reason': 'timeout; reconcile saved output before explicit retry'})
             return False
-            
-        latency = time.time() - start_time
-        receipt.write_text(p.stdout)
-        
-        try:
-            result = json.loads(p.stdout)
-        except Exception:
-            update_manifest(manifest_path, digest, {'status': 'unknown', 'reason': 'invalid_json'})
-            print(f"{job_id}: corrupt output (invalid runtime result); inspect receipt", flush=True)
-            return False
-            
+        receipt.write_text(stdout)
+        result = json.loads(stdout)
+        if not isinstance(result, dict):
+            raise ValueError('invalid receipt')
         attempts = result.get('attempts')
-        if attempts is None and p.returncode != 0:
-            attempts = 1
-            
-        cost_info = result.get('cost')
-        if cost_info is None:
-            print(f"{job_id}: limitation: observable cost unavailable, relying on call cap", flush=True)
-            
-        status = 'unknown' if p.returncode != 0 else 'complete'
-        
-        update_manifest(manifest_path, digest, {
-            'status': status,
-            'exit': p.returncode,
-            'latency': latency,
-            'cost': cost_info,
-            'attempts': attempts,
-            'usage': result.get('usage')
-        })
-        
-        print(json.dumps({'asset': job_id, 'exit': p.returncode, 'status': result.get('status'), 'image': result.get('image'), 'alpha': result.get('alpha'), 'recipeRef': result.get('recipeRef'), 'publication': result.get('publication'), 'attempts': attempts, 'latency': latency, 'usage': result.get('usage')}), flush=True)
-        return p.returncode == 0
-    finally:
-        fcntl.flock(lf, fcntl.LOCK_UN)
-        lf.close()
-
-def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, timeout=220, max_budget=None, max_workers=3):
-    manifest_path = assets_dir / 'manifest.json'
-    manifest = read_manifest(manifest_path)
-    
-    planned = []
-    
-    # Priority: if 'sun' is present, it must be validated/admitted first
-    sun_job = next((j for j in job_list if j['id'] == 'sun'), None)
-    
-    for job in job_list:
-        d = job_digest(job)
-        state = manifest.get(d, {})
-        job_id = job['id']
-        short_digest = d[:8]
-        out_png = assets_dir / f"{job_id}_{short_digest}.png"
-        receipt_path = assets_dir / f"{job_id}_{short_digest}.result.json"
-        
-        if state.get('status') == 'complete' and validate_output(out_png, receipt_path):
-            continue
-                
-        if state.get('status') in ('in-flight', 'unknown') and not force_retry:
-            print(f"{job_id}: {state.get('status')} requires explicit retry", flush=True)
-            continue
-            
-        planned.append((job, d))
-        
-    if not planned:
-        print("0 planned calls.", flush=True)
-        return True
-        
-    print(f"Planned calls: {len(planned)}")
-    if len(planned) > max_calls:
-        print(f"Cap exceeded (planned {len(planned)} > max {max_calls})", flush=True)
+        count = len(attempts) if isinstance(attempts, list) else attempts
+        valid = process.returncode == 0 and isinstance(count, int) and not isinstance(count, bool) and 1 <= count <= max_attempts and validate_output(out, receipt, background=job['background'])
+        valid = valid and result.get('recipeRef') == job['_recipe_ref']
+        status = 'complete' if valid else ('failed' if result.get('dispatched') is False else 'unknown')
+        update_manifest(manifest_path, digest, {'status': status, 'exit': process.returncode, 'latency_seconds': time.monotonic() - start, 'attempts': attempts, 'usage': result.get('usage'), 'cost': result.get('cost'), 'image_sha256': hashlib.sha256(out.read_bytes()).hexdigest() if out.exists() else None, 'receipt_sha256': hashlib.sha256(receipt.read_bytes()).hexdigest(), 'stage_metrics': 'unavailable from configured caller'})
+        if not valid:
+            print(f"{job['id']}: corrupt output or unresolved caller result; inspect immutable receipt", flush=True)
+        return valid
+    except (OSError, ValueError, TypeError, subprocess.SubprocessError):
+        update_manifest(manifest_path, digest, {'status': 'unknown', 'reason': 'caller or receipt interrupted; explicit reconciliation required'})
         return False
-        
-    # Check if 'sun' is in planned. If so, run it synchronously first.
-    sun_planned = next((item for item in planned if item[0]['id'] == 'sun'), None)
-    if sun_planned:
-        job, d = sun_planned
-        update_manifest(manifest_path, d, {'status': 'pending', 'job_id': job['id']})
-        sun_ok = run_job(job, d, manifest_path, assets_dir, caller, timeout, max_budget)
-        if not sun_ok:
-            print("Sun validation failed. Halting batch.", flush=True)
+
+
+def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, timeout=220, max_budget=None, max_workers=3, run_timeout=900, max_attempts=1, dry_run=False):
+    import math
+    assets_dir = assets_dir.resolve()
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    if not isinstance(max_calls, int) or not 0 <= max_calls <= 32 or not isinstance(max_workers, int) or not 1 <= max_workers <= 3 or max_attempts != 1 or not 0 < timeout <= 900 or not 0 < run_timeout <= 3600 or max_budget is not None and (not math.isfinite(max_budget) or max_budget < 0):
+        raise ValueError('invalid call/worker/attempt/deadline/budget bounds')
+    with open(assets_dir / 'generation.lock', 'a') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print('concurrent manifest ownership; safely refusing', flush=True)
             return False
-        planned.remove(sun_planned)
-        
-    for job, d in planned:
-        update_manifest(manifest_path, d, {'status': 'pending', 'job_id': job['id']})
-        
-    outcomes = []
-    if sun_planned:
-        outcomes.append(True)
-        
-    if planned:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as pool:
-            futures = {pool.submit(run_job, job, d, manifest_path, assets_dir, caller, timeout, max_budget): job for job, d in planned}
-            for fut in concurrent.futures.as_completed(futures):
-                outcomes.append(fut.result())
-            
-    return all(outcomes)
+        admitted, caller_manifest = admit_jobs(job_list, caller)
+        manifest_path = assets_dir / 'manifest.json'
+        manifest = read_manifest(manifest_path)
+        planned = []
+        for job in admitted:
+            job['reference_digests'] = [hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in job.get('references', [])]
+            digest = job_digest(job)
+            state = manifest.get(digest, {})
+            status = state.get('status')
+            if status not in (None, 'pending', 'in-flight', 'complete', 'unknown', 'failed'):
+                raise ValueError('unknown manifest state; reconcile before dispatch')
+            if status == 'complete':
+                paths = [state.get('output', ''), state.get('receipt', '')]
+                if not all(p and not Path(p).is_absolute() and '..' not in Path(p).parts and (assets_dir / p).resolve().is_relative_to(assets_dir) for p in paths):
+                    raise ValueError('unsafe manifest artifact path')
+                if validate_output(assets_dir / paths[0], assets_dir / paths[1], state, job['background']):
+                    continue
+                if not force_retry:
+                    print(f"{job['id']}: corrupt output requires explicit replacement", flush=True)
+                    return False
+            elif status in ('in-flight', 'unknown') and not force_retry:
+                print(f"{job['id']}: {status} requires explicit retry", flush=True)
+                return False
+            elif status == 'failed':
+                receipt = assets_dir / state.get('receipt', '')
+                if not receipt.is_file() or hashlib.sha256(receipt.read_bytes()).hexdigest() != state.get('receipt_sha256') or json.loads(receipt.read_text()).get('dispatched') is not False:
+                    raise ValueError('failed state lacks authoritative non-dispatch receipt')
+            planned.append((job, digest))
+        print(f'Planned calls: {len(planned)}' if planned else '0 planned calls.', flush=True)
+        if len(planned) > max_calls:
+            print('Cap exceeded; zero dispatches', flush=True)
+            return False
+        print('Provider price/stage metrics unavailable before dispatch; call cap is hard, dollar cap observes recorded cost only.', flush=True)
+        if dry_run or not planned:
+            return True
+        deadline = time.monotonic() + run_timeout
+        for job, digest in planned:
+            prior = manifest.get(digest, {})
+            history = prior.get('history', []) + ([{k: v for k, v in prior.items() if k != 'history'}] if prior else [])
+            update_manifest(manifest_path, digest, {'status': 'pending', 'job_id': job['id'], 'input': job, 'history': history, 'cost': None})
+        def execute(item):
+            return run_job(*item, manifest_path, assets_dir, caller, timeout, max_budget, deadline, max_attempts, caller_manifest)
+        sun = next((item for item in planned if item[0]['id'] == 'sun'), None)
+        if sun:
+            if not execute(sun):
+                print('Sun validation failed. Halting batch.', flush=True)
+                return False
+            planned.remove(sun)
+        # Observable budget updates cannot race; when specified, serialize within the <=3 ceiling.
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1 if max_budget is not None else max_workers) as pool:
+            outcomes = list(pool.map(execute, planned))
+        return all(outcomes)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--max-calls', type=int, default=11)
-    parser.add_argument('--max-budget', type=float, default=None)
-    parser.add_argument('--timeout', type=int, default=220)
+    parser.add_argument('--max-budget', type=float)
+    parser.add_argument('--timeout', type=float, default=220)
+    parser.add_argument('--run-timeout', type=float, default=900)
+    parser.add_argument('--max-attempts', type=int, default=1, help='the installed caller makes exactly one provider attempt; only 1 supported')
     parser.add_argument('--max-workers', type=int, default=3)
-    parser.add_argument('--force-retry', action='store_true')
-    parser.add_argument('--caller', help='Path to caller (overrides env HIQS_CHAIN_CALLER)')
-    parser.add_argument('--assets-dir', help='Output directory (default: assets)')
-    parser.add_argument('--jobs', help='Path to external jobs JSON')
+    parser.add_argument('--force-retry', action='store_true', help='explicitly replace corrupt outputs or retry unresolved paid outcomes; preserves prior receipts')
+    parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--caller')
+    parser.add_argument('--assets-dir')
+    parser.add_argument('--jobs')
     args = parser.parse_args()
-    
-    caller_env = args.caller or os.environ.get('HIQS_CHAIN_CALLER')
-    if not caller_env:
-        print("HIQS_CHAIN_CALLER not set", file=sys.stderr)
-        sys.exit(1)
-        
-    caller = Path(caller_env).expanduser().resolve()
-    assets_dir = Path(args.assets_dir).resolve() if args.assets_dir else ROOT / 'assets'
-    assets_dir.mkdir(parents=True, exist_ok=True)
-    
-    job_list = jobs
-    if args.jobs:
-        job_list = json.loads(Path(args.jobs).read_text())
-    
-    # R5: planning/dry-run/cap refusal must not rewrite published inputs
-    # If we are proceeding (and not zero cap), then we can optionally write prompts.json, but the prompt says 
-    # "cap-zero/dry-run preserves all existing prompts/receipts."
-    # The requirement is that we don't blindly rewrite published prompts if it's a dry run. 
-    # Wait, if max_calls > 0, we can write it? Let's just write it after successful dispatch or at all? 
-    # Let's write it only if we're actually going to run something, but wait, the tests check "published prompts preserved: False" when it fails out early.
-    # We will write it after verifying cap.
-    
-    manifest_path = assets_dir / 'manifest.json'
-    manifest = read_manifest(manifest_path)
-    
-    planned = []
-    for job in job_list:
-        d = job_digest(job)
-        state = manifest.get(d, {})
-        job_id = job['id']
-        short_digest = d[:8]
-        out_png = assets_dir / f"{job_id}_{short_digest}.png"
-        receipt_path = assets_dir / f"{job_id}_{short_digest}.result.json"
-        
-        if state.get('status') == 'complete' and validate_output(out_png, receipt_path):
-            continue
-        if state.get('status') in ('in-flight', 'unknown') and not args.force_retry:
-            continue
-        planned.append((job, d))
-        
-    if len(planned) > args.max_calls:
-        # Cap exceeded, don't mutate prompts
-        pass
-    else:
-        (assets_dir / 'prompts.json').write_text(json.dumps(job_list, indent=2) + '\n')
-    
-    success = generate(job_list, assets_dir, caller, max_calls=args.max_calls, force_retry=args.force_retry, timeout=args.timeout, max_budget=args.max_budget, max_workers=args.max_workers)
-    sys.exit(0 if success else 4)
+    try:
+        configured = args.caller or os.environ.get('HIQS_CHAIN_CALLER')
+        if not configured:
+            raise ValueError('HIQS_CHAIN_CALLER not set')
+        caller = Path(configured).expanduser().resolve()
+        destination = Path(args.assets_dir).resolve() if args.assets_dir else ROOT / 'assets'
+        job_list = json.loads(Path(args.jobs).read_text()) if args.jobs else jobs
+        success = generate(job_list, destination, caller, args.max_calls, args.force_retry, args.timeout, args.max_budget, args.max_workers, args.run_timeout, args.max_attempts, args.dry_run)
+        sys.exit(0 if success else 4)
+    except (OSError, ValueError, TypeError) as error:
+        print(str(error), file=sys.stderr)
+        sys.exit(4)
