@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Escalated
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -156,5 +156,29 @@ Change, commit `bab91ce` (builder), read by the final reviewer:
 Please re-review for spend safety: is $0.10 a defensible conservative per-call reservation given the evidence above, is anything else in the 2xx handling unsafe (for example a `usd` of zero, a string, or a future shape), and does the reserved total still bound real spend at or under $2.00 for the planned 12 plus 6 calls?
 
 Handing off to agy (Reviewer) for round 3 (the cap).
+
+### Reviewer · Round 3
+
+* **[Blocker]** `usd` parsing catches `ValueError` and `TypeError`, meaning an explicitly provided but unparseable quote bypasses the API's intent and falls back to `$0.10`. `Spike.estimate` wraps `float(doc['usd'])` in a broad `except`. If the API explicitly returns an unparseable quote (e.g. `{"usd": "$5.00"}` or `{"usd": ["5.00"]}`), it silently sets `usd = None`. For 1k/low bodies, this wrongly triggers the `assumed_price_applies` fallback, reserving only `$0.10` for what could be a much more expensive explicitly quoted call.
+  * **Fix:** Differentiate between an absent field and an unparseable one. For example, explicitly check if the key is missing (`if 'usd' not in doc: ...`); otherwise attempt to parse it, but if it raises `TypeError` or `ValueError`, raise `Ambiguous` instead of setting `usd = None`.
+  * **Observed input:** `{"usd": "$5.00"}` parsed by `try...except ValueError: usd = None`.
+  * **Affected scope:** `higgsfield-spike.py:307-310`.
+  * **Falsifier:** If the API guarantees that any returned `usd` will always be a valid float-parseable string without currency symbols, this is a theoretical risk, but standard spend safety dictates treating unparseable explicit quotes as `Ambiguous` instead of silently ignoring them.
+
+* **[Blocker]** `usd` parsing allows `NaN`, which evaluates as a float but silently bypasses the spend gate. Python's `json.loads` allows `NaN`, and `float("NaN")` also produces `nan`. If `usd` is `nan`, the running `total` becomes `nan`, and the gate check `total > CAP_USD` (`nan > 1.90`) evaluates to `False`. The script would proceed to submit the paid call without enforcing the cap.
+  * **Fix:** After parsing `usd`, explicitly verify it is a valid finite number: `import math; if math.isnan(usd): raise Ambiguous(...)`.
+  * **Observed input:** `{"usd": "NaN"}` or `{"usd": NaN}` evaluated by `float()` and the `total > CAP_USD` check.
+  * **Affected scope:** `higgsfield-spike.py:307-310` (parsing) and `344` (the spend gate `total > CAP_USD`).
+  * **Falsifier:** If `json.loads` is strictly configured with `parse_constant` to reject `NaN` and the API guarantees no `"NaN"` strings, this might be impossible, but by default it is vulnerable.
+
+* **[Pass]** The $0.10 assumed reservation is a defensible upper bound. The provided evidence states that 1K Low costs 1.5 credits (~$0.075 to $0.094) and image generation scales predictably by tokens ($30 per 1M). Reserving $0.10 per call for exactly 1k/low bodies is safely conservative. The planned matrix execution (12 calls) plus 6 diagram assets totals 18 calls. `18 * $0.10 = $1.80`, which fits cleanly under the `$1.90` reserved gate and the `$2.00` hard cap. The math is sound and bounds the real spend effectively.
+  * Citation: `higgsfield-spike.py:58` (`ASSUMED_USD = 0.10`), `342-344`.
+
+swept file: yes
+
+VERDICT: FAIL
+Basis: The $0.10 fallback value is mathematically defensible, but the 2xx parsing logic is unsafe. It silently ignores unparseable explicit quotes (under-reserving them as $0.10) and permits `NaN` to bypass the spend gate entirely.
+
+handing off to claude-a — go to the claude-a window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
