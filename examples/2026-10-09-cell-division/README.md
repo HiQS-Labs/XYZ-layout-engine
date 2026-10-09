@@ -6,7 +6,7 @@ A 2400×1480 explainer diagram of the cell cycle, rendered with the GH-1 spike's
 
 The diagram is simplified. Human body cells carry 46 chromosomes, not the two or three drawn here, and the phases blend into one another. The six stage icons are hand-drawn SVG. No images were generated, and nothing was uploaded.
 
-This folder also holds the GH-8 Phase 0 tools that test whether Higgsfield returns real transparency for GPT Image 2.5 (`higgsfield-spike.py`, `inspect-alpha.mjs`). **The art stays hand-drawn SVG until that spike reaches a verdict.** Hand-drawn SVG is also the documented fallback if the verdict is NO-GO or UNCERTAIN. Nothing keyed or matted will be presented as native transparency.
+This folder also holds the GH-8 Phase 0 tools that test whether Higgsfield returns real transparency for GPT Image 2.5 (`higgsfield-spike.py`, `inspect-alpha.mjs`). **The spike's verdict is NO-GO for native transparency on the Higgsfield REST routes (0 of 12 images had an alpha channel), so the art stays hand-drawn SVG.** The evidence is in [FINDINGS.md](FINDINGS.md) and `spike-ledger.jsonl`. The MCP connector was not tested. Nothing keyed or matted is presented as native transparency.
 
 ## What is here
 
@@ -19,6 +19,8 @@ This folder also holds the GH-8 Phase 0 tools that test whether Higgsfield retur
 | `render-diagram.mjs` | Builds the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Evidence: image nodes, text ids, Satori bounds, Chromium text metrics, artifact digests, findings |
 | `inspect-alpha.mjs` | Alpha inspector: format from magic bytes, sha256, PNG IHDR colour type and bit depth, tRNS / WebP alpha flags, and pixel alpha statistics from a Chromium canvas read |
+| `FINDINGS.md` | The Phase 0 findings and verdict (NO-GO on REST; MCP untested), with the per-call table |
+| `spike-ledger.jsonl` | Append-only ledger of every estimate, reservation, submit and result of the spike (scrubbed; no key, no signed URL queries) |
 | `higgsfield-spike.py` | Phase 0 probe runner (Python standard library only): `selftest`, `estimate`, `submit`, `matrix [--dry-run]`, `discover`, `scan-secrets` |
 
 ## Reproducing the diagram
@@ -75,7 +77,7 @@ Flare and Sunburst pricing is token-based (the estimate route returns a descript
 
 Run `matrix --dry-run` first: it prices every step without reserving or submitting. `scan-secrets` searches the staged diff, the staged blobs, the ledger and `FINDINGS.md`.
 
-The paid matrix has not been run in this build phase. The ledger and findings are written when it is run.
+The paid matrix was run once on 2026-10-09: 12 paid generations, reserved at an assumed $1.20 in total (the real charge was not measured). Results and the verdict are in [FINDINGS.md](FINDINGS.md); every call is in `spike-ledger.jsonl`. Do not rerun the matrix without a new spend decision.
 
 ## Limits
 

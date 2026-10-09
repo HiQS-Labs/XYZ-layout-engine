@@ -2,7 +2,7 @@
 gh_issue: 8
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/8
 title: "Add Higgsfield MCP connector as a first-class transparent image generation provider (pluggable provider architecture)"
-status: "Proposed (1-INBOX — not yet active). This plan covers Phase 0 only; Phases 1 to 4 stay open."
+status: "Phase 0 implemented on feat/higgsfield-spike-cell-division; awaiting final QA and merge. Phases 1 to 4 stay open."
 created: 2026-10-09
 doc_type: feedback
 effort: 3
@@ -79,8 +79,22 @@ The operator supplied a Higgsfield API key file and a hard spend cap of **$2.00*
 
 | Issue | Requirement | State |
 |---|---|---|
-| #8 | Phase 0 (spike) via requirements 1 to 5; example via 6 and 7; docs via 8. Phases 1 to 4 untouched. | **Blocked at plan QA, 2026-10-09:** the Codex review failed twice with `503 Service Unavailable: Unable to verify Daybreak Blue access` from `chatgpt.com/backend-api/codex/responses` (relay tasks `RELAY-gh8-plan-qa-r1`, `-r1b`; no review block was written). No paid call has been made and the ledger does not exist yet. Next action: rerun the same round (thread `relay-system/2026-10-09/gh8-plan-qa.md`, NEXT: Reviewer, round 1) when Codex is reachable, or name another reviewer. |
+| #8 | Phase 0 (spike) via requirements 1 to 5; example via 6 and 7; docs via 8. Phases 1 to 4 untouched. | Phase 0 done; verdict NO-GO on REST (MCP untested); example built with SVG art; awaiting final QA, then PR (ready, not merged); #8 stays open |
 
 ## Rating rationale (2026-10-09)
 
 pri 40 / sev 10 / appeal 50 / effort 30. Severity: a missing provider option, no data or work at risk. Priority: the operator asked for it now and it gates later provider work. Appeal: neutral default. Effort: multi-phase work with an external paid dependency and an unverified premise. Recurrence: not applicable (not a defect); trend unknown. This rates the whole issue; this slice is its first phase.
+
+## Evidence and deviations (2026-10-09)
+
+| Item | Result |
+|---|---|
+| Plan QA | Agy, 3 rounds, Approved (Codex's backend returned 503 twice, so the reviewer was changed at the operator's direction) |
+| Code QA | Agy, 3 rounds. Rounds 1 and 2 passed after the estimate-404 fallback; round 3 (after the live pricing finding) raised two blockers, `NaN` bypassing the gate and a malformed quote under-reserved, both fixed in `8c525ae` and verified by the final reviewer (selftest 8/8, code read); no fourth round because the cap was exhausted |
+| Selftest | 8/8 controls pass (mode 644 refused, mock 4xx scrubbed, spend gate 1.894 / 1.988, lock, secret scan red/green, inspector controls, estimate fallback, malformed quotes); each mutation fails its control |
+| Free live checks | Estimate route for Flare and Sunburst returns a pricing description, not a quote; `generate-and-edit` is `model_not_found` (404) |
+| Paid matrix | 12 of 12 accepted, completed, opaque RGB PNG; ledger total reserved $1.20 (assumed $0.10 each) |
+| Verdict | NO-GO on REST; MCP untested (see `examples/2026-10-09-cell-division/FINDINGS.md`) |
+| Diagram | `PASS`, three red controls fail by named id, both PNGs inspected |
+
+Deviations from the plan: (1) the estimate route gave no price, so spend was controlled by an assumed $0.10 per 1k/low call instead of a quoted estimate; the real charge is unmeasured. (2) Requirement 3's secret scan found the real key ID and secret nowhere (see commit message). (3) The key file was mode 644 and was tightened to 600 by the orchestrator with the operator's explicit permission, as the runner requires.
