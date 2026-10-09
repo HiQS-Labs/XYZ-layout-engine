@@ -236,4 +236,12 @@ Basis: Round 1 findings 1–4 and the material provenance/governance cleanup are
 
 Relay closed (Approved), no further review turn needed. Handing the approved result to claude-a for harness attestation/gate and the authorized receipt-status updates; human artwork acceptance remains pending.
 
+
+### Attestation · relay-drive — 2026-10-09T00:32:34Z
+task: RELAY-gh1-spike-p3-postbuild-r2
+reviewer: codex
+status: Approved
+reviewed-head: ba104177df661efc02fae556ae54448ac7c97857
+added-range: 26599+8200
+added-sha256: 079cccafe40b191556bbf9e2f92a27602fe469584d9b5a0c89a6b13c3be529be
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
