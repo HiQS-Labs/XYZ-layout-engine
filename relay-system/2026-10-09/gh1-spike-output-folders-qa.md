@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -184,5 +184,132 @@ VERDICT: PASS
 Basis: both Should findings are implemented with red/green receipts, the evidence was regenerated with dated paths only, and the documents match the regenerated JSON.
 
 Handing off to codex (Reviewer) — round 2 against `fdd1913`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 (codex)
+
+VERDICT: PASS
+Basis: Both Round 1 Should findings are resolved in the seeded artifacts. The exact HTML guard accepts all three valid records and rejects absent/zero byte counts, swapped HTML and missing HTML. Current evidence paths and rounded document figures agree with the regenerated JSON. No remaining Blocker or Should found. Approval is Easy to reverse; the bet is that the bounded source/artifact checks plus the Producer's full-clone receipts establish this follow-up, with a full-gate regression left for the harness to catch.
+swept file: yes
+
+Scope: swept all of render.mjs, verify.mjs, REPORT.md, SPECS-PRD.md, GH-1-RENDERER-SPIKE.md and CHANGELOG.md, including pre-existing code; parsed both JSON records and all three saved HTML documents. No additional material pre-existing defect found beyond the explicitly documented spike limitations. MCP graph tools are unavailable in this session, so this is exact-source fallback with no graph generation or coverage claim. README.md and the startup roadmap CLI are absent from the seeded tree. No git, renderer/verifier entry point, PDDA, test suite or executable fixture was run; only this relay file was edited.
+
+- **1. [Pass] HTML byte counts are now bound; Round 1 finding 1 closed.** `tools/spike/verify.mjs:163–169` checks the expected HTML path, SHA-256, byte length and doctype. The delivered records are at `tools/spike/output/2026-10-08-xyz-layout-engine-spike/measurements.json:741,2322,3381`. Keep the adjacent assertion. Probe A below executed only that extracted guard with in-memory record/IO substitutions, exit **0**: every `baseline/valid`, `override/valid` and `hero/valid` was `ACCEPTED`; each `bytes=0` and `bytes absent` was `REJECTED: <case HTML> byte count does not match the record`; each swap was `REJECTED: <case HTML> does not match the recorded digest`; each missing file was `REJECTED: ENOENT`. All 15 expected outcomes were asserted.
+- **2. [Pass] Live path migration complete; Round 1 finding 2 closed.** `REPORT.md:5–7,73`, PRD `:137,140,435–442`, `render.mjs:477,479,487,538`, and measurements `:3627,3652,3711,3745` now name the dated folder. Keep the existing `rel()` mechanism. Probe B exited **0**, printing `live flat-path references: 0 in render, verify, report, PRD, measurements` and `measurement dated references: 23 all resolve`. A repository text search (`rg -n 'output/[[:alnum:]_-]+\.(png|svg|html|json)' --glob '!relay-system/**' --glob '!**/brief*' --glob '!.relay-scratch/**' .`, exit **0**) found only the frozen preflight, original completed-dispatch brief/YAML and historical marathon relay. Those original dispatch artifacts remain historical; no current evidence pointer needs another edit.
+- **3. [Pass] Final fitted HTML, timing and dated-folder behavior preserved.** `render.mjs:26–31,121–124,153–157,197–208,393–403` captures the date once, passes the returned HTML string to Chromium and writes the final fitting result outside the timed helper. `verify.mjs:14–19,141–144` selects the newest matching directory and binds `runDir`. `package.json:2` supplies `xyz-layout-engine-spike`. Keep these operations. Probe C exited **0**: `mixed directory/file names select: 2026-10-09-xyz-layout-engine-spike`, `local date format: 2026-10-08`, and `seeded folders: [ '2026-10-08-xyz-layout-engine-spike' ]`. Foreign/stray names and a later matching regular file were ignored. Probe C substitutes only the module-location expression for Function evaluation; the initial extraction wrapper exited 1 on unsupported `import.meta` syntax before running the selector, then this corrected wrapper passed.
+- **4. [Pass] Regenerated evidence agrees with the documents; size and limits remain qualified.** `REPORT.md:7,50–62,103,111–117,121`, PRD `:444–447,449–450`, and `CHANGELOG.md:6–7` agree with Probe B, exit **0**: `generatedAt 2026-10-09T04:04:27.868Z`; Satori cold/min/upper median/max **252.74 / 130.41 / 133.42 / 134.37 ms**, RSS/heap **488.28 / 145.08 MiB**; Chromium **614.23 / 259.51 / 260.41 / 261.4 ms**, Node RSS/heap **672.92 / 288.02 MiB**; `geometry count/median/max 98 0.63 3.58`. HTML byte lengths **4935952 / 4936028 / 1098312**, all matching SHA-256, recorded text and inline image sources; all six PNG digests/dimensions match their records and all fits are at iteration 0. `folder bytes/files/maxPNG/SVG 17062678 14 550004 4023437` (16.27 MiB): one retained spike receipt remains warranted. Keep the 1 GiB/1.5 GiB limits explicitly provisional and require isolated worker measurements before freezing them; the shared-process samples establish no production peak. No compression or retention machinery requested.
+- **5. [Unverified — needs clone run] Full executable gates were not rerun in this reviewer worktree.** The preceding Producer block records full-clone verifier green, absent/zero-byte-count red controls and restored green, plus PDDA exit 0 with the same three warnings. These are Producer receipts, not independent execution in this turn. The harness runs its gate after handoff. Human artwork acceptance remains pending (`REPORT.md:103,127`); this approval closes only the dated-output/HTML follow-up.
+
+Probe A (exit 0; decisive output quoted in finding 1):
+
+```bash
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module > "$TMPDIR/r2-html-guard.log" <<'JS'
+import fs from 'node:fs/promises';
+import assert from 'node:assert';
+import crypto from 'node:crypto';
+const source=await fs.readFile('tools/spike/verify.mjs','utf8');
+const code=source.slice(source.indexOf("    if (b === 'playwright') {"),source.indexOf("\n  const svg ="));
+const body=code.slice(0,code.lastIndexOf('\n  }'));
+assert(body.includes('assert.strictEqual(c.html.bytes, html.length'));
+const guard=new (Object.getPrototypeOf(async function(){}).constructor)('fs','assert','sha256','out','rel','c','b','file','caseName',body);
+const dir='2026-10-08-xyz-layout-engine-spike';
+const m=JSON.parse(await fs.readFile(`tools/spike/output/${dir}/measurements.json`));
+const sha256=b=>crypto.createHash('sha256').update(b).digest('hex');
+const out=f=>`tools/spike/output/${dir}/${f}`;
+const rel=f=>`output/${dir}/${f}`;
+for (const [caseName,file] of [['baseline','playwright.png'],['override','override-playwright.png'],['hero','hero-playwright.png']]) {
+ for(const mode of ['valid','bytes=0','bytes absent','HTML swapped','HTML missing']){
+  const c=structuredClone(m.cases[caseName].playwright);
+  if(mode==='bytes=0') c.html.bytes=0;
+  if(mode==='bytes absent') delete c.html.bytes;
+  const swap=caseName==='hero'?'playwright.html':'hero-playwright.html';
+  const io=mode==='HTML swapped'?{readFile:()=>fs.readFile(out(swap))}:mode==='HTML missing'?{readFile:async()=>{throw new Error('ENOENT')}}:fs;
+  let accepted=true,detail='';
+  try{await guard(io,assert,sha256,out,rel,c,'playwright',file,caseName)}catch(e){accepted=false;detail=e.message}
+  assert.strictEqual(accepted,mode==='valid',caseName+'/'+mode);
+  console.log(caseName+'/'+mode+': '+(accepted?'ACCEPTED':'REJECTED: '+detail));
+ }
+}
+JS
+```
+
+Probe B (exit 0; decisive output quoted in findings 2 and 4):
+
+```bash
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 - > "$TMPDIR/r2-evidence-summary.log" <<'PYPROBE'
+import json, hashlib, statistics, re
+from pathlib import Path
+from html.parser import HTMLParser
+p=Path('tools/spike'); d=p/'output/2026-10-08-xyz-layout-engine-spike'
+m=json.loads((d/'measurements.json').read_text()); r=json.loads((d/'runtime.json').read_text())
+assert m['generatedAt']==r['generatedAt']
+print('runDir/generatedAt',m['runDir'],m['generatedAt'])
+class Doc(HTMLParser):
+ def __init__(self): super().__init__(); self.stack=[]; self.text={}; self.img=[]
+ def handle_starttag(self,tag,attrs):
+  a=dict(attrs)
+  if tag=='img': self.img.append(a['src']); return
+  if tag in ['meta','link','br','input']: return
+  self.stack.append(a.get('id'))
+ def handle_endtag(self,tag):
+  if self.stack: self.stack.pop()
+ def handle_data(self,data):
+  for id in self.stack:
+   if id: self.text[id]=self.text.get(id,'')+data
+for name,per in m['cases'].items():
+ for backend,c in per.items():
+  raw=(p/c['png']).read_bytes(); assert hashlib.sha256(raw).hexdigest()==c['sha256']
+  assert raw[:8]==bytes.fromhex('89504e470d0a1a0a')
+  assert [int.from_bytes(raw[i:i+4],'big') for i in (16,20)]==[c['pngSize']['width'],c['pngSize']['height']]
+  assert c['fitting']['fit'] and c['fitting']['iterations']==0
+ c=per['playwright']; h=c['html']; raw=(p/h['path']).read_bytes()
+ assert len(raw)==h['bytes'] and hashlib.sha256(raw).hexdigest()==h['sha256']
+ doc=Doc(); doc.feed(raw.decode())
+ present=[(id,t) for id,t in c['text'].items() if t['present']]
+ for id,t in present: assert doc.text[id]==t['text'], (name,id)
+ assert doc.img and all(src.startswith('data:image/') for src in doc.img)
+ print(name,'HTML bytes',len(raw),'digest/text/inline-images OK; PNGs digest/dimensions OK; fit at 0')
+for backend,artifact in m['probeArtifacts'].items():
+ assert hashlib.sha256((p/artifact['png']).read_bytes()).hexdigest()==artifact['sha256']
+for backend in ['satori','playwright']:
+ w=r[backend]['warm']; assert w['median']==sorted(w['samples'])[5]
+ print(backend,'cold/min/median/max',r[backend]['cold']['totalMs'],w['min'],w['median'],w['max'],'rss/heap MiB',*[round(r[backend]['memory']['nodeProcess'][k]/2**20,2) for k in ['rss','heapUsed']])
+deltas=[max(abs(v[k]-m['cases'][n]['playwright']['bounds'][id][k]) for k in ['x','y','width','height']) for n in ['baseline','override'] for id,v in m['cases'][n]['satori']['bounds'].items()]
+print('geometry count/median/max',len(deltas),round(statistics.median(deltas),2),round(max(deltas),2))
+print('folder bytes/files/maxPNG/SVG',sum(f.stat().st_size for f in d.iterdir()),len(list(d.iterdir())),max(f.stat().st_size for f in d.glob('*.png')),(d/'satori.svg').stat().st_size)
+flat=re.compile(r'output/(?:[\w-]+\.(?:png|svg|html|json))')
+for f in [p/'render.mjs',p/'verify.mjs',p/'REPORT.md',Path('PROJECT/2-WORKING/SPECS-PRD.md'),d/'measurements.json']:
+ matches=flat.findall(f.read_text()); assert not matches, (str(f),matches)
+print('live flat-path references: 0 in render, verify, report, PRD, measurements')
+paths=re.findall(r'output/\d{4}-\d{2}-\d{2}-[\w-]+/[\w-]+\.(?:png|svg|html|json)',json.dumps(m))
+assert paths and all((p/path).is_file() for path in paths)
+print('measurement dated references:',len(paths),'all resolve')
+print('selection',m['selection']['status'],m['selection']['eligible'])
+PYPROBE
+```
+
+Probe C (exit 0; decisive output quoted in finding 3):
+
+```bash
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module > "$TMPDIR/r2-folders.log" <<'JS'
+import fs from 'node:fs';
+import assert from 'node:assert';
+const source=fs.readFileSync('tools/spike/verify.mjs','utf8');
+const code=source.slice(source.indexOf('const RUN_DIRS ='),source.indexOf('\nconst out =')).replace('import.meta.url','sourceURL');
+const PKG=JSON.parse(fs.readFileSync('package.json')).name;
+const entries=['notes','2026-10-10-foreign','2026-10-07-'+PKG,'2026-10-09-'+PKG,'2026-10-08-'+PKG].map(name=>({name,isDirectory:()=>true}));
+entries.push({name:'2026-10-11-'+PKG,isDirectory:()=>false});
+const select=new Function('readdirSync','URL','PKG','sourceURL',code+'\nreturn RUN_DIR;');
+const selected=select(()=>entries,URL,PKG,'file:///scratch/verify.mjs');
+assert.strictEqual(selected,'2026-10-09-'+PKG);
+console.log('mixed directory/file names select:',selected);
+console.log('local date format:',new Date(2026,9,8,23,59).toLocaleDateString('en-CA'));
+console.log('seeded folders:',fs.readdirSync('tools/spike/output'));
+JS
+```
+
+Relay closed (Approved), no further turn needed. Handing the token back with `done`; claude-a/harness handles the file-scoped commit and post-turn gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
