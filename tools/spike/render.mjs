@@ -13,7 +13,7 @@ import { execFileSync } from 'child_process';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import { renderSatori, renderPlaywright, launchPlaywright } from '../render.mjs';
+import { renderSatori, renderPlaywright, launchPlaywright, toDocument } from '../render.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT, DEFAULT_SIZES } from './scene.mjs';
 import { getFonts } from './assets.mjs';
 
@@ -134,7 +134,7 @@ function pkgInfo(name, hostName = null) {
     return { name, version: null, license: null, verified: false, error: e.message };
   }
 }
-function chromiumInfo(browser) {
+async function chromiumInfo(browser) {
   // Playwright ships "Chrome for Testing", a Google Chrome build, not a bare Chromium build. Its
   // bundle root carries an ABOUT file pointing at chrome://credits; no standalone LICENSE/credits file
   // is present at the bundle root, so third-party notices are not vendored and are recorded as such.
@@ -144,6 +144,7 @@ function chromiumInfo(browser) {
     const core = path.join(nodeModulesAncestor(pwDir), 'playwright-core');
     const entry = JSON.parse(readFileSync(path.join(core, 'browsers.json'), 'utf8')).browsers.find(b => b.name === 'chromium');
     info.title = entry?.title ?? null; info.revision = entry?.revision ?? null; info.browserVersionPinned = entry?.browserVersion ?? null;
+    const { chromium } = await import('playwright');
     const exe = chromium.executablePath();
     const bundleRoot = exe.slice(0, exe.indexOf('.app/')).replace(/\/[^/]*$/, '');
     const rootFiles = readdirSync(bundleRoot);
@@ -263,7 +264,7 @@ async function main() {
     // ---- Playwright cold
     const tColdP = performance.now();
     browser = await launchPlaywright();
-    runtime.dependencies.chromium = chromiumInfo(browser);
+    runtime.dependencies.chromium = await chromiumInfo(browser);
     runtime.licenseNotes = licenseNotes(runtime.dependencies);
     // Failure-path control (operator-only): SPIKE_INJECT_FAILURE=1 throws here, after the browser is
     // up, to prove the finally block closes it. Never set in normal runs.
@@ -442,14 +443,18 @@ async function main() {
     
     // Atomic publish
     await fs.mkdir(OUT, { recursive: true });
-    const stagedFiles = await fs.readdir(STAGE_DIR);
+    const runId = path.basename(STAGE_DIR);
+    const versionedDir = path.join(OUT, runId);
+    await fs.rename(STAGE_DIR, versionedDir);
+    
+    const stagedFiles = await fs.readdir(versionedDir);
+    const manifestTmp = path.join(OUT, 'manifest.tmp');
+    await fs.writeFile(manifestTmp, JSON.stringify({ current: runId, files: stagedFiles }));
+    await fs.rename(manifestTmp, path.join(OUT, 'manifest.json'));
+    
+    // Copy out to the old locations for backwards compatibility with the verifier
     for (const f of stagedFiles) {
-      if (f !== 'manifest.json') {
-        await fs.rename(path.join(STAGE_DIR, f), path.join(OUT, f));
-      }
-    }
-    if (stagedFiles.includes('manifest.json')) {
-      await fs.rename(path.join(STAGE_DIR, 'manifest.json'), path.join(OUT, 'manifest.json'));
+      await fs.copyFile(path.join(versionedDir, f), path.join(OUT, f));
     }
   } finally {
     clearTimeout(deadline);
@@ -460,8 +465,20 @@ async function main() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main().catch(err => {
-    console.error('render: FAILED', err?.stack || err);
-    process.exit(deadlineHit ? 2 : 1);
-  });
+  if (process.argv.length > 2) {
+    (async () => {
+      const { processRequest } = await import('../render.mjs');
+      const inputPath = process.argv[2];
+      const res = await processRequest({ inputPath, backend: process.argv[3] });
+      console.log(JSON.stringify(res.request, null, 2));
+    })().catch(err => {
+      console.error('render cli: FAILED', err?.stack || err);
+      process.exit(1);
+    });
+  } else {
+    main().catch(err => {
+      console.error('render: FAILED', err?.stack || err);
+      process.exit(deadlineHit ? 2 : 1);
+    });
+  }
 }

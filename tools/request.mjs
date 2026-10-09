@@ -69,6 +69,16 @@ export async function normalizeRequest(req, options = {}) {
     }
   }
 
+  const width = req.width ?? 1200;
+  const height = req.height ?? 630;
+  const scale = req.scale ?? 1;
+  const format = req.format ?? 'png';
+  const backend = req.backend ?? 'satori';
+
+  if (width * height * scale * scale > 16777216) {
+    errors.push({ field: 'width', message: 'render area exceeds budget' });
+  }
+
   if (errors.length > 0) {
     throw new Error('Validation failed: ' + JSON.stringify(errors));
   }
@@ -76,14 +86,14 @@ export async function normalizeRequest(req, options = {}) {
   return {
     normalized: {
       inputPath: req.inputPath,
-      width: req.width,
-      height: req.height,
-      format: req.format,
-      backend: req.backend,
-      scale: req.scale
+      width,
+      height,
+      format,
+      backend,
+      scale
     },
     validation: { valid: true },
-    versions: { recipe: '1.0.0', backend: '1.0.0' },
+    versions: { recipe: null, backend: null },
     digests: {},
     provenance: {}
   };

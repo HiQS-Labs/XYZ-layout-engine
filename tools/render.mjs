@@ -120,3 +120,31 @@ export async function renderPlaywright(context, scene, font, width, height, font
     await page.close();
   }
 }
+
+export async function processRequest(reqObj, options = {}) {
+  const { normalizeRequest } = await import('./request.mjs');
+  const { getFonts } = await import('./spike/assets.mjs');
+  const { buildNutritionScene, version: recipeVersion } = await import('./recipes/nutrition.mjs');
+  const crypto = await import('crypto');
+  const fs = await import('fs/promises');
+  
+  const req = await normalizeRequest(reqObj, options);
+  const fixture = JSON.parse(await fs.readFile(req.normalized.inputPath, 'utf8'));
+  const fonts = await getFonts();
+  const scene = await buildNutritionScene(fixture, {});
+  
+  let result;
+  if (req.normalized.backend === 'playwright') {
+    const ctx = await launchPlaywright();
+    result = await renderPlaywright(ctx, scene, fonts, req.normalized.width, req.normalized.height);
+    if (ctx.close) await ctx.close();
+  } else {
+    result = await renderSatori(scene, fonts, req.normalized.width, req.normalized.height);
+  }
+  
+  req.versions = { recipe: recipeVersion, backend: req.normalized.backend === 'playwright' ? '1.64.0' : '0.36.0' };
+  req.digests = { png: crypto.createHash('sha256').update(result.png).digest('hex') };
+  req.provenance = { inputPath: req.normalized.inputPath, backend: req.normalized.backend };
+  
+  return { request: req, result };
+}

@@ -23,24 +23,29 @@ const runDir = root => {
 const node = (script, env) => spawnSync(process.execPath, [path.join(SPIKE, script)], { env: { ...process.env, ...env }, encoding: 'utf8', timeout: 50_000 });
 
 test('guards: render pipeline breaks on a clean checkout', async () => {
-  // import no-side-effect assertion
-  await import('../render.mjs'); const { renderSatori } = await import('../../render.mjs');
-  assert.ok(renderSatori, 'import no-side-effect assertion');
+  // import no-side-effect assertion in a fresh process
+  const importCheck = node('../../render.mjs', { SPIKE_OUTPUT_ROOT: FRESH }); // just executing it does nothing
+  
+  const srcCheck = spawnSync(process.execPath, ['--input-type=module', '-e', `import fs from 'node:fs'; import { pathToFileURL } from 'node:url'; await import(pathToFileURL('${path.join(SPIKE, 'render.mjs')}').href); const files = fs.readdirSync('${FRESH}').filter(f => f !== 'space path' && f !== 'gh2-outside'); if (files.length > 0) process.exit(1);`], { env: { ...process.env, SPIKE_OUTPUT_ROOT: FRESH }, encoding: 'utf8' });
+  assert.equal(srcCheck.status, 0, 'importing the spike caused side effects');
 
-  // CLI in a space-containing temp path
+  // CLI in a space-containing temp path (copy source to space path)
   const spacePath = path.join(FRESH, 'space path');
   mkdirSync(spacePath, { recursive: true });
-  const r2 = node('render.mjs', { SPIKE_OUTPUT_ROOT: spacePath, SPIKE_RENDER_DEADLINE_MS: '40000' });
+  cpSync(path.join(SPIKE, '..'), path.join(spacePath, 'tools'), { recursive: true });
+  cpSync(path.join(SPIKE, '..', '..', 'package.json'), path.join(spacePath, 'package.json'));
+  const relativeScript = path.relative(SPIKE, path.join(spacePath, 'tools', 'spike', 'render.mjs'));
+  const r2 = node(relativeScript, { SPIKE_OUTPUT_ROOT: spacePath, SPIKE_RENDER_DEADLINE_MS: '40000' });
   assert.equal(r2.status, 0, `render in space path exited ${r2.status} stderr: ${r2.stderr}`);
 
   // invalid request/escaping symlink
   try {
     const { normalizeRequest } = await import('../../request.mjs');
-    const outside = path.join(os.tmpdir(), 'gh2-outside');
-    mkdirSync(outside, { recursive: true });
+    const outside = mkdtempSync(path.join(os.tmpdir(), 'gh2-outside-'));
     appendFileSync(path.join(outside, 'input.json'), '{}');
     const escapeLnk = path.join(FRESH, 'escape.json');
-    import('node:fs').then(fs => fs.symlinkSync(path.join(outside, 'input.json'), escapeLnk));
+    const fs = await import('node:fs');
+    fs.symlinkSync(path.join(outside, 'input.json'), escapeLnk);
     await normalizeRequest({ inputPath: escapeLnk }, { root: FRESH });
     assert.fail('should reject escaping symlink');
   } catch (e) {
@@ -57,13 +62,21 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
 
   // injected failed publication preserving prior digests
   const runD = runDir(FRESH);
-  const priorDigest = sha256(readFileSync(path.join(runD, 'measurements.json')));
+  const getDigests = () => {
+    const manifestPath = path.join(runD, 'manifest.json');
+    if (readdirSync(runD).includes('manifest.json')) {
+      const manifest = JSON.parse(readFileSync(manifestPath));
+      return Object.fromEntries(manifest.files.map(f => [f, sha256(readFileSync(path.join(runD, f)))]));
+    }
+    return Object.fromEntries(readdirSync(runD).filter(f => !f.startsWith('run-') && !f.startsWith('staging-')).map(f => [f, sha256(readFileSync(path.join(runD, f)))]));
+  };
+  const priorDigests = getDigests();
   
   const rFail = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000', SPIKE_INJECT_FAILURE: '1' });
   assert.notEqual(rFail.status, 0, 'injected failure should exit non-zero');
   
-  const postDigest = sha256(readFileSync(path.join(runD, 'measurements.json')));
-  assert.equal(postDigest, priorDigest, 'prior digest should be preserved');
+  const postDigests = getDigests();
+  assert.deepEqual(postDigests, priorDigests, 'prior digests should be preserved');
 });
 
 test('guards: unintended visual or layout drift', () => {

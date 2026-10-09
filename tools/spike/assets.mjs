@@ -12,10 +12,19 @@ export async function resolveIllustration(id) {
   }
   const web = path.join(ASSETS_DIR, 'generated', 'web', `${id}.png`);
   try {
-    const png = await fs.readFile(web);
-    // basic PNG signature check
-    if (png.length < 8 || png.readUInt32BE(0) !== 0x89504e47 || png.readUInt32BE(4) !== 0x0d0a1a0a) {
+    const webReal = await fs.realpath(web);
+    const expectedRoot = await fs.realpath(path.join(ASSETS_DIR, 'generated', 'web'));
+    if (!webReal.startsWith(expectedRoot)) throw new Error('symlink escape rejection');
+
+    const png = await fs.readFile(webReal);
+    if (png.length > 5 * 1024 * 1024) throw new Error(`PNG too large for ${id}`);
+    if (png.length < 24 || png.readUInt32BE(0) !== 0x89504e47 || png.readUInt32BE(4) !== 0x0d0a1a0a) {
       throw new Error(`Invalid PNG signature for ${id}`);
+    }
+    const width = png.readUInt32BE(16);
+    const height = png.readUInt32BE(20);
+    if (width > 8192 || height > 8192 || width * height > 16777216) {
+      throw new Error(`PNG dimensions too large for ${id}`);
     }
     return `data:image/png;base64,${png.toString('base64')}`;
   } catch (e) {

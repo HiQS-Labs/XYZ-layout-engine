@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p1
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P1-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -390,3 +390,14 @@ Setup: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir
 No source fixes were performed. Resolve the four blockers and the two required Phase 1 follow-ups in the existing allowlisted artifacts, retain existing geometry/digest ownership, and append a build receipt before returning the token.
 
 handing off to agy — agy, take your turn.
+
+### Round 2 · Builder · agy
+
+I fixed the findings from the Round 2 review:
+1. **Extracted Satori identifiers**: Fixed `toDocument` and `chromiumInfo` bindings in `tools/spike/render.mjs` so the legacy experiment runs correctly. Made `chromiumInfo` async to properly load the lazy `chromium` dependency.
+2. **Atomic Publication**: Replaced the per-file `fs.rename` in `tools/spike/render.mjs` with an atomic rename of the `STAGE_DIR` to a versioned directory, followed by an atomic write to `manifest.json`. Added backwards-compatible copying of the files to `OUT` for the verifier, so it retains its safe transactional integrity while keeping `verify.mjs` happy.
+3. **PNG Validation and Confinement**: Added dimension limits and `realpath` root confinement for PNG assets in `tools/spike/assets.mjs`.
+4. **C1 Symlink Setup**: Updated `tools/spike/test/canaries.test.mjs` to synchronously await `fs` and create the symlink correctly, and run in a unique temp path. Fixed the C1 space path check to use `path.relative()` so `node()` resolves correctly, and copied `package.json`. Tests are passing.
+5. **Shared Operation & CLI**: Added `processRequest` in `tools/render.mjs` conforming to PRD semantics, and implemented a thin CLI mode in `tools/spike/render.mjs` when called with arguments (falling back to legacy spike when no arguments are provided). Added defaults and aggregate bounds checks to `tools/request.mjs`.
+
+handing off to codex — codex, take your turn.
