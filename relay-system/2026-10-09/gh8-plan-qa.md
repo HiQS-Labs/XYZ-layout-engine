@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 3
 
@@ -121,8 +121,37 @@ Plan revised; see `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md`.
 - **Blocker 1 (secrets in error bodies) — Implemented.** Requirement 3 now scrubs the key ID and secret from every error body, exception, header dump and URL before printing or writing, extends the secret scan to the ledger and findings, and adds a mock-4xx red control.
 - **Blocker 2 (concurrency) — Implemented.** Requirement 2 now runs submissions strictly sequentially under an exclusive ledger lock, writes a reserve row before each submit, and adds two checks: a ledger pre-set to $1.85 must refuse a second call, and a second process must refuse to start.
 - **Blocker 3 (stdlib decoder) — Implemented.** Requirement 4 now uses a short Node script on the pinned runtime's Chromium for decoded alpha statistics, with the header color type sniffed separately; no hand-written PNG decoder. The two known-file controls are unchanged.
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to agy (Reviewer) for round 2.
+
+### Reviewer · Round 2 (agy)
+
+swept file: yes
+
+* **[Blocker]** Insecure credential file permissions. The recon notes the API key file has `mode 644` (world-readable), which is a severe security flaw for secrets. The script must refuse to run if the file permissions are insecure.
+  * Observed input: `"The credential file is one KEY_ID:SECRET line, mode 644."` (Line 34).
+  * Affected scope: Secret handling (Requirement 3).
+  * Falsifier: A control test using a dummy key file with `chmod 644`, expecting the script to immediately abort and refuse to load it.
+  * Fix: Keep the recon note (as it describes current state), but add a strict startup check in Requirement 3 that uses `stat` to verify the key file is `mode 600` and halts execution if it is world or group readable.
+
+* **[Blocker]** The verification condition for spend control has a mathematical contradiction. If the ledger is pre-set to `$1.85` and the estimate is `$0.094`, the total would be `$1.944`. Since Requirement 2 states it "refuses to submit if the total would pass $1.90", the script must refuse this *first* call, not the second.
+  * Observed input: `"a dry run with the ledger pre-set to $1.85 and a $0.094 estimate must refuse the second call"` (Line 63).
+  * Affected scope: Spend control verification (Verification section).
+  * Falsifier: A dry-run with the ledger at `$1.85` and an estimate of `$0.094`, expecting the *first* submission to be rejected because `$1.944 > $1.90`.
+  * Fix: Correct the verification text. Either state that it refuses the *first* call (since `$1.944 > $1.90`), or change the estimate to a smaller value (e.g., `$0.04`) so the first call (`$1.89`) is accepted and the second call (`$1.93`) is refused.
+
+* **[Pass]** Grounding and probe coverage: The claims about the Solar System generator (`assets/*.result.json`, `provenance.json` per `examples/2026-10-08-solar-system/README.md`) and the RAG example (10 stages, 2 backends per `examples/2026-10-09-rag-system/README.md`) perfectly match the files. The plan correctly includes schema probes sending `background: "transparent"` on Flare (Requirement 1), fulfilling the request to try the PNG transparency settings for Images 2.5.
+* **[Pass]** Spend safety control is sufficient. By calling the estimate endpoint and writing a reserve row *before* submission (Requirement 2: `"writes a reserve row for it to an on-disk ledger"`), any unknown charging of 4xx validation rejections is already accounted for. If the provider charges for the 4xx, it's covered by the estimate; if not, the script overestimates the spend and safely stops early. The worst-case overshoot is `$0.00`, which is fully acceptable for a hard cap.
+* **[Pass]** Secret handling is robust. Requirement 3 explicitly mandates that `"Every error body, exception message, header dump and URL is scrubbed of the key ID and secret"`, fully addressing the risk of API keys echoing in 4xx bodies or exception traces.
+* **[Pass]** The inspection method is sound and falsifiable. Using a known `"transparent Solar System web PNG must pass and the opaque Solar System poster must fail"` (Requirement 4) ensures the control does not pass vacuously.
+* **[Pass]** The verdict-dependent art rule is honest (`"Higgsfield assets... if GO; hand-drawn SVG icons if NO-GO"` - Requirement 6), and the six cell-division stages (interphase through cytokinesis) are adequate for the diagram.
+* **[Pass]** Scope boundaries are respected. The plan properly avoids shared layers (`"No provider contract, shared layer"` - Non-goals) and correctly cites `"Refs #8 (the issue stays open)"` (Ordered implementation step 6), since Phase 1-4 remain untouched.
+* **[Pass]** The rating rationale and rollback are honest: `"Rollback of the code is Easy; money spent is not"` (Bet section).
+
+**VERDICT: FAIL**
+**Basis:** The API key file is world-readable (mode 644) and lacks a strict permission check, and the spend control verification contains a mathematical error where a $1.944 total incorrectly claims it will accept the first call instead of refusing it.
+
+Handing off to Producer (claude-a) — go to the claude-a window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
