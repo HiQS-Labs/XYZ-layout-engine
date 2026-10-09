@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -108,8 +108,22 @@ Plan revised; see `PROJECT/1-INBOX/GH-13-DIAGRAM-DESIGN-SKILL.md`.
 - **R1 [Should] — Implemented.** The path probe now prints an inventory and count, rejects zero, requires the RAG example and the pinned-runtime prerequisite, separates input paths from declared output placeholders, names each command's working directory, and lists four falsifiers (empty skill, missing RAG reference, invented input path, complete skill). Still a one-off, nothing committed.
 - **R2 [Nit] — Implemented.** Rollback now deletes the skill and appends a rollback changelog entry; an unpublished draft entry may be deleted.
 - **R3 [Nit] — Implemented.** The trap list now says what was observed (a span's `textAlign: right` rendered left-aligned in the first RAG render; the flex wrapper is the working pattern) and marks the positioned-parent point as a working pattern, not a recorded failure.
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to codex (Reviewer) for round 2.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: The revised plan closes the acceptance gap and keeps a proportionate one-file implementation. R1–R3 are dispositioned; no blocking findings remain. Reviewed the entire 75-line plan and all Setup source files, not just the revision; no additional pre-existing plan defects found. Approval is for the plan, not an executed skill or cold-run result.
+swept file: yes
+
+- [Pass] **R1 closed — non-vacuous acceptance.** `PROJECT/1-INBOX/GH-13-DIAGRAM-DESIGN-SKILL.md:55` now requires a printed inventory/count, rejects zero, explicitly requires the RAG pattern and pinned runtime, distinguishes declared output placeholders from existing inputs, names command working directories, and specifies empty/missing/invented-reference controls. Lines 56 and 63 require an independent cold run and findings for forced guesses. This is a falsifiable contract for the forthcoming skill; no committed checker or test suite is needed.
+- [Pass] **R2 closed — rollback preserves history.** Plan line 51 now appends a rollback entry after publication, consistent with `PROJECT/PDDA.md:1014`–1018. The Easy rating at plan line 17 remains appropriate for one skill folder and documentation.
+- [Pass] **R3 disposition accepted with an evidence limit.** Plan line 30 narrows the alignment statement to a reported first-render incident and labels the positioned-parent advice a working pattern. The current flex-wrapper and positioned-parent constructions are present at `examples/2026-10-09-rag-system/render-diagram.mjs:59`–64, :111 and :125. Those lines support the recommended pattern; they do not independently reproduce the historical alignment incident. Carry that distinction into the skill, without asserting a universal renderer defect.
+- [Pass] **Whole-plan grounding and scope.** The guard precedes the awaited import (`examples/2026-10-09-rag-system/render-diagram.mjs:8`–12); required stages and both-backend geometry checks are explicit (:24–26, :138–184). Raster disappearance and encoded paths are recorded in `PROJECT/1-INBOX/GH-5-MVP-FOUNDATION.md:33`, with the path mechanism at `tools/spike/assets.mjs:4`. Paid-art receipts are implemented at `examples/2026-10-08-solar-system/generate-assets.py:20`–35 and checked at its `render-diagram.mjs:25`–35. Plan lines 35–45 retain the brief, explicit art policy, visual inspection, operator-requested installation, and no new runtime/dependency/test/workflow. This follows `test-budget.json`'s named-failure admission rule. Plan lines 31, 39 and 50 make the source location reasonable without assuming app discovery; line 75 labels the ratings provisional judgments, with neutral appeal.
+- [Unverified — needs clone run] Renderers, executable fixtures, tests and gates were not run, as required by this review envelope. The future path checker and cold run remain implementation acceptance work (plan lines 55–64). Graph `list_projects` pages at offsets 0 and 50 returned all 82 projects with no matching checkout or XYZ Layout Engine project; no applicable generation/coverage result exists, so this review used exact source reads. Read-only inventory probe, after `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`: `python3 -c 'from pathlib import Path; print("visible skills:", sorted(str(p) for p in Path(".").rglob("SKILL.md"))); print("startup paths:", {p:Path(p).exists() for p in ["README.md", "utils/py/releases_app.py", ".xyz/utils/py/releases_app.py"]})'` (equivalent Python supplied via stdin), exit 0, output `visible skills: []` and `startup paths: {'README.md': False, 'utils/py/releases_app.py': False, '.xyz/utils/py/releases_app.py': False}`. This supports only the visible inventory; tracked-history and `.xyz/` assertions remain author-supplied. Missing startup files prevented README/roadmap execution. Issue scope was assessed against the supplied Definition of Done and local capture; no live GitHub claim is made.
+
+Relay closed (Approved), no further turn needed. Producer claude-a may proceed with implementation and the planned clone acceptance. Only this relay file was edited; no git command was run. The harness owns the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
