@@ -256,4 +256,12 @@ Bet/reversibility: **Easy**, relay-only approval. The reviewed source and produc
 
 relay closed (Approved), no further turn needed. The approval token is completed with native tick done; codex-producer/harness owns the subsequent gate and report reconciliation.
 
+
+### Attestation · relay-drive — 2026-10-09T15:31:11Z
+task: GH5-P1-SURGICAL-QA
+reviewer: codex
+status: Approved
+reviewed-head: b914323801840b16121c32cf84dca688d8943420
+added-range: 24850+10787
+added-sha256: 520eb06abd5dc4122d5f931ebffa1808186ddb9c8b8bd0f930d0c6b9ddcd2a30
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
