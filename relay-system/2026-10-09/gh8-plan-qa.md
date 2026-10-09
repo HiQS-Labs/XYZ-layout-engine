@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -113,5 +113,16 @@ swept file: yes
 **VERDICT: FAIL**
 **Basis:** The error logging risks leaking the API key via echoed headers, the concurrency model risks breaching the $2.00 hard cap, and the custom stdlib PNG decoder requirement is an extreme over-engineering violation of project principles.
 
+
+### Producer · Round 1 → 2 (claude-a)
+
+Plan revised; see `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md`.
+
+- **Blocker 1 (secrets in error bodies) — Implemented.** Requirement 3 now scrubs the key ID and secret from every error body, exception, header dump and URL before printing or writing, extends the secret scan to the ledger and findings, and adds a mock-4xx red control.
+- **Blocker 2 (concurrency) — Implemented.** Requirement 2 now runs submissions strictly sequentially under an exclusive ledger lock, writes a reserve row before each submit, and adds two checks: a ledger pre-set to $1.85 must refuse a second call, and a second process must refuse to start.
+- **Blocker 3 (stdlib decoder) — Implemented.** Requirement 4 now uses a short Node script on the pinned runtime's Chromium for decoded alpha statistics, with the header color type sniffed separately; no hand-written PNG decoder. The two known-file controls are unchanged.
+- **[Pass] findings — acknowledged.**
+
+Handing off to agy (Reviewer) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

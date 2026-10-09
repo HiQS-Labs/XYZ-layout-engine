@@ -37,10 +37,10 @@ The operator supplied a Higgsfield API key file and a hard spend cap of **$2.00*
 
 ## Requirements
 
-1. `examples/2026-10-09-cell-division/higgsfield-spike.py` runs the Phase 0 probe matrix against REST only: schema probes sending `background: "transparent"`, `output_format: "png"` and both, on Flare and (if its endpoint exists) Sunburst; prompt-only runs (3 per variant at 1k, low quality); estimate-only discovery of other endpoint ids. Rejected probes are recorded with their exact error bodies.
-2. **Spend control.** Before every paid submit the script calls the estimate endpoint, adds it to a running total in an on-disk ledger (`ledger.jsonl`: label, endpoint, parameter hash, estimated credits and USD, request id, status), and refuses to submit if the total would pass **$1.90**. The $2.00 cap covers the whole slice, including the example's assets. A paid call is never resubmitted blindly: an ambiguous failure stops the run and is reported.
-3. **Secrets.** The key path comes from the environment variable `HIGGSFIELD_KEY_FILE`; the key is never printed, logged, written to the ledger or receipts, or placed in a URL. A pre-commit check searches the staged diff and the ledger for the key ID and secret strings and must find none.
-4. **Inspection.** Every returned file is checked by content type, URL extension, magic bytes, and (PNG) color type plus decoded alpha statistics (`hasAlphaChannel`, `transparentPixelRatio`, `opaqueCornerCount`, minimum alpha) using a stdlib-only decoder. The method is proven first on known files: a committed transparent Solar System web PNG must pass and the opaque Solar System poster must fail.
+1. `examples/2026-10-09-cell-division/higgsfield-spike.py` runs the Phase 0 probe matrix against REST only: schema probes sending `background: "transparent"`, `output_format: "png"` and both, on Flare and (if its endpoint exists) Sunburst; prompt-only runs (3 per variant at 1k, low quality); estimate-only discovery of other endpoint ids. Rejected probes are recorded with their error bodies after scrubbing (see requirement 3).
+2. **Spend control.** Submissions run strictly one at a time (no concurrency), under an exclusive lock on the ledger so a second process refuses to start. Before every paid submit the script calls the estimate endpoint, writes a reserve row for it to an on-disk ledger and adds it to the running total (`ledger.jsonl`: label, endpoint, parameter hash, estimated credits and USD, request id, status), and refuses to submit if the total would pass **$1.90**. The $2.00 cap covers the whole slice, including the example's assets. A paid call is never resubmitted blindly: an ambiguous failure stops the run and is reported.
+3. **Secrets.** The key path comes from the environment variable `HIGGSFIELD_KEY_FILE`; the key is never printed, logged, written to the ledger or receipts, or placed in a URL. Every error body, exception message, header dump and URL is scrubbed of the key ID and secret (replaced with `***`) before it is printed or written. A pre-commit check searches the staged diff, the ledger and the findings for the key ID and secret strings and must find none. Red control: a mock 4xx body containing the secret must be recorded scrubbed, and a throwaway file containing the key ID must make the scan fail.
+4. **Inspection.** Every returned file is checked by content type, URL extension and magic bytes, plus PNG color type from the header, plus decoded alpha statistics (`hasAlphaChannel`, `transparentPixelRatio`, `opaqueCornerCount`, minimum alpha) from a short Node script, `examples/2026-10-09-cell-division/inspect-alpha.mjs`, that decodes the image with the pinned runtime's Chromium (canvas pixel read). No hand-written PNG decoder. The method is proven first on known files: a committed transparent Solar System web PNG must pass and the opaque Solar System poster must fail.
 5. `examples/2026-10-09-cell-division/FINDINGS.md` records per surface: schema accepts a transparency flag (Y/N, exact error), real alpha returned (Y/N), format, latency, credits per call, and the verdict GO, NO-GO or UNCERTAIN under the issue's definitions (UNCERTAIN counts as NO-GO for transparent generation). MCP is recorded as untested.
 6. `examples/2026-10-09-cell-division/` also holds the diagram "How cells reproduce (mitosis)": fixture-driven, rendered through the pinned runtime in `examples/2026-10-08-solar-system/runtime/` by the same pattern as the RAG example (both backends, required stage ids, geometry checks, red controls on throwaway copies, both PNGs inspected). Stages: interphase, prophase, metaphase, anaphase, telophase, cytokinesis, plus a short "why it matters" panel. Art follows the verdict: Higgsfield assets with provider provenance if GO; hand-drawn SVG icons if NO-GO or UNCERTAIN. Nothing keyed or matted is presented as native transparency.
 7. Provenance for every Higgsfield asset used: provider, endpoint, parameters, request id, sha256, alpha statistics, credits and USD.
@@ -60,15 +60,15 @@ The operator supplied a Higgsfield API key file and a hard spend cap of **$2.00*
 
 ## Verification (existing checks only)
 
-- Inspector controls pass and fail as stated (requirement 4), shown in the findings.
+- Inspector controls pass and fail as stated (requirement 4), shown in the findings. Sequential-submission check: a dry run with the ledger pre-set to $1.85 and a $0.094 estimate must refuse the second call; a second process started while one runs must refuse to start.
 - Every paid call appears in `ledger.jsonl`; total estimated USD at the end is at or under $1.90, and the file is committed.
-- Secret scan finds neither the key ID nor the secret in the staged diff or ledger. Red control: a throwaway file containing the key ID must make the scan fail.
+- Secret scan finds neither the key ID nor the secret in the staged diff, ledger or findings. Red controls: the mock-error scrub and the throwaway-file scan above.
 - The example renders to `PASS` in both backends; three red controls fail by named id and are restored (as the RAG example).
 - `utils/pdda/pdda.sh run` has no errors, `releases check` is clean. `pnpm test` is not required (no `tools/spike/**` change) and is not run in a path containing a space.
 
 ## Ordered implementation
 
-1. Write the stdlib PNG alpha inspector and prove it on the two control files.
+1. Write the Node alpha inspector and prove it on the two control files.
 2. Write the spike runner with ledger, estimate-before-submit and secret handling; dry-run it with estimates only (free) and review the projected spend.
 3. Run schema probes, then the prompt-only runs, inspecting each file as it arrives; stop on any anomaly or at the cap.
 4. Record the verdict in `FINDINGS.md`.
