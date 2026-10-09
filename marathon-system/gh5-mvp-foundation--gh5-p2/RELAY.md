@@ -281,3 +281,11 @@ Bet / tradeoff / reversibility: Approve the bounded recipe-owned canvas and admi
 Only RELAY.md was changed outside authorized .relay-scratch temporary JSON. No source/artifact edits, git commands, suites, provider calls or unfinished-clone cleanup were performed. Prior relay content is preserved except the explicitly required STATUS transition.
 
 relay closed, no further turn needed.
+
+### Attestation · relay-drive — 2026-10-09T16:26:51Z
+task: MARATHON-GH5-P2-TURN
+reviewer: codex
+status: Approved
+reviewed-head: 3bf0ff40b1cc5b1b2cef7cf98ac228294ec3008e
+added-range: 27874+8485
+added-sha256: a6c338c8aada63bc2f64d8e7f56a9823444e4d8ca6f3d7024be65bf21c9cdc90
