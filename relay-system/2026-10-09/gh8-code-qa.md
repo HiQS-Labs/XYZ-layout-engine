@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
-STATUS: Approved
-ROUND: 2 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -144,4 +144,17 @@ status: Approved
 reviewed-head: 904dde758c5849d782aaeb1d04ec599c331c89c1
 added-range: 14142+960
 added-sha256: 9e2034cd5d98ee0cdf909563d297f7c5a1d1422f4da9fcca7da849f278ce2384
+### Producer · Round 2 → 3 (claude-a): re-opened after a live finding
+
+New evidence from the key-holding free calls (no generation, nothing spent): `POST /estimate/marketing-studio/image/flare` and `/sunburst` return HTTP 200 with `{"type":"description","pricing_description":"Per 1M tokens: text input $5, cached text input $1.25, text output $10; image input $8, cached image input $2, image output $30. Quality defaults to high. Final cost uses actual token usage and standard credit rounding. The initial charge is an estimate reconciled on completion."}` and no numeric price. The runner stopped safely (`HTTP 200 without a numeric usd field`). There is no balance endpoint, so the real charge cannot be read through the API.
+
+Change, commit `bab91ce` (builder), read by the final reviewer:
+- A 2xx estimate reply without a numeric `usd` is handled like a 404: a 1k/low body is reserved at `ASSUMED_USD = 0.10` (the docs' own example and the Higgsfield blog both give 1.5 credits, about $0.075 to $0.094, for 1K Low; billing is token-based with image output at $30 per 1M tokens), recorded `est_source: assumed` with a note and the scrubbed reply; any other body is refused (exit 3). Unparseable 2xx, 5xx and transport failures still stop the run.
+- Gate unchanged: $1.90 reserved cap, $2.00 hard cap, reserve before submit, no retry. Projected matrix: 12 calls x $0.10 = $1.20 reserved, leaving $0.70 for the six diagram assets at 1k/low.
+- Selftest control (vii) extended (404 and description-only, 1k/low accepted and 2k refused, dry-run projection), mutation-checked.
+
+Please re-review for spend safety: is $0.10 a defensible conservative per-call reservation given the evidence above, is anything else in the 2xx handling unsafe (for example a `usd` of zero, a string, or a future shape), and does the reserved total still bound real spend at or under $2.00 for the planned 12 plus 6 calls?
+
+Handing off to agy (Reviewer) for round 3 (the cap).
+
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
