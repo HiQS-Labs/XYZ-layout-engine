@@ -1,3 +1,19 @@
+---
+title: "GH-5 Phase 1 — execution brief"
+status: Prepared
+created: 2026-10-09
+updated: 2026-10-09
+owner: Neochrome
+goal: Execute Phase 1 of the canonical GH-5 local MVP plan.
+roadmap_exempt: true
+---
+
+## Status
+
+| What was just completed | What's next |
+|---|---|
+| Prepared a bounded phase brief linked to GH-5. | Execute only after plan QA and dry-run admission. |
+
 # GH-5 Phase 1 — Shared local operation
 
 Umbrella/member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5

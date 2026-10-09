@@ -199,7 +199,7 @@ One umbrella/member: GH-5. Full clone `marathon-gh-5-mvp-foundation`, branch `ma
 
 **Blast:** Easy — unshipped local modules and owned manifests. Protect immutable inputs and spike goldens; stage/verify before publish; tripwires are digest/geometry drift, escaped paths, corrupt inputs, unknown paid outcomes and failed canaries. Halt on first failed phase; no force/attempt-cap bypass. Rollback reverts the failed phase commit and restores the prior last-good manifest; preserve evidence and recover unknown provider results before any explicit retry. New local schemas/cache versions are explicit to avoid accidental reuse; public service contracts remain deferred.
 
-The native driver uses Agy builder and independent Codex reviewer for every phase. Plan QA is an independent Codex relay before dispatch. Each turn is capped at 1500 seconds; at most two review rounds per phase and the installed attempt cap, no automatic force. The pre-advance command is `pnpm test`. Builder must not run the pre-advance gate (the driver runs it after independent review); reviewer inspects code and tests rather than inferring correctness from a prior green spike. Every builder records stage-specific checkable evidence inside the allowed report/relay; scratch and outputs go to ignored/temp owned paths, not arbitrary repository files. No runtime governance edits.
+The native driver uses Agy builder and independent Codex reviewer for every phase. Plan QA is an independent Codex relay before dispatch. After all driver test gates are green, the orchestrator must mechanically run a separate final Codex wave review against the committed aggregate diff and on-disk test receipts before checking the wave QA boxes or pushing a feature/PR. Native per-phase review before its gate does not satisfy that final requirement. Each turn is capped at 1500 seconds; at most two review rounds per phase and the installed attempt cap, no automatic force. The pre-advance command is `pnpm test`. Builder must not run the pre-advance gate (the driver runs it after independent review); reviewer inspects code and tests rather than inferring correctness from a prior green spike. Every builder records stage-specific checkable evidence inside the allowed report/relay; scratch and outputs go to ignored/temp owned paths, not arbitrary repository files. No runtime governance edits.
 
 ## Phase 1 — Shared local operation
 
@@ -410,10 +410,6 @@ Plan QA: pending a fresh independent implementation-plan relay; earlier Agy chec
 5. **The Reviewer never edits the artifact.** It proposes graded findings; the Producer implements.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
-## Log
-
-<!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
-
 ## Producer review request
 
 Review the implementation plan, PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml and all five briefs against actual code/main a8e7e574 and issue #5. This is independent implementation-plan QA, not the already-approved broad checklist. Check ponytail/DRY, security/recovery controls, honest scope/risk, minimal files, all named paths, golden/test-budget preservation, zero paid tests, fitting/visibility evidence, generation crash/unknown outcomes, measured performance acceptance and sequential collisions. The operator explicitly asked to prepare then fire; main checkout is untouched and base origin/main was confirmed.
@@ -421,3 +417,7 @@ Review the implementation plan, PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml a
 Read actual source and current recon; no graph index for this project. You may read source, inspect git diff and run read-only checks. Write ONLY this relay. No runtime edits, no scratch files in repo, no git commits/push. Give cheapest precise fixes if blocked; don't manufacture speculative requirements. Distinguish pending human/provider gates from machine completion. Native per-phase review precedes driver pnpm test, so a final separate wave Codex relay against all green receipts is required before feature push/PR (plan mandates it).
 
 Follow literal VERDICT: PASS|FAIL|PARKED and nonempty Basis: in final reviewer block. On PASS set STATUS: Approved, append only and terminally finish this task with tick done as codex; DO NOT release to producer on approval. On FAIL release to codex-producer. Use TICK_BIN/TICK_REPO_ROOT supplied by the harness. Task: GH5-MARATHON-PLAN-QA-1. Independent review must cite exact reviewed HEAD. End-marker is at EOF; preserve every prior block byte-for-byte.
+
+## Log
+
+<!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
