@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -185,5 +185,55 @@ VERDICT: PASS
 Basis: every round-1 finding is implemented; all figures are script-extracted from the delivered evidence files and the pending items are visibly pending in all three documents.
 
 Handing off to codex (Reviewer) — round 2 against commit `9fd6374`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 (codex)
+
+Review outcome: Approved
+swept file: yes
+
+Phase 3 document review passes; no open Blocker or Should remains. Bet: the corrected documents and saved evidence support the bounded backend decision, while unexercised fitting and deployment workloads can still overturn production assumptions. Reversibility: Easy — only this relay header and appended review change.
+
+Scope: swept the complete REPORT.md, SPECS-PRD.md, GH-1-RENDERER-SPIKE.md and CHANGELOG.md; read p3.md, both evidence JSON records and the complete Phase 2 relay; viewed all eight PNGs and the reference. Pre-existing document defects were in scope; no additional material defect was found. Applied the SWE Proof/observed-versus-predicted rubric; call-path recon is N/A for this document-only review. Verify tier: MCP list_projects offsets 0 and 50 returned all 82 projects without this checkout or task clone; matching project/generation/coverage unavailable, so exact named-file inspection is the fallback. Startup README.md and both releases-app paths are absent. No git, renderer, verifier, PDDA, test suite, executable fixture, artifact edit or external post ran. Scratch stayed under .relay-scratch/tmp; user containment instructions govern execution.
+
+- **1. [Pass] Round 1 timing finding is repaired across all copies.** REPORT.md:7,46–49,101,110, SPECS-PRD.md:443,447 and CHANGELOG.md:8 now name the delivered run and agree with `runtime.satori.cold`, `satori.warm`, `playwright.cold` and `playwright.warm` to the displayed one-decimal precision: 152.7/425.7 cold totals and 26.5/68.8 warm medians. Hardware/runtime and stage boundaries match `runtime.environment` and `stageBoundaries`; in-process cold timing and one-fixture/ten-sample limits remain explicit. No fresh-process, p95 or production-throughput result is claimed. No further fix requested.
+
+- **2. [Pass] Round 1 QA-completion finding is repaired.** Plan:32,57,117 distinguishes implemented Phases 1–3 from pending Phase 3 approval and leaves the aggregate review box open. PRD:26 and CHANGELOG.md:9 likewise identify this review as pending at writing; PRD:141,448 and plan:118,121 leave human acceptance and CodeRabbit open. Phase 3:90–94 checks completed evidence/document work, not future independent approval; later PRD phase QA boxes remain unchecked (458–499). After harness attestation, the orchestrator may update the Phase 3/aggregate receipt labels. No future review or artwork acceptance is pre-credited.
+
+- **3. [Pass] Round 1 visual and historical-overflow findings are repaired.** REPORT.md:92 and PRD:437 now acknowledge whole-pixel placement differences, sparse illustrations, the horizontal benefits strip versus the reference's vertical side panel, and missing callout copy/icons. The cited baseline caption y=772/774 and override hero y=262/264.5 match `cases.baseline.*.bounds.item_1_caption.y` and `cases.override.*.bounds.hero_img.y`. Viewed baseline/override/hero copy is readable without apparent clipping; probe PNGs show readable English/café, Satori .notdef placeholders and browser fallback glyphs. REPORT.md:71 removes the unsupported 1.05/2px history and instead matches the delivered hero headline scroll/client height 154/154. Agent assessment is explicitly separate from pending human acceptance. No renderer or artwork change requested.
+
+- **4. [Pass] Provenance, licence limits and the recommendation remain bounded.** PRD:5 refreshes the date; REPORT.md:31 uses recorded Darwin/osRelease fields; PRD:445 names manifest provenance separately from the font's SOURCES.md/verifier provenance; CHANGELOG.md:9 now records the bet, failure mode, Easy reversibility and attributed checks. REPORT.md:33–40 and PRD:445 match `runtime.dependencies`/`licenseNotes`, including the exact native binding, MIT transitives and font source. Browser `verified=false`/notice review remains open. REPORT.md:110–116 and PRD:439–448 match `capabilities`, `selection`, `digests`, `probes` and the six fitting records: both backends eligible, Satori SVG available/browser SVG unsupported, shrink unexercised, Node snapshots shared and Chromium RSS unmeasured. The decision rests on stage cost, browser-free operation and SVG; it does not earn production readiness or pixel parity. No new production scaffolding, tests, CI or process is requested by these documents.
+
+  Narrow saved-evidence receipt (exit 0; no render or gate execution):
+
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PY' > "$TMPDIR/r2-receipt.txt"
+  import hashlib,json,struct
+  from pathlib import Path
+  p=Path("tools/spike/output"); m=json.loads((p/"measurements.json").read_text()); r=json.loads((p/"runtime.json").read_text())
+  for b in ("satori","playwright"):
+   print(b,"cold",r[b]["cold"],"warm",{k:r[b]["warm"][k] for k in ("min","median","max")})
+   print(b,"memoryMiB",{k:round(r[b]["memory"]["nodeProcess"][k]/2**20,2) for k in ("rss","heapUsed")})
+  for c in [c for per in m["cases"].values() for c in per.values()]+list(m["probeArtifacts"].values()):
+   raw=(p/Path(c["png"]).name).read_bytes(); print(c["png"],len(raw),struct.unpack(">II",raw[16:24]),"hash_match",hashlib.sha256(raw).hexdigest()==c["sha256"])
+  print("fits",[(n,b,c["fitting"]["fit"],c["fitting"]["iterations"],c["fitting"]["unresolved"]) for n,per in m["cases"].items() for b,c in per.items()])
+  print("hero_scroll",m["cases"]["hero"]["playwright"]["text"]["hero_headline"]["scrollMetrics"])
+  print("selection",m["selection"])
+  PY
+  probe_status=$?
+  cat "$TMPDIR/r2-receipt.txt"
+  exit "$probe_status"
+  ```
+
+  Decisive output: Satori cold `{totalMs:152.71,importMs:72.41,firstStageMs:74.78}`, warm `{min:25.51,median:26.54,max:27.66}`; browser cold `{totalMs:425.68,firstStageMs:103.7,fontLoaded:True}`, warm `{min:66.77,median:68.79,max:72.1}`. Memory MiB rss/heapUsed = 270.09/64.93 and 275.84/65.06. All eight `hash_match True`; four nutrition PNGs `(1000,1000)`, two heroes `(1200,630)`, two probes `(600,400)`; largest case PNG 91158 bytes. All six fits `(True,0,[])`; hero scroll/client height 154/154; selection `status='candidates', eligible=['satori','playwright']`, human acceptance pending. This checks saved values and delivered bytes, not independent repeat execution.
+
+- **5. [Nit] Optional precision cleanup remains from Round 1 finding 5.** REPORT.md:55–56,103 and PRD:444 label binary-divided memory as MB; use MiB for the approximately 270/276/65 values (receipt above), or use decimal MB with converted values. REPORT.md:100's ≤134 KB remains a true loose bound; 91158 bytes is the exact current maximum. REPORT.md:101 still says headroom “covers … larger scenes”; “proposed headroom for … larger scenes; unmeasured” would avoid reading the rationale as tested coverage. The section heading and REPORT.md:106/PRD:446 already label all limits as targets pending Phase 1 measurements, so these wording nits do not block document approval or require another relay cycle.
+
+- **6. [Unverified — needs clone run] Full execution remains attributed.** REPORT.md:15–22's render/verifier/red-control/cleanup claims have recorded Phase 2 receipts (relay:76–80,181–191,278–285,335). This relay's QA brief and Producer Round 1→2 record Phase 3 `pnpm run spike:verify` exit 0/PASS and PDDA exit 0/no errors/three pre-existing warnings. This reviewer did not rerun them; the post-turn harness owns fresh execution. Human artwork, CodeRabbit and Chrome for Testing notice acceptance remain outside this approval.
+
+VERDICT: PASS
+Basis: Round 1 findings 1–4 and the material provenance/governance cleanup are repaired. The full document sweep, saved-byte checks and attributed command receipts support the Phase 3 evidence/decision DoD; pending acceptance decisions stay visible. Remaining precision nits do not alter the backend recommendation or mark an unmeasured limit as an achieved result. No remaining material pre-existing document defect was found.
+
+Relay closed (Approved), no further review turn needed. Handing the approved result to claude-a for harness attestation/gate and the authorized receipt-status updates; human artwork acceptance remains pending.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
