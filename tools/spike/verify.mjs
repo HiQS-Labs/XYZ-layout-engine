@@ -6,6 +6,7 @@
 import fs from 'fs/promises';
 import assert from 'assert';
 import crypto from 'crypto';
+import { selectedRun } from '../render.mjs';
 import { resolveIllustration, getFont } from './assets.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT } from './scene.mjs';
 
@@ -19,7 +20,8 @@ const OUTPUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || fileURLToPath(new URL('./ou
 const RUN_DIRS = readdirSync(OUTPUT_ROOT, { withFileTypes: true })
   .filter(d => d.isDirectory() && new RegExp(`^\\d{4}-\\d{2}-\\d{2}-${PKG}$`).test(d.name)).map(d => d.name).sort();
 const RUN_DIR = RUN_DIRS[RUN_DIRS.length - 1];
-const out = f => path.join(OUTPUT_ROOT, RUN_DIR, f);
+const SELECTED = RUN_DIR ? selectedRun(path.join(OUTPUT_ROOT, RUN_DIR)) : null;
+const out = f => path.join(SELECTED, f);
 const rel = f => `output/${RUN_DIR}/${f}`;
 const sha256 = buf => crypto.createHash('sha256').update(buf).digest('hex');
 const pngSize = buf => {

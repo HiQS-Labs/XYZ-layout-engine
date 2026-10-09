@@ -1,9 +1,22 @@
 # MVP Report
 
-## Phase 1
-- Extracted reusable backend operations to `tools/render.mjs` and guarded `tools/spike/render.mjs`.
-- Put nutrition composition into `tools/recipes/nutrition.mjs`.
-- Normalized request in `tools/request.mjs` ensuring realpath containment and field validation.
-- Implemented atomic publication preserving read-only spike evidence and prior manifests on failure.
-- Extended C1 test in `canaries.test.mjs` with actual import-side-effect observation, symlink escape, and digest preservation on failure.
-- Full suite gate (`pnpm test`) is pending. Human/provider acceptance pending.
+## Phase 1 recovery — 2026-10-09
+
+The initial native Phase 1 lane halted at `cap-progressing-extended`, exit 4; its test gate never ran. Its escalation remains unchanged. The operator authorized workhorse repair and independent QA before a continuation. This report records orchestrator verification while no builder is active; it does not forge `phase.approved`.
+
+Delivered local subset: nutrition recipe 1.0.0 on its 1000×1000 canvas, scale 1, Satori by default; PNG/SVG/self-contained HTML artifacts and explicit Playwright PNG/HTML. Other dimensions/scale and remote/fallback fields fail with field paths. API: `processRequest(request, {root})` returns normalized request, validation, pinned versions, input provenance, SHA-256 and requested artifact bytes/MIME/dimensions. CLI: `node tools/render.mjs tools/spike/fixture.json --out tools/output/local [--format svg|html] [--backend playwright]`. Inputs and output are confined to the authorized local root; committed spike output is read-only. JSON is limited to 256 KiB; images to direct 8-bit RGBA non-interlaced PNG or the trusted bundled SVG subset. PNG chunk bounds/order/CRC, scanline inflation/filter bytes and positive dimensions are validated before native rendering. Per-image limit: 5 MiB and 16,777,216 pixels; scene aggregate: 35 MiB encoded and 16,777,216 pixels; render area 16,777,216 pixels; total published bytes 64 MiB. The local filesystem is trusted against concurrent hostile mutation; this is not remote tenant isolation.
+
+One publisher owns immutable `runs/<UUID>` and atomically commits `manifest.json` after all staged files are admitted/hashed. Shared operation validates text presence/region/canvas, fonts and raster size first; spike validates mandatory capability outcomes and case digests/dimensions first. No postcommit compatibility copies. `selectedRun` resolves the pointer once for readers; legacy manifest-free goldens remain readable. Browser/context/page owners close in finally; Chromium loads only for explicit browser requests or the explicit legacy comparison.
+
+## Receipts
+
+Host: Node v22.22.3, pnpm 12.4.1, darwin-arm64. Pinned installed renderers: Satori 0.36.0, resvg 2.6.2, Playwright 1.64.0. No dependency, test-block, test-budget or CI-workflow addition.
+
+- Original baseline `pnpm test`: exit 0, 4/4 in 9.8s, despite the witnessed admission and markup failures. Receipt: `relay-system/2026-10-09/gh5-p1-repair/baseline.log`.
+- Red controls: oversized 8192² canvas with scale 0.1 admitted; literal injected script serialized. Receipt: `relay-system/2026-10-09/gh5-p1-repair/red-controls.log`.
+- Revised C1 exposed macOS `/var` versus `/private/var` guard/root aliases. Canonicalization fixed both. Root red receipt: `relay-system/2026-10-09/gh5-p1-repair/macos-root-red.log`; the earlier empty-CLI failure is recorded in repair plan/tool transcript.
+- Current `pnpm test`: exit 0, four canaries in 10.8s, 216 geometry boxes within 0.5 px and 12 artifacts byte-identical. Receipt: `relay-system/2026-10-09/gh5-p1-repair/verification.log`. C1 now checks actual imports, local CLI in a space path with dependency linkage, format export, strict input/asset/HTML controls, owning browser cleanup via native launch substitution, and two successful same-day publications followed by a late failure. It re-reads selection and compares target, manifest bytes and all referenced digests, and checks orphan cleanup.
+- Preservation: `git diff origin/main -- tools/spike/output examples/2026-10-08-solar-system/assets test-budget.json` is empty. Historical content, test budget and original checkout preserved. Easy rollback: revert task-branch repair; prior immutable runs/selectors and goldens are retained.
+- Consult: both Codex/Agy advisory seats answered; disagreements adjudicated in `relay-system/2026-10-09/gh5-p1-repair/plan.md`. Consult is not runtime acceptance.
+
+Independent committed-code Codex QA is pending. Phases 2–5, adaptive fitting/Solar System, generation resume, measured optimization and final integration remain pending. Human artwork acceptance and live provider measurements remain pending; no paid calls, push, PR, merge or issue closure is authorized by these receipts.

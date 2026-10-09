@@ -4,11 +4,15 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readdirSync, readFileSync, cpSync, appendFileSync, rmSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, cpSync, appendFileSync, rmSync, mkdirSync, symlinkSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { processRequest, selectedRun, toDocument, publishArtifacts, outputRoot } from '../../render.mjs';
+import { normalizeRequest } from '../../request.mjs';
+import { validateNutrition } from '../../recipes/nutrition.mjs';
+import { inspectPng } from '../assets.mjs';
 
 const SPIKE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const COMMITTED = path.join(SPIKE, 'output');
@@ -18,65 +22,95 @@ const sha256 = buf => createHash('sha256').update(buf).digest('hex');
 const runDir = root => {
   const dirs = readdirSync(root, { withFileTypes: true }).filter(d => d.isDirectory() && /^\d{4}-\d{2}-\d{2}-/.test(d.name)).map(d => d.name).sort();
   assert.ok(dirs.length, `no dated run folder under ${root}`);
-  return path.join(root, dirs[dirs.length - 1]);
+  return selectedRun(path.join(root, dirs[dirs.length - 1]));
 };
 const node = (script, env) => spawnSync(process.execPath, [path.join(SPIKE, script)], { env: { ...process.env, ...env }, encoding: 'utf8', timeout: 50_000 });
 
 test('guards: render pipeline breaks on a clean checkout', async () => {
-  // import no-side-effect assertion in a fresh process
-  const importCheck = node('../../render.mjs', { SPIKE_OUTPUT_ROOT: FRESH }); // just executing it does nothing
-  
-  const srcCheck = spawnSync(process.execPath, ['--input-type=module', '-e', `import fs from 'node:fs'; import { pathToFileURL } from 'node:url'; await import(pathToFileURL('${path.join(SPIKE, 'render.mjs')}').href); const files = fs.readdirSync('${FRESH}').filter(f => f !== 'space path' && f !== 'gh2-outside'); if (files.length > 0) process.exit(1);`], { env: { ...process.env, SPIKE_OUTPUT_ROOT: FRESH }, encoding: 'utf8' });
-  assert.equal(srcCheck.status, 0, 'importing the spike caused side effects');
-
-  // CLI in a space-containing temp path (copy source to space path)
-  const spacePath = path.join(FRESH, 'space path');
-  mkdirSync(spacePath, { recursive: true });
-  cpSync(path.join(SPIKE, '..'), path.join(spacePath, 'tools'), { recursive: true });
-  cpSync(path.join(SPIKE, '..', '..', 'package.json'), path.join(spacePath, 'package.json'));
-  const relativeScript = path.relative(SPIKE, path.join(spacePath, 'tools', 'spike', 'render.mjs'));
-  const r2 = node(relativeScript, { SPIKE_OUTPUT_ROOT: spacePath, SPIKE_RENDER_DEADLINE_MS: '40000' });
-  assert.equal(r2.status, 0, `render in space path exited ${r2.status} stderr: ${r2.stderr}`);
-
-  // invalid request/escaping symlink
-  try {
-    const { normalizeRequest } = await import('../../request.mjs');
-    const outside = mkdtempSync(path.join(os.tmpdir(), 'gh2-outside-'));
-    appendFileSync(path.join(outside, 'input.json'), '{}');
-    const escapeLnk = path.join(FRESH, 'escape.json');
-    const fs = await import('node:fs');
-    fs.symlinkSync(path.join(outside, 'input.json'), escapeLnk);
-    await normalizeRequest({ inputPath: escapeLnk }, { root: FRESH });
-    assert.fail('should reject escaping symlink');
-  } catch (e) {
-    assert.match(e.message, /symlink escape rejection/);
-  }
-
-  // existing C1 logic (run first to get a digest)
-  const r = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000' });
-  assert.equal(r.status, 0, `render exited ${r.status}: ${r.stderr.slice(-400)}`);
-  assert.match(r.stdout, /^render: selection /m, 'render did not report a backend selection');
-  const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: FRESH });
-  assert.equal(v.status, 0, `verify on fresh run exited ${v.status}: ${(v.stdout + v.stderr).slice(-400)}`);
-  assert.match(v.stdout, /^VERDICT: PASS$/m);
-
-  // injected failed publication preserving prior digests
-  const runD = runDir(FRESH);
-  const getDigests = () => {
-    const manifestPath = path.join(runD, 'manifest.json');
-    if (readdirSync(runD).includes('manifest.json')) {
-      const manifest = JSON.parse(readFileSync(manifestPath));
-      return Object.fromEntries(manifest.files.map(f => [f, sha256(readFileSync(path.join(runD, f)))]));
-    }
-    return Object.fromEntries(readdirSync(runD).filter(f => !f.startsWith('run-') && !f.startsWith('staging-')).map(f => [f, sha256(readFileSync(path.join(runD, f)))]));
+  const root = path.resolve(SPIKE, '..', '..');
+  const srcCheck = spawnSync(process.execPath, ['--input-type=module', '-e', `await import(${JSON.stringify(path.join(SPIKE, 'render.mjs'))}); await import(${JSON.stringify(path.join(root, 'tools/render.mjs'))});`], { env: { ...process.env, SPIKE_OUTPUT_ROOT: FRESH }, encoding: 'utf8' });
+  assert.equal(srcCheck.status, 0, srcCheck.stderr);
+  assert.deepEqual(readdirSync(FRESH), [], 'imports wrote output');
+  const space = path.join(FRESH, 'space path');
+  mkdirSync(space);
+  cpSync(path.join(root, 'tools'), path.join(space, 'tools'), { recursive: true });
+  cpSync(path.join(root, 'package.json'), path.join(space, 'package.json'));
+  symlinkSync(path.join(root, 'node_modules'), path.join(space, 'node_modules'), 'dir');
+  const cli = (args, env = {}) => spawnSync(process.execPath, [path.join(space, 'tools/render.mjs'), 'tools/spike/fixture.json', '--out', 'local-output', ...args], { cwd: space, env: { ...process.env, ...env }, encoding: 'utf8', timeout: 15_000 });
+  const first = cli([]);
+  assert.equal(first.status, 0, first.stderr);
+  const firstReceipt = JSON.parse(first.stdout);
+  assert.equal(firstReceipt.normalized.backend, 'satori');
+  assert.equal(firstReceipt.validation.valid, true);
+  const local = path.join(space, 'local-output');
+  const snapshot = target => {
+    const selected = selectedRun(target), manifest = readFileSync(path.join(target, 'manifest.json'));
+    const rec = JSON.parse(manifest);
+    return { selected, manifest: sha256(manifest), digests: Object.fromEntries(rec.files.map(file => [file, sha256(readFileSync(path.join(selected, file)))])) };
   };
-  const priorDigests = getDigests();
-  
-  const rFail = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000', SPIKE_INJECT_FAILURE: '1' });
-  assert.notEqual(rFail.status, 0, 'injected failure should exit non-zero');
-  
-  const postDigests = getDigests();
-  assert.deepEqual(postDigests, priorDigests, 'prior digests should be preserved');
+  const beforeSecond = snapshot(local);
+  const second = cli(['--format', 'svg']);
+  assert.equal(second.status, 0, second.stderr);
+  assert.notEqual(snapshot(local).selected, beforeSecond.selected, 'second same-day publication did not advance');
+  assert.match(readFileSync(path.join(selectedRun(local), 'render.svg'), 'utf8'), /<svg/);
+  const prior = snapshot(local);
+  const late = cli([], { RENDER_INJECT_PUBLICATION_FAILURE: '1' });
+  assert.equal(late.status, 1, late.stderr);
+  assert.match(late.stderr, /injected late publication failure/);
+  assert.deepEqual(snapshot(local), prior, 'late failure changed selected manifest or referenced bytes');
+  assert.ok(!readdirSync(local).some(f => f.startsWith('.staging-') || f.startsWith('.manifest-')), 'orphan stage/pointer');
+  const unknown = cli(['--fallback', 'browser']);
+  assert.equal(unknown.status, 1); assert.match(unknown.stderr, /unsupported option/);
+
+  const fixturePath = path.join(SPIKE, 'fixture.json');
+  await assert.rejects(normalizeRequest({ inputPath: fixturePath, surprise: 1 }), /surprise/);
+  await assert.rejects(normalizeRequest({ inputPath: fixturePath, scale: 0.1 }), /scale/);
+  await assert.rejects(normalizeRequest({ inputPath: fixturePath, width: 8192, height: 8192, scale: 0.1 }), /budget/);
+  await assert.rejects(normalizeRequest({ inputPath: SPIKE }), /regular file/);
+  const tooBig = path.join(space, 'huge.json'); writeFileSync(tooBig, ' '.repeat(262145));
+  await assert.rejects(normalizeRequest({ inputPath: tooBig }, { root: space }), /byte budget/);
+  symlinkSync(fixturePath, path.join(space, 'escape.json'));
+  await assert.rejects(normalizeRequest({ inputPath: 'escape.json' }, { root: space }), /symlink escape/);
+  const data = JSON.parse(readFileSync(fixturePath));
+  await assert.rejects(validateNutrition({ ...data, surprise: 1 }), /fixture.surprise/);
+  await assert.rejects(validateNutrition({ ...data, width: 1000000000 }), /fixture.width/);
+  await assert.rejects(validateNutrition({ ...data, theme: { ...data.theme, background: 'red"><script>1</script>' } }), /background/);
+  const html = toDocument({ type: 'div', props: { style: { backgroundColor: 'red"><script>1</script>' }, children: 'control' } }, { regular: Buffer.alloc(0), bold: Buffer.alloc(0) }, 100, 100);
+  assert.ok(!html.includes('<script>'), 'serializer allows attribute escape');
+  const bad = Buffer.alloc(24); Buffer.from('89504e470d0a1a0a', 'hex').copy(bad); bad.writeUInt32BE(1, 16); bad.writeUInt32BE(1, 20);
+  assert.throws(() => inspectPng(bad), /Invalid PNG/);
+  const validPng = readFileSync(path.join(SPIKE, 'assets/generated/web/balance_scale.png'));
+  assert.ok(inspectPng(validPng).width > 0);
+  const broken = Buffer.from(validPng); broken[broken.length - 1] ^= 1;
+  assert.throws(() => inspectPng(broken), /checksum/);
+  const web = path.join(space, 'tools/spike/assets/generated/web');
+  mkdirSync(web + '-escape'); writeFileSync(path.join(web + '-escape', 'outside.png'), validPng);
+  symlinkSync(path.join(web + '-escape', 'outside.png'), path.join(web, 'linked.png'));
+  const assetProbe = spawnSync(process.execPath, ['--input-type=module', '-e', `const {resolveIllustration}=await import(${JSON.stringify(path.join(space, 'tools/spike/assets.mjs'))}); try { await resolveIllustration('linked'); process.exitCode=9; } catch(e) { if(!e.message.includes('symlink escape')) throw e; }`], { encoding: 'utf8' });
+  assert.equal(assetProbe.status, 0, assetProbe.stderr);
+  await assert.rejects(outputRoot(path.join(SPIKE, 'output')), /read-only/);
+  symlinkSync(root, path.join(space, 'output-escape'), 'dir');
+  await assert.rejects(outputRoot('output-escape/new-output', space), /symlink escape/);
+
+  // Native browser launch substitution proves owning cleanup on a postlaunch error without leaving Chromium alive.
+  const { chromium } = await import('playwright');
+  const launch = chromium.launch; let closes = 0;
+  chromium.launch = async () => ({ newContext: async () => { throw new Error('injected context failure'); }, close: async () => { closes++; } });
+  try { await assert.rejects(processRequest({ inputPath: fixturePath, backend: 'playwright' }), /injected context failure/); assert.equal(closes, 1); }
+  finally { chromium.launch = launch; }
+  const operation = await processRequest({ inputPath: fixturePath, format: 'html' });
+  assert.equal(operation.artifacts[0].mime, 'text/html');
+  assert.match(operation.artifacts[0].bytes.toString(), /<!doctype html>/);
+  operation.request.validation.valid = false;
+  await assert.rejects(publishArtifacts(operation, 'rejected', { root: space }), /cannot publish/);
+
+  const r = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000' });
+  assert.equal(r.status, 0, r.stderr.slice(-1000));
+  assert.match(r.stdout, /^render: selection /m);
+  const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: FRESH });
+  assert.equal(v.status, 0, (v.stdout + v.stderr).slice(-1000));
+  assert.match(v.stdout, /^VERDICT: PASS$/m);
+  console.log('# C1: import/space CLI, admission, HTML, browser cleanup and two-success/late-failure publication controls passed');
 });
 
 test('guards: unintended visual or layout drift', () => {

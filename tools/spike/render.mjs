@@ -5,7 +5,7 @@
 // Scope guard: this is evidence collection for a backend decision, not an engine. No layout or font
 // metrics are computed here; every number comes from the backend under test.
 import fs from 'fs/promises';
-import { readFileSync, realpathSync, readdirSync } from 'fs';
+import { readFileSync, realpathSync, readdirSync, existsSync } from 'fs';
 import os from 'os';
 import path from 'path';
 import crypto from 'crypto';
@@ -13,23 +13,23 @@ import { execFileSync } from 'child_process';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import { renderSatori, renderPlaywright, launchPlaywright, toDocument } from '../render.mjs';
+import { renderSatori, renderPlaywright, launchPlaywright, toDocument, outputRoot, publishStaged } from '../render.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT, DEFAULT_SIZES } from './scene.mjs';
 import { getFonts } from './assets.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 // Source limitation (observed, satori 0.36.0): the ESM bundle's wasm loader reads the CommonJS
 // global `__dirname`; without this shim `import('satori')` throws ERR_AMBIGUOUS_MODULE_SYNTAX on Node 22.
-globalThis.__dirname = HERE;
 
 // All evidence for one render run goes in output/<local YYYY-MM-DD>-<package name>/; a same-day
 // re-render overwrites that day's folder, earlier days' folders are left as they are.
 const RUN_DATE = new Date().toLocaleDateString('en-CA');
 const RUN_DIR = `${RUN_DATE}-${JSON.parse(readFileSync(path.join(HERE, '..', '..', 'package.json'), 'utf8')).name}`;
 // SPIKE_OUTPUT_ROOT relocates the physical output root (tests use a temp folder); recorded paths stay output/<run>/….
-const OUT = path.join(process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output'), RUN_DIR);
+const OUTPUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, '..', 'output', 'spike');
+const OUT = path.join(OUTPUT_ROOT, RUN_DIR);
 const rel = f => `output/${RUN_DIR}/${f}`;
-const STAGE_DIR = path.join(process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output'), 'staging-' + crypto.randomUUID());
+const STAGE_DIR = path.join(OUTPUT_ROOT, '.staging-' + crypto.randomUUID());
 const require = createRequire(import.meta.url);
 const RENDER_DEADLINE_MS = Number(process.env.SPIKE_RENDER_DEADLINE_MS || 240_000);
 const FIT_MAX_ITERATIONS = 10;
@@ -57,6 +57,7 @@ let satori;
 let deadlineHit = false;
 async function loadSatori() {
   const t0 = performance.now();
+  globalThis.__dirname = HERE;
   ({ default: satori } = await import('satori'));
   return performance.now() - t0;
 }
@@ -184,6 +185,8 @@ function stats(arr) {
 
 // ---------------------------------------------------------------- Main -----------------------
 async function main() {
+  const authorizedRoot = process.env.SPIKE_OUTPUT_ROOT || process.cwd();
+  await outputRoot(OUTPUT_ROOT, authorizedRoot);
   await fs.mkdir(STAGE_DIR, { recursive: true });
   const fixture = JSON.parse(await fs.readFile(path.join(HERE, 'fixture.json'), 'utf8'));
   const heroFixture = JSON.parse(await fs.readFile(path.join(HERE, 'hero-fixture.json'), 'utf8'));
@@ -441,21 +444,12 @@ async function main() {
     for (const [b, c] of Object.entries(measurements.capabilities)) console.log(`render: ${b}: ${c.status}${c.failedMandatory.length ? ' (' + c.failedMandatory.join(', ') + ')' : ''}`);
     console.log(`render: selection ${measurements.selection.status}${measurements.selection.eligible.length ? ': ' + measurements.selection.eligible.join(', ') : ''}`);
     
-    // Atomic publish
-    await fs.mkdir(OUT, { recursive: true });
-    const runId = path.basename(STAGE_DIR);
-    const versionedDir = path.join(OUT, runId);
-    await fs.rename(STAGE_DIR, versionedDir);
-    
-    const stagedFiles = await fs.readdir(versionedDir);
-    const manifestTmp = path.join(OUT, 'manifest.tmp');
-    await fs.writeFile(manifestTmp, JSON.stringify({ current: runId, files: stagedFiles }));
-    await fs.rename(manifestTmp, path.join(OUT, 'manifest.json'));
-    
-    // Copy out to the old locations for backwards compatibility with the verifier
-    for (const f of stagedFiles) {
-      await fs.copyFile(path.join(versionedDir, f), path.join(OUT, f));
+    if (Object.values(measurements.capabilities).some(cap => !cap.eligibleForRecommendation)) throw new Error('Capability validation failed; preserving last-good run');
+    for (const per of Object.values(measurements.cases)) for (const record of Object.values(per)) {
+      const png = await fs.readFile(path.join(STAGE_DIR, path.basename(record.png)));
+      if (sha256(png) !== record.sha256 || JSON.stringify(pngSize(png)) !== JSON.stringify(record.pngSize)) throw new Error('Artifact validation failed');
     }
+    await publishStaged(STAGE_DIR, OUT, { root: authorizedRoot, failBeforeCommit: process.env.RENDER_INJECT_PUBLICATION_FAILURE === '1' });
   } finally {
     clearTimeout(deadline);
     if (browser) await browser.close().catch(() => {});
@@ -464,17 +458,10 @@ async function main() {
   }
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && existsSync(process.argv[1]) && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   if (process.argv.length > 2) {
-    (async () => {
-      const { processRequest } = await import('../render.mjs');
-      const inputPath = process.argv[2];
-      const res = await processRequest({ inputPath, backend: process.argv[3] });
-      console.log(JSON.stringify(res.request, null, 2));
-    })().catch(err => {
-      console.error('render cli: FAILED', err?.stack || err);
-      process.exit(1);
-    });
+    console.error('Use node tools/render.mjs <fixture> --out <directory> for the local CLI');
+    process.exitCode = 1;
   } else {
     main().catch(err => {
       console.error('render: FAILED', err?.stack || err);

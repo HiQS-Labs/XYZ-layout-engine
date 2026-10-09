@@ -113,3 +113,11 @@
 ### Changed
 - \`tools/spike/render.mjs\` uses an atomic staging directory for output and implements a direct-execution guard.
 - Validation semantics enforce input dimensions, and symlink/realpath containment.
+
+
+## 2026-10-09 — GH-5 workhorse Phase 1 recovery
+
+- Repaired the existing request/recipe/render owners: bounded confined JSON and strict nutrition fields, explicit fixed-canvas/scale subset, bounded valid PNG admission, escaped HTML and browser finally cleanup; shared requested artifacts and usable local CLI.
+- Replaced mixed mutable publication with immutable runs and one atomic manifest selector; verifier/C2 resolve that shared selector while preserving manifest-free historical goldens. Added tools/spike/verify.mjs to the Phase 1 write contract for this necessary reader seam.
+- Extended existing C1 for boundary/failure controls. Orchestrator pnpm test passed 4/4 in 10.8s, 216 geometry boxes and 12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p1-repair/. Independent committed-code QA and continuation remain pending; failed native lane/cap preserved.
+- Filed canonical XYZ Forge #1006 for opt-in bounded 600-second × 6 progress reporting. Existing heartbeat/timeouts/read-only monitors remain; no installed harness runtime edits or paid calls.

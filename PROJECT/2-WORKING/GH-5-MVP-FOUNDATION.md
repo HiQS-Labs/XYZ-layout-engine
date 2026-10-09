@@ -151,7 +151,7 @@ The native driver uses Agy builder and independent Codex reviewer for every phas
 - [ ] Default to lazy Satori/resvg only. Load/launch Chromium solely for explicit comparison or recipe-declared capability; preserve finally cleanup. Stage one run under a unique same-filesystem directory; validate all requested artifacts before atomic last-good manifest publication. Do not replace a last-good deliverable on failure; preserve bounded diagnostic state and remove orphan staging files safely. Existing spike evidence is read-only.
 - [ ] Extend C1 within its existing test block: import no-side-effect assertion, CLI in a space-containing temp path, invalid request/escaping symlink and injected failed publication preserving prior digests. C2 retains legacy geometry/digests. Run pnpm test. Record actual commands/results in tools/MVP-REPORT.md.
 
-**Write set:** `tools/spike/render.mjs`, `tools/spike/assets.mjs`, `tools/spike/scene.mjs`, `tools/render.mjs`, `tools/request.mjs`, `tools/recipes/nutrition.mjs`, `package.json`, `tools/spike/test/canaries.test.mjs`, `CHANGELOG.md`, `tools/MVP-REPORT.md`.
+**Write set:** `tools/spike/render.mjs`, `tools/spike/assets.mjs`, `tools/spike/scene.mjs`, `tools/spike/verify.mjs`, `tools/render.mjs`, `tools/request.mjs`, `tools/recipes/nutrition.mjs`, `package.json`, `tools/spike/test/canaries.test.mjs`, `CHANGELOG.md`, `tools/MVP-REPORT.md`.
 
 ### Phase 1 — QA checklist
 
@@ -291,6 +291,7 @@ Implementation-plan QA: Codex Approved and supervisor-attested, `relay-system/20
     "tools/spike/render.mjs",
     "tools/spike/assets.mjs",
     "tools/spike/scene.mjs",
+    "tools/spike/verify.mjs",
     "tools/spike/test/canaries.test.mjs",
     "examples/2026-10-08-solar-system/render-diagram.mjs",
     "examples/2026-10-08-solar-system/contact-sheet.mjs",
@@ -340,3 +341,6 @@ Implementation-plan QA: Codex Approved and supervisor-attested, `relay-system/20
   }
 }
 ```
+
+## Phase 1 recovery — 2026-10-09
+The native first attempt halted at cap-progressing-extended (exit4); no driver test gate ran. Preserve that lane and its ESCALATION.md. The operator explicitly requested workhorse repair, independent QA and then restart with 600-second × 6 observation intervals. Current surgical recovery is Easy and recorded in relay-system/2026-10-09/gh5-p1-repair/plan.md; both independent consult seats answered, disagreements adjudicated there. Reader integration adds tools/spike/verify.mjs to Phase 1/contract write sets so publication and readers share selectedRun. This changes selection only, preserving all historical validation/goldens. The orchestrator can run pnpm test while the builder is inactive; native failed-phase status will not be forged. Recovery acceptance and remaining-phase readiness are pending independent committed-code QA. Native monitoring gap filed in XYZ Forge #1006; no consumer harness runtime modification.

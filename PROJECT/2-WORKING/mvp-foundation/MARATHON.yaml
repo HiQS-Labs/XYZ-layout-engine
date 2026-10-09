@@ -6,7 +6,7 @@ phases:
     name: "Shared local operation"
     reviewer: codex
     brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p1.md
-    artifact: tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/scene.mjs, tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
+    artifact: tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/scene.mjs, tools/spike/verify.mjs, tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
     turn_timeout_s: 1500
     max_review_rounds: 2
 
