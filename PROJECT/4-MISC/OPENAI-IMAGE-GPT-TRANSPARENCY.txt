@@ -1,0 +1,47 @@
+For remote/API image generation, OpenAI’s GPT Image family is the clearest choice for **native** transparent PNGs—real alpha-channel transparency, rather than a white background or a painted checkerboard. The current API explicitly supports `background="transparent"` with PNG or WebP output. [developers.openai](https://developers.openai.com/api/reference/python/resources/images/methods/generate)
+
+## Which models to use
+
+| Model / service | Transparent PNG support | Practical assessment |
+|---|---|---|
+| OpenAI `gpt-image-2.5-sunburst` | Explicit native transparent-background support | A strong starting point when quality matters most; OpenAI positions it for demanding quality requirements and demonstrates transparent-asset generation.  [developers.openai](https://developers.openai.com/api/reference/python/resources/images/methods/generate) |
+| OpenAI `gpt-image-2.5-flare` | Explicit native transparent-background support | Another strong starting point; this is the default model in OpenAI’s transparent-assets example. Compare it against Sunburst on your actual assets.  [developers.openai](https://developers.openai.com/cookbook/examples/multimodal/transparent-image-assets-for-campaigns-and-presentations) |
+| OpenAI `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` | Supported through the API’s transparent-background option | Valid native-transparency options. The documentation establishes support, but does not establish comparative edge-quality or failure-rate rankings.  [developers.openai](https://developers.openai.com/api/reference/python/resources/images/methods/generate) |
+| OpenAI `gpt-image-2` | Native transparency, currently labeled preview | Can do it, but I would not make preview support the first choice for a production workflow when the explicitly supported alternatives above are available.  [developers.openai](https://developers.openai.com/api/reference/python/resources/images/methods/generate) |
+| Recraft | Transparent PNG through its separate background-removal workflow | Useful for generate → remove background → export, but that is different from guaranteed native alpha output during generation.  [recraft](https://www.recraft.ai/blog/improve-your-image-editing-with-ai-background-remover-essential-guide-for-creators) |
+| Gemini / Imagen | The cited support reports document missing alpha support | I would not select these based solely on a “transparent background” prompt. Google’s forum reports distinguish white-background PNGs from genuine alpha-channel output; these reports are not a comprehensive guarantee about every newer model.  [support.google](https://support.google.com/gemini/thread/388691969/feature-request-ability-to-generate-images-with-transparent-backgrounds-png-with-alpha-channel?hl=en) |
+
+There is no comparative reliability benchmark in these sources, so “explicitly supported” should not be read as “perfect cutouts every time.”
+
+## How to make the supported models behave reliably
+
+Use both the API setting and an unambiguous prompt. OpenAI specifically warns that prompt instructions take priority over `background="transparent"`: describing a backdrop or scene can cause the model to generate that background anyway. [developers.openai](https://developers.openai.com/cookbook/examples/multimodal/transparent-image-assets-for-campaigns-and-presentations)
+
+```python
+from openai import OpenAI
+
+client = OpenAI()
+
+result = client.images.generate(
+    model="gpt-image-2.5-flare",
+    prompt=(
+        "An isolated illustrated robot mascot, full body, centered. "
+        "Transparent background. No backdrop, no ground plane, "
+        "no checkerboard pattern."
+    ),
+    background="transparent",
+    output_format="png",
+    quality="high",
+    size="1024x1536",
+)
+```
+
+Those model and output settings follow OpenAI’s documented transparent-asset workflow. [developers.openai](https://developers.openai.com/cookbook/examples/multimodal/transparent-image-assets-for-campaigns-and-presentations)
+
+For an automated pipeline, validate the decoded image rather than trusting the `.png` extension: check that it has an alpha channel and that some pixels actually have alpha below 255. That distinction matters because a PNG can still contain a completely opaque white background, as the Gemini reports illustrate. [discuss.ai.google](https://discuss.ai.google.dev/t/unable-to-create-transparent-pngs/92868)
+
+## For your foreground-extraction workflow
+
+If you are generating new icons, mascots, or isolated artwork, start with `gpt-image-2.5-flare` and compare `gpt-image-2.5-sunburst` on fine edges and subject detail—the comparison OpenAI itself recommends. [developers.openai](https://developers.openai.com/cookbook/examples/multimodal/transparent-image-assets-for-campaigns-and-presentations)
+
+If you are feeding in existing photos and primarily want cutouts, treat that as a separate background-removal task. Recraft’s remover or fal’s hosted `imageutils/rembg` provides that workflow without requiring you to choose a generative model for the initial image. [recraft](https://www.recraft.ai/background-remover)
