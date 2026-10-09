@@ -52,8 +52,8 @@ Limits of these numbers: one machine, one fixture, single process, no concurrenc
 
 | Backend | Observed | Limitation |
 |---|---|---|
-| Satori + resvg | Node process rss ≈ 270 MB, heapUsed ≈ 65 MB after the warm loop | Same process also holds the Playwright client and prior render buffers; not a per-render delta |
-| Playwright/Chromium | Node process rss ≈ 276 MB, heapUsed ≈ 65 MB | Chromium RSS could not be observed: `Browser.process()` is unavailable in Playwright 1.64.0's API surface, so renderer/GPU memory is unmeasured here |
+| Satori + resvg | Node process rss ≈ 270 MiB, heapUsed ≈ 65 MiB after the warm loop | Same process also holds the Playwright client and prior render buffers; not a per-render delta |
+| Playwright/Chromium | Node process rss ≈ 276 MiB, heapUsed ≈ 65 MiB | Chromium RSS could not be observed: `Browser.process()` is unavailable in Playwright 1.64.0's API surface, so renderer/GPU memory is unmeasured here |
 
 Treat memory as a floor for the Node side only. A production limit for the browser path needs a worker-level measurement (cgroup or `ps` on the launched PID), which this spike does not provide.
 
@@ -97,10 +97,10 @@ Agent assessment, not human acceptance: both baseline PNGs reproduce the referen
 |---|---|---|
 | Input scene JSON | ≤ 256 KiB | The 1000×1000 fixture plus inline data-URL assets is < 20 KiB; 256 KiB leaves 10× headroom for richer recipes |
 | Illustration assets | ≤ 1 MiB per asset, ≤ 8 MiB per render, SVG or PNG only | Inline SVG data URLs here are < 1 KiB each; data URLs inflate 4/3; keep total well under the 16 MB artifact ceiling |
-| Output size | ≤ 4096×4096 px, ≤ 16 MiB PNG | Spike outputs are ≤ 134 KB at 1000×1000 and 1200×630 |
-| Render time | 5 s soft / 30 s hard per request (Satori); 10 s / 60 s (Chromium) | Observed medians 26.5 ms and 68.8 ms; >100× headroom covers cold starts (152.7 ms / 425.7 ms) and larger scenes |
+| Output size | ≤ 4096×4096 px, ≤ 16 MiB PNG | Largest spike PNG is 91,158 bytes (satori.svg 133 KB) at 1000×1000 and 1200×630 |
+| Render time | 5 s soft / 30 s hard per request (Satori); 10 s / 60 s (Chromium) | Observed medians 26.5 ms and 68.8 ms; >100× headroom covers measured cold starts (152.7 ms / 425.7 ms) and larger scenes |
 | Fitting iterations | 10 | Plan-prescribed cap; all cases fit at 0 |
-| Memory | Satori worker 512 MiB; Chromium worker 1 GiB (placeholder, unmeasured) | Node rss ≈ 276 MB observed; Chromium RSS unmeasured, so its number is a placeholder to be measured in Phase 1 |
+| Memory | Satori worker 512 MiB; Chromium worker 1 GiB (placeholder, unmeasured) | Node rss ≈ 276 MiB observed; Chromium RSS unmeasured, so its number is a placeholder to be measured in Phase 1 |
 | Concurrency | Satori: one render per event-loop task, N workers = cores; Chromium: pool of 2–4 contexts per browser | Not measured; proposed from stage costs, to be validated under load before remote acceptance |
 
 These are targets derived from one-machine observations, to be frozen only after Phase 1 measurements on the deployment hardware (PRD §10).

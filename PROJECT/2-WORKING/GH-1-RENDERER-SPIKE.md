@@ -29,7 +29,7 @@ reversibility: Easy — local spike files and reports; no production state.
 
 | What was just completed | What's next |
 |---|---|
-| Phases 1–3 implemented (2026-10-08): Phase 1 via agy/Codex marathon; Phases 2–3 built by the orchestrator after two agy containment failures (XYZ-forge #1001, #1002). Phase 2 post-build Codex QA Approved (3 rounds); Phase 3 document QA in progress (`relay-system/2026-10-08/gh1-spike-p3-postbuild.md`). `pnpm run spike:verify` green with render/repeat/long-copy/hero/probe/licence evidence. Satori→resvg selected as default, Chromium as declared fallback; findings injected into the PRD. | Phase 3 Codex QA receipt, then human visual acceptance of the artwork, then land the clone on `main` via merge-cleanup and open Phase 1 (core engine) planning. |
+| Phases 1–3 implemented (2026-10-08): Phase 1 via agy/Codex marathon; Phases 2–3 built by the orchestrator after two agy containment failures (XYZ-forge #1001, #1002). Phase 2 post-build Codex QA Approved (3 rounds); Phase 3 document QA Approved and attested (2 rounds, `relay-system/2026-10-08/gh1-spike-p3-postbuild.md`). `pnpm run spike:verify` green with render/repeat/long-copy/hero/probe/licence evidence. Satori→resvg selected as default, Chromium as declared fallback; findings injected into the PRD. | Human visual acceptance of the artwork, then land the clone on `main` via merge-cleanup and open Phase 1 (core engine) planning. |
 
 ## Table of contents
 
@@ -54,7 +54,7 @@ Execution record (2026-10-08): Phase 1 landed through the agy/Codex marathon dri
 - [x] Render the same offline fixture through Satori/resvg and Playwright; retain PNGs, backend geometry, capability/failure reports, and available SVG without claiming unsupported vector export. (`tools/spike/output/`; browser SVG declared unsupported.)
 - [x] Execute a runnable verification command covering fixture sections, output dimensions, geometry, bounded fitting, repeated-render digests, and longer-copy behavior; failures remain explicit. (`pnpm run spike:verify`, exit 0; red controls recorded in the Phase 2 relay.)
 - [x] Record runtime/dependency/font licenses, measured timings and memory limitations, agent visual comparison, remaining human visual acceptance, and a justified backend recommendation; write findings into the PRD. (`tools/spike/REPORT.md`; PRD Phases → Phase 0 findings.)
-- [ ] Obtain independent plan and post-build QA receipts; add no production engine/server/queue/editor framework or CI workflow in this Phase 0 arc. (Plan QA and Phase 2 post-build QA Approved; Phase 3 post-build QA receipt pending; no production scaffolding added.)
+- [x] Obtain independent plan and post-build QA receipts; add no production engine/server/queue/editor framework or CI workflow in this Phase 0 arc. (Plan QA, Phase 2 and Phase 3 post-build QA all Approved and attested; no production scaffolding added.)
 
 ## Wave 1: Ordered spike
 
@@ -114,7 +114,7 @@ Undo class Easy: delete/revert only spike-owned files in the task clone. Referen
 ### Wave 1
 
 - [x] Wave 1 Proof of Done Test Suite Green (`pnpm run spike:verify`, exit 0 with render/repeat/long-copy evidence) — 2026-10-08
-- [ ] Wave 1 Post-Build Codex QA Relay executed (Phase 2 receipt: `relay-system/2026-10-08/gh1-spike-p2-postbuild.md`, STATUS Approved, attested; Phase 3 receipt: `relay-system/2026-10-08/gh1-spike-p3-postbuild.md`, pending Approved — tick when attested)
+- [x] Wave 1 Post-Build Codex QA Relay executed (Phase 2 receipt: `relay-system/2026-10-08/gh1-spike-p2-postbuild.md`, STATUS Approved, attested; Phase 3 receipt: `relay-system/2026-10-08/gh1-spike-p3-postbuild.md`, STATUS Approved, attested 2026-10-08)
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (not run; PR not yet opened)
 
 Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan-attested.codex.md` (Approved, textual plan review; driver attested exit 0 against reviewed head `d43274edf6eb`).
