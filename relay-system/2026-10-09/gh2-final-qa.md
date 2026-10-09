@@ -214,4 +214,12 @@ probe exit: 0
 Review outcome: Approved. Reversibility: Easy — only this relay header and appended block changed; scratch contains the probe output. No renderer, tests, executable fixtures, validation gates, git operations or external comments were run.
 Relay closed (Approved), no further review turn needed. Returning control to claude-a (Producer) for the harness gate and receipt/status reconciliation; the harness owns the relay commit. The approval-specific operator instruction uses `tick done` for this token.
 
+
+### Attestation · relay-drive — 2026-10-09T05:03:45Z
+task: RELAY-gh2-final-qa-r2
+reviewer: codex
+status: Approved
+reviewed-head: df2af989b799afbe970d1f48d8a7bfc7eab2ae46
+added-range: 18521+7873
+added-sha256: 944674fb2822dadebac486ad0506278e85c7f535b45694e2c98690459a543574
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
