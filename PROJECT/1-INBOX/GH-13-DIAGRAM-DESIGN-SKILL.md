@@ -2,7 +2,7 @@
 gh_issue: 13
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/13
 title: "Skill: design-diagram, package the diagram design process"
-status: "Proposed (1-INBOX — not yet active)"
+status: "Implemented on feat/diagram-design-skill; awaiting final QA and merge"
 created: 2026-10-09
 doc_type: feedback
 effort: 2
@@ -68,8 +68,23 @@ Two diagram examples were built by the same hand-run process, and the only recor
 
 | Issue | Requirement | State |
 |---|---|---|
-| #13 | 1–6 above | Plan drafted; awaiting plan QA |
+| #13 | 1–6 above | Implemented; awaiting final QA, then PR (ready, not merged) |
 
 ## Rating rationale (2026-10-09)
 
 pri 35 / sev 10 / appeal 50 / effort 75. Severity: process documentation, no data or work at risk. Priority: operator asked for it now; nothing is blocked on it. Appeal: neutral default. Effort: one document patterned on two finished examples, plus a cold-run check. Recurrence: not applicable (not a defect); trend unknown.
+
+## Evidence (2026-10-09)
+
+| Check | Result |
+|---|---|
+| Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-09/gh13-plan-qa.md`) |
+| Path probe on the skill | 23 existing input paths; 3 declared output or operator paths skipped by name; `RESULT: PASS` |
+| Falsifier: empty skill | `FAIL: zero references`, both required references missing |
+| Falsifier: RAG reference removed | `FAIL: required reference missing: examples/2026-10-09-rag-system/` |
+| Falsifier: invented input path | `FAIL: invented/missing input path: examples/2026-10-09-rag-system/not-a-real-file.mjs` |
+| Cold run, fresh agent, skill only, four-stage CDN diagram, disposable space-free clone | `PASS: 4 separate icon nodes; 25 text ids ...`; three red controls failed by name (`edge_desc`, `no icon drawn for stage browser`, `title`) |
+| Gaps the cold run found | Eight, all fixed in the skill (see CHANGELOG entry). Not re-run cold after the fixes. |
+| Probe after fixes | Still `RESULT: PASS`, 23 inputs |
+
+The probe and cold-run output are not committed. The probe is a one-off script; the cold run's example folder was in a disposable clone that has been deleted.
