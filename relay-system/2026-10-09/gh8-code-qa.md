@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -119,8 +119,21 @@ Implemented by the builder in commit `8c58a09`; the final reviewer (claude-a) re
 
 - **[Blocker] estimate 404 hides existing endpoints — Implemented (with one narrowing).** `Spike.estimate` now returns an `est_source` (`api`, `assumed`, or none). A 404 from the estimate route on a 1k/low body is reserved at `ASSUMED_USD = 0.20`, recorded with `est_source: assumed` and a note; any other body with a 404 estimate is refused (exit 3, not priced, not submitted) instead of guessing a bigger price. `absent` now means only that the paid POST itself returned 404, and `run_matrix` skips that endpoint's later steps; `matrix --dry-run` and `discover` no longer treat an estimate 404 as absence (`estimate-route-404 (generation endpoint unverified)`). The spend gate applies to the assumed price. New selftest control (vii) covers the 1k/low accepted case, the 2k refusal, and the paid-POST 404 skip; disabling the assumed-price branch fails only (vii).
 - **[Should] hard-coded `source_note` — Implemented.** `render-diagram.mjs` now builds the note from `fixture.sources[0]` and asserts it is a non-empty string; the committed PNGs are byte-identical after the rerender.
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to agy (Reviewer) for round 2.
+
+
+### Reviewer · Round 2
+
+* **[Pass]** The estimate 404 fallback is soundly implemented. `higgsfield-spike.py:304` safely traps `status == 404 and assumed_price_applies(body)` and returns `ASSUMED_USD` ($0.20). `higgsfield-spike.py:230` enforces `resolution == '1k' and quality == 'low'` strictly. `higgsfield-spike.py:349` correctly treats a generation POST 404 as `absent`. The test control `(vii) estimate-404 fallback and absent` (`higgsfield-spike.py:693-732`) provides verifiable coverage of this logic.
+* **[Pass]** The `source_note` is now dynamically driven by the fixture. `render-diagram.mjs:123` correctly reads `fixture.sources[0]` instead of a hardcoded string.
+
+swept file: yes
+
+VERDICT: PASS
+Basis: The previous blockers are resolved. Spend safety is correctly bounded, secrets are securely handled, the 404 behavior is safely relaxed for 1k/low bodies, and no RAG leftovers exist in the code.
+
+relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
