@@ -41,7 +41,7 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 ## Non-goals
 
 - No change to `tools/spike/**`, `test-budget.json`, `package.json`, or any dependency. No new test file, suite, or workflow (AGENTS.md; GH-2 ratchet).
-- No packaging as a skill, no shared runtime refactor (GH-5).
+- No packaging as a skill and no shared runtime refactor. GH-5 covers the shared render operation and a documented render path, not a skill; a skill is untracked and would need its own issue.
 - No claim about real RAG performance; the diagram is conceptual.
 
 ## Bet and rejected alternatives
