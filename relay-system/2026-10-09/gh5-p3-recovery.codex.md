@@ -377,3 +377,11 @@ print("DEADLINE",dict(result=result,launches=launches,status=next(iter(json.load
 ~~~
 
 Recovery review relay closed, no further reviewer turn needed. Handing the approved receipt to coordinator/supervisor for the harness-owned gate and attestation; coordinator, take your turn. Preserve the original native lane/counters and held phases.
+
+### Attestation · relay-drive — 2026-10-09T17:43:32Z
+task: GH5-P3-RECOVERY-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: f780bc4a81df2c203d570da37067db6d0b7d5340
+added-range: 22823+16159
+added-sha256: aa759f1847e40a2fce2543976973a2e7f789e301f2bab92d6166adccfe8f4b83
