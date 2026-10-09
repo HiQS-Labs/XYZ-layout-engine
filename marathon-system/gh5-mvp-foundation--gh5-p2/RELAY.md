@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p2
 STATUS: Open
-NEXT: codex (Reviewer)
+NEXT: agy (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH5-P2-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -122,3 +122,67 @@ VERDICT: PASS
 Basis: Orchestrator verification receipts above; independent Codex verdict remains required.
 
 handing off to codex — review the committed Phase 2 repair and receipts.
+
+
+### Round 1 · Reviewer · codex
+
+**Verdict:** Changes requested
+swept file: yes
+VERDICT: FAIL
+Basis: The current repaired baseline renders and the fitting controls work, but an admitted Solar System geometry value reproducibly aborts the Node process in native resvg instead of producing a validation/non-fit error. Approval is withheld for the concrete failure below.
+Review outcome: Return to agy for a surgical admission/render-boundary repair, then independent review. Human artwork acceptance and the native harness gate remain separate.
+
+Scope: Read the complete current contents of both recipes, tools/request.mjs, tools/render.mjs, tools/spike/render.mjs, tools/spike/verify.mjs, tools/spike/test/canaries.test.mjs, both example entry points, the example README, tools/MVP-REPORT.md and CHANGELOG.md, including pre-existing code. The listed copied runtime paths are absent. Also read the canonical Phase 2 requirements, the source scene/asset dependencies and repair receipts. No additional independently demonstrated pre-existing blocker was found in this sweep; this is not an exhaustive correctness claim.
+
+Graph evidence limitation: list_projects pages 0 and 50 (82 total) contain no index for this repository/checkout; check_index_coverage cannot run without an indexed project. Used complete direct source reads for the bounded review; no graph generation or clean graph coverage is claimed. Startup README.md and the advertised .xyz releases writer are absent; no replacement startup machinery or state-writing checks were run in this reviewer worktree.
+
+#### [Blocker] Reject unsafe admitted Solar geometry before native rasterization
+
+Observed input: The committed examples/2026-10-08-solar-system/fixture.json with only `planets[0].radiusX = 8192`; explicit recipe `solar-system`, default Satori backend, default 2400x1700/scale1. Node v22.22.3, darwin-arm64. Both normalizeRequest and solar.validate accept this value. The unchanged fixture succeeds in the same process before the changed fixture aborts it. A second fresh-process invocation independently prints `admission passed: planets[0].radiusX=8192` and aborts with the same native panic (exit 134).
+
+Affected scope: tools/request.mjs:75-78 accepts every finite positive geometry value through 8192 without a recipe-specific spatial constraint; tools/recipes/solar-system.mjs:67-71 adds no such constraint. Its lines 153-156 produce Mercury at `left=-5670.493546815419`, `top=924.1138850919162`, width/height 60. tools/render.mjs:37 rasterizes before collecting or validating bounds. The later validation at lines 193-207 checks only TEXT_IDS. The shared library/default CLI therefore expose the crash to ordinary fixture edits. Explicit Playwright requests also invoke renderSatori for their coverage check at line 180 (source-traced exposure; this backend crash was not separately executed).
+
+Decisive probe command (all fixture writes confined to authorized scratch; no CLI publication or executable test/fixture was run):
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module <<'JS'
+import fs from "node:fs/promises";
+import path from "node:path";
+import {processRequest} from "./tools/render.mjs";
+const base=JSON.parse(await fs.readFile("examples/2026-10-08-solar-system/fixture.json","utf8"));
+for(const [name, mutate] of [["baseline",f=>{}],["offcanvas",f=>{f.planets[0].radiusX=8192}]]) {
+ const fixture=structuredClone(base); mutate(fixture);
+ const inputPath=path.resolve(process.env.TMPDIR, name+".json");
+ await fs.writeFile(inputPath,JSON.stringify(fixture));
+ try {const op=await processRequest({inputPath,recipe:"solar-system"},{root:process.cwd()});
+ console.log(JSON.stringify({name,valid:op.request.validation.valid,attempts:op.request.fitting.attempts,mercury:op.result.bounds.asset_mercury,canvas:op.result.bounds.canvas}));}
+ catch(e){console.log(JSON.stringify({name,error:e.message}));}
+}
+JS
+```
+
+Exit status: **134**, twice including the fresh-process confirmation. Decisive first output:
+
+```text
+{"name":"baseline","valid":true,"attempts":1,"mercury":{"x":913,"y":924,"width":60,"height":60},"canvas":{"x":0,"y":0,"width":2400,"height":1700}}
+thread '<unnamed>' panicked at .../resvg/src/geom.rs:27:61:
+called `Option::unwrap()` on a `None` value
+fatal runtime error: failed to initiate panic, error 5
+```
+
+Falsifier: The unchanged fixture must still succeed; this exact changed fixture must produce a controlled field-specific rejection or a safely validated render, without SIGABRT/native panic or publication. Validate the remedy in the disposable clone through the existing C1, retaining the four-test budget. Merely wrapping Resvg in try/catch does not catch the observed process abort, and checking bounds only after rasterization is too late.
+
+Root cause: Generic scalar admission admits scene geometry outside the renderer's safe domain and rasterization precedes spatial validation; Fix site: the existing recipe admission/shared pre-raster boundary; Why not downstream: publication/final text validation cannot run after a native abort. The exact internal resvg clipping defect is not diagnosed here and does not need a new renderer or independent layout engine to reject unsupported input safely.
+
+Bet / tradeoff / reversibility: Reuse recipe-owned geometry constraints or backend-owned layout evidence before rasterization; fail explicitly for unsupported placements instead of widening the native workload. Easy: a bounded change in the existing owners and existing C1. Failure mode to avoid: blocking the valid baseline or leaving equivalent center/radius/image-size paths admitted. This is a necessary boundary repair, not a request for a general layout framework.
+
+#### Passing observations and verification limits
+
+- Direct `loadAssets()` inspection exited 0 with eleven IDs, including `saturn-clean` and `asteroid-belt-diagram`; this executed the current pinned-display digest, PNG budget and containment checks. No original/provider dependency was used.
+- Narrow processRequest fitting probes (temporary JSON only; exit 0) observed doubled title: `valid=true, attempts=3, titleSize=87, minSize=15`; title repeated twenty times: `Validation failed: [{"field":"fitting","message":"non-fit after 10 attempts: text outside its region: subtitle"}]`. The baseline above was valid in one attempt. These corroborate actual shrinking and explicit bounded exhaustion rather than iteration-zero-only success.
+- The supplied verification.log records four passing canaries in 24.4s, 216 boxes within 0.5px and twelve byte-identical artifacts. Its test source actually compares decoded painted pixels against an empty-image control. The supplied solar-cli/contact-sheet logs show immutable manifest publications, and the source callers use shared operations/root fonts/display assets. These are prior orchestrator receipts, not reviewer-executed full-suite or fresh-CLI results.
+- [Unverified — needs clone run] Full pnpm test, fresh offline entry-point execution and any repair regression gate were intentionally not run in this review worktree. The harness/disposable clone owns them. No independent visual acceptance is asserted by this turn.
+- Only this relay was changed outside .relay-scratch. No source/artifact edits, git commands, full suites, provider calls or cleanup of the unfinished clone were performed.
+
+handing off to agy — agy, take your turn.
