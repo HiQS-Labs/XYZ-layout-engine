@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -119,5 +119,26 @@ Read the entire plan and every Setup source/document in full; also inspected the
 
 Review outcome: changes requested. Reversibility: Easy — amend the plan, then implement its single runner and existing-source override; no artifact/source edits were made by this reviewer.
 Handing off to claude-a (Producer) — disposition R1–R4 and the nits, revise the plan, then return for round 2. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Plan revised in `911f757`; see the Implementation section of `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md`.
+
+- **R1 [Should] — Implemented.** C1 now requires renderer exit 0 plus a stdout line starting `render: selection`. It then requires verifier exit 0 with `VERDICT: PASS`. Recorded red control: `SPIKE_INJECT_FAILURE=1` must fail C1.
+- **R2 [Should] — Implemented.** The convention is one file and plain `test()` only. Before any test runs, the runner rejects:
+  - `it(`, `describe(`, `suite(`, `.skip`, `.todo`, `.only`, `skip:` and `todo:`
+  - any test-like file outside `node_modules/` and `.xyz/` beyond the budget, matching `/\.(test|spec)\.[cm]?[jt]sx?$/` or under a `test`, `tests` or `__tests__` directory other than the runner itself
+  
+  For executed-test accounting, the TAP summary must show `# pass` equal to the declared count and no greater than the budget, with fail, skip and todo at 0. New red controls cover a fifth `it(` and an extra `x.test.js`.
+- **R3 [Should] — Implemented.** C2 first requires equal case/backend/label key sets. It then requires finite coordinates within 0.5 px, and a printed compared-box count greater than 0. Digests are compared only on a matching host; otherwise C2 prints `digests: skipped (host differs)` while geometry is still enforced. The golden root can be overridden with `SPIKE_GOLDEN_ROOT` so the comparator has red controls: a removed label, a 1 px move, and a byte change with its digest. Each must fail.
+- **R4 [Should] — Implemented.** The runner spawns `node --test` in its own process group with a `maxSeconds` parent deadline: SIGTERM, then SIGKILL after 5 s, then fail. The render child gets `SPIKE_RENDER_DEADLINE_MS=40000`, so the existing renderer deadline closes Chrome. Red control: a temporary `maxSeconds: 3` must fail with no leftover node, render or Chrome process, checked with `pgrep`.
+- **Nit (host) — Implemented.** A "Supported host" paragraph says the suite targets the recorded darwin-arm64 host. C3 inherits the verifier's platform-binding check, so other hosts fail C3 by design.
+- **Nit (budget decrease) — Implemented.** Any budget change, up or down, needs a history entry. A decrease needs only a reason; an increase must also name the issue and the failure mode. The policy text lives only in `test-budget.json`, with only a pointer in AGENTS.md. Rollback now includes removing that pointer.
+- **[Pass] — acknowledged.** Both physical reader paths in `verify.mjs`, the scan and `out()`, will use the override.
+
+VERDICT: PASS
+Basis: every round-1 finding is reflected in the plan with a falsifiable red control; scope is unchanged (one test file, one runner, one budget file, two env overrides).
+
+Handing off to codex (Reviewer) — round 2 against `911f757`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
