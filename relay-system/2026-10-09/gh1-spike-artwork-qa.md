@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -183,5 +183,74 @@ VERDICT: PASS
 Basis: findings 1–3 are implemented with a red/green receipt for the gate change, the nit is labelled without altering evidence, and the optional dead-SVG cleanup is done.
 
 Handing off to codex (Reviewer) — round 2 against `bf06d76`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 (codex)
+
+Review outcome: Approved
+swept file: yes
+
+The material round-1 findings are resolved; no blocking finding remains. Bet: the id-specific digest comparison and explicit distinction between delivered evidence and superseded observations meet this bounded spike contract. Remaining failure modes are a fresh harness-gate failure or human rejection of the artwork; neither is claimed resolved here. Reversibility: Easy — only this relay header and appended block change.
+
+Scope: swept the complete Setup source/document files, fixture and remaining SVG definitions; parsed both evidence JSON files and all seven provider records; hashed the bold font, seven web assets and eight output PNGs; viewed the reference, all web assets and all output PNGs. Pre-existing material defects were in scope; none additional was found in this bounded sweep. Verify-tier graph availability: list_projects(limit=100) returned all 82 projects, has_more=false, without this checkout/task clone; check_index_coverage for Setup paths and tools/spike returned "project not found or not indexed". No generation/coverage evidence is available, so direct source inspection was used. README.md is absent. Explicit relay-only restrictions supersede broader skill/startup commands: no git, renderer, verifier, PDDA, suite, executable fixture, roadmap mutation or external review post ran. Scratch stayed under .relay-scratch/tmp.
+
+- **1. [Pass] Round-1 finding 1: the actual predicate binds the digest to its asset id.** tools/spike/verify.mjs:61-64 selects the exact asset row and compares cell 4, the web sha256 in assets/SOURCES.md:9-17; a missing row asserts. Executing only those source statements in memory accepts the delivered leaf and rejects balance-scale bytes under the leaf id. All seven delivered digests/byte counts agree with their own table rows. No further gate change requested.
+
+  Exact predicate probe, exit 0; no asset changed and no full gate ran:
+  ~~~sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module <<'JS' > "$TMPDIR/predicate-repeat-r2.txt"
+  import fs from 'node:fs'; import vm from 'node:vm'; import assert from 'node:assert/strict'; import crypto from 'node:crypto';
+  const src=fs.readFileSync('tools/spike/verify.mjs','utf8'), sources=fs.readFileSync('tools/spike/assets/SOURCES.md','utf8'), it={id:'leaf_glow'};
+  const sha256=b=>crypto.createHash('sha256').update(b).digest('hex');
+  const check=src.slice(src.indexOf('    const row = sources.split'),src.indexOf('    const r = JSON.parse',src.indexOf('    const row = sources.split')));
+  for(const id of ['leaf_glow','balance_scale']){const web=fs.readFileSync('tools/spike/assets/generated/web/'+id+'.png');try{vm.runInNewContext(check,{sources,it,web,sha256,assert});console.log(id+': ACCEPT');}catch(e){console.log(id+': REJECT: '+e.message.split('\n')[0]);}}
+  JS
+  probe_status=$?
+  cat "$TMPDIR/predicate-repeat-r2.txt"
+  exit "$probe_status"
+  ~~~
+  Decisive output: "leaf_glow: ACCEPT"; "balance_scale: REJECT: generated/web/leaf_glow.png does not match its own SOURCES.md web digest".
+
+- **2. [Pass] Round-1 findings 2–3: evidence labels and geometry comparison are materially repaired.** REPORT.md:7,9,76-79,124, PRD:440 and CHANGELOG.md:6 identify intermediate orchestrator observations separately from delivered iteration-0 cases; REPORT:76 discloses that no intermediate evidence file was retained. Historical experiments remain attributed observations, not independently reproduced measurements. REPORT:102 / PRD:437 replace the half-pixel generalization with a 0.63 px median and 3.58 px maximum over 98 paired labelled boxes. Recalculation uses each box's largest absolute x/y/width/height difference; the maximum is baseline header_headline. Override hero y remains 264 vs 262.5. REPORT:79 correctly allows a 0.5 px image-height difference. No further material correction requested.
+
+  Saved-evidence summary probe, exit 0:
+  ~~~sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PYCODE' > "$TMPDIR/summary-r2.txt"
+  from pathlib import Path
+  import json,hashlib,statistics
+  p=Path('tools/spike'); m=json.loads((p/'output/measurements.json').read_text()); rt=json.loads((p/'output/runtime.json').read_text()); ds=[]
+  for n in ('baseline','override'):
+   x,y=(m['cases'][n][b]['bounds'] for b in ('satori','playwright'))
+   assert x.keys()==y.keys()
+   ds.extend(max(abs(x[id][k]-y[id][k]) for k in ('x','y','width','height')) for id in x)
+  print('box_count/median/max',len(ds),round(statistics.median(ds),2),round(max(ds),2))
+  records=[c for per in m['cases'].values() for c in per.values()]+list(m['probeArtifacts'].values())
+  print('eight_png_hashes',len(records),all(hashlib.sha256((p/c['png']).read_bytes()).hexdigest()==c['sha256'] for c in records))
+  print('fits',[(n,b,c['fitting']['fit'],c['fitting']['iterations'],c['fitting']['unresolved']) for n,per in m['cases'].items() for b,c in per.items()])
+  print('hero_img/row_heights',[(n,b,m['cases'][n][b]['bounds']['hero_img']['height'],m['cases'][n][b]['bounds']['hero']['height']) for n in ('baseline','override') for b in ('satori','playwright')])
+  print('fixture/web_total/max_png/svg_bytes',(p/'fixture.json').stat().st_size,sum(f.stat().st_size for f in (p/'assets/generated/web').glob('*.png')),max(f.stat().st_size for f in (p/'output').glob('*.png')),(p/'output/satori.svg').stat().st_size)
+  print('upper_medians/rss_MiB',[(b,rt[b]['warm']['median'],round(rt[b]['memory']['nodeProcess']['rss']/2**20,2)) for b in ('satori','playwright')])
+  PYCODE
+  probe_status=$?
+  cat "$TMPDIR/summary-r2.txt"
+  exit "$probe_status"
+  ~~~
+  Decisive output: "box_count/median/max 98 0.63 3.58"; "eight_png_hashes 8 True"; six fits (True,0,[]); image/row heights baseline 518/518 and 518.5/518.5, override 363/363 and 363.5/363.5; bytes 1988 2871670 550004 4023437; upper medians/rss MiB satori 137.86/472.03, playwright 260.95/661.53.
+
+- **3. [Pass] Phase 2 ownership, fitting, override, hero and probes remain intact.** scene.mjs:13-40 declares text ids and containment; render.mjs:160-202,323-327,372-399 retains backend measurements, the ≤10 fitting loop and exact two override fields. Saved cases contain the declared required nodes; source/data inspection found no child outside its parent or undeclared labelled overlap. Text fits without recorded overflow; viewed overrides wrap headline/caption to three/four lines without apparent clipping, and both heroes are 1200×630. render.mjs:401-477 / verify.mjs:191-216 retain digests and script probes; viewed Satori placeholders/browser fallback glyphs agree with the probe records. The shrink path remains unexercised by delivered cases (REPORT:124), not newly certified here. No scene/geometry change requested.
+
+- **4. [Pass] Provenance, font pinning and pending acceptance remain honest.** assets/SOURCES.md:5,7,11-17, generated/prompts.json:2-6 and each generated/<id>.result.json:1 agree on model, recipe r2, local_candidate, high quality, edit endpoint, one reference, original digest/bytes and alpha receipt. Bold font bytes hash to 0cb1bc1335372d9e3a0cf6f5311c7cce87af90d2a777fdeec18be605a2a70bc1, matching verify.mjs:53-55. Web copies are digest-bound RGBA images; original hashes/alpha remain provider receipts because originals are excluded by .gitignore:6. assets.mjs:8-24 / scene.mjs:65-70 resolve individual artwork rather than the reference. SOURCES:7 retains operator rights confirmation before non-spike use; no legal clearance is implied. REPORT:102 / PRD:141,449 keep human acceptance pending. Smaller illustrations/extra whitespace and font, leaf and icon differences are fair visual qualifications. No provenance/acceptance change requested.
+
+- **5. [Pass] Statistics and cleanup stay proportionate.** render.mjs:270-274, REPORT:47 and PRD:444 label the existing ten-sample statistic as upper median, preserving delivered values. Remaining SVG ids are bottle, four benefit icons, leaf_small and heart (illustrations.svg:2-36); the hero fixture still uses bottle and nutrition uses generated water_bottle. Neither delivered fixture references a removed id. No replacement engine/framework or dependency was added. No cleanup request remains.
+
+- **6. [Nit] Optional wording/source precision.** REPORT:52 / PRD:444's historical 26.5/68.8 ms pair is supported by relay-system/2026-10-08/gh1-spike-p3-postbuild.md:198,228; linking that receipt beside the pair would improve traceability. REPORT:78,124 / PRD:440 / CHANGELOG:6 still say fitting "cannot cure" the line-height problem despite REPORT:78 recording an eventual rounding pass; "cannot reliably cure" better states the design limitation. REPORT:102 could name the maximum-coordinate-per-box aggregation. PRD frontmatter:5 predates the artwork revision. These are nonblocking precision nits; no fresh render, gate or relay cycle requested.
+
+- **7. [Unverified — needs clone run] Full gates remain attributed.** Producer Round 1 → 2 records spike:verify exit 0/PASS, the exact swapped-id control FAIL then restored PASS, and PDDA exit 0/no errors/the same three existing warnings on Node v22.22.3/M1 Max. This reviewer ran only narrow in-memory/saved-data probes. The post-turn harness owns fresh execution; approval does not certify a new render, independent benchmark, human artwork verdict or shipping rights review.
+
+VERDICT: PASS
+Basis: Material round-1 findings 1–3 are resolved by the id-bound predicate, explicit development-observation labels and measured geometry summary. The full source/document sweep, delivered-byte checks and attributed clone receipts support the artwork-revision DoD. No remaining material pre-existing defect was found; pending human and deployment decisions remain pending.
+
+Relay closed (Approved), no further review turn needed. Handing the approved result to claude-a for harness gate/attestation; human artwork acceptance remains pending.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
