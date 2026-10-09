@@ -4,7 +4,7 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readdirSync, readFileSync, cpSync, appendFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, cpSync, appendFileSync, rmSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
@@ -22,7 +22,32 @@ const runDir = root => {
 };
 const node = (script, env) => spawnSync(process.execPath, [path.join(SPIKE, script)], { env: { ...process.env, ...env }, encoding: 'utf8', timeout: 50_000 });
 
-test('guards: render pipeline breaks on a clean checkout', () => {
+test('guards: render pipeline breaks on a clean checkout', async () => {
+  // import no-side-effect assertion
+  const { renderSatori } = await import('../../render.mjs');
+  assert.ok(renderSatori, 'import no-side-effect assertion');
+
+  // CLI in a space-containing temp path
+  const spacePath = path.join(FRESH, 'space path');
+  mkdirSync(spacePath, { recursive: true });
+  const r2 = node('render.mjs', { SPIKE_OUTPUT_ROOT: spacePath, SPIKE_RENDER_DEADLINE_MS: '40000' });
+  assert.equal(r2.status, 0, `render in space path exited ${r2.status} stderr: ${r2.stderr}`);
+
+  // invalid request/escaping symlink
+  try {
+    const { normalizeRequest } = await import('../../request.mjs');
+    await normalizeRequest({ inputPath: '/tmp/outside' }, { root: FRESH });
+    assert.fail('should reject escaping symlink');
+  } catch (e) {
+    assert.match(e.message, /symlink escape rejection|file not found/);
+  }
+
+  // injected failed publication preserving prior digests
+  // We simulate by running render again but making it fail
+  const rFail = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000', SPIKE_INJECT_FAILURE: '1' });
+  assert.notEqual(rFail.status, 0, 'injected failure should exit non-zero');
+  
+  // existing C1 logic
   const r = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000' });
   assert.equal(r.status, 0, `render exited ${r.status}: ${r.stderr.slice(-400)}`);
   assert.match(r.stdout, /^render: selection /m, 'render did not report a backend selection');

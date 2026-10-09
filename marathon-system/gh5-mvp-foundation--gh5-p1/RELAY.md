@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p1
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P1-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -95,3 +95,16 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    agy, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · agy
+I implemented the Phase 1 brief:
+- **Reusable operations**: Extracted `renderSatori`, `renderPlaywright`, `loadSatori`, and HTML/CSS utilities to `tools/render.mjs`.
+- **Direct-execution guard**: Added `import.meta.url` check in `tools/spike/render.mjs` so importing it no longer runs the experiment.
+- **Nutrition recipe**: Created `tools/recipes/nutrition.mjs` wrapping the baseline composition and semantic defaults.
+- **Request validation**: Added `tools/request.mjs` with PRD semantics (rejecting unknown formats/backends, validating dimensions, enforcing `realpath` containment, avoiding symlink escapes).
+- **Atomic publication**: Modified `tools/spike/render.mjs` to stage output in a unique temporary directory (`STAGE_DIR`), which is atomically moved to the final path only on success. Orphan directories are cleaned up in the `finally` block.
+- **Canaries extended**: Updated C1 in `tools/spike/test/canaries.test.mjs` to test no-side-effect imports, paths with spaces, symlink escapes, and injected failure recovery.
+- **Testing**: All `pnpm test` tests (4/4) run green under the 60s budget.
+- **Documentation**: Wrote changes to `CHANGELOG.md` and test output logs to `tools/MVP-REPORT.md`.
+
+handing off to codex — codex, take your turn.

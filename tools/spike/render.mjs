@@ -30,6 +30,7 @@ const RUN_DIR = `${RUN_DATE}-${JSON.parse(readFileSync(path.join(HERE, '..', '..
 // SPIKE_OUTPUT_ROOT relocates the physical output root (tests use a temp folder); recorded paths stay output/<run>/….
 const OUT = path.join(process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output'), RUN_DIR);
 const rel = f => `output/${RUN_DIR}/${f}`;
+const STAGE_DIR = path.join(process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output'), 'staging-' + crypto.randomUUID());
 const require = createRequire(import.meta.url);
 const RENDER_DEADLINE_MS = Number(process.env.SPIKE_RENDER_DEADLINE_MS || 240_000);
 const FIT_MAX_ITERATIONS = 10;
@@ -283,7 +284,7 @@ function stats(arr) {
 
 // ---------------------------------------------------------------- Main -----------------------
 async function main() {
-  await fs.mkdir(OUT, { recursive: true });
+  await fs.mkdir(STAGE_DIR, { recursive: true });
   const fixture = JSON.parse(await fs.readFile(path.join(HERE, 'fixture.json'), 'utf8'));
   const heroFixture = JSON.parse(await fs.readFile(path.join(HERE, 'hero-fixture.json'), 'utf8'));
   const font = await getFonts();
@@ -393,12 +394,12 @@ async function main() {
         if (b === 'playwright' && (c.w !== W || c.h !== H)) { await context.close(); context = await browser.newContext({ viewport: { width: c.w, height: c.h }, deviceScaleFactor: 1 }); }
         const fit = await fitCase(b, scene => be.render(scene, c.w, c.h), c.build, c.ids, c.containment, c.w, c.h);
         const png = fit.result.png;
-        await fs.writeFile(path.join(OUT, c.file(b)), png);
+        await fs.writeFile(path.join(STAGE_DIR, c.file(b)), png);
         // Chromium's input is an HTML document: save exactly what page.setContent loaded (fonts and
         // illustrations inline as data URLs, so the file reproduces the render offline when opened).
         const htmlFile = b === 'playwright' ? c.file(b).replace(/\.png$/, '.html') : null;
-        if (htmlFile) await fs.writeFile(path.join(OUT, htmlFile), fit.result.html);
-        if (b === 'satori' && c.name === 'baseline') await fs.writeFile(path.join(OUT, 'satori.svg'), fit.result.svg);
+        if (htmlFile) await fs.writeFile(path.join(STAGE_DIR, htmlFile), fit.result.html);
+        if (b === 'satori' && c.name === 'baseline') await fs.writeFile(path.join(STAGE_DIR, 'satori.svg'), fit.result.svg);
         measurements.cases[c.name][b] = {
           png: rel(c.file(b)), pngSize: pngSize(png), sha256: sha256(png),
           html: htmlFile ? { path: rel(htmlFile), bytes: Buffer.byteLength(fit.result.html), sha256: sha256(fit.result.html) } : undefined,
@@ -420,7 +421,7 @@ async function main() {
         repeat: sha256(again.png),
         override: measurements.cases.override[b].sha256,
         deterministic: sha256(again.png) === measurements.cases.baseline[b].sha256,
-        svgRepeat: b === 'satori' ? sha256(again.svg) === sha256((await fs.readFile(path.join(OUT, 'satori.svg')))) : undefined
+        svgRepeat: b === 'satori' ? sha256(again.svg) === sha256((await fs.readFile(path.join(STAGE_DIR, 'satori.svg')))) : undefined
       };
     }
 
@@ -433,8 +434,8 @@ async function main() {
     await context.close(); context = await browser.newContext({ viewport: { width: 600, height: 400 }, deviceScaleFactor: 1 });
     const sProbe = await renderSatori(probeScene(SCRIPT_PROBES), font, 600, 400);
     const pProbe = await renderPlaywright(context, probeScene(SCRIPT_PROBES), font, 600, 400);
-    await fs.writeFile(path.join(OUT, 'probe-satori.png'), sProbe.png);
-    await fs.writeFile(path.join(OUT, 'probe-playwright.png'), pProbe.png);
+    await fs.writeFile(path.join(STAGE_DIR, 'probe-satori.png'), sProbe.png);
+    await fs.writeFile(path.join(STAGE_DIR, 'probe-playwright.png'), pProbe.png);
     measurements.probeArtifacts = {
       satori: { png: rel('probe-satori.png'), pngSize: pngSize(sProbe.png), sha256: sha256(sProbe.png) },
       playwright: { png: rel('probe-playwright.png'), pngSize: pngSize(pProbe.png), sha256: sha256(pProbe.png) }
@@ -534,18 +535,28 @@ async function main() {
       return eligible.length ? { status: 'candidates', eligible, note: 'Recommendation is written in Phase 3 REPORT.md from this evidence; human artwork acceptance remains pending.' } : { status: 'BLOCKED', eligible: [], note: 'No backend passed every mandatory check; do not select a backend.' };
     })();
 
-    await fs.writeFile(path.join(OUT, 'measurements.json'), JSON.stringify(measurements, null, 2));
-    await fs.writeFile(path.join(OUT, 'runtime.json'), JSON.stringify(runtime, null, 2));
+    await fs.writeFile(path.join(STAGE_DIR, 'measurements.json'), JSON.stringify(measurements, null, 2));
+    await fs.writeFile(path.join(STAGE_DIR, 'runtime.json'), JSON.stringify(runtime, null, 2));
     console.log(`render: wrote ${Object.keys(measurements.cases).length} cases x 2 backends, probes, digests to tools/spike/output/${RUN_DIR}/`);
     for (const [b, c] of Object.entries(measurements.capabilities)) console.log(`render: ${b}: ${c.status}${c.failedMandatory.length ? ' (' + c.failedMandatory.join(', ') + ')' : ''}`);
     console.log(`render: selection ${measurements.selection.status}${measurements.selection.eligible.length ? ': ' + measurements.selection.eligible.join(', ') : ''}`);
+    
+    // Atomic publish
+    if (await fs.stat(OUT).then(() => true).catch(() => false)) {
+      await fs.rm(OUT, { recursive: true, force: true });
+    }
+    await fs.rename(STAGE_DIR, OUT);
   } finally {
     clearTimeout(deadline);
     if (browser) await browser.close().catch(() => {});
+    // remove orphan staging files safely if publish didn't happen
+    await fs.rm(STAGE_DIR, { recursive: true, force: true }).catch(() => {});
   }
 }
 
-main().catch(err => {
-  console.error('render: FAILED', err?.stack || err);
-  process.exit(deadlineHit ? 2 : 1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error('render: FAILED', err?.stack || err);
+    process.exit(deadlineHit ? 2 : 1);
+  });
+}

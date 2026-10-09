@@ -105,3 +105,11 @@
 - Sharpened AGENTS.md and GUIDING-PRINCIPLES.md around DRY, durability, maintainability, security, and measured performance, using the ponytail lens. No engine code, tests, CI configuration, or installed PDDA runtime changed.
 - Bet: shared application operations with thin protocol adapters satisfy both deployment modes without duplicate engine behavior. Reversibility: Easy (documents only); revisit after the geometry and deployment spikes.
 - Verification: `utils/pdda/pdda.sh run` completed in observe mode: frontmatter/status/path checks pass; one pre-existing roadmap-coverage error remains (empty releases ledger; `releases` CLI unavailable on PATH), with ten existing governance warnings. PRD anchors, relative document links, fenced blocks, and edited-file whitespace pass. No runtime behavior was tested; this is a specification-only change.
+
+## [Unreleased]
+### Added
+- Reusable local library operations (\`tools/render.mjs\`, \`tools/request.mjs\`) for Satori and Chromium rendering without side-effects on import.
+- Nutrition recipe explicitly versioned and exported in \`tools/recipes/nutrition.mjs\`.
+### Changed
+- \`tools/spike/render.mjs\` uses an atomic staging directory for output and implements a direct-execution guard.
+- Validation semantics enforce input dimensions, fallback limits, and symlink/realpath containment.
