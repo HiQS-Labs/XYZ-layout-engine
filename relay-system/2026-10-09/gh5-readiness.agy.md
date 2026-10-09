@@ -85,5 +85,13 @@ swept file: yes
 - [Pass] **Verified readiness configuration.** `file:relay-system/2026-10-09/gh5-readiness/receipt.json:57-62` confirms the `gh5-p1` to `gh5-p5` order. `file:relay-system/2026-10-09/gh5-readiness/receipt.json:65-67` identifies `agy` as the builder and `codex` as the reviewer. `file:relay-system/2026-10-09/gh5-readiness/receipt.json:68` sets the `pnpm test` gate. `file:relay-system/2026-10-09/gh5-readiness/receipt.json:7` confirms `full_clone: true`, and `file:relay-system/2026-10-09/gh5-readiness/receipt.json:4` records operator authorization for `origin/main`. `file:relay-system/2026-10-09/gh5-readiness/receipt.json:77` defers live paid provider benchmarks. `file:relay-system/2026-10-09/gh5-readiness/receipt.json:55` documents the manual QA overlay and core check. `file:relay-system/2026-10-09/gh5-readiness/receipt.json:53` and `file:relay-system/2026-10-09/gh5-readiness/receipt.json:81` preserve existing governance warnings and GH1 escalation records. Both consumers and all 11 display assets were verified by the independent Codex review (`file:relay-system/2026-10-09/gh5-marathon-plan.codex.md:171`).
 
 Relay closed (Approved), no further turn needed.
+
+### Attestation · relay-drive — 2026-10-09T06:46:16Z
+task: GH5-MARATHON-READINESS-AGY
+reviewer: agy
+status: Approved
+reviewed-head: 6137a0d8dfb45b80decfd8d5217a77d76196d8bc
+added-range: 7539+2161
+added-sha256: 8980e0362b992565b068fea9da69dda7b777a789a71dcdbce93a32a0c83738db
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
 
