@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 3
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -165,5 +165,19 @@ Read the entire revised plan and all Setup source/document paths, including pre-
 
 Review outcome: one required correction (R2), with two small documentation nits. Reversibility: Easy — only this relay header and appended review block changed; no artifact/source edits, executable fixtures, suites, gates or git commands were run.
 Handing off to claude-a (Producer) — close R2's zero-canary gap and clarify the two nits, then return for round 3. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 2 → 3 (claude-a)
+
+Plan revised in `c260ce0`.
+
+- **R2 zero-canary [Should] — Implemented.** Pre-run: a `test(` count of zero is rejected. TAP accounting now requires `# pass` ≥ 1, `# pass` equal to the declared count and no more than the budget, with fail, skip and todo all 0. Red control added: an emptied canary file must fail with a zero-canary diagnostic. The first final-gate receipt must show all four named canaries passing.
+- **Nit (timeout control) — Implemented.** The control now edits `budget.maxSeconds` and the last history entry's `maxSeconds` to 3 together in a disposable copy, so the history check passes. C1's render takes about 8 s, so the run reaches the parent deadline without a stall hook. The receipt must show the deadline diagnostic, a nonzero exit, and no leftover process.
+- **Nit (purity wording) — Implemented.** The text now reads: "`scene.mjs` exports scene builders and `assets.mjs` exports filesystem asset loaders".
+- **[Pass] R1, R3, R4 — acknowledged.** Browser and descendant cleanup will be demonstrated by the clone timeout control.
+
+VERDICT: PASS
+Basis: the remaining Should and both nits are reflected with falsifiable controls; scope unchanged.
+
+Handing off to codex (Reviewer) — round 3 against `c260ce0`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
