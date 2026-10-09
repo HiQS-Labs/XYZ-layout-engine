@@ -158,4 +158,12 @@ swept file: yes
 
 Relay closed (Approved), no further turn needed. Token completion returns control to Producer claude-a and the harness. Only this relay file was edited; scratch probe output stays in `.relay-scratch/`. The harness owns the file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-10-09T16:26:41Z
+task: RELAY-gh13-final-qa-r2
+reviewer: codex
+status: Approved
+reviewed-head: 715c9bde52d5848c9311fbfbd860e2eaed7fc139
+added-range: 16383+5813
+added-sha256: 2fd634972521653b4a749627e99b7465be0cf0def7ad88688b6e7a1c7a6480a0
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
