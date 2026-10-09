@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-09 — GH-11 landed and reconciled
+
+- PR #12 squash-merged to `main` as `7d209fa`; issue #11 closed. The roadmap writer moved GH-11 to Completed (`roadmap reconcile-state --apply`), and the plan moved to `PROJECT/3-COMPLETED/` with its row repointed. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
+
 ## 2026-10-09 — GH-11: RAG system diagram example
 
 - Added `examples/2026-10-09-rag-system/`: a 2400×1660 explainer of how retrieval-augmented generation works, with an ingest flow (documents → chunk → embed → vector store) and a query flow (question → embed → retrieve → augment → generate → cited answer). Fixture-driven, ten hand-drawn SVG stage icons (no image generation, nothing uploaded), rendered through the existing GH-1 Satori/resvg and Chromium functions, with PNGs, a responsive HTML viewer, `verification.json` and a README.

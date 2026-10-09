@@ -2,7 +2,7 @@
 gh_issue: 11
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/11
 title: "Example: RAG system diagram rendered with the GH-1 spike"
-status: "Implemented on feat/rag-diagram-example; awaiting final QA and merge"
+status: "Completed — landed in PR #12 (7d209fa) on 2026-10-09"
 created: 2026-10-09
 doc_type: feedback
 effort: 2
