@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -462,5 +462,55 @@ F1 Implemented: Phase 2 plan/YAML/preflight/brief now admit contact-sheet.mjs. B
 Nit Implemented: canonical execution scope and all briefs name debug-mantra; no additional machinery.
 Preflight advisory fixed: the issue and capture's existing closure criteria use exact `## Acceptance` and checkbox syntax, preserving wording. All four phase closure criteria remain pending, including human/provider and Later gates; no scope expansion or deletion. The old broad risk statement is explicitly historical.
 The embedded Round-1 snapshot is retained; review current committed canonical GH-5 plan, YAML and briefs for Round 2. These supersede that snapshot. On approval terminally tick done GH5-MARATHON-PLAN-QA-1 as codex; do not release to producer. Append only with literal VERDICT/Basis, reviewed current HEAD and source citations. Need an independent PASS before dispatch; no tests/runtime acceptance claimed.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: The current canonical implementation plan resolves F1 across the phase scope, admitted paths and brief. The full plan remains bounded, serial and grounded, with explicit machine proof and separate pending human/provider gates. No remaining material plan defect warrants blocking preparation; this approves the plan, not the future implementation.
+swept file: yes
+
+Reviewed HEAD: `e5130905d2f6310b8880549a5db9a73a0ed214be` (read worktree HEAD/ref directly, without git commands). Reviewed the entire relay, current canonical `PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md`, MARATHON.yaml, all five briefs, recon and relevant PRD/PDDA contracts; read root render/scene/assets/verifier/canaries and both example render callers/generator. The current canonical plan supersedes the embedded Round-1 snapshot as the Producer explicitly directs. Source fallback used because this session exposes no graph tools; no graph generation/index coverage claim is made. Existing runtime limitations are already migration requirements in the plan; no additional material pre-existing plan defect was found. Reversibility: Easy — relay verdict only, artifacts unchanged.
+
+- [Pass] **F1 resolved as a plan obligation.** `PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md:169` now requires both render-diagram and contact-sheet to use the shared renderer/root fonts and selected display images, preserve the committed contact sheet, and succeed offline before runtime retirement. Line 173 admits contact-sheet to Phase 2; `PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml:17` and `briefs/gh5-p2.md:27` agree. This covers the actual retained consumer at `examples/2026-10-08-solar-system/contact-sheet.mjs:3`–`:8`; it does not claim its future migrated smoke has run.
+
+- [Pass] **Write-set and supplied-input integrity probe.** The following narrow, non-mutating command exited **0**. Decisive output: `5/5 plan and YAML write sets match; union matches preflight; contact-sheet admitted in Phase 2; all declared old/new paths consistent` and `11/11 selected display digests match, including both refinements`. The comparison reads the current canonical plan, not the retained old embedded snapshot.
+
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PROBE'
+  import hashlib,json,re
+  from pathlib import Path
+  plan=Path("PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md").read_text()
+  yaml=Path("PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml").read_text()
+  contract=json.loads(plan.split("## Swarm Preflight Contract",1)[1].split("```json",1)[1].split("```",1)[0])
+  sets=[set(x.split(", ")) for x in re.findall(r"^    artifact: (.+)$",yaml,re.M)]
+  writes=[set(re.findall(r"`([^`]+)`",x)) for x in re.findall(r"^\*\*Write set:\*\* (.+)$",plan,re.M)]
+  assert len(sets)==len(writes)==5 and sets==writes
+  assert set.union(*sets)==set(contract["artifacts"])
+  new=set(contract["artifacts_new"])
+  assert all(Path(x).exists() for x in contract["artifacts"] if x not in new)
+  assert all(not Path(x).exists() for x in new)
+  contact="examples/2026-10-08-solar-system/contact-sheet.mjs"
+  assert contact in sets[1] and contact in contract["artifacts"]
+  print("5/5 plan and YAML write sets match; union matches preflight; contact-sheet admitted in Phase 2; all declared old/new paths consistent")
+  p=Path("examples/2026-10-08-solar-system")
+  a=json.loads((p/"verification.json").read_text())["assets"]
+  assert len(a)==11 and {"saturn-clean","asteroid-belt-diagram"}<=set(a)
+  assert all(hashlib.sha256((p/x["display"]["path"]).read_bytes()).hexdigest()==x["display"]["sha256"] for x in a.values())
+  print("11/11 selected display digests match, including both refinements")
+  for i in range(1,6):
+      assert "debug-mantra" in Path(f"PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p{i}.md").read_text()
+  print("5/5 briefs name debug-mantra; canonical plan names it:", "debug-mantra" in plan)
+  print("Roadmap CLI present:",any(Path(x).exists() for x in ("utils/py/releases_app.py",".xyz/utils/py/releases_app.py")))
+  PROBE
+  ```
+
+- [Pass] **Safety and proof survive the full sweep.** Canonical plan lines 148–152 specify import safety, confined/validated inputs and atomic last-good publication; lines 170–171 require actual shrink/exhaustion and painted-image evidence; lines 187–190 require exact-content identity, in-flight state before dispatch, unknown-outcome reconciliation and paid-call-free stub recovery checks. Lines 206–210 require five fresh/ten warm profiling samples and dropping ineffective optimization. Lines 134 and 228 keep human/live-provider work and Later issue closure pending. Line 142 requires a separate final Codex wave review after all driver gates are green. `test-budget.json:10` retains one file/four canaries/60 seconds/zero workflows. These are checkable commitments for later review, not runtime results.
+
+- [Nit] **Debugging instruction is present in the execution briefs; canonical wording remains incomplete.** The probe above also printed `5/5 briefs name debug-mantra; canonical plan names it: False`. `briefs/gh5-p1.md:37` (and the corresponding line in p2–p5) says “Use the debug-mantra skill to reproduce/trace/falsify concrete failures”; canonical execution scope at lines 128–142 still omits the name. Cheapest optional fix: add the same protocol reference to that canonical paragraph during the next authorized plan update. This does not reopen F1 or require more machinery.
+
+- [Unverified — needs clone run] No tests, executable fixtures, validate.sh, PDDA gate, YAML dry-run or actual migration smoke ran here. Run those in the disposable full clone at the scheduled readiness/phase/final-wave gates; especially prove both example callers work after runtime retirement. The future final-gate document `PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md` is absent from this seed (`cat` exit 1, `No such file or directory`), so readiness must materialize it and pass the root-bound receipt gate before push/PR. The roadmap CLI is also absent (`Roadmap CLI present: False` above), so startup roadmap listing could not run. Live GitHub state and author-declared main baseline `a8e7e574` were not refreshed in this turn. Human migrated-artwork acceptance and live provider measurements remain pending. No paid calls or git commands were run.
+
+Review outcome: Approved for preparation of the bounded local sequence. Relay closed (Approved), no further review turn needed; terminally completing GH5-MARATHON-PLAN-QA-1 for codex-producer to continue readiness/preflight and dry-run before dispatch.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
