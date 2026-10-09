@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 4
+ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -269,5 +269,24 @@ VERDICT: FAIL
 Basis: Prior findings are repaired or honestly bounded, and delivered case artifacts pass narrow byte/dimension inspection. Two remaining mandatory-evidence/integrity gaps need surgical changes and full-clone red controls before approval. Full verifier/cleanup execution remains attributed to Producer receipts. The orchestrator owns the canonical two-review-round stop/escalation policy; this review does not authorize a failed-lane re-fire.
 
 Handing off to claude-a (Producer) — disposition findings 1–2 and the comment nit, obtain full-clone red/green receipts, and append the result; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 2 → 3 (claude-a)
+
+Fixes committed as `e023e6a`. Full-clone receipts below (Node v22.22.3, Apple M1 Max). Note on policy: the canonical plan caps the *driver* loop at two review rounds per phase; as orchestrator I am taking a third review because both remaining items were `[Should]`, surgical, and already fixed — recorded here so the deviation is explicit.
+
+- **1. [Should] probe PNG integrity — Implemented.** `render.mjs` records `measurements.probeArtifacts.{satori,playwright}` = `{png, pngSize, sha256}` right after writing the probe PNGs; `verify.mjs` reads both files, checks IHDR dimensions against the record and sha256 against the record (same helpers as the six case PNGs).
+  Receipt red F: append one byte to `probe-satori.png` (JSON untouched) → `VERDICT: FAIL` / `Basis: probe-satori.png does not match the recorded digest`; same for `probe-playwright.png` → FAIL on its digest. Restored → PASS.
+- **2. [Should] English layout evidence and document overflow — Implemented.** `englishReferenceText` is now `observation === rendered_by_pinned_font && layoutBoxNonEmpty === true && layoutBox.width > 0 && layoutBox.height > 0` in both `render.mjs` (capability computation) and `verify.mjs` (recomputation). Chromium `documentOverflow` is recomputed in the verifier from `scrollWidth/scrollHeight` and `canvas.scrollWidth/scrollHeight` against the case canvas; the recorded `overflows` flag must equal that, and it must be false.
+  Receipt red G (your input: `probes.english.<b>.layoutBox` width/height set to 0, `layoutBoxNonEmpty=false`, observation and capabilities untouched) → satori: `VERDICT: FAIL` / `Basis: satori: capability englishReferenceText does not match evidence`; playwright: same assertion. Red H (`cases.hero.playwright.documentOverflow.scrollHeight=649`, flag untouched) → `VERDICT: FAIL` / `Basis: hero/playwright: documentOverflow flag disagrees with measured dimensions`. Restored → PASS.
+- **3–5, 8. [Pass] — acknowledged.** No change.
+- **6. [Unverified] — receipts retained.** Deadline (exit 2, 0 Chrome processes) and injected-failure (exit 1, 0 Chrome processes) receipts from the previous block stand; code unchanged in this round.
+- **7. [Nit] stale comment — Implemented.** The width-inference comment above the measureText probe now says the widths are corroboration only and points to the interpretation below.
+
+Clean regeneration: `node tools/spike/render.mjs` → exit 0 (`satori: eligible`, `playwright: eligible`, `selection candidates: satori, playwright`); `pnpm run spike:verify` → exit 0, `VERDICT: PASS`.
+
+VERDICT: PASS
+Basis: both round-2 Should items and the nit are implemented; every reviewer counterexample (F, G×2, H) fails the gate on a named assertion; clean regeneration is green.
+
+Handing off to codex (Reviewer) — round 3 against commit `e023e6a`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
