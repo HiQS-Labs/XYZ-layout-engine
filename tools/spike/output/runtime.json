@@ -1,46 +1,201 @@
 {
+  "generatedAt": "2026-10-08T23:59:42.958Z",
   "environment": {
     "node": "v22.22.3",
     "platform": "darwin",
-    "arch": "arm64"
+    "arch": "arm64",
+    "osRelease": "24.6.0",
+    "cpu": "Apple M1 Max",
+    "cpuCount": 10,
+    "totalMemoryBytes": 68719476736
   },
-  "licenses": {
-    "satori": "MPL-2.0",
-    "resvg_js": "MPL-2.0",
-    "playwright": "Apache-2.0"
-  },
-  "satori": {
-    "cold": 137.40625,
-    "warmup": 25.65133400000002,
-    "times": [
-      39.7004579999998,
-      38.137292000000116,
-      25.49762499999997,
-      25.445166999999856,
-      25.671583000000055,
-      25.482332999999926,
-      25.35900000000015,
-      26.582167000000027,
-      25.088166999999885,
-      25.631834000000026
+  "dependencies": {
+    "satori": {
+      "name": "satori",
+      "version": "0.36.0",
+      "license": "MPL-2.0",
+      "provenance": "node_modules/satori/package.json#license"
+    },
+    "resvg_js": {
+      "name": "@resvg/resvg-js",
+      "version": "2.6.2",
+      "license": "MPL-2.0",
+      "provenance": "node_modules/@resvg/resvg-js/package.json#license"
+    },
+    "resvg_native_binding": {
+      "error": "Cannot find module '@resvg/resvg-js-darwin-arm64/package.json'\nRequire stack:\n- /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/tools/spike/render.mjs"
+    },
+    "playwright": {
+      "name": "playwright",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "provenance": "node_modules/playwright/package.json#license"
+    },
+    "transitive": [
+      {
+        "name": "yoga-layout",
+        "error": "not resolvable from spike root"
+      },
+      {
+        "name": "harfbuzzjs",
+        "error": "not resolvable from spike root"
+      },
+      {
+        "name": "@shuding/opentype.js",
+        "error": "not resolvable from spike root"
+      },
+      {
+        "name": "linebreak",
+        "error": "not resolvable from spike root"
+      }
     ],
-    "memory": 73694760
+    "chromium": {
+      "version": "156.0.8078.4",
+      "source": "playwright-managed download",
+      "license": "BSD-3-Clause (Chromium) + bundled third-party notices"
+    },
+    "font": {
+      "file": "tools/spike/assets/font.ttf",
+      "family": "Inter Regular 4.0",
+      "license": "OFL-1.1",
+      "provenance": "tools/spike/assets/SOURCES.md"
+    }
+  },
+  "licenseNotes": [
+    "satori and @resvg/resvg-js (JS wrapper and the darwin-arm64 native binding) are MPL-2.0; MPL-2.0 is within the PRD exception. The binding bundles the resvg Rust crate (MPL-2.0) as a prebuilt .node binary; no source modification is made here.",
+    "playwright is Apache-2.0; the downloaded Chromium build is BSD-3-Clause plus third-party notices shipped in the browser bundle (not vendored into this repo).",
+    "Transitive satori dependencies listed above are MIT. Licenses are read from each package manifest at render time (provenance field), not inferred from other releases."
+  ],
+  "units": {
+    "time": "milliseconds (performance.now)",
+    "memory": "bytes unless named *Kb (ps rss, kilobytes)"
+  },
+  "stageBoundaries": {
+    "satori_cold": "dynamic import(\"satori\") + yoga wasm init + first satori() layout + first resvg render + PNG encode, same process, after the fixture/font were already read",
+    "satori_warm": "satori() layout + resvg render + PNG encode for the nutrition scene; satoriMs/resvgMs split recorded per sample",
+    "playwright_cold": "chromium.launch + newContext + newPage + setContent + fonts.ready + geometry evaluate + screenshot (clip to canvas) + page close",
+    "playwright_warm": "newPage + setContent + fonts.ready + geometry evaluate + screenshot + page close on an already-launched browser and context",
+    "warmup": "one unmeasured warm render per backend precedes the timed samples; ten samples are recorded; this is not a production p95"
+  },
+  "memoryNotes": [
+    "nodeProcess.* is process.memoryUsage() of this Node process (heapUsed = V8 heap, rss = resident set) and excludes Chromium.",
+    "chromium.browserProcessRssKb is `ps -o rss` of the browser main process only; renderer/GPU child processes are not summed. It is an observable floor, not a total."
+  ],
+  "satori": {
+    "cold": {
+      "totalMs": 137.51,
+      "importMs": 60.4,
+      "firstStageMs": 71.24
+    },
+    "warm": {
+      "workload": "nutrition baseline 1000x1000",
+      "samples": [
+        27.39,
+        27.41,
+        26.41,
+        26.78,
+        26.37,
+        26.48,
+        25.28,
+        25.29,
+        26.59,
+        25.27
+      ],
+      "min": 25.27,
+      "median": 26.48,
+      "mean": 26.33,
+      "max": 27.41,
+      "split": [
+        {
+          "satoriMs": 8.13,
+          "resvgMs": 19.26
+        },
+        {
+          "satoriMs": 8.65,
+          "resvgMs": 18.76
+        },
+        {
+          "satoriMs": 7.81,
+          "resvgMs": 18.6
+        },
+        {
+          "satoriMs": 7.34,
+          "resvgMs": 19.44
+        },
+        {
+          "satoriMs": 8,
+          "resvgMs": 18.37
+        },
+        {
+          "satoriMs": 7.66,
+          "resvgMs": 18.83
+        },
+        {
+          "satoriMs": 7.1,
+          "resvgMs": 18.18
+        },
+        {
+          "satoriMs": 7.2,
+          "resvgMs": 18.09
+        },
+        {
+          "satoriMs": 7.8,
+          "resvgMs": 18.79
+        },
+        {
+          "satoriMs": 7.03,
+          "resvgMs": 18.24
+        }
+      ]
+    },
+    "memory": {
+      "nodeProcess": {
+        "rss": 282263552,
+        "heapTotal": 95322112,
+        "heapUsed": 67822136,
+        "external": 23511278,
+        "arrayBuffers": 1969862
+      }
+    }
   },
   "playwright": {
-    "cold": 255.87279199999995,
-    "warmup": 72.86175000000003,
-    "times": [
-      69.70279099999993,
-      68.4163329999999,
-      68.59191699999997,
-      69.94408300000009,
-      72.84254099999998,
-      69.80441699999983,
-      69.51704200000017,
-      72.32387500000004,
-      69.910167,
-      70.45029199999999
-    ],
-    "memory": 78607320
+    "cold": {
+      "totalMs": 224.36,
+      "firstStageMs": 63.95,
+      "fontLoaded": true
+    },
+    "warm": {
+      "workload": "nutrition baseline 1000x1000",
+      "samples": [
+        69.22,
+        69.52,
+        80.99,
+        73.05,
+        70.04,
+        70.29,
+        70.23,
+        69.75,
+        68.96,
+        69.23
+      ],
+      "min": 68.96,
+      "median": 70.04,
+      "mean": 71.13,
+      "max": 80.99
+    },
+    "memory": {
+      "nodeProcess": {
+        "rss": 290177024,
+        "heapTotal": 99041280,
+        "heapUsed": 67956496,
+        "external": 26797655,
+        "arrayBuffers": 5372001
+      },
+      "chromium": {
+        "browserProcessRssKb": null,
+        "pid": null,
+        "note": "Browser.process() unavailable in this Playwright build; Chromium RSS not observable here"
+      }
+    }
   }
 }

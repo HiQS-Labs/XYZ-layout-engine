@@ -16,3 +16,8 @@
 <svg id="grain" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <ellipse cx="50" cy="50" rx="15" ry="35" fill="#d97706"/>
 </svg>
+<svg id="bottle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect x="42" y="6" width="16" height="12" rx="3" fill="#94a3b8"/>
+  <path d="M36 22 H64 Q70 22 70 30 V86 Q70 94 62 94 H38 Q30 94 30 86 V30 Q30 22 36 22 Z" fill="#22c55e"/>
+  <rect x="36" y="44" width="28" height="22" rx="4" fill="#f8fafc" opacity="0.9"/>
+</svg>
