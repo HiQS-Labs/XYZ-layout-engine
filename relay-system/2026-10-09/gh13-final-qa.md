@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -124,8 +124,38 @@ Handing off to claude-a (Producer) — address R1 and disposition R2, then take 
 - **R1 [Should] — Implemented.** Step 5 now says to use the resolve-image skill (load it and follow its recipe) for paid art, then follow the Solar System generator and receipt checks. SVG stays the default.
 - **R2 [Nit] — Implemented.** "path string" is now "SVG markup string (paths, rects, ellipses and circles are all used)".
 - **Wording (from your probe note) — Implemented.** The CHANGELOG and plan Evidence table now say "23 existing input references (bare filenames included)", not "paths", since your unique-path count differs by filter.
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to codex (Reviewer) for round 2.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: R1 and R2 are resolved. The full artifact sweep found no additional pre-existing defects or blocking findings. Requirements 1–6 remain covered without expanding the implementation. Reversibility: Easy. The bet is that the explicit paid-art routing removes the remaining forced guess; the failure mode remains future drift between the skill and its example. Approval covers the seeded documentation; execution and branch-inventory limits below remain for the harness.
+swept file: yes
+
+- [Pass] **R1 and R2 closed.** `skills/design-diagram/SKILL.md:25` now says “use the resolve-image skill (load it and follow its recipe)” only when the operator requests paid generation, and calls icon values “SVG markup string”. This satisfies plan requirement 4 (`PROJECT/1-INBOX/GH-13-DIAGRAM-DESIGN-SKILL.md:38`) and matches the mixed SVG elements at `examples/2026-10-09-rag-system/render-diagram.mjs:30`–41. The default remains hand-drawn SVG, separate image nodes and no silent upload. The receipt pointers remain accurate: Solar System `generate-assets.py:20`–35 and `render-diagram.mjs:25`–35.
+- [Pass] **Requirements and governance mapped again.** Requirement 1 maps to skill :1–4, :10–31 and :49–51; requirement 2 to :8, :14 and :22; requirement 3 to :33–43; requirement 4 to :25; requirement 5 to :45–47; requirement 6 to `CHANGELOG.md:3`–7. Skill :47 explicitly preserves a different existing install entry, uses the maintained clone only on request, and reads back through the link. Skill :24–25 and :30 retain shared renderer ownership, explicit upload policy and the test ratchet, consistent with `GUIDING-PRINCIPLES.md` principles 2–6 and `AGENTS.md` Engineering standards. No added procedure or requirement padding was identified.
+- [Pass] **RAG truth check and all seven trap pointers still hold.** Source anchors: required stages/uniqueness (:24–26), icons (:28–43), structural lanes and named fixture reads (:46–115), footer (:116–123), load/render sequence (:127–136), expected text (:144), icon count (:171), outputs before final findings assertion (:175–183), all in `examples/2026-10-09-rag-system/render-diagram.mjs`. With fixture height 1660 (`fixture.json:6`), footer coordinates 1500/1528 give H−160/H−132. The full script never reads `fixture.sources`; `source_note` is a literal at :123. Trap 1's runtime guard exists at `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs:547`; trap 2 is supported by `tools/spike/assets.mjs:4` and GH-5's asset-path item; trap 3 by `CHANGELOG.md:23`. Traps 4–5 point to the working card/flex constructions at RAG :59–64 and :111. Trap 6 explicitly discloses the unretained build observations and cites the RAG README's “What the checks prove” limits. Trap 7 correctly motivates rerunning green; early assertions can still fail before writing. No mismatch requiring correction found.
+- [Pass] **Evidence wording stays bounded.** `CHANGELOG.md:7` and plan :82–90 now say input “references”, retain the three path falsifiers and three named render red controls, and expressly state that the eight fixes were not cold-run again and raw outputs were not retained. The plan approval/attestation remains at `relay-system/2026-10-09/gh13-plan-qa.md:117`–136. These are consistent historical reports, not newly reproduced execution results.
+- [Pass] **Read-only static probe.** After `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"` and `mkdir -p "$TMPDIR"`, command `python3 - <<'PY' > .relay-scratch/r2-static.txt` with the following stdin exited 0. Decisive output: `existing input occurrences: 23`, `unique inputs: 15`, `missing: []`, `resolve-image instruction: True`, `SVG markup wording: True`. This corroborates reference occurrences and the literal corrections at skill :25; it does not rerun the discarded acceptance checker.
+
+  ```python
+  from pathlib import Path
+  import re
+  s=Path('skills/design-diagram/SKILL.md').read_text()
+  refs=re.findall(r'`([^`\n]+)`',s)
+  inputs=[r for r in refs if (r.startswith(('examples/','tools/','PROJECT/')) or r in ('CHANGELOG.md','test-budget.json')) and '<' not in r and '*' not in r]
+  print('existing input occurrences:',len(inputs))
+  print('unique inputs:',len(set(inputs)))
+  print('missing:',[p for p in inputs if not Path(p).exists()])
+  print('resolve-image instruction:', 'use the resolve-image skill (load it and follow its recipe)' in s)
+  print('SVG markup wording:', 'one SVG markup string per stage' in s)
+  print('startup paths:',{p:Path(p).exists() for p in ['README.md','utils/py/releases_app.py','.xyz/utils/py/releases_app.py']})
+  ```
+
+- [Unverified — needs clone run] No renderer, fixture, test or gate executed. Full reads covered all four artifact files and every Setup context file, plus the Solar System README and cited runtime guard. The probe above also printed all three startup paths `False`, so root README/roadmap startup steps remain unavailable. Verify-tier review fell back to exact source: graph `list_projects(limit=100)` returned 82 projects with `has_more:false`, none matching this checkout or XYZ Layout Engine; there is no applicable generation or coverage result. No main-to-HEAD diff is seeded, and no git command was run. Complete changed-file inventory, absence of accidental runtime/dependency/test/workflow changes, and PR-base ancestry therefore remain unverified here, as in round 1. The harness owns containment, diff and clone gates. No fresh live-issue verification is claimed.
+
+Relay closed (Approved), no further turn needed. Token completion returns control to Producer claude-a and the harness. Only this relay file was edited; scratch probe output stays in `.relay-scratch/`. The harness owns the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
