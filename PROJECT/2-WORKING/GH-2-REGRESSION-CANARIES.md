@@ -26,7 +26,7 @@ related:
 
 | What was just completed | What's next |
 |---|---|
-| Implemented after Codex plan QA Approved (round 3, `relay-system/2026-10-09/gh2-plan-qa.md`). `pnpm test` green: 4 canaries in 8.2 s (budget 60 s); all red controls recorded below. | Final Codex QA relay on the diff; then PR against `marathon/gh-1-renderer-spike`. |
+| Implemented. Codex plan QA Approved (round 3, `relay-system/2026-10-09/gh2-plan-qa.md`); final Codex QA Approved (round 2, `relay-system/2026-10-09/gh2-final-qa.md`). `pnpm test` green; PDDA 0 errors. | PR against `marathon/gh-1-renderer-spike`, awaiting review and merge, after GH-1 lands. |
 
 ## Recon (base `591971d`, branch `test/gh-2-regression-canaries` off `origin/marathon/gh-1-renderer-spike`)
 
@@ -119,6 +119,7 @@ After the timeout control, a 7 s wait showed 0 `node --test`, 0 render and 0 Chr
 - Final-QA round 1 fixes and their controls. Both ran in disposable copies.
   - **Timeout escalation.** The runner now sends SIGKILL to the whole group before exiting whenever the deadline fired, even if the test leader already closed. Control: a canary file holding only a stall test that spawns a child which ignores SIGTERM, with `maxSeconds` 3 and history to match. Result: exit 1 after 3 s wall, `deadline: suite exceeded budget.maxSeconds=3s and was killed`. The stubborn child was alive at about 2 s and gone afterwards (0 in `pgrep`).
   - **C3 pinned to committed evidence.** Control: export `SPIKE_OUTPUT_ROOT` pointing at a valid alternate copy, then tamper only the committed `satori.png`. Result: exit 1, with `not ok 3 - guards: committed evidence no longer satisfies the gate` and `satori.png does not match the recorded digest`. After restoring the committed file, with the same export, the run passed.
+- Governance and final gate on the final head (unsandboxed): `utils/pdda/pdda.sh run` → `PDDA run complete: no errors, 2 warning(s) to review — pdda-check-governance`. The two warnings predate this work: a dead `ROUTER.md` skill reference, and an env var mentioned only in `PDDA-INSTALL.md`. `pnpm test` → `test-budget: PASS — 4 canaries in 8.1s (budget 60s)`.
 - C4 is itself a red control: a tampered `satori.png` must make the verifier exit 1 with the digest error. It passes on every run.
 - Implementation note: the runner counts only top-level `test(` declarations and rejects any other free `test(` call, so comments and `RegExp.test()` don't pad the count. It reads Node's `# skipped` TAP key.
 
