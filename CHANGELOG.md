@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-08 — GH-1 human artwork acceptance
+
+- The operator reviewed the reference-matched baseline renders and accepted the generated artwork ("Generated artwork looks good"). Recorded in the GH-1 plan (status Accepted), the PRD §5.3 checklist and `tools/spike/REPORT.md`. Reversibility: Easy — documentation only.
+
 ## 2026-10-09 — Phase 0 spike artwork revision: reference-matched infographic
 
 - Rebuilt the nutrition fixture and scene to follow `PROJECT/2-WORKING/layout-engine-reference.png`: bold headline with leaf ornaments, illustrated callouts flanking a large glowing leaf, four captioned items, a vertical benefits panel, and a footer pill. Seven transparent illustrations were generated with OpenAI gpt-image-2.5-flare (HiQS resolve-image recipe r2, local_candidate, reference as style input, high quality); Inter Bold (same Inter 4.0 release, OFL) added for headings; benefit icons and ornaments are hand-authored SVG. Provenance, digests and transparency checks in `tools/spike/assets/SOURCES.md` and `generated/*.result.json`; full-size originals are gitignored and web copies (640 px) committed.

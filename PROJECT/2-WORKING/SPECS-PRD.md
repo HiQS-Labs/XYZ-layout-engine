@@ -138,7 +138,7 @@ At the reference's square aspect ratio, preserve its hierarchy and composition: 
 - [x] Keep text as text and illustrations as separate image/vector nodes; embedding the entire reference as a background is not a passing implementation. (`tools/spike/fixture.json`, `assets/illustrations.svg`.)
 - [x] All sections are present and readable, with no clipped text or unintended overlap. Decorative overlaps are intentional and declared. (Verifier-checked with declared containment; agent visual assessment in Phase 0 findings.)
 - [x] Change the headline and one caption in the fixture and rerender without changing engine code; layout/fitting must remain valid. (`output/2026-10-08-xyz-layout-engine-spike/override-*.png`, fit at iteration 0 in both backends.)
-- [ ] Record a human visual acceptance verdict, geometry/fitting gaps, timings, and chosen backend in this PRD. Similarity to artwork is reviewed visually; byte equality applies to repeated generated output, not to the source reference. (Gaps, timings and backend recorded in Phase 0 findings; **human visual acceptance verdict pending**.)
+- [x] Record a human visual acceptance verdict, geometry/fitting gaps, timings, and chosen backend in this PRD. Similarity to artwork is reviewed visually; byte equality applies to repeated generated output, not to the source reference. (Gaps, timings and backend recorded in Phase 0 findings; human visual acceptance: **accepted** by the operator on 2026-10-08.)
 
 Promote the successful spike fixture to a recipe in Phase 2 and use it for the local/remote parity check in Phase 3. This reference is the first acceptance example, not a new general-purpose diagram editor or automatic connector-routing requirement.
 

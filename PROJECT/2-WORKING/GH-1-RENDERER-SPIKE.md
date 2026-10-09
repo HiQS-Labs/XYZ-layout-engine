@@ -2,7 +2,7 @@
 gh_issue: 1
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/1
 title: "XYZ Layout Engine: Phase 0 renderer and reference infographic spike"
-status: Awaiting human acceptance
+status: Accepted
 created: 2026-10-02
 owner: Neochrome
 doc_type: experiment
@@ -118,7 +118,7 @@ Undo class Easy: delete/revert only spike-owned files in the task clone. Referen
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (not run; PR not yet opened)
 
 Plan QA receipt: `relay-system/2026-10-01/gh1-spike-plan-attested.codex.md` (Approved, textual plan review; driver attested exit 0 against reviewed head `d43274edf6eb`).
-Human artwork acceptance: pending; agent approval never substitutes for it.
+Human artwork acceptance: **accepted** by the operator on 2026-10-08 ("Generated artwork looks good"), reviewing the delivered baseline renders in `tools/spike/output/2026-10-08-xyz-layout-engine-spike/`.
 
 ## Swarm Preflight Contract
 
