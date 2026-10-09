@@ -13,7 +13,7 @@ The diagram is conceptual. Real systems differ in chunk size, embedding model, v
 | `rag-system.png` | Final Satori → resvg render |
 | `rag-system-chromium.png` | Same scene rendered by Playwright/Chromium |
 | `rag-system.html` | Self-contained responsive viewer; double-click a label to edit it (edits are not saved) |
-| `fixture.json` | All copy, the ten stages, lane colors and the note panels |
+| `fixture.json` | Diagram copy, the ten stages, lane colors and the note panels (credit and source lines live in the script) |
 | `render-diagram.mjs` | Builds the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Evidence: image nodes, text ids, Satori bounds, Chromium text metrics, artifact digests, findings |
 

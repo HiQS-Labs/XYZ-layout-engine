@@ -32,7 +32,7 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 
 ## Requirements
 
-1. `examples/2026-10-09-rag-system/` renders a 2400×1500 scene with both flows: ingest (documents → chunk → embed → vector store) and query (question → embed → retrieve top-k → augment prompt → LLM → grounded answer with citations). Chunk/embed/retrieve steps are visually tied to the shared vector store. Retrieved chunks carry source IDs into the augmented prompt together with the original question, and the answer's citations refer to those sources (a label and arrow only, not a retrieval or citation-checking implementation).
+1. `examples/2026-10-09-rag-system/` renders a 2400×1660 scene with both flows: ingest (documents → chunk → embed → vector store) and query (question → embed → retrieve top-k → augment prompt → LLM → grounded answer with citations). Chunk/embed/retrieve steps are visually tied to the shared vector store. Retrieved chunks carry source IDs into the augmented prompt together with the original question, and the answer's citations refer to those sources (a label and arrow only, not a retrieval or citation-checking implementation).
 2. Artwork is hand-authored inline SVG icons, one per stage, composed as separate image nodes. No paid generation, no upload.
 3. `render-diagram.mjs` reuses the Solar System runtime by relative import (no second copy). It must set `process.env.SPIKE_LIBRARY_ONLY='1'` **before** an awaited dynamic `import()` of `../2026-10-08-solar-system/runtime/tools/spike/render.mjs` (a static import would run the experiment's `main()` first), import Playwright from the sibling `runtime/node_modules`, call `loadSatori()` before rendering, and read both fonts from the sibling runtime assets. Runtime files stay unchanged. Writes `verification.json`.
 4. Assertions are non-vacuous. The fixture names the required stages for both flows; the script asserts the expected stage-icon ids and expected text/label ids are each present, unique and non-empty (not just whatever the renderer collected), finite positive geometry for each in **both** backends, Satori and Chromium boxes inside the canvas, no Chromium text overflow, no label overlap, and canvas size. A missing id, an empty list, or a box moved outside the canvas in either backend fails by id.
@@ -42,7 +42,7 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 ## Non-goals
 
 - No change to `tools/spike/**`, `test-budget.json`, `package.json`, or any dependency. No new test file, suite, or workflow (AGENTS.md; GH-2 ratchet).
-- No packaging as a skill and no shared runtime refactor. GH-5 covers the shared render operation and a documented render path, not a skill; a skill is untracked and would need its own issue.
+- No packaging as a skill and no shared runtime refactor. GH-5 covers the shared render operation and a documented render path, not a skill; a skill would need its own issue.
 - No claim about real RAG performance; the diagram is conceptual.
 
 ## Bet and rejected alternatives
@@ -93,5 +93,5 @@ pri 30 / sev 10 / appeal 50 / effort 80. Severity: a docs example, no data or wo
 | `utils/pdda/pdda.sh run` | no errors; 33 governance warnings, none in this change (legacy `ROADMAP.md` references) |
 | `releases check` | clean |
 
-Red control (a) lengthens the text rather than shrinking a box, because card geometry lives in the script, not the fixture; same failure class.
+Canvas height: the plan first said 2400×1500; layout needed 1660 (three bands of 250 px cards plus the bypass arrow, footer and sources), so the requirement was amended to 2400×1660 with no squeezing. Red control (a) lengthens the text rather than shrinking a box, because card geometry lives in the script, not the fixture; same failure class.
 Visual inspection: agent viewed both PNGs and fixed a right-alignment flaw found that way. Human review still pending.

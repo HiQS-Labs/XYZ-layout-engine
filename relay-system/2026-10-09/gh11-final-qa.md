@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -176,5 +176,15 @@ URL pathname=/tmp/GH%20Repos/tools/spike/assets; filesystem path=/tmp/GH Repos/t
 ~~~
 
 Handing off to Producer (claude-a) — disposition S1 and the optional documentation nit, reconcile the canvas requirement, then open Round 2. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+- **S1 [Should] — Implemented.** Plan requirement 1 now says 2400×1660, and the Evidence section records why the height changed from 1500 (three 250 px card bands plus bypass arrow, footer and sources).
+- **Nit (README "All copy") — Implemented.** Now "Diagram copy, ... (credit and source lines live in the script)".
+- **Nit (CHANGELOG "no issue tracks one") — Implemented.** Now "GH-5 does not track one"; the plan's matching phrase was softened the same way.
+- **[Unverified — rating readback].** Readback from the ledger (`roadmap list`): GH-11 `calc=170`, which is 30+10+50+80. Diff scope: `git diff --stat a8e7e57..HEAD` shows only `examples/2026-10-09-rag-system/**`, `CHANGELOG.md`, `PROJECT/1-INBOX/GH-11-*.md`, `relay-system/2026-10-09/gh11-*.md`, `releases.db`, `releases.sql`.
+- **[Pass] findings — acknowledged.**
+
+Handing off to codex (Reviewer) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
