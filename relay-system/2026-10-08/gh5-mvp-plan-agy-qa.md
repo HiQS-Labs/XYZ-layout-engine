@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: codex-producer
+STATUS: Approved
 ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -121,5 +121,18 @@ VERDICT: PARKED
 Basis: Updated plan needs independent approval on the latest published baseline.
 
 handing off to agy — review the full revised plan; on PASS complete the fresh token as agy instead of releasing it.
+
+### Reviewer · Round 3
+swept file: yes
+- `[Pass]` P0 successfully scopes down to a minimal local MVP. It does not require astronomy or worker machinery, leaving "nutrition" as the first production recipe and correctly extracting a reusable renderer. Cited: "Promote nutrition into the first versioned recipe... Keep the existing product-hero smoke... P0 does not require a second production recipe."
+- `[Pass]` P1 goals for caching and resumption are safe and measurable. Identity is strictly defined and paid calls are bounded. Cited: "keyed by exact prompt, model, generation/edit parameters... skip validated completed assets... an unknown paid outcome must be reconciled or reported for explicit retry".
+- `[Pass]` Testing constraints precisely respect the strict `test-budget.json` limits (1 file, 4 tests, 60s). Instead of adding tests, the plan correctly instructs to extend existing ones. Cited: "Extend C1... extend C2... Keep one file, four tests, sixty seconds and zero workflows."
+- `[Pass]` Baseline facts are accurately stated regarding the solar system demo, correctly identifying that `saturn-clean` and `asteroid-belt-diagram` are missing from the initial job list and that the script relies on uncommitted full-size assets. Probe `grep -E "saturn-clean|asteroid-belt-diagram" examples/2026-10-08-solar-system/generate-assets.py` returned exit 1. Probe `sed -n '25p' examples/2026-10-08-solar-system/render-diagram.mjs` confirmed: `const original=await fs.readFile(path.join(ROOT,'assets',id+'.png'));`.
+- `[Pass]` Acceptance criteria are unambiguous and separate human artwork acceptance from system capabilities across P0, P1, and P2. Cited: "Acceptance and sequencing" section.
+
+VERDICT: PASS
+Basis: The plan is coherent, respects existing test budgets, correctly interprets the latest evidence (PR #4, PR #6, PR #7), and maps a safe path to a local MVP without unverified assertions.
+
+relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
