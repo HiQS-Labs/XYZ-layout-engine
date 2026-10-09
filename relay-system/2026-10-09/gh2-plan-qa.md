@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 3
 
@@ -140,5 +140,30 @@ VERDICT: PASS
 Basis: every round-1 finding is reflected in the plan with a falsifiable red control; scope is unchanged (one test file, one runner, one budget file, two env overrides).
 
 Handing off to codex (Reviewer) — round 2 against `911f757`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: FAIL
+Basis: R1 and R3 are addressed in the plan, and R4 now has a finite parent deadline. R2 still permits zero executed canaries; one small accounting correction remains before implementation. This is plan QA, not certification of a running suite.
+swept file: yes
+
+Read the entire revised plan and all Setup source/document paths, including pre-existing code; also read the runtime record, relevant REPORT evidence, CHANGELOG and PDDA contract sections. No additional material pre-existing source defect was identified within the supported local-spike scope. The existing host coupling remains explicitly disclosed in plan line 54. Verify-tier intent with direct-source fallback: this session exposes no graph tools, so project/generation and index coverage cannot be checked. Source references trace package scripts → render/verify → scene/assets (`package.json:7`, `tools/spike/render.mjs:18`, `tools/spike/verify.mjs:9`, `tools/spike/scene.mjs:6`). Startup README and releases CLI are absent from the seeded checkout. Fetched issue #2 through the GitHub connector and checked its acceptance against the whole plan.
+
+- [Should] **R2 remains partly open — zero declarations satisfy executed-test accounting.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:79` supplies only an upper bound; line 84 requires passes to equal declarations and remain at most four. An emptied canary file with zero declarations and zero passes satisfies these predicates. Add an explicit positive declaration/pass requirement and a clone red control for an empty canary file; the initial final-gate receipt should show all four named canaries executed. This needs one guard, not another runner.
+  Observed input: an empty `canaries.test.mjs`, with declared/pass/fail/skip/todo counts all zero. Narrow predicate probe `python3 -c 'declared=passed=fail=skip=todo=0; print("accepts zero:", passed==declared and passed<=4 and fail==skip==todo==0)'` exited 0, output `accepts zero: True` (scratch: `.relay-scratch/tmp/r2-zero.out`). This evaluates the stated rule; no runner exists yet and no Node test was executed.
+  Affected scope: the single canary file and its TAP-summary success assertion, retaining the current upper budget and admission policy.
+  Falsifier: in a disposable clone, an empty file must make `pnpm test` fail with a zero-canary diagnostic; the original four canaries must execute and pass. If the implemented runner already rejects zero independently, this finding needs only an explicit plan statement and receipt.
+
+- [Nit] **Make the timeout control reach the timeout.** Plan line 92 changes `maxSeconds` to 3, while line 82 rejects any mismatch with the last history budget before spawning. Specify a disposable, history-consistent short budget and a controlled stall, and require the deadline diagnostic in its receipt. Probe `python3 -c 'print("history equality after maxSeconds-only edit:", {"maxSeconds":3}=={"maxSeconds":60})'` exited 0, output `history equality after maxSeconds-only edit: False` (scratch: `.relay-scratch/tmp/r2-timeout-preflight.out`). A nonzero preflight exit would not prove the parent deadline or cleanup. The actual timeout/process-cleanup claim remains [Unverified — needs clone run].
+
+- [Nit] **The earlier purity correction is still absent.** Plan line 33 still says scene/assets export “pure builders”; `tools/spike/assets.mjs:11` reads files and `tools/spike/scene.mjs:68` invokes those loaders. Replace with “scene builders and filesystem asset loaders.” This is a recon wording correction, not a runtime change.
+
+- [Pass] **R1 and output isolation are specified correctly.** Plan lines 57–61 preserve logical evidence paths, redirect both verifier physical-read operations, and distinguish renderer exit/selection output from verifier exit/PASS. These match `tools/spike/render.mjs:30`, `tools/spike/render.mjs:540`, `tools/spike/verify.mjs:15`, `tools/spike/verify.mjs:18` and `tools/spike/verify.mjs:290`. No new production success-output contract is needed.
+- [Pass] **R3's geometry proof and bounded scope are suitable for implementation.** Plan lines 63–67 require equal case/backend/label sets, finite coordinates, a positive compared-box count, an explicit digest skip, and three comparator red controls. Lines 68–69 retain separate committed-gate and tamper canaries; C4 targets the existing digest assertion at `tools/spike/verify.mjs:161`. Lines 74 and 93 give budget history and policy one owner, with only an AGENTS pointer. These are plan-contract passes; comparator execution is pending.
+- [Pass] **R4's proposed deadline closes the unbounded parent-wait gap.** Plan line 83 specifies a test process group, a parent deadline and a five-second escalation; C1 sets the existing renderer deadline at line 61. Existing browser closure is at `tools/spike/render.mjs:346` and `tools/spike/render.mjs:541`. No watchdog dependency is proposed. Descendant/browser cleanup must still be demonstrated by the clone control.
+- [Unverified — needs clone run] Fresh PNG/SVG/HTML equality, four-canary runtime comfortably under a minute, all runtime red controls, and PDDA results were not executed here. Issue #2 asks for “well under a minute”; the 60-second cap is a ceiling, not that timing receipt. Plan lines 35 and 95 separate the recorded observation from the final execution gate. The harness owns subsequent validation.
+
+Review outcome: one required correction (R2), with two small documentation nits. Reversibility: Easy — only this relay header and appended review block changed; no artifact/source edits, executable fixtures, suites, gates or git commands were run.
+Handing off to claude-a (Producer) — close R2's zero-canary gap and clarify the two nits, then return for round 3. Go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
