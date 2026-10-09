@@ -4,7 +4,7 @@ Umbrella: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/1
 Plan: `PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md` · PRD: `PROJECT/2-WORKING/SPECS-PRD.md` §5.3, §7.6, §10
 Evidence directory: `tools/spike/output/` (regenerate with `pnpm run spike:render`, gate with `pnpm run spike:verify`)
 
-Every number below is read from `tools/spike/output/measurements.json` or `tools/spike/output/runtime.json` as generated on 2026-10-08 (commit of Phase 2 approval: see `relay-system/2026-10-08/gh1-spike-p2-postbuild.md`, STATUS Approved after three Codex review rounds). Where a claim could not be measured, it says so.
+Every number below is read from the delivered `tools/spike/output/measurements.json` and `tools/spike/output/runtime.json` (`generatedAt` 2026-10-09T00:16:57.399Z; a fresh `spike:render` rewrites both files and the timing figures will move by a few milliseconds) (commit of Phase 2 approval: see `relay-system/2026-10-08/gh1-spike-p2-postbuild.md`, STATUS Approved after three Codex review rounds). Where a claim could not be measured, it says so.
 
 Provenance note: Phases 2 and 3 were built by the orchestrating Claude session after two agy builder attempts failed harness containment (probe scripts written off-lane; XYZ-forge #1001, #1002). Codex remained the independent reviewer throughout.
 
@@ -28,7 +28,7 @@ Both controls were restored and the gate re-run green before commit.
 | Item | Value | Source |
 |---|---|---|
 | Hardware | Apple M1 Max, 10 cores, 64 GiB | `runtime.environment` |
-| OS | macOS 15.6.1 (Darwin 24.6.0), arm64 | `runtime.environment` |
+| OS | Darwin 24.6.0 (`osRelease`), arm64 | `runtime.environment` |
 | Node | v22.22.3 | `runtime.environment.node` |
 | satori | 0.36.0, MPL-2.0 | `runtime.dependencies.satori` |
 | @resvg/resvg-js | 2.6.2, MPL-2.0 (JS wrapper + `@resvg/resvg-js-darwin-arm64` 2.6.2 native binding, MPL-2.0) | `runtime.dependencies.resvg_js`, `.resvg_native_binding` |
@@ -43,8 +43,8 @@ Package licences are read from each installed manifest at render time (`provenan
 
 | Backend | Cold (one-off) | Warm stage: min / median / max over 10 samples (after 1 warmup) | Stage boundary |
 |---|---|---|---|
-| Satori + resvg | 137.5 total (60.4 dynamic import + wasm init, 71.2 first layout+raster) | 25.3 / 26.5 / 27.4 | `satori()` layout + resvg rasterize + PNG encode, nutrition 1000×1000 |
-| Playwright/Chromium | 224.4 total (launch + context + first page+screenshot 64.0) | 69.0 / 70.0 / 81.0 | setContent + fonts.ready + geometry evaluate + screenshot (clip) on a running browser and context; page create/close excluded |
+| Satori + resvg | 152.7 total (72.4 dynamic import + wasm init, 74.8 first layout+raster) | 25.5 / 26.5 / 27.7 | `satori()` layout + resvg rasterize + PNG encode, nutrition 1000×1000 |
+| Playwright/Chromium | 425.7 total (launch + context + first page+screenshot 103.7) | 66.8 / 68.8 / 72.1 | setContent + fonts.ready + geometry evaluate + screenshot (clip) on a running browser and context; page create/close excluded |
 
 Limits of these numbers: one machine, one fixture, single process, no concurrency. They are not a p95 or an SLA (PRD §10 targets stay hypotheses). Both cold numbers are backend initialization inside an already-running Node process: the static `@resvg/resvg-js` and `playwright` imports happen at module load before any timer. Fresh-process startup was not measured.
 
@@ -52,8 +52,8 @@ Limits of these numbers: one machine, one fixture, single process, no concurrenc
 
 | Backend | Observed | Limitation |
 |---|---|---|
-| Satori + resvg | Node process rss ≈ 282 MB, heapUsed ≈ 68 MB after the warm loop | Same process also holds the Playwright client and prior render buffers; not a per-render delta |
-| Playwright/Chromium | Node process rss ≈ 290 MB, heapUsed ≈ 68 MB | Chromium RSS could not be observed: `Browser.process()` is unavailable in Playwright 1.64.0's API surface, so renderer/GPU memory is unmeasured here |
+| Satori + resvg | Node process rss ≈ 270 MB, heapUsed ≈ 65 MB after the warm loop | Same process also holds the Playwright client and prior render buffers; not a per-render delta |
+| Playwright/Chromium | Node process rss ≈ 276 MB, heapUsed ≈ 65 MB | Chromium RSS could not be observed: `Browser.process()` is unavailable in Playwright 1.64.0's API surface, so renderer/GPU memory is unmeasured here |
 
 Treat memory as a floor for the Node side only. A production limit for the browser path needs a worker-level measurement (cgroup or `ps` on the launched PID), which this spike does not provide.
 
@@ -68,7 +68,7 @@ Treat memory as a floor for the Node side only. A production limit for the brows
 | Repeat determinism (PNG sha256) | Yes (`digests.satori.deterministic=true`; SVG also byte-stable) | Yes (`digests.playwright.deterministic=true`) |
 | SVG export | Yes (`output/satori.svg`, 1000×1000 viewBox) | No: `page.screenshot` is raster-only; declared unsupported, not faked |
 
-Fitting outcomes: baseline, prescribed long-copy override, and hero all fit at iteration 0 in both backends (`cases.*.*.fitting.iterations = 0`, `unresolved = []`). The override wrapped the headline to two lines and the long item caption to three lines in both backends without clipping (Chromium `lineCount = 3` for `item_1_caption`; Satori box 210×66 at 18 px). One Chromium-only observation worth keeping: with `line-height: 1.05` the hero headline's `scrollHeight` exceeded `clientHeight` by 2 px (glyph box taller than line box). Satori cannot see this class of overflow. The scene now uses `line-height: 1.2` for that element; the metric remains in the evidence as `text.*.scrollMetrics`.
+Fitting outcomes: baseline, prescribed long-copy override, and hero all fit at iteration 0 in both backends (`cases.*.*.fitting.iterations = 0`, `unresolved = []`). The override wrapped the headline to two lines and the long item caption to three lines in both backends without clipping (Chromium `lineCount = 3` for `item_1_caption`; Satori box 210×66 at 18 px). One Chromium-only capability worth keeping: its scroll/client metrics can expose a glyph box exceeding its line box (`text.*.scrollMetrics`), which Satori's element-box hook cannot see. In the delivered hero case the headline records `scrollHeight = clientHeight = 154` at `line-height: 1.2`; no overflow of that kind is present in the delivered evidence.
 
 Conclusion for the gate: both backends expose enough authoritative geometry for fitting and constraint checks without a second layout engine. Satori's evidence is coarser (element boxes only); Chromium's is finer (ink-level scroll metrics) but comes with a browser.
 
@@ -89,7 +89,7 @@ Implication: v1 English is supported by both. CJK and emoji are not v1 claims. S
 
 ## 8. Fidelity against the reference (agent visual assessment)
 
-Agent assessment, not human acceptance: both baseline PNGs reproduce the reference's hierarchy and composition (headline/subtitle, central leaf-and-glow, two upper callouts, four lower items with captions, four-item benefits panel, footer banner) with readable text, no clipping, and no unintended overlap (verifier-checked). The Satori and Chromium renders differ only in sub-pixel text placement and anti-aliasing. Fidelity gaps versus the reference are artwork, not layout: the hand-authored vector illustrations are deliberately simple placeholders; the reference's callouts carry body copy and icons that the fixture does not. **Human visual acceptance remains pending** (operator review of artwork); this report does not grant it.
+Agent assessment, not human acceptance: both baseline PNGs reproduce the reference's hierarchy (headline/subtitle, central leaf-and-glow, two upper callouts, four lower items with captions, four-item benefits panel, footer banner) with readable text, no clipping, and no unintended overlap (verifier-checked). The two backends are broadly similar but not pixel-identical: element positions differ by whole pixels (for example `item_1_caption` y = 772 in Satori vs 774 in Chromium; override `hero_img` y = 262 vs 264.5), and text anti-aliasing differs. Fidelity gaps versus the reference are both artwork and composition: the hand-authored vector illustrations are deliberately simple placeholders; the benefits panel is a horizontal bottom strip where the reference uses a vertical side panel; the reference's callouts carry body copy and icons that the fixture does not. **Human visual acceptance remains pending** (operator review of artwork); this report does not grant it.
 
 ## 9. Proposed resource limits (rationale from measurements above)
 
@@ -98,16 +98,16 @@ Agent assessment, not human acceptance: both baseline PNGs reproduce the referen
 | Input scene JSON | ≤ 256 KiB | The 1000×1000 fixture plus inline data-URL assets is < 20 KiB; 256 KiB leaves 10× headroom for richer recipes |
 | Illustration assets | ≤ 1 MiB per asset, ≤ 8 MiB per render, SVG or PNG only | Inline SVG data URLs here are < 1 KiB each; data URLs inflate 4/3; keep total well under the 16 MB artifact ceiling |
 | Output size | ≤ 4096×4096 px, ≤ 16 MiB PNG | Spike outputs are ≤ 134 KB at 1000×1000 and 1200×630 |
-| Render time | 5 s soft / 30 s hard per request (Satori); 10 s / 60 s (Chromium) | Observed medians 26 ms and 70 ms; 100× headroom covers cold starts (138 ms / 224 ms) and larger scenes |
+| Render time | 5 s soft / 30 s hard per request (Satori); 10 s / 60 s (Chromium) | Observed medians 26.5 ms and 68.8 ms; >100× headroom covers cold starts (152.7 ms / 425.7 ms) and larger scenes |
 | Fitting iterations | 10 | Plan-prescribed cap; all cases fit at 0 |
-| Memory | Satori worker 512 MiB; Chromium worker 1 GiB (unverified for Chromium) | Node rss ≈ 290 MB observed; Chromium RSS unmeasured, so its number is a placeholder to be measured in Phase 1 |
+| Memory | Satori worker 512 MiB; Chromium worker 1 GiB (placeholder, unmeasured) | Node rss ≈ 276 MB observed; Chromium RSS unmeasured, so its number is a placeholder to be measured in Phase 1 |
 | Concurrency | Satori: one render per event-loop task, N workers = cores; Chromium: pool of 2–4 contexts per browser | Not measured; proposed from stage costs, to be validated under load before remote acceptance |
 
 These are targets derived from one-machine observations, to be frozen only after Phase 1 measurements on the deployment hardware (PRD §10).
 
 ## 10. Recommendation
 
-**Default backend: Satori → resvg-js.** Reasons, in order: (1) it passed every mandatory check (English text, baseline/long-copy/hero fitting, exact canvas, determinism, labeled geometry); (2) warm render is ~2.6× faster than Chromium and needs no browser process; (3) it emits SVG, which Chromium cannot; (4) its geometry hook (`onNodeDetected`) is sufficient for fitting and constraint validation as PRD §5.1 requires.
+**Default backend: Satori → resvg-js.** Reasons, in order: (1) it passed every mandatory check (English text, baseline/long-copy/hero fitting, exact canvas, determinism, labeled geometry); (2) warm render median is 26.5 ms vs 68.8 ms for Chromium on this machine and needs no browser process; (3) it emits SVG, which Chromium cannot; (4) its geometry hook (`onNodeDetected`) is sufficient for fitting and constraint validation as PRD §5.1 requires.
 
 **Keep Playwright/Chromium as the recipe-declared fallback** for scripts the pinned fonts do not cover and for CSS beyond Satori's subset, exactly as PRD §7.6 already proposes. It also passed every mandatory check, so this is a choice on cost and portability, not capability.
 
