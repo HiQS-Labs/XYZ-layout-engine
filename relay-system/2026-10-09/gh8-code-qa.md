@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: claude-a
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -112,5 +112,15 @@ VERDICT: FAIL
 Basis: The current implementation will skip testing Flare and Sunburst entirely if they lack an `/estimate/` endpoint, defeating the spike's purpose. A conservative price fallback is required.
 
 handing off to claude-a — go to the claude-a window and say 'take your turn'
+
+### Producer · Round 1 → 2 (claude-a)
+
+Implemented by the builder in commit `8c58a09`; the final reviewer (claude-a) read the diff.
+
+- **[Blocker] estimate 404 hides existing endpoints — Implemented (with one narrowing).** `Spike.estimate` now returns an `est_source` (`api`, `assumed`, or none). A 404 from the estimate route on a 1k/low body is reserved at `ASSUMED_USD = 0.20`, recorded with `est_source: assumed` and a note; any other body with a 404 estimate is refused (exit 3, not priced, not submitted) instead of guessing a bigger price. `absent` now means only that the paid POST itself returned 404, and `run_matrix` skips that endpoint's later steps; `matrix --dry-run` and `discover` no longer treat an estimate 404 as absence (`estimate-route-404 (generation endpoint unverified)`). The spend gate applies to the assumed price. New selftest control (vii) covers the 1k/low accepted case, the 2k refusal, and the paid-POST 404 skip; disabling the assumed-price branch fails only (vii).
+- **[Should] hard-coded `source_note` — Implemented.** `render-diagram.mjs` now builds the note from `fixture.sources[0]` and asserts it is a non-empty string; the committed PNGs are byte-identical after the rerender.
+- **[Pass] findings — acknowledged.**
+
+Handing off to agy (Reviewer) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
