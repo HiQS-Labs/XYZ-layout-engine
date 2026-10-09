@@ -136,4 +136,12 @@ Basis: The previous blockers are resolved. Spend safety is correctly bounded, se
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-09T17:35:51Z
+task: RELAY-gh8-code-qa-agy2
+reviewer: agy
+status: Approved
+reviewed-head: 904dde758c5849d782aaeb1d04ec599c331c89c1
+added-range: 14142+960
+added-sha256: 9e2034cd5d98ee0cdf909563d297f7c5a1d1422f4da9fcca7da849f278ce2384
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
