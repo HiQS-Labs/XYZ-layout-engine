@@ -18,11 +18,12 @@ roadmap_exempt: true
 
 Umbrella/member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5
 Canonical plan: PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md, Phase 2.
-Order: gh5-p2, depends on gh5-p1; strictly serial.
+Order: gh5-p2 first in continuation, then gh5-p3 -> gh5-p4 -> gh5-p5; strictly serial. Phase 1 external prerequisite is independently accepted at b91432380184, receipt relay-system/2026-10-09/gh5-p1-repair.codex.md and attestation; do not start/reset the failed Phase 1 lane.
 Builder: Agy. Reviewer: independent Codex. No fallback, no push/merge/issue close.
 
 ## Scope
 
+Extend the shared request/CLI to select the trusted nutrition or Solar System recipe, and support bounded recipe-owned dimensions/resolution without accepting and ignoring scale. Preserve Phase 1 admission/serializer/publication guarantees and manifest-aware readers.
 Promote the published Solar System scene/fixture as a trusted recipe sharing the runtime. Read the eleven committed assets/web PNGs, verify the committed verification.json display digests (including saturn-clean and asteroid-belt-diagram), and preserve their generation/edit lineage. Do not call a provider or pretend missing full-size originals are present. Admit a bounded export resolution compatible with display inputs; park higher-resolution originals if unavailable.
 Make both render-diagram.mjs and contact-sheet.mjs thin shared-operation callers. Migrate the contact sheet to root shared renderer/fonts and the eleven selected committed display images (including refined IDs), preserve the committed PNG and write new output only to an owned temp/output path. Delete the copied runtime only after both entry points render offline without originals or paid calls. Share pinned fonts from the root runtime; do not duplicate them. Keep the Sun, each of eight planets, belt and Milky Way as individual images, separate editable text and backend-owned bounds. Preserve schematic/not-to-scale disclosure and original fixture/artifacts as provenance.
 Add bounded fitting (maximum ten attempts), readable minimum font size, conservative line-height policy, missing glyph/text detection and explicit non-fit response. Do not implement independent glyph metrics or arbitrary line breaking. Reject unsupported scripts using the pinned font capability evidence, without host-font fallback. Exercise real shrink and exhaustion, not only successful iteration-zero cases.

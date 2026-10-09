@@ -80,16 +80,3 @@ Per lane, the existing pipeline applies — no new control plane:
 ---
 
 *Generated from [releases.db (roadmap_items)](../../releases.db) (source of truth). Re-run `.xyz/utils/marathon-plan.sh` after editing the ledger.*
-
-## Acceptance & Quality Checklist
-
-### Wave 1
-
-- [ ] Wave 1 Proof of Done Test Suite Green (`pnpm test`, exit 0 after all five phases; fresh offline render/edit/export and measured report).
-- [ ] Wave 1 Post-Build Codex QA Relay executed (separate final review after all driver gates; receipt under `relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`, first STATUS Approved/Closed and exact reviewed head).
-- [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (resolve independent Codex findings and later PR findings before landing).
-
-Execution source: `PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md` and `PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml`. One serial lane, p1 -> p2 -> p3 -> p4 -> p5. Full clone on marathon/gh-5-mvp-foundation; origin/main is the confirmed base. Agy builder/Codex reviewer, driver gate pnpm test, no push until separate final wave review and root-bound QA gate pass. No automatic closeout, merge or issue closure; human artwork and live provider measurements remain pending.
-
-### GH-5 monitored continuation — 2026-10-09
-Phase 1 accepted outside the stopped native lane: independent Codex Approved/attested b914323, four canaries exit0 in 11.3s, goldens preserved. The canonical YAML now executes only unstarted gh5-p2 -> gh5-p3 -> gh5-p4 -> gh5-p5. Same umbrella/full clone, existing reviewed phase boundaries, unchanged caps, no --force or failed-lane re-fire. Phase 2 names Phase 1 as an externally evidenced prerequisite. Runtime timer: 600 seconds x 6, terminal cancellation, read-only progress/heartbeat/role/gate receipts. Preparation evidence and independent continuation QA are under relay-system/2026-10-09/gh5-continuation/. Final Wave 1 checklist remains pending until all remaining phases/test gates and final independent Codex QA pass. Generated scheduling core above is preserved; annotations/QA checklist are deliberate reviewed overlay, not a claim that the whole generated file passes bytewise planner --check.

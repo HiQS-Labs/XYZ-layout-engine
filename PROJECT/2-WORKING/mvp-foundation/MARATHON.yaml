@@ -1,23 +1,17 @@
+# Continuation: Phase 1 repaired outside the failed driver and independently Approved at b914323.
+# Original failed Phase 1/cap retained; execute ONLY previously unstarted phases 2 -> 3 -> 4 -> 5.
+# Operator explicitly authorized restart and 600-second x 6 monitoring.
 # Umbrella/member GH-5; base origin/main confirmed by operator. One full clone; one serial wave.
 # Agy builder (CLI flag), independent Codex reviewer; pnpm test gate (CLI flag). No auto PR/push.
 name: gh5-mvp-foundation
 phases:
-  - id: gh5-p1
-    name: "Shared local operation"
-    reviewer: codex
-    brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p1.md
-    artifact: tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/scene.mjs, tools/spike/verify.mjs, tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
-    turn_timeout_s: 1500
-    max_review_rounds: 2
-
   - id: gh5-p2
     name: "Offline Solar System and readable fitting"
     reviewer: codex
     brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p2.md
-    artifact: tools/recipes/solar-system.mjs, tools/recipes/nutrition.mjs, tools/render.mjs, tools/request.mjs, tools/spike/render.mjs, examples/2026-10-08-solar-system/render-diagram.mjs, examples/2026-10-08-solar-system/contact-sheet.mjs, examples/2026-10-08-solar-system/README.md, examples/2026-10-08-solar-system/runtime/.gitignore, examples/2026-10-08-solar-system/runtime/SOURCE.json, examples/2026-10-08-solar-system/runtime/package.json, examples/2026-10-08-solar-system/runtime/pnpm-lock.yaml, examples/2026-10-08-solar-system/runtime/tools/spike/assets.mjs, examples/2026-10-08-solar-system/runtime/tools/spike/assets/OFL.txt, examples/2026-10-08-solar-system/runtime/tools/spike/assets/SOURCES.md, examples/2026-10-08-solar-system/runtime/tools/spike/assets/font-bold.ttf, examples/2026-10-08-solar-system/runtime/tools/spike/assets/font.ttf, examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs, examples/2026-10-08-solar-system/runtime/tools/spike/scene.mjs, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
+    artifact: tools/recipes/solar-system.mjs, tools/recipes/nutrition.mjs, tools/render.mjs, tools/request.mjs, tools/spike/render.mjs, tools/spike/verify.mjs, examples/2026-10-08-solar-system/render-diagram.mjs, examples/2026-10-08-solar-system/contact-sheet.mjs, examples/2026-10-08-solar-system/README.md, examples/2026-10-08-solar-system/runtime/.gitignore, examples/2026-10-08-solar-system/runtime/SOURCE.json, examples/2026-10-08-solar-system/runtime/package.json, examples/2026-10-08-solar-system/runtime/pnpm-lock.yaml, examples/2026-10-08-solar-system/runtime/tools/spike/assets.mjs, examples/2026-10-08-solar-system/runtime/tools/spike/assets/OFL.txt, examples/2026-10-08-solar-system/runtime/tools/spike/assets/SOURCES.md, examples/2026-10-08-solar-system/runtime/tools/spike/assets/font-bold.ttf, examples/2026-10-08-solar-system/runtime/tools/spike/assets/font.ttf, examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs, tools/spike/verify.mjs, examples/2026-10-08-solar-system/runtime/tools/spike/scene.mjs, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
     turn_timeout_s: 1500
     max_review_rounds: 2
-    depends_on: gh5-p1
 
   - id: gh5-p3
     name: "Resumable optional generation"
