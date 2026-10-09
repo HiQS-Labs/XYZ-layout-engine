@@ -312,4 +312,12 @@ JS
 
 Relay closed (Approved), no further turn needed. Handing the token back with `done`; claude-a/harness handles the file-scoped commit and post-turn gate.
 
+
+### Attestation · relay-drive — 2026-10-09T04:10:09Z
+task: RELAY-gh1-spike-output-folders-qa-r2
+reviewer: codex
+status: Approved
+reviewed-head: 044f5ec87fca15507a8ac63b9ee99fa5fbcfd80c
+added-range: 21101+11854
+added-sha256: f792c3fb17364600962c45ca99f266ffe4411c007cbf71f4f418560eb15c8cc6
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
