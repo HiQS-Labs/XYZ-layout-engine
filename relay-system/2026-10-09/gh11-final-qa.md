@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -84,5 +84,97 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: Requirements 2–6 and the educational content of requirement 1 are supported by the inspected source and artifacts. One acceptance-document correction remains: requirement 1 promises 2400×1500, but the delivered scene is 2400×1660. Reconcile that adjustment before claiming an exact match to the approved plan; no renderer change, new test, or runtime refactor is requested.
+swept file: yes
+
+Read the full target script, fixture, README, plan, prior plan relay and CHANGELOG, plus the Solar System script, ratchet runner and budget. Inspected both PNGs and parsed the entire HTML/verification JSON, including embedded SVGs and viewer code. No additional material pre-existing defect was found in the touched files within this example's scope. Graph tools are unavailable; exact source reads supplied the evidence. Startup README and both repo-local roadmap CLI paths are absent. The issue URL fetch returned “Failed to fetch ...: Cache miss”; conformance uses the supplied Definition of Done and local capture. Review-code discipline applied within the explicit relay-only restrictions.
+
+- [Should] **S1 — Reconcile requirement 1 with the delivered canvas.** PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:35 specifies “2400×1500”, while examples/2026-10-09-rag-system/fixture.json:5–6, README.md:3, verification.json:4–5 and both PNG headers specify 2400×1660. Fix: update the active requirement to the intended 2400×1660 and record the height adjustment/rationale in the implementation evidence. The inspected composition is readable; do not squeeze it into 1500 merely to satisfy stale prose.
+  Observed input: both delivered PNG headers are 2400×1660; the literal requirement is 2400×1500. Probe below exited 0 and printed both sizes.
+  Affected scope: the GH-11 plan's canvas-size acceptance statement and adjustment record only.
+  Falsifier: an existing explicit amendment adopting 2400×1660 would make this request unnecessary; otherwise the requirement and delivered dimensions should agree after correction.
+  Bet / reversibility: 1660 is intentional, consistent with the README, changelog and footer beginning at y=1528 (render-diagram.mjs:117). Easy — a documentation correction; leaving 1500 makes later acceptance checks contradict the deliverable.
+
+- [Pass] **Requirement 1 content and requirement 2 artwork.** examples/2026-10-09-rag-system/fixture.json:20–36 names all ten stages, source IDs, original-question bypass and cited answer. render-diagram.mjs:76–88 draws both chains, store interaction and dashed question-to-augment path; :29–43 and :60 compose one hand-authored SVG per stage. Both PNGs visibly carry those elements. The conceptual citation labels meet the agreed scope. Keep this bounded scene.
+
+- [Pass] **Requirement 3 initialization and reuse.** examples/2026-10-09-rag-system/render-diagram.mjs:8 sets the guard before the awaited import at :11; :10, :12 and :15 use sibling runtime/Playwright/fonts; :127 loads Satori before rendering. The pinned module's guard/export is at examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs:547 and :553. The new script calls existing backend helpers; it does not implement another renderer. Small constructors, decorative dust and the viewer resemble the Solar System script (:16, :38, :119 there), but shared-runtime extraction is expressly deferred. Keep the imports; historical byte immutability remains subject to the diff limitation below.
+
+- [Pass] **Requirement 4 non-vacuous checks.** examples/2026-10-09-rag-system/render-diagram.mjs:24–26 fixes the stage set; :49–52 rejects empty/duplicate text; :144–158 checks expected text IDs and finite positive text/icon geometry in both backends; :160–173 covers overlap, Chromium overflow, exact icon IDs/count and both PNG sizes. The isolated source-block probe below rejected zero stages, zero text, missing Chromium title geometry, and title geometry outside either backend's canvas; its recorded-text baseline returned []. This probe omits container/icon loops because Chromium node bounds are not persisted; it is not a fresh renderer run. Keep the existing checks.
+
+- [Pass] **Requirements 5–6, outputs and receipts.** examples/2026-10-09-rag-system/README.md:13–27 and :35–39 document outputs, reproduction, unsaved viewer edits and limits. Three committed output hashes match verification.json:81; both PNGs are 2400×1660 and verification.json:1297 is "findings": []. CHANGELOG.md:5–8 supplies outcome, bet, failure mode, reversibility and verification. README.md:33's three red-control claims match PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:88–90; :96 explains the lengthened-copy substitution. These are Producer receipts, not independently rerun red renders.
+
+- [Pass] **Diagnostic writes before the final assertion are acceptable here.** examples/2026-10-09-rag-system/render-diagram.mjs:175–183 writes artifacts/findings before asserting zero findings; :184 prints PASS only afterward. A failed check can replace local example outputs, but its nonzero exit and saved findings expose the failure. Keep that diagnostic behavior for this regenerable example; no publication subsystem is warranted.
+
+- [Pass] **Space-path diagnosis belongs outside GH-11.** tools/spike/assets.mjs:4 uses URL.pathname and :29 reads the encoded path. PROJECT/1-INBOX/GH-5-MVP-FOUNDATION.md:33 and :44 already record and scope that defect. The probe below prints the encoded pathname versus decoded filesystem path. The new example bypasses the asset loader with URL/fileURLToPath reads (render-diagram.mjs:9, :15). Keeping the root asset helper unchanged follows GH-11's non-goal at PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:44. Historical four-test failure/green clone runs at :91–92 remain reported receipts.
+
+- [Nit] **Qualify two small documentation overclaims.** examples/2026-10-09-rag-system/README.md:16 calls the fixture “All copy”, although credit/source copy remains in render-diagram.mjs:120 and :123; “Diagram copy, stages, lane colors and note panels” is accurate. CHANGELOG.md:8 says “no issue tracks one”, but the evidence establishes a local skill inventory and GH-5 boundary, not an exhaustive live issue inventory. Qualify this to “GH-5 does not track a skill” unless an issue-inventory receipt is available. Neither needs a runtime change.
+
+- [Unverified — needs clone run] No renderer, executable fixture, test suite or PDDA gate ran here. Fresh rendering, complete container/icon geometry, restored red controls, guard side effects and reported test/PDDA outcomes remain for the harness/Producer clone gate. No Git command ran and no baseline diff was seeded, so the exact a8e7e57..HEAD inventory, absence of accidental changes and unchanged runtime/package/budget/dependency bytes are not independently certified. The proposed example filenames do not match the ratchet classifier (tools/spike/test/run.mjs:23–30), but that does not replace a diff check. The prescribed releases CLI is absent here, so the persisted rating was not queried; the provisional 30/10/50/80 rationale and neutral appeal are present at PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:79. Prose ratings are not database readback.
+
+Read-only probe command (exit 0; no renderer import, executable fixture or file writes):
+
+~~~sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module <<'NODE'
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+const p='examples/2026-10-09-rag-system/';
+const src=fs.readFileSync(p+'render-diagram.mjs','utf8');
+const fixture=JSON.parse(fs.readFileSync(p+'fixture.json'));
+const e=JSON.parse(fs.readFileSync(p+'verification.json'));
+for(const [f,k] of [['rag-system.png','png'],['rag-system-chromium.png','chromiumPng'],['rag-system.html','html']]){
+ const b=fs.readFileSync(p+f);
+ assert.equal(crypto.createHash('sha256').update(b).digest('hex'),e.artifactDigests[k]);
+ console.log(f+': hash OK'+(f.endsWith('.png')?' '+b.readUInt32BE(16)+'x'+b.readUInt32BE(20):''));
+}
+const stagesCheck=new Function('stages','assert',src.slice(src.indexOf('const REQUIRED='),src.indexOf('// Hand-authored')));
+stagesCheck(fixture.stages,assert);
+try{stagesCheck([],assert);assert.fail('unexpected empty pass')}catch(err){
+ assert.match(err.message,/fixture lane ingest/);
+ console.log('zero stages: rejected (fixture lane ingest)');
+}
+const check=new Function('texts','result','chromiumResult','W','H','stages','fixture','container','iconIds','assert',src.slice(src.indexOf('const findings=[];'),src.indexOf('const found='))+';return findings;');
+function probe(label,mutate){
+ const a={textBoxes:structuredClone(e.satoriBounds),bounds:{}};
+ const b={textBoxes:structuredClone(e.chromiumText),bounds:{}},texts=[...e.textIds];
+ mutate(a,b,texts);
+ try{
+  const f=check(texts,a,b,e.width,e.height,fixture.stages,fixture,{},[],assert);
+  console.log(label+': '+JSON.stringify(f.map(x=>({id:x.id,backend:x.backend,reason:x.reason}))));
+ }catch(err){console.log(label+': '+err.message)}
+}
+// Isolated text checks; Chromium container/icon bounds are not persisted.
+probe('recorded text baseline',()=>{});
+probe('zero text',(_a,_b,t)=>{t.length=0});
+probe('missing Chromium title',(_a,b)=>{delete b.textBoxes.title});
+probe('Satori title off-canvas',a=>{a.textBoxes.title.x=e.width+10});
+probe('Chromium title off-canvas',(_a,b)=>{b.textBoxes.title.x=e.width+10});
+const u=new URL('file:///tmp/GH%20Repos/tools/spike/assets');
+console.log('URL pathname='+u.pathname+'; filesystem path='+fileURLToPath(u));
+NODE
+~~~
+
+Decisive output:
+
+~~~text
+rag-system.png: hash OK 2400x1660
+rag-system-chromium.png: hash OK 2400x1660
+rag-system.html: hash OK
+zero stages: rejected (fixture lane ingest)
+recorded text baseline: []
+zero text: scene must contain the required text ids
+missing Chromium title: [{"id":"title","backend":"chromium","reason":"missing or non-finite text geometry"}]
+Satori title off-canvas: [{"id":"title","backend":"satori","reason":"text outside canvas"}]
+Chromium title off-canvas: [{"id":"title","backend":"chromium","reason":"text outside canvas"}]
+URL pathname=/tmp/GH%20Repos/tools/spike/assets; filesystem path=/tmp/GH Repos/tools/spike/assets
+~~~
+
+Handing off to Producer (claude-a) — disposition S1 and the optional documentation nit, reconcile the canvas requirement, then open Round 2. Go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
