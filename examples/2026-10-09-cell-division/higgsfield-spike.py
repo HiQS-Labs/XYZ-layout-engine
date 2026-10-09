@@ -49,10 +49,15 @@ POLL_DEADLINE_S = 300
 HTTP_TIMEOUT_S = 60
 MAX_DOWNLOAD_BYTES = 64 * 1024 * 1024
 PROBE_FIELDS = ('background', 'output_format')  # not in the documented schema; stripped for the estimate
-# The docs show /estimate/<id> only for a Soul model, so a Marketing Studio estimate route may 404 even when the
-# generation route exists. For 1k/low bodies only, reserve this assumed price instead (conservative against the
-# documented ~$0.075 to $0.094 for 1k low). Any other body with a 404 estimate is not priced and not submitted.
-ASSUMED_USD = 0.20
+# Flare/Sunburst estimate routes return a pricing description (token-based), not a quote, and other routes may
+# 404. Either way the call has no numeric price. For 1k/low bodies only, reserve this assumed per-call price:
+# the docs' own estimate example and the Higgsfield blog both put 1K Low at 1.5 credits (about $0.075 to $0.094),
+# and billing is token-based with image output at $30 per 1M tokens, so a 1k/low image is far below $0.10.
+# $0.10 is a conservative per-call reservation. The real charge is reconciled by Higgsfield on completion and is
+# not readable through the API (there is no balance endpoint). Any other body without a quote is refused.
+ASSUMED_USD = 0.10
+ASSUMED_NOTE_404 = 'estimate route returned 404 or no quote; assumed $0.10 for 1k/low'
+ASSUMED_NOTE_DESC = 'estimate route returned a pricing description, not a quote; assumed $0.10 for 1k/low'
 TERMINAL = {'completed', 'failed', 'nsfw', 'canceled', 'cancelled'}
 P = 'A single isolated red blood cell, studio lighting'
 P2 = ('A single isolated animal cell shown as a clean scientific illustration, transparent background, '
@@ -283,27 +288,37 @@ class Spike:
         return self.http(method, url, headers, None if body is None else canon(body).encode(), HTTP_TIMEOUT_S)
 
     def estimate(self, endpoint, body):
-        """Returns (http_status, credits, usd, scrubbed_error_or_None, est_source).
+        """Returns (http_status, credits, usd, scrubbed_reply_or_None, est_source, note).
 
-        est_source is 'api' for a priced 2xx, 'assumed' for a 404 estimate route on a 1k/low body (usd is then
-        ASSUMED_USD), and None when the call is not priced. 5xx/transport -> Ambiguous."""
+        est_source is 'api' for a 2xx with a numeric usd; 'assumed' (usd = ASSUMED_USD) when the route gave no
+        quote (404, or a 2xx JSON object without a numeric usd, such as a pricing description) and the body is
+        1k/low; None when the call is not priced. A 5xx, transport failure, unparseable 2xx or negative usd ->
+        Ambiguous."""
         check_endpoint(endpoint)
         status, _, data = self._authed('POST', f'{API}/estimate/{endpoint}', body)
         if status >= 500:
             raise Ambiguous(f'estimate {endpoint}: HTTP {status}: {scrub(data[:2000].decode("utf-8", "replace"))}')
         doc = parse_json(data)
+        reply = scrub(data[:4000].decode('utf-8', 'replace'))
         if 200 <= status < 300:
+            if not isinstance(doc, dict):
+                raise Ambiguous(f'estimate {endpoint}: HTTP {status} with an unparseable body')
             try:
-                usd, credits = float(doc['usd']), doc.get('credits')
-            except Exception:
-                raise Ambiguous(f'estimate {endpoint}: HTTP {status} without a numeric usd field')
-            if usd < 0:
-                raise Ambiguous(f'estimate {endpoint}: negative usd {usd}')
-            return status, credits, usd, None, 'api'
-        err = scrub(data[:4000].decode('utf-8', 'replace'))
-        if status == 404 and assumed_price_applies(body):
-            return status, None, ASSUMED_USD, err, 'assumed'
-        return status, None, None, err, None
+                usd = None if isinstance(doc.get('usd'), bool) else float(doc['usd'])
+            except (KeyError, TypeError, ValueError):
+                usd = None
+            if usd is not None:
+                if usd < 0:
+                    raise Ambiguous(f'estimate {endpoint}: negative usd {usd}')
+                return status, doc.get('credits'), usd, None, 'api', None
+            no_quote_note = ASSUMED_NOTE_DESC  # 2xx without a numeric usd: a description, not a quote
+        elif status == 404:
+            no_quote_note = ASSUMED_NOTE_404
+        else:
+            return status, None, None, reply, None, None
+        if assumed_price_applies(body):
+            return status, None, ASSUMED_USD, reply, 'assumed', no_quote_note
+        return status, None, None, reply, None, no_quote_note
 
     # -- the paid path
     def submit(self, label, endpoint, body):
@@ -312,12 +327,13 @@ class Spike:
         est_body = {k: v for k, v in body.items() if k not in PROBE_FIELDS}
         stripped = sorted(set(body) - set(est_body))
         bh = body_hash(body)
-        est_status, credits, usd, est_err, est_source = self.estimate(endpoint, est_body)
-        if usd is None and est_status == 404:
+        est_status, credits, usd, est_err, est_source, est_note = self.estimate(endpoint, est_body)
+        if usd is None and est_note:  # no quote (404 or description-only) and the body is not 1k/low
             self.ledger.append(event='refused', label=label, endpoint=endpoint, body_hash=bh, http_status=est_status,
-                               error_body=est_err, reason='estimate route 404 and body is not 1k/low; not priced')
-            raise Refuse(3, f'{label}: the estimate endpoint returned 404 and the body is not 1k/low, so the call '
-                            f'cannot be priced; not submitted')
+                               error_body=est_err, reason='no quote from the estimate route and body is not 1k/low; '
+                                                         'not priced')
+            raise Refuse(3, f'{label}: the estimate route gave no quote (HTTP {est_status}) and the body is not '
+                            f'1k/low, so the call cannot be priced; not submitted')
         if usd is None:
             self.ledger.append(event='estimate_rejected', label=label, endpoint=endpoint, body_hash=bh,
                                http_status=est_status, error_body=est_err, estimate_body_stripped=stripped)
@@ -331,8 +347,7 @@ class Spike:
             raise Refuse(3, f'spend gate: reserved ${cum:.4f} + estimate ${usd:.4f} ({est_source}) = ${total:.4f} > '
                             f'${CAP_USD:.2f}; {label} not submitted')
         idem = str(uuid.uuid4())
-        note = {'est_note': f'estimate endpoint returned 404; assumed ${ASSUMED_USD:.2f} for 1k/low'} \
-            if est_source == 'assumed' else {}
+        note = {'est_note': est_note, 'est_reply': est_err} if est_source == 'assumed' else {}
         self.ledger.append(event='reserve', label=label, endpoint=endpoint, body=body, body_hash=bh,
                            estimate_body_stripped=stripped, est_credits=credits, est_usd=usd, est_source=est_source,
                            cum_est_usd=total, idempotency_key=idem, **note)
@@ -482,10 +497,10 @@ def run_matrix(spike, dry_run=False):
             continue
         if dry_run:  # an estimate 404 is not evidence of absence, so a dry run never skips an endpoint
             est_body = {k: v for k, v in body.items() if k not in PROBE_FIELDS}
-            status, credits, usd, err, source = spike.estimate(ep, est_body)
+            status, credits, usd, err, source, note = spike.estimate(ep, est_body)
             spike.ledger.append(event='estimate', label=label, endpoint=ep, body_hash=body_hash(body),
                                 http_status=status, est_credits=credits, est_usd=usd, est_source=source,
-                                error_body=err, dry_run=True)
+                                est_note=note, error_body=err, dry_run=True)
             projected = round(projected + (usd or 0), 6)
             say({'label': label, 'http_status': status, 'est_usd': usd, 'est_source': source,
                  'projected_usd': projected, 'reserved_so_far': spike.ledger.reserved_usd()})
@@ -495,11 +510,12 @@ def run_matrix(spike, dry_run=False):
             absent.add(ep)
     if dry_run:
         say({'dry_run_projected_usd': projected, 'reserved_so_far': spike.ledger.reserved_usd(), 'cap_usd': CAP_USD})
+    return projected
 
 
 def run_discover(spike):
     for ep in DISCOVER_ENDPOINTS:
-        status, credits, usd, err, source = spike.estimate(ep, {'prompt': P})
+        status, credits, usd, err, source, _ = spike.estimate(ep, {'prompt': P})
         # Estimate-only: a 404 here says nothing about the generation route, which is never called by discover.
         verdict = 'estimate-route-404 (generation endpoint unverified)' if status == 404 else 'estimate-route-present'
         spike.ledger.append(event='discover', label='discover', endpoint=ep, http_status=status, est_credits=credits,
@@ -563,6 +579,10 @@ def selftest():
         def __call__(self, method, url, headers, body, timeout):
             self.calls.append((method, url))
             if '/estimate/' in url:
+                if self.estimate_status == 'description':  # the live Flare/Sunburst shape: 200, no numeric usd
+                    return 200, {}, json.dumps({'type': 'description', 'pricing_description':
+                                                'Per 1M tokens: text input $5, image output $30. The initial charge '
+                                                'is an estimate reconciled on completion.'}).encode()
                 if self.estimate_status != 200:
                     return self.estimate_status, {}, b'{"detail":"Not Found"}'
                 return 200, {}, json.dumps({'credits': 2, 'usd': self.estimate_usd}).encode()
@@ -694,28 +714,41 @@ def selftest():
         key = load_key(str(dummy_key(0o600)))
         posts = lambda f: [u for m, u in f.calls if m == 'POST' and '/estimate/' not in u]
         failed = (200, {'status': 'failed', 'request_id': 'req-c7'})  # terminal and uncharged: no download needed
-        # Estimate route 404 on a 1k/low body: reserved at the assumed price, then submitted.
-        ledger = tmp / 'c7a-ledger.jsonl'
-        fake = Fake(estimate_status=404, submit=failed)
-        spike = Spike(key, ledger, fake, raw_dir=tmp / 'raw', sleep=lambda s: None)
-        with contextlib.redirect_stdout(io.StringIO()):
-            res = spike.submit('c7-assumed', 'marketing-studio/image/flare',
-                               {'prompt': 'x', 'resolution': '1k', 'quality': 'low', 'background': 'transparent'})
-        assert res['outcome'] == 'failed' and len(posts(fake)) == 1, f'1k/low call was not submitted: {res}'
-        reserve = [r for r in spike.ledger.rows() if r['event'] == 'reserve'][0]
-        assert reserve['est_source'] == 'assumed' and reserve['est_usd'] == ASSUMED_USD == 0.20, 'not reserved as assumed'
-        assert '404' in reserve.get('est_note', ''), 'assumed reserve lacks the 404 note'
-        # The same 404 for a 2k body: not priced, exit 3, no submit.
-        fake2 = Fake(estimate_status=404, submit=failed)
-        spike2 = Spike(key, tmp / 'c7b-ledger.jsonl', fake2, raw_dir=tmp / 'raw', sleep=lambda s: None)
-        try:
+        # No quote from the estimate route (404, or the live 200 description-only reply): a 1k/low body is reserved
+        # at the assumed price with the matching note and submitted; a 2k body is refused (exit 3), never submitted.
+        for n, (reply, note_word) in enumerate(((404, '404'), ('description', 'pricing description'))):
+            fake = Fake(estimate_status=reply, submit=failed)
+            spike = Spike(key, tmp / f'c7a{n}-ledger.jsonl', fake, raw_dir=tmp / 'raw', sleep=lambda s: None)
             with contextlib.redirect_stdout(io.StringIO()):
-                spike2.submit('c7-2k', 'marketing-studio/image/flare', {'prompt': 'x', 'resolution': '2k', 'quality': 'low'})
-            raise AssertionError('2k body with a 404 estimate was not refused')
-        except Refuse as e:
-            assert e.code == 3 and 'cannot be priced' in str(e), f'wrong refusal {e.code}: {e}'
-        assert not posts(fake2), 'an unpriced call reached the submit endpoint'
-        assert not [r for r in spike2.ledger.rows() if r['event'] == 'reserve'], 'an unpriced call was reserved'
+                res = spike.submit(f'c7-assumed-{reply}', 'marketing-studio/image/flare',
+                                   {'prompt': 'x', 'resolution': '1k', 'quality': 'low', 'background': 'transparent'})
+            assert res['outcome'] == 'failed' and len(posts(fake)) == 1, f'{reply}: 1k/low call not submitted: {res}'
+            reserve = [r for r in spike.ledger.rows() if r['event'] == 'reserve'][0]
+            assert reserve['est_source'] == 'assumed' and reserve['est_usd'] == ASSUMED_USD == 0.10, \
+                f'{reply}: not reserved as assumed $0.10'
+            assert note_word in reserve.get('est_note', '') and 'assumed $0.10 for 1k/low' in reserve['est_note'], \
+                f'{reply}: assumed reserve lacks its note'
+            fake2 = Fake(estimate_status=reply, submit=failed)
+            spike2 = Spike(key, tmp / f'c7b{n}-ledger.jsonl', fake2, raw_dir=tmp / 'raw', sleep=lambda s: None)
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    spike2.submit('c7-2k', 'marketing-studio/image/flare',
+                                  {'prompt': 'x', 'resolution': '2k', 'quality': 'low'})
+                raise AssertionError(f'{reply}: 2k body without a quote was not refused')
+            except Refuse as e:
+                assert e.code == 3 and 'cannot be priced' in str(e), f'{reply}: wrong refusal {e.code}: {e}'
+            assert not posts(fake2), f'{reply}: an unpriced call reached the submit endpoint'
+            assert not [r for r in spike2.ledger.rows() if r['event'] == 'reserve'], f'{reply}: unpriced call reserved'
+        # Dry run against description-only replies projects 12 x $0.10 and reports est_source per step.
+        fake_d = Fake(estimate_status='description')
+        spike_d = Spike(key, tmp / 'c7d-ledger.jsonl', fake_d, raw_dir=tmp / 'raw', sleep=lambda s: None)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            projected = run_matrix(spike_d, dry_run=True)
+        steps = [json.loads(l) for l in out.getvalue().splitlines() if '"est_source"' in l]
+        assert abs(projected - 1.20) < 1e-9, f'dry run projected {projected}, expected 1.20'
+        assert len(steps) == 12 and all(s['est_source'] == 'assumed' for s in steps), 'est_source missing per step'
+        assert not posts(fake_d) and spike_d.ledger.reserved_usd() == 0, 'dry run submitted or reserved'
         # A paid POST 404 on Flare is 'absent': the matrix skips Flare's later steps and still runs Sunburst.
         fake3 = Fake(submit=lambda url: (404, {'detail': 'Not Found'}) if url.endswith('/flare') else failed)
         spike3 = Spike(key, tmp / 'c7c-ledger.jsonl', fake3, raw_dir=tmp / 'raw', sleep=lambda s: None)
@@ -728,7 +761,8 @@ def selftest():
         assert len(flare_posts) == 1 and len(sun_posts) == 6, f'posts flare {len(flare_posts)} sunburst {len(sun_posts)}'
         assert [r['label'] for r in rows if r['event'] == 'absent'] == ['flare-a-background']
         assert len(skipped) == 5 and all(s.startswith('flare-') for s in skipped), f'skipped {skipped}'
-        return ('404 estimate on 1k/low reserved as assumed $0.20 and submitted; on 2k refused, exit 3, no submit; '
+        return ('no quote (404 or 200 description-only) on 1k/low reserved as assumed $0.10 with note and submitted; '
+                'on 2k refused, exit 3, no submit; dry run projects 12 x $0.10 = $1.20 with est_source per step; '
                 'paid POST 404 -> absent, matrix skipped 5 later Flare steps and ran 6 Sunburst steps')
 
     for name, fn in (('(i) mode-644 key refused before read', c1), ('(ii) mock 4xx scrubbed', c2),
@@ -780,12 +814,12 @@ def main(argv=None):
             spike = Spike(key, args.ledger, raw_dir=args.raw_dir)
             if args.cmd == 'estimate':
                 body = json.loads(args.body)
-                status, credits, usd, err, source = spike.estimate(args.endpoint, body)
+                status, credits, usd, err, source, note = spike.estimate(args.endpoint, body)
                 spike.ledger.append(event='estimate', label='cli', endpoint=args.endpoint, body_hash=body_hash(body),
                                     http_status=status, est_credits=credits, est_usd=usd, est_source=source,
-                                    error_body=err)
+                                    est_note=note, error_body=err)
                 say({'endpoint': args.endpoint, 'http_status': status, 'credits': credits, 'usd': usd,
-                     'est_source': source, 'error_body': err})
+                     'est_source': source, 'est_note': note, 'error_body': err})
                 return 0 if usd is not None else 1
             if args.cmd == 'submit':
                 say(spike.submit(args.label, args.endpoint, json.loads(args.body)))

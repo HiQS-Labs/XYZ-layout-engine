@@ -58,14 +58,16 @@ Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterw
 4. A second process refuses to start while the ledger lock is held (exit 5).
 5. The secret scan fails on a throwaway file, and on a staged file, that holds the key ID. It passes once they are removed.
 6. The inspector reports `real_alpha: true` for the Solar System web `earth.png` and `false` for the opaque `solar-system.png` poster, which is RGBA but has every alpha value at 255.
-7. Estimate-route fallback. A 404 from the estimate route on a 1k/low body is reserved at the assumed $0.20 and submitted. The same 404 on a 2k body is refused (exit 3) with no submit. A paid POST that returns 404 is recorded as `absent`, and the matrix skips that endpoint's later steps.
+7. Estimate-route fallback. When the estimate route gives no quote (a 404, or a 200 that carries only a pricing description), a 1k/low body is reserved at the assumed $0.10 with a note and then submitted. A 2k body is refused (exit 3) with no submit. A dry run against description-only replies projects 12 × $0.10 = $1.20, with `est_source` shown per step. A paid POST that returns 404 is recorded as `absent`, and the matrix skips that endpoint's later steps.
 
 Rules for paid runs:
 
 - **Key file.** The path is read only from `HIGGSFIELD_KEY_FILE`, and the file must be mode 600 or 400.
 - **One process at a time.** `flock` on `spike-ledger.lock` enforces this.
 - **Before every submit.** The runner calls the free estimate endpoint and writes a `reserve` row to `spike-ledger.jsonl`, including the idempotency key, before the request is sent. It refuses (exit 3) if the reserved total would pass $1.90. Schema-probe fields (`background`, `output_format`) are stripped from the body that is estimated.
-- **Unpriced calls.** The docs show an estimate route only for a Soul model, so the estimate route may return 404 for a generation endpoint that exists. A 1k/low body is then reserved at an assumed $0.20, recorded as `est_source: "assumed"`. Any other body is refused (exit 3). Only a 404 from the paid POST itself marks an endpoint absent. In `discover`, which only calls estimate routes, a 404 is recorded as `estimate-route-404 (generation endpoint unverified)`.
+- **Unpriced calls.** An estimate route can give no quote: it may return 404, or a 200 with only a pricing description. In that case a 1k/low body is reserved at an assumed $0.10, recorded as `est_source: "assumed"` with a note, and any other body is refused (exit 3). A 2xx that cannot be parsed, or a 5xx, still stops the run. Only a 404 from the paid POST itself marks an endpoint absent. In `discover`, which only calls estimate routes, a 404 is recorded as `estimate-route-404 (generation endpoint unverified)`.
+
+Flare and Sunburst pricing is token-based (the estimate route returns a description such as image output at $30 per 1M tokens, not a quote). The spike therefore prices each 1k/low call with an assumed $0.10 reservation. That is above the documented 1K Low figure of 1.5 credits (about $0.075 to $0.094). The ledger total is a reservation, not the bill. Higgsfield reconciles the real charge on completion, and the API cannot read it back (there is no balance endpoint), so check the console balance before and after a paid run.
 - **No retries.** A timeout, network error, 5xx, or unknown poll outcome stops the whole run (exit 4) and is never retried.
 - **Downloads.** Files go to `$TMPDIR/higgsfield-spike-raw`, never into the repository. The key is sent only to `https://api.higgsfield.ai`, never to result URLs, and never through redirects.
 - **Scrubbing.** Every printed or ledgered string is scrubbed of the key ID, the secret and `ID:SECRET`, both raw and percent-encoded.
