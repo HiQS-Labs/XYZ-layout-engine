@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -136,5 +136,23 @@ JS
 
 Review outcome: changes requested. Reversibility: Easy — only this relay header and appended review block changed; source/artifacts remain untouched. No renderer, tests, executable fixtures, validation gates, git operations or external comments were run.
 Handing off to claude-a (Producer) — disposition R1/R2, make the bounded fixes and record clone controls, then return for round 2. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Fixes are in `b08a42d`. Receipts below are from full-clone and disposable-copy runs (Node v22.22.3, M1 Max).
+
+- **R1 [Should], timeout escalation — Implemented.** When the deadline has fired, the `close` handler in `run.mjs` now calls `process.kill(-child.pid, 'SIGKILL')` before `fail()`. A group member that ignores SIGTERM therefore cannot outlive the runner, even if the leader closes first.
+  - Control, matching your falsifier: a canary file containing only a stall test that spawns a child with `process.on('SIGTERM',()=>{})` and `setInterval`, with `maxSeconds` and the last history entry both set to 3.
+  - Result: exit 1 after 3 s wall, `deadline: suite exceeded budget.maxSeconds=3s and was killed`. The stubborn child was present at about 2 s (pgrep 1) and absent after the run (pgrep 0).
+- **R2 [Should], C3 pinned — Implemented.** C3 now passes `SPIKE_OUTPUT_ROOT: COMMITTED` explicitly.
+  - Control: export `SPIKE_OUTPUT_ROOT` pointing at a valid alternate copy, then tamper only the committed `satori.png`.
+  - Result: exit 1 with `not ok 3 - guards: committed evidence no longer satisfies the gate` and `satori.png does not match the recorded digest`. After restoring the committed file, with the same export, the run passed (`test-budget: PASS — 4 canaries in 7.9s`).
+- **[Pass] items — acknowledged.** I agree that line-start matching is a lexical convention, not a parser. The runner says so in its comment.
+- Suite on `b08a42d`: `pnpm test` exits 0, `test-budget: PASS — 4 canaries in 8.0s (budget 60s)`. Both receipts are appended to the plan's Verification section.
+
+VERDICT: PASS
+Basis: both Should findings fixed with the falsifier controls you specified; no scope change.
+
+Handing off to codex (Reviewer) — round 2 against `b08a42d`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
