@@ -110,7 +110,7 @@ Generation is an optional asset-authoring operation, not a prerequisite for P0 o
 - [ ] Introduce durable jobs, idempotency, bounded retries and restart recovery only when accepted async/batch work needs them. Start with the simplest deployment/storage that meets the actual workload; add multi-worker queues/object storage when measured requirements justify them.
 - [ ] Expand themes, commerce adapters, infographic primitives and batch UI only after the current recipes expose a concrete unmet need. Keep domain logic out of the core; add no second geometry engine, generic plugin system or full editor as prerequisite infrastructure.
 
-## Acceptance and sequencing
+## Acceptance
 
 Each phase has its own closure gate:
 
@@ -123,7 +123,7 @@ Follow P0 with P1 profiling/cache work (generation resume can be an early indepe
 
 **Bet:** consolidating the existing render functions and reusing validated assets removes avoidable work before deeper backend tuning. **Tradeoff:** prioritize a usable local slice over immediately building all transports/themes. **Failure mode:** incomplete cache identity or overly broad reuse serves stale/wrong art; missing-pixel checks give false confidence. Intake is **Easy** to reverse; shared recipe/API/cache contracts are **Costly** and require versioned rollout.
 
-Provisional planning triage: PDDA effort 4/5, complexity 4/5, risk 3/5, four broad phases. PRS `rated 75/55/50/25` (priority/severity/appeal/effort-cheapness; sum 205): high leverage for follow-on work, material reliability gaps but no demonstrated production incident, neutral appeal, substantial umbrella effort. Re-estimate individual children after scope selection; no priority override is assumed.
+Historical broad-umbrella provisional planning triage (superseded for the bounded local execution arc below): PDDA effort 4/5, complexity 4/5, risk 3/5, four broad phases. PRS `rated 75/55/50/25` (priority/severity/appeal/effort-cheapness; sum 205): high leverage for follow-on work, material reliability gaps but no demonstrated production incident, neutral appeal, substantial umbrella effort. Re-estimate individual children after scope selection; no priority override is assumed.
 
 ## Execution scope and ponytail decisions
 
@@ -166,11 +166,11 @@ The native driver uses Agy builder and independent Codex reviewer for every phas
 **Goal:** Offline Solar System and readable fitting delivers the observable behavior below. Depends on Phase 1.
 
 - [ ] Promote the published Solar System scene/fixture as a trusted recipe sharing the runtime. Read the eleven committed assets/web PNGs, verify the committed verification.json display digests (including saturn-clean and asteroid-belt-diagram), and preserve their generation/edit lineage. Do not call a provider or pretend missing full-size originals are present. Admit a bounded export resolution compatible with display inputs; park higher-resolution originals if unavailable.
-- [ ] Make the published demo a thin shared-operation entry point and remove its copied runtime only after the offline replacement renders. Share pinned fonts from the root runtime; do not duplicate them. Keep the Sun, each of eight planets, belt and Milky Way as individual images, separate editable text and backend-owned bounds. Preserve schematic/not-to-scale disclosure and original fixture/artifacts as provenance.
+- [ ] Make both render-diagram.mjs and contact-sheet.mjs thin shared-operation callers. Migrate the contact sheet to root shared renderer/fonts and the eleven selected committed display images (including refined IDs); preserve its committed PNG as historical evidence and direct new output to an owned temp/output path. Remove the copied runtime only after both offline entry points succeed without originals or paid calls. Share pinned fonts from the root runtime; do not duplicate them. Keep the Sun, each of eight planets, belt and Milky Way as individual images, separate editable text and backend-owned bounds. Preserve schematic/not-to-scale disclosure and original fixture/artifacts as provenance.
 - [ ] Add bounded fitting (maximum ten attempts), readable minimum font size, conservative line-height policy, missing glyph/text detection and explicit non-fit response. Do not implement independent glyph metrics or arbitrary line breaking. Reject unsupported scripts using the pinned font capability evidence, without host-font fallback. Exercise real shrink and exhaustion, not only successful iteration-zero cases.
 - [ ] Extend C1/C2 or the existing verifier for actual shrink/non-fit and image visibility. Visibility evidence must compare painted pixels or render a focused admitted image canary; a node rectangle or alpha metadata alone cannot pass a missing illustration. Keep one file/four tests/60 seconds. Run pnpm test and fresh Solar System CLI offline. Record agent visual evidence separately from pending human migrated-artwork acceptance.
 
-**Write set:** `tools/recipes/solar-system.mjs`, `tools/recipes/nutrition.mjs`, `tools/render.mjs`, `tools/request.mjs`, `tools/spike/render.mjs`, `examples/2026-10-08-solar-system/render-diagram.mjs`, `examples/2026-10-08-solar-system/README.md`, `examples/2026-10-08-solar-system/runtime/.gitignore`, `examples/2026-10-08-solar-system/runtime/SOURCE.json`, `examples/2026-10-08-solar-system/runtime/package.json`, `examples/2026-10-08-solar-system/runtime/pnpm-lock.yaml`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets.mjs`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/OFL.txt`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/SOURCES.md`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/font-bold.ttf`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/font.ttf`, `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs`, `examples/2026-10-08-solar-system/runtime/tools/spike/scene.mjs`, `tools/spike/test/canaries.test.mjs`, `CHANGELOG.md`, `tools/MVP-REPORT.md`.
+**Write set:** `tools/recipes/solar-system.mjs`, `tools/recipes/nutrition.mjs`, `tools/render.mjs`, `tools/request.mjs`, `tools/spike/render.mjs`, `examples/2026-10-08-solar-system/render-diagram.mjs`, `examples/2026-10-08-solar-system/contact-sheet.mjs`, `examples/2026-10-08-solar-system/README.md`, `examples/2026-10-08-solar-system/runtime/.gitignore`, `examples/2026-10-08-solar-system/runtime/SOURCE.json`, `examples/2026-10-08-solar-system/runtime/package.json`, `examples/2026-10-08-solar-system/runtime/pnpm-lock.yaml`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets.mjs`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/OFL.txt`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/SOURCES.md`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/font-bold.ttf`, `examples/2026-10-08-solar-system/runtime/tools/spike/assets/font.ttf`, `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs`, `examples/2026-10-08-solar-system/runtime/tools/spike/scene.mjs`, `tools/spike/test/canaries.test.mjs`, `CHANGELOG.md`, `tools/MVP-REPORT.md`.
 
 ### Phase 2 — QA checklist
 
@@ -293,6 +293,7 @@ Plan QA: pending a fresh independent implementation-plan relay; earlier Agy chec
     "tools/spike/scene.mjs",
     "tools/spike/test/canaries.test.mjs",
     "examples/2026-10-08-solar-system/render-diagram.mjs",
+    "examples/2026-10-08-solar-system/contact-sheet.mjs",
     "examples/2026-10-08-solar-system/generate-assets.py",
     "examples/2026-10-08-solar-system/README.md",
     "CHANGELOG.md",

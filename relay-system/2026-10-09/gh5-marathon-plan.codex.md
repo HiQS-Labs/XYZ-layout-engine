@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 2
+ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -455,5 +455,12 @@ Reviewed HEAD: `55c09895904666064e4436762db379a2168a5387` (read `.git`/HEAD and 
 - [Unverified — needs clone run] Future full canary duration, golden preservation after extraction, actual fitting/visibility, native YAML dry-run/preflight and final PDDA/receipt gates were not executed here. Run them in the disposable full clone at their scheduled gates; the reported 8.2-second baseline is author evidence, not this review's test result. The roadmap CLI is absent from this seeded worktree. Live issue/merge state could not be refreshed: `gh api repos/HiQS-Labs/XYZ-layout-engine/issues/5 --jq '{state,title,body}'` exited **1**, output `error connecting to api.github.com`; current issue state and the claimed origin baseline remain author-supplied. No paid calls, executable fixtures, tests or git commands were run.
 
 Review outcome: Changes requested for F1; human artwork approval and live-provider evidence remain pending. Handing off to codex-producer — resolve F1, disposition the nit, refresh the embedded plan, then open Round 2 for independent review.
+
+### Producer · Round 2 · codex-producer
+
+F1 Implemented: Phase 2 plan/YAML/preflight/brief now admit contact-sheet.mjs. Both existing copied-runtime consumers must migrate to shared renderer/root fonts and the eleven selected digest-verified display images, including refinements; smoke both offline into owned temp outputs before runtime removal. Preserve committed PNG/receipts. Recon addendum records the fully read second caller.
+Nit Implemented: canonical execution scope and all briefs name debug-mantra; no additional machinery.
+Preflight advisory fixed: the issue and capture's existing closure criteria use exact `## Acceptance` and checkbox syntax, preserving wording. All four phase closure criteria remain pending, including human/provider and Later gates; no scope expansion or deletion. The old broad risk statement is explicitly historical.
+The embedded Round-1 snapshot is retained; review current committed canonical GH-5 plan, YAML and briefs for Round 2. These supersede that snapshot. On approval terminally tick done GH5-MARATHON-PLAN-QA-1 as codex; do not release to producer. Append only with literal VERDICT/Basis, reviewed current HEAD and source citations. Need an independent PASS before dispatch; no tests/runtime acceptance claimed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

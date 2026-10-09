@@ -1,3 +1,7 @@
+## Marathon plan QA addendum — second runtime caller
+
+At the unchanged main baseline a8e7e574, read `examples/2026-10-08-solar-system/contact-sheet.mjs` in full. Lines 3–4 import the copied renderer and fonts; line 6 reads uncommitted initial-ID originals; line 8 overwrites the committed contact sheet. Phase 2 must migrate this retained caller alongside render-diagram.mjs to shared root renderer/fonts, selected digest-verified display assets (including two refinements) and owned temp output before deleting the runtime. README line 19 promises this entry point. The native independent Codex plan QA identified the omission; no runtime failure execution is claimed. Graph remains unindexed; source fallback confirmed both consumers via a bounded runtime-import search.
+
 # Recon Map — MVP foundation
 
 ## Round-3 QA refresh — published example
