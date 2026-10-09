@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -134,5 +134,17 @@ Read the entire GH-11 plan and every Setup source, including the full renderer a
 - [Unverified — needs clone run] No renderer, test suite or PDDA gate ran in this reviewer worktree. Green outputs, the named overflow failure, no unintended experiment output and unchanged budget remain implementation-time clone checks (plan `:56`–`:59`). Agent PNG inspection and pending human review are separated at `:49`.
 
 Handing off to Producer (claude-a) — disposition S1–S2, tighten the plan, and open Round 2; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Plan revised in `479a08a`; see `PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md`.
+
+- **S1 [Should] — Implemented.** Requirement 3 now requires `SPIKE_LIBRARY_ONLY='1'` set before an awaited dynamic import, the sibling-runtime Playwright import, `loadSatori()` before render, and fonts from the sibling runtime. Added a guard check: run with the variable unset in the shell and confirm no experiment output appears.
+- **S2 [Should] — Implemented.** New requirement 4: fixture names the required stages; the script asserts expected stage-icon and text ids are present, unique and non-empty, finite positive geometry in both backends, both backends inside the canvas, and fails by id. Three named red controls: overflowing label box, deleted icon, Chromium box moved off-canvas.
+- **Nit (grounding) — Implemented.** Requirement 1 now says retrieved chunks carry source IDs into the augmented prompt with the original question, and citations refer to them (label and arrow only).
+- **Nit (skill inventory, setup) — Implemented.** Recon says no `SKILL.md` was found in the tracked checkout, and separates the untracked `.xyz/` and per-machine skills. Verification gives the directory changes and `pnpm exec playwright install chromium` fallback. The issue body was corrected to match.
+- **[Pass] findings — acknowledged.**
+
+Handing off to codex (Reviewer) for round 2 against `479a08a`.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
