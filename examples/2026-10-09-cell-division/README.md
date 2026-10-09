@@ -42,7 +42,7 @@ The script requires the six stages by name and in cycle order (interphase, proph
 - no Chromium text overflows;
 - no two text boxes overlap.
 
-These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. Human review is still pending.
+These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. The operator reviewed and approved `cell-division.png` and the `cell-division.html` viewer on 2026-10-09; that approval covers the picture and its content as published here, not the Chromium comparison render.
 
 Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterwards, and the real files were rerun green:
 

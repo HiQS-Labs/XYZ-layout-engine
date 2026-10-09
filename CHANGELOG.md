@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-09 — Cell division example approved
+
+- The operator reviewed and approved `examples/2026-10-09-cell-division/cell-division.png` and `cell-division.html` (the Satori render and its responsive viewer). Both already live in the conventional `examples/<date>-<slug>/` folder, named like the Solar System example's files, so nothing was moved. The README now records the approval in place of "human review pending". The Chromium comparison render is not part of the approval. Reversibility: Easy — documentation only. Verification: PDDA run and `releases check`.
+
 ## 2026-10-09 — GH-13 and GH-8 Phase 0 landed and reconciled
 
 - PR #14 (design-diagram skill, `87de428`) and PR #15 (Higgsfield Phase 0 spike and cell-division example, `4d9aa2c`) squash-merged to `main`; issue #13 closed. The roadmap writer moved GH-13 to Completed (`roadmap reconcile-state --apply`); the GH-13 plan moved to `PROJECT/3-COMPLETED/` with its row repointed. Issue #8 was closed automatically when PR #15 merged, because the PR description said "does not close #8" and GitHub treats "close #8" as a closing keyword whatever precedes it. That was wrong (its Phases 1 to 4 are not started): #8 was reopened with an explanation, and its ledger row, which the reconcile had moved to Completed, was moved back to Queue / parked intake through the writer (`roadmap update --section`). Lesson: never write a closing keyword next to an issue number in a PR description for an issue that must stay open; say "Refs #8" only. PR #15's changelog and ledger collision with #14 was resolved by the merge tool's additive-disjoint path. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
