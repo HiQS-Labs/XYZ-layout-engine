@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -183,8 +183,106 @@ Handing off to Producer (claude-a) — disposition S1 and the optional documenta
 - **Nit (README "All copy") — Implemented.** Now "Diagram copy, ... (credit and source lines live in the script)".
 - **Nit (CHANGELOG "no issue tracks one") — Implemented.** Now "GH-5 does not track one"; the plan's matching phrase was softened the same way.
 - **[Unverified — rating readback].** Readback from the ledger (`roadmap list`): GH-11 `calc=170`, which is 30+10+50+80. Diff scope: `git diff --stat a8e7e57..HEAD` shows only `examples/2026-10-09-rag-system/**`, `CHANGELOG.md`, `PROJECT/1-INBOX/GH-11-*.md`, `relay-system/2026-10-09/gh11-*.md`, `releases.db`, `releases.sql`.
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to codex (Reviewer) for round 2.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: S1 and both documentation nits are resolved. Requirements 1–6 match the inspected implementation and saved outputs; no blocking finding remains within this bounded example review. Fresh execution and historical change-scope checks remain the post-turn clone gate's responsibility, not results claimed by this approval.
+swept file: yes
+
+Swept the full RAG script, fixture, README, GH-11 plan, CHANGELOG and prior plan relay, parsed the full verification JSON and HTML, and visually inspected both PNGs. Re-read the Solar System script, test budget/runner, operating principles, pinned import guard and relevant GH-5/asset-path source. No additional material pre-existing defect was found in the touched files within this example's scope. Graph tools are unavailable in this session, so direct source reads supplied the evidence; no graph generation or coverage is claimed. ROUTER's root README and both roadmap CLI paths are absent. Conformance uses the supplied Definition of Done and local issue capture.
+
+- [Pass] **S1 closed; both wording nits closed.** PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:35 now specifies 2400×1660, and :96 explicitly records the height amendment and rationale. This agrees with fixture.json:5–6, README.md:3 and both PNG headers (probe below). examples/2026-10-09-rag-system/README.md:16 now distinguishes diagram copy from script credit/source lines; CHANGELOG.md:8 and plan :45 confine the skill claim to GH-5. Keep these corrections. Bet / reversibility: the documented height amendment matches the intended layout; Easy, documentation only. The probe would falsify that agreement if either PNG had different dimensions.
+
+- [Pass] **Requirements 1–2: scene and artwork.** examples/2026-10-09-rag-system/fixture.json:20–36 supplies the ten named stages, source IDs, top-k retrieval, original-question bypass and cited answer. render-diagram.mjs:29–43 defines the stage SVGs; :60 composes separate image nodes; :76–88 draws the ingest/query chains, shared-store connections and dashed question-to-augment path. Both inspected PNGs visibly show those elements without a material readability defect. The citation labels satisfy the agreed conceptual scope (plan :35), not a retrieval/citation implementation. Keep the bounded scene.
+
+- [Pass] **Requirement 3: existing runtime and initialization.** examples/2026-10-09-rag-system/render-diagram.mjs:8 sets the environment guard before the awaited dynamic import at :11; :10, :12 and :15 resolve sibling runtime, Playwright and fonts; :127 loads Satori before rendering. The pinned module still guards main and exports the helpers at examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs:547 and :553. The small scene constructors, decorative dust and viewer resemble the first example (Solar System render-diagram.mjs:16, :38, :119), but do not introduce another rendering subsystem. Keep the existing imports and the GH-5 coupling limit; historical byte immutability is not certified without a diff.
+
+- [Pass] **Requirement 4: checks reject the named failure classes.** examples/2026-10-09-rag-system/render-diagram.mjs:24–26 hard-codes the required stage set; :49–52 rejects empty/duplicate text; :144–173 checks expected text, finite positive text/icon geometry, both-backend containment, overlap, Chromium overflow, exact icon IDs/count and both PNG dimensions. The isolated source-block probe below returned an empty finding list for recorded text, rejected zero stages and zero text, and named missing/off-canvas title geometry in the appropriate backend. This probe deliberately omits container/icon loops because Chromium node bounds are not saved; those loops were source-reviewed, not independently rerendered. Keep these assertions. Writing diagnostic artifacts before the final findings assertion (:175–184) is acceptable for this regenerable local example: failure still exits nonzero and cannot print PASS.
+
+- [Pass] **Requirements 5–6: outputs, instructions and evidence.** examples/2026-10-09-rag-system/README.md:13–27 lists outputs and reproduction; :35–39 states coupling/platform limits; CHANGELOG.md:5–8 records the outcome, bet, failure mode, reversibility and checks. The probe below matches all three committed-output digests to verification.json:81, confirms 2400×1660 PNGs, 10 matching stage/icon IDs, 49 unique text IDs and the saved empty findings at :1297. HTML contains those IDs and twelve inline SVG images (ten icons plus arrows/backdrop); viewer code matches render-diagram.mjs:179. README :33 agrees with the three Producer red-control receipts at plan :88–90; :96 documents the lengthened-copy substitution. Keep the receipts explicitly distinguished from independent reruns.
+
+- [Pass] **Space-path defect remains correctly out of scope.** tools/spike/assets.mjs:4 derives a filesystem path from URL.pathname and :29 reads it; PROJECT/1-INBOX/GH-5-MVP-FOUNDATION.md:33 already records the encoded-space failure and :44 owns its correction. GH-11 uses fileURLToPath/URL reads at render-diagram.mjs:9 and :15, and excludes root helper changes at plan :44. Keep that non-goal. The historical four-test failures and space-free green run at plan :91–92 remain Producer receipts.
+
+- [Unverified — needs clone run] No renderer, executable fixture, tests, PDDA or Git commands ran here. Fresh renders, complete Chromium container/icon geometry, restored red controls, absence of import-time experiment output, and test/PDDA outcomes remain for the harness clone gate. No baseline diff was supplied, so exact a8e7e57..HEAD scope, accidental files and unchanged runtime/package/budget/dependency bytes remain unverified. Producer's diff inventory is a receipt, not an independent check. The proposed filenames do not match the test classifier (tools/spike/test/run.mjs:23–30), which alone cannot prove the budget unchanged. Both prescribed roadmap CLI attempts exited 2 with “No such file or directory”; the Producer's calc=170 readback cannot establish the individual 30/10/50/80 values because other tuples have the same sum. The provisional rationale and neutral appeal are supported by plan :12 and :79; individual persisted ratings still need canonical CLI readback. These limitations do not reopen the corrected documentation finding.
+
+Read-only artifact/source-block probe: command below exited 0. It imports no renderer and executes no fixture. Output was saved under .relay-scratch/tmp; the complete command and decisive output are retained here because scratch is discarded.
+
+~~~sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+cat > "$TMPDIR/r2-probe.mjs" <<'NODE'
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+const p='examples/2026-10-09-rag-system/';
+const src=fs.readFileSync(p+'render-diagram.mjs','utf8');
+const fixture=JSON.parse(fs.readFileSync(p+'fixture.json'));
+const e=JSON.parse(fs.readFileSync(p+'verification.json'));
+assert.equal(e.width,fixture.width);assert.equal(e.height,fixture.height);
+assert.deepEqual(e.stages,fixture.stages.map(s=>s.id));
+assert.deepEqual(e.imageNodes,e.stages.map(id=>'asset_'+id));
+assert.equal(e.imageNodes.length,10);
+assert.equal(e.textIds.length,49);assert.equal(new Set(e.textIds).size,49);
+assert.deepEqual(e.findings,[]);
+for(const [f,k] of [['rag-system.png','png'],['rag-system-chromium.png','chromiumPng'],['rag-system.html','html']]){
+ const b=fs.readFileSync(p+f);
+ assert.equal(crypto.createHash('sha256').update(b).digest('hex'),e.artifactDigests[k]);
+ if(f.endsWith('.png')){assert.equal(b.readUInt32BE(16),2400);assert.equal(b.readUInt32BE(20),1660)}
+ console.log(f+': hash OK'+(f.endsWith('.png')?' 2400x1660':''));
+}
+console.log('evidence: 10 matching stage/icon ids; 49 unique text ids; findings=[]');
+const stageCheck=new Function('stages','assert',src.slice(src.indexOf('const REQUIRED='),src.indexOf('// Hand-authored')));
+stageCheck(fixture.stages,assert);
+assert.throws(()=>stageCheck([],assert),/fixture lane ingest/);
+console.log('zero stages: rejected (fixture lane ingest)');
+const check=new Function('texts','result','chromiumResult','W','H','stages','fixture','container','iconIds','assert',src.slice(src.indexOf('const findings=[];'),src.indexOf('const found='))+';return findings;');
+function probe(label,mutate,expect){
+ const a={textBoxes:structuredClone(e.satoriBounds),bounds:{}};
+ const b={textBoxes:structuredClone(e.chromiumText),bounds:{}},texts=[...e.textIds];
+ mutate(a,b,texts);
+ let value;
+ try{value=JSON.stringify(check(texts,a,b,e.width,e.height,fixture.stages,fixture,{},[],assert).map(x=>({id:x.id,backend:x.backend,reason:x.reason})))}catch(err){value=err.message}
+ assert.match(value,expect);console.log(label+': '+value);
+}
+// Text checks only: Chromium container/icon bounds are not persisted.
+probe('recorded text baseline',()=>{},/^\[\]$/);
+probe('zero text',(_a,_b,t)=>{t.length=0},/scene must contain the required text ids/);
+probe('missing Chromium title',(_a,b)=>{delete b.textBoxes.title},/missing or non-finite text geometry/);
+probe('Satori title off-canvas',a=>{a.textBoxes.title.x=e.width+10},/text outside canvas/);
+probe('Chromium title off-canvas',(_a,b)=>{b.textBoxes.title.x=e.width+10},/text outside canvas/);
+const html=fs.readFileSync(p+'rag-system.html','utf8');
+const htmlIds=[...html.matchAll(/\sid="([^"]+)"/g)].map(m=>m[1]);
+assert.equal(htmlIds.length,103);assert.equal(new Set(htmlIds).size,103);
+for(const id of [...e.imageNodes,...e.textIds])assert.ok(htmlIds.includes(id),id);
+const svgs=[...html.matchAll(/data:image\/svg\+xml;base64,([A-Za-z0-9+/=]+)/g)];
+assert.equal(svgs.length,12);
+for(const m of svgs)assert.match(Buffer.from(m[1],'base64').toString(),/^<svg\s/);
+assert.match(html,/innerWidth\/2400/);assert.match(html,/1660\*s/);
+console.log('HTML: 103 unique ids; all 49 text and 10 icon ids present; 12 inline SVG images; 2400x1660 fit constants');
+NODE
+node "$TMPDIR/r2-probe.mjs" > "$TMPDIR/r2-probe.out"
+~~~
+
+Decisive output (exit 0):
+
+~~~text
+rag-system.png: hash OK 2400x1660
+rag-system-chromium.png: hash OK 2400x1660
+rag-system.html: hash OK
+evidence: 10 matching stage/icon ids; 49 unique text ids; findings=[]
+zero stages: rejected (fixture lane ingest)
+recorded text baseline: []
+zero text: scene must contain the required text ids
+missing Chromium title: [{"id":"title","backend":"chromium","reason":"missing or non-finite text geometry"}]
+Satori title off-canvas: [{"id":"title","backend":"satori","reason":"text outside canvas"}]
+Chromium title off-canvas: [{"id":"title","backend":"chromium","reason":"text outside canvas"}]
+HTML: 103 unique ids; all 49 text and 10 icon ids present; 12 inline SVG images; 2400x1660 fit constants
+~~~
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the result for the authorized post-turn clone gate and remaining readbacks; the harness owns the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
