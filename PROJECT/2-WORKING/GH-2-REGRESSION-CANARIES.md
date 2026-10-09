@@ -26,7 +26,7 @@ related:
 
 | What was just completed | What's next |
 |---|---|
-| Plan revised for Codex plan-QA round 1 (R1–R4, two nits). | Codex plan QA round 2; then implement on `test/gh-2-regression-canaries`. |
+| Implemented after Codex plan QA Approved (round 3, `relay-system/2026-10-09/gh2-plan-qa.md`). `pnpm test` green: 4 canaries in 8.2 s (budget 60 s); all red controls recorded below. | Final Codex QA relay on the diff; then PR against `marathon/gh-1-renderer-spike`. |
 
 ## Recon (base `591971d`, branch `test/gh-2-regression-canaries` off `origin/marathon/gh-1-renderer-spike`)
 
@@ -94,6 +94,30 @@ pri 60: the operator requested it next, and it protects the spike before Phase 1
 5. **Rules text.** AGENTS.md gets one bullet under Engineering standards pointing to `test-budget.json` as the test/CI ratchet. The policy text lives only in `test-budget.json`.
 6. **Docs.** Add a CHANGELOG entry and update this plan's status. Run `utils/pdda/pdda.sh run` unsandboxed: zero errors.
 7. **Final gate.** `pnpm test` exits 0 within budget, and every red control above is recorded with its exit and decisive output.
+
+## Verification receipts (2026-10-08, M1 Max, Node v22.22.3, Chrome for Testing 156.0.8078.4)
+
+- `pnpm run spike:verify` with no override: exit 0, `VERDICT: PASS` (committed evidence unchanged by the override).
+- `pnpm test`: exit 0. Output: `test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s`; `ok 1..4` with the four `guards:` names; `# C2 geometry: 216 boxes compared within 0.5 px`; `# C2 digests: 12 artifacts byte-identical`; `# pass 4 / # fail 0 / # skipped 0 / # todo 0`; `test-budget: PASS — 4 canaries in 8.2s (budget 60s)`. The committed run folder was not modified.
+- Red controls, all run in a disposable copy of the clone. Each exited 1.
+
+| Control | Diagnostic | Tests run? |
+|---|---|---|
+| Fifth `test` | `5 tests exceed budget.tests=4` | No |
+| `it(` declaration | `canaries use forbidden test forms (it()` | No |
+| Extra `x.test.js` | `2 test files exceed budget.testFiles=1` | No |
+| Name without `guards:` | `every test name must be a string literal starting with "guards: "` | No |
+| Budget raise without history | `budget changed without a matching history entry` | No |
+| Emptied canary file | `zero canaries declared` | No |
+| `SPIKE_INJECT_FAILURE=1` | `not ok 1 - guards: render pipeline breaks on a clean checkout` | Yes |
+| C2 golden, label removed | `not ok 2` with `sets differ between fresh and golden runs` | Yes |
+| C2 golden, 1 px move | `not ok 2` with `drifted: fresh 340 vs golden 341` | Yes |
+| C2 golden, PNG byte and digest changed | `not ok 2` with `differs from golden` | Yes |
+| Timeout, `maxSeconds` 3 with matching history | `deadline: suite exceeded budget.maxSeconds=3s and was killed` after 3 s wall time | Killed |
+
+After the timeout control, a 7 s wait showed 0 `node --test`, 0 render and 0 Chrome for Testing processes (pgrep).
+- C4 is itself a red control: a tampered `satori.png` must make the verifier exit 1 with the digest error. It passes on every run.
+- Implementation note: the runner counts only top-level `test(` declarations and rejects any other free `test(` call, so comments and `RegExp.test()` don't pad the count. It reads Node's `# skipped` TAP key.
 
 ## Non-goals and test non-scope
 

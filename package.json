@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "spike:render": "node tools/spike/render.mjs",
-    "spike:verify": "node tools/spike/verify.mjs"
+    "spike:verify": "node tools/spike/verify.mjs",
+    "test": "node tools/spike/test/run.mjs"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",

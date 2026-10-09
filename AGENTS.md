@@ -46,6 +46,7 @@ project's own startup documents and policies when updating installed checks.
 - Keep edits surgical. Run relevant existing checks first; add tests or CI gates only for a named
   material failure mode that existing checks cannot cover, and record that justification. Document
   changes alone do not earn runtime tests. Never duplicate suites for thin protocol adapters.
+- The test/CI suite is ratcheted by `test-budget.json` (enforced by `pnpm test`); read its rules before adding or removing a test or workflow.
 - Separate targets from observations. Performance claims name the workload/runtime and measured
   result; deliberate simplifications name their limit and the trigger to revisit them.
 

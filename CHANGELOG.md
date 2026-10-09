@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-10-08 — GH-2: regression canaries and a test/CI ratchet
+
+- Added four canaries for the GH-1 renderer spike, run by `pnpm test` (`tools/spike/test/canaries.test.mjs`, plain `node:test`, no new dependency):
+  - a fresh render plus verify into a temp folder
+  - golden geometry, plus byte digests on the recorded host
+  - the committed-evidence gate
+  - verifier tamper detection
+  
+  The only production change is a `SPIKE_OUTPUT_ROOT` override in `render.mjs` and `verify.mjs`, so tests never touch committed evidence. Recorded `output/<run>/…` paths are unchanged.
+- Added the ratchet: `test-budget.json` sets the budget (1 test file, 4 tests, 60 s, 0 CI workflows), and `tools/spike/test/run.mjs` enforces it before running tests. It rejects:
+  - extra test-like files
+  - `describe`, `it`, `skip`, `todo` and `only`
+  - unnamed or zero canaries
+  - workflows beyond the budget
+  - a budget change without a matching history entry
+  
+  It runs the suite under a process-group deadline and checks executed TAP counts. AGENTS.md points to the budget file, and the policy text lives only there.
+- Bet: four end-to-end canaries catch the regressions that matter for this spike (render breakage, layout or visual drift, evidence-gate drift, verifier neutering) better than per-module unit tests. The failure mode is a regression in a path the canaries do not exercise, such as the fitting shrink loop. That would earn a budget raise with a named failure mode. Supported host is the recorded darwin-arm64 machine; other hosts skip digests and fail the platform-bound evidence gate by design.
+- Reversibility: Easy (delete the test folder, budget file, script, override lines and AGENTS pointer). Verification: `pnpm test` exit 0 in 8.2 s; eleven red controls each fail at the intended check; timeout leaves no stray processes. Plan QA: `relay-system/2026-10-09/gh2-plan-qa.md` (Codex, Approved round 3).
+
 ## 2026-10-08 — GH-1 human artwork acceptance
 
 - The operator reviewed the reference-matched baseline renders and accepted the generated artwork ("Generated artwork looks good"). Recorded in the GH-1 plan (status Accepted), the PRD §5.3 checklist and `tools/spike/REPORT.md`. Reversibility: Easy — documentation only.

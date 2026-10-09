@@ -11,11 +11,15 @@ import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRIT
 
 // Evidence lives in output/<YYYY-MM-DD>-<package name>/; the gate checks the newest run folder.
 import { readdirSync, readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
 const PKG = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')).name;
-const RUN_DIRS = readdirSync(new URL('./output/', import.meta.url), { withFileTypes: true })
+// SPIKE_OUTPUT_ROOT relocates the physical output root (tests use a temp folder); recorded paths stay output/<run>/….
+const OUTPUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || fileURLToPath(new URL('./output/', import.meta.url));
+const RUN_DIRS = readdirSync(OUTPUT_ROOT, { withFileTypes: true })
   .filter(d => d.isDirectory() && new RegExp(`^\\d{4}-\\d{2}-\\d{2}-${PKG}$`).test(d.name)).map(d => d.name).sort();
 const RUN_DIR = RUN_DIRS[RUN_DIRS.length - 1];
-const out = f => new URL(`./output/${RUN_DIR}/${f}`, import.meta.url);
+const out = f => path.join(OUTPUT_ROOT, RUN_DIR, f);
 const rel = f => `output/${RUN_DIR}/${f}`;
 const sha256 = buf => crypto.createHash('sha256').update(buf).digest('hex');
 const pngSize = buf => {
@@ -139,7 +143,7 @@ function checkGeometry(label, c, w, h, textIds, containment, requiredSections) {
 async function phase2(fixture) {
   console.log('\nVerifying Phase 2 backend render comparisons...');
   assert(RUN_DIR, `no output/<YYYY-MM-DD>-${PKG}/ run folder found`);
-  console.log(`Evidence folder: tools/spike/output/${RUN_DIR}`);
+  console.log(`Evidence folder: ${path.join(OUTPUT_ROOT, RUN_DIR)}`);
   const m = JSON.parse(await fs.readFile(out('measurements.json'), 'utf-8'));
   assert.strictEqual(m.runDir, RUN_DIR, 'measurements.runDir does not match its folder');
   const rt = JSON.parse(await fs.readFile(out('runtime.json'), 'utf-8'));
