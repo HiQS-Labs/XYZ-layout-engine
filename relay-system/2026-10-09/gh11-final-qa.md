@@ -52,7 +52,7 @@ ROUND: 1 / 3
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: the committed implementation on branch `feat/rag-diagram-example` (diff `a8e7e57..HEAD`): `examples/2026-10-09-rag-system/` (`render-diagram.mjs`, `fixture.json`, `README.md`, `verification.json`, `rag-system.png`, `rag-system-chromium.png`, `rag-system.html`), `CHANGELOG.md`, the plan and evidence in `PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md`, and the approved plan thread `relay-system/2026-10-09/gh11-plan-qa.md`. Context: `examples/2026-10-08-solar-system/render-diagram.mjs`, `test-budget.json`, `tools/spike/test/run.mjs`, `AGENTS.md`, `GUIDING-PRINCIPLES.md`.
+- Artifact under review: the committed implementation on branch feat/rag-diagram-example (diff a8e7e57 to HEAD): `examples/2026-10-09-rag-system/` (`render-diagram.mjs`, `fixture.json`, `README.md`, `verification.json`, `rag-system.png`, `rag-system-chromium.png`, `rag-system.html`), `CHANGELOG.md`, the plan and evidence in `PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md`, and the approved plan thread `relay-system/2026-10-09/gh11-plan-qa.md`. Context: `examples/2026-10-08-solar-system/render-diagram.mjs`, `test-budget.json`, `tools/spike/test/run.mjs`, `AGENTS.md`, `GUIDING-PRINCIPLES.md`.
 - Reviewer: codex   ·   Producer: claude-a
 - Started: 2026-10-09
 - Definition of Done: issue #11 (https://github.com/HiQS-Labs/XYZ-layout-engine/issues/11) is satisfied exactly as the approved plan states (requirements 1-6): second renderer example, RAG ingest and query flows, reuse of the Solar System pinned runtime, hand-authored SVG art, non-vacuous checks with red controls, README, changelog. No engine change, no new test/CI/dependency.
