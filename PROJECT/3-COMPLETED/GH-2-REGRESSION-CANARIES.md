@@ -2,7 +2,7 @@
 gh_issue: 2
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/2
 title: "GH-1 spike: minimal regression suite with canaries, plus a CI-suite ratchet"
-status: Active (2-WORKING)
+status: Completed (3-COMPLETED; landed in #4)
 created: 2026-10-08
 updated: 2026-10-08
 owner: Neochrome
@@ -17,7 +17,7 @@ goal: >
   command, and stop the test/CI suite from growing beyond what the code warrants with a mechanical
   budget ratchet.
 related:
-  - PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md
+  - PROJECT/3-COMPLETED/GH-1-RENDERER-SPIKE.md
 ---
 
 # GH-2 — Regression canaries and a CI-suite ratchet

@@ -1,6 +1,6 @@
 // GH-2 regression canaries for the GH-1 renderer spike. Run through `pnpm test` (tools/spike/test/run.mjs),
 // which enforces test-budget.json. Plain `test()` only; every name starts with `guards: <failure mode>`.
-// Supported host: the recorded darwin-arm64 developer host (see PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md).
+// Supported host: the recorded darwin-arm64 developer host (see PROJECT/3-COMPLETED/GH-2-REGRESSION-CANARIES.md).
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';

@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-08 — Post-landing reconciliation and restored intake
+
+- GH-1 (#3) and GH-2 (#4) landed on `main`; the roadmap writer moved both to Completed (`roadmap reconcile-state --apply`).
+- Restored work that was parked off the primary checkout so it could receive the landings (`park/primary-2026-10-08`, `park/gh5-intake-2026-10-08`): the GH-5 capture and recon map, GH-5 re-registered through `roadmap add` with its original provisional rating (new gid; the parked row was never on `main`), the marathon launch log and its changelog entry below. Moved the GH-1 and GH-2 plans to `PROJECT/3-COMPLETED/` and repointed their roadmap rows. Parked copies of the GH-1 plan, PRD and marathon plan were older than `main` and are not restored.
+- Reversibility: Easy — documentation and ledger rows only. Verification: `releases check` clean; PDDA run.
+
+## 2026-10-08 — MVP foundation assessment and improvement umbrella
+
+- Assessed the GH-1 candidate at origin `591971d` and the local Solar System demonstration: engineering judgment 7/10 for the foundation, 4/10 for a reusable local MVP. Created [GH-5](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5) with a prioritized checklist for shared recipe/runtime operations, reliable publication, resumable/cached paid generation, faster cached redraw, measured performance, durable editing, and later remote work. Reuses GH-1 acceptance and GH-2 regression/CI scope.
+- Captured the bounded source trace and issue in `PROJECT/1-INBOX/`, and parked GH-5 through the canonical releases roadmap writer with provisional ratings. The Solar System demonstration is published separately under `examples/solar-system/`; GH-1 artwork acceptance has since been recorded. No runtime changes or generation speedups are claimed.
+- Bet: shared render operations and validated asset reuse remove avoidable work before deeper tuning. Failure mode: stale cache identity or geometry-only checks hide wrong/missing artwork. Reversibility: Easy — intake and planning records only. Verification: GitHub body and local capture match (29 unchecked items); frontmatter/changelog checks and diff whitespace pass. Roadmap coverage reports one unrelated missing pointer for `PROJECT/2-WORKING/SPECS-PRD.md`; GH-5's parked pointer is present.
+
 ## 2026-10-08 — GH-2: regression canaries and a test/CI ratchet
 
 - Added four canaries for the GH-1 renderer spike, run by `pnpm test` (`tools/spike/test/canaries.test.mjs`, plain `node:test`, no new dependency):
@@ -43,6 +55,11 @@
 
 - Reproduced the first turn's containment failure: dependency installation wrote unignored root node_modules/. Added its standard project ignore rule before retry; preserved source allowlists and installed harness. Controls accept allowed files and still reject an unrelated source file.
 - Original turn remains rejected; Codex review/verifier did not run. Phase 1 retry is authorized; phases 2/3 remain unstarted. Evidence: relay-system/2026-10-02/gh1-spike-containment-diagnosis.md.
+
+## 2026-10-01 — Phase 0 marathon launched
+
+- Operator confirmed the reviewed three-phase plan and Agy-builder/Codex-reviewer pairing. Dispatched in the isolated full clone; Agy claimed Phase 1. No implementation completion or artwork acceptance claimed.
+- Available worker checks passed (Codex 43, Agy 65); the vendored harness does not include top-level validate.sh. Launch log and warnings are recorded in relay-system/2026-10-01/gh1-spike-launch.md.
 
 ## 2026-10-01 — Phase 0 marathon prepared
 
