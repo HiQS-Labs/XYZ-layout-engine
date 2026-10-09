@@ -2,7 +2,7 @@
 gh_issue: 5
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5
 title: "MVP foundation: reusable recipes, resumable image generation, and faster rendering"
-status: "Active (2-WORKING — preparation)"
+status: "Active (2-WORKING — execution)"
 created: 2026-10-08
 doc_type: feedback
 effort: 4
@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Workhorse Phase 1 repair independently Approved/attested against b914323; four canaries passed in 11.3s, goldens preserved. The failed native lane remains retained. | Continuation independently Agy Approved/attested; direct preflight and four-phase dry-run exit 0. Fire phases 2 -> 3 -> 4 -> 5 with 600-second x 6 progress observation. |
+| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Native Phase3 build is active, then4 -> 5; fresh600-second x6 monitoring. Final wave QA and human/provider acceptance remain pending. |
 
 ## Table of contents
 
@@ -354,3 +354,7 @@ The same GH-5 umbrella/ledger/full clone is reused. Original Phase 1 is not re-f
 The operator explicitly authorized continuation after repair and QA. The session-local observer uses the existing marathon launcher, records live read-only state at 600 seconds x 6, distinguishes liveness from accepted progress, emits terminal state within five seconds and cancels outstanding checks. Six checks end the scheduled observation window, not the authorized executor. Fake-clock controls passed at 600/1200/1800/2400/3000/3600 seconds and early halt; no real executor was launched during smoke. Observer source/receipt: relay-system/2026-10-09/gh5-continuation/. No installed harness edit, second executor or new daemon. Monitoring feature issue: https://github.com/HiQS-Labs/XYZ-forge/issues/1006.
 
 Final wave green-suite/post-build Codex QA/checklist are still required before any feature push or ready PR; phases 2–5 and human/live-provider acceptance remain pending.
+
+
+### Live monitored continuation — 2026-10-09
+The first four-phase continuation halted in Phase2 on an off-lane shrink-canary probe, gate not run. Check1/6 at600s and terminal cancellation are retained under relay-system/2026-10-09/gh5-p2-repair/. Orchestrator repaired within existing owners/budget; independent Codex caught and then verified closure of a native resvg abort for radiusX8192, Approved/attested at3bf0ff4. Current native Phase2 gate passed four canaries26.1s; source/timer failures are not relabelled green. Coordinator post-review status-document changes briefly failed the exact-revision gate; updates preserved as transcript and exact reviewed source restored, with native candidate_ok true before successful resumption. No build cap consumed by that preflight refusal; no force/retry/new identity/cap override. Existing Phase3 is now in native builder flight; Phase4/5 and final wave QA remain pending. Fresh six-check observer began16:30:11Z, with immediate terminal cancellation. Earlier failed lane/receipts preserved. Status was updated only after the Phase2 gate/advance; subsequent phase review must cover this current committed tree before its gate.
