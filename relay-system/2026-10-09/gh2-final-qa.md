@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -154,5 +154,64 @@ VERDICT: PASS
 Basis: both Should findings fixed with the falsifier controls you specified; no scope change.
 
 Handing off to codex (Reviewer) — round 2 against `b08a42d`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: R1 and R2 are closed by the seeded code, the narrow source probes, and the recorded disposable-clone controls. The whole implementation maps to the approved four-canary plan and issue #2; no blocking source finding remains. This approves the review, with subsequent runtime/governance validation owned by the harness.
+swept file: yes
+
+Read all nine Setup artifacts in full, including the pre-existing renderer/verifier, and the approved plan relay. No additional material pre-existing defect was identified within the supported local-spike scope. Verify-tier intent with direct-source fallback: both pages of `list_projects` returned all 82 projects, none for this checkout or task clone; `check_index_coverage` for all nine paths and `tools/spike` returned `project not found or not indexed`. No graph generation is available. Startup README and both releases CLI paths are absent from the seeded checkout. Issue #2 was fetched through the GitHub connector. No git command was run, so the supplied artifacts were swept without independently certifying the branch diff or implementation SHA.
+
+- [Pass] **R1 is closed: escalation precedes failure exit even when the leader closes early.** `tools/spike/test/run.mjs:70` sends SIGKILL to the process group before `fail()`; the existing delayed escalation remains at `:63`. The source probe below fires the exact seeded deadline callback and then leader close, with signals/exits mocked: exit 0, `R1: SIGTERM -> unref(5000) -> SIGKILL -> exit(1)`. The disposable-clone stubborn-child receipt at `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:120` records a deadline failure and the surviving-SIGTERM child absent afterwards. No further correction requested.
+- [Pass] **R2 is closed: C3 selects committed evidence explicitly.** `tools/spike/test/canaries.test.mjs:60` passes `SPIKE_OUTPUT_ROOT: COMMITTED`, overriding inherited environment through the helper at `:23`. The exact helper/C3 call probe below exits 0 and prints `R2: inherited /tmp/noncommitted -> /mock/committed`. The clone control at `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:121` records rejection of tampered committed evidence despite a valid alternate export, followed by a passing restored run. No further correction requested.
+
+Quoted probe command (source callbacks only; no test, verifier or renderer executed; output in scratch):
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module > "$TMPDIR/r2-fix-probe.out" <<'JS'
+import fs from 'node:fs'; import vm from 'node:vm'; import assert from 'node:assert/strict'; import {EventEmitter} from 'node:events';
+const src=fs.readFileSync('tools/spike/test/run.mjs','utf8');
+const events=[], timers=[], child=new EventEmitter(); child.pid=123;
+const ctx={child,budget:{maxSeconds:60},t0:Date.now(),tap:'',declared:4,Date,console,
+  setTimeout(fn,ms){timers.push(fn);return {unref(){events.push(`unref(${ms})`);}};},clearTimeout(){},
+  process:{kill(pid,sig){assert.equal(pid,-123);events.push(sig);}},
+  fail(msg){events.push('exit(1)');throw Error('EXIT');}};
+vm.runInNewContext(src.slice(src.indexOf('let timedOut = false;')),ctx);
+timers[0]();try{child.emit('close',null);}catch(e){if(e.message!=='EXIT')throw e;}
+assert.deepEqual(events,['SIGTERM','unref(5000)','SIGKILL','exit(1)']);
+console.log('R1:',events.join(' -> '));
+const canary=fs.readFileSync('tools/spike/test/canaries.test.mjs','utf8');
+const helper=canary.split('\n').find(l=>l.startsWith('const node = '));
+const c3=canary.split('\n').find(l=>l.includes("const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: COMMITTED })"));
+let selected;
+vm.runInNewContext(helper+'\n'+c3,{process:{execPath:'/mock/node',env:{SPIKE_OUTPUT_ROOT:'/tmp/noncommitted'}},
+  COMMITTED:'/mock/committed',SPIKE:'/mock/spike',path:{join:(...x)=>x.join('/')},
+  spawnSync(exe,args,opts){selected=opts.env.SPIKE_OUTPUT_ROOT;return {};}});
+assert.equal(selected,'/mock/committed');console.log('R2: inherited /tmp/noncommitted ->',selected);
+JS
+task_probe_rc=$?
+cat "$TMPDIR/r2-fix-probe.out"
+echo "probe exit: $task_probe_rc"
+exit "$task_probe_rc"
+```
+
+Decisive output, exit 0:
+
+```text
+R1: SIGTERM -> unref(5000) -> SIGKILL -> exit(1)
+R2: inherited /tmp/noncommitted -> /mock/committed
+probe exit: 0
+```
+
+- [Pass] **The remaining canary/override contracts are intact.** Physical writes use the override while logical paths stay `output/<run>/…` (`tools/spike/render.mjs:31`, `:32`); verifier scan and reads share it (`tools/spike/verify.mjs:18`, `:19`, `:22`, `:23`). C1 requires renderer exit/selection and verifier exit/PASS (`canaries.test.mjs:25`); C2 compares key sets before finite coordinates within 0.5 px, rejects zero boxes, and gates golden-enumerated digests on platform/arch/Chromium equality with an explicit skip message (`:37`, `:43`, `:49`, `:51`); C4 copies, tampers, requires the digest diagnostic and cleans its copy (`:65`). No new production mechanism requested.
+- [Pass] **The ratchet remains small and mechanical.** `tools/spike/test/run.mjs:25` counts alternate filenames/test directories; `:36` rejects alternate forms/skip/todo/only; `:40`–`:46` enforce the lexical line-start convention, positive declarations, budget and guard names. This is a convention, not a JavaScript parser; positive executed passes equal declarations and zero fail/skipped/todo provide the execution backstop (`:71`–`:75`). History/workflow checks precede spawn (`:19`, `:20`, `:49`, `:56`). `package.json:9` supplies one local command; runner/canaries add only Node built-ins (`run.mjs:3`, `canaries.test.mjs:4`). Budget policy is owned by `test-budget.json:2`, with the AGENTS pointer at `AGENTS.md:49`. No framework, parallel suite or CI workflow is introduced in the reviewed mechanism.
+- [Pass] **The recorded proof and status are honest about scope.** The eleven original red controls are recorded with exit 1 at `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:102`–`:116`, the two additional controls at `:120`–`:121`, and C4's built-in tamper control at `:122`. The four-canary receipt at `:101` reports 216 boxes, 12 digests and 8.2 s; the Producer's latest block quotes `test-budget: PASS — 4 canaries in 8.0s (budget 60s)`. These are Producer/orchestrator executions, not reviewer executions. Plan status at `:29` still leaves final QA/PR next, and `CHANGELOG.md:21` reports implementation observations without claiming final approval. Host limits remain explicit at plan `:54`.
+- [Nit] **Record the subsequent governance receipt before closing the implementation gate.** Plan `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:95` requires PDDA zero errors, but its Verification receipts do not yet record a GH-2 PDDA result. Add the clone/harness result when that gate runs; refresh the status row for this approval at the same time. This is a remaining harness/reporting step, not an observed source failure.
+- [Unverified — needs clone run] Fresh rendering and byte equality, actual TAP execution, live descendant cleanup, suite duration and PDDA were not independently rerun here. Default byte-identical rendering and the assertion that the override is the only production diff are not certified by this source-only sweep. The harness owns subsequent validation; approval does not convert these unknowns into reviewer test receipts.
+
+Review outcome: Approved. Reversibility: Easy — only this relay header and appended block changed; scratch contains the probe output. No renderer, tests, executable fixtures, validation gates, git operations or external comments were run.
+Relay closed (Approved), no further review turn needed. Returning control to claude-a (Producer) for the harness gate and receipt/status reconciliation; the harness owns the relay commit. The approval-specific operator instruction uses `tick done` for this token.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
