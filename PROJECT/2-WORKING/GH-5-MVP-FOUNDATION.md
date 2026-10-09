@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Native Phase3 build is active, then4 -> 5; fresh600-second x6 monitoring. Final wave QA and human/provider acceptance remain pending. |
+| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Phase3 repaired after interrupted HTTP503 review; retry native QA/gate, then4 -> 5 with600-second x6 monitoring. Final wave QA and human/provider acceptance remain pending. |
 
 ## Table of contents
 
@@ -361,3 +361,9 @@ Final wave green-suite/post-build Codex QA/checklist are still required before a
 
 ### Live monitored continuation — 2026-10-09
 The first four-phase continuation halted in Phase2 on an off-lane shrink-canary probe, gate not run. Check1/6 at600s and terminal cancellation are retained under relay-system/2026-10-09/gh5-p2-repair/. Orchestrator repaired within existing owners/budget; independent Codex caught and then verified closure of a native resvg abort for radiusX8192, Approved/attested at3bf0ff4. Current native Phase2 gate passed four canaries26.1s; source/timer failures are not relabelled green. Coordinator post-review status-document changes briefly failed the exact-revision gate; updates preserved as transcript and exact reviewed source restored, with native candidate_ok true before successful resumption. No build cap consumed by that preflight refusal; no force/retry/new identity/cap override. Existing Phase3 is now in native builder flight; Phase4/5 and final wave QA remain pending. Fresh six-check observer began16:30:11Z, with immediate terminal cancellation. Earlier failed lane/receipts preserved. Status was updated only after the Phase2 gate/advance; subsequent phase review must cover this current committed tree before its gate.
+
+### Phase3 bounded recovery and remaining execution — 2026-10-09
+
+Native Phase3 attempt1 halted before gate: independent Codex second review interrupted by HTTP503, without verdict/attestation. Saved review probes identified real runtime failures; baseline C1 failed undefined spawn. Original counter1/2 and identity retained. Operator explicitly said Try again. Orchestrator repair atdc3a4d6 shares batch ownership, strict durable state, immutable caller evidence and exact HiQS inputs; existing four canaries passed32.1s, with additional controls reviewed in the committed source. Cross-model advisory findings/reconciliation and failure/monitor2-of6 receipts: relay-system/2026-10-09/gh5-p3-repair/. Native recovery QA/gate pending.
+
+The approved Phase2 source at3bf0ff4 and native gate26.1s are accepted external prerequisites for Phase3; final integration QA will review later legitimate modifications. Native exact-revision candidate_ok correctly refuses to reuse the Phase2 attestation for the changed Phase3 source. Do not undo Phase3 or falsify that attestation. Canonical YAML now contains remaining gh5-p3 -> gh5-p4 -> gh5-p5, retaining existing phase IDs, briefs, owners and caps. No --force/--retry/token suffix/counter reset. Preserve original four/five-phase YAML in Git history and failed transcripts. The native driver owns final gates; human/provider and final wave QA remain pending.

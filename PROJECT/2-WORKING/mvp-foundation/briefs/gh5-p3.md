@@ -18,7 +18,7 @@ roadmap_exempt: true
 
 Umbrella/member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5
 Canonical plan: PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md, Phase 3.
-Order: gh5-p3, depends on gh5-p2; strictly serial.
+Order: gh5-p3; strictly serial. External prerequisite gh5-p2 is independently Approved/attested3bf0ff4 and native gate passed four canaries26.1s (relay-system/2026-10-09/marathon-gh5-p2-163039.md). Original Phase3 identity/counter retained after interrupted HTTP503 review.
 Builder: Agy. Reviewer: independent Codex. No fallback, no push/merge/issue close.
 
 ## Scope
@@ -39,3 +39,7 @@ Every loop is bounded: 10 fit attempts, explicit generation/call deadlines/caps,
 ## Receipt contract
 
 Append the required native build/review block. Final block uses literal `VERDICT: PASS`, `VERDICT: FAIL` or `VERDICT: PARKED` and a nonempty `Basis:`; put conversational approval in `Review outcome:`. Only independent reviewer can approve. Follow native tick handoff/terminal protocol exactly; no builder may set Approved or self-attest. Future human artwork approval remains pending.
+
+## Existing recovery to preserve
+
+Orchestrator repaired current owners atdc3a4d6 after source-grounded cross-model consult; see relay-system/2026-10-09/gh5-p3-repair/plan.md and consult-reconciliation.md. Four existing canaries passed32.1s before final additional missing-output/reference controls; the driver owns the final committed-source suite. Inspect and preserve the existing batch lock, atomic fail-closed manifest, immutable attempts/receipts/reference snapshots, shared PNG/Resvg inspection, caller flags/recipe identity and bounded process-group deadlines. Do not rewrite sound repairs or historical evidence. Record only needed surgical changes and reviewable findings. Original attempt1/2 failed via reviewer HTTP503, not approval; this is the operator-authorized second bounded attempt under the same identity. No provider calls.
