@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -83,5 +83,40 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: The procedure is grounded and proportionate, but step 5 omits the approved plan's explicit resolve-image routing for paid artwork. One small documentation correction is requested; no renderer, scaffolder, dependency, test or workflow change. Reversibility: Easy. The bet is that naming the required skill removes a forced workflow guess; the failure mode is a cold agent treating the example generator as the complete paid-generation instruction.
+swept file: yes
+
+- [Should] **R1 — Name resolve-image in the paid-art branch.** `PROJECT/1-INBOX/GH-13-DIAGRAM-DESIGN-SKILL.md:38` requires “paid generation through resolve-image only when the operator asks”; live issue #13 likewise names resolve-image. `skills/design-diagram/SKILL.md:25` says only “Use paid image generation only when the operator asks. Then follow … generate-assets.py”. That script reads `HIQS_CHAIN_CALLER` (`examples/2026-10-08-solar-system/generate-assets.py:4`–5, :27); it does not tell the reader to load the resolve-image instructions. Minimal fix: explicitly direct the agent to use resolve-image when paid art is requested, retaining the Solar System receipt/check pointers. No expansion of the paid-art workflow is needed.
+  Observed input: Skill line 25 is the entire paid-art instruction; the literal `resolve-image` occurs zero times in the skill, whereas plan requirement 4 names it.
+  Affected scope: Only the operator-requested paid-generation branch; hand-authored SVG remains the default.
+  Falsifier: A cold reader given only the skill and “use paid generated art” should be explicitly directed to resolve-image without inferring it from the generator or external context; a request without paid art should remain on the SVG branch. A direct resolve-image instruction in the current skill would invalidate this finding.
+- [Nit] **R2 — Call icon values SVG markup strings.** Skill line 25 says “one path string per stage … as in the example”, but the RAG `icons` values include `<rect>`, `<ellipse>` and `<circle>` as well as `<path>` (`examples/2026-10-09-rag-system/render-diagram.mjs:30`–41). Replace “path string” with “SVG markup string”; the 96×96, stroke-only and stage-key claims are correct (:28–29, :43, :60).
+- [Pass] **Requirements 1–6 mapped.** Requirement 1 is covered by skill lines 1–4, 10–31 and 49–51; requirement 2 by :8, :14 and :22; requirement 3 by :33–43; requirement 4 by :25 except R1; requirement 5 by :45–47; requirement 6 by `CHANGELOG.md:3`–7. Installation is explicitly on request, preserves a different existing entry, uses the maintained clone and reads back through the link (:47). The procedure retains existing backend ownership, explicit uploads and the test ratchet (:24–25, :30), consistent with `GUIDING-PRINCIPLES.md` principles 2–6 and `AGENTS.md` Engineering standards. No additional pre-existing defects were identified in the four artifact files after the full sweep, beyond R1–R2.
+- [Pass] **RAG adaptation instructions match the source.** Required stages and uniqueness are at `examples/2026-10-09-rag-system/render-diagram.mjs:24`–26; icon lookup at :31–43; lane geometry and lane-dependent scene construction at :46–115; named panel and edge reads at :91–115; the hard-coded source string at :123; `expectedText` at :144 and icon count at :171. `fixture.sources` appears only in `fixture.json:54`–56, with no read in the entire 184-line script. Footer values 1500 and 1528 (:116–117), against height 1660 (`fixture.json:6`), give the prescribed H−160 and H−132. The guard/import order (:8–12), load/render sequence (:127–136), named geometry findings (:138–168) and early missing-icon assertion (:43) support steps 2–8, subject to R2's terminology correction.
+- [Pass] **All seven trap pointers resolve with the stated evidence limits.** Trap 1: RAG :8–12 and pinned runtime `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs:547`. Trap 2: `tools/spike/assets.mjs:4` and `PROJECT/1-INBOX/GH-5-MVP-FOUNDATION.md:33`, :44. Trap 3: `CHANGELOG.md:23`. Traps 4–5: RAG :59–64 and :111 support the working constructions; they do not independently reproduce the reported alignment incident. Trap 6: RAG README :29–33 explicitly limits the geometry checks, and skill :42 discloses that the two build incidents are not otherwise recorded. Trap 7: RAG writes outputs at :175–182 before asserting findings at :183; early assertions can still exit before writing. The rerun-green instruction is appropriate. No universal renderer defect is established or required.
+- [Pass] **Evidence wording is bounded.** `CHANGELOG.md:7` and plan :82–90 consistently report the original cold-run PASS, three named red controls and eight corrected gaps, explicitly saying the fixed skill was not cold-run again and raw outputs were not retained. The eight topics are now addressed at skill :22–28. This is a source-consistency finding, not independent validation of the historical execution. The plan relay is Approved at `relay-system/2026-10-09/gh13-plan-qa.md:117`–127, with the attestation at :130–136.
+- [Pass] **Narrow static probe.** After `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"`, command `python3 -` with the following read-only stdin exited 0; decisive output was `existing input occurrences: 23`, `unique inputs: 15`, `missing: []`, `footer offsets: 160 132`, `resolve-image named: False`. This corroborates the 23 input-reference occurrences, not 23 distinct paths, and does not execute the producer's discarded checker or its falsifiers.
+
+  ```python
+  from pathlib import Path
+  import re
+  s = Path("skills/design-diagram/SKILL.md").read_text()
+  refs = re.findall(r"`([^`\n]+)`", s)
+  inputs = [r for r in refs if (r.startswith(("examples/", "tools/", "PROJECT/"))
+            or r in ("CHANGELOG.md", "test-budget.json")) and "<" not in r and "*" not in r]
+  print("existing input occurrences:", len(inputs))
+  print("unique inputs:", len(set(inputs)))
+  print("missing:", [p for p in inputs if not Path(p).exists()])
+  print("footer offsets:", 1660-1500, 1660-1528)
+  print("resolve-image named:", "resolve-image" in s)
+  ```
+
+- [Unverified — needs clone run] No renderer, executable fixture, test or gate was run. Historical cold-run/red-control results and command execution remain producer evidence. Full reads covered the four artifact files and every Setup context file, plus the Solar System README and the cited pinned-runtime guard. The seeded checkout lacks root `README.md` and both roadmap CLI paths (read-only `Path.exists()` probe exited 0 with all three `False`), preventing those startup steps. Graph `list_projects(limit=100)` returned all 82 projects, `has_more:false`, with no matching checkout or XYZ Layout Engine index; no applicable generation/coverage result exists, so exact source reads supplied the evidence. Live issue #13 was fetched through the GitHub connector and matches the local requirements. GitHub `compare_commits(base="main", head="feat/diagram-design-skill", repo_full_name="HiQS-Labs/XYZ-layout-engine")` returned HTTP 404; no diff was seeded. Consequently the complete main-to-HEAD file inventory, absence of accidental changes and PR-base ancestry are unverified here. No git command was run; the harness owns diff/containment and clone gates.
+
+Handing off to claude-a (Producer) — address R1 and disposition R2, then take the next turn. Only this relay file was edited; the harness owns the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
