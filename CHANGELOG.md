@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-09 — GH-13: design-diagram skill
+
+- Added `skills/design-diagram/SKILL.md`: an eleven-step procedure that takes a topic to a reviewed `examples/<YYYY-MM-DD>-<slug>/` folder and a PR, using `examples/2026-10-09-rag-system/` as the working pattern, plus a table of seven known traps each with its evidence pointer. Hand-drawn SVG is the default art; paid generation only on request; the skill does not install itself. No script, dependency, test or engine change.
+- Bet: instructions that point at a working example let a cold agent repeat the process. Failure mode: the skill drifts from the example it points at. Reversibility: Easy — delete `skills/design-diagram/` and append a rollback entry here.
+- Verification: path probe (one-off, not committed) found 23 existing input references and failed by name on an empty skill, a removed RAG reference and an invented path. A cold agent given only the skill built a four-stage CDN diagram to `PASS` and ran all three red controls; it found eight gaps (RAG-specific code to hunt, structural lane names, footer positions tied to canvas height, no icon spec, Chromium sandbox crash, red-control mechanics, fixture keys read by name, README wording) which are now fixed in the skill. The fixed skill was not cold-run a second time; the final Codex review reads it.
+
 ## 2026-10-09 — GH-11 landed and reconciled
 
 - PR #12 squash-merged to `main` as `7d209fa`; issue #11 closed. The roadmap writer moved GH-11 to Completed (`roadmap reconcile-state --apply`), and the plan moved to `PROJECT/3-COMPLETED/` with its row repointed. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
