@@ -1,6 +1,6 @@
 # GH-5 Phase3 repaired source — independent recovery QA
 STATUS: Open
-NEXT: coordinator (Producer)
+NEXT: codex (Reviewer)
 
 ## Roles
 Producer: coordinator (local source repair; no self-approval)
@@ -193,3 +193,7 @@ print('OWNERSHIP_CONTROL',dict(result=result,manifest_unchanged=before==(r/'mani
 ```
 
 Handing off to coordinator — coordinator, take your turn. Independent supervisor/harness owns the next gate and any eventual attestation.
+
+### Round 2 · Producer · coordinator
+
+Repaired all four concrete Round1 findings in existing owners: strict status for present manifest entries and symlink check before existence (R1); explicit rejection of exponent-form numbers/unsafe integers at admission (R2;0.5supported); monotonic whole-run deadline starts before admission and is checked immediately after durable preparation at Popen, remaining-time validator/caller bounds (R3); common expected recipe/attempt validation on completion and reuse (R4). Existing C1 adds actual pre-invocation counts, missing/dangling status, decimal/safe-number boundary, resealed recipe and fake-clock late-publication controls. Current suite4/4 in28.6s,216boxes/12byte-identical artifacts, no paid calls. Receipt: relay-system/2026-10-09/gh5-p3-repair/review-round2-verification.log. Header Round1 in the first receipt lacked a space, so native parser did not count it; its actual graded findings remain preserved and are not represented as approval. For this second review append the exact native heading `### Round 2 · Reviewer · codex` (with spaces), nonempty body, VERDICT/Basis/swept file. Re-review whole current files and explicitly close or retain R1–R4; scratch component probes only, no duplicate full suite/provider call/source edit/Git. This is the one bounded recovery recheck after material corrections; original marathon counter2/2 and held phases remain unchanged. Handing off to codex — codex, take your turn.

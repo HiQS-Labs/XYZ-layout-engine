@@ -250,7 +250,26 @@ else {
   assert.equal(editReceipt.argv[editReceipt.argv.indexOf('--param')+1],'moderation=low');
   const snapshot=editReceipt.argv[editReceipt.argv.indexOf('--reference')+1];assert.notEqual(snapshot,ref);assert.equal(sha256(readFileSync(snapshot)),sha256(validPng));
   const beforeReferenceChange=calls();writeFileSync(ref,sunPng);result=runGen();assert.equal(result.status,0,result.stdout+result.stderr);assert.equal(calls(),beforeReferenceChange+1,'reference content change did not invalidate one job');
-  const manifestBytes=readFileSync(manifestFile);writeFileSync(manifestFile,'{broken');result=runGen();assert.equal(result.status,4);const afterBroken=calls();writeFileSync(manifestFile,manifestBytes);assert.equal(calls(),afterBroken);
+  const manifestBytes=readFileSync(manifestFile), beforeBroken=calls();writeFileSync(manifestFile,'{broken');result=runGen();assert.equal(result.status,4);assert.equal(calls(),beforeBroken);writeFileSync(manifestFile,manifestBytes);
+  const beforeInvalidState=calls(); const lost=JSON.parse(manifestBytes); delete Object.values(lost)[0].status;writeFileSync(manifestFile,JSON.stringify(lost));result=runGen();assert.equal(result.status,4);assert.equal(calls(),beforeInvalidState);writeFileSync(manifestFile,manifestBytes);
+  rmSync(manifestFile);symlinkSync(path.join(genRoot,'lost-manifest.json'),manifestFile);result=runGen();assert.equal(result.status,4);assert.equal(calls(),beforeInvalidState);rmSync(manifestFile);writeFileSync(manifestFile,manifestBytes);
+  for(const seed of [0.0000001,9007199254740993]) { writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'numeric',parameters:{seed}}]));result=runGen();assert.equal(result.status,4);assert.match(result.stderr,/round-trip/);assert.equal(calls(),beforeInvalidState); }
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'numeric',parameters:{seed:0.5}}]));result=runGen();assert.equal(result.status,0,result.stdout+result.stderr);assert.equal(calls(),beforeInvalidState+1);
+  const numericManifest=JSON.parse(readFileSync(manifestFile,'utf8')); const numeric=Object.values(numericManifest).find(state=>state.input.prompt==='numeric'); const numericReceipt=path.join(genRoot,numeric.receipt), savedReceipt=readFileSync(numericReceipt);const wrongRecipe=JSON.parse(savedReceipt);wrongRecipe.recipeRef='wrong-recipe';writeFileSync(numericReceipt,JSON.stringify(wrongRecipe));numeric.receipt_sha256=sha256(readFileSync(numericReceipt));writeFileSync(manifestFile,JSON.stringify(numericManifest));const beforeRecipeReuse=calls();result=runGen(['--max-calls','0']);assert.equal(result.status,4);assert.equal(calls(),beforeRecipeReuse);writeFileSync(numericReceipt,savedReceipt);
+  const deadlineProbe=spawnSync(process.env.PYTHON || 'python3',['-c',`
+import importlib.util, pathlib, sys, tempfile
+from unittest.mock import patch
+spec=importlib.util.spec_from_file_location('g',sys.argv[1]);g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
+now=[100.0]; original=g.update_manifest
+job={'id':'sun','prompt':'deadline-preparation','model':'m','size':'1024x1024','quality':'medium','background':'transparent'}
+def delayed(*args):
+ result=original(*args)
+ if args[2].get('status')=='in-flight': now[0]+=2
+ return result
+def forbidden(*args,**kwargs): raise AssertionError('launch after deadline')
+with patch.object(g.time,'monotonic',lambda:now[0]),patch.object(g,'update_manifest',delayed),patch.object(g.subprocess,'Popen',forbidden):
+ assert g.generate([job],pathlib.Path(tempfile.mkdtemp()),pathlib.Path(sys.argv[2]),run_timeout=1) is False
+`,py,stubJS],{encoding:'utf8',timeout:10000});assert.equal(deadlineProbe.status,0,deadlineProbe.stdout+deadlineProbe.stderr);
   console.log('# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed');
   }
 });

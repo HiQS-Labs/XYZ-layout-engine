@@ -36,12 +36,14 @@ def job_digest(job):
 
 
 def read_manifest_internal(path):
+    if path.is_symlink():
+        raise ValueError('unsafe manifest symlink; reconcile before dispatch')
     if not path.exists():
         return {}
-    if path.is_symlink() or path.stat().st_size > 8 * 1024 * 1024:
+    if path.stat().st_size > 8 * 1024 * 1024:
         raise ValueError('unsafe manifest or manifest byte budget exceeded')
     data = json.loads(path.read_text())
-    if not isinstance(data, dict) or any(not isinstance(v, dict) for v in data.values()):
+    if not isinstance(data, dict) or any(not isinstance(v, dict) or v.get('status') not in ('pending', 'in-flight', 'complete', 'unknown', 'failed') for v in data.values()):
         raise ValueError('invalid manifest; reconcile before dispatch')
     return data
 
@@ -73,11 +75,17 @@ def update_manifest(path, digest, updates):
         return manifest[digest]
 
 
-def validate_output(out, receipt, state=None, background='transparent'):
+def validate_output(out, receipt, state=None, background='transparent', expected_recipe=None, max_attempts=1, deadline=None):
     try:
         if any(p.is_symlink() or not p.is_file() or p.stat().st_size > 35 * 1024 * 1024 for p in (out, receipt)):
             return False
         result = json.loads(receipt.read_text())
+        if not isinstance(result, dict):
+            return False
+        attempts = result.get('attempts')
+        count = len(attempts) if isinstance(attempts, list) else attempts
+        if expected_recipe is not None and result.get('recipeRef') != expected_recipe or not isinstance(count, int) or isinstance(count, bool) or not 1 <= count <= max_attempts:
+            return False
         image = result.get('image', {})
         digest = hashlib.sha256(out.read_bytes()).hexdigest()
         if result.get('status') not in ('success', 'ok') or image.get('sha256') != digest or image.get('bytes') != out.stat().st_size:
@@ -91,8 +99,11 @@ def validate_output(out, receipt, state=None, background='transparent'):
         # Reuse the existing bounded CRC/inflate PNG admission owner, rather than add a decoder.
         inspector = ROOT.parent.parent / 'tools/spike/assets.mjs'
         script = "import {readFileSync} from 'node:fs'; import {Resvg} from '@resvg/resvg-js'; const {inspectPng}=await import(process.argv[2]); const bytes=readFileSync(process.argv[1]); const {width,height}=inspectPng(bytes); if(process.argv[3]==='transparent'){ const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}'><image width='${width}' height='${height}' href='data:image/png;base64,${bytes.toString('base64')}'/></svg>`; const pixels=new Resvg(svg).render().pixels; let transparent=false; for(let i=3;i<pixels.length;i+=4) if(pixels[i]<255){transparent=true;break;} if(!transparent) process.exit(1); }"
-        probe = subprocess.run(['node', '--input-type=module', '-e', script, str(out), inspector.as_uri(), background], capture_output=True, timeout=10, cwd=ROOT.parent.parent)
-        return probe.returncode == 0
+        remaining = min(10, deadline - time.monotonic()) if deadline else 10
+        if remaining <= 0:
+            return False
+        probe = subprocess.run(['node', '--input-type=module', '-e', script, str(out), inspector.as_uri(), background], capture_output=True, timeout=remaining, cwd=ROOT.parent.parent)
+        return probe.returncode == 0 and (deadline is None or time.monotonic() < deadline)
     except (OSError, ValueError, TypeError, subprocess.SubprocessError):
         return False
 
@@ -142,6 +153,8 @@ def admit_jobs(job_list, caller):
         for name, value in params.items():
             if not re.fullmatch(r'[a-zA-Z][a-zA-Z0-9_]{0,63}', name) or name in reserved or not isinstance(value, (str, bool, int, float)) or isinstance(value, float) and not math.isfinite(value):
                 raise ValueError('unsupported parameter')
+            if isinstance(value, (int, float)) and not isinstance(value, bool) and (abs(value) > 9007199254740991 or 'e' in json.dumps(value).lower()):
+                raise ValueError('numeric parameter cannot round-trip through caller; use supported decimal/safe integer')
             if isinstance(value, str) and (len(value) > 1000 or value in ('true', 'false') or re.fullmatch(r'-?\d+(\.\d+)?', value)):
                 raise ValueError('ambiguous or oversized parameter string')
         if 'refinement_id' in job and (not isinstance(job['refinement_id'], str) or len(job['refinement_id']) > 128):
@@ -160,7 +173,7 @@ def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=
     import uuid
     state = read_manifest(manifest_path).get(digest, {})
     if state.get('status') == 'complete':
-        return validate_output(assets_dir / state['output'], assets_dir / state['receipt'], state, job['background'])
+        return validate_output(assets_dir / state['output'], assets_dir / state['receipt'], state, job['background'], job['_recipe_ref'], max_attempts, deadline)
     if state.get('status') not in ('pending', None):
         print(f"{job['id']}: unresolved state requires explicit retry", flush=True)
         return False
@@ -201,6 +214,10 @@ def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=
     update_manifest(manifest_path, digest, {'status': 'in-flight', 'output': str(out.relative_to(assets_dir)), 'receipt': str(receipt.relative_to(assets_dir))})
     start = time.monotonic()
     try:
+        remaining = min(timeout, deadline - time.monotonic()) if deadline else timeout
+        if remaining <= 0:
+            update_manifest(manifest_path, digest, {'status': 'pending', 'reason': 'deadline exceeded before launch; no dispatch'})
+            return False
         process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
         try:
             stdout, stderr = process.communicate(timeout=remaining)
@@ -216,7 +233,7 @@ def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=
             raise ValueError('invalid receipt')
         attempts = result.get('attempts')
         count = len(attempts) if isinstance(attempts, list) else attempts
-        valid = process.returncode == 0 and isinstance(count, int) and not isinstance(count, bool) and 1 <= count <= max_attempts and validate_output(out, receipt, background=job['background'])
+        valid = process.returncode == 0 and isinstance(count, int) and not isinstance(count, bool) and 1 <= count <= max_attempts and validate_output(out, receipt, background=job['background'], expected_recipe=job['_recipe_ref'], max_attempts=max_attempts, deadline=deadline)
         valid = valid and result.get('recipeRef') == job['_recipe_ref']
         status = 'complete' if valid else ('failed' if result.get('dispatched') is False else 'unknown')
         update_manifest(manifest_path, digest, {'status': status, 'exit': process.returncode, 'latency_seconds': time.monotonic() - start, 'attempts': attempts, 'usage': result.get('usage'), 'cost': result.get('cost'), 'image_sha256': hashlib.sha256(out.read_bytes()).hexdigest() if out.exists() else None, 'receipt_sha256': hashlib.sha256(receipt.read_bytes()).hexdigest(), 'stage_metrics': 'unavailable from configured caller'})
@@ -230,6 +247,7 @@ def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=
 
 def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, timeout=220, max_budget=None, max_workers=3, run_timeout=900, max_attempts=1, dry_run=False):
     import math
+    deadline = time.monotonic() + run_timeout
     assets_dir = assets_dir.resolve()
     assets_dir.mkdir(parents=True, exist_ok=True)
     if not isinstance(max_calls, int) or not 0 <= max_calls <= 32 or not isinstance(max_workers, int) or not 1 <= max_workers <= 3 or max_attempts != 1 or not 0 < timeout <= 900 or not 0 < run_timeout <= 3600 or max_budget is not None and (not math.isfinite(max_budget) or max_budget < 0):
@@ -241,6 +259,9 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
             print('concurrent manifest ownership; safely refusing', flush=True)
             return False
         admitted, caller_manifest = admit_jobs(job_list, caller)
+        if time.monotonic() >= deadline:
+            print('whole-run deadline exceeded during admission', flush=True)
+            return False
         manifest_path = assets_dir / 'manifest.json'
         manifest = read_manifest(manifest_path)
         planned = []
@@ -255,7 +276,7 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
                 paths = [state.get('output', ''), state.get('receipt', '')]
                 if not all(p and not Path(p).is_absolute() and '..' not in Path(p).parts and (assets_dir / p).resolve().is_relative_to(assets_dir) for p in paths):
                     raise ValueError('unsafe manifest artifact path')
-                if validate_output(assets_dir / paths[0], assets_dir / paths[1], state, job['background']):
+                if validate_output(assets_dir / paths[0], assets_dir / paths[1], state, job['background'], job['_recipe_ref'], max_attempts, deadline):
                     continue
                 if not force_retry:
                     print(f"{job['id']}: corrupt output requires explicit replacement", flush=True)
@@ -273,9 +294,11 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
             print('Cap exceeded; zero dispatches', flush=True)
             return False
         print('Provider price/stage metrics unavailable before dispatch; call cap is hard, dollar cap observes recorded cost only.', flush=True)
+        if time.monotonic() >= deadline:
+            print('whole-run deadline exceeded before dispatch', flush=True)
+            return False
         if dry_run or not planned:
             return True
-        deadline = time.monotonic() + run_timeout
         for job, digest in planned:
             prior = manifest.get(digest, {})
             history = prior.get('history', []) + ([{k: v for k, v in prior.items() if k != 'history'}] if prior else [])
