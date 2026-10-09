@@ -4,7 +4,7 @@ import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'node:fs/promises';
-import { readFileSync, realpathSync, existsSync } from 'node:fs';
+import { readFileSync, realpathSync, existsSync, readdirSync } from 'node:fs';
 import crypto from 'node:crypto';
 import { normalizeRequest, within, LIMITS, invalid, readBounded } from './request.mjs';
 
@@ -183,6 +183,18 @@ export function selectedRun(root) {
   const target = realpathSync(path.join(root, manifest.current));
   if (!within(realpathSync(root), target)) throw new Error('Publication symlink escape');
   return target;
+}
+
+export function selectedSpikeRun(root, packageName) {
+  const runs = readdirSync(root, { withFileTypes: true }).filter(entry => {
+    if (!entry.isDirectory() || !/^\d{4}-\d{2}-\d{2}-/.test(entry.name) || entry.name.slice(11) !== packageName) return false;
+    const folder = path.join(root, entry.name);
+    // A failed first publication on a later date may leave an empty folder; it is not last-good.
+    return existsSync(path.join(folder, 'manifest.json')) || existsSync(path.join(folder, 'measurements.json'));
+  }).map(entry => entry.name).sort();
+  if (!runs.length) throw new Error('No committed spike run found');
+  const runDir = runs.at(-1);
+  return { runDir, directory: selectedRun(path.join(root, runDir)) };
 }
 
 export async function outputRoot(target, authorizedRoot = process.cwd()) {

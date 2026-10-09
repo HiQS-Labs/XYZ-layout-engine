@@ -6,7 +6,7 @@
 import fs from 'fs/promises';
 import assert from 'assert';
 import crypto from 'crypto';
-import { selectedRun } from '../render.mjs';
+import { selectedSpikeRun } from '../render.mjs';
 import { resolveIllustration, getFont } from './assets.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT } from './scene.mjs';
 
@@ -16,11 +16,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 const PKG = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')).name;
 // SPIKE_OUTPUT_ROOT relocates the physical output root (tests use a temp folder); recorded paths stay output/<run>/….
-const OUTPUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || fileURLToPath(new URL('./output/', import.meta.url));
-const RUN_DIRS = readdirSync(OUTPUT_ROOT, { withFileTypes: true })
-  .filter(d => d.isDirectory() && new RegExp(`^\\d{4}-\\d{2}-\\d{2}-${PKG}$`).test(d.name)).map(d => d.name).sort();
-const RUN_DIR = RUN_DIRS[RUN_DIRS.length - 1];
-const SELECTED = RUN_DIR ? selectedRun(path.join(OUTPUT_ROOT, RUN_DIR)) : null;
+const OUTPUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || fileURLToPath(new URL('../output/spike/', import.meta.url));
+const { runDir: RUN_DIR, directory: SELECTED } = selectedSpikeRun(OUTPUT_ROOT, PKG);
 const out = f => path.join(SELECTED, f);
 const rel = f => `output/${RUN_DIR}/${f}`;
 const sha256 = buf => crypto.createHash('sha256').update(buf).digest('hex');

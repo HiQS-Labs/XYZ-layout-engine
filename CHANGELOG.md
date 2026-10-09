@@ -121,3 +121,5 @@
 - Replaced mixed mutable publication with immutable runs and one atomic manifest selector; verifier/C2 resolve that shared selector while preserving manifest-free historical goldens. Added tools/spike/verify.mjs to the Phase 1 write contract for this necessary reader seam.
 - Extended existing C1 for boundary/failure controls. Orchestrator pnpm test passed 4/4 in 10.8s, 216 geometry boxes and 12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p1-repair/. Independent committed-code QA and continuation remain pending; failed native lane/cap preserved.
 - Filed canonical XYZ Forge #1006 for opt-in bounded 600-second × 6 progress reporting. Existing heartbeat/timeouts/read-only monitors remain; no installed harness runtime edits or paid calls.
+
+- Independent recovery QA round 1 found and reproduced cross-date last-good discovery and default comparison-root mismatch. Reused shared selectedSpikeRun for verifier/C2 and aligned defaults; existing C1 verifies no-override flow, later-date failure discovery and selected-output tampering. Updated suite: 4/4 in 11.3s; second independent QA pending.

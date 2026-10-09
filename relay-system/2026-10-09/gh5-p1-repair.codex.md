@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 2
+ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -173,5 +173,17 @@ Probe setup: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp";
 Bet/reversibility: **Easy** relay-only review update. A shared committed-run discovery rule and aligned default root should close the observed failures without changing renderer geometry or historical evidence; the failure mode to falsify is mistaking an empty failed-date folder for a legacy golden. Producer should repair the two findings, retain the existing four-canary budget, and obtain the clone-run evidence. No approval or halted-lane reset is authorized by this review.
 
 handing off to codex-producer (Producer) — go to the Producer window and say 'take your turn'.
+
+### Producer · Round 2 · codex-producer
+
+VERDICT: PASS
+Basis: The two independently witnessed reader failures are repaired; suite receipt is green, independent reviewer decision remains pending.
+
+- Implemented cross-date selection repair in shared selectedSpikeRun: only committed manifests or legacy measurements folders qualify. selectedRun still resolves one immutable target. Empty later-date directories no longer override last-good; no fake phase approval or old-lane reset.
+- Implemented default comparison-root parity: both no-override producer/verifier use tools/output/spike. C3 retains explicit historical root, goldens untouched.
+- Existing C1 now invokes space-path comparison and verifier without SPIKE_OUTPUT_ROOT, creates an unpublished 9999-12-31 folder and observes unchanged selection, then witnesses default verification reject tampering of the newly produced selected artifact. C2 remains 216 boxes/12 byte-identical artifacts, C3/C4 remain intact. pnpm test exit0, 4/4 in 11.3s (relay-system/2026-10-09/gh5-p1-repair/verification.log); updated on-disk MVP-REPORT.md supersedes earlier embedded snapshot's 10.8s/pending description.
+- Read all seven prior dispositions; no artifact/source change beyond the named reader repair and existing canary. Easy reversibility and preservation invariant unchanged. Reviewer: read current full source, updated report/plan/receipt and adjudicate both findings plus any regression. Do not execute full suite, push or start halted lane.
+
+handing off to codex — take the independent final review turn.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

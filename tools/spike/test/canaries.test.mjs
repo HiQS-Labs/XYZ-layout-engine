@@ -9,7 +9,7 @@ import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { processRequest, selectedRun, toDocument, publishArtifacts, outputRoot } from '../../render.mjs';
+import { processRequest, selectedRun, selectedSpikeRun, toDocument, publishArtifacts, outputRoot } from '../../render.mjs';
 import { normalizeRequest } from '../../request.mjs';
 import { validateNutrition } from '../../recipes/nutrition.mjs';
 import { inspectPng } from '../assets.mjs';
@@ -18,12 +18,9 @@ const SPIKE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const COMMITTED = path.join(SPIKE, 'output');
 const GOLDEN = process.env.SPIKE_GOLDEN_ROOT || COMMITTED;
 const FRESH = mkdtempSync(path.join(os.tmpdir(), 'gh2-fresh-'));
+let FRESH_OUTPUT = FRESH;
 const sha256 = buf => createHash('sha256').update(buf).digest('hex');
-const runDir = root => {
-  const dirs = readdirSync(root, { withFileTypes: true }).filter(d => d.isDirectory() && /^\d{4}-\d{2}-\d{2}-/.test(d.name)).map(d => d.name).sort();
-  assert.ok(dirs.length, `no dated run folder under ${root}`);
-  return selectedRun(path.join(root, dirs[dirs.length - 1]));
-};
+const runDir = root => selectedSpikeRun(root, JSON.parse(readFileSync(path.join(SPIKE, '../../package.json'))).name).directory;
 const node = (script, env) => spawnSync(process.execPath, [path.join(SPIKE, script)], { env: { ...process.env, ...env }, encoding: 'utf8', timeout: 50_000 });
 
 test('guards: render pipeline breaks on a clean checkout', async () => {
@@ -104,17 +101,30 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   operation.request.validation.valid = false;
   await assert.rejects(publishArtifacts(operation, 'rejected', { root: space }), /cannot publish/);
 
-  const r = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000' });
+  const comparisonEnv = { ...process.env, SPIKE_RENDER_DEADLINE_MS: '40000' };
+  delete comparisonEnv.SPIKE_OUTPUT_ROOT;
+  const compare = script => spawnSync(process.execPath, [path.join(space, 'tools/spike', script)], { cwd: space, env: comparisonEnv, encoding: 'utf8', timeout: 50_000 });
+  const r = compare('render.mjs');
   assert.equal(r.status, 0, r.stderr.slice(-1000));
   assert.match(r.stdout, /^render: selection /m);
-  const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: FRESH });
+  FRESH_OUTPUT = path.join(space, 'tools/output/spike');
+  const lastGood = runDir(FRESH_OUTPUT);
+  mkdirSync(path.join(FRESH_OUTPUT, '9999-12-31-xyz-layout-engine-spike'));
+  assert.equal(runDir(FRESH_OUTPUT), lastGood, 'failed later date hid last-good selection');
+  const v = compare('verify.mjs');
   assert.equal(v.status, 0, (v.stdout + v.stderr).slice(-1000));
   assert.match(v.stdout, /^VERDICT: PASS$/m);
+  const file = path.join(lastGood, 'satori.png'), original = readFileSync(file);
+  appendFileSync(file, 'x');
+  const tampered = compare('verify.mjs');
+  assert.equal(tampered.status, 1, 'default verifier ignored new selected output');
+  assert.match(tampered.stderr, /does not match the recorded digest/);
+  writeFileSync(file, original);
   console.log('# C1: import/space CLI, admission, HTML, browser cleanup and two-success/late-failure publication controls passed');
 });
 
 test('guards: unintended visual or layout drift', () => {
-  const fresh = runDir(FRESH), golden = runDir(GOLDEN);
+  const fresh = runDir(FRESH_OUTPUT), golden = runDir(GOLDEN);
   const fm = JSON.parse(readFileSync(path.join(fresh, 'measurements.json'))), gm = JSON.parse(readFileSync(path.join(golden, 'measurements.json')));
   const keys = m => Object.entries(m.cases).flatMap(([c, per]) => Object.entries(per).flatMap(([b, rec]) => Object.keys(rec.bounds).map(l => `${c}/${b}/${l}`))).sort();
   assert.deepEqual(keys(fm), keys(gm), 'case/backend/label sets differ between fresh and golden runs');
