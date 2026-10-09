@@ -1,7 +1,7 @@
 # GH-1 Phase 0 renderer spike — evidence and decision
 
 Umbrella: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/1
-Plan: `PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md` · PRD: `PROJECT/2-WORKING/SPECS-PRD.md` §5.3, §7.6, §10
+Plan: `PROJECT/3-COMPLETED/GH-1-RENDERER-SPIKE.md` · PRD: `PROJECT/2-WORKING/SPECS-PRD.md` §5.3, §7.6, §10
 Evidence directory: `tools/spike/output/<YYYY-MM-DD>-xyz-layout-engine-spike/` (this report: `tools/spike/output/2026-10-08-xyz-layout-engine-spike/`). Each run folder holds the PNGs, `satori.svg`, both JSON records, and — new on 2026-10-08 — the exact HTML document Chromium loaded for each case (`playwright.html`, `override-playwright.html`, `hero-playwright.html`; fonts and illustrations inline, so each opens offline and reproduces the render). Satori has no HTML input; its input is the scene tree. (regenerate with `pnpm run spike:render`, gate with `pnpm run spike:verify`)
 
 Except where a figure is explicitly labelled as a development observation, every number below is read from the delivered `tools/spike/output/2026-10-08-xyz-layout-engine-spike/measurements.json` and `tools/spike/output/2026-10-08-xyz-layout-engine-spike/runtime.json` (`generatedAt` 2026-10-09T04:04:27.868Z; a fresh `spike:render` rewrites both files and the timing figures will move by a few milliseconds) (commit of Phase 2 approval: see `relay-system/2026-10-08/gh1-spike-p2-postbuild.md`, STATUS Approved after three Codex review rounds). Where a claim could not be measured, it says so.
