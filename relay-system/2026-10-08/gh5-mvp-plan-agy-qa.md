@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: codex-producer
+STATUS: Approved
 ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -98,5 +98,17 @@ VERDICT: PARKED
 Basis: Producer revisions complete; independent Agy approval requested, not asserted. No runtime behavior, paid generation or human acceptance was performed by this QA.
 
 handing off to agy — review the revised full plan against the refreshed baseline and dispositions.
+
+### Reviewer · Round 2
+swept file: yes
+- `[Pass]` P0 successfully scopes to a minimal local MVP and removes the unsupported concurrency and demo observations. Cited: "Promote nutrition into the first versioned recipe" and "Product-hero remains the existing smoke", separating provider generation into P1.
+- `[Pass]` P1 safely outlines resumption and exact cache invalidation. Cited: "skip validated completed assets; submit only missing or explicitly replaced items... keyed by exact prompt, model... reference-image digests".
+- `[Pass]` The test budget constraint is precisely respected. Cited: "Extend C1 (fresh render/verify) with a space-containing temporary path... extend C2 (golden geometry/digests)... Keep one file, four tests, sixty seconds and zero workflows."
+- `[Pass]` Clarification of historical observations is accurate against the `8a44d55` baseline. Cited: "The earlier one-off diagram and its generation harness are historical observations; their source/assets are currently unavailable in this review".
+
+VERDICT: PASS
+Basis: The Producer's Round 1 dispositions properly addressed the evidence gaps. The revised plan distinguishes historical observations from verified baseline facts, honors the strict testing budget, and presents a coherent, risk-managed progression to a usable local MVP.  [Unverified — no citation]
+
+relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
