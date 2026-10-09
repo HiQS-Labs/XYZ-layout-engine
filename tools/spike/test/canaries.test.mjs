@@ -186,6 +186,7 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   writeFileSync(stubJS, `
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
+import { createHash } from 'node:crypto';
 const args = process.argv;
 const out = args[args.indexOf('--out') + 1];
 mkdirSync(dirname(out), { recursive: true });
@@ -193,8 +194,10 @@ if (process.env.STUB_CORRUPT) {
   writeFileSync(out, 'bad');
   console.log('not json');
 } else {
-  writeFileSync(out, 'mock png');
-  console.log(JSON.stringify({ status: 'ok', image: out, alpha: true, recipeRef: 'mock', attempts: 1, cost: { usd: 0.01 } }));
+  const png = Buffer.concat([Buffer.from('\\x89PNG\\r\\n\\x1a\\n', 'binary'), Buffer.from('mock')]);
+  writeFileSync(out, png);
+  const sha = createHash('sha256').update(png).digest('hex');
+  console.log(JSON.stringify({ status: 'ok', image: { sha256: sha }, alpha: { hasAlphaChannel: true }, recipeRef: 'mock', attempts: 1, cost: { usd: 0.01 } }));
 }
   `);
 
@@ -234,7 +237,7 @@ if (process.env.STUB_CORRUPT) {
   // interrupted in-flight -> no automatic second call
   writeFileSync(jobsFile, JSON.stringify([{ id: 'test6', prompt: 'f', model: 'm', size: 's', quality: 'q', background: 'b' }]));
   const manifestFile = path.join(genRoot, 'manifest.json');
-  const d6 = require('node:crypto').createHash('sha256').update(JSON.stringify({ background: 'b', model: 'm', prompt: 'f', quality: 'q', size: 's' })).digest('hex');
+  const d6 = createHash('sha256').update(JSON.stringify({ background: 'b', model: 'm', prompt: 'f', quality: 'q', size: 's' })).digest('hex');
   const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
   manifest[d6] = { status: 'in-flight', job_id: 'test6' };
   writeFileSync(manifestFile, JSON.stringify(manifest));
@@ -251,9 +254,8 @@ f = open(sys.argv[1], 'w')
 fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
 time.sleep(2)
   `);
-  const cp = require('node:child_process');
-  const lockProc = cp.spawn(process.env.PYTHON || 'python3', [lockScript, path.join(genRoot, 'test7.lock')]);
-  cp.spawnSync(process.env.PYTHON || 'python3', ['-c', 'import time; time.sleep(0.5)']); // Wait for python to acquire lock
+  const lockProc = spawn(process.env.PYTHON || 'python3', [lockScript, path.join(genRoot, 'test7.lock')]);
+  spawnSync(process.env.PYTHON || 'python3', ['-c', 'import time; time.sleep(0.5)']); // Wait for python to acquire lock
   try {
     const r7 = runGen();
     assert.equal(r7.status, 4, r7.stderr);

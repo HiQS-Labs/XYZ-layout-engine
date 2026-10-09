@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p3
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P3-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -309,3 +309,18 @@ with patch.object(g.subprocess,"run",caller):
 ~~~
 
 Next: agy repairs these findings and appends Round 2 builder evidence; driver owns the full gate.
+
+### Round 2 · Builder · agy
+
+**Verdict:** PARKED (awaiting review)
+**Review outcome:** Handing off to codex for independent review — codex, take your turn.
+
+Files touched:
+- `examples/2026-10-08-solar-system/generate-assets.py`: Replaced truncate/write with atomic `tempfile` and `os.replace` (R2). Moved `fcntl.flock` to run before `read_manifest` during `run_job` to ensure safe exclusion and prevent duplicated dispatches (R3). Replaced zero exit-code blind acceptance with exact PNG signature, non-zero file size, and SHA256 matches plus `hasAlphaChannel` validation before considering a job complete (R4). Modified artifact paths to include the 8-char digest to preserve artifact lineage across refinements (R5). Passed exact references/parameters in argv and included their digest in `job_digest` (R7). Forced `sun` to execute synchronously before the threadpool queues the rest of the batch, preserving budgets (R8). Corrected `json.dumps` stringification to match JS compactness exactly with `separators=(',', ':')` (R1).
+- `tools/spike/test/canaries.test.mjs`: Rewrote the Node C1 stub inline module to use ESM imports instead of `require()`. Supplied a valid `\x89PNG\r\n\x1a\n` header in the mock png to successfully satisfy R4's new verification requirements.
+- `examples/2026-10-08-solar-system/README.md`: Documented the new strict whole-batch limits, metrics bounding, concurrency restrictions, and priority serial 'sun' generation.
+- `CHANGELOG.md` and `tools/MVP-REPORT.md`: Appended findings and R2 adjustments.
+
+Decisions:
+- The generator prioritizes `sun` implicitly. It pulls out `sun` if present, queues it synchronously, blocks on it, and fails the batch if it doesn't pass verification, ensuring Sun-first admission per PRD guidelines without custom batch-group logic.
+- Cost limits were built into `max-budget` arguments; the `max-calls` prevents mutating input logs without need. Cost limits are checked inside the locked `run_job` pre-flight by aggregating all costs available in the manifest.

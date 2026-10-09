@@ -41,7 +41,7 @@ These workflows read the eleven committed `assets/web/*.png` derivatives, checki
 
 The delivered recipe-owned canvases are nutrition 1000×1000 and Solar System 2400×1700, scale 1. Other dimensions and scale are explicitly rejected; arbitrary resolution/upscaling awaits suitable originals and recipe geometry. Fitting uses at most ten total native layout attempts and a 12px minimum, rejecting non-fit before publication. Text and illustrations remain separate nodes. Agent visual inspection passed for the migrated poster/contact sheet; human acceptance remains pending.
 
-Optional asset regeneration uses `generate-assets.py` and the deployed HiQS caller and incurs provider charges. Its resumable workflow bounds attempts and costs (use `--max-calls` to configure budgets); see `--help` for options.
+Optional asset regeneration uses `generate-assets.py` and the deployed HiQS caller and incurs provider charges. Its atomic resumable workflow limits concurrency and attempts, ensures 'sun' generates first, tracks accurate caller-reported usage and costs, and provides strict budgets (configure `--max-calls`, `--max-budget`, `--max-workers`, and `--timeout`); see `--help` for options.
 
 ## Provenance
 

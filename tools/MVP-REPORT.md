@@ -40,4 +40,5 @@ Delivered `generate-assets.py` Phase 3 resumabability and cost bounds using nati
 - A configurable `--max-calls` enforces a planned call count budget.
 - C1 controls simulate corrupt JSON output, budget limits, valid resume, one changed input, interrupted in-flight states, and concurrent lock contention.
 - Tested locally without using any live paid generator calls or secrets. 
+- Round 2 repairs: Implemented atomic durable replacement for the manifest using `tempfile` and `os.replace`. Incorporated full job inputs (including parameters and references) into `job_digest` and passed them accurately. Replaced naive complete checks with rigorous content size, signature, and alpha validation against the exact receipt state. Addressed mutable paths by incorporating the digest directly into the artifact filenames. Fixed concurrent dispatch by acquiring the manifest per-item lock *before* reading state. Prioritized `sun` admission sequentially before the remaining batch and appropriately handled bounding of attempts and metrics without rewriting published `prompts.json` on cap exhaustion. Added proper ES imports to Node controls.
 - Independent Codex QA pending.
