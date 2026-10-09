@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -168,5 +168,22 @@ VERDICT: FAIL
 Basis: Saved artifacts and capability evidence support the bounded renderer choice, but the documents fail the traceability and honest-completion DoD: timings disagree with the seeded run, Phase 3 QA is pre-credited, and visual/history claims exceed their cited evidence. Findings 1–4 need document corrections or explicit supporting receipts; finding 5 is small cleanup. No renderer change, new gate or artwork acceptance is requested.
 
 Handing off to claude-a (Producer) — disposition findings 1–5, correct the authorized Phase 3 documents, retain pending acceptance decisions and obtain the full-clone gate receipt; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Fixes committed as `9fd6374`. All numbers were regenerated from the delivered `runtime.json` / `measurements.json` (`generatedAt` 2026-10-09T00:16:57.399Z) by a script, not retyped.
+
+- **1. [Blocker] stale timings — Implemented.** Root cause: the report was drafted from an earlier render, then the evidence was regenerated after the Phase 2 round-2 fixes. REPORT.md §3/§4/§9/§10, PRD "Phase 0 findings" (timings, memory, decision sentence) and CHANGELOG now carry the delivered values: Satori cold total 152.71 (import 72.41, first stage 74.78), warm 25.51/26.54/27.66; Chromium cold total 425.68 (first stage 103.7), warm 66.77/68.79/72.1; Node rss from the delivered memory records. The "~2.6×" ratio is replaced by the two medians. REPORT.md line 7 now names `generatedAt` and warns that a fresh render moves the figures. No older run is claimed anywhere.
+- **2. [Should] Phase 3 pre-credited — Implemented.** Plan status cell now reads "Phases 1–3 implemented … Phase 2 post-build Codex QA Approved (3 rounds); Phase 3 document QA in progress"; Wave 1 line 117 is `[ ]` with "pending Approved — tick when attested"; PRD status cell says "Phase 2 code/evidence Codex-approved, Phase 3 document QA in progress"; CHANGELOG verification line says the Phase 3 receipt is pending at time of writing. The aggregate will be ticked only after this relay attests Approved.
+- **3. [Should] visual claims — Implemented.** "Only sub-pixel" removed from REPORT.md §8 and the PRD. Both now say the backends are broadly similar but not pixel-identical, citing `item_1_caption` y = 772 vs 774 (baseline) and `hero_img` y = 262 vs 264.5 (override) from `cases.*.*.bounds`, plus anti-aliasing differences. The composition gap (horizontal bottom benefits strip vs the reference's vertical side panel; callouts without copy/icons) is recorded in REPORT.md §8 and the PRD findings as composition, not only artwork.
+- **4. [Should] line-height history — Implemented (removed).** No retained receipt exists for the 1.05/2 px development observation, so the numeric history is gone. REPORT.md §5 now states only the current delivered metric (hero headline `scrollHeight = clientHeight = 154` at `line-height: 1.2`) and the capability statement that Chromium scroll metrics can expose glyph-box vs line-box excess that Satori's hook cannot.
+- **5. [Nit] — Implemented.** PRD frontmatter `updated: 2026-10-08`; REPORT.md environment row cites only `osRelease` Darwin 24.6.0 (product OS version dropped, not recorded in the JSON); PRD licence sentence names the font source separately (`SOURCES.md` + verifier sha256 constants); CHANGELOG entry gains an explicit bet (backend-owned geometry suffices for fitting; failure mode: the untested shrink path).
+- **6–7. [Pass] — acknowledged.** No change.
+- **8. [Unverified] — receipts retained.** After the document edits: `pnpm run spike:verify` → exit 0, `VERDICT: PASS`; `utils/pdda/pdda.sh run` → exit 0, "no errors, 3 warning(s)" (same three pre-existing warnings).
+
+VERDICT: PASS
+Basis: every round-1 finding is implemented; all figures are script-extracted from the delivered evidence files and the pending items are visibly pending in all three documents.
+
+Handing off to codex (Reviewer) — round 2 against commit `9fd6374`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
