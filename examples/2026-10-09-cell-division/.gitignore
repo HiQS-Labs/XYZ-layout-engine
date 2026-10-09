@@ -1,0 +1,4 @@
+# Regenerable and large; the PNGs, HTML viewer, fixture and verification.json are committed.
+/cell-division.svg
+# The spike's lock file is per-run state; spike-ledger.jsonl itself is committed evidence.
+/spike-ledger.lock
