@@ -165,6 +165,7 @@ async function phase2(fixture) {
       assert(c.html && c.html.path === rel(hf), `${caseName}/playwright html record missing`);
       const html = await fs.readFile(out(hf));
       assert.strictEqual(sha256(html), c.html.sha256, `${hf} does not match the recorded digest`);
+      assert.strictEqual(c.html.bytes, html.length, `${hf} byte count does not match the record`);
       assert(html.toString('utf8', 0, 15).toLowerCase().startsWith('<!doctype html>'), `${hf} is not an HTML document`);
     }
   }

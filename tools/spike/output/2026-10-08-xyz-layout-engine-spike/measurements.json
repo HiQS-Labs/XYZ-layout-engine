@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T03:57:24.324Z",
+  "generatedAt": "2026-10-09T04:04:27.868Z",
   "runDir": "2026-10-08-xyz-layout-engine-spike",
   "fixture": {
     "id": "nutrition-infographic",
@@ -3624,7 +3624,7 @@
           "text": "Fuel your day"
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_by_pinned_font",
@@ -3649,7 +3649,7 @@
           "lineCount": 1
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     },
     "latin_accented": {
@@ -3668,7 +3668,7 @@
           "text": "café"
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_by_pinned_font",
@@ -3693,7 +3693,7 @@
           "lineCount": 1
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     },
     "cjk": {
@@ -3708,7 +3708,7 @@
           }
         ],
         "fallbackSupplied": false,
-        "consequence": "requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/probe-satori.png); no fallback font was provided via loadAdditionalAsset",
+        "consequence": "requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/2026-10-08-xyz-layout-engine-spike/probe-satori.png); no fallback font was provided via loadAdditionalAsset",
         "layoutBox": {
           "x": 20,
           "y": 140,
@@ -3717,7 +3717,7 @@
           "text": "营养"
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_via_system_fallback",
@@ -3742,7 +3742,7 @@
           "lineCount": 1
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     },
     "emoji": {
@@ -3757,7 +3757,7 @@
           }
         ],
         "fallbackSupplied": false,
-        "consequence": "requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/probe-satori.png); no fallback font was provided via loadAdditionalAsset",
+        "consequence": "requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/2026-10-08-xyz-layout-engine-spike/probe-satori.png); no fallback font was provided via loadAdditionalAsset",
         "layoutBox": {
           "x": 20,
           "y": 200,
@@ -3766,7 +3766,7 @@
           "text": "⚡"
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_via_system_fallback",
@@ -3791,7 +3791,7 @@
           "lineCount": 1
         },
         "layoutBoxNonEmpty": true,
-        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
+        "visualObservation": "see output/2026-10-08-xyz-layout-engine-spike/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     }
   },

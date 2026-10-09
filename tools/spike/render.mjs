@@ -474,9 +474,9 @@ async function main() {
           observation: covered ? 'rendered_by_pinned_font' : 'uncovered_by_pinned_font',
           uncoveredSegments: missing,
           fallbackSupplied: false,
-          consequence: covered ? 'none' : 'requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/probe-satori.png); no fallback font was provided via loadAdditionalAsset',
+          consequence: covered ? 'none' : `requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in ${rel('probe-satori.png')}); no fallback font was provided via loadAdditionalAsset`,
           layoutBox: sBox, layoutBoxNonEmpty: !!sBox && sBox.width > 0,
-          visualObservation: 'see output/probe-satori.png; placeholders are agent-observed, not machine-detected'
+          visualObservation: `see ${rel('probe-satori.png')}; placeholders are agent-observed, not machine-detected`
         },
         playwright: {
           observation: covered ? 'rendered_by_pinned_font' : 'rendered_via_system_fallback',
@@ -484,7 +484,7 @@ async function main() {
           measureText: { ...w, pinnedVsFallbackWidthsDiffer: widthsDiffer, interpretation: 'corroboration only; equal widths suggest no pinned glyphs, differing widths do not prove coverage' },
           fallbackIdentity: covered ? null : 'not exposed by the DOM; Chromium substituted a system face per glyph',
           layoutBox: pBox, layoutBoxNonEmpty: !!pBox && pBox.width > 0,
-          visualObservation: 'see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected'
+          visualObservation: `see ${rel('probe-playwright.png')}; readable glyphs for fallback scripts are agent-observed, not machine-detected`
         }
       };
     }
@@ -535,7 +535,7 @@ async function main() {
 
     await fs.writeFile(path.join(OUT, 'measurements.json'), JSON.stringify(measurements, null, 2));
     await fs.writeFile(path.join(OUT, 'runtime.json'), JSON.stringify(runtime, null, 2));
-    console.log(`render: wrote ${Object.keys(measurements.cases).length} cases x 2 backends, probes, digests to tools/spike/output/`);
+    console.log(`render: wrote ${Object.keys(measurements.cases).length} cases x 2 backends, probes, digests to tools/spike/output/${RUN_DIR}/`);
     for (const [b, c] of Object.entries(measurements.capabilities)) console.log(`render: ${b}: ${c.status}${c.failedMandatory.length ? ' (' + c.failedMandatory.join(', ') + ')' : ''}`);
     console.log(`render: selection ${measurements.selection.status}${measurements.selection.eligible.length ? ': ' + measurements.selection.eligible.join(', ') : ''}`);
   } finally {

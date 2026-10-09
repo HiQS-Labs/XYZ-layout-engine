@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T03:57:24.324Z",
+  "generatedAt": "2026-10-09T04:04:27.868Z",
   "environment": {
     "node": "v22.22.3",
     "platform": "darwin",
@@ -119,113 +119,113 @@
   ],
   "satori": {
     "cold": {
-      "totalMs": 271.71,
-      "importMs": 74.32,
-      "firstStageMs": 188.51
+      "totalMs": 252.74,
+      "importMs": 66.48,
+      "firstStageMs": 177.47
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        137.41,
-        140.32,
-        140.48,
-        139.26,
-        138.56,
-        139.1,
-        136.79,
-        138.7,
-        138.64,
-        139.47
+        132.67,
+        133.56,
+        133.83,
+        134.01,
+        133.42,
+        134.37,
+        130.41,
+        133.04,
+        132.17,
+        131.95
       ],
-      "min": 136.79,
-      "median": 139.1,
-      "mean": 138.87,
-      "max": 140.48,
+      "min": 130.41,
+      "median": 133.42,
+      "mean": 132.94,
+      "max": 134.37,
       "split": [
         {
-          "satoriMs": 29.83,
-          "resvgMs": 107.58
+          "satoriMs": 28.57,
+          "resvgMs": 104.1
         },
         {
-          "satoriMs": 30.73,
-          "resvgMs": 109.59
+          "satoriMs": 29.54,
+          "resvgMs": 104.03
         },
         {
-          "satoriMs": 31.09,
-          "resvgMs": 109.39
+          "satoriMs": 29.32,
+          "resvgMs": 104.51
         },
         {
-          "satoriMs": 29.62,
-          "resvgMs": 109.64
+          "satoriMs": 27.93,
+          "resvgMs": 106.08
         },
         {
-          "satoriMs": 29.36,
-          "resvgMs": 109.2
+          "satoriMs": 28.46,
+          "resvgMs": 104.96
         },
         {
-          "satoriMs": 29.33,
-          "resvgMs": 109.77
+          "satoriMs": 28.71,
+          "resvgMs": 105.66
         },
         {
-          "satoriMs": 28.88,
-          "resvgMs": 107.91
+          "satoriMs": 26.81,
+          "resvgMs": 103.61
         },
         {
-          "satoriMs": 28.88,
-          "resvgMs": 109.82
+          "satoriMs": 27.68,
+          "resvgMs": 105.36
         },
         {
-          "satoriMs": 30.05,
-          "resvgMs": 108.59
+          "satoriMs": 28.13,
+          "resvgMs": 104.04
         },
         {
-          "satoriMs": 29.3,
-          "resvgMs": 110.17
+          "satoriMs": 27.06,
+          "resvgMs": 104.9
         }
       ]
     },
     "memory": {
       "nodeProcess": {
-        "rss": 523616256,
-        "heapTotal": 192724992,
-        "heapUsed": 154068200,
-        "external": 27299485,
-        "arrayBuffers": 3421986
+        "rss": 512000000,
+        "heapTotal": 191365120,
+        "heapUsed": 152123472,
+        "external": 27221406,
+        "arrayBuffers": 3383898
       }
     }
   },
   "playwright": {
     "cold": {
-      "totalMs": 642.65,
-      "firstStageMs": 292.08,
+      "totalMs": 614.23,
+      "firstStageMs": 287.23,
       "fontLoaded": true
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        276.7,
-        294.23,
-        279.69,
-        282.54,
-        277.22,
-        276.5,
-        267.64,
-        278.2,
-        277.6,
-        277.48
+        259.63,
+        261.39,
+        259.51,
+        260.92,
+        260.85,
+        259.74,
+        260.21,
+        260.41,
+        260.32,
+        261.4
       ],
-      "min": 267.64,
-      "median": 277.6,
-      "mean": 278.78,
-      "max": 294.23
+      "min": 259.51,
+      "median": 260.41,
+      "mean": 260.44,
+      "max": 261.4
     },
     "memory": {
       "nodeProcess": {
-        "rss": 536985600,
-        "heapTotal": 162496512,
-        "heapUsed": 125464688,
-        "external": 41725574,
-        "arrayBuffers": 18988034
+        "rss": 705609728,
+        "heapTotal": 338100224,
+        "heapUsed": 302006104,
+        "external": 45005552,
+        "arrayBuffers": 21718008
       },
       "chromium": {
         "browserProcessRssKb": null,
