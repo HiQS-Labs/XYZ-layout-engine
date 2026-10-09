@@ -1,0 +1,151 @@
+{
+  "title": "Our Solar System",
+  "eyebrow": "A COSMIC NEIGHBORHOOD",
+  "subtitle": "Eight planets, one star \u2014 and our place in the Milky Way.",
+  "width": 2400,
+  "height": 1700,
+  "center": {
+    "x": 1070,
+    "y": 1000
+  },
+  "planets": [
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "index": "01",
+      "kind": "Rocky planet",
+      "detail": "Closest to the Sun",
+      "color": "#b5b4ae",
+      "radiusX": 155,
+      "radiusY": 80,
+      "angle": -145,
+      "imageSize": 60,
+      "labelX": 820,
+      "labelY": 848
+    },
+    {
+      "id": "venus",
+      "name": "Venus",
+      "index": "02",
+      "kind": "Rocky planet",
+      "detail": "Wrapped in thick clouds",
+      "color": "#e5c88c",
+      "radiusX": 220,
+      "radiusY": 110,
+      "angle": 35,
+      "imageSize": 84,
+      "labelX": 1330,
+      "labelY": 1060
+    },
+    {
+      "id": "earth",
+      "name": "Earth",
+      "index": "03",
+      "kind": "Rocky planet",
+      "detail": "Our ocean-covered home",
+      "color": "#68c6e8",
+      "radiusX": 295,
+      "radiusY": 148,
+      "angle": -65,
+      "imageSize": 90,
+      "labelX": 1360,
+      "labelY": 680
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "index": "04",
+      "kind": "Rocky planet",
+      "detail": "The red planet",
+      "color": "#e79b75",
+      "radiusX": 370,
+      "radiusY": 185,
+      "angle": 170,
+      "imageSize": 76,
+      "labelX": 400,
+      "labelY": 1070
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "index": "05",
+      "kind": "Gas giant",
+      "detail": "The largest planet",
+      "color": "#e3bc95",
+      "radiusX": 550,
+      "radiusY": 275,
+      "angle": -145,
+      "imageSize": 205,
+      "labelX": 420,
+      "labelY": 650
+    },
+    {
+      "id": "saturn",
+      "asset": "saturn-clean",
+      "name": "Saturn",
+      "index": "06",
+      "kind": "Gas giant",
+      "detail": "A world of icy rings",
+      "color": "#dfc48c",
+      "radiusX": 695,
+      "radiusY": 340,
+      "angle": 35,
+      "imageSize": 310,
+      "labelX": 1760,
+      "labelY": 1320
+    },
+    {
+      "id": "uranus",
+      "name": "Uranus",
+      "index": "07",
+      "kind": "Ice giant",
+      "detail": "A dramatically tilted world",
+      "color": "#88d8dc",
+      "radiusX": 835,
+      "radiusY": 400,
+      "angle": 175,
+      "imageSize": 160,
+      "labelX": 120,
+      "labelY": 1148
+    },
+    {
+      "id": "neptune",
+      "name": "Neptune",
+      "index": "08",
+      "kind": "Ice giant",
+      "detail": "The outermost planet",
+      "color": "#799fee",
+      "radiusX": 980,
+      "radiusY": 460,
+      "angle": -25,
+      "imageSize": 150,
+      "labelX": 2050,
+      "labelY": 915
+    }
+  ],
+  "sun": {
+    "name": "Sun",
+    "kind": "Our star",
+    "imageSize": 220,
+    "labelX": 1005,
+    "labelY": 1115
+  },
+  "belt": {
+    "name": "Main asteroid belt",
+    "detail": "Between Mars and Jupiter",
+    "labelX": 655,
+    "labelY": 1310,
+    "asset": "asteroid-belt-diagram"
+  },
+  "galaxy": {
+    "name": "The Milky Way",
+    "location": "Orion Spur",
+    "caption": "Our Solar System lives in a small spiral-arm spur.",
+    "note": "Artist impression \u00b7 location is schematic"
+  },
+  "disclaimer": "Sizes, spacing and orbital positions are illustrative, not to scale or today's alignment. Asteroid density is exaggerated.",
+  "sources": [
+    "https://science.nasa.gov/solar-system/solar-system-facts/",
+    "https://science.nasa.gov/solar-system/planets/"
+  ]
+}

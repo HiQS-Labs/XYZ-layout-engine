@@ -1,0 +1,90 @@
+[
+  {
+    "id": "sun",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. The Sun alone: a luminous warm golden yellow-orange sphere with richly textured photosphere, subtle small prominences and soft short corona. Do not make it red or show exaggerated enormous flares. Disc occupies about 70 percent of canvas; glow fades fully to transparency.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "mercury",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Mercury alone, nearly full round disk, grey rocky heavily cratered surface, warm grey and charcoal texture, no rings, no atmosphere.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "venus",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Venus alone, nearly full round disk, pale warm cream and yellow cloud-covered globe, subtle swirling opaque clouds, no visible rocky continents, no rings.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "earth",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Earth alone, nearly full round disk with rich blue oceans, recognizable Africa and Europe, natural green-brown land and delicate white cloud systems, subtle blue atmospheric rim, no Moon, no rings.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "mars",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Mars alone, nearly full round disk, rust-red rocky dusty terrain, subtle craters and dark surface regions, small white polar ice cap, no rings.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "jupiter",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Jupiter alone, nearly full round disk, realistically broad cream ochre brown zonal cloud bands and visible Great Red Spot, no rings, no moons.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "saturn",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Saturn alone with its full complete broad thin ring system. Pale gold banded gas-giant globe and elegant tilted beige icy concentric rings, recognisable Cassini division. Front portion of ring crosses IN FRONT of the globe and rear portion is occluded by globe. Ring disk tilted about 25 degrees, full silhouette fits comfortably within canvas, no moons.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "uranus",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Uranus alone, nearly full round disk, pale cyan blue-green ice-giant globe, smooth subtle atmospheric texture, restrained narrow dim tilted rings nearly edge on, entire ring system visible without clipping, no moons.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "neptune",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. Neptune alone, nearly full round disk, natural moderately saturated azure blue ice-giant globe with subtle bands and small wispy white clouds, no exaggerated giant storm, no rings or moons.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "asteroid-belt",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. A standalone schematic asteroid belt: a complete thin horizontal elliptical annulus of many tiny individually separated irregular grey and warm-brown rocky asteroids, viewed obliquely. Ring is wide, about 85 percent canvas width and 30 percent canvas height, large empty transparent center. Rocks small, sparse and fine, not a continuous solid ring, avoid boulders filling entire center. No Sun or planets. This is an exaggerated-density illustration of the main asteroid belt, not a dense physical barrier. Genuine transparency between rocks and inside the ellipse.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  {
+    "id": "milky-way",
+    "prompt": "Create ONE isolated astronomy illustration asset for a sophisticated museum-quality solar-system infographic. Photorealistic scientific illustration with beautiful restrained detail, clean silhouette and consistent studio illumination from upper left. Entire subject fully visible centered, generous 12 percent transparent padding. Transparent background, genuinely clear alpha outside the subject. No black rectangle, no stars in the background, no ground, no cast shadow, no caption, no typography, no diagram, no other planets. The Milky Way alone as an artist impression schematic face-on barred spiral galaxy, centered round-ish disk, luminous pale gold central bar, sweeping elegant blue-white spiral arms and subtle warm dust lanes. Entire galaxy fits at 85 percent canvas width. No labels, no location marker, no foreground planets, no black rectangle, no background starfield beyond the galaxy; galaxy fades smoothly to transparent space outside its disk. Educational astronomical illustration, not a claimed photograph.",
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  }
+]
