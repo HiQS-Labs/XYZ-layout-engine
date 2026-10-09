@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: codex-producer
+STATUS: Approved
 ROUND: 1 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -90,5 +90,20 @@ Old generated scheduling plan check recorded real drift from the new in-progress
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+- swept file: yes
+- **[Pass]**: Exact executable plan excludes Phase 1 and contains only unstarted phases `gh5-p2 -> gh5-p3 -> gh5-p4 -> gh5-p5` with original `1500`s caps and `2` review rounds (verified in `PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml`).
+- **[Pass]**: Phase 1 recovery is attested as Approved at `b91432380184` (verified in `relay-system/2026-10-09/gh5-p1-repair/attestation.json`).
+- **[Pass]**: Observer script is honestly bounded (`interval, count = 600, 6`) and purely read-only, reading snapshots without altering executor state (verified in `relay-system/2026-10-09/gh5-continuation/monitor-session.py`).
+- **[Pass]**: Smoke output makes no claim of actual timer intervals before firing (mock data for `six due times` and `early halt cancels checks` verified in `relay-system/2026-10-09/gh5-continuation/monitor-smoke.json`).
+- **[Pass]**: Direct preflight checks both report exit `0`, READY, and `4/4` verbatim acceptance matches on `origin/main` at `a8e7e574c` (verified in `gh5-readiness/gh5-direct-preflight.log` and `gh5-continuation/preflight.log`).
+
+VERDICT: PASS
+Basis: Readiness verified across YAML plan, monitor scripts, preflight logs, and Phase 1 attestation. Four-phase continuation is honestly bounded, read-only monitored, and safe to start.  [Unverified — no citation]
+Review outcome: The continuation inputs are solid and verified. Ready to fire.  [Unverified — no citation]
+
+relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
