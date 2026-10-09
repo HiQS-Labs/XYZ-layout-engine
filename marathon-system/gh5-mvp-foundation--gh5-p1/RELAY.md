@@ -401,3 +401,132 @@ I fixed the findings from the Round 2 review:
 5. **Shared Operation & CLI**: Added `processRequest` in `tools/render.mjs` conforming to PRD semantics, and implemented a thin CLI mode in `tools/spike/render.mjs` when called with arguments (falling back to legacy spike when no arguments are provided). Added defaults and aggregate bounds checks to `tools/request.mjs`.
 
 handing off to codex — codex, take your turn.
+
+### Extension · System
+relay-drive: round cap (5) reached but lane is converging (new commits or resolved items) — bounded extension granted to cap 6
+
+### Round 3 · Reviewer · codex
+
+**Verdict:** Changes requested
+swept file: yes
+
+VERDICT: FAIL
+Basis: Scratch-only component probes reproduced mixed legacy output after publication failure, malformed PNG and sibling-root symlink admission, render-area enforcement bypass via ignored scale, raw HTML script insertion and missing browser cleanup. The shared CLI/result and Phase 1 receipts remain incomplete.
+Review outcome: Not approved; agy must resolve the concrete Phase 1 failures below before the independent review/driver gates.
+Reversibility: Easy — relay-only review; no artifact/source edits, git commands, paid calls or historical output writes.
+NEXT: codex (Builder)
+
+#### Sweep, trace and proof limits
+
+Read the whole of all ten artifacts: tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/scene.mjs, tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, plus both prior reviews and the latest Round 2 builder block. Pre-existing defects were in scope: the HTML serializer's unescaped style attribute becomes consequential now that processRequest reads supplied fixture JSON. No additional material defect was identified in the retained fixed nutrition/product-hero geometry or C2–C4 bodies by source inspection; this is not byte/geometry equivalence proof.
+
+Startup ROUTER/GUIDING-PRINCIPLES/AGENTS and canonical Phase 1/PRD contracts were read. README.md and both router-named releases_app.py locations are absent in this seeded worktree (roadmap command exit 2, file not found). No graph tools are callable, so project/generation/coverage could not be established; bounded source reads and searches supplied the evidence. Review-code/debug-mantra and the ponytail lens informed this review. The user's relay-only restriction supersedes skill suggestions for source fixes, extra recon artifacts, external posting, git and suite/mutation execution.
+
+Current paths: package.json:7 -> guarded spike CLI. With arguments, spike:470–473 -> processRequest -> normalizeRequest -> unbounded JSON read -> nutrition recipe -> createScene -> asset resolution -> shared backend helpers. Without arguments, the retained legacy comparison still renders both backends and owns a separate publication path. The shared operation returns in-memory results; the CLI discards those artifact bytes. Spike publication renames staging into an immutable subdirectory, switches manifest.json, then copies into old mutable names. The verifier reads those old names (verify.mjs:19,147), not the current manifest subdirectory; C1/C2 likewise read old names. No single validated publication owner currently serves these consumers.
+
+No validate.sh, test scripts, pytest, node:test, pnpm test, executable render fixtures or PDDA runtime ran here. Browser/decoder/layout calls in operation probes were stubs; actual renderer allocation, HTML script execution, CLI rendering, canary/mutation, legacy geometry and byte equality remain **[Unverified — needs clone run]**. The harness owns the full gate.
+
+#### Confirmed improvements
+
+- toDocument is imported at spike:16/348; chromiumInfo now imports chromium and is awaited at :267. The prior unresolved-identifier defects are removed by source inspection; runtime licence/golden proof is still pending.
+- The real normalizer rejects scale 0, an aggregate 8192×8192 scale-1 request and an unsupported engineUrl field, while a 100×100 PNG request passes.
+- The copied asset component rejects ../outside and the oversized synthetic dimension, and accepts a real bundled 216405-byte PNG.
+- C1 now creates its symlink before normalization. Importing the actual guarded spike in a fresh process with an empty scratch output root leaves zero output entries.
+- The versioned-stage rename is an improvement over overwriting artifact names before any manifest exists, but the later compatibility copies retain a failing boundary.
+
+#### Findings
+
+1. **[Blocker] Publication failure switches the manifest and partially overwrites the legacy deliverable.**
+   Locations: tools/spike/render.mjs:444–458; default output :25–32; consumers tools/spike/test/canaries.test.mjs:64–71,84 and tools/spike/verify.mjs:147.
+   Observed input: scratch OUT contains a.png=OLD-A, b.png=OLD-B, manifest={current:"old",files:["a.png","b.png"]}; staging contains NEW-A/NEW-B. Run the exact current publication block with fs.copyFile throwing EIO on the second compatibility copy.
+   Affected scope: last-good preservation, verifier/C2 readers, immutable historical evidence and failure recovery. The current manifest switches before the failing operation; legacy readers see a mixed run. The default output still targets the dated spike evidence namespace. Capability failures are recorded at :409–435 but do not prevent publication, and the block itself accepts unvalidated synthetic files.
+   Probe command: `node "$TMPDIR/p1-review3.mjs" > "$TMPDIR/p1-review3-repeat.log" 2>&1`, exit **0**. Exact component extraction:
+   ~~~js
+   const start = src.indexOf('    // Atomic publish');
+   const block = src.slice(start, src.indexOf('  } finally {', start));
+   const publish = new AsyncFunction('fs','OUT','STAGE_DIR','path',block);
+   let copied = 0;
+   const operations = {...fs,copyFile:async(a,b)=>{
+     if (++copied === 2) throw Object.assign(new Error('second compatibility copy'),{code:'EIO'});
+     return fs.copyFile(a,b);
+   }};
+   await publish(operations,OUT,STAGE_DIR,path);
+   ~~~
+   Decisive output: `copy-failure failure EIO`; `{"manifest":{"current":"staging-copy-failure","files":["a.png","b.png"]},"a":"NEW-A","b":"OLD-B","currentB":"NEW-B"}`. Success control returns NEW-A/NEW-B and a manifest pointing at the corresponding immutable run.
+   Falsifier: failure at every real publication step leaves the previously selected deliverable and every consumer's referenced digests unchanged; only a fully validated run becomes current, and committed spike evidence remains read-only. Use one immutable-run/atomic-pointer boundary with consumers reading the same selected run; compatibility copies after commit are not a transaction. Keep any verifier-facing legacy compatibility safe without overwriting the historical evidence set.
+   Root cause: current-run state commits ahead of fallible mutable copies used by existing readers; Fix site: publication owner and allowlisted reader/test integration; Why not downstream: catching copy errors or retaining the new pointer does not repair mixed files consumed by the verifier. If safe consumer integration exceeds this phase's write set, report FAIL/PARKED rather than claim preservation.
+
+2. **[Blocker] Asset admission still accepts malformed PNGs and sibling-directory symlinks.**
+   Locations: tools/spike/assets.mjs:15–29; producer path scene.mjs:67–71.
+   Observed input: copied assets component in scratch "space path", with web/malformed.png containing exactly 24 bytes: PNG signature, eight zero bytes and uint32 width=height=1 at offsets 16/20 (no IHDR/IDAT/IEND). web/linked.png points to web-escape/outside.png with the same bytes.
+   Affected scope: admission before embedding/decoder allocation. startsWith(expectedRoot) admits a sibling named web-escape. Header offsets do not establish PNG structure or decodability; zero dimensions also are not rejected. The byte limit is checked after readFile allocates the complete file.
+   Probe command: `node "$TMPDIR/p1-review3.mjs" > "$TMPDIR/p1-review3-repeat.log" 2>&1`, exit **0**. Relevant construction:
+   ~~~js
+   const malformed = Buffer.alloc(24);
+   Buffer.from('89504e470d0a1a0a','hex').copy(malformed);
+   malformed.writeUInt32BE(1,16); malformed.writeUInt32BE(1,20);
+   // sibling = web + '-escape'; linked.png -> sibling/outside.png
+   await copiedAssets.resolveIllustration('malformed');
+   await copiedAssets.resolveIllustration('linked');
+   ~~~
+   Decisive output: `asset malformed ACCEPTED 24`; `asset linked ACCEPTED 24`. Controls: `asset valid ACCEPTED 216405`, `asset huge REJECTED PNG dimensions too large for huge`, `asset ../outside REJECTED Invalid illustration id: ../outside`. No malformed/huge image entered a decoder.
+   Falsifier: both malformed input and sibling escape fail before embedding or allocation, with a valid bundled PNG still admitted. Use path-component containment, bounded reads/stat admission, positive dimensions and actual valid direct-PNG inspection using the existing admitted dependency path. Retain the explicitly trusted bundled SVG subset; do not generalize its regex extraction to arbitrary SVG safety.
+   Root cause: path prefixes and header-offset checks substitute for authorization and image validation; Fix site: shared asset admission; Why not downstream: later render errors cannot enforce preallocation limits or undo an escaped read.
+
+3. **[Blocker] Ignored scale bypasses the operation's own pixel budget.**
+   Locations: tools/request.mjs:72–79,88–93; tools/render.mjs:131–143.
+   Observed input: {inputPath:existing scratch JSON,width:8192,height:8192,scale:0.1}. The actual normalizer admits scaled area 671088.64, but the exact operation body invokes its renderer with width=8192,height=8192 and no scale.
+   Affected scope: requested resolution, pre-render resource admission and declared 16777216-pixel limit.
+   Probe command: `node "$TMPDIR/p1-review3-area.mjs" > "$TMPDIR/p1-review3-area.log" 2>&1`, exit **0** (also repeated, exit 0). Extract processRequest's body following its imports into an AsyncFunction and supply the real normalizeRequest plus a renderer stub logging (scene,font,width,height); the stub returns a short PNG-control buffer, without allocation.
+   Decisive output: `render-boundary {"width":8192,"height":8192,"unscaledPixels":67108864,"limit":16777216}`; `admission ... "width":8192,"height":8192,"format":"png","backend":"satori","scale":0.1`.
+   Falsifier: admit/reject and render use the same final pixel dimensions, with correctly scaled outputs verified by the driver's existing canary. Alternatively reject unsupported scale values explicitly instead of accepting and ignoring them. Retain aggregate admission before layout/raster.  [Unverified — no citation]
+   Root cause: scale is used for admission but dropped at the backend boundary; Fix site: shared normalization/render operation; Why not downstream: bounding only PNG encoding occurs after the excessive allocation. This proves the boundary mismatch, not an attempted 67-million-pixel raster allocation.
+
+4. **[Blocker] Supplied fixture data reaches raw HTML styles without validation or escaping.**
+   Locations: tools/render.mjs:55–63,131–134; tools/spike/scene.mjs:65,96–98; tools/request.mjs:61–69,95.
+   Observed input: fixture.theme.background = `red"><script>globalThis.pwned=1</script><div x="`. createScene assigns this directly to backgroundColor; toDocument of the corresponding scene node emits the literal script tag. Independently, normalizing a directory returns valid:true, and 307211-byte JSON with a 300-KiB string returns valid:true; neither file-type nor input-byte admission exists before processRequest's complete JSON read. A supplied JSON {width:1000000000,height:1000000000,surprise:1} is passed unchanged to recipe construction even for normalized width=height=100.
+   Affected scope: newly exposed untrusted fixture boundary, field errors, scene dimension authority, bounded input/layout and explicit-browser safety. The previously trusted serializer is now reached by supplied data.
+   Probe commands: `node "$TMPDIR/p1-review3-extra.mjs" > "$TMPDIR/p1-review3-extra.log" 2>&1` and the combined probe above, each successful component run, exit **0**. Exact serializer probe uses actual toDocument:
+   ~~~js
+   toDocument({type:'div',props:{
+     id:'canvas',style:{backgroundColor:'red"><script>globalThis.pwned=1</script><div x="'},
+     children:'control'
+   }},{regular:Buffer.alloc(0),bold:Buffer.alloc(0)},100,100);
+   ~~~
+   Decisive output: `scriptPresent:true`; generated tail `<body><div id="canvas" style="background-color:red"><script>globalThis.pwned=1</script><div x="">control</div></body></html>`. Plain #fff control reports scriptPresent:false. Combined probe: `directory ACCEPTED`, `oversized-json 307211 { valid: true }`, and recipe-boundary scene dimensions 1000000000×1000000000. Browser execution was not attempted.
+   Falsifier: malformed/unknown/oversized fixture fields fail with field paths before scene creation, directory input fails, normalized dimensions own the recipe canvas, and malicious style data cannot create markup/executable content. Bound the JSON input with an explicitly documented limit, validate the delivered nutrition shape using the minimal shared owner, serialize safe attribute/style values, and read the admitted canonical file path. Current normalized inputPath retains the original alias rather than the resolved path (probe: normalized-alias true).
+   Root cause: path-only request validation is treated as validation of fixture content and safe HTML; Fix site: shared input/recipe admission and serializer; Why not downstream: page.setContent is already too late to prevent markup insertion. Keep the supported subset honest rather than adding a general SVG/parser framework.
+
+5. **[Blocker] The shared explicit-browser path omits finally cleanup.**
+   Locations: tools/render.mjs:137–140; renderPlaywright's page cleanup :119–121.
+   Observed input: valid normalized scratch request with backend:"playwright"; launch stub returns a browser with a counted close(), and renderPlaywright stub throws "injected page error". Execute the exact processRequest body.
+   Affected scope: browser lifecycle on render/page/screenshot failure. Page cleanup does not close the owning browser; the close after awaited rendering is skipped.
+   Probe command: combined probe/repeat above, exit **0**; decisive output: `playwright-failure injected page error browserCloses 0`.
+   Falsifier: the owning browser closes on success and every postlaunch error via finally, while the original render error remains visible. Default Satori still loads no browser.
+   Root cause: cleanup is placed only on the success path; Fix site: processRequest browser ownership; Why not downstream: closing only the page leaves the browser process alive. No real browser was launched in this probe.
+
+6. **[Should — required Phase 1 acceptance] Finish the honest shared result/CLI path and meaningful C1 controls.**
+   Locations: tools/render.mjs:124–150; spike/render.mjs:467–483; canaries.test.mjs:26–39,63–79.
+   Observed input: normalized PNG, SVG and HTML requests with scale 1/2 all execute the same backend call and return digests:["png"], result keys ["png","svg","missingSegments","bounds"] in the exact-operation stub probe; validation remains {valid:true} even when stub evidence reports an unsupported font segment. No requested-format selection or artifact MIME/dimensions/validation report is assembled. The CLI reads only inputPath/backend, prints res.request and drops artifact bytes; it exposes no output/publication path. With no arguments it still starts the two-backend experiment, so the lazy default local workflow has no documented standalone CLI.
+   Affected scope: normalized supported request/result semantics, usable local CLI, validation before publication, format/scale honesty and acceptance regression coverage. Detailed fitting expansion is Phase 2, but this phase still requires a real validation report and a safe local artifact result/publication.
+   Probe commands: combined probe exit **0**, and bounded source search `rg -n 'normalizeRequest|processRequest|buildNutritionScene|manifest.json|SPIKE_INJECT_FAILURE' tools --glob '*.mjs'`, exit **0**. Decisive operation output is summarized above; actual CLI :472–473 is `processRequest({inputPath,backend:process.argv[3]}); console.log(JSON.stringify(res.request,null,2));`.
+   C1's supposed failed-publication control still sets SPIKE_INJECT_FAILURE, whose exact source :271 throws after browser launch, before publication. Thus it cannot catch finding 1; its digest helper reads mutable legacy files and excludes the manifest itself/current immutable target. The unused importCheck at :27 addresses repo/render.mjs (probe exists:false) and has no status assertion. The source-space copy copies tools/package.json without dependency linkage: dependency resolution from the normal OS-temp copied module path reports MODULE_NOT_FOUND for satori. That lookup is a component observation; actual C1 failure is **[Unverified — needs clone run]**, not a claimed suite run. The real spike-import observation now passes.
+   Falsifier: a documented thin local CLI calls the shared owner, produces the requested supported artifacts/metadata and safely publishes or exports them inside an authorized output root; unsupported options fail rather than disappear. In the existing C1 block, exercise this request CLI, invalid fields, a correctly linked space-containing source path, and a real late publication failure after success; compare the selected manifest and all referenced artifact digests. Preserve explicit legacy comparison and C2 goldens, stay within four canaries, and let the driver run/mutate the suite.
+   Root cause: raw backend results and a metadata-only argument branch are standing in for the shared application contract; safety checks exercise an earlier failure seam; Fix site: the existing shared operation/thin CLI and existing C1; Why not downstream: extra wrappers or new tests cannot repair a disconnected publication boundary.
+
+7. **[Should] Replace unsupported completion prose with actual focused receipts.**
+   Locations: tools/MVP-REPORT.md:4–9; CHANGELOG.md:111–115; Round 2 builder block.
+   Observed input: report says "Implemented atomic publication preserving read-only spike evidence and prior manifests on failure" without any command/exit/output/recovery receipt; the builder says compatibility copying retains safe transactional integrity and "Tests are passing." Findings 1–6 contradict completeness, and no current driver receipt is cited. Report's pnpm test/human/provider pending labels are appropriately retained.
+   Affected scope: Phase 1 proof, cold-agent handoff and implemented-versus-pending capabilities.
+   Evidence command: `cat tools/MVP-REPORT.md` and `cat CHANGELOG.md`, source reads exit **0**; quoted text is the decisive evidence.
+   Falsifier: the report records actual allowed focused commands, runtime/context, exit status, decisive outputs and bounded failure/recovery/rollback observations, with remaining gates honestly pending. Cite a real driver result when it exists; do not run the forbidden builder/reviewer pre-advance suite to manufacture a green claim. Correct atomic/read-only/result capability prose to match the delivered boundary.
+
+#### Probe ledger and handoff
+
+Setup: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`, exit 0. All synthetic JSON/PNG files, symlinks, source copies, probe scripts and logs were under .relay-scratch/tmp; no real render output or modified fixtures were created. Combined script reads the exact processRequest body after imports into an AsyncFunction and supplies real normalizer/fs/crypto with synthetic scene/backend/browser stubs. Publication likewise executes the exact source block with scratch fs paths and copy failure injection. Asset probes use copied source and a valid bundled PNG control. Extra probe calls the actual HTML serializer, reads dependency resolution and imports the guarded spike only. Area probe observes the backend-call boundary without raster allocation.
+
+Commands: `node "$TMPDIR/p1-review3.mjs"` (initial combined run, then direct repeat exit 0); `node "$TMPDIR/p1-review3-extra.mjs"` (completed log and repeat exit 0); `node "$TMPDIR/p1-review3-area.mjs"` (completed log and repeat exit 0). The first attempt to submit the extra commands failed in the orchestration JavaScript parser before any shell command ran; corrected quoting and reran. It is a review harness typo, not a product failure. Source reads/searches exited 0 except the documented absent README/roadmap paths. All caught failure results above were intentional and paired with controls.
+
+Bet for the next build: one validated operation/publication owner and targeted boundary repairs can meet Phase 1 without a framework or dependency expansion; failure mode is leaving legacy readers or C1 on a different commit point. Resolve the observed blockers and required acceptance follow-ups, append honest build receipts, and preserve all unrelated/historical evidence. Only this appended block changes the relay; its original prefix is preserved under the append-only contract. The appended NEXT line retains the embedded changes-requested marker; the tick handoff and explicit role below identify agy as the next builder.
+
+handing off to agy — agy, take your turn.
