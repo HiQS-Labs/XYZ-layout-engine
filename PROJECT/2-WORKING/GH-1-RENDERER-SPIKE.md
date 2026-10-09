@@ -51,7 +51,7 @@ Execution record (2026-10-08): Phase 1 landed through the agy/Codex marathon dri
 ## Acceptance
 
 - [x] Reproduce all PRD §5.3 nutrition infographic sections with editable text and separate illustration assets; never embed the whole reference image. (`tools/spike/fixture.json`, `scene.mjs`, `assets/illustrations.svg`.)
-- [x] Render the same offline fixture through Satori/resvg and Playwright; retain PNGs, backend geometry, capability/failure reports, and available SVG without claiming unsupported vector export. (`tools/spike/output/`; browser SVG declared unsupported.)
+- [x] Render the same offline fixture through Satori/resvg and Playwright; retain PNGs, backend geometry, capability/failure reports, and available SVG without claiming unsupported vector export. (`tools/spike/output/2026-10-08-xyz-layout-engine-spike/`, one dated folder per render run, including the exact Chromium HTML; browser SVG declared unsupported.)
 - [x] Execute a runnable verification command covering fixture sections, output dimensions, geometry, bounded fitting, repeated-render digests, and longer-copy behavior; failures remain explicit. (`pnpm run spike:verify`, exit 0; red controls recorded in the Phase 2 relay.)
 - [x] Record runtime/dependency/font licenses, measured timings and memory limitations, agent visual comparison, remaining human visual acceptance, and a justified backend recommendation; write findings into the PRD. (`tools/spike/REPORT.md`; PRD Phases → Phase 0 findings.)
 - [x] Obtain independent plan and post-build QA receipts; add no production engine/server/queue/editor framework or CI workflow in this Phase 0 arc. (Plan QA, Phase 2 and Phase 3 post-build QA all Approved and attested; no production scaffolding added.)

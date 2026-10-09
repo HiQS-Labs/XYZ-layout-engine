@@ -1,6 +1,6 @@
 // Phase 2 spike renderer: renders the same scene tree through Satori+resvg and Chromium (Playwright),
 // collects backend-owned geometry/text evidence, runs a bounded fitting loop, probes script support,
-// times warm/cold stages, and writes tools/spike/output/{*.png,satori.svg,measurements.json,runtime.json}.
+// times warm/cold stages, and writes tools/spike/output/<YYYY-MM-DD>-<package name>/{*.png,*.html,satori.svg,measurements.json,runtime.json}.
 //
 // Scope guard: this is evidence collection for a backend decision, not an engine. No layout or font
 // metrics are computed here; every number comes from the backend under test.
@@ -23,7 +23,12 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 // global `__dirname`; without this shim `import('satori')` throws ERR_AMBIGUOUS_MODULE_SYNTAX on Node 22.
 globalThis.__dirname = HERE;
 
-const OUT = path.join(HERE, 'output');
+// All evidence for one render run goes in output/<local YYYY-MM-DD>-<package name>/; a same-day
+// re-render overwrites that day's folder, earlier days' folders are left as they are.
+const RUN_DATE = new Date().toLocaleDateString('en-CA');
+const RUN_DIR = `${RUN_DATE}-${JSON.parse(readFileSync(path.join(HERE, '..', '..', 'package.json'), 'utf8')).name}`;
+const OUT = path.join(HERE, 'output', RUN_DIR);
+const rel = f => `output/${RUN_DIR}/${f}`;
 const require = createRequire(import.meta.url);
 const RENDER_DEADLINE_MS = Number(process.env.SPIKE_RENDER_DEADLINE_MS || 240_000);
 const FIT_MAX_ITERATIONS = 10;
@@ -114,7 +119,8 @@ async function renderPlaywright(context, scene, font, width, height) {
   const page = await context.newPage();
   try {
     const t0 = performance.now();
-    await page.setContent(toDocument(scene, font, width, height), { waitUntil: 'load' });
+    const html = toDocument(scene, font, width, height);
+    await page.setContent(html, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
     const evidence = await page.evaluate(({ family }) => {
       const canvasEl = document.getElementById('canvas');
@@ -148,7 +154,7 @@ async function renderPlaywright(context, scene, font, width, height) {
     const stageMs = round(performance.now() - t0);
     for (const k of Object.keys(evidence.bounds)) evidence.bounds[k] = rect(evidence.bounds[k]);
     for (const [k, v] of Object.entries(evidence.textBoxes)) evidence.textBoxes[k] = { ...rect(v), text: v.text, scrollWidth: v.scrollWidth, clientWidth: v.clientWidth, scrollHeight: v.scrollHeight, clientHeight: v.clientHeight, lineCount: v.lineCount };
-    return { png, ...evidence, stageMs };
+    return { png, html, ...evidence, stageMs };
   } finally {
     await page.close();
   }
@@ -317,6 +323,7 @@ async function main() {
 
   const measurements = {
     generatedAt: runtime.generatedAt,
+    runDir: RUN_DIR,
     fixture: { id: fixture.id, width: W, height: H },
     hero: { id: heroFixture.id, width: HW, height: HH },
     fitting: { maxIterations: FIT_MAX_ITERATIONS, shrinkFactor: FIT_SHRINK, knob: 'fontSize of overflowing text ids only' },
@@ -327,7 +334,7 @@ async function main() {
       }
     },
     svgExport: {
-      satori: 'supported: satori emits SVG; written to output/satori.svg',
+      satori: `supported: satori emits SVG; written to ${rel('satori.svg')}`,
       playwright: 'unsupported: Chromium page.screenshot emits raster only; no vector export path exists in this backend'
     },
     cases: {}, probes: {}, digests: {}, capabilities: {}
@@ -386,9 +393,14 @@ async function main() {
         const fit = await fitCase(b, scene => be.render(scene, c.w, c.h), c.build, c.ids, c.containment, c.w, c.h);
         const png = fit.result.png;
         await fs.writeFile(path.join(OUT, c.file(b)), png);
+        // Chromium's input is an HTML document: save exactly what page.setContent loaded (fonts and
+        // illustrations inline as data URLs, so the file reproduces the render offline when opened).
+        const htmlFile = b === 'playwright' ? c.file(b).replace(/\.png$/, '.html') : null;
+        if (htmlFile) await fs.writeFile(path.join(OUT, htmlFile), fit.result.html);
         if (b === 'satori' && c.name === 'baseline') await fs.writeFile(path.join(OUT, 'satori.svg'), fit.result.svg);
         measurements.cases[c.name][b] = {
-          png: `output/${c.file(b)}`, pngSize: pngSize(png), sha256: sha256(png),
+          png: rel(c.file(b)), pngSize: pngSize(png), sha256: sha256(png),
+          html: htmlFile ? { path: rel(htmlFile), bytes: Buffer.byteLength(fit.result.html), sha256: sha256(fit.result.html) } : undefined,
           bounds: fit.result.bounds, text: fit.evidence,
           fitting: { fit: fit.fit, iterations: fit.iterations, finalSizes: fit.finalSizes, unresolved: fit.unresolved, steps: fit.steps },
           missingFontSegments: fit.result.missingSegments ?? undefined,
@@ -423,8 +435,8 @@ async function main() {
     await fs.writeFile(path.join(OUT, 'probe-satori.png'), sProbe.png);
     await fs.writeFile(path.join(OUT, 'probe-playwright.png'), pProbe.png);
     measurements.probeArtifacts = {
-      satori: { png: 'output/probe-satori.png', pngSize: pngSize(sProbe.png), sha256: sha256(sProbe.png) },
-      playwright: { png: 'output/probe-playwright.png', pngSize: pngSize(pProbe.png), sha256: sha256(pProbe.png) }
+      satori: { png: rel('probe-satori.png'), pngSize: pngSize(sProbe.png), sha256: sha256(sProbe.png) },
+      playwright: { png: rel('probe-playwright.png'), pngSize: pngSize(pProbe.png), sha256: sha256(pProbe.png) }
     };
     // Chromium advance widths with the pinned family vs a nonexistent family (forcing system fallback):
     // corroboration only, interpreted below; the fallback face identity is not exposed by the DOM.

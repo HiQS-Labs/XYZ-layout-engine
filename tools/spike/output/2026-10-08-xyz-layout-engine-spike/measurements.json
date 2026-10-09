@@ -1,5 +1,6 @@
 {
-  "generatedAt": "2026-10-09T03:35:09.431Z",
+  "generatedAt": "2026-10-09T03:57:24.324Z",
+  "runDir": "2026-10-08-xyz-layout-engine-spike",
   "fixture": {
     "id": "nutrition-infographic",
     "width": 1000,
@@ -22,13 +23,13 @@
     }
   },
   "svgExport": {
-    "satori": "supported: satori emits SVG; written to output/satori.svg",
+    "satori": "supported: satori emits SVG; written to output/2026-10-08-xyz-layout-engine-spike/satori.svg",
     "playwright": "unsupported: Chromium page.screenshot emits raster only; no vector export path exists in this backend"
   },
   "cases": {
     "baseline": {
       "satori": {
-        "png": "output/satori.png",
+        "png": "output/2026-10-08-xyz-layout-engine-spike/satori.png",
         "pngSize": {
           "width": 1000,
           "height": 1000
@@ -731,12 +732,17 @@
         "missingFontSegments": []
       },
       "playwright": {
-        "png": "output/playwright.png",
+        "png": "output/2026-10-08-xyz-layout-engine-spike/playwright.png",
         "pngSize": {
           "width": 1000,
           "height": 1000
         },
         "sha256": "4d7050949c22ddf7a831712d5c25828f25f62eb9560bc5e601b62d7f86f2abf2",
+        "html": {
+          "path": "output/2026-10-08-xyz-layout-engine-spike/playwright.html",
+          "bytes": 4935952,
+          "sha256": "2ea09773b7b2eed47fec6c32e227a5850b1d22c44e295262dfec094c5207d4dc"
+        },
         "bounds": {
           "canvas": {
             "x": 0,
@@ -1604,7 +1610,7 @@
     },
     "override": {
       "satori": {
-        "png": "output/override-satori.png",
+        "png": "output/2026-10-08-xyz-layout-engine-spike/override-satori.png",
         "pngSize": {
           "width": 1000,
           "height": 1000
@@ -2307,12 +2313,17 @@
         "missingFontSegments": []
       },
       "playwright": {
-        "png": "output/override-playwright.png",
+        "png": "output/2026-10-08-xyz-layout-engine-spike/override-playwright.png",
         "pngSize": {
           "width": 1000,
           "height": 1000
         },
         "sha256": "fa45581e6e51506a892ab283d84a8dca95e77f37b48e26d7eb580c3956e0c768",
+        "html": {
+          "path": "output/2026-10-08-xyz-layout-engine-spike/override-playwright.html",
+          "bytes": 4936028,
+          "sha256": "51f55d9fd954ea91bae5d881fff67aef5cc07623268bb586a6d415bee4471c37"
+        },
         "bounds": {
           "canvas": {
             "x": 0,
@@ -3180,7 +3191,7 @@
     },
     "hero": {
       "satori": {
-        "png": "output/hero-satori.png",
+        "png": "output/2026-10-08-xyz-layout-engine-spike/hero-satori.png",
         "pngSize": {
           "width": 1200,
           "height": 630
@@ -3361,12 +3372,17 @@
         "missingFontSegments": []
       },
       "playwright": {
-        "png": "output/hero-playwright.png",
+        "png": "output/2026-10-08-xyz-layout-engine-spike/hero-playwright.png",
         "pngSize": {
           "width": 1200,
           "height": 630
         },
         "sha256": "c48ed00e4d6da4059f2327d9dd2bb71d45e2b8676c16d320a819fde40560cd79",
+        "html": {
+          "path": "output/2026-10-08-xyz-layout-engine-spike/hero-playwright.html",
+          "bytes": 1098312,
+          "sha256": "280d736b8c1af6e948bc242cc46e79e96de6437f17fa810e03e15c39c6ba88c1"
+        },
         "bounds": {
           "canvas": {
             "x": 0,
@@ -3804,7 +3820,7 @@
       "repeatDeterministic": true,
       "labeledGeometry": true,
       "textMeasurement": "onNodeDetected laid-out text element boxes (satori 0.36.0); glyph ink beyond the box is not separately observable",
-      "svgExport": "supported: satori emits SVG; written to output/satori.svg",
+      "svgExport": "supported: satori emits SVG; written to output/2026-10-08-xyz-layout-engine-spike/satori.svg",
       "scripts": {
         "english": "rendered_by_pinned_font",
         "latin_accented": "rendered_by_pinned_font",
@@ -3838,7 +3854,7 @@
   },
   "probeArtifacts": {
     "satori": {
-      "png": "output/probe-satori.png",
+      "png": "output/2026-10-08-xyz-layout-engine-spike/probe-satori.png",
       "pngSize": {
         "width": 600,
         "height": 400
@@ -3846,7 +3862,7 @@
       "sha256": "8470c194405c51360039256875081125112c7a5768fa6161528c278cd052552a"
     },
     "playwright": {
-      "png": "output/probe-playwright.png",
+      "png": "output/2026-10-08-xyz-layout-engine-spike/probe-playwright.png",
       "pngSize": {
         "width": 600,
         "height": 400

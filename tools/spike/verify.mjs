@@ -9,7 +9,14 @@ import crypto from 'crypto';
 import { resolveIllustration, getFont } from './assets.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT } from './scene.mjs';
 
-const out = rel => new URL(`./output/${rel}`, import.meta.url);
+// Evidence lives in output/<YYYY-MM-DD>-<package name>/; the gate checks the newest run folder.
+import { readdirSync, readFileSync } from 'fs';
+const PKG = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')).name;
+const RUN_DIRS = readdirSync(new URL('./output/', import.meta.url), { withFileTypes: true })
+  .filter(d => d.isDirectory() && new RegExp(`^\\d{4}-\\d{2}-\\d{2}-${PKG}$`).test(d.name)).map(d => d.name).sort();
+const RUN_DIR = RUN_DIRS[RUN_DIRS.length - 1];
+const out = f => new URL(`./output/${RUN_DIR}/${f}`, import.meta.url);
+const rel = f => `output/${RUN_DIR}/${f}`;
 const sha256 = buf => crypto.createHash('sha256').update(buf).digest('hex');
 const pngSize = buf => {
   assert.strictEqual(buf.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'not a PNG');
@@ -131,7 +138,10 @@ function checkGeometry(label, c, w, h, textIds, containment, requiredSections) {
 
 async function phase2(fixture) {
   console.log('\nVerifying Phase 2 backend render comparisons...');
+  assert(RUN_DIR, `no output/<YYYY-MM-DD>-${PKG}/ run folder found`);
+  console.log(`Evidence folder: tools/spike/output/${RUN_DIR}`);
   const m = JSON.parse(await fs.readFile(out('measurements.json'), 'utf-8'));
+  assert.strictEqual(m.runDir, RUN_DIR, 'measurements.runDir does not match its folder');
   const rt = JSON.parse(await fs.readFile(out('runtime.json'), 'utf-8'));
   const hero = JSON.parse(await fs.readFile(new URL('./hero-fixture.json', import.meta.url), 'utf-8'));
   const W = fixture.width, H = fixture.height, HW = hero.width, HH = hero.height;
@@ -149,14 +159,21 @@ async function phase2(fixture) {
     assert(buf.length > 0, `${file} is empty`);
     assert.deepStrictEqual(pngSize(buf), { width: w, height: h }, `${file} must be ${w}x${h}`);
     assert.strictEqual(sha256(buf), c.sha256, `${file} does not match the recorded digest`);
-    assert.strictEqual(c.png, `output/${file}`, `${caseName}/${b} png path mismatch`);
+    assert.strictEqual(c.png, rel(file), `${caseName}/${b} png path mismatch`);
+    if (b === 'playwright') {
+      const hf = file.replace(/\.png$/, '.html');
+      assert(c.html && c.html.path === rel(hf), `${caseName}/playwright html record missing`);
+      const html = await fs.readFile(out(hf));
+      assert.strictEqual(sha256(html), c.html.sha256, `${hf} does not match the recorded digest`);
+      assert(html.toString('utf8', 0, 15).toLowerCase().startsWith('<!doctype html>'), `${hf} is not an HTML document`);
+    }
   }
   const svg = await fs.readFile(out('satori.svg'), 'utf-8');
   assert(svg.includes('<svg') && svg.includes(`viewBox="0 0 ${W} ${H}"`), 'satori.svg missing or wrong viewBox');
   assert(m.svgExport.playwright.startsWith('unsupported'), 'browser SVG export must be declared unsupported, not faked');
   for (const b of BACKENDS) {
     const pa = m.probeArtifacts?.[b];
-    assert(pa && pa.png === `output/probe-${b}.png`, `probeArtifacts missing for ${b}`);
+    assert(pa && pa.png === rel(`probe-${b}.png`), `probeArtifacts missing for ${b}`);
     const buf = await fs.readFile(out(`probe-${b}.png`));
     assert(buf.length > 0, `probe-${b}.png is empty`);
     assert.deepStrictEqual(pngSize(buf), pa.pngSize, `probe-${b}.png dimensions do not match the record`);
