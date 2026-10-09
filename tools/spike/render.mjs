@@ -267,6 +267,7 @@ function processRssKb(pid) {
   if (!pid) return null;
   try { return Number(execFileSync('ps', ['-o', 'rss=', '-p', String(pid)], { encoding: 'utf8' }).trim()) || null; } catch { return null; }
 }
+// `median` is the upper median for even sample counts (sorted index n/2), as reported in REPORT.md.
 function stats(arr) {
   const s = [...arr].sort((a, b) => a - b);
   const mean = s.reduce((a, b) => a + b, 0) / s.length;

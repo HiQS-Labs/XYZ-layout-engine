@@ -58,7 +58,10 @@ async function phase1(fixture) {
   const prompts = JSON.parse(await fs.readFile(new URL('./assets/generated/prompts.json', import.meta.url), 'utf-8'));
   for (const it of prompts.items) {
     const web = await fs.readFile(new URL(`./assets/generated/web/${it.id}.png`, import.meta.url));
-    assert(sources.includes(sha256(web)), `generated/web/${it.id}.png digest not recorded in SOURCES.md`);
+    const row = sources.split('\n').find(l => l.startsWith(`| ${it.id} |`));
+    assert(row, `SOURCES.md has no table row for generated asset ${it.id}`);
+    const cells = row.split('|').map(c => c.trim());
+    assert.strictEqual(sha256(web), cells[4], `generated/web/${it.id}.png does not match its own SOURCES.md web digest`);
     const r = JSON.parse(await fs.readFile(new URL(`./assets/generated/${it.id}.result.json`, import.meta.url), 'utf-8'));
     assert(r.alpha && r.alpha.hasAlphaChannel === true && r.alpha.transparentPixelRatio > 0, `generated ${it.id} lacks verified transparency`);
     assert(web.readUInt8(25) === 6, `generated/web/${it.id}.png is not RGBA`);
