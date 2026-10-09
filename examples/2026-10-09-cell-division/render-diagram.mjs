@@ -28,6 +28,7 @@ assert.deepEqual(stages.map(s=>s.id),REQUIRED,'fixture must hold exactly the six
 assert.deepEqual(stages.map(s=>s.col),[0,1,2,3,4,5],'one column per stage, left to right');
 for(const [g,ids] of Object.entries(REQUIRED_GROUPS))assert.deepEqual(stages.filter(s=>s.group===g).map(s=>s.id),ids,`fixture group ${g} must hold exactly the required stages`);
 assert.deepEqual(Object.keys(fixture.panels).sort(),['same','why'],'fixture must hold the "why" and "same" note panels');
+assert.ok(typeof fixture.sources?.[0]==='string'&&fixture.sources[0].trim(),'fixture.sources[0] must hold the reference line');
 
 // Hand-authored vector icons (96x96, stroke only), one per stage. Schematic: two or three chromosomes stand in
 // for the real number.
@@ -119,7 +120,7 @@ children.push(box('footer',{position:'absolute',left:100,top:H-132,width:2200,fl
   textNode('footer_credit','XYZ LAYOUT ENGINE',{fontSize:17,letterSpacing:2,color:'#7289a8'})
  ]),
  textNode('scale_note',fixture.disclaimer,{fontSize:19,color:'#8499b5'}),
- textNode('source_note','Reference: OpenStax, Biology 2e (2018), section 10.2 "The Cell Cycle", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle',{fontSize:16,color:'#6d84a5'})
+ textNode('source_note','Reference: '+fixture.sources[0],{fontSize:16,color:'#6d84a5'})
 ]));
 const scene=box('canvas',{position:'relative',width:W,height:H,backgroundColor:'#050c17',fontFamily:'Inter',overflow:'hidden'},children);
 

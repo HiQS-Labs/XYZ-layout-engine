@@ -50,7 +50,7 @@ Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterw
 
 ## The Higgsfield spike tools
 
-`python3 higgsfield-spike.py selftest` runs offline and must print `6/6 controls passed`. It uses dummy key files, a fake HTTP layer, and an offline guard (`HIGGSFIELD_SPIKE_OFFLINE=1`) that blocks real network calls in it and in its subprocesses. Like the render, its inspector control needs Chromium to launch, so the same sandbox note applies. The controls are:
+`python3 higgsfield-spike.py selftest` runs offline and must print `7/7 controls passed`. It uses dummy key files, a fake HTTP layer, and an offline guard (`HIGGSFIELD_SPIKE_OFFLINE=1`) that blocks real network calls in it and in its subprocesses. Like the render, its inspector control needs Chromium to launch, so the same sandbox note applies. The controls are:
 
 1. A mode-644 key file is refused (exit 2, `chmod 600` hint) before its contents are read.
 2. A mock 4xx body that echoes the key is recorded as `Key ***`, and the secret scan stays clean.
@@ -58,12 +58,14 @@ Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterw
 4. A second process refuses to start while the ledger lock is held (exit 5).
 5. The secret scan fails on a throwaway file, and on a staged file, that holds the key ID. It passes once they are removed.
 6. The inspector reports `real_alpha: true` for the Solar System web `earth.png` and `false` for the opaque `solar-system.png` poster, which is RGBA but has every alpha value at 255.
+7. Estimate-route fallback. A 404 from the estimate route on a 1k/low body is reserved at the assumed $0.20 and submitted. The same 404 on a 2k body is refused (exit 3) with no submit. A paid POST that returns 404 is recorded as `absent`, and the matrix skips that endpoint's later steps.
 
 Rules for paid runs:
 
 - **Key file.** The path is read only from `HIGGSFIELD_KEY_FILE`, and the file must be mode 600 or 400.
 - **One process at a time.** `flock` on `spike-ledger.lock` enforces this.
 - **Before every submit.** The runner calls the free estimate endpoint and writes a `reserve` row to `spike-ledger.jsonl`, including the idempotency key, before the request is sent. It refuses (exit 3) if the reserved total would pass $1.90. Schema-probe fields (`background`, `output_format`) are stripped from the body that is estimated.
+- **Unpriced calls.** The docs show an estimate route only for a Soul model, so the estimate route may return 404 for a generation endpoint that exists. A 1k/low body is then reserved at an assumed $0.20, recorded as `est_source: "assumed"`. Any other body is refused (exit 3). Only a 404 from the paid POST itself marks an endpoint absent. In `discover`, which only calls estimate routes, a 404 is recorded as `estimate-route-404 (generation endpoint unverified)`.
 - **No retries.** A timeout, network error, 5xx, or unknown poll outcome stops the whole run (exit 4) and is never retried.
 - **Downloads.** Files go to `$TMPDIR/higgsfield-spike-raw`, never into the repository. The key is sent only to `https://api.higgsfield.ai`, never to result URLs, and never through redirects.
 - **Scrubbing.** Every printed or ledgered string is scrubbed of the key ID, the secret and `ID:SECRET`, both raw and percent-encoded.
