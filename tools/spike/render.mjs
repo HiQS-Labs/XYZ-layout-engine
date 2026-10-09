@@ -5,6 +5,7 @@
 // Scope guard: this is evidence collection for a backend decision, not an engine. No layout or font
 // metrics are computed here; every number comes from the backend under test.
 import fs from 'fs/promises';
+import { readFileSync, realpathSync, readdirSync } from 'fs';
 import os from 'os';
 import path from 'path';
 import crypto from 'crypto';
@@ -47,6 +48,7 @@ const pngSize = buf => ({ width: buf.readUInt32BE(16), height: buf.readUInt32BE(
 
 // ---------------------------------------------------------------- Satori + resvg --------------
 let satori;
+let deadlineHit = false;
 async function loadSatori() {
   const t0 = performance.now();
   ({ default: satori } = await import('satori'));
@@ -200,9 +202,65 @@ async function fitCase(backend, renderFn, buildScene, textIds, containment, widt
 }
 
 // ---------------------------------------------------------------- Runtime facts ---------------
-function pkgInfo(name) {
-  const p = require(`${name}/package.json`);
-  return { name: p.name, version: p.version, license: p.license, provenance: `node_modules/${name}/package.json#license` };
+// Package manifests are read from the filesystem next to the package that depends on them (pnpm's
+// strict layout does not expose transitive packages from the spike root, and "exports" maps block
+// require('<pkg>/package.json')). A lookup that fails is recorded as such; it is never reported as read.
+function nodeModulesAncestor(dir) {
+  let d = dir;
+  while (path.basename(d) !== 'node_modules') { const up = path.dirname(d); if (up === d) throw new Error(`no node_modules ancestor for ${dir}`); d = up; }
+  return d;
+}
+function pkgInfo(name, hostName = null) {
+  try {
+    let manifest;
+    if (hostName) {
+      const hostDir = path.dirname(require.resolve(`${hostName}/package.json`));
+      manifest = path.join(nodeModulesAncestor(hostDir), ...name.split('/'), 'package.json');
+    } else {
+      manifest = require.resolve(`${name}/package.json`);
+    }
+    const p = JSON.parse(readFileSync(manifest, 'utf8'));
+    const rel = path.relative(path.dirname(HERE), realpathSync(manifest));
+    return { name: p.name, version: p.version, license: p.license ?? null, verified: typeof p.license === 'string', provenance: `${rel}#license` };
+  } catch (e) {
+    return { name, version: null, license: null, verified: false, error: e.message };
+  }
+}
+function chromiumInfo(browser) {
+  // Playwright ships "Chrome for Testing", a Google Chrome build, not a bare Chromium build. Its
+  // bundle root carries an ABOUT file pointing at chrome://credits; no standalone LICENSE/credits file
+  // is present at the bundle root, so third-party notices are not vendored and are recorded as such.
+  const info = { version: browser.version(), title: null, revision: null, license: null, verified: false, source: 'playwright-managed download' };
+  try {
+    const pwDir = path.dirname(require.resolve('playwright/package.json'));
+    const core = path.join(nodeModulesAncestor(pwDir), 'playwright-core');
+    const entry = JSON.parse(readFileSync(path.join(core, 'browsers.json'), 'utf8')).browsers.find(b => b.name === 'chromium');
+    info.title = entry?.title ?? null; info.revision = entry?.revision ?? null; info.browserVersionPinned = entry?.browserVersion ?? null;
+    const exe = chromium.executablePath();
+    const bundleRoot = exe.slice(0, exe.indexOf('.app/')).replace(/\/[^/]*$/, '');
+    const rootFiles = readdirSync(bundleRoot);
+    info.bundleRoot = bundleRoot;
+    info.noticeFilesAtBundleRoot = rootFiles.filter(f => /about|license|credits|notice/i.test(f));
+    const about = rootFiles.includes('ABOUT') ? readFileSync(path.join(bundleRoot, 'ABOUT'), 'utf8') : null;
+    info.aboutExcerpt = about ? about.split('\n').filter(Boolean).slice(0, 2).join(' / ') : null;
+    info.license = 'Google Chrome for Testing terms (ABOUT: "Copyright Google LLC", credits at chrome://credits); not BSD-3-Clause Chromium source';
+    info.licenseEvidenceLimit = 'third-party notices are inside the browser (chrome://credits), not a file this spike can read; treat as unverified for shipping until the operator reviews them';
+  } catch (e) { info.error = e.message; }
+  return info;
+}
+function licenseNotes(deps) {
+  const notes = [];
+  const ok = d => d && d.verified;
+  if (ok(deps.satori) && ok(deps.resvg_js)) notes.push(`satori ${deps.satori.version} and @resvg/resvg-js ${deps.resvg_js.version} are ${deps.satori.license} / ${deps.resvg_js.license} (read from their manifests). MPL-2.0 is within the PRD exception.`);
+  notes.push(ok(deps.resvg_native_binding)
+    ? `${deps.resvg_native_binding.name} ${deps.resvg_native_binding.version} is ${deps.resvg_native_binding.license} (read from ${deps.resvg_native_binding.provenance}); it bundles the resvg Rust crate as a prebuilt .node binary, unmodified here.`
+    : `native resvg binding license UNVERIFIED: ${deps.resvg_native_binding?.error ?? 'not read'}.`);
+  const tv = deps.transitive.filter(ok), tf = deps.transitive.filter(d => !ok(d));
+  if (tv.length) notes.push(`Transitive satori packages read from their manifests: ${tv.map(d => `${d.name} ${d.version} ${d.license}`).join(', ')}.`);
+  if (tf.length) notes.push(`Transitive packages NOT read (unverified): ${tf.map(d => `${d.name} (${d.error})`).join(', ')}.`);
+  notes.push(ok(deps.playwright) ? `playwright ${deps.playwright.version} is ${deps.playwright.license}.` : 'playwright license UNVERIFIED.');
+  notes.push(deps.chromium?.license ? `Browser: ${deps.chromium.title ?? 'chromium'} ${deps.chromium.version} — ${deps.chromium.license}. ${deps.chromium.licenseEvidenceLimit}` : 'Browser license UNVERIFIED.');
+  return notes;
 }
 function processRssKb(pid) {
   if (!pid) return null;
@@ -232,23 +290,20 @@ async function main() {
     dependencies: {
       satori: pkgInfo('satori'),
       resvg_js: pkgInfo('@resvg/resvg-js'),
-      resvg_native_binding: (() => { try { return pkgInfo(`@resvg/resvg-js-${process.platform}-${process.arch}`); } catch (e) { return { error: e.message }; } })(),
+      resvg_native_binding: pkgInfo(`@resvg/resvg-js-${process.platform}-${process.arch}`, '@resvg/resvg-js'),
       playwright: pkgInfo('playwright'),
-      transitive: ['yoga-layout', 'harfbuzzjs', '@shuding/opentype.js', 'linebreak'].map(n => { try { return pkgInfo(n); } catch { return { name: n, error: 'not resolvable from spike root' }; } }),
+      transitive: ['yoga-layout', 'harfbuzzjs', '@shuding/opentype.js', 'linebreak'].map(n => pkgInfo(n, 'satori')),
       chromium: null,
-      font: { file: 'tools/spike/assets/font.ttf', family: 'Inter Regular 4.0', license: 'OFL-1.1', provenance: 'tools/spike/assets/SOURCES.md' }
+      font: { file: 'tools/spike/assets/font.ttf', family: 'Inter Regular 4.0', license: 'OFL-1.1', verified: true, provenance: 'tools/spike/assets/SOURCES.md + verifier sha256 constants' }
     },
-    licenseNotes: [
-      'satori and @resvg/resvg-js (JS wrapper and the darwin-arm64 native binding) are MPL-2.0; MPL-2.0 is within the PRD exception. The binding bundles the resvg Rust crate (MPL-2.0) as a prebuilt .node binary; no source modification is made here.',
-      'playwright is Apache-2.0; the downloaded Chromium build is BSD-3-Clause plus third-party notices shipped in the browser bundle (not vendored into this repo).',
-      'Transitive satori dependencies listed above are MIT. Licenses are read from each package manifest at render time (provenance field), not inferred from other releases.'
-    ],
+    licenseNotes: null,
     units: { time: 'milliseconds (performance.now)', memory: 'bytes unless named *Kb (ps rss, kilobytes)' },
     stageBoundaries: {
       satori_cold: 'dynamic import("satori") + yoga wasm init + first satori() layout + first resvg render + PNG encode, same process, after the fixture/font were already read',
       satori_warm: 'satori() layout + resvg render + PNG encode for the nutrition scene; satoriMs/resvgMs split recorded per sample',
-      playwright_cold: 'chromium.launch + newContext + newPage + setContent + fonts.ready + geometry evaluate + screenshot (clip to canvas) + page close',
-      playwright_warm: 'newPage + setContent + fonts.ready + geometry evaluate + screenshot + page close on an already-launched browser and context',
+      playwright_cold: 'chromium.launch + newContext + newPage + setContent + fonts.ready + geometry evaluate + screenshot (clip to canvas) + page close (whole helper inside the timer)',
+      playwright_warm: 'setContent + fonts.ready + geometry evaluate + screenshot (clip) on an already-launched browser and context; page creation (before the timer) and page close (after it) are excluded',
+      importNote: 'static imports of @resvg/resvg-js and playwright run at module load before any timer; cold numbers are backend initialization within an already-started process, not fresh-process startup',
       warmup: 'one unmeasured warm render per backend precedes the timed samples; ten samples are recorded; this is not a production p95'
     },
     memoryNotes: [
@@ -276,13 +331,17 @@ async function main() {
     cases: {}, probes: {}, digests: {}, capabilities: {}
   };
 
-  const deadline = setTimeout(() => {
-    console.error(`render: deadline of ${RENDER_DEADLINE_MS}ms exceeded; aborting`);
+  let browser = null;
+  // Finite deadline: close the browser (bounded by 5 s) before exiting 2. It cannot interrupt a
+  // synchronous resvg rasterization already on the stack; it fires at the next event-loop turn.
+  const deadline = setTimeout(async () => {
+    deadlineHit = true;
+    console.error(`render: deadline of ${RENDER_DEADLINE_MS}ms exceeded; closing browser and aborting`);
+    if (browser) await Promise.race([browser.close().catch(() => {}), new Promise(r => setTimeout(r, 5000))]);
     process.exit(2);
   }, RENDER_DEADLINE_MS);
   deadline.unref?.();
 
-  let browser = null;
   try {
     // ---- Satori cold
     const tColdS = performance.now();
@@ -294,7 +353,11 @@ async function main() {
     // ---- Playwright cold
     const tColdP = performance.now();
     browser = await chromium.launch({ headless: true });
-    runtime.dependencies.chromium = { version: browser.version(), source: 'playwright-managed download', license: 'BSD-3-Clause (Chromium) + bundled third-party notices' };
+    runtime.dependencies.chromium = chromiumInfo(browser);
+    runtime.licenseNotes = licenseNotes(runtime.dependencies);
+    // Failure-path control (operator-only): SPIKE_INJECT_FAILURE=1 throws here, after the browser is
+    // up, to prove the finally block closes it. Never set in normal runs.
+    if (process.env.SPIKE_INJECT_FAILURE === '1') throw new Error('injected failure after browser launch (SPIKE_INJECT_FAILURE)');
     let context = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
     const firstP = await renderPlaywright(context, baseScene, font, W, H);
     runtime.playwright.cold = { totalMs: round(performance.now() - tColdP), firstStageMs: firstP.stageMs, fontLoaded: firstP.fontLoaded };
@@ -379,28 +442,32 @@ async function main() {
     for (const p of SCRIPT_PROBES) {
       const missing = sProbe.missingSegments.filter(m => p.text.includes(m.segment));
       const w = widths[p.id];
-      // Font coverage is a property of the pinned font file; satori's segmenter reports uncovered segments.
-      // Chromium falls back per glyph to a system face it does not name, so its observation is split into
-      // coverage (from the font) and rendering (from the page): equal pinned-vs-fallback advance widths
-      // corroborate that the pinned face supplied none of the glyphs.
+      // Font coverage is a property of the pinned font file; satori's segmenter reports uncovered
+      // segments (same font file both backends use). Chromium falls back per glyph to a system face it
+      // does not name. measureText pinned-vs-fallback widths are corroboration with limits (a fallback
+      // chain can differ between the two font-family values), never a coverage oracle. A nonzero text box
+      // is layout evidence only; what was painted is a separate visual observation of the probe PNGs.
       const covered = missing.length === 0;
       const widthsDiffer = Math.abs(w.pinnedFamilyWidth - w.fallbackOnlyWidth) > 0.01;
+      const sBox = sProbe.textBoxes[`probe_${p.id}`] ?? null;
+      const pBox = pProbe.textBoxes[`probe_${p.id}`] ?? null;
       measurements.probes[p.id] = {
         text: p.text, mandatory: !!p.mandatory,
         satori: {
-          observation: missing.length ? 'uncovered_by_pinned_font' : 'rendered_by_pinned_font',
+          observation: covered ? 'rendered_by_pinned_font' : 'uncovered_by_pinned_font',
           uncoveredSegments: missing,
           fallbackSupplied: false,
-          consequence: missing.length ? 'glyphs not drawn (no fallback font provided via loadAdditionalAsset)' : 'none',
-          textBox: sProbe.textBoxes[`probe_${p.id}`] ?? null
+          consequence: covered ? 'none' : 'requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/probe-satori.png); no fallback font was provided via loadAdditionalAsset',
+          layoutBox: sBox, layoutBoxNonEmpty: !!sBox && sBox.width > 0,
+          visualObservation: 'see output/probe-satori.png; placeholders are agent-observed, not machine-detected'
         },
         playwright: {
           observation: covered ? 'rendered_by_pinned_font' : 'rendered_via_system_fallback',
           pinnedFontCoverage: covered ? 'covered' : 'uncovered (segments listed under satori.uncoveredSegments; same font file)',
-          measureText: { ...w, pinnedVsFallbackWidthsDiffer: widthsDiffer },
-          fallbackIdentity: covered ? null : 'not exposed by DOM; Chromium substituted a system face per glyph',
-          glyphsDrawn: (pProbe.textBoxes[`probe_${p.id}`]?.width ?? 0) > 0,
-          textBox: pProbe.textBoxes[`probe_${p.id}`] ?? null
+          measureText: { ...w, pinnedVsFallbackWidthsDiffer: widthsDiffer, interpretation: 'corroboration only; equal widths suggest no pinned glyphs, differing widths do not prove coverage' },
+          fallbackIdentity: covered ? null : 'not exposed by the DOM; Chromium substituted a system face per glyph',
+          layoutBox: pBox, layoutBoxNonEmpty: !!pBox && pBox.width > 0,
+          visualObservation: 'see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected'
         }
       };
     }
@@ -460,5 +527,5 @@ async function main() {
 
 main().catch(err => {
   console.error('render: FAILED', err?.stack || err);
-  process.exit(1);
+  process.exit(deadlineHit ? 2 : 1);
 });

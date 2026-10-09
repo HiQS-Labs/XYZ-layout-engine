@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T23:59:42.958Z",
+  "generatedAt": "2026-10-09T00:10:31.318Z",
   "fixture": {
     "id": "nutrition-infographic",
     "width": 1000,
@@ -2356,13 +2356,15 @@
         "uncoveredSegments": [],
         "fallbackSupplied": false,
         "consequence": "none",
-        "textBox": {
+        "layoutBox": {
           "x": 20,
           "y": 20,
           "width": 560,
           "height": 48,
           "text": "Fuel your day"
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_by_pinned_font",
@@ -2370,11 +2372,11 @@
         "measureText": {
           "pinnedFamilyWidth": 254.66796875,
           "fallbackOnlyWidth": 222.1875,
-          "pinnedVsFallbackWidthsDiffer": true
+          "pinnedVsFallbackWidthsDiffer": true,
+          "interpretation": "corroboration only; equal widths suggest no pinned glyphs, differing widths do not prove coverage"
         },
         "fallbackIdentity": null,
-        "glyphsDrawn": true,
-        "textBox": {
+        "layoutBox": {
           "x": 20,
           "y": 20,
           "width": 254.67,
@@ -2385,7 +2387,9 @@
           "scrollHeight": 49,
           "clientHeight": 49,
           "lineCount": 1
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     },
     "latin_accented": {
@@ -2396,13 +2400,15 @@
         "uncoveredSegments": [],
         "fallbackSupplied": false,
         "consequence": "none",
-        "textBox": {
+        "layoutBox": {
           "x": 20,
           "y": 80,
           "width": 560,
           "height": 48,
           "text": "café"
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_by_pinned_font",
@@ -2410,11 +2416,11 @@
         "measureText": {
           "pinnedFamilyWidth": 82.65625,
           "fallbackOnlyWidth": 66.58203125,
-          "pinnedVsFallbackWidthsDiffer": true
+          "pinnedVsFallbackWidthsDiffer": true,
+          "interpretation": "corroboration only; equal widths suggest no pinned glyphs, differing widths do not prove coverage"
         },
         "fallbackIdentity": null,
-        "glyphsDrawn": true,
-        "textBox": {
+        "layoutBox": {
           "x": 20,
           "y": 81,
           "width": 82.66,
@@ -2425,7 +2431,9 @@
           "scrollHeight": 49,
           "clientHeight": 49,
           "lineCount": 1
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     },
     "cjk": {
@@ -2440,14 +2448,16 @@
           }
         ],
         "fallbackSupplied": false,
-        "consequence": "glyphs not drawn (no fallback font provided via loadAdditionalAsset)",
-        "textBox": {
+        "consequence": "requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/probe-satori.png); no fallback font was provided via loadAdditionalAsset",
+        "layoutBox": {
           "x": 20,
           "y": 140,
           "width": 560,
           "height": 48,
           "text": "营养"
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_via_system_fallback",
@@ -2455,11 +2465,11 @@
         "measureText": {
           "pinnedFamilyWidth": 80.548583984375,
           "fallbackOnlyWidth": 80,
-          "pinnedVsFallbackWidthsDiffer": true
+          "pinnedVsFallbackWidthsDiffer": true,
+          "interpretation": "corroboration only; equal widths suggest no pinned glyphs, differing widths do not prove coverage"
         },
-        "fallbackIdentity": "not exposed by DOM; Chromium substituted a system face per glyph",
-        "glyphsDrawn": true,
-        "textBox": {
+        "fallbackIdentity": "not exposed by the DOM; Chromium substituted a system face per glyph",
+        "layoutBox": {
           "x": 20,
           "y": 145,
           "width": 80.56,
@@ -2470,7 +2480,9 @@
           "scrollHeight": 56,
           "clientHeight": 56,
           "lineCount": 1
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     },
     "emoji": {
@@ -2485,14 +2497,16 @@
           }
         ],
         "fallbackSupplied": false,
-        "consequence": "glyphs not drawn (no fallback font provided via loadAdditionalAsset)",
-        "textBox": {
+        "consequence": "requested glyphs unavailable in the pinned font; satori drew .notdef placeholder boxes for the uncovered segment (visible in output/probe-satori.png); no fallback font was provided via loadAdditionalAsset",
+        "layoutBox": {
           "x": 20,
           "y": 200,
           "width": 560,
           "height": 48,
           "text": "⚡"
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-satori.png; placeholders are agent-observed, not machine-detected"
       },
       "playwright": {
         "observation": "rendered_via_system_fallback",
@@ -2500,11 +2514,11 @@
         "measureText": {
           "pinnedFamilyWidth": 40,
           "fallbackOnlyWidth": 40,
-          "pinnedVsFallbackWidthsDiffer": false
+          "pinnedVsFallbackWidthsDiffer": false,
+          "interpretation": "corroboration only; equal widths suggest no pinned glyphs, differing widths do not prove coverage"
         },
-        "fallbackIdentity": "not exposed by DOM; Chromium substituted a system face per glyph",
-        "glyphsDrawn": true,
-        "textBox": {
+        "fallbackIdentity": "not exposed by the DOM; Chromium substituted a system face per glyph",
+        "layoutBox": {
           "x": 20,
           "y": 211,
           "width": 40,
@@ -2515,7 +2529,9 @@
           "scrollHeight": 53,
           "clientHeight": 53,
           "lineCount": 1
-        }
+        },
+        "layoutBoxNonEmpty": true,
+        "visualObservation": "see output/probe-playwright.png; readable glyphs for fallback scripts are agent-observed, not machine-detected"
       }
     }
   },

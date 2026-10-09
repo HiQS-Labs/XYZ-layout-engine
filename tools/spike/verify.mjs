@@ -79,18 +79,38 @@ function checkGeometry(label, c, w, h, textIds, containment, requiredSections) {
     assert(!overlaps(b[x], b[y]), `${label}: unintended overlap between ${x} and ${y}`);
   }
   // Text evidence: every text id the scene emitted must have backend-owned fitting evidence.
+  // Text evidence: every text id the scene emitted must have backend-owned fitting evidence, and the
+  // recorded overflow flags must be re-derivable from the recorded boxes/regions/scroll metrics.
+  const parentOf = {};
+  for (const [p, kids] of Object.entries(containment)) for (const k of kids) parentOf[k] = p;
+  const contained = (a, o) => a.x >= o.x - 0.5 && a.y >= o.y - 0.5 && a.x + a.width <= o.x + o.width + 0.5 && a.y + a.height <= o.y + o.height + 0.5;
+  const canvas = { x: 0, y: 0, width: w, height: h };
   for (const id of textIds) {
     const t = c.text[id];
     assert(t, `${label}: no text evidence for ${id}`);
     if (!t.present) { assert(id === 'header_caption', `${label}: text ${id} missing from render`); continue; }
     assert(finite(t.box) && finite(t.region), `${label}: non-finite text box for ${id}`);
-    assert(typeof t.overflow === 'boolean', `${label}: overflow flag missing for ${id}`);
+    assert(typeof t.text === 'string' && t.text.length > 0, `${label}: rendered text missing for ${id}`);
+    const region = b[parentOf[id]] || canvas;
+    assert.deepStrictEqual(t.region, region, `${label}: ${id} region does not match recorded parent bounds`);
+    let overflow = !contained(t.box, region) || !contained(t.box, canvas);
+    assert.strictEqual(t.insideRegion, contained(t.box, region), `${label}: ${id} insideRegion flag disagrees with boxes`);
+    assert.strictEqual(t.insideCanvas, contained(t.box, canvas), `${label}: ${id} insideCanvas flag disagrees with boxes`);
+    if (t.scrollMetrics) {
+      const sm = t.scrollMetrics;
+      const so = sm.scrollWidth > sm.clientWidth + 1 || sm.scrollHeight > sm.clientHeight + 1;
+      assert.strictEqual(t.scrollOverflow, so, `${label}: ${id} scrollOverflow flag disagrees with scroll metrics`);
+      overflow = overflow || so;
+    }
+    assert.strictEqual(t.overflow, overflow, `${label}: ${id} overflow flag disagrees with recomputed overflow`);
   }
   const f = c.fitting;
   assert(typeof f.fit === 'boolean' && Number.isInteger(f.iterations) && f.iterations <= 10 && Array.isArray(f.steps), `${label}: fitting record malformed`);
   assert.strictEqual(f.steps.length, f.iterations + 1, `${label}: fitting steps do not match iteration count`);
   const lastOverflow = Object.entries(c.text).filter(([, t]) => t.present && t.overflow).map(([id]) => id).sort();
-  assert.deepStrictEqual(lastOverflow, [...f.unresolved].sort(), `${label}: fit result disagrees with text evidence`);
+  assert.deepStrictEqual(lastOverflow, [...f.unresolved].sort(), `${label}: unresolved disagrees with recomputed text overflow`);
+  assert.deepStrictEqual([...f.steps[f.steps.length - 1].overflowing].sort(), lastOverflow, `${label}: last fitting step disagrees with text evidence`);
+  assert.strictEqual(f.fit, lastOverflow.length === 0, `${label}: fit flag disagrees with unresolved overflow`);
 }
 
 async function phase2(fixture) {
@@ -155,15 +175,30 @@ async function phase2(fixture) {
     assert(p, `probe ${id} missing`);
     assert(okObs.has(p.satori.observation) && Array.isArray(p.satori.uncoveredSegments), `satori probe ${id} malformed`);
     assert.strictEqual(p.satori.observation === 'uncovered_by_pinned_font', p.satori.uncoveredSegments.length > 0, `satori probe ${id} observation disagrees with evidence`);
-    assert(okObs.has(p.playwright.observation) && p.playwright.measureText && Number.isFinite(p.playwright.measureText.pinnedFamilyWidth), `playwright probe ${id} malformed`);
+    assert(p.satori.layoutBox && finite(p.satori.layoutBox) && p.satori.layoutBoxNonEmpty === (p.satori.layoutBox.width > 0), `satori probe ${id} layout evidence malformed`);
+    const mt = p.playwright.measureText;
+    assert(okObs.has(p.playwright.observation) && mt && Number.isFinite(mt.pinnedFamilyWidth) && Number.isFinite(mt.fallbackOnlyWidth), `playwright probe ${id} malformed`);
+    assert.strictEqual(mt.pinnedVsFallbackWidthsDiffer, Math.abs(mt.pinnedFamilyWidth - mt.fallbackOnlyWidth) > 0.01, `playwright probe ${id} width flag disagrees with widths`);
+    // Chromium's observation is derived from the shared font's coverage (satori's segmenter), not from widths.
+    assert.strictEqual(p.playwright.observation, p.satori.uncoveredSegments.length ? 'rendered_via_system_fallback' : 'rendered_by_pinned_font', `playwright probe ${id} observation disagrees with font coverage`);
+    assert(p.playwright.layoutBox && finite(p.playwright.layoutBox) && p.playwright.layoutBoxNonEmpty === (p.playwright.layoutBox.width > 0), `playwright probe ${id} layout evidence malformed`);
   }
   assert(m.probes.english.mandatory === true, 'English probe must be mandatory');
   console.log('✔ Script capability probes carry per-backend evidence');
 
   // 5. Runtime record: versions, licenses with provenance, units, boundaries, samples, memory caveats.
   assert(rt.environment.node && rt.environment.cpu && rt.environment.totalMemoryBytes, 'runtime.environment incomplete');
-  for (const k of ['satori', 'resvg_js', 'playwright']) assert(rt.dependencies[k].version && rt.dependencies[k].license && rt.dependencies[k].provenance, `runtime.dependencies.${k} incomplete`);
-  assert(rt.dependencies.chromium && rt.dependencies.chromium.version, 'chromium version missing');
+  for (const k of ['satori', 'resvg_js', 'resvg_native_binding', 'playwright']) {
+    const d = rt.dependencies[k];
+    assert(d && d.verified === true && d.version && typeof d.license === 'string' && d.provenance && !d.error, `runtime.dependencies.${k} not read from its manifest: ${JSON.stringify(d)}`);
+  }
+  assert(rt.dependencies.resvg_native_binding.name === `@resvg/resvg-js-${process.platform}-${process.arch}`, 'native binding record is not for this platform');
+  for (const d of rt.dependencies.transitive) assert(d.verified === true && d.version && typeof d.license === 'string' && !d.error, `transitive dependency not read: ${JSON.stringify(d)}`);
+  for (const d of [...Object.values(rt.dependencies).filter(x => x && x.license), ...rt.dependencies.transitive]) assert(!/GPL/i.test(d.license || ''), `copyleft licence outside the PRD exception: ${d.name} ${d.license}`);
+  const ch = rt.dependencies.chromium;
+  assert(ch && ch.version && ch.title && ch.revision && typeof ch.license === 'string' && ch.licenseEvidenceLimit, 'chromium record incomplete (version/title/revision/license/evidence limit)');
+  assert(Array.isArray(rt.licenseNotes) && rt.licenseNotes.length >= 4 && !rt.licenseNotes.some(n => /UNVERIFIED/.test(n)), `licenseNotes contain unverified entries: ${JSON.stringify(rt.licenseNotes)}`);
+  assert(rt.stageBoundaries.importNote, 'stageBoundaries must disclose static imports preceding cold timers');
   assert(rt.units.time && rt.stageBoundaries.satori_warm && rt.stageBoundaries.playwright_warm && rt.memoryNotes.length >= 2, 'runtime units/boundaries/memory notes missing');
   for (const b of BACKENDS) {
     assert(Number.isFinite(rt[b].cold.totalMs), `${b}: cold timing missing`);
@@ -189,10 +224,12 @@ async function phase2(fixture) {
     for (const k of mandatory) assert.strictEqual(cap[k], recomputed[k], `${b}: capability ${k} does not match evidence`);
     const failed = mandatory.filter(k => recomputed[k] !== true);
     assert.deepStrictEqual(cap.failedMandatory, failed, `${b}: failedMandatory inconsistent`);
+    assert.strictEqual(cap.eligibleForRecommendation, failed.length === 0, `${b}: eligibleForRecommendation disagrees with mandatory failures`);
     assert.strictEqual(cap.status, failed.length ? 'held' : 'eligible', `${b}: status inconsistent`);
+    assert.deepStrictEqual(cap.scripts, Object.fromEntries(['english', 'latin_accented', 'cjk', 'emoji'].map(id => [id, m.probes[id][b].observation])), `${b}: capability scripts disagree with probes`);
     console.log(`  ${b}: ${cap.status.toUpperCase()}${failed.length ? ' — failed ' + failed.join(', ') : ''}; scripts ${JSON.stringify(cap.scripts)}`);
   }
-  const eligible = BACKENDS.filter(b => m.capabilities[b].eligibleForRecommendation);
+  const eligible = BACKENDS.filter(b => mandatory.every(k => m.capabilities[b][k] === true));
   assert.deepStrictEqual(m.selection.eligible, eligible, 'selection.eligible inconsistent with capabilities');
   assert.strictEqual(m.selection.status, eligible.length ? 'candidates' : 'BLOCKED', 'selection.status inconsistent');
   console.log(`✔ Capability table consistent; selection ${m.selection.status}${eligible.length ? ': ' + eligible.join(', ') : ''}`);

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T23:59:42.958Z",
+  "generatedAt": "2026-10-09T00:10:31.318Z",
   "environment": {
     "node": "v22.22.3",
     "platform": "darwin",
@@ -14,57 +14,89 @@
       "name": "satori",
       "version": "0.36.0",
       "license": "MPL-2.0",
-      "provenance": "node_modules/satori/package.json#license"
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/satori@0.36.0/node_modules/satori/package.json#license"
     },
     "resvg_js": {
       "name": "@resvg/resvg-js",
       "version": "2.6.2",
       "license": "MPL-2.0",
-      "provenance": "node_modules/@resvg/resvg-js/package.json#license"
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/@resvg+resvg-js@2.6.2/node_modules/@resvg/resvg-js/package.json#license"
     },
     "resvg_native_binding": {
-      "error": "Cannot find module '@resvg/resvg-js-darwin-arm64/package.json'\nRequire stack:\n- /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/tools/spike/render.mjs"
+      "name": "@resvg/resvg-js-darwin-arm64",
+      "version": "2.6.2",
+      "license": "MPL-2.0",
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/@resvg+resvg-js-darwin-arm64@2.6.2/node_modules/@resvg/resvg-js-darwin-arm64/package.json#license"
     },
     "playwright": {
       "name": "playwright",
       "version": "1.64.0",
       "license": "Apache-2.0",
-      "provenance": "node_modules/playwright/package.json#license"
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/playwright@1.64.0/node_modules/playwright/package.json#license"
     },
     "transitive": [
       {
         "name": "yoga-layout",
-        "error": "not resolvable from spike root"
+        "version": "3.2.1",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/yoga-layout@3.2.1/node_modules/yoga-layout/package.json#license"
       },
       {
         "name": "harfbuzzjs",
-        "error": "not resolvable from spike root"
+        "version": "0.10.0",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/harfbuzzjs@0.10.0/node_modules/harfbuzzjs/package.json#license"
       },
       {
         "name": "@shuding/opentype.js",
-        "error": "not resolvable from spike root"
+        "version": "1.4.0-beta.0",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/@shuding+opentype.js@1.4.0-beta.0/node_modules/@shuding/opentype.js/package.json#license"
       },
       {
         "name": "linebreak",
-        "error": "not resolvable from spike root"
+        "version": "1.1.0",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/linebreak@1.1.0/node_modules/linebreak/package.json#license"
       }
     ],
     "chromium": {
       "version": "156.0.8078.4",
+      "title": "Chrome for Testing",
+      "revision": "1248",
+      "license": "Google Chrome for Testing terms (ABOUT: \"Copyright Google LLC\", credits at chrome://credits); not BSD-3-Clause Chromium source",
+      "verified": false,
       "source": "playwright-managed download",
-      "license": "BSD-3-Clause (Chromium) + bundled third-party notices"
+      "browserVersionPinned": "156.0.8078.4",
+      "bundleRoot": "/Users/noelsaw/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64",
+      "noticeFilesAtBundleRoot": [
+        "ABOUT"
+      ],
+      "aboutExcerpt": "Google Chrome / Copyright 2026 Google LLC. All rights reserved.",
+      "licenseEvidenceLimit": "third-party notices are inside the browser (chrome://credits), not a file this spike can read; treat as unverified for shipping until the operator reviews them"
     },
     "font": {
       "file": "tools/spike/assets/font.ttf",
       "family": "Inter Regular 4.0",
       "license": "OFL-1.1",
-      "provenance": "tools/spike/assets/SOURCES.md"
+      "verified": true,
+      "provenance": "tools/spike/assets/SOURCES.md + verifier sha256 constants"
     }
   },
   "licenseNotes": [
-    "satori and @resvg/resvg-js (JS wrapper and the darwin-arm64 native binding) are MPL-2.0; MPL-2.0 is within the PRD exception. The binding bundles the resvg Rust crate (MPL-2.0) as a prebuilt .node binary; no source modification is made here.",
-    "playwright is Apache-2.0; the downloaded Chromium build is BSD-3-Clause plus third-party notices shipped in the browser bundle (not vendored into this repo).",
-    "Transitive satori dependencies listed above are MIT. Licenses are read from each package manifest at render time (provenance field), not inferred from other releases."
+    "satori 0.36.0 and @resvg/resvg-js 2.6.2 are MPL-2.0 / MPL-2.0 (read from their manifests). MPL-2.0 is within the PRD exception.",
+    "@resvg/resvg-js-darwin-arm64 2.6.2 is MPL-2.0 (read from ../node_modules/.pnpm/@resvg+resvg-js-darwin-arm64@2.6.2/node_modules/@resvg/resvg-js-darwin-arm64/package.json#license); it bundles the resvg Rust crate as a prebuilt .node binary, unmodified here.",
+    "Transitive satori packages read from their manifests: yoga-layout 3.2.1 MIT, harfbuzzjs 0.10.0 MIT, @shuding/opentype.js 1.4.0-beta.0 MIT, linebreak 1.1.0 MIT.",
+    "playwright 1.64.0 is Apache-2.0.",
+    "Browser: Chrome for Testing 156.0.8078.4 — Google Chrome for Testing terms (ABOUT: \"Copyright Google LLC\", credits at chrome://credits); not BSD-3-Clause Chromium source. third-party notices are inside the browser (chrome://credits), not a file this spike can read; treat as unverified for shipping until the operator reviews them"
   ],
   "units": {
     "time": "milliseconds (performance.now)",
@@ -73,8 +105,9 @@
   "stageBoundaries": {
     "satori_cold": "dynamic import(\"satori\") + yoga wasm init + first satori() layout + first resvg render + PNG encode, same process, after the fixture/font were already read",
     "satori_warm": "satori() layout + resvg render + PNG encode for the nutrition scene; satoriMs/resvgMs split recorded per sample",
-    "playwright_cold": "chromium.launch + newContext + newPage + setContent + fonts.ready + geometry evaluate + screenshot (clip to canvas) + page close",
-    "playwright_warm": "newPage + setContent + fonts.ready + geometry evaluate + screenshot + page close on an already-launched browser and context",
+    "playwright_cold": "chromium.launch + newContext + newPage + setContent + fonts.ready + geometry evaluate + screenshot (clip to canvas) + page close (whole helper inside the timer)",
+    "playwright_warm": "setContent + fonts.ready + geometry evaluate + screenshot (clip) on an already-launched browser and context; page creation (before the timer) and page close (after it) are excluded",
+    "importNote": "static imports of @resvg/resvg-js and playwright run at module load before any timer; cold numbers are backend initialization within an already-started process, not fresh-process startup",
     "warmup": "one unmeasured warm render per backend precedes the timed samples; ten samples are recorded; this is not a production p95"
   },
   "memoryNotes": [
@@ -83,76 +116,76 @@
   ],
   "satori": {
     "cold": {
-      "totalMs": 137.51,
-      "importMs": 60.4,
-      "firstStageMs": 71.24
+      "totalMs": 149.92,
+      "importMs": 70.88,
+      "firstStageMs": 72.96
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        27.39,
-        27.41,
-        26.41,
-        26.78,
-        26.37,
-        26.48,
-        25.28,
-        25.29,
+        27.83,
+        28.25,
+        27.82,
+        26.71,
+        26.79,
+        27.35,
+        26.12,
         26.59,
-        25.27
+        26.88,
+        26.14
       ],
-      "min": 25.27,
-      "median": 26.48,
-      "mean": 26.33,
-      "max": 27.41,
+      "min": 26.12,
+      "median": 26.88,
+      "mean": 27.05,
+      "max": 28.25,
       "split": [
         {
-          "satoriMs": 8.13,
-          "resvgMs": 19.26
-        },
-        {
-          "satoriMs": 8.65,
+          "satoriMs": 9.07,
           "resvgMs": 18.76
         },
         {
-          "satoriMs": 7.81,
-          "resvgMs": 18.6
+          "satoriMs": 9.21,
+          "resvgMs": 19.04
         },
         {
-          "satoriMs": 7.34,
-          "resvgMs": 19.44
+          "satoriMs": 8.56,
+          "resvgMs": 19.26
         },
         {
-          "satoriMs": 8,
-          "resvgMs": 18.37
+          "satoriMs": 7.82,
+          "resvgMs": 18.89
         },
         {
-          "satoriMs": 7.66,
-          "resvgMs": 18.83
+          "satoriMs": 7.78,
+          "resvgMs": 19.01
         },
         {
-          "satoriMs": 7.1,
-          "resvgMs": 18.18
+          "satoriMs": 8.34,
+          "resvgMs": 19.01
         },
         {
-          "satoriMs": 7.2,
-          "resvgMs": 18.09
+          "satoriMs": 7.55,
+          "resvgMs": 18.58
         },
         {
-          "satoriMs": 7.8,
-          "resvgMs": 18.79
+          "satoriMs": 7.86,
+          "resvgMs": 18.73
         },
         {
-          "satoriMs": 7.03,
-          "resvgMs": 18.24
+          "satoriMs": 7.78,
+          "resvgMs": 19.1
+        },
+        {
+          "satoriMs": 7.41,
+          "resvgMs": 18.73
         }
       ]
     },
     "memory": {
       "nodeProcess": {
-        "rss": 282263552,
-        "heapTotal": 95322112,
-        "heapUsed": 67822136,
+        "rss": 284393472,
+        "heapTotal": 96780288,
+        "heapUsed": 68775784,
         "external": 23511278,
         "arrayBuffers": 1969862
       }
@@ -160,36 +193,36 @@
   },
   "playwright": {
     "cold": {
-      "totalMs": 224.36,
-      "firstStageMs": 63.95,
+      "totalMs": 231.43,
+      "firstStageMs": 66.72,
       "fontLoaded": true
     },
     "warm": {
       "workload": "nutrition baseline 1000x1000",
       "samples": [
-        69.22,
-        69.52,
-        80.99,
-        73.05,
-        70.04,
-        70.29,
-        70.23,
-        69.75,
-        68.96,
-        69.23
+        72.5,
+        69.9,
+        70.94,
+        80.35,
+        71.75,
+        69.84,
+        67.76,
+        68.36,
+        69.33,
+        69.77
       ],
-      "min": 68.96,
-      "median": 70.04,
-      "mean": 71.13,
-      "max": 80.99
+      "min": 67.76,
+      "median": 69.9,
+      "mean": 71.05,
+      "max": 80.35
     },
     "memory": {
       "nodeProcess": {
-        "rss": 290177024,
-        "heapTotal": 99041280,
-        "heapUsed": 67956496,
-        "external": 26797655,
-        "arrayBuffers": 5372001
+        "rss": 293552128,
+        "heapTotal": 100499456,
+        "heapUsed": 68821008,
+        "external": 26797659,
+        "arrayBuffers": 5372005
       },
       "chromium": {
         "browserProcessRssKb": null,
