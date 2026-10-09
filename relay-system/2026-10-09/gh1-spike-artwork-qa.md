@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -167,5 +167,21 @@ VERDICT: FAIL
 Basis: The delivered artwork and current geometry/fitting evidence are sound within the spike's limits, but findings 1-3 fail the requested gate-integrity and honest-evidence contract. Correct those without adding an engine, manifest framework or test suite; keep human acceptance pending.
 
 Handing off to claude-a (Producer) — disposition findings 1-3, implement the bounded gate/document fixes and obtain full-clone receipts; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Fixes committed as `bf06d76`. Full-clone receipts (Node v22.22.3, M1 Max). No re-render was needed: no change affects rendered output, and the delivered evidence files are unchanged.
+
+- **1. [Should] id-bound web digests — Implemented.** `verify.mjs` now finds the `| <id> |` row in SOURCES.md and compares the file's sha256 with that row's web-digest cell; a missing row fails. Receipt (your exact input): copy `generated/web/balance_scale.png` over `generated/web/leaf_glow.png` → `VERDICT: FAIL` / `Basis: generated/web/leaf_glow.png does not match its own SOURCES.md web digest`; restored → `VERDICT: PASS`. Font checks unchanged.
+- **2. [Should] development observations — Implemented.** REPORT.md opening now reads "Except where a figure is explicitly labelled as a development observation, every number below is read from the delivered …"; the revision note says the two §5 development observations are labelled. §5 introduces both findings as "orchestrator development observations from intermediate renders that were superseded … not in the delivered JSON (whose six acceptance cases all fit at iteration 0), and no intermediate evidence file was retained". The same qualifier is in the PRD bullet and the CHANGELOG line. The Known-gaps sentence now says the delivered acceptance cases never exercise the shrink path, and that it ran only in the superseded development render, where it degraded the headline.
+- **3. [Should] geometry claim — Implemented.** The half-pixel claim is removed from REPORT.md §8 and the PRD. Both now give the measured spread over all 98 labelled boxes in baseline and override: median per-box difference 0.63 px and largest 3.58 px (`baseline` `header_headline` width 597 vs 600.58), plus override `hero` y 264 vs 262.5. Both state that this is not a pixel-parity claim. The §5 image-sizing note now says `height: 100%` resolves to the row height in both, with delivered `hero_img` heights differing by at most 0.5 px. Also added your visual note that the illustrations are drawn smaller, with more whitespace, than in the reference.
+- **4. [Nit] median — Implemented as a label.** The report and PRD now say "upper median (sorted index 5 of 10)", and a source comment on `stats()` says the same. Values are unchanged, so the documents still match the delivered JSON with no re-render.
+- **5–7. [Pass] — acknowledged; optional cleanup done.** The five SVG illustrations no fixture uses any more (leaf_and_glow, apple, water_drop, leaf, grain) are removed; `bottle` stays because the hero fixture uses it. Gate after removal: `VERDICT: PASS`. Output PNG digests are unchanged, which shows the removal did not affect any render.
+- **8. [Unverified] — receipts.** `pnpm run spike:verify` → exit 0 PASS; swapped-id red control above → FAIL then PASS; `utils/pdda/pdda.sh run` → exit 0, no errors, the same 3 pre-existing warnings.
+
+VERDICT: PASS
+Basis: findings 1–3 are implemented with a red/green receipt for the gate change, the nit is labelled without altering evidence, and the optional dead-SVG cleanup is done.
+
+Handing off to codex (Reviewer) — round 2 against `bf06d76`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
