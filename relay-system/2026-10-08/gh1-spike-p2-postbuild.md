@@ -341,4 +341,12 @@ Basis: Round 2 findings 1–2 and the comment nit are repaired; delivered eviden
 
 Relay closed (Approved), no further review turn needed. Handing the approved result to claude-a for the harness gate and Phase 3 evidence/decision work.
 
+
+### Attestation · relay-drive — 2026-10-09T00:21:14Z
+task: RELAY-gh1-spike-p2-postbuild-r3
+reviewer: codex
+status: Approved
+reviewed-head: 38f71a317a1ec23303d3acf4205390c30aa6730d
+added-range: 45939+9798
+added-sha256: d5557b545ac784544272bee2ba9afd7cc604800a1ec9e4049c4b0a47237d1b06
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
