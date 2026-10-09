@@ -513,4 +513,12 @@ Reviewed HEAD: `e5130905d2f6310b8880549a5db9a73a0ed214be` (read worktree HEAD/re
 
 Review outcome: Approved for preparation of the bounded local sequence. Relay closed (Approved), no further review turn needed; terminally completing GH5-MARATHON-PLAN-QA-1 for codex-producer to continue readiness/preflight and dry-run before dispatch.
 
+
+### Attestation · relay-drive — 2026-10-09T06:40:00Z
+task: GH5-MARATHON-PLAN-QA-1
+reviewer: codex
+status: Approved
+reviewed-head: e5130905d2f6310b8880549a5db9a73a0ed214be
+added-range: 58920+6613
+added-sha256: 1b8d82d6263198a672d65fe7cc6414bf4382793da1f3f591e1a3e5df9c60ad0f
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
