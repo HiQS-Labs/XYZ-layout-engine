@@ -1,0 +1,1087 @@
+{
+  "renderer": "Existing GH-1 renderSatori / renderPlaywright functions",
+  "generatedAt": "2026-10-09T05:15:02.121Z",
+  "width": 2400,
+  "height": 1700,
+  "imageNodes": [
+    "asset_milky-way",
+    "asset_asteroid-belt",
+    "asset_sun",
+    "asset_mercury",
+    "asset_venus",
+    "asset_earth",
+    "asset_mars",
+    "asset_jupiter",
+    "asset_saturn",
+    "asset_uranus",
+    "asset_neptune"
+  ],
+  "assets": {
+    "sun": {
+      "source": "assets/sun.png",
+      "sha256": "ec0974fcca8bf046dea19130d8a0e3bb5a6d302be6e08fccf470c29512c2dce4",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.39487457275390625,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/sun.png",
+        "sha256": "cb61709439b95b0ceabe07a9c7c2c02361a92465276a1e6a7f6ae9351eab8484",
+        "bytes": 587319
+      }
+    },
+    "mercury": {
+      "source": "assets/mercury.png",
+      "sha256": "f8596509a63806d5d752e11aa6dcff5fc947c5bef3a10d3ccb37583fe11bf4c3",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.5189790725708008,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/mercury.png",
+        "sha256": "3b9b2472b6e42902cc7446dc790a8ba7ad26afadc0c8f1ab1c9ed7bc166c935d",
+        "bytes": 567199
+      }
+    },
+    "venus": {
+      "source": "assets/venus.png",
+      "sha256": "c8c3544461ebcded0ddde2d2563ac124d25179e8da0193624006bc7b0d8f289f",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.4843587875366211,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/venus.png",
+        "sha256": "ab1a36ade7d80b79018b113eff0e8e2b44f728de278cea48b6529f9a285051d0",
+        "bytes": 374239
+      }
+    },
+    "earth": {
+      "source": "assets/earth.png",
+      "sha256": "43635b18d9ab165240ad9e1fea31da2b669a1f8eddcc13d791314fd846eff5b3",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.47390079498291016,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/earth.png",
+        "sha256": "0f377324f4d0ed2befda1baa54b5dfa30714795e4bee35092f0336e3401835a1",
+        "bytes": 627110
+      }
+    },
+    "mars": {
+      "source": "assets/mars.png",
+      "sha256": "1d0da2c1dabab37e04f66b9bd8f728ad1cf1a1e7938203b3b88eba074abef69d",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.5074224472045898,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/mars.png",
+        "sha256": "5c118cdd1ce58f90b20012a4b892e63476efae0db2de6f3622f758dfeaf045ce",
+        "bytes": 490973
+      }
+    },
+    "jupiter": {
+      "source": "assets/jupiter.png",
+      "sha256": "ec1524efc2548332efc3e2415da8119fd40779407fda9d6273254569049cef47",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.4232978820800781,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/jupiter.png",
+        "sha256": "56d6021a3a3818a513ca48485c0ac2b65a110ff6dbd7825232522f48affbbece",
+        "bytes": 527193
+      }
+    },
+    "saturn-clean": {
+      "source": "assets/saturn-clean.png",
+      "sha256": "81a49c3639bf83709b67676d06404b23d545110c85b4caf5b08ff9a27ac02949",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.7614631652832031,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/saturn-clean.png",
+        "sha256": "5b4516a6a699f8461aec4e74d12dbe3416377233a409bdd8f454271bc1e4bef1",
+        "bytes": 219152
+      }
+    },
+    "uranus": {
+      "source": "assets/uranus.png",
+      "sha256": "071f9f960fc19e5b41d0e7b146e83c108b8a467042e7da491722ad8934610a1c",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.4914894104003906,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/uranus.png",
+        "sha256": "a8968c437f17fc61df7579f680ca37e1b088739bafe6543f5f0bd96f6f66722b",
+        "bytes": 289367
+      }
+    },
+    "neptune": {
+      "source": "assets/neptune.png",
+      "sha256": "c646a57de5a6ce28c038f3cc72cc5873aaa192ce2ab4a35f6204c65629dd024a",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.5210552215576172,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/neptune.png",
+        "sha256": "4136bc7ef76138f53cd6324a2d4fcbfad89361e3ab685bc880a02a4867768e0f",
+        "bytes": 352017
+      }
+    },
+    "asteroid-belt-diagram": {
+      "source": "assets/asteroid-belt-diagram.png",
+      "sha256": "a9e31267b99b0ad48f654989d3939fa7d4681df6da29b76afacc3dc52f829c7e",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.8556035359700521,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/asteroid-belt-diagram.png",
+        "sha256": "648e16b4a832caef9180d0de7e18f5ed077a86108ba7ff658b67284d36c50b21",
+        "bytes": 84141
+      }
+    },
+    "milky-way": {
+      "source": "assets/milky-way.png",
+      "sha256": "159f3135add28df5008a4e027a983c603f995700262469c4f4dbd27daa824e45",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.21893596649169922,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "display": {
+        "path": "assets/web/milky-way.png",
+        "sha256": "e4a67d0ce0ffae5fa4c0357cc1b0bcf5d9a8066d034858d4eaade2c141b6029e",
+        "bytes": 697602
+      }
+    }
+  },
+  "artifactDigests": {
+    "png": "f3a9660b13e713057cdb46697a787cd30504fb7593e09ad976e8bb28e267e567",
+    "svg": "d34794354224788231185bb177ecc311330e4b2edbe94ea09fbcd71a3914163a",
+    "html": "e87562d37877bf29a76230fe70704079de5eb40d716a16a40e56c318344f040a",
+    "chromiumPng": "49b14c5ad0cc4fec42ebe76a480df97ce270e7bf112f1c57978f5d9bac09ec7f"
+  },
+  "textIds": [
+    "eyebrow",
+    "title",
+    "subtitle",
+    "intro_heading",
+    "intro_note",
+    "galaxy_title",
+    "galaxy_note",
+    "location_title",
+    "location_name",
+    "location_arm",
+    "sun_name",
+    "sun_kind",
+    "mercury_name",
+    "mercury_kind",
+    "venus_name",
+    "venus_kind",
+    "earth_name",
+    "earth_kind",
+    "mars_name",
+    "mars_kind",
+    "jupiter_name",
+    "jupiter_kind",
+    "saturn_name",
+    "saturn_kind",
+    "uranus_name",
+    "uranus_kind",
+    "neptune_name",
+    "neptune_kind",
+    "belt_name",
+    "belt_detail",
+    "footer_message",
+    "footer_credit",
+    "scale_note",
+    "source_note"
+  ],
+  "satoriBounds": {
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1700
+    },
+    "starfield": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1700
+    },
+    "orbits": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1700
+    },
+    "header": {
+      "x": 100,
+      "y": 87,
+      "width": 1530,
+      "height": 235
+    },
+    "eyebrow": {
+      "x": 100,
+      "y": 87,
+      "width": 1530,
+      "height": 30
+    },
+    "title": {
+      "x": 100,
+      "y": 135,
+      "width": 1530,
+      "height": 130
+    },
+    "subtitle": {
+      "x": 100,
+      "y": 283,
+      "width": 1530,
+      "height": 39
+    },
+    "intro": {
+      "x": 102,
+      "y": 365,
+      "width": 1160,
+      "height": 76
+    },
+    "intro_heading": {
+      "x": 102,
+      "y": 365,
+      "width": 1160,
+      "height": 36
+    },
+    "intro_note": {
+      "x": 102,
+      "y": 411,
+      "width": 1160,
+      "height": 30
+    },
+    "galaxy_panel": {
+      "x": 1770,
+      "y": 73,
+      "width": 530,
+      "height": 454
+    },
+    "galaxy_title": {
+      "x": 1801,
+      "y": 104,
+      "width": 468,
+      "height": 30
+    },
+    "galaxy_note": {
+      "x": 1801,
+      "y": 480,
+      "width": 281,
+      "height": 20
+    },
+    "asset_milky-way": {
+      "x": 1785,
+      "y": 135,
+      "width": 340,
+      "height": 340
+    },
+    "galaxy_location": {
+      "x": 2115,
+      "y": 245,
+      "width": 164,
+      "height": 93
+    },
+    "location_title": {
+      "x": 2115,
+      "y": 245,
+      "width": 164,
+      "height": 20
+    },
+    "location_name": {
+      "x": 2115,
+      "y": 273,
+      "width": 164,
+      "height": 31
+    },
+    "location_arm": {
+      "x": 2115,
+      "y": 312,
+      "width": 164,
+      "height": 26
+    },
+    "galaxy_marker": {
+      "x": 1770,
+      "y": 73,
+      "width": 530,
+      "height": 454
+    },
+    "asset_asteroid-belt": {
+      "x": 540,
+      "y": 650,
+      "width": 1060,
+      "height": 700
+    },
+    "asset_sun": {
+      "x": 960,
+      "y": 890,
+      "width": 220,
+      "height": 220
+    },
+    "label_sun": {
+      "x": 1005,
+      "y": 1115,
+      "width": 260,
+      "height": 72
+    },
+    "sun_name": {
+      "x": 1005,
+      "y": 1115,
+      "width": 260,
+      "height": 44
+    },
+    "sun_kind": {
+      "x": 1005,
+      "y": 1164,
+      "width": 260,
+      "height": 23
+    },
+    "asset_mercury": {
+      "x": 913,
+      "y": 924,
+      "width": 60,
+      "height": 60
+    },
+    "label_mercury": {
+      "x": 820,
+      "y": 848,
+      "width": 260,
+      "height": 72
+    },
+    "mercury_name": {
+      "x": 820,
+      "y": 848,
+      "width": 260,
+      "height": 44
+    },
+    "mercury_kind": {
+      "x": 820,
+      "y": 897,
+      "width": 260,
+      "height": 23
+    },
+    "asset_venus": {
+      "x": 1208,
+      "y": 1021,
+      "width": 84,
+      "height": 84
+    },
+    "label_venus": {
+      "x": 1330,
+      "y": 1060,
+      "width": 260,
+      "height": 72
+    },
+    "venus_name": {
+      "x": 1330,
+      "y": 1060,
+      "width": 260,
+      "height": 44
+    },
+    "venus_kind": {
+      "x": 1330,
+      "y": 1109,
+      "width": 260,
+      "height": 23
+    },
+    "asset_earth": {
+      "x": 1150,
+      "y": 821,
+      "width": 90,
+      "height": 90
+    },
+    "label_earth": {
+      "x": 1360,
+      "y": 680,
+      "width": 260,
+      "height": 72
+    },
+    "earth_name": {
+      "x": 1360,
+      "y": 680,
+      "width": 260,
+      "height": 44
+    },
+    "earth_kind": {
+      "x": 1360,
+      "y": 729,
+      "width": 260,
+      "height": 23
+    },
+    "asset_mars": {
+      "x": 668,
+      "y": 994,
+      "width": 76,
+      "height": 76
+    },
+    "label_mars": {
+      "x": 400,
+      "y": 1070,
+      "width": 260,
+      "height": 72
+    },
+    "mars_name": {
+      "x": 400,
+      "y": 1070,
+      "width": 260,
+      "height": 44
+    },
+    "mars_kind": {
+      "x": 400,
+      "y": 1119,
+      "width": 260,
+      "height": 23
+    },
+    "asset_jupiter": {
+      "x": 517,
+      "y": 740,
+      "width": 205,
+      "height": 205
+    },
+    "label_jupiter": {
+      "x": 420,
+      "y": 650,
+      "width": 260,
+      "height": 72
+    },
+    "jupiter_name": {
+      "x": 420,
+      "y": 650,
+      "width": 260,
+      "height": 44
+    },
+    "jupiter_kind": {
+      "x": 420,
+      "y": 699,
+      "width": 260,
+      "height": 23
+    },
+    "asset_saturn": {
+      "x": 1484,
+      "y": 1040,
+      "width": 310,
+      "height": 310
+    },
+    "label_saturn": {
+      "x": 1760,
+      "y": 1320,
+      "width": 260,
+      "height": 72
+    },
+    "saturn_name": {
+      "x": 1760,
+      "y": 1320,
+      "width": 260,
+      "height": 44
+    },
+    "saturn_kind": {
+      "x": 1760,
+      "y": 1369,
+      "width": 260,
+      "height": 23
+    },
+    "asset_uranus": {
+      "x": 158,
+      "y": 955,
+      "width": 160,
+      "height": 160
+    },
+    "label_uranus": {
+      "x": 120,
+      "y": 1148,
+      "width": 260,
+      "height": 72
+    },
+    "uranus_name": {
+      "x": 120,
+      "y": 1148,
+      "width": 260,
+      "height": 44
+    },
+    "uranus_kind": {
+      "x": 120,
+      "y": 1197,
+      "width": 260,
+      "height": 23
+    },
+    "asset_neptune": {
+      "x": 1883,
+      "y": 731,
+      "width": 150,
+      "height": 150
+    },
+    "label_neptune": {
+      "x": 2050,
+      "y": 915,
+      "width": 260,
+      "height": 72
+    },
+    "neptune_name": {
+      "x": 2050,
+      "y": 915,
+      "width": 260,
+      "height": 44
+    },
+    "neptune_kind": {
+      "x": 2050,
+      "y": 964,
+      "width": 260,
+      "height": 23
+    },
+    "label_leaders": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1700
+    },
+    "label_belt": {
+      "x": 655,
+      "y": 1310,
+      "width": 440,
+      "height": 72
+    },
+    "belt_name": {
+      "x": 655,
+      "y": 1310,
+      "width": 440,
+      "height": 39
+    },
+    "belt_detail": {
+      "x": 655,
+      "y": 1356,
+      "width": 440,
+      "height": 26
+    },
+    "footer_rule": {
+      "x": 100,
+      "y": 1520,
+      "width": 2200,
+      "height": 1
+    },
+    "footer": {
+      "x": 100,
+      "y": 1550,
+      "width": 2200,
+      "height": 111
+    },
+    "footer_summary": {
+      "x": 100,
+      "y": 1550,
+      "width": 2200,
+      "height": 29
+    },
+    "footer_message": {
+      "x": 100,
+      "y": 1550,
+      "width": 621,
+      "height": 29
+    },
+    "footer_credit": {
+      "x": 2097,
+      "y": 1554,
+      "width": 203,
+      "height": 22
+    },
+    "scale_note": {
+      "x": 100,
+      "y": 1597,
+      "width": 2200,
+      "height": 25
+    },
+    "source_note": {
+      "x": 100,
+      "y": 1640,
+      "width": 2200,
+      "height": 21
+    }
+  },
+  "chromiumText": {
+    "eyebrow": {
+      "x": 100,
+      "y": 87,
+      "width": 404.84,
+      "height": 28,
+      "text": "A COSMIC NEIGHBORHOOD",
+      "scrollWidth": 1530,
+      "clientWidth": 1530,
+      "scrollHeight": 30,
+      "clientHeight": 30,
+      "lineCount": 1
+    },
+    "title": {
+      "x": 100,
+      "y": 133.89,
+      "width": 852.11,
+      "height": 131,
+      "text": "Our Solar System",
+      "scrollWidth": 1530,
+      "clientWidth": 1530,
+      "scrollHeight": 130,
+      "clientHeight": 130,
+      "lineCount": 1
+    },
+    "subtitle": {
+      "x": 100,
+      "y": 283.48,
+      "width": 803.59,
+      "height": 36,
+      "text": "Eight planets, one star — and our place in the Milky Way.",
+      "scrollWidth": 1530,
+      "clientWidth": 1530,
+      "scrollHeight": 39,
+      "clientHeight": 39,
+      "lineCount": 1
+    },
+    "intro_heading": {
+      "x": 102,
+      "y": 366,
+      "width": 570.47,
+      "height": 34,
+      "text": "A journey from our star to the outer planets",
+      "scrollWidth": 1160,
+      "clientWidth": 1160,
+      "scrollHeight": 36,
+      "clientHeight": 36,
+      "lineCount": 1
+    },
+    "intro_note": {
+      "x": 102,
+      "y": 411.39,
+      "width": 638.02,
+      "height": 28,
+      "text": "Read the numbered planets in order outward from the Sun.",
+      "scrollWidth": 1160,
+      "clientWidth": 1160,
+      "scrollHeight": 30,
+      "clientHeight": 30,
+      "lineCount": 1
+    },
+    "galaxy_title": {
+      "x": 1801,
+      "y": 104,
+      "width": 225.05,
+      "height": 28,
+      "text": "THE MILKY WAY",
+      "scrollWidth": 468,
+      "clientWidth": 468,
+      "scrollHeight": 30,
+      "clientHeight": 30,
+      "lineCount": 1
+    },
+    "galaxy_note": {
+      "x": 1801,
+      "y": 480,
+      "width": 280.92,
+      "height": 19,
+      "text": "Artist impression · location is schematic",
+      "scrollWidth": 281,
+      "clientWidth": 281,
+      "scrollHeight": 20,
+      "clientHeight": 20,
+      "lineCount": 1
+    },
+    "location_title": {
+      "x": 2115,
+      "y": 245,
+      "width": 126.2,
+      "height": 19,
+      "text": "YOU ARE HERE",
+      "scrollWidth": 164,
+      "clientWidth": 164,
+      "scrollHeight": 20,
+      "clientHeight": 20,
+      "lineCount": 1
+    },
+    "location_name": {
+      "x": 2115,
+      "y": 273.5,
+      "width": 154.69,
+      "height": 29,
+      "text": "Solar System",
+      "scrollWidth": 164,
+      "clientWidth": 164,
+      "scrollHeight": 31,
+      "clientHeight": 31,
+      "lineCount": 1
+    },
+    "location_arm": {
+      "x": 2115,
+      "y": 312.69,
+      "width": 101.86,
+      "height": 24,
+      "text": "Orion Spur",
+      "scrollWidth": 164,
+      "clientWidth": 164,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "sun_name": {
+      "x": 1005,
+      "y": 1116,
+      "width": 64.61,
+      "height": 41,
+      "text": "Sun",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "sun_kind": {
+      "x": 1005,
+      "y": 1165.19,
+      "width": 98.25,
+      "height": 21,
+      "text": "OUR STAR",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "mercury_name": {
+      "x": 820,
+      "y": 849,
+      "width": 140.97,
+      "height": 41,
+      "text": "Mercury",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "mercury_kind": {
+      "x": 820,
+      "y": 898.19,
+      "width": 191.95,
+      "height": 21,
+      "text": "01  /  ROCKY PLANET",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "venus_name": {
+      "x": 1330,
+      "y": 1061,
+      "width": 104.95,
+      "height": 41,
+      "text": "Venus",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "venus_kind": {
+      "x": 1330,
+      "y": 1110.19,
+      "width": 195.61,
+      "height": 21,
+      "text": "02  /  ROCKY PLANET",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "earth_name": {
+      "x": 1360,
+      "y": 681,
+      "width": 88.61,
+      "height": 41,
+      "text": "Earth",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "earth_kind": {
+      "x": 1360,
+      "y": 730.19,
+      "width": 195.75,
+      "height": 21,
+      "text": "03  /  ROCKY PLANET",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "mars_name": {
+      "x": 400,
+      "y": 1071,
+      "width": 84.31,
+      "height": 41,
+      "text": "Mars",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "mars_kind": {
+      "x": 400,
+      "y": 1120.19,
+      "width": 196.27,
+      "height": 21,
+      "text": "04  /  ROCKY PLANET",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "jupiter_name": {
+      "x": 420,
+      "y": 651,
+      "width": 117.91,
+      "height": 41,
+      "text": "Jupiter",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "jupiter_kind": {
+      "x": 420,
+      "y": 700.19,
+      "width": 152.23,
+      "height": 21,
+      "text": "05  /  GAS GIANT",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "saturn_name": {
+      "x": 1760,
+      "y": 1321,
+      "width": 110.89,
+      "height": 41,
+      "text": "Saturn",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "saturn_kind": {
+      "x": 1760,
+      "y": 1370.19,
+      "width": 152.45,
+      "height": 21,
+      "text": "06  /  GAS GIANT",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "uranus_name": {
+      "x": 120,
+      "y": 1149,
+      "width": 119.39,
+      "height": 41,
+      "text": "Uranus",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "uranus_kind": {
+      "x": 120,
+      "y": 1198.19,
+      "width": 142.94,
+      "height": 21,
+      "text": "07  /  ICE GIANT",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "neptune_name": {
+      "x": 2050,
+      "y": 916,
+      "width": 142.64,
+      "height": 41,
+      "text": "Neptune",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "neptune_kind": {
+      "x": 2050,
+      "y": 965.19,
+      "width": 144.23,
+      "height": 21,
+      "text": "08  /  ICE GIANT",
+      "scrollWidth": 260,
+      "clientWidth": 260,
+      "scrollHeight": 23,
+      "clientHeight": 23,
+      "lineCount": 1
+    },
+    "belt_name": {
+      "x": 655,
+      "y": 1311,
+      "width": 262.44,
+      "height": 36,
+      "text": "Main asteroid belt",
+      "scrollWidth": 440,
+      "clientWidth": 440,
+      "scrollHeight": 39,
+      "clientHeight": 39,
+      "lineCount": 1
+    },
+    "belt_detail": {
+      "x": 655,
+      "y": 1357,
+      "width": 248.16,
+      "height": 24,
+      "text": "Between Mars and Jupiter",
+      "scrollWidth": 440,
+      "clientWidth": 440,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "footer_message": {
+      "x": 100,
+      "y": 1551,
+      "width": 632.11,
+      "height": 26,
+      "text": "ONE STAR  /  EIGHT PLANETS  /  OUR GALACTIC HOME",
+      "scrollWidth": 632,
+      "clientWidth": 632,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "footer_credit": {
+      "x": 2091.63,
+      "y": 1554.25,
+      "width": 208.38,
+      "height": 20,
+      "text": "XYZ LAYOUT ENGINE",
+      "scrollWidth": 208,
+      "clientWidth": 208,
+      "scrollHeight": 22,
+      "clientHeight": 22,
+      "lineCount": 1
+    },
+    "scale_note": {
+      "x": 100,
+      "y": 1596.59,
+      "width": 1051.36,
+      "height": 23,
+      "text": "Sizes, spacing and orbital positions are illustrative, not to scale or today's alignment. Asteroid density is exaggerated.",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 25,
+      "clientHeight": 25,
+      "lineCount": 1
+    },
+    "source_note": {
+      "x": 100,
+      "y": 1639.28,
+      "width": 521.3,
+      "height": 20,
+      "text": "Astronomy: NASA Science · Artwork: AI-generated artist impressions",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 21,
+      "clientHeight": 21,
+      "lineCount": 1
+    }
+  },
+  "findings": []
+}

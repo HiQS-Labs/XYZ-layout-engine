@@ -1,0 +1,7 @@
+# Full-size generated originals (~17 MB) and regenerable render outputs stay local;
+# web copies, receipts and final renders are committed.
+/assets/*.png
+/scene.json
+/solar-system.svg
+/solar-system-render.html
+/individual-assets.zip

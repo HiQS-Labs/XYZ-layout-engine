@@ -1,0 +1,211 @@
+{
+  "sun": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.39487457275390625,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "sun.png",
+      "bytes": 1544954,
+      "sha256": "ec0974fcca8bf046dea19130d8a0e3bb5a6d302be6e08fccf470c29512c2dce4"
+    }
+  },
+  "mercury": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.5189790725708008,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "mercury.png",
+      "bytes": 1763170,
+      "sha256": "f8596509a63806d5d752e11aa6dcff5fc947c5bef3a10d3ccb37583fe11bf4c3"
+    }
+  },
+  "venus": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.4843587875366211,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "venus.png",
+      "bytes": 1156838,
+      "sha256": "c8c3544461ebcded0ddde2d2563ac124d25179e8da0193624006bc7b0d8f289f"
+    }
+  },
+  "earth": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.47390079498291016,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "earth.png",
+      "bytes": 1835760,
+      "sha256": "43635b18d9ab165240ad9e1fea31da2b669a1f8eddcc13d791314fd846eff5b3"
+    }
+  },
+  "mars": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.5074224472045898,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "mars.png",
+      "bytes": 1510078,
+      "sha256": "1d0da2c1dabab37e04f66b9bd8f728ad1cf1a1e7938203b3b88eba074abef69d"
+    }
+  },
+  "jupiter": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.4232978820800781,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "jupiter.png",
+      "bytes": 1455969,
+      "sha256": "ec1524efc2548332efc3e2415da8119fd40779407fda9d6273254569049cef47"
+    }
+  },
+  "saturn": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "edit",
+    "background": "transparent",
+    "referenceCount": 1,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.7614631652832031,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "saturn.png",
+      "bytes": 972337,
+      "sha256": "81a49c3639bf83709b67676d06404b23d545110c85b4caf5b08ff9a27ac02949"
+    }
+  },
+  "uranus": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.4914894104003906,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "uranus.png",
+      "bytes": 1062319,
+      "sha256": "071f9f960fc19e5b41d0e7b146e83c108b8a467042e7da491722ad8934610a1c"
+    }
+  },
+  "neptune": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.5210552215576172,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "neptune.png",
+      "bytes": 1198820,
+      "sha256": "c646a57de5a6ce28c038f3cc72cc5873aaa192ce2ab4a35f6204c65629dd024a"
+    }
+  },
+  "asteroid-belt": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "edit",
+    "background": "transparent",
+    "referenceCount": 1,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.8556035359700521,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "asteroid-belt.png",
+      "bytes": 1112908,
+      "sha256": "a9e31267b99b0ad48f654989d3939fa7d4681df6da29b76afacc3dc52f829c7e"
+    }
+  },
+  "milky-way": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "background": "transparent",
+    "referenceCount": 0,
+    "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+    "publication": "local_candidate",
+    "alpha": {
+      "hasAlphaChannel": true,
+      "transparentPixelRatio": 0.21893596649169922,
+      "opaqueCornerCount": 0,
+      "verified": true
+    },
+    "image": {
+      "path": "milky-way.png",
+      "bytes": 1830154,
+      "sha256": "159f3135add28df5008a4e027a983c603f995700262469c4f4dbd27daa824e45"
+    }
+  }
+}

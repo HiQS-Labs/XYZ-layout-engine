@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-08 — Solar System diagram with Milky Way inset
+
+- Created a standalone 2400×1700 diagram (originally local in `artifacts/solar-system-2026-10-08/`), using the existing GH-1 Satori/resvg and Chromium render functions from origin commit `591971d`. Eleven independent transparent assets (Sun, eight planets, main asteroid belt, Milky Way) were generated through the operator-selected resolve-image skill with `gpt-image-2.5-flare`; retained prompts, recipe receipts, original images and display-size exports. Outputs include PNG, SVG, offline HTML with editable labels, fixture JSON, and an individual-assets ZIP.
+- Bet: the existing backend-owned layout/render operations compose this educational scene without a production-engine change. Failure mode: inaccurate visual scale or missing assets; the poster explicitly marks sizes, spacing, density and positions schematic, and includes NASA sources. Reversibility: Easy — standalone artifact files and this changelog entry. Verified eleven distinct image nodes, source hashes and transparency, canvas dimensions, browser text overflow and label-container overlap checks; agent visually inspected the primary output. The asteroid belt uses a direct PNG node after a nested-SVG raster disappeared in the Satori output.
+- Published as `examples/2026-10-08-solar-system/` with a README: final Satori and Chromium PNGs, the responsive HTML viewer, contact sheet, fixture, scripts, prompts, receipts, provenance, verification evidence, web-size assets and the pinned runtime source. Full-size originals, the SVG/scene/render-HTML (regenerable, image-inlined) and the assets ZIP stay local (about 17 MB committed of 114 MB). Absolute device paths were removed from receipts and the generator now reads `HIQS_CHAIN_CALLER`.
+
 ## 2026-10-08 — Post-landing reconciliation and restored intake
 
 - GH-1 (#3) and GH-2 (#4) landed on `main`; the roadmap writer moved both to Completed (`roadmap reconcile-state --apply`).
