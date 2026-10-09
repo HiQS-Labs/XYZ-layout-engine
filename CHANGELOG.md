@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-09 — GH-13 and GH-8 Phase 0 landed and reconciled
+
+- PR #14 (design-diagram skill, `87de428`) and PR #15 (Higgsfield Phase 0 spike and cell-division example, `4d9aa2c`) squash-merged to `main`; issue #13 closed. The roadmap writer moved GH-13 to Completed (`roadmap reconcile-state --apply`); the GH-13 plan moved to `PROJECT/3-COMPLETED/` with its row repointed. GH-8 stays In progress (issue #8 open; its Phases 1 to 4 are not started). PR #15's changelog and ledger collision with #14 was resolved by the merge tool's additive-disjoint path. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
+
 ## 2026-10-09 — GH-8 Phase 0: Higgsfield transparency spike and cell-division example
 
 - Ran the GH-8 Phase 0 spike against Higgsfield's REST API (Flare and Sunburst, GPT Image 2.5, 1k/low, 12 paid generations, sequential, reserved at an assumed $1.20 under a $1.90 gate and the operator's $2.00 cap). **Verdict: NO-GO for native transparency on these routes.** `background: "transparent"` and `output_format: "png"` are accepted without error but ignored, every image is opaque RGB with no alpha channel, and prompting for a transparent background produced a flat white backdrop or a faint baked checkerboard. The MCP connector was not tested (not connectable here). Details: `examples/2026-10-09-cell-division/FINDINGS.md`; every call: `spike-ledger.jsonl`.

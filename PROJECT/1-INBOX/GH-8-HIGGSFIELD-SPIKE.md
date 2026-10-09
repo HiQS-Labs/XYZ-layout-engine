@@ -2,7 +2,7 @@
 gh_issue: 8
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/8
 title: "Add Higgsfield MCP connector as a first-class transparent image generation provider (pluggable provider architecture)"
-status: "Phase 0 implemented on feat/higgsfield-spike-cell-division; awaiting final QA and merge. Phases 1 to 4 stay open."
+status: "Phase 0 landed in PR #15 (4d9aa2c) on 2026-10-09 with a NO-GO verdict on REST; Phases 1 to 4 stay open (issue #8 open)."
 created: 2026-10-09
 doc_type: feedback
 effort: 3
