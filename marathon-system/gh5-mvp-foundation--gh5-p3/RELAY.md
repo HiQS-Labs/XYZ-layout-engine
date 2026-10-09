@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p3
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P3-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -94,3 +94,21 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    agy, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · agy
+
+**Verdict:** PARKED (awaiting review)
+**Review outcome:** Handing off to codex for independent review.
+
+Files touched:
+- `examples/2026-10-08-solar-system/generate-assets.py`: Implemented bounded resume, max-calls limitation, lock safety via `fcntl.flock`, manifest persistence with states (pending, in-flight, complete, failed, unknown).
+- `examples/2026-10-08-solar-system/README.md`: Updated Phase 3 note on budgets and `--help`.
+- `tools/spike/test/canaries.test.mjs`: Extended C1 with local python generator tests against a node.js stub simulating success, failures, and timeouts.
+- `CHANGELOG.md`: Added Phase 3 log.
+- `tools/MVP-REPORT.md`: Appended Phase 3 notes.
+
+Decisions:
+- The generator now supports configurable budgets via `--max-calls`.
+- Concurrent locking uses standard OS `fcntl.flock` to fail safely if a lock is busy.
+- `subprocess.run` handles the timeout and captures output.
+- The C1 tests run `generate-assets.py` natively via `spawnSync`, proving the bounds against a mock caller (`stub.mjs`) instead of real paid endpoints.

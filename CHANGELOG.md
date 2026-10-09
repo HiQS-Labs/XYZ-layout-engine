@@ -6,6 +6,12 @@
 - Applied ponytail: reuse ESM/Python modules, existing HiQS caller and four canaries; no provider client, framework, service/queue/editor or extra CI. Preserved Later work and human/provider acceptance as pending. Codex implementation-plan QA is Approved/attested; fixed its concrete contact-sheet migration omission. All eleven selected display-asset digests match.
 - Reversibility: Easy — plan/ledger/receipts only, no runtime change or paid generation. Fresh baseline pnpm test passed four canaries in 8.2s, 216 geometry boxes and 12 byte-identical artifacts. Planner write/check exited 0 with one wave/no held items/no drift; added the required pending wave QA overlay after checking the generated core. Direct preflight/full YAML admission are recorded separately; execution completion is not claimed.
 
+## 2026-10-09 — GH-5 local MVP Phase 3
+
+- Implemented `examples/2026-10-08-solar-system/generate-assets.py` Phase 3 resumabability and cost bounds using native `fcntl.flock` and `concurrent.futures`, driving the `HIQS_CHAIN_CALLER` stub. Preserves asset references and immutable receipts, respects max-calls limits, marks in-flight/pending states, safely refuses concurrent manifest lock contention without queuing, and requires explicit intervention to retry timeouts or invalid receipts.
+- Extended `tools/spike/test/canaries.test.mjs` C1 controls with a temporary caller stub to verify zero calls on resume, bounded execution on exceeded budget, correct exit codes on corrupt responses, and lock-refusal safety without requiring any real paid generator calls or secrets.
+- Reversibility: Easy — local Python script and test extensions. No CI configuration changed, no paid generator calls made, and no historical receipts overwritten. Test verification (run natively) passes C1 extensions cleanly.
+
 ## 2026-10-09 — GH-5 local MVP Phase 2
 
 - Extended shared render tools (`tools/request.mjs`, `tools/render.mjs`) to dynamically load recipes and support adaptive text fitting (shrinks overflowing text by 10% at most 10 total attempts down to 12px, tracking bounds natively).

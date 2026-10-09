@@ -32,3 +32,12 @@ The shared renderer fits only overflowing text sizes, at most ten total attempts
 Verification: current existing four canaries passed in 24.4s (60s budget); 216 golden boxes within 0.5px and twelve byte-identical artifacts. C1 covers painted raster pixels (not PNG size/alpha metadata), actual multi-attempt shrink, non-fit exhaustion, strict Solar fields/geometry/assets, unsupported canvas and CJK rejection on both backends. Fresh poster/contact-sheet entry points exited 0. Agent inspection saw all eleven individual illustrations, separate readable labels and schematic disclaimer; this does not substitute for pending human artwork acceptance. Independent Phase 2 Codex review and native gate/resumption are pending.
 
 Independent Codex round1 reproduced native resvg SIGABRT (exit134) for an admitted Mercury radiusX=8192. The existing Solar recipe now validates its orbit/image/label/centre spatial envelope on the fixed canvas before SVG/native rendering; Sun imageSize also drives its actual node. The exact failing radius and equivalent centre/image-size/label controls are inside C1. Updated suite passed four canaries in24.7s with216 boxes and12 artifacts preserved. Round2 independent review is pending; first review failure is preserved in the original phase relay. No catch-and-ignore, renderer replacement, cap reset or additional test was used.
+
+## Phase 3 — Resumable optional generation
+
+Delivered `generate-assets.py` Phase 3 resumabability and cost bounds using native `fcntl.flock` and `concurrent.futures`. No paid calls were made, and no full-size originals were generated. The existing `HIQS_CHAIN_CALLER` was stubbed in test `tools/spike/test/canaries.test.mjs` C1 to prove the bounds.
+- Atomic per-item state is recorded in `manifest.json`.
+- A configurable `--max-calls` enforces a planned call count budget.
+- C1 controls simulate corrupt JSON output, budget limits, valid resume, one changed input, interrupted in-flight states, and concurrent lock contention.
+- Tested locally without using any live paid generator calls or secrets. 
+- Independent Codex QA pending.

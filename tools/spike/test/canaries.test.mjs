@@ -180,6 +180,87 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const p2 = path.join(FRESH, 'fail.json');
   writeFileSync(p2, JSON.stringify(failFixture));
   await assert.rejects(processRequest({ inputPath: p2, format: 'png', recipe: 'solar-system' }, { root: FRESH }), /text outside its region|missing\/invalid text geometry|text outside canvas/);
+
+  // 4. Generator phase 3 contract
+  const stubJS = path.join(FRESH, 'stub.mjs');
+  writeFileSync(stubJS, `
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+const args = process.argv;
+const out = args[args.indexOf('--out') + 1];
+mkdirSync(dirname(out), { recursive: true });
+if (process.env.STUB_CORRUPT) {
+  writeFileSync(out, 'bad');
+  console.log('not json');
+} else {
+  writeFileSync(out, 'mock png');
+  console.log(JSON.stringify({ status: 'ok', image: out, alpha: true, recipeRef: 'mock', attempts: 1, cost: { usd: 0.01 } }));
+}
+  `);
+
+  const py = path.join(SPIKE, '../../examples/2026-10-08-solar-system/generate-assets.py');
+  const genRoot = path.join(FRESH, 'gen');
+  mkdirSync(genRoot);
+  const jobsFile = path.join(genRoot, 'jobs.json');
+
+  const runGen = (env = {}, addArgs = []) => spawnSync(process.env.PYTHON || 'python3', [py, '--caller', stubJS, '--assets-dir', genRoot, '--jobs', jobsFile, ...addArgs], { env: { ...process.env, ...env }, encoding: 'utf8' });
+
+  // one changed input -> one call
+  writeFileSync(jobsFile, JSON.stringify([{ id: 'test1', prompt: 'a', model: 'm', size: 's', quality: 'q', background: 'b' }]));
+  const r1 = runGen();
+  assert.equal(r1.status, 0, r1.stderr);
+  assert.match(r1.stdout, /Planned calls: 1/);
+
+  // valid resume -> zero calls
+  const r2 = runGen();
+  assert.equal(r2.status, 0, r2.stderr);
+  assert.match(r2.stdout, /0 planned calls/);
+
+  // cap exceeded -> zero calls
+  writeFileSync(jobsFile, JSON.stringify([
+    { id: 'test3', prompt: 'c', model: 'm', size: 's', quality: 'q', background: 'b' },
+    { id: 'test4', prompt: 'd', model: 'm', size: 's', quality: 'q', background: 'b' }
+  ]));
+  const r4 = runGen({}, ['--max-calls', '1']);
+  assert.equal(r4.status, 4, r4.stderr);
+  assert.match(r4.stdout, /Cap exceeded/);
+
+  // corrupt output -> explicit report/replacement
+  writeFileSync(jobsFile, JSON.stringify([{ id: 'test5', prompt: 'e', model: 'm', size: 's', quality: 'q', background: 'b' }]));
+  const r5 = runGen({ STUB_CORRUPT: '1' });
+  assert.equal(r5.status, 4, r5.stderr);
+  assert.match(r5.stdout, /corrupt output/);
+
+  // interrupted in-flight -> no automatic second call
+  writeFileSync(jobsFile, JSON.stringify([{ id: 'test6', prompt: 'f', model: 'm', size: 's', quality: 'q', background: 'b' }]));
+  const manifestFile = path.join(genRoot, 'manifest.json');
+  const d6 = require('node:crypto').createHash('sha256').update(JSON.stringify({ background: 'b', model: 'm', prompt: 'f', quality: 'q', size: 's' })).digest('hex');
+  const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
+  manifest[d6] = { status: 'in-flight', job_id: 'test6' };
+  writeFileSync(manifestFile, JSON.stringify(manifest));
+  const r6 = runGen();
+  assert.equal(r6.status, 0, r6.stderr);
+  assert.match(r6.stdout, /in-flight requires explicit retry/);
+
+  // concurrent manifest ownership -> safe refusal
+  writeFileSync(jobsFile, JSON.stringify([{ id: 'test7', prompt: 'g', model: 'm', size: 's', quality: 'q', background: 'b' }]));
+  const lockScript = path.join(FRESH, 'lock.py');
+  writeFileSync(lockScript, `
+import fcntl, sys, time
+f = open(sys.argv[1], 'w')
+fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+time.sleep(2)
+  `);
+  const cp = require('node:child_process');
+  const lockProc = cp.spawn(process.env.PYTHON || 'python3', [lockScript, path.join(genRoot, 'test7.lock')]);
+  cp.spawnSync(process.env.PYTHON || 'python3', ['-c', 'import time; time.sleep(0.5)']); // Wait for python to acquire lock
+  try {
+    const r7 = runGen();
+    assert.equal(r7.status, 4, r7.stderr);
+    assert.match(r7.stdout, /concurrent manifest ownership/);
+  } finally {
+    lockProc.kill();
+  }
   }
   console.log('# C1: import/space CLI, admission, HTML, browser cleanup and two-success/late-failure publication controls passed');
 });
