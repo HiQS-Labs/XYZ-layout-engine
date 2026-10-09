@@ -1,6 +1,6 @@
 # GH-5 Phase3 repaired source — independent recovery QA
-STATUS: Open
-NEXT: codex (Reviewer)
+STATUS: Approved
+NEXT: coordinator (Supervisor/harness)
 
 ## Roles
 Producer: coordinator (local source repair; no self-approval)
@@ -197,3 +197,183 @@ Handing off to coordinator — coordinator, take your turn. Independent supervis
 ### Round 2 · Producer · coordinator
 
 Repaired all four concrete Round1 findings in existing owners: strict status for present manifest entries and symlink check before existence (R1); explicit rejection of exponent-form numbers/unsafe integers at admission (R2;0.5supported); monotonic whole-run deadline starts before admission and is checked immediately after durable preparation at Popen, remaining-time validator/caller bounds (R3); common expected recipe/attempt validation on completion and reuse (R4). Existing C1 adds actual pre-invocation counts, missing/dangling status, decimal/safe-number boundary, resealed recipe and fake-clock late-publication controls. Current suite4/4 in28.6s,216boxes/12byte-identical artifacts, no paid calls. Receipt: relay-system/2026-10-09/gh5-p3-repair/review-round2-verification.log. Header Round1 in the first receipt lacked a space, so native parser did not count it; its actual graded findings remain preserved and are not represented as approval. For this second review append the exact native heading `### Round 2 · Reviewer · codex` (with spaces), nonempty body, VERDICT/Basis/swept file. Re-review whole current files and explicitly close or retain R1–R4; scratch component probes only, no duplicate full suite/provider call/source edit/Git. This is the one bounded recovery recheck after material corrections; original marathon counter2/2 and held phases remain unchanged. Handing off to codex — codex, take your turn.
+
+
+## Log
+
+### Round 2 · Reviewer · codex
+
+**Verdict:** Approved
+VERDICT: PASS
+Basis: Whole-file current-source review and scratch component probes close all four recovery Round1 findings. Malformed present state and dangling symlinks refuse before calls; unsupported numbers fail admission; late durable preparation launches no caller; inconsistent recipe/attempt receipts fail reuse. Valid completion/resume, atomic failed-write preservation and ownership refusal remain intact. No new material blocker identified in this bounded sweep.
+swept file: yes
+Review outcome: Approve this independent recovery-source review only. Original MARATHON-GH5-P3-TURN counter2/2, stopped native lane, held Phases4/5, final Wave1 QA and pending human/live-provider gates remain unchanged. Supervisor/harness owns the next gate and attestation; this is not native phase.approved or self-attestation.
+
+Scope and limits: Read all five current owners in full: examples/2026-10-08-solar-system/generate-assets.py, tools/spike/test/canaries.test.mjs, examples/2026-10-08-solar-system/README.md, tools/MVP-REPORT.md and CHANGELOG.md. Swept pre-existing render controls and historical documentation; no additional material pre-existing defect identified within this scope. Read ROUTER/GUIDING-PRINCIPLES/AGENTS, canonical Phase3 requirements, preserved first-attempt findings, recovery plan/consult reconciliation and Round2 verification receipt. Root README.md and both repository-relative releases_app.py startup entry points are absent. MCP graph tools are unavailable; project/generation/coverage cannot be independently established, so direct source is the fallback, not a completeness claim. No Git was run; supplied dc3a4d6/diff identity was not independently verified. Approval targets the supplied current files on disk.  [Unverified — no citation]
+
+Bet and reversibility: Existing state/caller-contract owners now reject the witnessed failures without another subsystem. This relies on the documented trusted local filesystem/caller boundary and preserved immutable evidence. Relay-only approval is **Easy**; an independent harness gate remains necessary for integration regressions. No artifact/source edit, roadmap/database operation, PDDA, validate.sh, test script, pytest, executable fixture, suite or installed caller CLI/provider execution occurred. All probes write under .relay-scratch/tmp; only this relay changes outside scratch. The review-code skill was applied subject to the operator's narrower relay-only/no-Git/no-suite instructions; no GitHub post is part of this turn.
+
+Recon: CLI at generate-assets.py:320 enters generate(:248), which starts the deadline before admission and owns generation.lock(:255) through completion. read_manifest_internal(:38) owns state admission; update_manifest(:58) owns atomic publication. run_job(:171) uses immutable attempts and the configured caller; validate_output(:78) shares completion/reuse admission, tools/spike/assets.mjs:10 PNG inspection and native Resvg. C1 at tools/spike/test/canaries.test.mjs:184–273 is the recovery consumer. The installed caller's pure NW scalar parser was extracted as text and evaluated alone; no caller module/CLI, credentials or network was used.
+
+All firsthand results below use this exact command, exit **0**:
+~~~sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 "$TMPDIR/round2-probe.py" > "$TMPDIR/round2-probe.log"
+~~~
+Full probe source is retained below because scratch is discarded. It substitutes the external caller launch in memory and reads an existing PNG as data; real shared PNG/native transparency admission runs. Synthetic receipts demonstrate local control flow, not provider behavior.
+
+#### R1 [Pass] Closed — malformed present state and dangling manifests refuse
+
+Observed input: Removed status, set null/invalid status, and separately planted a dangling manifest symlink. generate-assets.py:39–47 rejects each before planning. Unknown/in-flight controls also fail. C1:253–255 captures counts before malformed-state invocations, correcting the former self-comparison.
+
+Affected scope: The Round1 malformed evidence cannot become missing work. Rejected manifest bytes and dangling symlink were preserved, with zero calls and no force-retry.
+
+Decisive output (command above, exit0):
+~~~text
+STATE {'status': 'missing', 'result': 'ValueError:invalid manifest; reconcile before dispatch', 'new_calls': 0, 'preserved': True}
+STATE {'status': None, 'result': 'ValueError:invalid manifest; reconcile before dispatch', 'new_calls': 0, 'preserved': True}
+STATE {'status': 'invalid', 'result': 'ValueError:invalid manifest; reconcile before dispatch', 'new_calls': 0, 'preserved': True}
+STATE {'status': 'unknown', 'result': False, 'new_calls': 0, 'preserved': True}
+STATE {'status': 'in-flight', 'result': False, 'new_calls': 0, 'preserved': True}
+DANGLING {'result': 'ValueError:unsafe manifest symlink; reconcile before dispatch', 'new_calls': 0, 'symlink_preserved': True}
+~~~
+Falsifier: A new call or replacement of rejected evidence in these controls would reopen R1. Neither occurred.
+
+#### R2 [Pass] Closed — unsupported numeric semantics rejected before dispatch
+
+Observed input: parameters.seed=1e-7 and integer9007199254740993 now raise the explicit round-trip error at generate-assets.py:156–157. The actual installed pure parser demonstrates why: exponent syntax yields a string and the unsafe integer changes value. Decimal0.5 and safe integer9007199254740991 preserve numeric value. An additional terminal-newline string remained a string; no drift observed. C1:256–257 adds numeric rejection and the0.5control.
+
+Affected scope: Both witnessed numeric type/value mismatches are closed without modifying the caller or inventing flags. Provider-specific seed support is not claimed.
+
+Decisive output (command above, exit0):
+~~~text
+PARAMETER {'input': 0.5, 'admitted': True, 'wire': '0.5', 'caller': {'value': 0.5, 'type': 'number'}}
+PARAMETER {'input': 1e-07, 'admitted': 'numeric parameter cannot round-trip through caller; use supported decimal/safe integer', 'wire': '1e-07', 'caller': {'value': '1e-07', 'type': 'string'}}
+PARAMETER {'input': 9007199254740993, 'admitted': 'numeric parameter cannot round-trip through caller; use supported decimal/safe integer', 'wire': '9007199254740993', 'caller': {'value': 9007199254740992, 'type': 'number'}}
+PARAMETER {'input': 9007199254740991, 'admitted': True, 'wire': '9007199254740991', 'caller': {'value': 9007199254740991, 'type': 'number'}}
+~~~
+Falsifier: Unsafe input passing admission or supported controls changing value through that parser would reopen R2. Neither occurred.
+
+#### R3 [Pass] Closed — deadline checked after durable preparation
+
+Observed input: Clock starts at100, run_timeout=1; the real in-flight publication advances the clock by2. generate-assets.py:217–220 now checks remaining time after publication and returns False without Popen, restoring pending with an explicit no-dispatch reason. The deadline starts at :250 before admission; validator time is bounded at :102–106. C1:259–273 has the matching no-launch assertion.
+
+Affected scope: Closes the witnessed launch-after-preparation-deadline failure. Pending is safe here because no external caller launched.
+
+Decisive output (command above, exit0):
+~~~text
+DEADLINE {'result': False, 'launches': [], 'status': 'pending'}
+~~~
+Falsifier: Any launch in this control would reopen R3. None occurred. Actual process-tree cleanup/full-suite execution remain **[Unverified — needs clone run]**, owned by the harness; the fake clock does not establish an OS scheduling or remote cancellation guarantee.
+
+#### R4 [Pass] Closed — shared recipe/attempt admission on reuse
+
+Observed input: A successfully completed job's receipt is changed to wrong-recipe and its manifest receipt hash resealed. Separately resealed receipts set attempts=2 and attempts=0. generate-assets.py:85–88 rejects all three. Completion(:236) and reuse(:176,:279) supply the same admitted recipe and attempt cap. Restoring the original receipt/manifest resumes with zero calls. C1:258 covers resealed wrong-recipe refusal.
+
+Affected scope: Closes inconsistent-but-rehashed recipe reuse and confirms the shared attempt bound; this is stronger than ordinary byte-tampering rejection.
+
+Decisive output (command above, exit0):
+~~~text
+RECEIPT {'field': 'recipeRef', 'value': 'wrong-recipe', 'result': False, 'new_calls': 0}
+RECEIPT {'field': 'attempts', 'value': 2, 'result': False, 'new_calls': 0}
+RECEIPT {'field': 'attempts', 'value': 0, 'result': False, 'new_calls': 0}
+RECEIPT_CONTROL {'result': True, 'new_calls': 0}
+~~~
+Falsifier: Acceptance/dispatch for inconsistent receipts or failure of zero-call reuse after restoring valid evidence would reopen R4. Neither occurred.
+
+#### [Pass] Preserved ownership, atomicity and valid resume
+
+Observed input: Real-PNG synthetic caller result completes once then resumes; injected json.dump OSError tests failed-write preservation; held generation.lock plus forbidden admit_jobs sentinel checks refusal before planning. Source: generate-assets.py:58–75,:255–261,:279.
+
+Affected scope: Repairs retain the atomic writer, shared validator and batch ownership; no new provider client, queue, abstraction, dependency or test block is required.
+
+Decisive output (command above, exit0):
+~~~text
+RESUME {'first': True, 'resume': True, 'calls': 1}
+ATOMIC {'preserved': True}
+LOCK {'result': False, 'manifest_absent': True}
+~~~
+Falsifier: Extra resume invocation, lost prior bytes on failed serialization, or admission under held ownership would invalidate these controls. None occurred.
+
+#### [Unverified — needs clone run] Supervisor integration gate remains
+
+Observed input: Read gh5-p3-repair/review-round2-verification.log:4tests pass,0fail,216boxes,12byte-identical artifacts,28580.264708ms,budget PASS28.6s. Static C1 review confirms recovery checks remain within the existing four-test file. Its unsafe-integer JavaScript literal rounds before serialization; the independent Python probe above checks the exact original integer9007199254740993.
+
+Affected scope: This is a saved producer receipt, not a reviewer rerun. Full-suite/process-group verification and independent supervisor attestation remain outstanding. README/MVP-report/CHANGELOG preserve unknown-price cost limits, the PNG subset, pending provider/human acceptance and stopped native lane. Source review preserves full-digest/UUID attempts, caller/reference identity, Sun-first dispatch, explicit replacement/history and observable-cost serialization. No new material defect was established in those paths.
+
+Falsifier: A failing harness gate, stale receipt against committed source, or independent material counterexample invalidates integration readiness. Component probes do not replace that gate.
+
+#### Retained round2-probe.py
+
+~~~python
+import contextlib, fcntl, hashlib, importlib.util, io, json, os, pathlib, subprocess, tempfile
+from unittest.mock import patch
+p=pathlib.Path("examples/2026-10-08-solar-system/generate-assets.py")
+s=importlib.util.spec_from_file_location("g",p);g=importlib.util.module_from_spec(s);s.loader.exec_module(g)
+r=pathlib.Path(tempfile.mkdtemp(prefix="round2-",dir=os.environ["TMPDIR"])).resolve()
+caller=r/"caller.mjs";caller.write_text("// never executed")
+j=dict(id="sun",prompt="A",model="m",size="1024x1024",quality="medium",background="transparent")
+png=pathlib.Path("tools/spike/assets/generated/web/balance_scale.png").read_bytes()
+calls=[];real_popen=g.subprocess.Popen
+class Boundary:
+ returncode=0
+ def __init__(self,args,**kw):
+  calls.append(args);out=pathlib.Path(args[args.index("--out")+1]);out.write_bytes(png)
+  self.receipt=dict(status="success",image=dict(sha256=hashlib.sha256(png).hexdigest(),bytes=len(png)),alpha=dict(verified=True,hasAlphaChannel=True,transparentPixelRatio=.5),recipeRef="configured-caller:"+hashlib.sha256(caller.read_bytes()).hexdigest(),attempts=[dict(status="success")])
+ def communicate(self,timeout=None):return json.dumps(self.receipt),""
+def boundary(args,**kw):return Boundary(args,**kw) if len(args)>1 and args[1]==str(caller) else real_popen(args,**kw)
+def fresh(name):
+ p=r/name;p.mkdir();return p
+def run(p,job=j,**kw):
+ with contextlib.redirect_stdout(io.StringIO()),patch.object(g.subprocess,"Popen",boundary):
+  try:return g.generate([job],p,caller,**kw)
+  except (ValueError,OSError,TypeError) as e:return type(e).__name__+":"+str(e)
+p=fresh("state");a=run(p);b=run(p);mp=p/"manifest.json";original=mp.read_bytes()
+print("RESUME",dict(first=a,resume=b,calls=len(calls)))
+for value in ["missing",None,"invalid","unknown","in-flight"]:
+ m=json.loads(original);v=next(iter(m.values()))
+ if value=="missing":v.pop("status")
+ else:v["status"]=value
+ mp.write_text(json.dumps(m));before=mp.read_bytes();n=len(calls);result=run(p)
+ print("STATE",dict(status=value,result=result,new_calls=len(calls)-n,preserved=mp.read_bytes()==before))
+mp.write_bytes(original)
+p=fresh("dangling");mp=p/"manifest.json";mp.symlink_to(p/"absent.json");n=len(calls)
+print("DANGLING",dict(result=run(p),new_calls=len(calls)-n,symlink_preserved=mp.is_symlink()))
+p=fresh("atomic");mp=p/"manifest.json";g.update_manifest(mp,"d",dict(status="in-flight"));before=mp.read_bytes()
+with patch.object(g.json,"dump",side_effect=OSError("injected")):
+ try:g.update_manifest(mp,"d",dict(status="complete"))
+ except OSError:pass
+print("ATOMIC",dict(preserved=before==mp.read_bytes()))
+p=fresh("lock")
+with (p/"generation.lock").open("a") as owner:
+ fcntl.flock(owner,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ with patch.object(g,"admit_jobs",side_effect=AssertionError("planning under contention")):
+  print("LOCK",dict(result=run(p),manifest_absent=not (p/"manifest.json").exists()))
+installed=pathlib.Path("/Users/noelsaw/.codex/skills/hiqs-chain/scripts/chain.mjs").read_text()
+parser=installed[installed.index("function NW("):installed.index("function H9(")]
+for value in [.5,1e-7,9007199254740993,9007199254740991,"1\n"]:
+ job=dict(j,parameters={"seed":value})
+ try:g.admit_jobs([job],caller);admitted=True
+ except ValueError as e:admitted=str(e)
+ arg=value if isinstance(value,str) else json.dumps(value,separators=(",",":"))
+ code=parser+"const v=NW(process.argv[1]);console.log(JSON.stringify({value:v,type:typeof v}));"
+ decoded=subprocess.run(["node","--input-type=module","-e",code,arg],capture_output=True,text=True,check=True)
+ print("PARAMETER",dict(input=value,admitted=admitted,wire=arg,caller=json.loads(decoded.stdout)))
+p=fresh("receipt");assert run(p) is True;mp=p/"manifest.json";original=mp.read_bytes();m=json.loads(original);v=next(iter(m.values()));rp=p/v["receipt"];saved=rp.read_bytes()
+for field,value in [("recipeRef","wrong-recipe"),("attempts",2),("attempts",0)]:
+ rec=json.loads(saved);rec[field]=value;rp.write_text(json.dumps(rec));m=json.loads(original);next(iter(m.values()))["receipt_sha256"]=hashlib.sha256(rp.read_bytes()).hexdigest();mp.write_text(json.dumps(m));n=len(calls)
+ print("RECEIPT",dict(field=field,value=value,result=run(p,max_calls=0),new_calls=len(calls)-n))
+rp.write_bytes(saved);mp.write_bytes(original);n=len(calls)
+print("RECEIPT_CONTROL",dict(result=run(p,max_calls=0),new_calls=len(calls)-n))
+p=fresh("deadline");now=[100.];original_update=g.update_manifest;launches=[]
+def delayed(*args):
+ result=original_update(*args)
+ if args[2].get("status")=="in-flight":now[0]+=2
+ return result
+def forbidden(*args,**kw):launches.append(now[0]);raise AssertionError("late launch")
+with contextlib.redirect_stdout(io.StringIO()),patch.object(g.time,"monotonic",lambda:now[0]),patch.object(g,"update_manifest",delayed),patch.object(g.subprocess,"Popen",forbidden):
+ result=g.generate([j],p,caller,run_timeout=1)
+print("DEADLINE",dict(result=result,launches=launches,status=next(iter(json.loads((p/"manifest.json").read_text()).values()))["status"]))
+~~~
+
+Recovery review relay closed, no further reviewer turn needed. Handing the approved receipt to coordinator/supervisor for the harness-owned gate and attestation; coordinator, take your turn. Preserve the original native lane/counters and held phases.
