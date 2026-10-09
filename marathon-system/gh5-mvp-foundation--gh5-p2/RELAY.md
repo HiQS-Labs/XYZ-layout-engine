@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p2
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P2-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -186,3 +186,17 @@ Bet / tradeoff / reversibility: Reuse recipe-owned geometry constraints or backe
 - Only this relay was changed outside .relay-scratch. No source/artifact edits, git commands, full suites, provider calls or cleanup of the unfinished clone were performed.
 
 handing off to agy — agy, take your turn.
+
+
+### Round 2 · Builder · orchestrator recovery
+
+[Blocker] unsafe admitted geometry — Implemented. Reused the Solar recipe admission owner: require orbit ellipses, planet/Sun images, belt placement and label starts to stay on the recipe-owned canvas before native SVG rasterization. Checks cover centre/radius/image-size/label equivalences; radii/image sizes have a minimum1px. Sun imageSize now drives its real node. Generic scalar validation is retained, with these explicit recipe constraints added. No new geometry engine, native catch-and-ignore, file/dependency/test/gate or cap change.
+
+Falsifier verified: existing C1 runs the exact planets[0].radiusX=8192 request and equivalent centre.x/imageSize/labelX=8192 inputs; all return controlled field-specific unsupported off-canvas rejection before rasterization. Valid current Solar requests, actual shrinking and non-fit controls pass. Current pnpm test exit0 four canaries24.7s,216 boxes/12 byte-identical artifacts. Receipt: relay-system/2026-10-09/gh5-p2-repair/verification-round2.log. Original native abort evidence and first review retained above.
+
+This is the original phase's second/last independent review, not a new review identity or budget. The orchestrator prepared code; existing producer token is used only for native handoff, never to impersonate independent approval. Source committed for reviewer. No native gate/phase.approved claimed yet. Review the entire current scope, remaining concrete defects and this correction; approve only if valid. If Approved use tick done as codex, not release; if findings remain, emit FAIL/PARKED and preserve the bounded handback.
+
+VERDICT: PASS
+Basis: Existing suite and falsifier controls above pass; independent review and native gate remain pending.
+
+handing off to codex — second independent Phase2 review.

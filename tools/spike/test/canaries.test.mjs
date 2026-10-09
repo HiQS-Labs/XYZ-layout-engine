@@ -161,6 +161,16 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   await assert.rejects(validateSolar({ ...data, planets: [{ ...data.planets[0], asset: '../outside' }, ...data.planets.slice(1)] }), /asset/);
   await assert.rejects(validateSolar({ ...data, center: { ...data.center, x: '<script>' } }), /bounded geometry/);
   await assert.rejects(normalizeRequest({ inputPath: ssFixturePath, recipe: 'solar-system', width: 1200, height: 850 }), /recipe-owned/);
+  const spatial = path.join(FRESH, 'spatial.json');
+  for (const mutate of [
+    f => { f.planets[0].radiusX = 8192; },
+    f => { f.center.x = 8192; },
+    f => { f.planets[0].imageSize = 8192; },
+    f => { f.planets[0].labelX = 8192; }
+  ]) {
+    const changed = structuredClone(data); mutate(changed); writeFileSync(spatial, JSON.stringify(changed));
+    await assert.rejects(processRequest({ inputPath: spatial, recipe: 'solar-system' }, { root: FRESH }), /fixture.*unsupported off-canvas/);
+  }
   const unsupported = path.join(FRESH, 'unsupported-script.json');
   writeFileSync(unsupported, JSON.stringify({ ...data, title: '营养' }));
   for (const backend of ['satori', 'playwright']) await assert.rejects(processRequest({ inputPath: unsupported, recipe: 'solar-system', backend }, { root: FRESH }), /unsupported text\/font/);

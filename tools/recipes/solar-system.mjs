@@ -68,6 +68,23 @@ export async function validate(fixture) {
   const shape = JSON.parse(await readBounded(new URL('fixture.json', EXAMPLE), LIMITS.inputBytes));
   if (Object.hasOwn(fixture, 'id')) shape.id = 'solar-system-diagram';
   validateFixtureShape(fixture, shape);
+  // Supported local geometry stays on the recipe canvas before native SVG rasterization.
+  const W = fixture.width, H = fixture.height, { x: cx, y: cy } = fixture.center;
+  const rect = (x, y, width, height, field) => {
+    if (![x, y, width, height].every(Number.isFinite) || width < 1 || height < 1 || x < 0 || y < 0 || x + width > W || y + height > H) throw invalid(field, 'unsupported off-canvas geometry');
+  };
+  rect(cx - fixture.sun.imageSize / 2, cy - fixture.sun.imageSize / 2, fixture.sun.imageSize, fixture.sun.imageSize, 'fixture.sun.imageSize');
+  rect(cx - 530, cy - 350, 1060, 700, 'fixture.center');
+  rect(fixture.sun.labelX, fixture.sun.labelY, 260, 100, 'fixture.sun.label');
+  rect(fixture.belt.labelX, fixture.belt.labelY, 440, 80, 'fixture.belt.label');
+  for (const [i, planet] of fixture.planets.entries()) {
+    const field = `fixture.planets[${i}]`;
+    if (planet.radiusX < 1 || cx - planet.radiusX < 0 || cx + planet.radiusX > W) throw invalid(`${field}.radiusX`, 'unsupported off-canvas orbit');
+    if (planet.radiusY < 1 || cy - planet.radiusY < 0 || cy + planet.radiusY > H) throw invalid(`${field}.radiusY`, 'unsupported off-canvas orbit');
+    const angle = planet.angle * Math.PI / 180, size = planet.imageSize;
+    rect(cx + planet.radiusX * Math.cos(angle) - size / 2, cy + planet.radiusY * Math.sin(angle) - size / 2, size, size, `${field}.imageSize`);
+    rect(planet.labelX, planet.labelY, 260, 100, `${field}.label`);
+  }
   return fixture;
 }
 
@@ -147,7 +164,7 @@ export async function buildScene(fixture, sizes = {}) {
   children.push(img('galaxy_marker', galaxyMarker, 1770, 73, 530, 454));
 
   children.push(img('asset_asteroid-belt', assets['asteroid-belt-diagram'], cx - 530, cy - 350, 1060, 700, { objectFit: 'fill' }));
-  children.push(img('asset_sun', assets.sun, cx - 110, cy - 110, 220));
+  children.push(img('asset_sun', assets.sun, cx - fixture.sun.imageSize / 2, cy - fixture.sun.imageSize / 2, fixture.sun.imageSize));
   children.push(label('sun', fixture.sun.name, fixture.sun.kind, fixture.sun.labelX, fixture.sun.labelY, '#f6cf82'));
 
   for (const p of fixture.planets) {
