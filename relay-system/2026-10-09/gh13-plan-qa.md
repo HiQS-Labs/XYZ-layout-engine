@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -82,5 +82,23 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: The one-file approach is proportionate and grounded, but the path acceptance contract needs a non-vacuity requirement before implementation. This is a small documentation revision, not a request for more infrastructure.
+swept file: yes
+
+- [Should] **R1 — Make the path probe reject missing coverage.** `PROJECT/1-INBOX/GH-13-DIAGRAM-DESIGN-SKILL.md:55` says “every repo path and command named in `SKILL.md` resolves” and requires an invented-path red control. A checker can satisfy both while accepting an empty extracted reference set; the red control only demonstrates recognition of that invented reference. Require a reported inventory/count, reject zero references, and explicitly require the RAG pattern and its pinned-runtime prerequisite. Distinguish existing input paths from proposed output paths/placeholders, and name command working directories. Keep this a one-off probe/manual inventory, with no committed checker.
+  Observed input: Plan line 55 contains no required-reference inventory or zero-reference rejection; line 35 includes the future output placeholder `examples/<YYYY-MM-DD>-<slug>/`, which cannot be treated as an existing input.
+  Affected scope: Acceptance of the planned Markdown skill's references and commands, not renderer behavior.
+  Falsifier: An empty/reference-free skill must fail; removing the required RAG reference must fail; a complete skill must pass; an invented input path must fail by name. An explicitly declared future output path must not fail merely because it does not exist yet.
+- [Nit] **R2 — Preserve changelog history on rollback.** Plan line 51 says to delete the changelog entry, whereas `PROJECT/PDDA.md:1014`–1018 requires append-only history. Delete the skill and append a rollback entry after publication; deleting an unpublished draft entry is fine. The Easy reversibility rating remains appropriate.
+- [Nit] **R3 — Separate observed workarounds from unmeasured failure claims.** Plan line 30's flex-wrapper recommendation is supported by `examples/2026-10-09-rag-system/render-diagram.mjs:61` and `:111`, but those successful constructions do not establish the categorical claim “`textAlign` on a span is not honored.” Likewise, `:59`–64 and `:125` show positioned parents, not a recorded failure without them. Phrase these as the example's working patterns, or attach the original failing observation. A new renderer probe is unnecessary for the narrower wording.
+- [Pass] **Grounding and smallest mechanism.** The import guard precedes the awaited runtime import (`examples/2026-10-09-rag-system/render-diagram.mjs:8`–12); required stages, geometry checks and evidence output are explicit (`:24`–26, `:138`–184). The nested-raster incident is recorded in `CHANGELOG.md:17` and `PROJECT/1-INBOX/GH-5-MVP-FOUNDATION.md:33`; the encoded-path problem is supported by `tools/spike/assets.mjs:4` and GH-5 line 33. Reusing this example with the paid-art receipt pattern (`examples/2026-10-08-solar-system/generate-assets.py:20`–35; `render-diagram.mjs:25`–35) earns the proposed mechanism; no scaffolder or shared-runtime change is needed.
+- [Pass] **Scope, placement and cold-run intent.** Plan lines 35–45 include brief, art policy, both backends, red controls and visual inspection, explicitly excluding new tests/dependencies/workflows. `test-budget.json` allows no new suite without a named uncovered failure. `skills/design-diagram/SKILL.md` is a reasonable source location: `ROUTER.md:7` assigns startup routing to ROUTER, while plan lines 31 and 39 explicitly avoid claiming app discovery or automatic installation. The fresh-agent four-stage exercise and “Anything it had to guess is a finding” (plan line 56) are proportionate acceptance for a skill; report missing operational instructions separately from intentional design choices. Provisional 35/10/50/75 ratings and neutral appeal are explained as judgments at line 75, not measurements.
+- [Unverified — needs clone run] No renderer, test or gate was executed. Import order and checks were inspected, not run. The complete 75-line plan and all Setup source files were read; no additional plan defects were identified beyond R1–R3. Graph tools are unavailable. A read-only inventory command, `python3 -c 'from pathlib import Path; print(sorted(str(p) for p in Path(".").rglob("SKILL.md")))'`, exited 0 with `[]`; this supports only the visible seeded inventory, not tracked-history or `.xyz/` claims. A separate read-only `Path.exists()` probe exited 0 and printed `roadmap entrypoints: {'utils/py/releases_app.py': False, '.xyz/utils/py/releases_app.py': False}`; the root README is also absent, so those startup steps could not run here. `gh api repos/HiQS-Labs/XYZ-layout-engine/issues/13 --jq '{title,body}'` exited 1 with `error connecting to api.github.com`; review therefore uses the supplied Definition of Done and local issue capture, not a claim of live issue verification.
+
+Handing off to claude-a (Producer) — address R1 and disposition R2–R3, then take the next turn. Only this relay file was edited; no git command was run.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
