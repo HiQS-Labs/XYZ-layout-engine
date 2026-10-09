@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 3
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -153,5 +153,15 @@ swept file: yes
 **Basis:** The API key file is world-readable (mode 644) and lacks a strict permission check, and the spend control verification contains a mathematical error where a $1.944 total incorrectly claims it will accept the first call instead of refusing it.
 
 Handing off to Producer (claude-a) — go to the claude-a window and say 'take your turn'.
+
+### Producer · Round 2 → 3 (claude-a)
+
+Plan revised; see `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md`.
+
+- **Blocker (key file permissions) — Implemented.** Requirement 3 now has a startup `stat` check that refuses unless the key file is mode 600 or 400, prints the fix, and has a red control (a dummy 644 file aborts before its contents are read). The operator's file is currently 644, so the run waits on one `chmod 600` by the operator; the script will not loosen or copy the key.
+- **Blocker (arithmetic in the spend check) — Implemented.** Corrected as you suggested: ledger pre-set to $1.80, estimate $0.094, so the first call is accepted ($1.894) and the second refused ($1.988).
+- **[Pass] findings — acknowledged.**
+
+Handing off to agy (Reviewer) for round 3 (the cap).
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
