@@ -79,7 +79,7 @@ The operator supplied a Higgsfield API key file and a hard spend cap of **$2.00*
 
 | Issue | Requirement | State |
 |---|---|---|
-| #8 | Phase 0 (spike) via requirements 1 to 5; example via 6 and 7; docs via 8. Phases 1 to 4 untouched. | Plan drafted; awaiting plan QA |
+| #8 | Phase 0 (spike) via requirements 1 to 5; example via 6 and 7; docs via 8. Phases 1 to 4 untouched. | **Blocked at plan QA, 2026-10-09:** the Codex review failed twice with `503 Service Unavailable: Unable to verify Daybreak Blue access` from `chatgpt.com/backend-api/codex/responses` (relay tasks `RELAY-gh8-plan-qa-r1`, `-r1b`; no review block was written). No paid call has been made and the ledger does not exist yet. Next action: rerun the same round (thread `relay-system/2026-10-09/gh8-plan-qa.md`, NEXT: Reviewer, round 1) when Codex is reachable, or name another reviewer. |
 
 ## Rating rationale (2026-10-09)
 
