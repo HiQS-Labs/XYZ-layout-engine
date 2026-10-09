@@ -79,12 +79,12 @@ pri 35 / sev 10 / appeal 50 / effort 75. Severity: process documentation, no dat
 | Check | Result |
 |---|---|
 | Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-09/gh13-plan-qa.md`) |
-| Path probe on the skill | 23 existing input paths; 3 declared output or operator paths skipped by name; `RESULT: PASS` |
+| Path probe on the skill | 23 existing input references (bare filenames included); 3 declared output or operator paths skipped by name; `RESULT: PASS` |
 | Falsifier: empty skill | `FAIL: zero references`, both required references missing |
 | Falsifier: RAG reference removed | `FAIL: required reference missing: examples/2026-10-09-rag-system/` |
 | Falsifier: invented input path | `FAIL: invented/missing input path: examples/2026-10-09-rag-system/not-a-real-file.mjs` |
 | Cold run, fresh agent, skill only, four-stage CDN diagram, disposable space-free clone | `PASS: 4 separate icon nodes; 25 text ids ...`; three red controls failed by name (`edge_desc`, `no icon drawn for stage browser`, `title`) |
 | Gaps the cold run found | Eight, all fixed in the skill (see CHANGELOG entry). Not re-run cold after the fixes. |
-| Probe after fixes | Still `RESULT: PASS`, 23 inputs |
+| Probe after fixes | Still `RESULT: PASS`, 23 input references |
 
 The probe and cold-run output are not committed. The probe is a one-off script; the cold run's example folder was in a disposable clone that has been deleted.
