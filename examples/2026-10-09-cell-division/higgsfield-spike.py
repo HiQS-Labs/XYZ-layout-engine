@@ -20,6 +20,7 @@ import fcntl
 import hashlib
 import io
 import json
+import math
 import os
 import re
 import shlex
@@ -246,9 +247,40 @@ def url_noquery(url):
     return urllib.parse.urlunsplit((s.scheme, s.netloc, s.path, '', ''))
 
 
+def _reject_constant(name):
+    raise ValueError(f'non-finite JSON constant {name}')
+
+
+QUOTE_RE = re.compile(r'[0-9]+(\.[0-9]+)?|\.[0-9]+')
+
+
+def parse_quote(doc):
+    """None when there is no quote ('usd' absent or JSON null). Otherwise a finite, non-negative float from a
+    number or a plain numeric string; anything else (bool, list, dict, '$5.00', NaN, Infinity, negative) raises
+    ValueError so the caller stops instead of guessing."""
+    if doc.get('usd') is None:
+        return None
+    v = doc['usd']
+    if isinstance(v, bool) or not isinstance(v, (int, float, str)):
+        raise ValueError(f'usd has type {type(v).__name__}')
+    if isinstance(v, str) and not QUOTE_RE.fullmatch(v.strip()):
+        raise ValueError(f'usd string {v[:40]!r} is not a plain number')
+    f = float(v)
+    if not math.isfinite(f):
+        raise ValueError('usd is not finite')
+    if f < 0:
+        raise ValueError(f'usd is negative ({f})')
+    return f
+
+
+def gate_allows(total):
+    """The spend gate. Written so that NaN or infinity can never pass: every comparison must be true."""
+    return math.isfinite(total) and total <= CAP_USD and total <= HARD_CAP_USD
+
+
 def parse_json(data):
     try:
-        return json.loads(data.decode('utf-8'))
+        return json.loads(data.decode('utf-8'), parse_constant=_reject_constant)
     except Exception:
         return None
 
@@ -291,9 +323,9 @@ class Spike:
         """Returns (http_status, credits, usd, scrubbed_reply_or_None, est_source, note).
 
         est_source is 'api' for a 2xx with a numeric usd; 'assumed' (usd = ASSUMED_USD) when the route gave no
-        quote (404, or a 2xx JSON object without a numeric usd, such as a pricing description) and the body is
-        1k/low; None when the call is not priced. A 5xx, transport failure, unparseable 2xx or negative usd ->
-        Ambiguous."""
+        quote (404, or a 2xx JSON object whose usd is absent or null, such as a pricing description) and the body
+        is 1k/low; None when the call is not priced. A 5xx, transport failure, unparseable 2xx (including NaN or
+        Infinity constants) or a malformed, non-finite or negative usd -> Ambiguous."""
         check_endpoint(endpoint)
         status, _, data = self._authed('POST', f'{API}/estimate/{endpoint}', body)
         if status >= 500:
@@ -304,14 +336,12 @@ class Spike:
             if not isinstance(doc, dict):
                 raise Ambiguous(f'estimate {endpoint}: HTTP {status} with an unparseable body')
             try:
-                usd = None if isinstance(doc.get('usd'), bool) else float(doc['usd'])
-            except (KeyError, TypeError, ValueError):
-                usd = None
+                usd = parse_quote(doc)
+            except ValueError as e:  # a quote was given but is malformed: never fall back to the assumed price
+                raise Ambiguous(f'estimate {endpoint}: HTTP {status} with a malformed price quote ({e})')
             if usd is not None:
-                if usd < 0:
-                    raise Ambiguous(f'estimate {endpoint}: negative usd {usd}')
                 return status, doc.get('credits'), usd, None, 'api', None
-            no_quote_note = ASSUMED_NOTE_DESC  # 2xx without a numeric usd: a description, not a quote
+            no_quote_note = ASSUMED_NOTE_DESC  # 2xx with no usd (absent or null): a description, not a quote
         elif status == 404:
             no_quote_note = ASSUMED_NOTE_404
         else:
@@ -341,7 +371,7 @@ class Spike:
             return {'label': label, 'outcome': 'estimate_rejected', 'http_status': est_status}
         cum = self.ledger.reserved_usd()
         total = round(cum + usd, 6)
-        if total > CAP_USD or total > HARD_CAP_USD:
+        if not gate_allows(total):
             self.ledger.append(event='refused', label=label, endpoint=endpoint, body_hash=bh, est_credits=credits,
                                est_usd=usd, est_source=est_source, cum_est_usd=cum, would_be_usd=total)
             raise Refuse(3, f'spend gate: reserved ${cum:.4f} + estimate ${usd:.4f} ({est_source}) = ${total:.4f} > '
@@ -579,6 +609,8 @@ def selftest():
         def __call__(self, method, url, headers, body, timeout):
             self.calls.append((method, url))
             if '/estimate/' in url:
+                if isinstance(self.estimate_status, bytes):  # a raw 200 body, e.g. a malformed quote
+                    return 200, {}, self.estimate_status
                 if self.estimate_status == 'description':  # the live Flare/Sunburst shape: 200, no numeric usd
                     return 200, {}, json.dumps({'type': 'description', 'pricing_description':
                                                 'Per 1M tokens: text input $5, image output $30. The initial charge '
@@ -765,10 +797,48 @@ def selftest():
                 'on 2k refused, exit 3, no submit; dry run projects 12 x $0.10 = $1.20 with est_source per step; '
                 'paid POST 404 -> absent, matrix skipped 5 later Flare steps and ran 6 Sunburst steps')
 
+    def c8():
+        key = load_key(str(dummy_key(0o600)))
+        failed = (200, {'status': 'failed', 'request_id': 'req-c8'})
+        body = {'prompt': 'x', 'resolution': '1k', 'quality': 'low'}
+
+        def attempt(raw, n):
+            fake = Fake(estimate_status=raw, submit=failed)
+            spike = Spike(key, tmp / f'c8-{n}-ledger.jsonl', fake, raw_dir=tmp / 'raw', sleep=lambda s: None)
+            with contextlib.redirect_stdout(io.StringIO()):
+                try:
+                    return spike.submit(f'c8-{n}', 'marketing-studio/image/flare', body), spike, fake
+                except Ambiguous as e:
+                    return e, spike, fake
+
+        paid = lambda f: [u for m, u in f.calls if m == 'POST' and '/estimate/' not in u]
+        malformed = [b'{"usd":"$5.00"}', b'{"usd":["5.00"]}', b'{"usd":"NaN"}', b'{"usd":NaN}',
+                     b'{"usd":"Infinity"}', b'{"usd":true}']
+        for n, raw in enumerate(malformed):
+            res, spike, fake = attempt(raw, n)
+            assert isinstance(res, Ambiguous), f'{raw!r} did not stop the run: {res}'
+            assert spike.ledger.reserved_usd() == 0 and not spike.ledger.rows(), f'{raw!r} reserved or logged a price'
+            assert not paid(fake), f'{raw!r} reached the paid endpoint'
+        for n, raw in enumerate((b'{"usd":null}', b'{"type":"description"}'), 10):
+            res, spike, fake = attempt(raw, n)
+            reserve = [r for r in spike.ledger.rows() if r['event'] == 'reserve']
+            assert isinstance(res, dict) and len(paid(fake)) == 1, f'{raw!r} was not submitted: {res}'
+            assert reserve and reserve[0]['est_source'] == 'assumed' and reserve[0]['est_usd'] == 0.10, f'{raw!r}'
+        res, spike, fake = attempt(b'{"usd":"0.094","credits":1.5}', 20)
+        reserve = [r for r in spike.ledger.rows() if r['event'] == 'reserve']
+        assert reserve and reserve[0]['est_source'] == 'api' and reserve[0]['est_usd'] == 0.094, 'numeric string not api'
+        # The gate on its own (fix B only): NaN or infinity can never pass, whatever the quote parser does.
+        assert gate_allows(1.894) and not gate_allows(1.988), 'gate boundary wrong'
+        for bad in (float('nan'), float('inf'), float('-inf')):
+            assert gate_allows(bad) is False, f'gate let {bad} through'
+        return ('$5.00, ["5.00"], "NaN", NaN, "Infinity", true -> stopped (Ambiguous), nothing reserved or POSTed; '
+                'null and absent usd -> assumed $0.10; "0.094" -> api 0.094; gate refuses nan/inf/-inf')
+
     for name, fn in (('(i) mode-644 key refused before read', c1), ('(ii) mock 4xx scrubbed', c2),
                      ('(iii) spend gate 1.894 / 1.988', c3), ('(iv) second process refused', c4),
                      ('(v) secret scan red/green', c5), ('(vi) inspector controls', c6),
-                     ('(vii) estimate-404 fallback and absent', c7)):
+                     ('(vii) estimate-404 fallback and absent', c7),
+                     ('(viii) malformed quotes stop the run', c8)):
         control(name, fn)
     shutil.rmtree(tmp, ignore_errors=True)  # dummy keys, temp ledgers, the throwaway repo
     for name, ok, detail in results:
