@@ -1,0 +1,64 @@
+{
+  "task": "GH-5 improvement plan QA",
+  "reviewer": "agy",
+  "model": "gemini-3.1-pro-high",
+  "baseline": "a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c",
+  "reviewed_head": "10469bde095f22d7eab1afe09b2d55b055b9a4dc",
+  "plan_sha256": "85db39db3c43fa114cbc42eae01aba7423cbc6c3820ce29fd48305bf9bc0bb24",
+  "final_round": 3,
+  "driver_exit": 0,
+  "status": "Approved",
+  "scope": "planning only; no runtime or paid generation",
+  "main_checkout_modified_by_this_task": false,
+  "checks": {
+    "agy_turn": {
+      "exit": 0,
+      "passes": 65
+    },
+    "relay_review_once": {
+      "exit": 0,
+      "passes": 9
+    },
+    "lock_resolver_clean_environment": {
+      "exit": 0,
+      "passes": 18
+    },
+    "review_attestation": {
+      "exit": 0,
+      "limit": "historical red-control base SHA unavailable; controls explicitly skipped"
+    },
+    "aggregate_small_gate": {
+      "exit": 1,
+      "qualification": "not a green gate; copied runner in vendor snapshot lacks canonical release fixtures, inherited locator override, and producer seed commit during the gate invalidated identity envelope; do not use as promotion evidence"
+    },
+    "selected_display_asset_digest_probe": {
+      "exit": 0,
+      "matching_images": 11
+    },
+    "targeted_pdda": {
+      "frontmatter": "0 errors, 0 warnings",
+      "roadmap_coverage": "0 errors, 0 warnings; 3 declared exemptions",
+      "changelog": "0 errors, 0 warnings",
+      "diff_whitespace": "pass"
+    }
+  },
+  "attestation": {
+    "added_len": 1956,
+    "added_sha256": "7cc15c7d6b50ba95a8244fcb2d93bee4d40a47b71e33c3ff3f6c3758c75b5201",
+    "added_start": 12781,
+    "artifact_sha256": null,
+    "attested_at": "2026-10-09T05:52:30Z",
+    "driver_pid": 90907,
+    "isolated": true,
+    "relay_file": "/Users/noelsaw/marathon-clones/xyz-gh5-agy-qa.FqScmc/relay-system/2026-10-08/gh5-mvp-plan-agy-qa.md",
+    "relay_file_rel": "relay-system/2026-10-08/gh5-mvp-plan-agy-qa.md",
+    "reviewed_head": "10469bde095f22d7eab1afe09b2d55b055b9a4dc",
+    "reviewer": "agy",
+    "schema": "relay-drive/attest@1",
+    "status": "Approved",
+    "target_repo": "/Users/noelsaw/marathon-clones/xyz-gh5-agy-qa.FqScmc",
+    "task": "RELAY-GH5-AGY-QA-FqScmc-r3",
+    "trailer_sha256": "baeb53cfcd32e0e6642fbbbd275f94e7f757f84f6ec8ffc8c0531e483188f161",
+    "transcript_repo": "/Users/noelsaw/marathon-clones/xyz-gh5-agy-qa.FqScmc"
+  }
+}

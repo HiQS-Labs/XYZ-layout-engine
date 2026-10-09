@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-08 — Agy QA of MVP improvement plan
+
+- Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.
+- Revised GH-5 to accept nutrition first with the product-hero smoke, extend the existing four canaries within the ratchet, qualify generation/render measurements separately, and use the published Solar System display assets for future offline recipe promotion. Original image inputs remain omitted; the generator does not produce the two selected refinements. All eleven selected display image digests match committed evidence.
+- Reversibility: Easy — plan/recon/QA records only. Main checkout unchanged by this task; no runtime implementation or paid image calls. Verification: matched the approved plan bytes to the reviewed commit; Agy shim, review-once, lock-resolver and attestation checks pass within their recorded limits. The aggregate vendor-snapshot gate was not green and is explicitly disqualified in `relay-system/2026-10-08/gh5-qa-receipt.json`. Targeted PDDA frontmatter, roadmap coverage and changelog checks pass with zero errors/warnings; diff whitespace passes.
+
 ## 2026-10-08 — Solar System diagram with Milky Way inset
 
 - Created a standalone 2400×1700 diagram (originally local in `artifacts/solar-system-2026-10-08/`), using the existing GH-1 Satori/resvg and Chromium render functions from origin commit `591971d`. Eleven independent transparent assets (Sun, eight planets, main asteroid belt, Milky Way) were generated through the operator-selected resolve-image skill with `gpt-image-2.5-flare`; retained prompts, recipe receipts, original images and display-size exports. Outputs include PNG, SVG, offline HTML with editable labels, fixture JSON, and an individual-assets ZIP.
