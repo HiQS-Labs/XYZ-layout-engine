@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -83,5 +83,56 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: The bounded example scope is sound, but the plan omits a required import guard and leaves verification coverage under-specified. Resolve S1–S2 before approval; no engine refactor or added suite is requested.
+swept file: yes
+
+Read the entire GH-11 plan and every Setup source, including the full renderer and the pinned-runtime differences. Pre-existing verification gaps are included in S2; no additional material defect found within this review's bounded scope. SWE review mode applied. Graph inventory pagination covered all 82 projects and contained no matching checkout, so generation/coverage verification is unavailable; exact source reads were used. README.md and the roadmap CLI named by ROUTER.md are absent here. The live issue could not be fetched (`gh api repos/HiQS-Labs/XYZ-layout-engine/issues/11 --jq "{title,body,state}"`, exit 1: `error connecting to api.github.com`; web fetch also failed); issue conformance is assessed against the supplied Definition of Done.
+
+- [Should] **S1 — Specify safe library initialization.** `PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:37` says relative import but does not require the importer to suppress the spike experiment. The working example sets `process.env.SPIKE_LIBRARY_ONLY='1'` **before an awaited dynamic import** (`examples/2026-10-08-solar-system/render-diagram.mjs:6`–`:8`). A static import is evaluated before the importing module's assignments. Fix: explicitly require that ordering, the sibling runtime Playwright import, `loadSatori()` before rendering, and font reads from the sibling runtime assets. Keep the runtime unchanged.
+  Observed input: `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs:547`: `if (process.env.SPIKE_LIBRARY_ONLY !== '1') main().catch(...)`; main creates experiment output and reads spike fixtures at `:284`–`:288`. The GH-11 requirements do not constrain that environment value or import ordering.
+  Affected scope: initial loading of this pinned module by the new example only.
+  Falsifier: in a disposable clone, load the new importer with the variable initially unset; the example must render while creating no runtime experiment output. A source change eliminating automatic main would make the guard unnecessary, but is expressly outside this plan.
+
+- [Should] **S2 — Make coverage and both-backend bounds explicit.** Requirement 3 (`PROJECT/1-INBOX/GH-11-RAG-DIAGRAM-EXAMPLE.md:37`) needs expected, nonempty stage/icon/text IDs rather than checks solely over whatever the renderer collected. The existing sweep iterates `texts` (`examples/2026-10-08-solar-system/render-diagram.mjs:122`) and checks Satori canvas coordinates plus Chromium scroll metrics (`:125`), omitting Chromium canvas containment. Missing label bounds also skip overlap checks (`:130`). Fix: name required stages for both flows; assert their icon IDs and the expected text/label IDs are present, unique and nonempty, require finite positive geometry in both backends, and check canvas bounds in both. Require label bounds before comparing overlap. A fixed semantic expected set is enough; no test file is needed. Check both PNG dimensions. Keep the overflow red control, but require its named label and nonzero exit in the recorded evidence; it demonstrates overflow detection, not completeness.
+  Observed input: the exact existing check block, with `texts=[]`, returns `[]`; with the committed title metrics but Chromium `title.x=2410` on a 2400-wide canvas, it also returns `[]`. Probe below exited 0 and printed `empty textIds: []`, `Chromium title.x=2410: []`, `fixture images=11; textIds=34`. The existing fixed 11-image assertion at `:135` prevents zero icons in the Solar System example; GH-11 must retain an equivalent non-vacuous expectation instead of accepting zero stages/zero icons together.
+  Affected scope: the new example's own assertions over its declared stages, text and label geometry; no change requested to the Solar System example or shared runtime.
+  Falsifier: a clone run with all required IDs and valid geometry passes; deleting one required text/icon or moving only Chromium text beyond the canvas must fail by ID. If those inputs are already rejected by the new checks, no further mechanism is needed.
+
+  Read-only probe command (no renderer or executable fixture was run):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module <<'NODE'
+  import fs from 'node:fs';
+  const root='examples/2026-10-08-solar-system/';
+  const source=fs.readFileSync(root+'render-diagram.mjs','utf8');
+  const evidence=JSON.parse(fs.readFileSync(root+'verification.json','utf8'));
+  const checks=source.slice(source.indexOf('const findings=[];'),source.indexOf('assert.equal(result.png.readUInt32BE(16),W);'));
+  const check=new Function('texts','result','chromiumResult','W','H',checks+'\nreturn findings;');
+  const result={textBoxes:evidence.satoriBounds,bounds:evidence.satoriBounds};
+  const chromiumResult={textBoxes:structuredClone(evidence.chromiumText)};
+  console.log('empty textIds:',JSON.stringify(check([],result,chromiumResult,evidence.width,evidence.height)));
+  chromiumResult.textBoxes.title.x=evidence.width+10;
+  console.log('Chromium title.x='+chromiumResult.textBoxes.title.x+':',JSON.stringify(check(['title'],result,chromiumResult,evidence.width,evidence.height)));
+  console.log('fixture images='+evidence.imageNodes.length+'; textIds='+evidence.textIds.length);
+  NODE
+  ```
+
+- [Pass] **Runtime reuse and scope.** Existing imports are exactly `./runtime/tools/spike/render.mjs` and `./runtime/node_modules/playwright/index.mjs` (`examples/2026-10-08-solar-system/render-diagram.mjs:7`–`:8`); sibling-relative paths need no runtime edit. SOURCE.json `:3`, `:15` records the pin and adaptation; pinned render.mjs `:553` exports the functions, whereas `tools/spike/render.mjs:547` unconditionally starts main and has no exports. Reuse beats another copy given the explicit GH-5 revisit limit (plan `:51`; GH-5 `:41`). `du -sk examples/2026-10-08-solar-system/runtime` exited 0 with `896`. No better shared operation was found in the named source scope. Keep the no-engine-change boundary.
+
+- [Pass] **Required RAG scene, art and ratchet.** Plan `:35` includes both flows, the shared store and a grounded answer with citations; `:36` requires separate hand-authored SVG icons. The existing SVG fallback is at `tools/spike/assets.mjs:16`–`:24`. Plan `:43` excludes runtime/package/budget/tests/CI changes. `tools/spike/test/run.mjs:23`–`:30` counts files in test directories or with test/spec suffixes, so the specified example `render-diagram.mjs`, fixture and inline assertions do not add a test file under the ratchet (`test-budget.json:7`). Keep this small example mechanism.
+
+- [Nit] **Make the educational grounding concrete.** Plan `:35`: state that retrieved chunks carry source IDs into the augmented prompt, together with the original question, and that the answer's citations refer to those sources. This is one label/arrow clarification, not a live retrieval implementation or citation-validation service.
+
+- [Nit] **Qualify the skill inventory and add complete setup instructions.** No SKILL.md was present in this checkout: `rg --files --hidden --no-ignore -g "SKILL.md" -g "!.git" -g "!node_modules" -g "!.relay-scratch"` exited 1 with no output; `.xyz/` is absent here, so plan `:30`'s positive claim about its installed contents was not substantiated. Say no repo skill was found in the inspected checkout and distinguish external installed skills. GH-5 `:41`, `:48` concerns a reusable operation and documented render path, not a skill. For plan `:56`, give explicit directory changes back to the new example and the pinned runtime's Chromium installation command if absent; `pnpm install` alone does not establish browser availability.
+
+- [Pass] **Ratings and reversal.** Plan `:77` labels severity as a documentation example, priority as no blocked work, appeal as neutral and effort as patterned work; these are provisional judgments, not measurements. `:16`, `:52` make rollback Easy and local to the new folder/changelog entry. Keep those limits.
+
+- [Unverified — needs clone run] No renderer, test suite or PDDA gate ran in this reviewer worktree. Green outputs, the named overflow failure, no unintended experiment output and unchanged budget remain implementation-time clone checks (plan `:56`–`:59`). Agent PNG inspection and pending human review are separated at `:49`.
+
+Handing off to Producer (claude-a) — disposition S1–S2, tighten the plan, and open Round 2; go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
