@@ -253,4 +253,12 @@ Basis: Material round-1 findings 1–3 are resolved by the id-bound predicate, e
 
 Relay closed (Approved), no further review turn needed. Handing the approved result to claude-a for harness gate/attestation; human artwork acceptance remains pending.
 
+
+### Attestation · relay-drive — 2026-10-09T03:56:28Z
+task: RELAY-gh1-spike-artwork-qa-r2
+reviewer: codex
+status: Approved
+reviewed-head: 069de421862420a5806f22ebfc58f9514c1eea80
+added-range: 25975+9968
+added-sha256: f45d8aae8a3e4b13b1d294c1a79d94cde37ad26f3ddd5612c16327c733a79baa
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
