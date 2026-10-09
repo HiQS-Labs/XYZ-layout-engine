@@ -27,7 +27,7 @@ Two diagram examples were built by the same hand-run process, and the only recor
 
 - No `SKILL.md` in the tracked repo (`git ls-files | grep -i skill` is empty); `.xyz/` is untracked and holds the harness skills. GH-5 covers a shared render operation and a documented render path, not a skill.
 - The pattern to point at: `examples/2026-10-09-rag-system/` (fixture-driven; script sets `SPIKE_LIBRARY_ONLY` before an awaited dynamic import of the pinned runtime, renders Satori and Chromium, asserts required ids and geometry in both backends, writes `verification.json`). The Solar System example is the paid-raster-art variant (`generate-assets.py`, `assets/prompts.json`, receipts, `provenance.json`).
-- Traps already evidenced in the repo or this build: nested SVG raster vanished in Satori while geometry checks passed (CHANGELOG 2026-10-08, Solar System entry); checkout paths with spaces break `tools/spike/assets.mjs` (GH-5 lines 33 and 44), so new scripts use `URL`/`fileURLToPath`; `textAlign` on a span is not honored, so right-aligned labels need a flex wrapper (`stepbox_`/`edgebox_` in the RAG script); absolute children need a positioned parent; geometry checks do not prove the picture looks right, so both PNGs get inspected.
+- Traps already evidenced in the repo or this build: nested SVG raster vanished in Satori while geometry checks passed (CHANGELOG 2026-10-08, Solar System entry); checkout paths with spaces break `tools/spike/assets.mjs` (GH-5 lines 33 and 44), so new scripts use `URL`/`fileURLToPath`; in the RAG build a span's `textAlign: right` rendered left-aligned in the first render, and the working pattern is a flex wrapper with `justifyContent: flex-end` (`stepbox_`/`edgebox_` in `examples/2026-10-09-rag-system/render-diagram.mjs`); the example also positions absolute children inside a positioned parent card (working pattern, not a recorded failure); geometry checks do not prove the picture looks right, so both PNGs get inspected.
 - Not traced: how each agent app discovers skills (install paths are the operator's, on request).
 
 ## Requirements
@@ -48,11 +48,11 @@ Two diagram examples were built by the same hand-run process, and the only recor
 
 - Bet: instructions that point at a working example are enough for a cold agent to repeat the process. Failure mode: the skill drifts from the example it points at. Mitigation: it names files, not copied code, and the acceptance probe re-checks every path.
 - Rejected: a scaffolder script (a second system to maintain before a third example exists); a copied template inside the skill (duplicates the example); putting it in `ROUTER.md` (ROUTER owns startup order, not task recipes).
-- Rollback: delete `skills/design-diagram/` and the changelog entry.
+- Rollback: delete `skills/design-diagram/` and append a rollback entry to `CHANGELOG.md` (history is append-only once published; an unpublished draft entry may simply be deleted).
 
 ## Verification (existing checks only)
 
-- Path probe: every repo path and command named in `SKILL.md` resolves (one-off script, not committed). Red control: add an invented path; the probe must name it.
+- Path probe (one-off, not committed): it extracts every backticked repo path and command from `SKILL.md`, prints the inventory and its count, and **rejects a zero count**. Required references: `examples/2026-10-09-rag-system/` and the pinned runtime prerequisite `examples/2026-10-08-solar-system/runtime/`. Existing input paths must exist; proposed output paths and placeholders (such as `examples/<YYYY-MM-DD>-<slug>/`) are declared as outputs in the skill and skipped by name, not silently. Each command names its working directory. Falsifiers: a reference-free skill fails; removing the RAG reference fails; an invented input path fails by name; a complete skill passes.
 - Cold-run acceptance: a fresh agent given only `SKILL.md` and a four-stage topic, in a disposable space-free clone, renders a throwaway example and its script prints `PASS`. Anything it had to guess is a finding against the skill. The throwaway output is not committed.
 - `utils/pdda/pdda.sh run`, `releases check`. `pnpm test` is not required (no code or test path changes); budget file unchanged.
 
