@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Workhorse Phase 1 repair independently Approved/attested against b914323; four canaries passed in 11.3s, goldens preserved. The failed native lane remains retained. | Continuation independently Agy Approved/attested; direct preflight and four-phase dry-run exit 0. Fire phases 2 -> 3 -> 4 -> 5 with 600-second x 6 progress observation. |
+| Phase 1 remains independently accepted; Phase 2 containment failure repaired and independently Codex Approved/attested at 3bf0ff4, four canaries24.7s. Timer check1/6 and halt preserved. | Resume exact four-phase YAML: driver runs approved Phase2 gate, then builds phases3 -> 4 -> 5. Fresh 600-second x6 monitoring; final wave QA and human/provider acceptance remain pending. |
 
 ## Table of contents
 
@@ -354,3 +354,7 @@ The same GH-5 umbrella/ledger/full clone is reused. Original Phase 1 is not re-f
 The operator explicitly authorized continuation after repair and QA. The session-local observer uses the existing marathon launcher, records live read-only state at 600 seconds x 6, distinguishes liveness from accepted progress, emits terminal state within five seconds and cancels outstanding checks. Six checks end the scheduled observation window, not the authorized executor. Fake-clock controls passed at 600/1200/1800/2400/3000/3600 seconds and early halt; no real executor was launched during smoke. Observer source/receipt: relay-system/2026-10-09/gh5-continuation/. No installed harness edit, second executor or new daemon. Monitoring feature issue: https://github.com/HiQS-Labs/XYZ-forge/issues/1006.
 
 Final wave green-suite/post-build Codex QA/checklist are still required before any feature push or ready PR; phases 2–5 and human/live-provider acceptance remain pending.
+
+
+### Phase 2 monitored halt and native resumption — 2026-10-09
+The four-phase continuation actually fired. Phase2 halted on containment exit6 (extra shrink-canary probe), with no gate run; remaining phases never started. Check1/6 recorded at600s and terminal observation cancelled outstanding5. Original failed receipts/history retained. Orchestrator repaired within the same phase owners and four-test budget; independent Codex round1 caught/reproduced native geometry abort, recipe-specific pre-raster spatial constraints fixed it, round2 Approved/attested against3bf0ff4. Existing suite exit0 four canaries24.7s,216 boxes/12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p2-repair/ and original marathon-system phase relay. No self-approval, new phase identity, force or cap reset. Resumption uses the unchanged YAML/plain driver: recognize original approved/done Phase2, run its native pre-advance gate, then3->4->5. This is not final-wave approval. Fresh observer timer starts with the resumed launcher and preserves the earlier launch receipts; six scheduled checks cancel on terminal.
