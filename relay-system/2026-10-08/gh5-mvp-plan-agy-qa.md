@@ -135,4 +135,12 @@ Basis: The plan is coherent, respects existing test budgets, correctly interpret
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-09T05:52:30Z
+task: RELAY-GH5-AGY-QA-FqScmc-r3
+reviewer: agy
+status: Approved
+reviewed-head: 10469bde095f22d7eab1afe09b2d55b055b9a4dc
+added-range: 12781+1956
+added-sha256: 7cc15c7d6b50ba95a8244fcb2d93bee4d40a47b71e33c3ff3f6c3758c75b5201
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
