@@ -10,10 +10,6 @@ complexity: 4
 risk: 3
 phases: 4
 ratings_provisional: true
-related:
-  - PROJECT/1-INBOX/recon-mvp-foundation.md
-  - PROJECT/2-WORKING/SPECS-PRD.md
-reversibility: "Easy — assessment and intake only; runtime unchanged."
 ---
 
 # GH-5 — MVP foundation improvements
