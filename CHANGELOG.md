@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-09 — GH-5 local MVP marathon preparation
+
+- Rebased a fresh full clone onto the operator-confirmed origin/main integration branch (a8e7e574; no development branch). Promoted GH-5 with the canonical roadmap writer, registered its marathon and LocalMVP release, and prepared five strictly sequential phase briefs/YAML. Main checkout is untouched.
+- Applied ponytail: reuse ESM/Python modules, existing HiQS caller and four canaries; no provider client, framework, service/queue/editor or extra CI. Preserved Later work and human/provider acceptance as pending. Codex implementation-plan QA is Approved/attested; fixed its concrete contact-sheet migration omission. All eleven selected display-asset digests match.
+- Reversibility: Easy — plan/ledger/receipts only, no runtime change or paid generation. Fresh baseline pnpm test passed four canaries in 8.2s, 216 geometry boxes and 12 byte-identical artifacts. Planner write/check exited 0 with one wave/no held items/no drift; added the required pending wave QA overlay after checking the generated core. Direct preflight/full YAML admission are recorded separately; execution completion is not claimed.
+
 ## 2026-10-08 — Agy QA of MVP improvement plan
 
 - Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.

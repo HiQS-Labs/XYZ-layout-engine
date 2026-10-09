@@ -1,0 +1,91 @@
+{
+  "status": "prepared, final Agy input review pending; not launched",
+  "base": "a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c",
+  "base_authorization": "operator confirmed origin/main; no development branch",
+  "clone": "marathon-gh-5-mvp-foundation",
+  "branch": "marathon/gh-5-mvp-foundation",
+  "full_clone": true,
+  "umbrella": "https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5",
+  "marathon_gid": "mar-01M4FNK6PXHDY8EJ2CHVKW3D6Z",
+  "release_gid": "rel-01M4FNKFG0WH1873CEA47K8FGB",
+  "roadmap_gid": "rmi-01M4FJQ8CY42AEX2ERKGFT0XAC",
+  "classification": [
+    {
+      "issue": 1,
+      "state": "CLOSED",
+      "doc": "PROJECT/3-COMPLETED/GH-1-RENDERER-SPIKE.md",
+      "classification": "NOT-A-WORK-ITEM",
+      "reason": "completed/landed reference; no active capture"
+    },
+    {
+      "issue": 2,
+      "state": "CLOSED",
+      "doc": "PROJECT/3-COMPLETED/GH-2-REGRESSION-CANARIES.md",
+      "classification": "NOT-A-WORK-ITEM",
+      "reason": "completed/landed four-canary baseline; no active capture"
+    },
+    {
+      "issue": 5,
+      "state": "OPEN",
+      "doc": "PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md",
+      "classification": "READY",
+      "reason": "promoted existing capture, reviewed contract, direct preflight0; 4/4 GitHub acceptance criteria match"
+    }
+  ],
+  "captures_written": [],
+  "baseline": {
+    "command": "pnpm install --frozen-lockfile && pnpm test",
+    "exit": 0,
+    "canaries": 4,
+    "seconds": 8.2,
+    "geometry_boxes": 216,
+    "byte_identical_artifacts": 12,
+    "runtime": "Node22.22.3,pnpm12.4.1,darwin-arm64"
+  },
+  "checks": {
+    "compute_deep": 0,
+    "generated_core_check": 0,
+    "direct_preflight": 0,
+    "acceptance_fidelity": "4/4 verbatim",
+    "full_yaml_dry_run": 0,
+    "pdda_run": 0,
+    "pdda_errors": 0,
+    "pdda_existing_governance_warnings": 2
+  },
+  "planner_note": "Generated core was checked at exit0 before adding mandatory pending GH-784 wave checklist. Current compute is clean; rerunning bytewise --check on annotated doc will show this documented manual overlay, not changed waves. Preserve it on regeneration; core snapshot is retained.",
+  "wave": 1,
+  "order": [
+    "gh5-p1",
+    "gh5-p2",
+    "gh5-p3",
+    "gh5-p4",
+    "gh5-p5"
+  ],
+  "collisions": "all phases share report/CHANGELOG; p1,p2,p4 share renderer/schema/test/package files; serialize every phase",
+  "builder": "agy",
+  "builder_model": "gemini-3.1-pro-high (confirmed live models list)",
+  "reviewer": "codex",
+  "gate": "pnpm test",
+  "bounds": {
+    "review_rounds_per_phase": 2,
+    "turn_timeout_s": 1500,
+    "force": false
+  },
+  "command": ".xyz/relay-automation/marathon.sh --plan PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml --builder agy --pre-advance-cmd 'pnpm test'",
+  "deferred": [
+    "Later HTTP/MCP/tenant service work",
+    "live paid provider benchmark/cost comparison without operator budget",
+    "human migrated nutrition/Solar System artwork approval",
+    "high-resolution originals if unavailable"
+  ],
+  "historical_cleanup": "preserved two GH1 escalation records; merged #3/#4/#6/#7 and closed #1/#2 establish completed baseline, no competing live driver in this clone; prior #1 marathon DB row still planned and is historical, not a live run",
+  "sha256": {
+    "PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md": "1a965ae6309dca48456f0635f5e89078c2804bbf498e3d526696c70820972566",
+    "PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml": "badcd548df26fd9e2304d805527fe7eeb655bb04c228901140d13bfa5094a50c",
+    "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p1.md": "6846e19245eaca8279534eb49c0b92604f518320b08f58c80fb33d98d8640f4f",
+    "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p2.md": "3ea392a87579d3ca835b15e18902303b34a3ce137ef56691647df77a1d72a1b8",
+    "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p3.md": "96e6aa11053170116a26484677b933cd4fcfdcf2c8e360221e91edd9f697823f",
+    "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p4.md": "b32555fd4de602aa5ba69751fb4508d6d8a839eb21d09f26451f9abff1de892f",
+    "PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p5.md": "05c67f818ec0b59622d3e0a3081d24296b5b0c5d9a4751d42a0e55c807797eaf"
+  }
+}
