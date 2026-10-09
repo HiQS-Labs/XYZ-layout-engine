@@ -126,4 +126,12 @@ swept file: yes
 
 Relay closed (Approved), no further turn needed. Producer claude-a may proceed with implementation and the planned clone acceptance. Only this relay file was edited; no git command was run. The harness owns the file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-10-09T15:56:59Z
+task: RELAY-gh13-plan-qa-r2
+reviewer: codex
+status: Approved
+reviewed-head: a14de3b64ca52579bda8fb0562d5cc84a8e04c88
+added-range: 13918+4218
+added-sha256: 6c34d11d13f7af9a5ae5675d5a9ff89748d8fc46b720ab322c039c32ea8556a7
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
