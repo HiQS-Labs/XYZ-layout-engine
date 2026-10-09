@@ -1,0 +1,209 @@
+# RELAY · GH-2 plan QA: regression canaries and CI-suite ratchet
+<!--
+  Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
+  Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
+-->
+
+NEXT: Producer
+STATUS: Approved
+ROUND: 3 / 3
+
+## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
+1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
+2. **Check it's your turn:** `NEXT` (top) names the role to act. Confirm you are bound to it and the
+   last Log block isn't already yours. If not → STOP and reply "wrong window — nudge the <other> window."
+3. **Do your role's work** on the artifact named in Setup:
+   - **Reviewer:** review vs the Definition of Done → graded findings
+     (`[Blocker]`/`[Should]`/`[Nit]`/`[Pass]`), each with a concrete fix → set a **VERDICT**
+     (exactly PASS, FAIL, or PARKED) and a **Basis** (explanation). **Review the whole file, not just the diff** (GH-268):
+     a beta test had this loop reach `Approved` in two rounds while an independent audit of the same
+     branch found 20 issues (1 critical, 4 high) — every one of them in the pre-existing code the
+     change sat on, which nobody had read. Pre-existing defects in a file you are touching are IN
+     SCOPE; if you find none, say so explicitly rather than leaving it unstated.
+     **Declare it: every review block must contain a literal `swept file: yes` or `swept file: no`
+     line.** Without it a reviewer that skipped the sweep is indistinguishable in the transcript from
+     one that did it and found nothing — which is how the original 20 issues stayed invisible.
+     Any `[Pass]` or "verified"/"confirmed" finding MUST
+     carry a quoted span or a `file:line` citation — an uncited one is mechanically downgraded to
+     `[Unverified — no citation]` (GH-173 B3). Do **not** edit the artifact; only append findings here.
+     **A finding that asks for a behaviour change is a generalization unless you can paste the concrete
+     input — a row, a value, a `file:line` — that fails under the current code** (GH-681: the gh673
+     final QA relay generalized one late-error observation into "or a later invalid identity", the
+     Producer implemented it, the same seat `[Pass]`ed it next round, and one historical NULL-URL
+     ledger row then blanked every issue). Every `[Blocker]` or `[Should]` requesting a behaviour
+     change MUST carry three lines: `Observed input:` (the failing input you saw), `Affected scope:`
+     (the input predicate the change would govern), `Falsifier:` (the fixture or data that would show
+     the change unnecessary or wrong, and its expected result).
+     A `[Blocker]` must cite an observed failure. This is a protocol rule, not a mechanical check —
+     the Producer may disposition a request lacking these as `Declined — unproven generalization`.
+   - **Producer:** log a disposition for every open finding (Implemented / Modified / Declined + why,
+     including `Declined — unproven generalization` for a behaviour-change request that carries no
+     `Observed input:` / `Affected scope:` / `Falsifier:`), make the change, then add new work.
+4. **Append ONE block** at the very bottom, directly **above** the marker line. Never edit earlier turns.
+   Reviewer headings may be `### Reviewer · Round N`, `### Round N · Reviewer · <agent>`, `### Reviewer (<agent>)` (optionally followed by `— rN`), or `### Reviewer — Round N` (optionally followed by `(<agent>)`); follow the heading with a non-empty review body.
+5. **Update the header:** flip `NEXT`; set `STATUS` (`Approved` closes — Reviewer only; else `Open`);
+   the Producer bumps `ROUND` when opening a new cycle. If the max `ROUND` ends without `Approved`,
+   set `STATUS: Escalated`.
+6. **Commit only the relay file** (`relay(gh2-plan-qa): <role> r<N>`); no push. **Stop** and report one line.
+7. **Hand off explicitly — EVERY turn, not just the first** (GH-268). End your turn by naming who acts
+   next and what they should do: *"handing off to <other role> — go to the <other> window and say
+   'take your turn'"*, or *"relay closed (Approved), no further turn needed"*. The beta report singled
+   this out: the Reviewer turn never told the user to return to the Producer window, so a relay that
+   was merely waiting looked stalled. A turn that ends without this line is not finished.
+
+## Setup
+- Artifact under review: `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md` (the plan). Source paths it plans against: `tools/spike/render.mjs`, `tools/spike/verify.mjs`, `tools/spike/scene.mjs`, `tools/spike/assets.mjs`, `package.json`, `AGENTS.md`, `GUIDING-PRINCIPLES.md`, `PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md`.
+- Reviewer: codex   ·   Producer: claude-a
+- Started: 2026-10-08
+- Definition of Done: the plan satisfies issue #2 (https://github.com/HiQS-Labs/XYZ-layout-engine/issues/2). That means a minimal regression suite with high-level canaries, run by one local command and aimed mainly at catching regressions, plus ratchet rules that mechanically prevent over-expansion of the test/CI suite. It extends the existing render/verify code rather than adding a parallel system, every check has a falsifiable red control, and complexity stays commensurate with a spike of about 1,000 lines.
+
+## Ground rules
+1. This file is the single source of truth. The agents never share memory — read the whole file.
+2. Take a turn only if `NEXT` names your role — otherwise reply "not my turn" and stop.
+3. One turn = one block appended at the very bottom, above the marker. Never edit earlier turns.
+4. Stay tight — findings are bullets, not essays. Grade every finding.
+5. **The Reviewer never edits the artifact.** It proposes graded findings; the Producer implements.
+6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
+
+## QA brief (read before reviewing)
+
+This is plan QA, before any code is written. Operational envelope: a local renderer spike, about 1,000 lines of plain .mjs, on a single developer machine, with no CI today. GH-1 lists "CI machinery" as a non-goal. Grade against issue #2 and commensurate complexity. Do not ask for enterprise test infrastructure, a coverage regime, or multi-platform goldens unless a stated requirement needs them.
+
+Read the plan in full and the source paths in Setup. You may run narrow read-only probes under `.relay-scratch/` or `$TMPDIR`. Do not run the renderer, tests or gates here.
+
+Questions:
+1. Grounding: are the recon claims true against the code? Specifically: `render.mjs` runs `main()` on import and writes to a fixed `output/<date>-<package>/` folder; `verify.mjs` reads the newest folder; nothing currently re-renders and compares. Is the determinism claim (byte-identical PNG/SVG/HTML on re-render on the same machine) labelled with its limits?
+2. Do the four canaries cover the regressions that matter most for this spike, without overlap or padding? Is a high-value canary missing, or is one redundant with `spike:verify`?
+3. The output-root override (`SPIKE_OUTPUT_ROOT`) is the only production-code change. Is it the smallest change that keeps tests from touching committed evidence? Does it preserve the recorded `output/<run>/...` paths and the verifier contract?
+4. C2's platform-gated digest comparison skips digests unless platform, arch and Chromium version match, but always compares geometry within 0.5 px. Is that honest and sufficient? Could it pass vacuously, for example with zero boxes compared?
+5. Is the ratchet (budget file plus runner checks) mechanical, cheap, and hard to bypass by accident? It checks file count, `test(` count, the `guards:` prefix, workflow count, history-matches-budget, and wall time. Can it be gamed trivially, for example via `it(`, `describe(`, or test files under another extension or folder? Is anything over-built?
+6. Do the rules belong in AGENTS.md plus `test-budget.json`, with one source of truth and no duplicated rule text?
+7. Are rollback and the red controls sufficient and falsifiable? That covers the three runner controls, plus C4 as a built-in red control.
+
+Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, and `swept file: yes|no`. Set STATUS Approved only if nothing blocking remains. Hand off to claude-a if changes are requested.
+
+## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: The four-canary design is proportionate to issue #2, but its success assertion, comparison proof, and budget enforcement need bounded corrections before implementation. These are plan findings from source inspection, not a runtime-suite result.
+swept file: yes
+
+Read the entire plan and every Setup source/document in full; also inspected the committed measurements/runtime and targeted REPORT evidence. Verify-tier intent, direct-source fallback: `list_projects(limit=100)` returned all 82 projects, none for this checkout or its task clone; `check_index_coverage` for the nine Setup/artifact paths and `tools/spike` returned `project not found or not indexed`. No graph generation is available. Local reference search traced package scripts → renderer/verifier → scene/assets; no extra runtime caller appeared in that bounded source/config search. Startup README and local releases CLI are absent from the seeded worktree. Issue #2 was fetched through the GitHub connector; its acceptance asks for one local command “in well under a minute,” named guards, a mechanically reviewable budget/admission rule, and no new framework.
+
+- [Should] **R1 — C1 requires output the renderer cannot emit.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:59` requires exit 0 and `VERDICT: PASS` “from both.” Renderer success output is `render: wrote`, backend status, and selection (`tools/spike/render.mjs:538`); only the verifier prints that verdict (`tools/spike/verify.mjs:290`). Fix the plan to require renderer exit 0 and verifier exit 0 + PASS; retain the output-root override as the only runtime change.
+  Observed input: the existing successful renderer contract, also recorded at `tools/spike/REPORT.md:18`. Read-only probe `python3 -c 'from pathlib import Path; s=Path("tools/spike/render.mjs").read_text(); print("VERDICT: PASS occurrences:", s.count("VERDICT: PASS"))'` exited 0: `VERDICT: PASS occurrences: 0` (output stored in `.relay-scratch/tmp/c1-log-probe.out`).
+  Affected scope: C1's assertion on renderer stdout.
+  Falsifier: in a disposable clone, an unchanged successful render must satisfy C1; `SPIKE_INJECT_FAILURE=1` must make C1 fail (existing injection at `render.mjs:369`). If success actually emits PASS without a runtime change, this finding is unnecessary.
+
+- [Should] **R2 — the ratchet permits ordinary uncounted test forms.** Plan lines 70–72 count only `*.test.mjs` and `test(`, with no restriction on other Node test APIs or locations/extensions. Fix by defining and mechanically enforcing one bounded test-file/API convention, rejecting alternate test declarations/discovery forms rather than adding a parser framework. Include executed-test accounting so skip/todo/zero execution cannot masquerade as four passing canaries. Add a red control for the ordinary bypass below.
+  Observed input: append `import { it } from 'node:test'; it("guards: fifth canary", () => {});` to the sole test file: file count stays one and the added declaration contains zero `test(` calls. Probe `python3 -c 'import re; s="it(\"guards: fifth canary\", () => {});"; print("append to canaries.test.mjs:", s); print("test( count:",len(re.findall(r"\btest\(",s))); print("extra.test.js counted by *.test.mjs:", "extra.test.js".endswith(".test.mjs"))'` exited 0: `test( count: 0`; `extra.test.js counted by *.test.mjs: False` (scratch output `ratchet-probe.out`). This measures the plan's literal predicates, not an implemented runner.
+  Affected scope: spike-owned tests and the test runner's discovered/executed declarations; exclude installed harness/dependency/scratch trees explicitly. Account for `it`, suites/subtests, skipped tests, and normal `.test.js`/`.spec.*` or alternate-directory additions by rejecting or counting them under the chosen convention.
+  Falsifier: clone red controls must reject the fifth `it` and alternate-extension test before tests execute; the original four canaries must execute and pass without a budget increase. If the chosen enforcement already rejects both, this gap is closed.
+
+- [Should] **R3 — make C2 non-vacuous and give its comparator a red control.** Plan lines 60–62 say geometry matches but do not require exact case/backend/label sets, finite coordinates, or a positive comparison count; line 81 records only runner controls and C4. Fix by comparing the committed and fresh case/backend/label key sets first, then finite `x/y/width/height` values within 0.5 px, with an explicit compared-box count. Pin the golden artifact list independently of the fresh output. Specify clone red controls for missing labels, geometry drift, and an enabled golden digest mismatch, plus C1's existing failure injection; reuse C4 as the verifier/C3 red control.
+  Observed input: committed baseline/satori `bounds.callout_1_img` exists at `tools/spike/output/2026-10-08-xyz-layout-engine-spike/measurements.json:81`. Removing that image label from fresh measurements leaves it outside the verifier's required-section list (`tools/spike/verify.mjs:186`); the verifier iterates only remaining bounds (`verify.mjs:87`). An intersection-only C2 comparison could miss this loss while PNG bytes stay unchanged. The plan does not exclude that implementation; no comparator exists yet to run.
+  Affected scope: C2 comparisons of all three existing cases × both backends; no new fixtures or platforms.
+  Falsifier: clone controls removing that one fresh label, moving one coordinate by 1 px, and changing one golden-comparison artifact byte must each fail C2 at the intended assertion; unchanged evidence must compare a nonzero number of boxes and pass. A digest-ineligible host must still exercise geometry and report digest checks skipped.
+
+- [Should] **R4 — a post-exit stopwatch does not bound a stalled run.** Plan line 77 checks wall time only after `node --test` returns. Specify a finite parent-controlled deadline for the test subprocess and its render child, with cleanup on timeout/failure, using Node facilities and the existing renderer deadline where possible. Add one clone timeout red control; no new service or watchdog package.
+  Observed input: plan budget `maxSeconds: 60` (line 66) versus existing `SPIKE_RENDER_DEADLINE_MS || 240_000` (`tools/spike/render.mjs:33`). A render waiting for its existing deadline can outlive the suite budget; a never-returning test prevents the proposed after-return check entirely. This is a source-derived gap, not an observed hung run.
+  Affected scope: the local runner's test subprocess and descendants, including Chromium; preserve normal renderer cleanup (`render.mjs:346`, `render.mjs:541`).
+  Falsifier: a disposable-clone controlled stall with a short temporary budget must exit nonzero within the deadline plus a documented small cleanup allowance, leaving no test/render/browser child; the normal suite must stay green. If the planned runner already enforces that deadline, no additional mechanism is needed.
+
+- [Nit] **State the supported host honestly.** C2's digest skip does not make the whole suite portable: C3 checks the committed native binding against the current process platform/arch (`tools/spike/verify.mjs:242`), while committed `runtime.json:28` is `@resvg/resvg-js-darwin-arm64`. Prefer explicitly limiting this spike command to the recorded developer host and stating the existing verifier limitation; cross-platform gate redesign is outside this issue. Also replace “pure builders” (plan line 33) with scene builders and filesystem asset loaders (`tools/spike/assets.mjs:11`, `tools/spike/scene.mjs:68`). This sweep found the host coupling in pre-existing source; no other material pre-existing defect was identified within the stated local-spike scope.
+- [Nit] **Resolve the budget-decrease contradiction.** Line 79 says budgets can drop freely; line 74 requires exact history equality for any change. State whether decreases need a history entry without new admission justification, or adjust the equality rule accordingly. Keep the detailed policy in `test-budget.json` and only its pointer in AGENTS.md. Rollback should also remove that added pointer (line 50).
+- [Pass] **Reuse and scope are appropriate.** Plan lines 46–49 and 54–56 extend the existing writer/reader, use `node:test`, and add no workflow/dependency. Writer paths are physical `OUT` plus logical `rel()` (`tools/spike/render.mjs:30`); verifier has both scan and physical `out()` reads (`tools/spike/verify.mjs:15`, `verify.mjs:18`). Implementation must route both physical reader operations through the override while keeping logical `output/<run>/...` unchanged. Four canaries need no additional parallel suite; C3 deliberately reuses the existing gate and C4 targets its recorded-digest assertion (`verify.mjs:161`).
+- [Unverified — needs clone run] Plan line 35's fresh-render byte stability and 8.1-second observation were not reproduced here. Its same-machine/environment limits are stated, and the report records repeat determinism (`tools/spike/REPORT.md:72`), but this review does not certify fresh golden equality, suite timing, runtime red controls, or PDDA results. Those runs belong to implementation/clone validation and the harness gate.
+
+Review outcome: changes requested. Reversibility: Easy — amend the plan, then implement its single runner and existing-source override; no artifact/source edits were made by this reviewer.
+Handing off to claude-a (Producer) — disposition R1–R4 and the nits, revise the plan, then return for round 2. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Plan revised in `911f757`; see the Implementation section of `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md`.
+
+- **R1 [Should] — Implemented.** C1 now requires renderer exit 0 plus a stdout line starting `render: selection`. It then requires verifier exit 0 with `VERDICT: PASS`. Recorded red control: `SPIKE_INJECT_FAILURE=1` must fail C1.
+- **R2 [Should] — Implemented.** The convention is one file and plain `test()` only. Before any test runs, the runner rejects:
+  - `it(`, `describe(`, `suite(`, `.skip`, `.todo`, `.only`, `skip:` and `todo:`
+  - any test-like file outside `node_modules/` and `.xyz/` beyond the budget, matching `/\.(test|spec)\.[cm]?[jt]sx?$/` or under a `test`, `tests` or `__tests__` directory other than the runner itself
+  
+  For executed-test accounting, the TAP summary must show `# pass` equal to the declared count and no greater than the budget, with fail, skip and todo at 0. New red controls cover a fifth `it(` and an extra `x.test.js`.
+- **R3 [Should] — Implemented.** C2 first requires equal case/backend/label key sets. It then requires finite coordinates within 0.5 px, and a printed compared-box count greater than 0. Digests are compared only on a matching host; otherwise C2 prints `digests: skipped (host differs)` while geometry is still enforced. The golden root can be overridden with `SPIKE_GOLDEN_ROOT` so the comparator has red controls: a removed label, a 1 px move, and a byte change with its digest. Each must fail.
+- **R4 [Should] — Implemented.** The runner spawns `node --test` in its own process group with a `maxSeconds` parent deadline: SIGTERM, then SIGKILL after 5 s, then fail. The render child gets `SPIKE_RENDER_DEADLINE_MS=40000`, so the existing renderer deadline closes Chrome. Red control: a temporary `maxSeconds: 3` must fail with no leftover node, render or Chrome process, checked with `pgrep`.
+- **Nit (host) — Implemented.** A "Supported host" paragraph says the suite targets the recorded darwin-arm64 host. C3 inherits the verifier's platform-binding check, so other hosts fail C3 by design.
+- **Nit (budget decrease) — Implemented.** Any budget change, up or down, needs a history entry. A decrease needs only a reason; an increase must also name the issue and the failure mode. The policy text lives only in `test-budget.json`, with only a pointer in AGENTS.md. Rollback now includes removing that pointer.
+- **[Pass] — acknowledged.** Both physical reader paths in `verify.mjs`, the scan and `out()`, will use the override.
+
+VERDICT: PASS
+Basis: every round-1 finding is reflected in the plan with a falsifiable red control; scope is unchanged (one test file, one runner, one budget file, two env overrides).
+
+Handing off to codex (Reviewer) — round 2 against `911f757`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: FAIL
+Basis: R1 and R3 are addressed in the plan, and R4 now has a finite parent deadline. R2 still permits zero executed canaries; one small accounting correction remains before implementation. This is plan QA, not certification of a running suite.
+swept file: yes
+
+Read the entire revised plan and all Setup source/document paths, including pre-existing code; also read the runtime record, relevant REPORT evidence, CHANGELOG and PDDA contract sections. No additional material pre-existing source defect was identified within the supported local-spike scope. The existing host coupling remains explicitly disclosed in plan line 54. Verify-tier intent with direct-source fallback: this session exposes no graph tools, so project/generation and index coverage cannot be checked. Source references trace package scripts → render/verify → scene/assets (`package.json:7`, `tools/spike/render.mjs:18`, `tools/spike/verify.mjs:9`, `tools/spike/scene.mjs:6`). Startup README and releases CLI are absent from the seeded checkout. Fetched issue #2 through the GitHub connector and checked its acceptance against the whole plan.
+
+- [Should] **R2 remains partly open — zero declarations satisfy executed-test accounting.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:79` supplies only an upper bound; line 84 requires passes to equal declarations and remain at most four. An emptied canary file with zero declarations and zero passes satisfies these predicates. Add an explicit positive declaration/pass requirement and a clone red control for an empty canary file; the initial final-gate receipt should show all four named canaries executed. This needs one guard, not another runner.
+  Observed input: an empty `canaries.test.mjs`, with declared/pass/fail/skip/todo counts all zero. Narrow predicate probe `python3 -c 'declared=passed=fail=skip=todo=0; print("accepts zero:", passed==declared and passed<=4 and fail==skip==todo==0)'` exited 0, output `accepts zero: True` (scratch: `.relay-scratch/tmp/r2-zero.out`). This evaluates the stated rule; no runner exists yet and no Node test was executed.
+  Affected scope: the single canary file and its TAP-summary success assertion, retaining the current upper budget and admission policy.
+  Falsifier: in a disposable clone, an empty file must make `pnpm test` fail with a zero-canary diagnostic; the original four canaries must execute and pass. If the implemented runner already rejects zero independently, this finding needs only an explicit plan statement and receipt.
+
+- [Nit] **Make the timeout control reach the timeout.** Plan line 92 changes `maxSeconds` to 3, while line 82 rejects any mismatch with the last history budget before spawning. Specify a disposable, history-consistent short budget and a controlled stall, and require the deadline diagnostic in its receipt. Probe `python3 -c 'print("history equality after maxSeconds-only edit:", {"maxSeconds":3}=={"maxSeconds":60})'` exited 0, output `history equality after maxSeconds-only edit: False` (scratch: `.relay-scratch/tmp/r2-timeout-preflight.out`). A nonzero preflight exit would not prove the parent deadline or cleanup. The actual timeout/process-cleanup claim remains [Unverified — needs clone run].
+
+- [Nit] **The earlier purity correction is still absent.** Plan line 33 still says scene/assets export “pure builders”; `tools/spike/assets.mjs:11` reads files and `tools/spike/scene.mjs:68` invokes those loaders. Replace with “scene builders and filesystem asset loaders.” This is a recon wording correction, not a runtime change.
+
+- [Pass] **R1 and output isolation are specified correctly.** Plan lines 57–61 preserve logical evidence paths, redirect both verifier physical-read operations, and distinguish renderer exit/selection output from verifier exit/PASS. These match `tools/spike/render.mjs:30`, `tools/spike/render.mjs:540`, `tools/spike/verify.mjs:15`, `tools/spike/verify.mjs:18` and `tools/spike/verify.mjs:290`. No new production success-output contract is needed.
+- [Pass] **R3's geometry proof and bounded scope are suitable for implementation.** Plan lines 63–67 require equal case/backend/label sets, finite coordinates, a positive compared-box count, an explicit digest skip, and three comparator red controls. Lines 68–69 retain separate committed-gate and tamper canaries; C4 targets the existing digest assertion at `tools/spike/verify.mjs:161`. Lines 74 and 93 give budget history and policy one owner, with only an AGENTS pointer. These are plan-contract passes; comparator execution is pending.
+- [Pass] **R4's proposed deadline closes the unbounded parent-wait gap.** Plan line 83 specifies a test process group, a parent deadline and a five-second escalation; C1 sets the existing renderer deadline at line 61. Existing browser closure is at `tools/spike/render.mjs:346` and `tools/spike/render.mjs:541`. No watchdog dependency is proposed. Descendant/browser cleanup must still be demonstrated by the clone control.
+- [Unverified — needs clone run] Fresh PNG/SVG/HTML equality, four-canary runtime comfortably under a minute, all runtime red controls, and PDDA results were not executed here. Issue #2 asks for “well under a minute”; the 60-second cap is a ceiling, not that timing receipt. Plan lines 35 and 95 separate the recorded observation from the final execution gate. The harness owns subsequent validation.
+
+Review outcome: one required correction (R2), with two small documentation nits. Reversibility: Easy — only this relay header and appended review block changed; no artifact/source edits, executable fixtures, suites, gates or git commands were run.
+Handing off to claude-a (Producer) — close R2's zero-canary gap and clarify the two nits, then return for round 3. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 2 → 3 (claude-a)
+
+Plan revised in `c260ce0`.
+
+- **R2 zero-canary [Should] — Implemented.** Pre-run: a `test(` count of zero is rejected. TAP accounting now requires `# pass` ≥ 1, `# pass` equal to the declared count and no more than the budget, with fail, skip and todo all 0. Red control added: an emptied canary file must fail with a zero-canary diagnostic. The first final-gate receipt must show all four named canaries passing.
+- **Nit (timeout control) — Implemented.** The control now edits `budget.maxSeconds` and the last history entry's `maxSeconds` to 3 together in a disposable copy, so the history check passes. C1's render takes about 8 s, so the run reaches the parent deadline without a stall hook. The receipt must show the deadline diagnostic, a nonzero exit, and no leftover process.
+- **Nit (purity wording) — Implemented.** The text now reads: "`scene.mjs` exports scene builders and `assets.mjs` exports filesystem asset loaders".
+- **[Unverified — no citation] R1, R3, R4 — acknowledged.** Browser and descendant cleanup will be demonstrated by the clone timeout control.
+
+VERDICT: PASS
+Basis: the remaining Should and both nits are reflected with falsifiable controls; scope unchanged.
+
+Handing off to codex (Reviewer) — round 3 against `c260ce0`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 3 · codex
+
+VERDICT: PASS
+Basis: The whole plan is ready for implementation against issue #2. R1–R4 are addressed, including positive executed-canary accounting and a history-consistent timeout control. Approval covers the plan contract; runtime proof remains the disposable-clone final gate.
+swept file: yes
+
+Read the entire plan, entire relay history, and every Setup source/document, including pre-existing code. No additional material pre-existing defect was identified within the supported local-spike scope. Verify-tier intent with direct-source fallback: `list_projects(limit=100)` returned all 82 projects, none for this checkout or the task clone; `check_index_coverage` for all nine artifact/Setup paths returned `project not found or not indexed`. No project generation is available. Bounded references trace package scripts → render/verify → scene/assets (`package.json:7`, `tools/spike/render.mjs:18`, `tools/spike/verify.mjs:9`, `tools/spike/scene.mjs:6`). Startup README and both releases CLI paths are absent from this seeded checkout. Issue #2 was fetched through the GitHub connector and its acceptance checked against the whole plan.
+
+- [Pass] **R2 is closed in the plan.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:79` rejects zero declarations; line 84 requires positive passes equal to declarations with fail/skip/todo zero and an initial four-canary receipt; line 92 supplies the empty-file red control. Alternate declarations/files, guard names and workflow growth remain bounded at lines 77–82. Narrow predicate probe: `python3 -c 'ok=lambda d,p: 0<d<=4 and 1<=p<=4 and p==d; print("zero accepted:",ok(0,0)); print("four accepted:",ok(4,4)); b={"maxSeconds":60}; h=dict(b); b["maxSeconds"]=h["maxSeconds"]=3; print("short-budget history equal:",b==h)'` exited 0: `zero accepted: False`, `four accepted: True`, `short-budget history equal: True` (scratch output `.relay-scratch/tmp/r3-accounting.out`). This evaluates stated predicates, not an implemented runner.
+- [Pass] **R1 and R3 preserve one render/verify system with meaningful comparison.** Plan lines 57–61 redirect physical writes and both reader operations while retaining logical paths and the actual renderer selection/verifier PASS contracts (`tools/spike/render.mjs:30`, `tools/spike/render.mjs:540`, `tools/spike/verify.mjs:15`, `tools/spike/verify.mjs:18`, `tools/spike/verify.mjs:290`). Plan lines 63–67 require equal key sets, finite geometry, a positive compared-box count, host-gated digests and targeted comparator red controls. C3/C4 retain committed-evidence and tamper coverage (plan lines 68–69; digest assertion `tools/spike/verify.mjs:161`). No extra suite or framework is needed.
+- [Pass] **R4 and both round-2 nits are addressed as plan requirements.** Plan line 83 specifies the finite parent deadline and five-second escalation. Line 93 changes the budget and its history together, and requires a deadline diagnostic, nonzero exit and no leftover processes; the predicate probe above shows that paired edit preserves history equality. Browser cleanup remains an execution obligation, supported by the existing renderer deadline/finally paths (`tools/spike/render.mjs:346`, `tools/spike/render.mjs:541`). Plan line 33 now accurately distinguishes scene builders from filesystem asset loaders (`tools/spike/assets.mjs:11`, `tools/spike/scene.mjs:68`).
+- [Pass] **Scope, ownership and rollback remain proportionate.** Plan lines 46–50 limit the mechanism and give an Easy rollback including the AGENTS pointer; lines 71–74 and 94 keep budget policy in one file. Supported-host and determinism limits are explicit at lines 35 and 54. This fits issue #2's local command, named guards, budget/admission rule and no-framework acceptance.
+- [Nit] **Refresh the status row when implementation begins.** Plan line 29 still names round 1 revisions and round 2 review. Replace that row with this round-3 approval and the implementation next step as part of the already planned status update at line 95; this stale progress label does not block implementation.
+- [Unverified — needs clone run] Fresh PNG/SVG/HTML equality, all runtime red controls, timeout descendant/browser cleanup, actual suite duration well under a minute, and PDDA results were not run here. The 60-second budget is a ceiling, not a timing receipt. Plan lines 35 and 96 leave these to measured implementation proof; historical repeat evidence at `tools/spike/REPORT.md:72` does not certify the new suite. No renderer, test, executable fixture, gate or git command was run this turn.
+
+Review outcome: Approved. Reversibility: Easy — only this relay header and appended block changed; artifact/source files remain untouched.
+Relay closed (Approved), no further review turn needed. Returning control to claude-a (Producer) for implementation and the disposable-clone final gate; the harness owns the relay commit.
+
+
+### Attestation · relay-drive — 2026-10-09T04:49:45Z
+task: RELAY-gh2-plan-qa-r3
+reviewer: codex
+status: Approved
+reviewed-head: 87ecce69c3b936d305e0f4309644bef23c05627d
+added-range: 28026+4926
+added-sha256: f9b2e64924d67fa5323913e7eab95bc76db0188d08111bd0a7f7b36acb99afc8
+<!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

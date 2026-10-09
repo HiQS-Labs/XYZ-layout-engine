@@ -1,0 +1,19 @@
+{
+  "rules": [
+    "This file is the single source of truth for the size of the test and CI suite; tools/spike/test/run.mjs enforces it on every `pnpm test`.",
+    "A test or CI gate is admitted only for a named material failure mode that existing tests and gates cannot catch (AGENTS.md, GUIDING-PRINCIPLES.md §6). Each test name starts with `guards: <failure mode>`.",
+    "Ratchet: the actual suite must stay within `budget`. Any change to `budget`, up or down, appends a `history` entry whose `budget` equals the new one, so the last entry always matches.",
+    "Lowering a limit needs only a short reason. Raising one needs the issue URL and a reason naming the failure mode the current tests cannot catch and why an existing test cannot be extended instead.",
+    "Only plain node:test `test()` in tools/spike/test/canaries.test.mjs is allowed: no describe/it/suite, no skip/todo/only, no new frameworks or dependencies. Test-like files anywhere in the repo count against testFiles.",
+    "`ciWorkflows` caps .github/workflows files; it is 0 because GH-1 lists CI machinery as a non-goal. Adding a workflow is a budget raise like any other."
+  ],
+  "budget": { "testFiles": 1, "tests": 4, "maxSeconds": 60, "ciWorkflows": 0 },
+  "history": [
+    {
+      "date": "2026-10-08",
+      "issue": "https://github.com/HiQS-Labs/XYZ-layout-engine/issues/2",
+      "budget": { "testFiles": 1, "tests": 4, "maxSeconds": 60, "ciWorkflows": 0 },
+      "reason": "Initial budget: four canaries (fresh render + verify, golden geometry/digest drift, committed evidence gate, verifier tamper detection) for the GH-1 spike; no CI workflow."
+    }
+  ]
+}

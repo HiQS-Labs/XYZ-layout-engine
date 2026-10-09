@@ -27,7 +27,8 @@ globalThis.__dirname = HERE;
 // re-render overwrites that day's folder, earlier days' folders are left as they are.
 const RUN_DATE = new Date().toLocaleDateString('en-CA');
 const RUN_DIR = `${RUN_DATE}-${JSON.parse(readFileSync(path.join(HERE, '..', '..', 'package.json'), 'utf8')).name}`;
-const OUT = path.join(HERE, 'output', RUN_DIR);
+// SPIKE_OUTPUT_ROOT relocates the physical output root (tests use a temp folder); recorded paths stay output/<run>/….
+const OUT = path.join(process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output'), RUN_DIR);
 const rel = f => `output/${RUN_DIR}/${f}`;
 const require = createRequire(import.meta.url);
 const RENDER_DEADLINE_MS = Number(process.env.SPIKE_RENDER_DEADLINE_MS || 240_000);
