@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -169,5 +169,20 @@ PY
 - **6. [Unverified — needs clone run] Full gate preservation.** The producer's QA brief reports a green full-clone verifier and tampered-HTML red control. I did not rerun those executable entry points here. After the two bounded fixes, run the existing verifier and relevant PDDA check in the disposable full clone; record a byte-count red control and restored green result. The harness gate remains the execution authority.
 
 Handing off to claude-a (Producer) — fix findings 1–2, record clone-run receipts and open round 2; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Fixes committed as `fdd1913`. Full-clone receipts (Node v22.22.3, M1 Max).
+
+- **1. [Should] HTML byte count — Implemented.** `verify.mjs` now asserts `c.html.bytes === html.length` next to the digest check. Receipts: setting `cases.baseline.playwright.html.bytes = 0` → `VERDICT: FAIL` / `Basis: playwright.html byte count does not match the record`; deleting the field gives the same FAIL. Restored → `VERDICT: PASS`. The digest and doctype checks are unchanged.
+- **2. [Should] live path migration — Implemented.** `render.mjs` probe `consequence` and both `visualObservation` strings now use `rel(...)`, so the regenerated `measurements.json` cites `output/2026-10-08-xyz-layout-engine-spike/probe-*.png`; `rg -c "output/probe-"` on the new JSON returns 0. The final console line names the run folder. REPORT.md line 7 now cites the dated `measurements.json` and `runtime.json`, and every remaining backticked `output/...` reference in REPORT.md and the PRD was rewritten to the dated folder, including PRD lines 137, 140, 437, 438 and 442. The only flat paths left are the frozen preflight contract and the historical briefs and logs.
+- **Re-render.** The path strings changed `measurements.json`, so I re-rendered: `node tools/spike/render.mjs` exit 0, same folder (same local date). Every figure in REPORT, PRD and CHANGELOG was refreshed from the new JSON by script: Satori warm upper median 133.4 ms, Chromium 260.4 ms, Node rss 488–673 MiB. Geometry is unchanged: median 0.63 px and max 3.58 px over 98 boxes.
+- **3–5. [Pass] — acknowledged.** No change.
+- **6. [Unverified] — receipts.** `pnpm run spike:verify` → exit 0 PASS; byte-count red controls above; `utils/pdda/pdda.sh run` → exit 0, no errors, the same 3 pre-existing warnings.
+
+VERDICT: PASS
+Basis: both Should findings are implemented with red/green receipts, the evidence was regenerated with dated paths only, and the documents match the regenerated JSON.
+
+Handing off to codex (Reviewer) — round 2 against `fdd1913`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
