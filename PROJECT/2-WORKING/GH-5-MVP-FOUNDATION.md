@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Workhorse Phase 1 repair independently Approved/attested against b914323; four canaries passed in 11.3s, goldens preserved. The failed native lane remains retained. | Review/refreshed preflight/dry-run of continuation phases 2 -> 3 -> 4 -> 5; fire with 600-second x 6 progress observation. |
+| Workhorse Phase 1 repair independently Approved/attested against b914323; four canaries passed in 11.3s, goldens preserved. The failed native lane remains retained. | Continuation independently Agy Approved/attested; direct preflight and four-phase dry-run exit 0. Fire phases 2 -> 3 -> 4 -> 5 with 600-second x 6 progress observation. |
 
 ## Table of contents
 
