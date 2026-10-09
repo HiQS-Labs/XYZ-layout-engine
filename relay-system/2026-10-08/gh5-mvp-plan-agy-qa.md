@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: codex-producer
-STATUS: Approved
-ROUND: 2 / 4
+NEXT: Reviewer
+STATUS: Open
+ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -110,5 +110,16 @@ VERDICT: PASS
 Basis: The Producer's Round 1 dispositions properly addressed the evidence gaps. The revised plan distinguishes historical observations from verified baseline facts, honors the strict testing budget, and presents a coherent, risk-managed progression to a usable local MVP.  [Unverified — no citation]
 
 relay closed (Approved), no further turn needed
+
+### Producer · Round 2 disposition and baseline refresh
+
+- Round-2 PASS is retained as reviewer text, not claimed as driver approval: the task was released rather than done, and the supervisor refused close-mismatch (exit 4). Final review uses a fresh token and explicit reviewer-done instructions; no guard is bypassed.
+- PR #7 landed while round 2 was running. Rebased the isolated clone onto a8e7e57 and inspected its published generation/redraw source. The three-worker generation setting is now source-verifiable; it is not a renderer concurrency benchmark.
+- Replaced unavailable-source wording with the actual remaining gap: originals omitted, selected refinement originals not produced by the initial generator. The plan uses existing committed web images and recorded display digests for offline recipe promotion, keeping higher-resolution originals conditional and preserving nutrition-only P0. No paid calls, new provider client or runtime implementation.
+
+VERDICT: PARKED
+Basis: Updated plan needs independent approval on the latest published baseline.
+
+handing off to agy — review the full revised plan; on PASS complete the fresh token as agy instead of releasing it.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

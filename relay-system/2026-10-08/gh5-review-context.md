@@ -27,3 +27,17 @@ Report cited [Blocker]/[Should]/[Nit]/[Pass] findings, a literal swept file: yes
 While round 1 was running, PR #4 was updated/merged and reconciliation PR #6 landed. This QA branch was rebased onto origin/main `8a44d552d538306e2439acab138ff2d423139e23`. Sources are now the latest landed baseline, with the report recording human artwork acceptance and #1/#2 complete. The original round-1 source remains identified above for audit history. Read the revised full plan and the recon map's refresh; do not assume the earlier unavailable demo has been recovered.
 
 Producer changes: nutrition-only P0 acceptance (product-hero smoke retained), explicit reuse of four existing canaries/budget, historical generation claims separated from renderer observations, asset recovery before optional astronomy promotion, installed HiQS caller reuse, and separate P0/P1/P2 closure gates. Judge the original Blocker as an evidence/scope gap; its claimed renderer/provider-concurrency contradiction is not accepted as a technical fact.
+
+## Round 3 refresh and closure protocol
+
+Baseline now origin/main `a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c` after PR #7 published examples/2026-10-08-solar-system/. Read generate-assets.py, render-diagram.mjs, fixture.json, README.md, provenance.json and relevant verification.json asset metadata from that example as well as the revised plan. Source availability supersedes the Round-2 absence claim; originals are still omitted. No runtime scripts or paid calls are needed to verify that all original inputs are absent but all selected display PNGs exist. Check the revised supplied-assets offline promotion and generation baseline against exact source.
+
+Round 2 contained a substantive PASS but was not driver-attested: Agy released the token to codex-producer after setting Approved. The supervisor correctly refused close-mismatch (exit 4). This final turn uses a fresh token and must complete the actual close protocol.
+
+**If PASS: set STATUS: Approved and append your cited review block; DO NOT release the task to the Producer. Mark it done AS agy with the provided environment:**
+
+```bash
+TICK_REPO_ROOT="$TICK_REPO_ROOT" "$TICK_BIN" done "$RELAY_TASK" --agent "$RELAY_AGENT"
+```
+
+If the command fails, leave the claim owned by agy so the guarded shim can finish it; do not hand it back. If FAIL, leave STATUS Open and release to codex-producer as normal. A textual PASS without a done token is not accepted approval. Do not rewrite any earlier review/disposition block.
