@@ -112,4 +112,4 @@
 - Nutrition recipe explicitly versioned and exported in \`tools/recipes/nutrition.mjs\`.
 ### Changed
 - \`tools/spike/render.mjs\` uses an atomic staging directory for output and implements a direct-execution guard.
-- Validation semantics enforce input dimensions, fallback limits, and symlink/realpath containment.
+- Validation semantics enforce input dimensions, and symlink/realpath containment.

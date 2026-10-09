@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p1
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH5-P1-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -75,7 +75,7 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
 You are the REVIEWER for this phase. Read the latest builder block above AND review the artifact file(s) on disk: tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/scene.mjs, tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md. REVIEW THE WHOLE FILE, NOT JUST THE DIFF (GH-268): a beta test had this loop reach 'Approved' in two rounds while an independent audit of the same branch found 20 issues (1 critical, 4 high) — every one of them in the pre-existing code the change sat on, which nobody had read. Pre-existing defects in a file you are touching are IN SCOPE; say so explicitly if you find none. DECLARE IT: your review block MUST contain a literal 'swept file: yes' or 'swept file: no' line — without it a reviewer that skipped the sweep is indistinguishable in the transcript from one that did it and found nothing, which is exactly how those 20 issues stayed invisible.
 APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delete, reorder, or rewrite any existing content — the terminal attestation refuses the approval if any byte above your block changed, even a tidy-up.
 1. Append a review block: `### Round N · Reviewer · codex` followed by your assessment.
-2. If changes needed: add `**Verdict:** Changes requested`, update the `NEXT:` line to exactly `NEXT: agy (Builder)`, then: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.xyz/bin/tick release MARATHON-GH5-P1-TURN --agent codex --to agy
+2. If changes needed: add `**Verdict:** Changes requested`, update the `NEXT:` line to exactly `NEXT: codex (Builder)`, then: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.xyz/bin/tick release MARATHON-GH5-P1-TURN --agent codex --to agy
 3. If satisfied: add `**Verdict:** Approved`, set `STATUS: Approved`, then: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.xyz/bin/tick done MARATHON-GH5-P1-TURN --agent codex
 4. Use this exact tick binary (run it from any directory) for all token operations: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.xyz/bin/tick
    Edit ONLY marathon-system/gh5-mvp-foundation--gh5-p1/RELAY.md (your review block + STATUS). Do NOT edit the artifact yourself — request changes instead. Do NOT run git.

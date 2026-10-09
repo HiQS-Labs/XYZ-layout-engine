@@ -1,14 +1,22 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const ASSETS_DIR = new URL('./assets', import.meta.url).pathname;
+const ASSETS_DIR = fileURLToPath(new URL('./assets', import.meta.url));
 
 // Generated raster illustrations (transparent PNG, web-sized copies of the gpt-image originals; see
 // assets/SOURCES.md) take precedence over the hand-authored SVG of the same id.
 export async function resolveIllustration(id) {
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+    throw new Error(`Invalid illustration id: ${id}`);
+  }
   const web = path.join(ASSETS_DIR, 'generated', 'web', `${id}.png`);
   try {
     const png = await fs.readFile(web);
+    // basic PNG signature check
+    if (png.length < 8 || png.readUInt32BE(0) !== 0x89504e47 || png.readUInt32BE(4) !== 0x0d0a1a0a) {
+      throw new Error(`Invalid PNG signature for ${id}`);
+    }
     return `data:image/png;base64,${png.toString('base64')}`;
   } catch (e) {
     if (e.code !== 'ENOENT') throw e;

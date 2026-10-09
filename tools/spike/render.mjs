@@ -13,8 +13,7 @@ import { execFileSync } from 'child_process';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import { Resvg } from '@resvg/resvg-js';
-import { chromium } from 'playwright';
+import { renderSatori, renderPlaywright, launchPlaywright } from '../render.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT, DEFAULT_SIZES } from './scene.mjs';
 import { getFonts } from './assets.mjs';
 
@@ -60,106 +59,6 @@ async function loadSatori() {
   const t0 = performance.now();
   ({ default: satori } = await import('satori'));
   return performance.now() - t0;
-}
-
-async function renderSatori(scene, font, width, height) {
-  const nodes = [];
-  const missingSegments = [];
-  const t0 = performance.now();
-  const svg = await satori(scene, {
-    width, height,
-    fonts: [{ name: FONT_FAMILY, data: font.regular, weight: 400, style: 'normal' }, { name: FONT_FAMILY, data: font.bold, weight: 700, style: 'normal' }],
-    onNodeDetected: n => nodes.push(n),
-    // Fires once per text segment the pinned font cannot cover. Returning [] provides no fallback
-    // font, so the observation is: segment uncovered, glyphs not supplied by the pinned font.
-    loadAdditionalAsset: async (languageCode, segment) => { missingSegments.push({ languageCode, segment }); return []; }
-  });
-  const tLayout = performance.now();
-  const png = new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng();
-  const t1 = performance.now();
-  const bounds = {};
-  const textBoxes = {};
-  for (const n of nodes) {
-    const id = n.props?.id;
-    if (!id) continue;
-    bounds[id] = rect(n);
-    if (typeof n.textContent === 'string') textBoxes[id] = { ...rect(n), text: n.textContent };
-  }
-  return { svg, png, bounds, textBoxes, missingSegments, satoriMs: round(tLayout - t0), resvgMs: round(t1 - tLayout), stageMs: round(t1 - t0) };
-}
-
-// ---------------------------------------------------------------- Chromium (Playwright) --------
-function cssValue(k, v) {
-  const unitless = new Set(['fontWeight', 'lineHeight', 'flex', 'opacity', 'zIndex']);
-  return typeof v === 'number' && !unitless.has(k) ? `${v}px` : v;
-}
-function toHtml(node) {
-  if (node == null || node === false) return '';
-  if (typeof node === 'string') return node.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  if (Array.isArray(node)) return node.map(toHtml).join('');
-  const { type, props } = node;
-  const style = Object.entries(props.style || {})
-    .map(([k, v]) => `${k.replace(/[A-Z]/g, m => '-' + m.toLowerCase())}:${cssValue(k, v)}`)
-    .join(';');
-  const attrs = Object.entries(props)
-    .filter(([k]) => k !== 'children' && k !== 'style')
-    .map(([k, v]) => `${k}="${String(v).replace(/"/g, '&quot;')}"`)
-    .join(' ');
-  if (type === 'img') return `<img ${attrs} style="${style}">`;
-  return `<${type} ${attrs} style="${style}">${toHtml(props.children)}</${type}>`;
-}
-function toDocument(scene, font, width, height) {
-  return `<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face{font-family:'${FONT_FAMILY}';font-weight:400;src:url(data:font/ttf;base64,${font.regular.toString('base64')})}
-@font-face{font-family:'${FONT_FAMILY}';font-weight:700;src:url(data:font/ttf;base64,${font.bold.toString('base64')})}
-*{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}
-h1,h2,p{margin:0}span,div,p,h1,h2{display:flex}
-</style></head><body>${toHtml(scene)}</body></html>`;
-}
-
-async function renderPlaywright(context, scene, font, width, height) {
-  const page = await context.newPage();
-  try {
-    const t0 = performance.now();
-    const html = toDocument(scene, font, width, height);
-    await page.setContent(html, { waitUntil: 'load' });
-    await page.evaluate(() => document.fonts.ready);
-    const evidence = await page.evaluate(({ family }) => {
-      const canvasEl = document.getElementById('canvas');
-      const bounds = {};
-      const textBoxes = {};
-      for (const el of document.querySelectorAll('[id]')) {
-        const r = el.getBoundingClientRect();
-        bounds[el.id] = { x: r.x, y: r.y, width: r.width, height: r.height };
-        const ownText = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
-        if (ownText.length) {
-          const range = document.createRange();
-          range.selectNodeContents(el);
-          const tr = range.getBoundingClientRect();
-          textBoxes[el.id] = {
-            x: tr.x, y: tr.y, width: tr.width, height: tr.height,
-            text: el.textContent,
-            scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
-            scrollHeight: el.scrollHeight, clientHeight: el.clientHeight,
-            lineCount: range.getClientRects().length
-          };
-        }
-      }
-      const fontCheck = document.fonts.check(`16px '${family}'`);
-      return {
-        bounds, textBoxes, fontLoaded: fontCheck,
-        document: { scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight },
-        canvas: canvasEl ? { scrollWidth: canvasEl.scrollWidth, scrollHeight: canvasEl.scrollHeight } : null
-      };
-    }, { family: FONT_FAMILY });
-    const png = await page.screenshot({ clip: { x: 0, y: 0, width, height }, fullPage: false });
-    const stageMs = round(performance.now() - t0);
-    for (const k of Object.keys(evidence.bounds)) evidence.bounds[k] = rect(evidence.bounds[k]);
-    for (const [k, v] of Object.entries(evidence.textBoxes)) evidence.textBoxes[k] = { ...rect(v), text: v.text, scrollWidth: v.scrollWidth, clientWidth: v.clientWidth, scrollHeight: v.scrollHeight, clientHeight: v.clientHeight, lineCount: v.lineCount };
-    return { png, html, ...evidence, stageMs };
-  } finally {
-    await page.close();
-  }
 }
 
 // ---------------------------------------------------------------- Text fitting evidence -------
@@ -363,7 +262,7 @@ async function main() {
 
     // ---- Playwright cold
     const tColdP = performance.now();
-    browser = await chromium.launch({ headless: true });
+    browser = await launchPlaywright();
     runtime.dependencies.chromium = chromiumInfo(browser);
     runtime.licenseNotes = licenseNotes(runtime.dependencies);
     // Failure-path control (operator-only): SPIKE_INJECT_FAILURE=1 throws here, after the browser is
@@ -542,10 +441,16 @@ async function main() {
     console.log(`render: selection ${measurements.selection.status}${measurements.selection.eligible.length ? ': ' + measurements.selection.eligible.join(', ') : ''}`);
     
     // Atomic publish
-    if (await fs.stat(OUT).then(() => true).catch(() => false)) {
-      await fs.rm(OUT, { recursive: true, force: true });
+    await fs.mkdir(OUT, { recursive: true });
+    const stagedFiles = await fs.readdir(STAGE_DIR);
+    for (const f of stagedFiles) {
+      if (f !== 'manifest.json') {
+        await fs.rename(path.join(STAGE_DIR, f), path.join(OUT, f));
+      }
     }
-    await fs.rename(STAGE_DIR, OUT);
+    if (stagedFiles.includes('manifest.json')) {
+      await fs.rename(path.join(STAGE_DIR, 'manifest.json'), path.join(OUT, 'manifest.json'));
+    }
   } finally {
     clearTimeout(deadline);
     if (browser) await browser.close().catch(() => {});

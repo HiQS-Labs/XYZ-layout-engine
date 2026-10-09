@@ -1,12 +1,16 @@
 // Reusable backend operations extracted from the spike
 import { performance } from 'perf_hooks';
-import { Resvg } from '@resvg/resvg-js';
-import { chromium } from 'playwright';
+
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 let satori;
 export async function loadSatori() {
   const t0 = performance.now();
-  if (!satori) ({ default: satori } = await import('satori'));
+  if (!satori) {
+    globalThis.__dirname = path.dirname(fileURLToPath(import.meta.url));
+    ({ default: satori } = await import('satori'));
+  }
   return performance.now() - t0;
 }
 
@@ -25,6 +29,7 @@ export async function renderSatori(scene, font, width, height, fontFamily = 'Int
     loadAdditionalAsset: async (languageCode, segment) => { missingSegments.push({ languageCode, segment }); return []; }
   });
   const tLayout = performance.now();
+  const { Resvg } = await import('@resvg/resvg-js');
   const png = new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng();
   const t1 = performance.now();
   const bounds = {};
@@ -64,6 +69,11 @@ export function toDocument(scene, font, width, height, fontFamily = 'Inter') {
 *{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}
 h1,h2,p{margin:0}span,div,p,h1,h2{display:flex}
 </style></head><body>${toHtml(scene)}</body></html>`;
+}
+
+export async function launchPlaywright() {
+  const { chromium } = await import('playwright');
+  return await chromium.launch({ headless: true });
 }
 
 export async function renderPlaywright(context, scene, font, width, height, fontFamily = 'Inter') {

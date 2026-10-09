@@ -24,7 +24,7 @@ const node = (script, env) => spawnSync(process.execPath, [path.join(SPIKE, scri
 
 test('guards: render pipeline breaks on a clean checkout', async () => {
   // import no-side-effect assertion
-  const { renderSatori } = await import('../../render.mjs');
+  await import('../render.mjs'); const { renderSatori } = await import('../../render.mjs');
   assert.ok(renderSatori, 'import no-side-effect assertion');
 
   // CLI in a space-containing temp path
@@ -36,24 +36,34 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   // invalid request/escaping symlink
   try {
     const { normalizeRequest } = await import('../../request.mjs');
-    await normalizeRequest({ inputPath: '/tmp/outside' }, { root: FRESH });
+    const outside = path.join(os.tmpdir(), 'gh2-outside');
+    mkdirSync(outside, { recursive: true });
+    appendFileSync(path.join(outside, 'input.json'), '{}');
+    const escapeLnk = path.join(FRESH, 'escape.json');
+    import('node:fs').then(fs => fs.symlinkSync(path.join(outside, 'input.json'), escapeLnk));
+    await normalizeRequest({ inputPath: escapeLnk }, { root: FRESH });
     assert.fail('should reject escaping symlink');
   } catch (e) {
-    assert.match(e.message, /symlink escape rejection|file not found/);
+    assert.match(e.message, /symlink escape rejection/);
   }
 
-  // injected failed publication preserving prior digests
-  // We simulate by running render again but making it fail
-  const rFail = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000', SPIKE_INJECT_FAILURE: '1' });
-  assert.notEqual(rFail.status, 0, 'injected failure should exit non-zero');
-  
-  // existing C1 logic
+  // existing C1 logic (run first to get a digest)
   const r = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000' });
   assert.equal(r.status, 0, `render exited ${r.status}: ${r.stderr.slice(-400)}`);
   assert.match(r.stdout, /^render: selection /m, 'render did not report a backend selection');
   const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: FRESH });
   assert.equal(v.status, 0, `verify on fresh run exited ${v.status}: ${(v.stdout + v.stderr).slice(-400)}`);
   assert.match(v.stdout, /^VERDICT: PASS$/m);
+
+  // injected failed publication preserving prior digests
+  const runD = runDir(FRESH);
+  const priorDigest = sha256(readFileSync(path.join(runD, 'measurements.json')));
+  
+  const rFail = node('render.mjs', { SPIKE_OUTPUT_ROOT: FRESH, SPIKE_RENDER_DEADLINE_MS: '40000', SPIKE_INJECT_FAILURE: '1' });
+  assert.notEqual(rFail.status, 0, 'injected failure should exit non-zero');
+  
+  const postDigest = sha256(readFileSync(path.join(runD, 'measurements.json')));
+  assert.equal(postDigest, priorDigest, 'prior digest should be preserved');
 });
 
 test('guards: unintended visual or layout drift', () => {
