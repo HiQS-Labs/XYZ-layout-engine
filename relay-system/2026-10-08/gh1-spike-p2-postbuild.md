@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 4
 
@@ -194,5 +194,80 @@ VERDICT: PASS
 Basis: every round-1 finding is implemented or acknowledged with full-clone receipts; both reviewer counterexamples now fail the gate on a named assertion; licence records are read from manifests with provenance and the browser's licence limit is stated rather than inferred.
 
 Handing off to codex (Reviewer) — please review round 2 against commit `034c1a7`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2 (codex)
+
+Review outcome: Changes requested
+swept file: yes
+
+The delivered renders and prior repairs are substantially sound, but mandatory-evidence consistency and diagnostic PNG integrity still need changes. Bet: Phase 2 approval requires the existing evidence checks to govern eligibility and artifact integrity. Reversibility: Easy — only this relay's header and appended block change.
+
+Scope: swept the complete render/scene/verifier/assets sources, both fixtures, illustrations, package and lockfile; read both JSON records, parsed the complete Satori SVG, and viewed all eight PNGs plus the reference. Pre-existing defects were in scope; the remaining gate defects below prevent a clean assessment. Read canonical Phase 2/Acceptance, p2.md, PRD §5.3 and prior agy Round 2 findings 1–6. MCP list_projects pages 0 and 50 (82 projects) contain no matching checkout: project/generation/coverage unavailable, so exact named-source inspection is the fallback. README.md and startup releases-app paths are absent. No git, renderer, verifier, PDDA, tests or executable fixtures ran. Scratch remained under .relay-scratch/tmp; Producer execution receipts remain attributed.
+
+- **1. [Should] Bind diagnostic PNG bytes to the script evidence.** tools/spike/verify.mjs:129-137 hashes six case PNGs, but line 141 checks only positive file size for the two probe PNGs. tools/spike/render.mjs:419-422,454-471 writes those images and points visual observations at them without retaining their hashes/dimensions. Reuse the existing hash/dimension checks for both probe artifacts.
+  Observed input: each actual output/probe-*.png buffer with one byte b'x' appended in memory; its hash changes while the sole size > 0 predicate stays true.
+  Affected scope: integrity of the delivered script diagnostic PNGs and their association with measurements.probes; the six case PNGs already have this protection.
+  Falsifier: in the full clone append one byte to each probe independently, leaving JSON unchanged; expected verifier FAIL on digest, then restore and obtain PASS. If an existing assertion rejects either control, cite it and decline that subfinding. **[Unverified — needs clone run]** actual full-gate escapes were not executed here.
+
+- **2. [Should] Make mandatory English layout and document overflow govern acceptance.** tools/spike/verify.mjs:178,184 accepts layoutBoxNonEmpty=false when width is zero; line 216 derives mandatory English success solely from the coverage label. Line 150 trusts documentOverflow.overflows=false without checking its scroll dimensions. Require finite positive English layout dimensions and include them in mandatory English capability; recompute document overflow from the measured dimensions. Keep optional-script limitations reportable.
+  Observed input: copy either saved probes.english backend record, set layoutBox.width=0, layoutBox.height=0, layoutBoxNonEmpty=false, leave observation/capabilities unchanged: the layout predicate accepts it and English success still recomputes true. Independently copy cases.hero.playwright.documentOverflow and change only scrollHeight to 649: {scrollWidth:1200, scrollHeight:649, canvas:{scrollWidth:1200,scrollHeight:630}, overflows:false} satisfies line 150 despite exceeding the 630px canvas.
+  Affected scope: mandatory English rendering evidence and measured document containment for the existing cases. Current saved renders are nonempty and fit.
+  Falsifier: apply these independent red controls in the full clone; expected FAIL for inconsistent bundles. A consistently recorded failed English result must hold that backend, while unsupported optional CJK/emoji remains a valid outcome. If already rejected, provide the assertion/receipt and decline that subfinding. **[Unverified — needs clone run]** actual full-gate escapes were not executed here.
+
+  Narrow probe for findings 1–2 (exit 0; no artifact writes or verifier execution):
+
+      export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+      python3 - <<'PY' > "$TMPDIR/r2-gate-probe.txt"
+      import copy,json,math,hashlib
+      from pathlib import Path
+      m=json.loads(Path('tools/spike/output/measurements.json').read_text())
+      for b in ('satori','playwright'):
+       t=copy.deepcopy(m['probes']['english'][b]); t['layoutBox'].update(width=0,height=0); t['layoutBoxNonEmpty']=False
+       box=t['layoutBox']; accepts=all(math.isfinite(box[k]) for k in ('x','y','width','height')) and t['layoutBoxNonEmpty']==(box['width']>0)
+       print(b,'zero-size English shape_accepts',accepts,'english_success',t['observation']=='rendered_by_pinned_font')
+      for f in ('probe-satori.png','probe-playwright.png'):
+       raw=Path('tools/spike/output',f).read_bytes(); altered=raw+b'x'
+       print(f,'tampered_digest_differs',hashlib.sha256(raw).digest()!=hashlib.sha256(altered).digest(),'size_check_accepts',len(altered)>0)
+      d=copy.deepcopy(m['cases']['hero']['playwright']['documentOverflow']); d['scrollHeight']=649
+      print('hero document',d,'boolean_check_accepts',d['overflows'] is False,'actual_overflow',d['scrollHeight']>630)
+      print('full verifier NOT RUN; needs clone run')
+      PY
+
+  Decisive output: both backends report "zero-size English shape_accepts True english_success True"; both altered PNG buffers report "tampered_digest_differs True size_check_accepts True"; hero reports "boolean_check_accepts True actual_overflow True". These are reproduced predicate counterexamples, not reproduced green verifier runs.
+
+- **3. [Pass] Prior license/timing/probe-report repairs are present and bounded.** tools/spike/render.mjs:213-263 reads host-relative manifests and derives notes from lookup success/failure. output/runtime.json.dependencies.resvg_native_binding records darwin-arm64 2.6.2/MPL-2.0, verified=true and manifest provenance; all four named Satori transitives now record exact versions/MIT/provenance. Chromium 156.0.8078.4/revision 1248 carries its ABOUT excerpt and verified=false/licenseEvidenceLimit, honestly leaving shipping notice review pending. verify.mjs:191-200 requires native metadata. runtime.json.stageBoundaries agrees with timer placement (render.mjs:113-152,347-363), discloses static imports and excludes page creation/close from warm time. One warmup/ten samples are represented (476-488). Node snapshots exclude Chromium; Chromium RSS is explicitly unobservable. Probe descriptions acknowledge visible .notdef boxes, width-comparison limits and unexposed fallback identity (445-470). No shipping-license approval or production SLA is earned.
+
+- **4. [Pass] Geometry, bounded fitting, exact overrides and hero artifacts are present.** render.mjs:58-81,112-150 collects hook/DOM/Range/scroll evidence; 159-201 derives overflow and caps font-size-only re-renders at ten with unresolved reporting. The Satori caveat at 502 limits the claim to laid-out boxes, with glyph ink unobservable. Lines 371-387 clone the baseline, apply the prescribed headline/first-item caption and save separate outputs. All six case PNG hashes match their records; four nutrition outputs are 1000×1000 and both structured product heroes are 1200×630. measurements.json.cases.hero.playwright.documentOverflow records document/canvas 1200×630 and overflows=false. All saved fitting records use iteration 0/empty unresolved; shrink/exhaustion remains unexercised. Independent repeat calls exist (400-409); recorded repeat PNG digests equal baseline. Browser SVG is honestly unsupported (327-329); Satori SVG parses with viewBox 0 0 1000 1000.
+  Receipt probe (exit 0):
+
+      python3 - <<'PY' > "$TMPDIR/r2-summary.txt"
+      import json,hashlib,struct,xml.etree.ElementTree as ET
+      from pathlib import Path
+      p=Path("tools/spike/output"); m=json.loads((p/"measurements.json").read_text()); r=json.loads((p/"runtime.json").read_text())
+      for name,per in m["cases"].items():
+       for b,c in per.items():
+        raw=(p/Path(c["png"]).name).read_bytes()
+        print(name,b,struct.unpack(">II",raw[16:24]),"digest_match",hashlib.sha256(raw).hexdigest()==c["sha256"],"fit",c["fitting"]["fit"],"iterations",c["fitting"]["iterations"],"unresolved",c["fitting"]["unresolved"])
+      print("hero_document",m["cases"]["hero"]["playwright"]["documentOverflow"])
+      print("native",r["dependencies"]["resvg_native_binding"])
+      print("transitive",[(d["name"],d["version"],d["license"],d["verified"]) for d in r["dependencies"]["transitive"]])
+      print("samples",{b:len(r[b]["warm"]["samples"]) for b in ("satori","playwright")})
+      print("svg_viewBox",ET.fromstring((p/"satori.svg").read_text()).get("viewBox"))
+      PY
+
+  Decisive output: all six rows "digest_match True fit True iterations 0 unresolved []"; dimensions as above; both sample counts 10; native/transitive facts as finding 3; "svg_viewBox 0 0 1000 1000".
+
+- **5. [Pass] Prior consistency controls have explicit source assertions; scope stays small.** verify.mjs:94-113 rederives containment, scroll overflow, unresolved, final step and fit; 224-234 rederives mandatory failures, eligibility, scripts and selection. These cover Round 1's two specific counterexamples in source. No engine/server/queue/CI framework or separate text-layout implementation appears in swept artifacts. The pinned ESM shim is documented at render.mjs:22-24.
+
+- **6. [Unverified — needs clone run] Execution and cleanup remain attributed receipts.** Producer reports green render/verifier, red controls A–E and zero surviving Chrome processes after deadline/injected failure. render.mjs:334-343,522-530 has a finite default deadline, bounded timeout close and finally cleanup, with synchronous resvg interruption explicitly limited. This review did not rerun those paths or independent repeats. Retain the receipts and obtain the new narrow red controls in the full clone/harness.
+
+- **7. [Nit] Remove the obsolete width-inference comment.** render.mjs:423-425 still says equal advance widths mean pinned glyph absence. The corrected implementation/explanation at 445-449 and JSON interpretation treat widths only as corroboration. Align that comment; no behavior change requested.
+
+- **8. [Pass] Agent visual assessment: readable sections with the acknowledged fidelity gap.** Viewed output/{satori,playwright,override-satori,override-playwright,hero-satori,hero-playwright}.png: all required sections/text are readable without apparent clipping; override headline/caption wrap. Probe PNGs show English/café in both, Satori .notdef CJK/emoji boxes and readable browser fallback. Relative to PROJECT/2-WORKING/layout-engine-reference.png, the central geometric approximation and horizontal benefits strip remain substantially sparser than the dominant detailed leaf/side panel composition (scene.mjs:97,125). Record that gap in Phase 3 as acknowledged. Human artwork acceptance remains pending.
+
+VERDICT: FAIL
+Basis: Prior findings are repaired or honestly bounded, and delivered case artifacts pass narrow byte/dimension inspection. Two remaining mandatory-evidence/integrity gaps need surgical changes and full-clone red controls before approval. Full verifier/cleanup execution remains attributed to Producer receipts. The orchestrator owns the canonical two-review-round stop/escalation policy; this review does not authorize a failed-lane re-fire.
+
+Handing off to claude-a (Producer) — disposition findings 1–2 and the comment nit, obtain full-clone red/green receipts, and append the result; go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
