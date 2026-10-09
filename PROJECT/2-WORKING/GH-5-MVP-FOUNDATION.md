@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Phase3 repaired after interrupted HTTP503 review; retry native QA/gate, then4 -> 5 with600-second x6 monitoring. Final wave QA and human/provider acceptance remain pending. |
+| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Phase3 native attempt2 halted at Agy model-probe timeout; counter2/2 retained. Finish local recovery QA; phases4/5 held. Final wave QA and human/provider acceptance remain pending. |
 
 ## Table of contents
 
@@ -367,3 +367,5 @@ The first four-phase continuation halted in Phase2 on an off-lane shrink-canary 
 Native Phase3 attempt1 halted before gate: independent Codex second review interrupted by HTTP503, without verdict/attestation. Saved review probes identified real runtime failures; baseline C1 failed undefined spawn. Original counter1/2 and identity retained. Operator explicitly said Try again. Orchestrator repair atdc3a4d6 shares batch ownership, strict durable state, immutable caller evidence and exact HiQS inputs; existing four canaries passed32.1s, with additional controls reviewed in the committed source. Cross-model advisory findings/reconciliation and failure/monitor2-of6 receipts: relay-system/2026-10-09/gh5-p3-repair/. Native recovery QA/gate pending.
 
 The approved Phase2 source at3bf0ff4 and native gate26.1s are accepted external prerequisites for Phase3; final integration QA will review later legitimate modifications. Native exact-revision candidate_ok correctly refuses to reuse the Phase2 attestation for the changed Phase3 source. Do not undo Phase3 or falsify that attestation. Canonical YAML now contains remaining gh5-p3 -> gh5-p4 -> gh5-p5, retaining existing phase IDs, briefs, owners and caps. No --force/--retry/token suffix/counter reset. Preserve original four/five-phase YAML in Git history and failed transcripts. The native driver owns final gates; human/provider and final wave QA remain pending.
+
+Attempt2 fired17:26:37Z and halted17:27:07Z before Agy build because its model probe exceeded20s. Native counter2/2 retained; no approval/gate. Observer correctly cancelled all six intervals before the first due time. Independent recovery QA is a separate read-only review of the current repair, not a third phase fire or forged native phase approval. Resume requires working model backends plus standing-queue disposition under the recovery rules; phases4/5/final wave remain held.
