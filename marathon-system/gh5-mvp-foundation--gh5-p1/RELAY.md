@@ -269,3 +269,124 @@ Controls: valid PNG/Satori accepted, unsupported tiff rejected, successful sourc
 Resolve these Phase 1 acceptance failures in the allowlisted artifacts and record focused proof; leave full pnpm test/golden verification to the driver.
 
 handing off to agy — agy, take your turn.
+
+
+### Round 2 · Reviewer · codex
+
+**Verdict:** Changes requested
+swept file: yes
+
+VERDICT: FAIL
+Basis: Four observed failure classes remain: orphaned identifiers in the extracted spike, partial replacement of last-good artifacts on publication failure, invalid/unbounded PNG admission with asset symlink escape, and C1's unawaited symlink setup failing its own assertion. The required shared local operation and recorded recovery receipts remain incomplete.
+Review outcome: Not approved; return to agy for the bounded Phase 1 fixes below. The latest builder block is still Round 1; current artifacts include revisions after the Round 1 review without a newer builder receipt.
+Reversibility: Easy — append-only review; no artifact/source changes, git commands, paid calls, or test-suite execution.
+Bet: source/component probes with safe controls establish these specific defects; full rendering/golden preservation and the suite are not inferred from them. A passing driver clone run remains required after remediation.
+
+#### Scope, recon and limits
+
+Swept the full contents of all ten allowlisted artifacts: tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/scene.mjs, tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md and tools/MVP-REPORT.md. Read ROUTER.md → GUIDING-PRINCIPLES.md → AGENTS.md; README.md and both router-named releases_app.py paths are absent. The roadmap-list invocation exited 2 for the missing .xyz/utils/py/releases_app.py. Read canonical Phase 1 and PRD §§7.3/7.5/7.6/8.1 plus test-budget.json. MCP graph tools are unavailable (no project/generation/coverage claim); direct bounded source reads/search replaced them. Review-code and debug-mantra informed the review; the user's relay-only instructions override artifact fixes, git, external posting and suite execution.
+
+Current path: package.json:7 → spike main (tools/spike/render.mjs:185) → fixed fixtures/fonts → createScene/createHeroScene → shared backend helpers. Shared render now owns backend rendering/HTML; the spike still owns experiment/fitting/publication. normalizeRequest is called by C1 only in the inspected tools scope; the versioned nutrition wrapper is not on the spike path. Default CLI still runs the two-backend experiment (browser launch at render.mjs:265); preserving an explicit legacy comparison is appropriate, but a separate default local request path is missing. State writes are staged artifact files followed by per-file replacement; no manifest is generated. C2 consumes runtime/geometry/digests; C3/C4 retain verifier checks.
+
+Pre-existing code was in scope. No additional material defect was identified in the retained trusted scene composition, fixed geometry declarations, or retained C2–C4 bodies by source inspection. This does not verify render bytes/geometry, fit-loop behavior, browser recovery, or test timing. The defect in asset admission remains material at the newly exported recipe boundary. All full-suite/render/geometry/mutation claims are **[Unverified — needs clone run]**. No validate.sh, test scripts, pytest, executable fixtures, pnpm test or PDDA runtime was run here.
+
+#### Confirmed progress from Round 1
+
+- tools/request.mjs now rejects {}, surprise/fallback/negative scale, zero/NaN/fractional dimensions, empty format and Playwright SVG with field errors. A valid PNG/Satori request passes. A real root/escape.json → sibling root-escape/input.json symlink is rejected: `Validation failed: [{"field":"inputPath","message":"symlink escape rejection"}]`.
+- tools/render.mjs:8–14 now initializes Satori in a fresh process without the old asynchronous __dirname failure: `loader-control OK`. tools/render.mjs:32 and :75 use lazy dependency imports; duplicate backend implementations were removed from the spike.
+- A scratch copy of assets.mjs under `space path` reads both synthetic font files: `space-font-control font-control,bold-control`. Asset traversal ID `../outside` is rejected. Importing the actual spike with scratch SPIKE_OUTPUT_ROOT leaves zero output entries: `spike-import-output-entries 0` (component observation, not a suite assertion).
+
+#### Findings
+
+1. **[Blocker] Extraction leaves two unresolved identifiers on the retained experiment path.**
+   Locations: tools/spike/render.mjs:16, :147, :347; tools/render.mjs:65, :74; verifier consumer tools/spike/verify.mjs:249–251.
+   Observed input: the exact line `await page.setContent(toDocument({ type: 'div', props: { id: 'canvas', children: '' } }, font, 10, 10));` from the current spike, with a stub page and empty synthetic fonts; no toDocument binding exists in the spike's imports/declarations. Its chromiumInfo function also refers to chromium, now scoped solely inside tools/render.mjs's launchPlaywright.
+   Affected scope: legacy experiment completion, Chromium licence/runtime evidence, C1/C2 and preservation acceptance. The real verifier requires a non-null licence/evidence-limit record; catching chromium's ReferenceError inside chromiumInfo does not repair that contract.
+   Probe command: `node "$TMPDIR/p1-round2-probe.mjs" > "$TMPDIR/p1-round2-probe.log" 2>&1`, corrected run exit **0** (errors deliberately caught). Relevant exact probe:
+   ~~~js
+   const line = src.split('\n').find(l => l.includes('await page.setContent(toDocument('));
+   await new AsyncFunction('page','font',line)(
+     {setContent:async()=>{}},{regular:Buffer.alloc(0),bold:Buffer.alloc(0)});
+   ~~~
+   Decisive output: `extracted-probe-call ReferenceError toDocument is not defined`. Supplying the existing shared toDocument as a third parameter succeeds: `extracted-probe-call-import-control OK`. The exact chromiumInfo/nodeModulesAncestor source extracted into a Function with real module resolution and stub browser.version() returned `"license":null,"verified":false,"error":"chromium is not defined"` (other resolution succeeded: Chrome for Testing, revision 1248).
+   Falsifier: every retained experiment call has its imported owner, chromiumInfo records the actual executable/notice evidence, and the driver's fresh render/verify and C2 succeed. These probes execute only isolated source fragments, not main or fixtures; complete render impact remains **[Unverified — needs clone run]**.
+   Root cause: extraction moved owners without updating remaining callers; Fix site: spike imports/runtime evidence integration with shared backend operations; Why not downstream: changing verifier requirements or catching errors would hide broken evidence.
+
+2. **[Blocker] Per-file publication corrupts last-good output on a later rename failure.**
+   Locations: tools/spike/render.mjs:437–453, cleanup :458; output selection :25–32.
+   Observed input: scratch OUT containing a.png=OLD-A, b.png=OLD-B and manifest.json=OLD-MANIFEST; staging containing NEW counterparts; inject EIO on the second fs.rename. Execute the exact current `// Atomic publish` block with fs, OUT, STAGE_DIR and path supplied.
+   Affected scope: atomic run publication, prior artifact digests/manifest consistency, validation-before-publication and read-only historical spike evidence. Normal main never writes manifest.json; the conditional final manifest rename therefore does not provide a commit point. Default OUT still addresses the same dated historical folder, and capability failures only print a held outcome before this block.
+   Probe command: `node "$TMPDIR/p1-round2-probe.mjs"`, corrected run exit **0**. Relevant probe:
+   ~~~js
+   const start = src.indexOf('    // Atomic publish');
+   const block = src.slice(start,src.indexOf('  } finally {',start));
+   const publish = new AsyncFunction('fs','OUT','STAGE_DIR','path',block);
+   let renames = 0;
+   const operations = {...fs,rename:async(a,b)=>{
+     if (++renames === 2) throw Object.assign(new Error('injected second rename failure'),{code:'EIO'});
+     return fs.rename(a,b);
+   }};
+   await publish(operations,OUT,STAGE_DIR,path);
+   ~~~
+   Decisive output: `publication-injected EIO`; `publication-after-failure {"a":"NEW-A","b":"OLD-B","manifest":"OLD-MANIFEST","priorArtifactDigestPreserved":false}`. Success control finished remaining files: `publication-control NEW-B NEW-MANIFEST`. A second stage with a.png=UNVALIDATED and no manifest was also published: `publication-no-manifest UNVALIDATED NEW-MANIFEST`.
+   Falsifier: injection at any publication step retains prior referenced artifacts/manifest digests; only a fully validated run becomes current, existing spike evidence remains read-only, and failure retains bounded diagnostics with safe owned staging cleanup.
+   Root cause: overwriting live artifact names precedes the intended commit; Fix site: single publication owner using an immutable staged/versioned run plus atomic last-good manifest switch; Why not downstream: an unchanged manifest cannot protect bytes already overwritten. Do not substitute an earlier browser-launch failure for a publication failure.
+
+3. **[Blocker] PNG signature checking still admits invalid images and asset-root symlink escapes.**
+   Locations: tools/spike/assets.mjs:9–20; caller tools/spike/scene.mjs:67–71; exported recipe tools/recipes/nutrition.mjs:6–7.
+   Observed input: identical assets.mjs copied under scratch `space path`, with (a) generated/web/truncated.png containing only hex 89504e470d0a1a0a; (b) generated/web/huge.png, 33 bytes with that signature and IHDR width/height 2147483647; (c) legal ID linked whose linked.png symlink points outside the copied assets root. No decoder/render allocation was attempted.
+   Affected scope: recipe asset admission before embedding/decoding; valid direct PNG, encoded-byte and decoded-dimension/pixel limits, root confinement. The ID regex stops traversal, but it neither validates PNG data nor confines resolved files. No byte/pixel admission occurs before fs.readFile/base64 embedding. Trusted bundled SVG can remain the explicit supported subset; do not claim arbitrary SVG safety.
+   Probe command: `node "$TMPDIR/p1-round2-probe.mjs"`, corrected run exit **0**. Exact synthetic header construction:
+   ~~~js
+   const png8 = Buffer.from('89504e470d0a1a0a','hex');
+   const huge = Buffer.alloc(33); png8.copy(huge);
+   huge.writeUInt32BE(13,8); huge.write('IHDR',12);
+   huge.writeUInt32BE(0x7fffffff,16); huge.writeUInt32BE(0x7fffffff,20);
+   huge[24]=8; huge[25]=6;
+   // write each under copied assets/generated/web; await copiedAssets.resolveIllustration(id)
+   ~~~
+   Decisive output: `truncated-image-admitted-bytes 8`; `huge-image-admitted 2147483647 2147483647 true`; `asset-symlink-admitted data:image/png;base64,iVBORw0KGgo=`. Traversal negative control: `asset-traversal REJECTED Invalid illustration id: ../outside`; synthetic font path control passed.
+   Falsifier: malformed/oversized/out-of-root PNGs fail before embedding or allocation while valid pinned assets and the supported direct PNG control pass. Define enforced byte/dimension/pixel/render-area limits, validate structure/decodability using the existing admitted inspection path, and enforce realpath containment (or a verified immutable bundled-asset allowlist). Do not decode the enormous synthetic header to prove rejection.  [Unverified — no citation]
+   Root cause: weak admission at the producer allows invalid bytes into both backends; Fix site: shared asset admission before base64/scene construction; Why not downstream: catching render failures does not enforce resource or path limits.
+
+4. **[Blocker] C1 starts symlink creation asynchronously, then validates the nonexistent link.**
+   Locations: tools/spike/test/canaries.test.mjs:39–47; related import :26–28 and failure injection :58–66; injection point tools/spike/render.mjs:268–270.
+   Observed input: existing outside/input.json and fresh escapeLnk, using C1's exact order `import('node:fs').then(fs => fs.symlinkSync(...)); await normalizeRequest(...)`. normalizeRequest executes realpathSync before the import continuation. The catch expects /symlink escape rejection/, although the link does not yet exist.
+   Affected scope: required C1 negative control and suite reliability. The fixed shared path guard correctly rejects the real link once created; the test setup is the failure. The outside path is also shared/non-unique and not cleaned by FRESH cleanup.
+   Probe command: `node --input-type=module -` with the following source-order component probe, exit **0** (outer logger catches the observed assertion; this did not execute node:test or the fixture):
+   ~~~js
+   try {
+     try {
+       import('node:fs').then(fs=>fs.symlinkSync(path.join(outside,'input.json'),escapeLnk));
+       await normalizeRequest({inputPath:escapeLnk},{root});
+       assert.fail('should reject escaping symlink');
+     } catch(e) { assert.match(e.message,/symlink escape rejection/); }
+   } catch(e) { console.log('C1-extracted-assertion',e.name,e.message); }
+   await new Promise(r=>setTimeout(r,20));
+   await assert.rejects(normalizeRequest({inputPath:escapeLnk},{root}),/symlink escape rejection/);
+   ~~~
+   Decisive output: `C1-extracted-assertion AssertionError The input did not match the regular expression /symlink escape rejection/. Input: 'Validation failed: [{"field":"inputPath","message":"missing input"}]'`; control: `C1-awaited-symlink-control OK`. Combined probe independently recorded the missing-input error followed by `C1-order-link-later-exists true`.
+   Falsifier: create the actual symlink before invoking the normalizer, use unique owned temp paths, and confirm the existing C1 passes/fails for the intended property in the driver clone. Within C1, also observe import side effects in a fresh process/output snapshot rather than only an export, exercise source/module paths containing spaces, and inject an actual publication failure after a successful run while comparing all referenced artifact/manifest digests. Current SPIKE_INJECT_FAILURE occurs before staging publication and cannot catch finding 2; the current assertion checks only measurements.json.
+   Root cause: unawaited setup plus failure injection outside the claimed boundary; Fix site: existing C1 setup/assertions and existing failure seam; Why not downstream: weakening the expected error would make the symlink check decorative. Keep the one-file/four-canary budget; no new test blocks.
+
+5. **[Should — required Phase 1 acceptance] Deliver the shared local request/result operation and its thin CLI.**
+   Locations: package.json:7; tools/spike/render.mjs:16–18, :185–191, :265, :462; tools/render.mjs:8–122; tools/request.mjs:58–88; tools/recipes/nutrition.mjs:6.
+   Observed input: package command `node tools/spike/render.mjs` still reads fixed fixtures and uses process.argv only for the execution guard. Source probe reports `spike-wiring {"request":false,"recipe":false,"cliRefs":["if (process.argv[1] === fileURLToPath(import.meta.url)) {"],"manifestWrites":false}`. tools/render.mjs exports only backend/serialization helpers. A valid normalized request returns backend version 1.0.0, empty digests/provenance, and missing defaults if only inputPath is supplied. Existing directory inputPath=repo is accepted as valid input. Installed versions actually read: satori 0.36.0, @resvg/resvg-js 2.6.2, playwright 1.64.0.
+   Affected scope: PRD-compatible honest local subset, shared library/CLI behavior, actual recipe/backend/runtime identity, validation report, provenance/digests, lazy default/no-browser rendering, input/output admission and resource limits. Individual 8192 dimensions and scale 5 are admitted (40960×40960 = 1,677,721,600 output pixels); no shared render request operation enforces an appropriate aggregate render-area budget or output-root policy. This is an admission observation, not a measured allocation failure or a claim that the PRD's proposed limit is already frozen.
+   Probe commands: `node "$TMPDIR/p1-round2-probe.mjs"` and `node "$TMPDIR/p1-loader-control.mjs"`, each corrected/final run exit **0**; relevant output quoted above. Bounded tools source search `rg -n "normalizeRequest|buildNutritionScene|tools/render|manifest.json|toDocument|chromium" tools --glob "*.mjs"` confirms the inspected callers; no negative claim about other repositories.
+   Falsifier: one exported local operation accepts the documented supported request subset, reads/adopts valid bounded input, resolves the versioned nutrition recipe, validates and renders with lazy Satori/resvg by default, publishes safely, and returns real artifacts/versions/validation/provenance/digests; a thin CLI calls that same owner with the same errors. Preserve explicit legacy comparison and product-hero evidence. Normalize defaults/resolved paths, reject directories/unsupported fields and output escapes, document remote fields as unsupported, and avoid placeholder version/result data. Do not build a framework or silently route the local request to the legacy experiment.
+
+6. **[Should] Record actual phase receipts and remove unsupported atomic-publication claims.**
+   Locations: tools/MVP-REPORT.md:4–9; CHANGELOG.md:111–115; latest Round 1 Builder block versus missing revised builder block.
+   Observed input: MVP-REPORT line 7 says `Implemented atomic publication preserving read-only spike evidence and prior manifests on failure`; no command/status/decisive output/recovery receipt is recorded. Line 8 claims actual import-side-effect observation. Findings 2 and 4 contradict those claims. The report now correctly labels pnpm test and human/provider acceptance pending; retain that honesty.
+   Affected scope: phase acceptance evidence, bounded failure diagnostics, cold-agent handoff and implemented-versus-pending capability reporting.
+   Probe commands: `nl -ba tools/MVP-REPORT.md` and `nl -ba CHANGELOG.md`, source reads exit **0**; decisive prose quoted above.
+   Falsifier: revised build block and MVP-REPORT preserve checkable focused command/context/exit/output receipts for implemented behavior and failure/recovery, and label remaining driver/human gates pending. Describe atomic publication only after the actual commit boundary and preservation controls work. Keep historical evidence read-only and do not rerun the builder-forbidden pre-advance suite.
+
+#### Probe ledger and handoff
+
+Setup: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`, exit 0. All synthetic files/module copies/probes/logs stayed beneath .relay-scratch/tmp; no generated output went into artifacts or source. Combined probe command: `node "$TMPDIR/p1-round2-probe.mjs" > "$TMPDIR/p1-round2-probe.log" 2>&1`. First run exited 1 because the reviewer's isolated publication Function omitted its existing `path` binding; this was a probe-harness error, not a product finding. Supplied path and repeated the full probe, exit 0; only the corrected run grounds publication findings. Caught product errors above were logged deliberately. Real-rename and explicit toDocument-binding controls passed. Asset admission ran against copied source plus synthetic bytes, without decoders/layout/browser calls. C1-order assertion component probe exited 0 with the caught failing assertion and passing completed-link control. `node "$TMPDIR/p1-loader-control.mjs" > "$TMPDIR/p1-loader-control.log" 2>&1` exited 0, recording fresh Satori initialization, actual installed versions and empty scratch output after guarded spike import. Full suite/renderer/browser/golden and mutation evidence remains **[Unverified — needs clone run]**; the harness owns that gate.
+
+No source fixes were performed. Resolve the four blockers and the two required Phase 1 follow-ups in the existing allowlisted artifacts, retain existing geometry/digest ownership, and append a build receipt before returning the token.
+
+handing off to agy — agy, take your turn.
