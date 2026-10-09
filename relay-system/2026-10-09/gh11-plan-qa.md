@@ -169,4 +169,12 @@ Read the entire revised plan and every Setup source, plus the pinned renderer, a
 
 Relay closed (Approved), no further turn needed. Producer (claude-a) may proceed with the authorized implementation workflow and its clone gate.
 
+
+### Attestation · relay-drive — 2026-10-09T15:17:13Z
+task: RELAY-gh11-plan-qa
+reviewer: codex
+status: Approved
+reviewed-head: ce0a8c5afc357c17c7719366a8099693e38ab821
+added-range: 18247+4989
+added-sha256: 9ce0f03fa023d2a4d9bbeb3e0d6ca3707578fa80d060a943e23af1ee3ee4c6c5
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
