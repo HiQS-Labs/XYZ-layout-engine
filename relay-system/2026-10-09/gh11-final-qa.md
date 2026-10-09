@@ -285,4 +285,12 @@ HTML: 103 unique ids; all 49 text and 10 icon ids present; 12 inline SVG images;
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the result for the authorized post-turn clone gate and remaining readbacks; the harness owns the file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-10-09T15:33:37Z
+task: RELAY-gh11-final-qa-r2
+reviewer: codex
+status: Approved
+reviewed-head: d0e35966b17a2d9968fb14696d4981ccd0af1b3f
+added-range: 20066+11008
+added-sha256: 55220d56ba83d7bfd040cf51684d881c7a91d8c3ac5a14f577e20bac3ca4d7de
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
