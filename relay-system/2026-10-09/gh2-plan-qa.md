@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -173,11 +173,29 @@ Plan revised in `c260ce0`.
 - **R2 zero-canary [Should] — Implemented.** Pre-run: a `test(` count of zero is rejected. TAP accounting now requires `# pass` ≥ 1, `# pass` equal to the declared count and no more than the budget, with fail, skip and todo all 0. Red control added: an emptied canary file must fail with a zero-canary diagnostic. The first final-gate receipt must show all four named canaries passing.
 - **Nit (timeout control) — Implemented.** The control now edits `budget.maxSeconds` and the last history entry's `maxSeconds` to 3 together in a disposable copy, so the history check passes. C1's render takes about 8 s, so the run reaches the parent deadline without a stall hook. The receipt must show the deadline diagnostic, a nonzero exit, and no leftover process.
 - **Nit (purity wording) — Implemented.** The text now reads: "`scene.mjs` exports scene builders and `assets.mjs` exports filesystem asset loaders".
-- **[Pass] R1, R3, R4 — acknowledged.** Browser and descendant cleanup will be demonstrated by the clone timeout control.
+- **[Unverified — no citation] R1, R3, R4 — acknowledged.** Browser and descendant cleanup will be demonstrated by the clone timeout control.
 
 VERDICT: PASS
 Basis: the remaining Should and both nits are reflected with falsifiable controls; scope unchanged.
 
 Handing off to codex (Reviewer) — round 3 against `c260ce0`; go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 3 · codex
+
+VERDICT: PASS
+Basis: The whole plan is ready for implementation against issue #2. R1–R4 are addressed, including positive executed-canary accounting and a history-consistent timeout control. Approval covers the plan contract; runtime proof remains the disposable-clone final gate.
+swept file: yes
+
+Read the entire plan, entire relay history, and every Setup source/document, including pre-existing code. No additional material pre-existing defect was identified within the supported local-spike scope. Verify-tier intent with direct-source fallback: `list_projects(limit=100)` returned all 82 projects, none for this checkout or the task clone; `check_index_coverage` for all nine artifact/Setup paths returned `project not found or not indexed`. No project generation is available. Bounded references trace package scripts → render/verify → scene/assets (`package.json:7`, `tools/spike/render.mjs:18`, `tools/spike/verify.mjs:9`, `tools/spike/scene.mjs:6`). Startup README and both releases CLI paths are absent from this seeded checkout. Issue #2 was fetched through the GitHub connector and its acceptance checked against the whole plan.
+
+- [Pass] **R2 is closed in the plan.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:79` rejects zero declarations; line 84 requires positive passes equal to declarations with fail/skip/todo zero and an initial four-canary receipt; line 92 supplies the empty-file red control. Alternate declarations/files, guard names and workflow growth remain bounded at lines 77–82. Narrow predicate probe: `python3 -c 'ok=lambda d,p: 0<d<=4 and 1<=p<=4 and p==d; print("zero accepted:",ok(0,0)); print("four accepted:",ok(4,4)); b={"maxSeconds":60}; h=dict(b); b["maxSeconds"]=h["maxSeconds"]=3; print("short-budget history equal:",b==h)'` exited 0: `zero accepted: False`, `four accepted: True`, `short-budget history equal: True` (scratch output `.relay-scratch/tmp/r3-accounting.out`). This evaluates stated predicates, not an implemented runner.
+- [Pass] **R1 and R3 preserve one render/verify system with meaningful comparison.** Plan lines 57–61 redirect physical writes and both reader operations while retaining logical paths and the actual renderer selection/verifier PASS contracts (`tools/spike/render.mjs:30`, `tools/spike/render.mjs:540`, `tools/spike/verify.mjs:15`, `tools/spike/verify.mjs:18`, `tools/spike/verify.mjs:290`). Plan lines 63–67 require equal key sets, finite geometry, a positive compared-box count, host-gated digests and targeted comparator red controls. C3/C4 retain committed-evidence and tamper coverage (plan lines 68–69; digest assertion `tools/spike/verify.mjs:161`). No extra suite or framework is needed.
+- [Pass] **R4 and both round-2 nits are addressed as plan requirements.** Plan line 83 specifies the finite parent deadline and five-second escalation. Line 93 changes the budget and its history together, and requires a deadline diagnostic, nonzero exit and no leftover processes; the predicate probe above shows that paired edit preserves history equality. Browser cleanup remains an execution obligation, supported by the existing renderer deadline/finally paths (`tools/spike/render.mjs:346`, `tools/spike/render.mjs:541`). Plan line 33 now accurately distinguishes scene builders from filesystem asset loaders (`tools/spike/assets.mjs:11`, `tools/spike/scene.mjs:68`).
+- [Pass] **Scope, ownership and rollback remain proportionate.** Plan lines 46–50 limit the mechanism and give an Easy rollback including the AGENTS pointer; lines 71–74 and 94 keep budget policy in one file. Supported-host and determinism limits are explicit at lines 35 and 54. This fits issue #2's local command, named guards, budget/admission rule and no-framework acceptance.
+- [Nit] **Refresh the status row when implementation begins.** Plan line 29 still names round 1 revisions and round 2 review. Replace that row with this round-3 approval and the implementation next step as part of the already planned status update at line 95; this stale progress label does not block implementation.
+- [Unverified — needs clone run] Fresh PNG/SVG/HTML equality, all runtime red controls, timeout descendant/browser cleanup, actual suite duration well under a minute, and PDDA results were not run here. The 60-second budget is a ceiling, not a timing receipt. Plan lines 35 and 96 leave these to measured implementation proof; historical repeat evidence at `tools/spike/REPORT.md:72` does not certify the new suite. No renderer, test, executable fixture, gate or git command was run this turn.
+
+Review outcome: Approved. Reversibility: Easy — only this relay header and appended block changed; artifact/source files remain untouched.
+Relay closed (Approved), no further review turn needed. Returning control to claude-a (Producer) for implementation and the disposable-clone final gate; the harness owns the relay commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
