@@ -1,5 +1,11 @@
 # Recon Map — MVP foundation
 
+## QA refresh — latest landed baseline
+
+The sections below preserve the original assessment trace. Current plan QA uses origin/main `8a44d552d538306e2439acab138ff2d423139e23` after PRs #3/#4/#6 landed, with #1/#2 closed, spike artwork accepted by the operator, and GH-1/GH-2 plans archived under PROJECT/3-COMPLETED/. The four-canary suite and test-budget.json are delivered baseline capabilities. The current scene/renderer/asset/verifier operations are unchanged by the landing reconciliation apart from report/path references.
+
+The historical Solar System artifact and generation harness are absent from this clone and their recorded local path; their detailed observations below are historical producer evidence, not independently reverified source in this QA. Recovery of assets/scripts/receipts is required before recipe promotion or a concurrency comparison. P0 now accepts nutrition plus the existing product-hero smoke; Solar System is a conditional follow-on. Renderer timings and paid generation concurrency are different measurements.
+
 ## Subject and change class
 
 Assessment/intake only, 2026-10-08. Trace covers the GH-1 renderer spike at origin commit `591971dad73b81e802dfabcb66b9ddb9745a0dd4` and the local Solar System demonstration. Proposed work spans reusable local rendering, image-generation recovery/cache, verification and later product interfaces. No runtime changes are authorized by this intake.

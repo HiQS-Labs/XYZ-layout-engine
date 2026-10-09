@@ -21,3 +21,9 @@ The complete graph inventory contains 82 projects and no XYZ Layout Engine clone
 5. Can a cold implementer know which acceptance gates close P0, P1 and P2? Are human acceptance, preserved last-good output, fallback capabilities and remote deferral unambiguous?
 
 Report cited [Blocker]/[Should]/[Nit]/[Pass] findings, a literal swept file: yes/no, and VERDICT PASS/FAIL/PARKED with Basis. Read the entire plan; only edit the relay thread. Approve only when the plan is coherent for its explicit envelope. Do not mark implementation, performance targets or human artwork acceptance complete.
+
+## Round 2 refresh
+
+While round 1 was running, PR #4 was updated/merged and reconciliation PR #6 landed. This QA branch was rebased onto origin/main `8a44d552d538306e2439acab138ff2d423139e23`. Sources are now the latest landed baseline, with the report recording human artwork acceptance and #1/#2 complete. The original round-1 source remains identified above for audit history. Read the revised full plan and the recon map's refresh; do not assume the earlier unavailable demo has been recovered.
+
+Producer changes: nutrition-only P0 acceptance (product-hero smoke retained), explicit reuse of four existing canaries/budget, historical generation claims separated from renderer observations, asset recovery before optional astronomy promotion, installed HiQS caller reuse, and separate P0/P1/P2 closure gates. Judge the original Blocker as an evidence/scope gap; its claimed renderer/provider-concurrency contradiction is not accepted as a technical fact.
