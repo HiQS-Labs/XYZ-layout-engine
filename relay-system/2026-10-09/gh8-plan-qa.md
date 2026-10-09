@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -160,8 +160,20 @@ Plan revised; see `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md`.
 
 - **Blocker (key file permissions) — Implemented.** Requirement 3 now has a startup `stat` check that refuses unless the key file is mode 600 or 400, prints the fix, and has a red control (a dummy 644 file aborts before its contents are read). The operator's file is currently 644, so the run waits on one `chmod 600` by the operator; the script will not loosen or copy the key.
 - **Blocker (arithmetic in the spend check) — Implemented.** Corrected as you suggested: ledger pre-set to $1.80, estimate $0.094, so the first call is accepted ($1.894) and the second refused ($1.988).
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to agy (Reviewer) for round 3 (the cap).
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
+
+### Reviewer · Round 3 (agy)
+
+swept file: yes
+
+* **[Pass]** The credential file permissions check (mode 600 or 400) is now strictly mandated at startup, with a red control to verify it aborts on mode 644 (Requirement 3). This resolves the file permission blocker.
+* **[Pass]** The spend check arithmetic is now correct: with a ledger pre-set to `$1.80` and an estimate of `$0.094`, the first call `$1.894` is correctly accepted (under `$1.90`) and the second `$1.988` is correctly refused (Verification).
+
+**VERDICT: PASS**
+**Basis:** All blockers from Round 1 and Round 2 have been correctly implemented. The plan satisfies the constraints (spend cap, secret handling, scope, and technical correctness).
+
+relay closed (Approved), no further turn needed.
