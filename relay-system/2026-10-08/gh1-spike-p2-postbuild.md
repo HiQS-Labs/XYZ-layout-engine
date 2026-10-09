@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 4
 
@@ -95,5 +95,82 @@ Questions to answer, each with file:line or evidence-field citations:
 Output: graded findings with citations, then `VERDICT: PASS|FAIL|PARKED` and a `Basis:` line, `swept file: yes|no`, and set STATUS to Approved only if nothing blocking remains. Hand off explicitly to claude-a (Producer) if changes are requested.
 
 ## Log
+
+### Reviewer · Round 1
+
+Review outcome: Changes requested
+swept file: yes
+
+Phase 2 is not approved: exact native license evidence is missing, runtime labels contradict collection, and mandatory evidence consistency remains incompletely checked. Bet: backend selection requires accurately bounded observations and a consistent gate. Reversibility: Easy — only this relay's NEXT pointer and appended block change.
+
+Scope: swept the entire named render/scene/verifier/assets sources, fixtures, illustrations, package and lockfile, both JSON records; parsed the full Satori SVG and viewed all eight PNGs plus the reference. Pre-existing defects were in scope; the verifier/reporting defects below remain, so this is not a clean pre-existing-code assessment. Read canonical Phase 2/Acceptance, brief, PRD §5.3, and prior Round 2 findings 1–6. MCP list_projects returned no matching checkout; project/generation/coverage unavailable, so exact named-source inspection is the fallback. README.md and both startup releases-app paths are absent. No renderer, verifier, PDDA, tests, executable fixtures or git commands ran. Full-clone green/red results in the brief are orchestrator receipts, not independently reproduced runs. Scratch output stayed under .relay-scratch/tmp.
+
+- **1. [Blocker] Exact native-binding license evidence is absent and successful-read prose masks lookup failures.** `tools/spike/output/runtime.json:25-27` contains only `Cannot find module '@resvg/resvg-js-darwin-arm64/package.json'`; lines 34–50 contain four transitive lookup errors, while line 67 claims their licenses were read and are MIT. Chromium's license at line 55 lacks exact-build notice provenance. `render.mjs:235-244,297` catches lookups but emits unconditional license claims; `verify.mjs:165-167` does not require native metadata. Prior Round 2 finding 5 remains unresolved.
+  Observed input: native `error: "Cannot find module '@resvg/resvg-js-darwin-arm64/package.json'…"`; yoga-layout, harfbuzzjs, @shuding/opentype.js and linebreak each record `error: 'not resolvable from spike root'`, contradicting licenseNotes[2].
+  Affected scope: installed dependency/native/browser provenance and its completeness gate; no dependency upgrade or policy change requested.
+  Falsifier: resolve/read the exact native manifest relative to installed resvg and transitives relative to installed Satori in the full clone; record versions/licenses/provenance and actual Chromium notice location. Require the native record in the existing verifier. Unresolved lookups must remain unverified without claiming successful reads; another release's license is insufficient.
+  Probe: `python3 -c 'import json; from pathlib import Path; r=json.loads(Path("tools/spike/output/runtime.json").read_text()); print(r["dependencies"]["resvg_native_binding"]); print(r["dependencies"]["transitive"]); print(r["licenseNotes"][2])' > "$TMPDIR/licenses.txt"` — exit 0. Decisive output: native cannot-find-module error; four `not resolvable from spike root` errors; `Transitive satori dependencies listed above are MIT. Licenses are read from each package manifest at render time (provenance field), not inferred from other releases.` Root cause: root-relative package lookup fails under the installed dependency layout, then unconditional notes conceal the failure.
+
+- **2. [Should] Correct the browser warm timing boundary.** `runtime.json:77` says `newPage + … + page close`; `render.mjs:111-113` creates the page before t0, line 145 computes stageMs before the finally close at line 150, and lines 418–420 aggregate stageMs.
+  Observed input: `stageBoundaries.playwright_warm='newPage + setContent + fonts.ready + geometry evaluate + screenshot + page close on an already-launched browser and context'` versus those timer locations.
+  Affected scope: Chromium warm comparison/report labels; cold total already surrounds the helper.
+  Falsifier: relabel warm as setContent through screenshot, explicitly excluding page creation/close, or move the timer and regenerate ten samples. Label/source must agree. Also disclose static resvg/Playwright imports precede cold timers (`render.mjs:15-16,287-300`); these are backend initialization measurements rather than fresh-process startup. No benchmark framework needed.
+
+- **3. [Should] Bound script-probe claims to the observed evidence.** The viewed `output/probe-satori.png` has two NOTDEF placeholders for 营养 and one for ⚡; `measurements.json:2443,2488` instead says `glyphs not drawn`. Missing requested characters are a valid outcome, but the emitted placeholders are part of it. Shared-font callback coverage plus visible browser fallback is reasonable for these inputs; unknown fallback identity is honest. Equal-width claims in `render.mjs:360-362,382-385` exceed the evidence, and `glyphsDrawn` at line 402 is only a nonzero text-box test.
+  Observed input: saved CJK/emoji placeholders and consequence strings; browser CJK has pinned width 80.548583984375 versus fallback 80 and `pinnedVsFallbackWidthsDiffer=true` despite uncovered shared-font evidence (`measurements.json:2431-2461`).
+  Affected scope: probe explanation/observation labels, not optional-script support or a fallback implementation.
+  Falsifier: retain callback segments/widths, describe unsupported requested glyphs and visible placeholders, and label nonzero bounds as layout evidence with a separate visual observation. Width comparison is corroboration with limits, not a coverage oracle. Do not invent system face identity. English/café remain visibly readable.
+
+- **4. [Should] Close verifier consistency gaps; actual red-control escapes are [Unverified — needs clone run].** `verify.mjs:86-94` checks text finiteness/boolean shape but never recomputes containment/scroll overflow or fit from unresolved. Lines 180–197 copy fitting flags and do not assert `eligibleForRecommendation === (failed.length === 0)`; selection trusts that unchecked flag. Browser probe checks at lines 156–159 ignore glyph/layout evidence and fallback-only width. Current saved text fits; no current clipping is alleged.
+  Observed input: in-memory copy of the real bundle with `digests.satori.repeat='0'*64`, `deterministic=false`, `capabilities.satori.repeatDeterministic=false`, `failedMandatory=['repeatDeterministic']`, `status='held'`, all else unchanged: eligibleForRecommendation remains true and selection still includes Satori. Separately, baseline/browser headline evidence with only box.x=1100 still reports insideCanvas=true/overflow=false; c.bounds remains unchanged.
+  Affected scope: mandatory text/fitting/probe consistency and held-backend selection in measurements.json.
+  Falsifier: run exactly these two red controls against the full verifier in the disposable clone; expected FAIL. If already rejected, cite the rejecting assertion and decline that subfinding. Otherwise recompute overflow from recorded boxes/parent bounds/scroll metrics, compare fit and final step, derive eligibility from mandatory failures, and require probe evidence shape/native completeness. Reuse the existing gate; preserve honest held/optional-script outcomes.
+  Probe command (read-only, exit 0; full verifier NOT run):
+  ```sh
+  python3 - <<'PY' > "$TMPDIR/counterexample.txt"
+  import json,copy
+  from pathlib import Path
+  m=json.loads(Path('tools/spike/output/measurements.json').read_text()); x=copy.deepcopy(m); b='satori'
+  x['digests'][b]['repeat']='0'*64; x['digests'][b]['deterministic']=False
+  c=x['capabilities'][b]; c['repeatDeterministic']=False; c['failedMandatory']=['repeatDeterministic']; c['status']='held'
+  print('in-memory red input: repeat=64 zeroes, deterministic=false, capability.repeatDeterministic=false, failedMandatory=[repeatDeterministic], status=held; other fields unchanged')
+  print('held backend eligibleForRecommendation:',c['eligibleForRecommendation'])
+  print('selection derived from unchecked flag:',[k for k in ('satori','playwright') if x['capabilities'][k]['eligibleForRecommendation']])
+  t=copy.deepcopy(m['cases']['baseline']['playwright']['text']['header_headline']); t['box']['x']=1100
+  print('in-memory red text box:',t['box'],'reported overflow:',t['overflow'],'insideCanvas:',t['insideCanvas'])
+  print('actual full verifier escape: NOT RUN; needs clone run')
+  PY
+  ```
+  Decisive output: `held backend eligibleForRecommendation: True`; selection `['satori', 'playwright']`; text box `{'x':1100,'y':40,'width':837,'height':59}` with `reported overflow: False insideCanvas: True`; `actual full verifier escape: NOT RUN; needs clone run`. This establishes concrete counterexample inputs, not a reproduced green gate.
+
+- **5. [Pass] Delivered artifact repairs address prior findings 1–3 and 6 within remaining gate limits.** Both probes exist (600×400); all six case PNG hashes match their case records; baseline/override are 1000×1000 and heroes 1200×630. Satori SVG parses with viewBox `0 0 1000 1000`. `hero-fixture.json` expresses product copy/price/CTA/bottle and `scene.mjs:145-194` builds it independently. `render.mjs:308-315` clones nutrition and applies the exact headline/first-item caption; distinct saved override PNGs visibly wrap both without clipping. `measurements.json.cases.hero.playwright.documentOverflow` records document/canvas 1200×630 and overflows=false; no Satori document API claimed. `render.mjs:336-345` hashes independent repeat calls, and saved repeat digests equal baseline; actual repeat execution remains [Unverified — needs clone run]. Browser SVG is honestly unsupported (`render.mjs:272-275`). No fix requested for these artifacts.
+  Receipt probe (exit 0):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PY' > "$TMPDIR/receipt-probes.txt"
+  import json,hashlib,struct
+  from pathlib import Path
+  p=Path('tools/spike/output'); m=json.loads((p/'measurements.json').read_text()); r=json.loads((p/'runtime.json').read_text())
+  for name,per in m['cases'].items():
+   for b,c in per.items():
+    raw=(p/Path(c['png']).name).read_bytes()
+    print(name,b,struct.unpack('>II',raw[16:24]),'digest_matches',hashlib.sha256(raw).hexdigest()==c['sha256'],'fit',c['fitting']['fit'],'iterations',c['fitting']['iterations'])
+  print('native',r['dependencies']['resvg_native_binding'])
+  print('transitive',r['dependencies']['transitive'])
+  print('warm_samples',{b:len(r[b]['warm']['samples']) for b in ('satori','playwright')})
+  PY
+  ```
+  Decisive output: four nutrition rows `(1000, 1000) digest_matches True fit True iterations 0`; both hero rows `(1200, 630) digest_matches True fit True iterations 0`; both warm sample counts 10. Native/transitive errors match finding 1.
+
+- **6. [Pass] Geometry/fitting scope is small with honestly bounded Satori evidence.** `render.mjs:60-79,116-147` collects backend node boxes and browser Range/scroll/client metrics; `157-199` derives fitting and caps font-size re-renders at ten with unresolved reporting. All saved fitting records show zero iterations/empty unresolved; shrink/exhaustion is not exercised. The caveat at line 435, `glyph ink beyond the box is not separately observable`, is honest: node boxes do not prove painted-ink extents. No custom line breaker/metrics engine/server/queue/editor/CI framework appears in swept artifacts. Lines 21–23 document the pinned Satori ESM shim. No abstraction requested.
+
+- **7. [Unverified — needs clone run] Failure/deadline cleanup needs a targeted receipt.** Default finite guard exists (`render.mjs:27,279-283`); ordinary errors reach browser finally at 455–458 and page helpers have finally. Deadline calls process.exit(2), bypassing that finally, and cannot fire while synchronous resvg blocks the event loop. In the full clone exercise a shortened deadline after browser launch and an injected render failure; record exits/surviving-browser check before claiming cleanup. If children survive, add bounded timeout cleanup. Neither failure path was exercised here.
+
+- **8. [Pass] Runtime context and agent visual assessment, with remaining reporting corrections.** `runtime.json:3-10,13-32,52-61,69-82` records M1 Max/Node/platform/units and wrapper versions; source runs one warmup then ten samples (`render.mjs:409-420`). `runtime.json.playwright.memory.chromium.note` explicitly says RSS is unobservable; Node memory is a shared-process snapshot, not independent backend peak. Viewed baseline PNGs contain readable header/subtitle, central glow/shape, two callouts, four captioned items, four benefits and footer; override/hero are readable too. Agent visual assessment: sparse geometric approximations and horizontal benefits strip differ substantially from the reference's detailed dominant leaf/side benefits composition (`scene.mjs:97,125`, illustrations.svg). Record that gap in Phase 3; human artwork acceptance stays pending. No artwork-equivalence or production-latency claim.
+
+VERDICT: FAIL
+Basis: Saved renders are substantially repaired, but exact native license evidence is demonstrably missing and successful-read prose contradicts failed lookups. Timing/probe descriptions need correction; gate consistency and failure paths need clone red controls. Prior Round 2 finding 5 remains unresolved. Approval awaits Producer dispositions and corrected evidence; runtime gates remain deferred to the full clone/harness.
+
+Handing off to claude-a (Producer) — address each finding, run full-clone checks, and append dispositions; go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
