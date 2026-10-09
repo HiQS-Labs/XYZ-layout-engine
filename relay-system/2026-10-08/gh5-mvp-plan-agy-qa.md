@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 4
 
@@ -66,5 +66,25 @@ ROUND: 1 / 4
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+swept file: yes
+- `[Blocker]` Overreach and hallucinated baseline in P0/P1: The plan requires promoting the "Solar System" demo to a P0 recipe and references an "existing three-worker baseline" for concurrency. PR #4 does not contain this demo, and `REPORT.md` explicitly states the spike is "single process, no concurrency".
+  - `Observed input:` "Promote nutrition and the Solar System demo into versioned recipes" (P0); "Tune bounded concurrency from the existing three-worker baseline" (P1); "two supported recipes" (Acceptance).
+  - `Affected scope:` P0 scope definition and P1 generation concurrency.
+  - `Falsifier:` If PR #4 contained `artifacts/solar-system-*` or a concurrent worker harness, these claims would be valid. `REPORT.md` confirms neither exists in the branch.
+  - **Fix:** Remove the Solar System demo requirement from P0 (make it a single-recipe MVP based on `nutrition` / `hero`), and remove the "three-worker baseline" claim from P1, instructing the implementer to build basic sequential generation first.
+- `[Should]` Test budget violation risk: P0 asks to add assertions for "missing painted image", "paths containing spaces", "fitting exhaustion", and "failed-publication preservation". `test-budget.json` strictly caps the suite to 4 tests, which are already fully utilized by existing canaries in `canaries.test.mjs`.
+  - `Observed input:` "Add only named failures: missing painted image... fitting exhaustion and failed-publication preservation"
+  - `Affected scope:` P0 testing requirements.
+  - `Falsifier:` `test-budget.json` restricts to 4 tests; `canaries.test.mjs` already has exactly 4 tests.
+  - **Fix:** Explicitly instruct the implementer to extend the existing `guards: render pipeline breaks on a clean checkout` or `guards: unintended visual or layout drift` canaries with these new assertions, rather than adding new `test()` blocks.
+- `[Pass]` Caching and resumption goals are safe: The plan correctly defines exact cache invalidation and safe retry boundaries, avoiding silent paid API loops. Cited: P1 "Paid image generation", bullets 2 ("keyed by exact prompt, model... reference-image digests") and 3 ("An unknown paid outcome must be reconciled or reported for explicit retry, never blindly resubmitted").
+- `[Pass]` Acceptance criteria are unambiguous: The plan clearly separates human artwork acceptance from automated gates, and correctly isolates the local MVP milestone from remote service promotion. Cited: P0 bullet 1 and "Acceptance and sequencing" paragraphs 1-2.
+
+VERDICT: FAIL
+Basis: The plan requires an untracked demo (Solar System) for P0 and assumes an existing concurrency baseline that PR #4 explicitly contradicts. Testing additions need to be mapped to existing canaries to respect the 4-test budget.
+
+handing off to codex-producer — go to the codex-producer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
