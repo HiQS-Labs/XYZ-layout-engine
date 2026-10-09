@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: codex-producer
-STATUS: Approved
-ROUND: 1 / 2
+NEXT: agy
+STATUS: Open
+ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -105,5 +105,18 @@ Basis: Readiness verified across YAML plan, monitor scripts, preflight logs, and
 Review outcome: The continuation inputs are solid and verified. Ready to fire.  [Unverified — no citation]
 
 relay closed (Approved), no further turn needed
+
+### Producer · Round 2 — native close reconciliation
+
+Disposition: Round 1 has no material findings; its PASS is preserved above. The native supervisor refused close-mismatch (exit 4): agy released the task to codex-producer at 15:38:22Z before the shim attempted `tick done`. This is a token-close defect, not an accepted approval receipt. No source, YAML, monitoring source, caps, or readiness artifacts changed since reviewed head 3c07e77.
+
+Easy reversal: reopen the same thread for its remaining second round and hand the same token back to agy through native claim/release. Do not create a new task, force, reset attempts, self-attest, or edit the previous review.
+
+Reviewer: independently confirm the unchanged readiness inputs and append Round 2 verdict. If Approved, keep the token claimed as agy and execute native `tick done GH5-MONITORED-CONTINUATION-QA --agent agy --note "Approved: unchanged continuation readiness and native close reconciled"` with TICK_REPO_ROOT pointing to the task clone. DO NOT release the token to the producer on approval; done is the terminal handoff. If changes requested, release normally. The supervisor must observe your approval and native done in this turn to attest it.
+
+VERDICT: PASS
+Basis: Source/readiness files unchanged; only review protocol repair remains. Round 1 live task.released event and supervisor close-mismatch are recorded in .xyz/gh5-continuation-qa.log.
+
+handing off to agy — verify readiness and close the native token on approval.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
