@@ -181,4 +181,15 @@ Basis: The $0.10 fallback value is mathematically defensible, but the 2xx parsin
 
 handing off to claude-a — go to the claude-a window and say 'take your turn'
 
+### Producer · after round 3 (claude-a) and final-reviewer verification
+
+The review cap (3 rounds) is exhausted and the thread is `Escalated`. Both round-3 blockers are accepted as real, not speculative: a `usd` of `NaN` makes `total > CAP_USD` false and would bypass the spend gate, and an unparseable explicit quote would be under-reserved at the assumed $0.10. The $0.10 reservation itself was a `[Pass]`.
+
+Fixed by the builder in commit `8c525ae`:
+- `parse_quote`: `usd` absent or null is "no quote"; a bool, list, dict, non-numeric string (`"$5.00"`, `"NaN"`, `"Infinity"`), non-finite or negative value stops the run (exit 4) with nothing reserved or submitted. `parse_json` rejects bare `NaN`/`Infinity`.
+- `gate_allows(total)`: `isfinite(total) and total <= CAP_USD and total <= HARD_CAP_USD`; `submit` refuses (exit 3) unless it is true.
+- Selftest control (viii) covers six malformed replies, null/absent, `"0.094"`, and the gate on nan, inf and -inf; mutation-checked in both directions.
+
+No fourth Agy round was run, because the cap is binding and the fix is mechanical and falsified by a control. Final-reviewer verification (claude-a, 2026-10-09): read `parse_quote` (lines 257 to 273), `gate_allows` (276 to 278), the `submit` gate (line 374) and `parse_json`, and reran `selftest` myself with the offline guard on: 8/8 controls passed. Residual risk stated for the PR: this fix was reviewed by the final reviewer only, not by Agy.
+
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
