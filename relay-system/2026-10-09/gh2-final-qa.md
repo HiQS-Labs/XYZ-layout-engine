@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -83,5 +83,58 @@ Questions:
 Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, and `swept file: yes|no`. Set STATUS Approved only if nothing blocking remains.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: The implementation maps to the approved four-canary plan, but the timeout path can exit before its promised escalation, and C3 can verify an inherited override instead of committed evidence. Two bounded corrections are requested; runtime reproduction belongs to the disposable clone.
+swept file: yes
+
+Read all nine Setup artifacts in full, including pre-existing render/verifier code, and the approved plan relay. No additional material pre-existing defect was identified within the supported local-spike scope. The existing native-binding host restriction is disclosed at `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:54` and enforced at `tools/spike/verify.mjs:246`. Verify-tier intent with direct-source fallback: no graph tools are exposed, so project/generation and coverage could not be checked. Startup README and both releases CLI paths are absent from the seeded checkout. Issue #2 was fetched through the GitHub connector. No git command was run; the connector could not fetch local implementation SHA `9c37fb6` (422), so this review covers the supplied full artifacts, without independently certifying the branch diff.
+
+- [Should] **R1 — do not exit before timeout escalation has completed.** `tools/spike/test/run.mjs:63` schedules an unreferenced SIGKILL after five seconds, but the child's `close` handler calls `fail()` immediately when timed out (`run.mjs:68`); `fail()` calls `process.exit(1)` (`run.mjs:13`). If the test leader closes first, the runner exits and that pending escalation cannot run. Keep the existing parent alive until group escalation/cleanup is complete, even after leader close, then report failure. This needs a small change to this runner, not a watchdog package.
+  Observed input: invoke the exact seeded timeout/close handler with the deadline firing, then leader `close(null)` before the five-second callback. The source probe below exited 0 and printed `SIGTERM -> unref(5000) -> exit(1)`, with no SIGKILL before exit. Signals and process exit were mocked; this demonstrates the control-flow gap, not an observed live orphan.
+  Affected scope: timed-out runs whose test leader closes before a remaining group member that does not terminate on SIGTERM. Preserve normal success behavior and the five-second cleanup allowance.
+  Falsifier: in a disposable clone, use a history-consistent short budget and a controlled group member that survives SIGTERM and closes its inherited pipes. The runner must still deliver SIGKILL within the allowance, exit nonzero with the deadline diagnostic, and leave no test/render/browser descendant. If the original implementation does that despite early leader close, this finding is unnecessary. The existing ordinary-render timeout receipt (`PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:116`, `:118`) does not exercise this ordering.
+  Quoted probe command (no test or renderer executed):
+
+```sh
+node --input-type=module <<'JS'
+import fs from 'node:fs'; import vm from 'node:vm'; import {EventEmitter} from 'node:events';
+const child=new EventEmitter(); child.pid=123;
+const timers=[], events=[];
+const ctx={child,budget:{maxSeconds:60},t0:Date.now(),tap:'',Date,console,
+  setTimeout(fn,ms){timers.push(fn);return {unref(){events.push(`unref(${ms})`);}};}, clearTimeout(){},
+  process:{kill(pid,sig){events.push(sig);}}, fail(msg){events.push('exit(1)');throw Error('EXIT');}};
+vm.runInNewContext(fs.readFileSync('tools/spike/test/run.mjs','utf8').split('\n').slice(58).join('\n'),ctx);
+timers[0](); try{child.emit('close',null);}catch(e){if(e.message!=='EXIT')throw e;}
+console.log(events.join(' -> '));
+JS
+```
+
+- [Should] **R2 — pin C3 to the committed root.** `tools/spike/test/canaries.test.mjs:23` merges the inherited environment into every verifier invocation. C3 passes an empty override object (`:60`), so an exported `SPIKE_OUTPUT_ROOT` changes its evidence target through `tools/spike/verify.mjs:18`. Pass `SPIKE_OUTPUT_ROOT: COMMITTED` explicitly in C3; C1/C4 already select their own roots.
+  Observed input: `process.env.SPIKE_OUTPUT_ROOT='/tmp/gh2-noncommitted-evidence'` and C3's `env={}`. Evaluating the exact environment expression below exited 0 and printed `C3 verifier root: /tmp/gh2-noncommitted-evidence`, rather than `COMMITTED`.
+  Affected scope: C3 only, when the invoking shell exports the production output override. Keep the explicit C1/C4 temp roots and C2 golden override.
+  Falsifier: in a disposable clone, retain valid evidence at an alternate exported root and tamper only the committed PNG. C3 must fail on the committed digest assertion; restore committed evidence and it must pass. If C3 already reads committed evidence in that setup, this finding is unnecessary. The end-to-end false-pass claim is [Unverified — needs clone run].
+  Quoted probe command:
+
+```sh
+node --input-type=module <<'JS'
+import fs from 'node:fs'; import vm from 'node:vm';
+const s=fs.readFileSync('tools/spike/test/canaries.test.mjs','utf8');
+const expression=s.split('\n')[22].match(/env: (\{.*\}), encoding:/)[1];
+const result=vm.runInNewContext(`(${expression})`,{process:{env:{SPIKE_OUTPUT_ROOT:'/tmp/gh2-noncommitted-evidence'}},env:{}});
+console.log('C3 verifier root:',result.SPIKE_OUTPUT_ROOT);
+JS
+```
+
+- [Pass] **Output isolation and C1/C4 use the existing engine and gate.** `tools/spike/render.mjs:31` redirects physical writes and `:32` preserves logical paths. Both verifier scan and read use `OUTPUT_ROOT` (`tools/spike/verify.mjs:18`, `:19`, `:22`), while `:23` preserves recorded paths. With no override these expressions select the original output folder. C1 checks renderer exit/selection then verifier exit/PASS (`canaries.test.mjs:25`); C4 copies evidence, tampers a PNG, requires exit 1 and the digest error, then removes its copy (`:65`). No correction requested beyond R2.
+- [Pass] **C2 compares meaningful geometry before host-gated digests.** `canaries.test.mjs:37` compares sorted case/backend/label tuples before finite coordinate checks within 0.5 px (`:43`), rejects zero compared boxes (`:49`), and prints the count. Platform/arch/Chromium equality gates the digest loop with an explicit skip message (`:51`); artifacts are enumerated from golden evidence (`:53`). This is non-vacuous for the existing three-case/two-backend evidence. No new golden framework is needed.
+- [Pass] **The ratchet refinements are proportionate with executed accounting.** `run.mjs:25` recursively counts alternate test filenames/directories; `:36` rejects alternate test forms and skip/todo/only; `:41`–`:46` enforce the declaration convention, positive count, budget and guard prefix. Line-start matching is a lexical convention, not a JavaScript top-level parser; `:69`–`:73` make positive executed passes equal declarations and require zero failures/skips/todos, using Node's `# skipped` key. Workflow and history checks run before spawn (`:19`, `:20`, `:49`, `:56`). `package.json:9` wires this runner to `pnpm test`; only Node built-ins are added (`run.mjs:3`, `canaries.test.mjs:4`). Policy has one owner (`test-budget.json:2`), with the AGENTS pointer at `AGENTS.md:49`. No parser/dependency expansion requested.
+- [Pass] **Recorded receipts cover every originally planned red control.** `PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:100` records the default gate; `:101` records four named passing canaries, 216 boxes, 12 artifact digests and 8.2 s. The eleven exit-1 controls at `:106`–`:116` cover the runner checks, render injection, three C2 mutations and ordinary timeout; C4 is the built-in tamper control at `:119`. These are orchestrator receipts, not reviewer executions. Plan status (`:29`) leaves final QA/PR pending; CHANGELOG (`CHANGELOG.md:21`) attributes the completed implementation observations. R1/R2 need their additional targeted receipts.
+- [Unverified — needs clone run] Fresh rendering/digest equality, actual TAP execution, all runtime red controls, and live descendant cleanup were not rerun here. The approved plan requires a zero-error PDDA run (`PROJECT/2-WORKING/GH-2-REGRESSION-CANARIES.md:95`), but its receipt section does not record that result; add the clone/harness receipt before reporting the final gate complete. Default byte-identical behavior and the assertion that the output override is the only production diff are not independently certified by this source-only sweep.
+
+Review outcome: changes requested. Reversibility: Easy — only this relay header and appended review block changed; source/artifacts remain untouched. No renderer, tests, executable fixtures, validation gates, git operations or external comments were run.
+Handing off to claude-a (Producer) — disposition R1/R2, make the bounded fixes and record clone controls, then return for round 2. Go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
