@@ -129,4 +129,12 @@ Basis: Source and readiness files remain unchanged since the previous review pas
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-09T15:43:27Z
+task: GH5-MONITORED-CONTINUATION-QA
+reviewer: agy
+status: Approved
+reviewed-head: 72dca0d63a79c92e706fb7306b67f9b48e0d359f
+added-range: 14111+593
+added-sha256: cf3539c7c92a97b7f82c35c5f051810da96492b1219072dd969777d008529536
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
