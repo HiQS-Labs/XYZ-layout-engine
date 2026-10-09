@@ -2,7 +2,7 @@
 gh_issue: 11
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/11
 title: "Example: RAG system diagram rendered with the GH-1 spike"
-status: "Proposed (1-INBOX — not yet active)"
+status: "Implemented on feat/rag-diagram-example; awaiting final QA and merge"
 created: 2026-10-09
 doc_type: feedback
 effort: 2
@@ -72,8 +72,26 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 
 | Issue | Requirement | State |
 |---|---|---|
-| #11 | 1–6 above | Plan drafted; awaiting plan QA |
+| #11 | 1–6 above | Implemented at `1a8d0a0`; awaiting final QA, then PR (ready, not merged) |
 
 ## Rating rationale (2026-10-09)
 
 pri 30 / sev 10 / appeal 50 / effort 80. Severity: a docs example, no data or work at risk. Priority: no blocked work, user asked for it now. Appeal: neutral default, no preference stated. Effort: one fixture and one script patterned on an existing one. Recurrence: not applicable (feature, not a defect); trend unknown.
+
+## Evidence (2026-10-09, commit `1a8d0a0`)
+
+| Check | Result |
+|---|---|
+| Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-09/gh11-plan-qa.md`) |
+| `node render-diagram.mjs` | `PASS: 10 separate icon nodes; 49 text ids present and unique; 2400x1660 in both backends; ...` |
+| Guard check (variable unset in shell) | Rendered; `git status` shows only the new example; no `output/` under the runtime |
+| Red control (a), lengthened `chunk` description | exit 1, `chunk_desc` "text escapes its container" in satori and chromium |
+| Red control (b), `retrieve` icon removed | exit 1, "one separate image node per required stage icon" (`asset_retrieve` missing) |
+| Red control (c), Chromium `title.x = W+10` | exit 1, `title` "text outside canvas" (chromium) |
+| `pnpm test` in a disposable space-free clone of this branch | 4 pass, `test-budget: PASS — 4 canaries in 9.3s (budget 60s)`; budget file unchanged |
+| `pnpm test` in this task clone (path contains a space) | 4 fail: `ENOENT ... /GH%20Repos/...font.ttf` from `tools/spike/assets.mjs:29`. Pre-existing (GH-5 records the `URL.pathname` bug); pristine `main` passes only in a space-free path. Not fixed here (non-goal). |
+| `utils/pdda/pdda.sh run` | no errors; 33 governance warnings, none in this change (legacy `ROADMAP.md` references) |
+| `releases check` | clean |
+
+Red control (a) lengthens the text rather than shrinking a box, because card geometry lives in the script, not the fixture; same failure class.
+Visual inspection: agent viewed both PNGs and fixed a right-alignment flaw found that way. Human review still pending.
