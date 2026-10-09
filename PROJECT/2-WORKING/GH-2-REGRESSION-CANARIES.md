@@ -30,7 +30,7 @@ related:
 
 ## Recon (base `591971d`, branch `test/gh-2-regression-canaries` off `origin/marathon/gh-1-renderer-spike`)
 
-- **System under test:** `tools/spike/render.mjs` runs `main()` on import and writes every artifact to a fixed folder, `tools/spike/output/<local YYYY-MM-DD>-<package name>/`. `tools/spike/verify.mjs` reads the newest such folder. `scene.mjs` and `assets.mjs` export pure builders.
+- **System under test:** `tools/spike/render.mjs` runs `main()` on import and writes every artifact to a fixed folder, `tools/spike/output/<local YYYY-MM-DD>-<package name>/`. `tools/spike/verify.mjs` reads the newest such folder. `scene.mjs` exports scene builders and `assets.mjs` exports filesystem asset loaders (scene builders call those loaders).
 - **Existing gate:** `pnpm run spike:verify` (Phase 1 asset/licence checks plus Phase 2 evidence checks on the committed run folder). It validates the *committed evidence*, not a fresh render. Nothing today re-renders on a clean checkout and compares against the committed result.
 - **Observed determinism:** a fresh `node tools/spike/render.mjs` (8.1 s wall on M1 Max, Node v22.22.3, Chrome for Testing 156.0.8078.4) rewrote only `measurements.json` and `runtime.json` (timings, `generatedAt`). Every PNG, `satori.svg` and every saved HTML was byte-identical to the committed files. A golden-digest canary is therefore sound on the recorded platform. Other platforms are not measured, and anti-aliasing may differ.
 - **Rules already in force:** AGENTS.md "add tests or CI gates only for a named material failure mode that existing checks cannot cover, and record that justification"; GUIDING-PRINCIPLES §6 "Measure before expanding"; GH-1 non-goal "CI machinery". There is no `.github/` directory and no test framework dependency. Node 22's built-in `node:test` is available.
@@ -76,12 +76,12 @@ pri 60: the operator requested it next, and it protects the spike before Phase 1
    - **Before running, it fails when** any of the following holds:
      - test files outside `node_modules/` and `.xyz/` exceed `testFiles`. A test file is any file matching `/\.(test|spec)\.[cm]?[jt]sx?$/`, or any file under a directory named `test`, `tests` or `__tests__` other than the runner itself.
      - the canary file contains `it(`, `describe(`, `suite(`, `.skip`, `.todo`, `.only`, `skip:` or `todo:`. Only plain `test(` is allowed.
-     - the `test(` count exceeds `tests`.
+     - the `test(` count is zero, or exceeds `tests`.
      - any test name lacks the `guards: ` prefix.
      - `.github/workflows/*` exceed `ciWorkflows`.
      - the last `history[].budget` does not deep-equal `budget`, or a history entry lacks `issue` (URL) or `reason`.
    - **Running.** It spawns `node --test --test-reporter=tap <file>` in its own process group, with a parent deadline of `maxSeconds`. On the deadline it sends SIGTERM to the group, then SIGKILL after 5 s, and fails. The render child also carries its own `SPIKE_RENDER_DEADLINE_MS`, so the browser is closed by the renderer's existing deadline handler.
-   - **Executed-test accounting.** It parses the TAP summary and requires `# pass` to equal the declared `test(` count and to be no more than `tests`, with `# fail 0`, `# skip 0` and `# todo 0`.
+   - **Executed-test accounting.** It parses the TAP summary and requires `# pass` ≥ 1, `# pass` = the declared `test(` count, `# pass` ≤ `tests`, `# fail 0`, `# skip 0` and `# todo 0`. The first final-gate receipt must show all four named canaries passing.
    - **Red controls** (clone, recorded):
      - a fifth `test`;
      - an `it(` declaration;
@@ -89,7 +89,8 @@ pri 60: the operator requested it next, and it protects the spike before Phase 1
      - a name without `guards:`;
      - a budget raise without a history entry.
      
-     Each must fail before any test runs. A temporary `maxSeconds: 3` must fail on the deadline, leaving no leftover `node --test`, render, or Chrome for Testing process (checked with `pgrep`).
+     Each must fail before any test runs. An emptied canary file must fail with a zero-canary diagnostic.
+   - **Timeout red control** (disposable copy, history-consistent): set `budget.maxSeconds` and the last history entry's `maxSeconds` to 3 together. C1's render takes about 8 s, so the run reaches the parent deadline with no stall hook needed. The receipt must show the deadline diagnostic, exit ≠ 0, and no leftover `node --test`, render, or Chrome for Testing process (`pgrep`).
 5. **Rules text.** AGENTS.md gets one bullet under Engineering standards pointing to `test-budget.json` as the test/CI ratchet. The policy text lives only in `test-budget.json`.
 6. **Docs.** Add a CHANGELOG entry and update this plan's status. Run `utils/pdda/pdda.sh run` unsandboxed: zero errors.
 7. **Final gate.** `pnpm test` exits 0 within budget, and every red control above is recorded with its exit and decisive output.
