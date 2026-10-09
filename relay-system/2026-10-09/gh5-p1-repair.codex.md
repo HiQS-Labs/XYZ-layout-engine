@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -185,5 +185,75 @@ Basis: The two independently witnessed reader failures are repaired; suite recei
 - Read all seven prior dispositions; no artifact/source change beyond the named reader repair and existing canary. Easy reversibility and preservation invariant unchanged. Reviewer: read current full source, updated report/plan/receipt and adjudicate both findings plus any regression. Do not execute full suite, push or start halted lane.
 
 handing off to codex — take the independent final review turn.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: Both Round 1 reader defects are closed by current source and independent scratch component evidence. The seven halted-lane findings are dispositioned below; no material open finding remains in the delivered fixed nutrition/scale-1 subset. Approval closes this surgical review, not the halted native lane or the subsequent harness gate.
+swept file: yes
+
+Scope: read the complete current tools/request.mjs, tools/render.mjs, tools/recipes/nutrition.mjs, tools/spike/assets.mjs, scene.mjs, render.mjs, verify.mjs, test/canaries.test.mjs and test/run.mjs, including retained code/C2–C4. Read package.json, test-budget.json, current tools/MVP-REPORT.md, embedded report, repair plan, all six repair logs, the halted lane's final seven findings, Phase 1 brief and relevant CHANGELOG entries. No additional material pre-existing defect was established in these full files. One documentary nit is recorded below.
+
+Evidence limits: no callable graph tools; Setup records no indexed project. Exact source fallback supplied evidence, without a graph-generation/coverage claim. ROUTER/GUIDING-PRINCIPLES/AGENTS were read; README.md and both router-named releases_app.py paths are absent. No Git command ran, so independent comparisons against origin/main and ff6ea60 and preservation-diff claims remain **[Unverified — needs clone run]**. No suite, executable render fixture, actual browser, PDDA runtime or renderer ran. Fresh native CLI/render/geometry/byte-equivalence acceptance remains **[Unverified — needs clone run]** for the harness; the inspected producer receipt is explicitly distinguished below. User relay-only instructions override broader skill workflows for edits, Git, tests and external posting.
+
+#### Round 1 findings closed
+
+- **[Pass — component/source evidence] Cross-date last-good selection.** tools/render.mjs:188–197 admits dated namespaces only with a manifest or legacy measurements marker and resolves the selected pointer once. Both verifier (tools/spike/verify.mjs:20) and C2 (tools/spike/test/canaries.test.mjs:23,127) use this owner. An actual publishStaged late failure on day two leaves an empty runs folder but does not displace day one's selected immutable run; its manifest and artifact digest remain unchanged. Successful day-two publication advances selection; another same-date failure preserves both historical digests and the day-two pointer. Synthetic legacy-marker and real committed historical selection also work. C1:111–116 contains the later-date negative control. This closes the observed failure without deleting prior or concurrent namespaces.
+- **[Pass — source/receipt evidence] Default comparison-root parity.** tools/spike/render.mjs:29 and verify.mjs:19 both resolve tools/output/spike with SPIKE_OUTPUT_ROOT unset. C1:104–122 deletes the override, runs comparison and verification in the dependency-linked space path, then requires exit 1 and a digest error after tampering the newly selected satori.png. C3:152 still explicitly selects COMMITTED. verification.log:8,34–40 reports this C1 and all four canaries passing. The scratch source/path assertion printed `default root parity: true`; no executable verifier was invoked here.
+
+#### Explicit disposition of the halted lane's final seven findings
+
+1. **[Pass — component/source evidence] Publication:** tools/render.mjs:215–241 hashes bounded staged files, renames into runs/UUID, then performs the sole manifest commit at :236; rollback removes only its uncommitted run/pointer. No postcommit compatibility copies remain. Shared CLI publication (:244–255) and spike (:447–452) use that owner after their validation. Cross-date and same-date controls above close the reader/preservation gap.
+2. **[Pass — component/source evidence] PNG/confinement:** assets.mjs:10–38 checks signature, CRC, chunk bounds/order, positive RGBA dimensions, bounded inflation and filter bytes; :49–53 uses component containment and bounded reads. request.mjs:10–25 bounds the descriptor read and checks regular-file type. Actual inspectPng accepted the bundled 640×427 PNG and rejected short bytes and a bad CRC. C1:83–87 covers the sibling-root escape; read, not executed. Bundled SVG at assets.mjs:58–66 remains explicitly trusted, not arbitrary SVG ingestion.
+3. **[Pass — component/source evidence] Scale/area:** request.mjs:35–38 rejects the 8192×8192/scale-0.1 input before rendering and rejects scale 0.1 on the default canvas. Actual normalizeRequest probes observed both rejections. Only 1000×1000, scale 1 is delivered, as disclosed in tools/MVP-REPORT.md:7; no scaling support is inferred.
+4. **[Pass — component/source evidence] JSON/fixture/HTML:** request.mjs:44–52 confines and bounds JSON before parsing; nutrition.mjs:11–32 enforces the delivered shape, text, identities and colors. tools/render.mjs:138 assigns normalized dimensions; :63–73 escapes attributes/styles. The valid fixture passed validateNutrition; background `red"><script>1</script>` was rejected and toDocument escaped both style and text script literals. C1:63–76 covers directory/oversized/escape/shape controls. No browser execution claim.
+5. **[Pass — source evidence] Browser ownership/laziness:** tools/render.mjs:83–85 dynamically imports Playwright only when called; :142–151 owns browser/context cleanup with finally and selects Satori by default. Page finally is :128–129. Context-routing failure still reaches browser.close. Spike browser ownership closes at spike/render.mjs:453–457. C1:92–97 checks a native-launch substitute's context-creation failure. Actual browser lifecycle remains a clone-gate claim.
+6. **[Pass — source/receipt evidence] Shared result/CLI/C1:** tools/render.mjs:153–173 validates text/region/font/raster evidence and returns requested bytes, MIME, dimensions, digest, recipe/backend versions and input provenance; :258–272 provides the local CLI and shared publisher. C1:28–58 checks import side effects, dependency-linked space paths, two successes and a genuine late failure, including selected target, manifest and all referenced hashes. Current verification.log:4–6,34–40 records four passes in 11.3s, 216 geometry boxes within 0.5 px and 12 byte-identical artifacts. These are inspected producer results, not a new reviewer suite run.
+7. **[Pass — receipt honesty] Completion prose:** current tools/MVP-REPORT.md:5,18,22 identifies the halted lane, current 11.3s receipt, repaired reader findings and still-pending independent/native/future work. It supersedes the embedded 10.8s snapshot, as the Producer explicitly states. baseline.log:33–39 records the earlier green 9.8s baseline, red-controls.log:1–9 records the admitted large canvas and injected markup, and macos-root-red.log:12–15 records the canonicalization failure. pdda.log:42–53 reports zero errors and two governance warnings, not warning-free completion. No phase.approved or successful post-turn gate is inferred.
+
+- **[Nit — documentation only] Stale comparison-renderer descriptions.** tools/spike/render.mjs:3,24–25,443 still describe the old output path or overwriting a day's folder, and :219 says resvg/Playwright import statically before timers. Current path/publication code (:29,452) and dynamic imports in tools/render.mjs:36,83–85 contradict that wording. Update those comments/log/timing-description strings in a later permitted producer edit. This does not change the measured selection result or reopen the repaired runtime boundaries. Evidence: numbered full-source reads, exit 0.
+
+#### Independent probe receipt
+
+Setup: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`, exit **0**.
+Command: `node "$TMPDIR/qa-r2.mjs" > "$TMPDIR/qa-r2.log" 2>&1`, exit **0**. The script imported the actual publisher/selectors, normalizer, validator, PNG inspector and serializer; all writes were synthetic stages/runs under scratch. No fixture was executed and no native renderer/layout/browser was called. Synthetic satori.png files contain FIRST/SECOND/FAIL strings only to exercise publication; they are not image-validity evidence.
+
+Core publication reproduction (fs/path/assert and actual imported helpers; root is mkdtemp under TMPDIR, pkg is xyz-layout-engine-spike, day(n) is root/2026-10-n-pkg; stage(text) creates a unique scratch directory containing satori.png=text):
+```js
+const first = await publishStaged(await stage('FIRST'), day('08'), {root});
+const before = await fs.readFile(path.join(day('08'), 'manifest.json'));
+await assert.rejects(publishStaged(await stage('FAIL'), day('09'),
+  {root, failBeforeCommit:true}), /injected late/);
+assert.equal(selectedSpikeRun(root, pkg).directory, first.directory);
+assert.deepEqual(await fs.readFile(path.join(day('08'), 'manifest.json')), before);
+assert.deepEqual(await fs.readdir(path.join(day('09'), 'runs')), []);
+const second = await publishStaged(await stage('SECOND'), day('09'), {root});
+assert.equal(selectedSpikeRun(root, pkg).directory, second.directory);
+const saved = await fs.readFile(path.join(day('09'), 'manifest.json'));
+await assert.rejects(publishStaged(await stage('FAIL2'), day('09'),
+  {root, failBeforeCommit:true}), /injected late/);
+assert.deepEqual(await fs.readFile(path.join(day('09'), 'manifest.json')), saved);
+// SHA-256 of first/second satori.png also compared to each returned manifest digest.
+```
+
+Decisive output:
+```text
+failed next date: prior selected, manifest/digest unchanged, failed runs empty
+next date success advances; later same-date failure preserves both immutable digests
+legacy marker selected; foreign package ignored; real historical selection: 2026-10-08-xyz-layout-engine-spike
+default root parity: true
+large: rejected
+scale: rejected
+fixture style rejected; HTML script literals escaped
+valid PNG: {"width":640,"height":427}
+malformed PNG and bad CRC rejected
+probe_exit=0
+```
+
+One attempted orchestration call for the relay write failed in the JavaScript parser before a shell command ran; no product failure or file change resulted. The corrected file-scoped patch contains this review.
+
+Bet/reversibility: **Easy**, relay-only approval. The reviewed source and producer receipts are assumed to be the seeded repair the harness will gate; the remaining failure mode is a clone/runtime or reference-diff discrepancy, which this source/component review cannot substitute for. The documentary nit is non-blocking. Native phase advancement still requires its own gate; no halted-lane restart, push, merge or cleanup is performed.
+
+relay closed (Approved), no further turn needed. The approval token is completed with native tick done; codex-producer/harness owns the subsequent gate and report reconciliation.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
