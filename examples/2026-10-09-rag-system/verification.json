@@ -1,0 +1,1298 @@
+{
+  "renderer": "Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime",
+  "generatedAt": "2026-10-09T15:21:44.023Z",
+  "width": 2400,
+  "height": 1660,
+  "stages": [
+    "docs",
+    "chunk",
+    "embed_index",
+    "store",
+    "question",
+    "embed_query",
+    "retrieve",
+    "augment",
+    "llm",
+    "answer"
+  ],
+  "imageNodes": [
+    "asset_docs",
+    "asset_chunk",
+    "asset_embed_index",
+    "asset_store",
+    "asset_question",
+    "asset_embed_query",
+    "asset_retrieve",
+    "asset_augment",
+    "asset_llm",
+    "asset_answer"
+  ],
+  "textIds": [
+    "eyebrow",
+    "title",
+    "subtitle",
+    "lane_ingest",
+    "lane_query",
+    "docs_step",
+    "docs_title",
+    "docs_desc",
+    "chunk_step",
+    "chunk_title",
+    "chunk_desc",
+    "embed_index_step",
+    "embed_index_title",
+    "embed_index_desc",
+    "store_step",
+    "store_title",
+    "store_desc",
+    "question_step",
+    "question_title",
+    "question_desc",
+    "embed_query_step",
+    "embed_query_title",
+    "embed_query_desc",
+    "retrieve_step",
+    "retrieve_title",
+    "retrieve_desc",
+    "augment_step",
+    "augment_title",
+    "augment_desc",
+    "llm_step",
+    "llm_title",
+    "llm_desc",
+    "answer_step",
+    "answer_title",
+    "answer_desc",
+    "panel_stored_title",
+    "panel_stored_body",
+    "panel_why_title",
+    "panel_why_body",
+    "panel_how_title",
+    "panel_how_body",
+    "edge_write",
+    "edge_query_vector",
+    "edge_chunks",
+    "edge_question",
+    "footer_message",
+    "footer_credit",
+    "scale_note",
+    "source_note"
+  ],
+  "artifactDigests": {
+    "png": "c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6",
+    "svg": "68d6d459c3ef219297202170f1195f97be352815ca3bc032b68cde066bb59bb8",
+    "html": "f9addfc65fccb58be686371e196c0482d0c493754ac23b8edd2ff35ce0786476",
+    "chromiumPng": "db8c112b62db4c1433d9e7fc677f22d3c4b050b3164deed4f0175e9e9364c5d8"
+  },
+  "satoriBounds": {
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1660
+    },
+    "backdrop": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1660
+    },
+    "arrows": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1660
+    },
+    "header": {
+      "x": 100,
+      "y": 80,
+      "width": 2200,
+      "height": 238
+    },
+    "eyebrow": {
+      "x": 100,
+      "y": 80,
+      "width": 2200,
+      "height": 30
+    },
+    "title": {
+      "x": 100,
+      "y": 128,
+      "width": 2200,
+      "height": 130
+    },
+    "subtitle": {
+      "x": 100,
+      "y": 276,
+      "width": 2200,
+      "height": 42
+    },
+    "lane_ingest": {
+      "x": 100,
+      "y": 408,
+      "width": 663,
+      "height": 29
+    },
+    "lane_query": {
+      "x": 100,
+      "y": 1088,
+      "width": 696,
+      "height": 29
+    },
+    "card_docs": {
+      "x": 100,
+      "y": 460,
+      "width": 300,
+      "height": 250
+    },
+    "asset_docs": {
+      "x": 126,
+      "y": 484,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_docs": {
+      "x": 298,
+      "y": 488,
+      "width": 80,
+      "height": 29
+    },
+    "docs_step": {
+      "x": 351,
+      "y": 488,
+      "width": 27,
+      "height": 29
+    },
+    "body_docs": {
+      "x": 126,
+      "y": 590,
+      "width": 252,
+      "height": 104
+    },
+    "docs_title": {
+      "x": 126,
+      "y": 590,
+      "width": 252,
+      "height": 42
+    },
+    "docs_desc": {
+      "x": 126,
+      "y": 640,
+      "width": 252,
+      "height": 54
+    },
+    "card_chunk": {
+      "x": 480,
+      "y": 460,
+      "width": 300,
+      "height": 250
+    },
+    "asset_chunk": {
+      "x": 506,
+      "y": 484,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_chunk": {
+      "x": 678,
+      "y": 488,
+      "width": 80,
+      "height": 29
+    },
+    "chunk_step": {
+      "x": 727,
+      "y": 488,
+      "width": 31,
+      "height": 29
+    },
+    "body_chunk": {
+      "x": 506,
+      "y": 590,
+      "width": 252,
+      "height": 104
+    },
+    "chunk_title": {
+      "x": 506,
+      "y": 590,
+      "width": 252,
+      "height": 42
+    },
+    "chunk_desc": {
+      "x": 506,
+      "y": 640,
+      "width": 252,
+      "height": 54
+    },
+    "card_embed_index": {
+      "x": 860,
+      "y": 460,
+      "width": 300,
+      "height": 250
+    },
+    "asset_embed_index": {
+      "x": 886,
+      "y": 484,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_embed_index": {
+      "x": 1058,
+      "y": 488,
+      "width": 80,
+      "height": 29
+    },
+    "embed_index_step": {
+      "x": 1106,
+      "y": 488,
+      "width": 32,
+      "height": 29
+    },
+    "body_embed_index": {
+      "x": 886,
+      "y": 590,
+      "width": 252,
+      "height": 104
+    },
+    "embed_index_title": {
+      "x": 886,
+      "y": 590,
+      "width": 252,
+      "height": 42
+    },
+    "embed_index_desc": {
+      "x": 886,
+      "y": 640,
+      "width": 252,
+      "height": 54
+    },
+    "card_store": {
+      "x": 860,
+      "y": 790,
+      "width": 300,
+      "height": 250
+    },
+    "asset_store": {
+      "x": 886,
+      "y": 814,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_store": {
+      "x": 1058,
+      "y": 818,
+      "width": 80,
+      "height": 29
+    },
+    "store_step": {
+      "x": 1106,
+      "y": 818,
+      "width": 32,
+      "height": 29
+    },
+    "body_store": {
+      "x": 886,
+      "y": 920,
+      "width": 252,
+      "height": 104
+    },
+    "store_title": {
+      "x": 886,
+      "y": 920,
+      "width": 252,
+      "height": 42
+    },
+    "store_desc": {
+      "x": 886,
+      "y": 970,
+      "width": 252,
+      "height": 54
+    },
+    "card_question": {
+      "x": 100,
+      "y": 1140,
+      "width": 300,
+      "height": 250
+    },
+    "asset_question": {
+      "x": 126,
+      "y": 1164,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_question": {
+      "x": 298,
+      "y": 1168,
+      "width": 80,
+      "height": 29
+    },
+    "question_step": {
+      "x": 347,
+      "y": 1168,
+      "width": 31,
+      "height": 29
+    },
+    "body_question": {
+      "x": 126,
+      "y": 1270,
+      "width": 252,
+      "height": 104
+    },
+    "question_title": {
+      "x": 126,
+      "y": 1270,
+      "width": 252,
+      "height": 42
+    },
+    "question_desc": {
+      "x": 126,
+      "y": 1320,
+      "width": 252,
+      "height": 54
+    },
+    "card_embed_query": {
+      "x": 480,
+      "y": 1140,
+      "width": 300,
+      "height": 250
+    },
+    "asset_embed_query": {
+      "x": 506,
+      "y": 1164,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_embed_query": {
+      "x": 678,
+      "y": 1168,
+      "width": 80,
+      "height": 29
+    },
+    "embed_query_step": {
+      "x": 726,
+      "y": 1168,
+      "width": 32,
+      "height": 29
+    },
+    "body_embed_query": {
+      "x": 506,
+      "y": 1270,
+      "width": 252,
+      "height": 104
+    },
+    "embed_query_title": {
+      "x": 506,
+      "y": 1270,
+      "width": 252,
+      "height": 42
+    },
+    "embed_query_desc": {
+      "x": 506,
+      "y": 1320,
+      "width": 252,
+      "height": 54
+    },
+    "card_retrieve": {
+      "x": 860,
+      "y": 1140,
+      "width": 300,
+      "height": 250
+    },
+    "asset_retrieve": {
+      "x": 886,
+      "y": 1164,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_retrieve": {
+      "x": 1058,
+      "y": 1168,
+      "width": 80,
+      "height": 29
+    },
+    "retrieve_step": {
+      "x": 1108,
+      "y": 1168,
+      "width": 30,
+      "height": 29
+    },
+    "body_retrieve": {
+      "x": 886,
+      "y": 1270,
+      "width": 252,
+      "height": 104
+    },
+    "retrieve_title": {
+      "x": 886,
+      "y": 1270,
+      "width": 252,
+      "height": 42
+    },
+    "retrieve_desc": {
+      "x": 886,
+      "y": 1320,
+      "width": 252,
+      "height": 54
+    },
+    "card_augment": {
+      "x": 1240,
+      "y": 1140,
+      "width": 300,
+      "height": 250
+    },
+    "asset_augment": {
+      "x": 1266,
+      "y": 1164,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_augment": {
+      "x": 1438,
+      "y": 1168,
+      "width": 80,
+      "height": 29
+    },
+    "augment_step": {
+      "x": 1486,
+      "y": 1168,
+      "width": 32,
+      "height": 29
+    },
+    "body_augment": {
+      "x": 1266,
+      "y": 1270,
+      "width": 252,
+      "height": 104
+    },
+    "augment_title": {
+      "x": 1266,
+      "y": 1270,
+      "width": 252,
+      "height": 42
+    },
+    "augment_desc": {
+      "x": 1266,
+      "y": 1320,
+      "width": 252,
+      "height": 54
+    },
+    "card_llm": {
+      "x": 1620,
+      "y": 1140,
+      "width": 300,
+      "height": 250
+    },
+    "asset_llm": {
+      "x": 1646,
+      "y": 1164,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_llm": {
+      "x": 1818,
+      "y": 1168,
+      "width": 80,
+      "height": 29
+    },
+    "llm_step": {
+      "x": 1866,
+      "y": 1168,
+      "width": 32,
+      "height": 29
+    },
+    "body_llm": {
+      "x": 1646,
+      "y": 1270,
+      "width": 252,
+      "height": 104
+    },
+    "llm_title": {
+      "x": 1646,
+      "y": 1270,
+      "width": 252,
+      "height": 42
+    },
+    "llm_desc": {
+      "x": 1646,
+      "y": 1320,
+      "width": 252,
+      "height": 54
+    },
+    "card_answer": {
+      "x": 2000,
+      "y": 1140,
+      "width": 300,
+      "height": 250
+    },
+    "asset_answer": {
+      "x": 2026,
+      "y": 1164,
+      "width": 96,
+      "height": 96
+    },
+    "stepbox_answer": {
+      "x": 2198,
+      "y": 1168,
+      "width": 80,
+      "height": 29
+    },
+    "answer_step": {
+      "x": 2251,
+      "y": 1168,
+      "width": 27,
+      "height": 29
+    },
+    "body_answer": {
+      "x": 2026,
+      "y": 1270,
+      "width": 252,
+      "height": 77
+    },
+    "answer_title": {
+      "x": 2026,
+      "y": 1270,
+      "width": 252,
+      "height": 42
+    },
+    "answer_desc": {
+      "x": 2026,
+      "y": 1320,
+      "width": 252,
+      "height": 27
+    },
+    "panel_stored": {
+      "x": 1240,
+      "y": 460,
+      "width": 1060,
+      "height": 250
+    },
+    "panel_stored_title": {
+      "x": 1271,
+      "y": 491,
+      "width": 998,
+      "height": 26
+    },
+    "panel_stored_body": {
+      "x": 1271,
+      "y": 531,
+      "width": 998,
+      "height": 72
+    },
+    "panel_why": {
+      "x": 100,
+      "y": 790,
+      "width": 680,
+      "height": 250
+    },
+    "panel_why_title": {
+      "x": 131,
+      "y": 821,
+      "width": 618,
+      "height": 26
+    },
+    "panel_why_body": {
+      "x": 131,
+      "y": 861,
+      "width": 618,
+      "height": 108
+    },
+    "panel_how": {
+      "x": 1240,
+      "y": 790,
+      "width": 1060,
+      "height": 250
+    },
+    "panel_how_title": {
+      "x": 1271,
+      "y": 821,
+      "width": 998,
+      "height": 26
+    },
+    "panel_how_body": {
+      "x": 1271,
+      "y": 861,
+      "width": 998,
+      "height": 72
+    },
+    "edgebox_edge_write": {
+      "x": 1030,
+      "y": 732,
+      "width": 340,
+      "height": 26
+    },
+    "edge_write": {
+      "x": 1030,
+      "y": 732,
+      "width": 235,
+      "height": 26
+    },
+    "edgebox_edge_query_vector": {
+      "x": 638,
+      "y": 1052,
+      "width": 300,
+      "height": 26
+    },
+    "edge_query_vector": {
+      "x": 817,
+      "y": 1052,
+      "width": 121,
+      "height": 26
+    },
+    "edgebox_edge_chunks": {
+      "x": 1092,
+      "y": 1052,
+      "width": 360,
+      "height": 26
+    },
+    "edge_chunks": {
+      "x": 1092,
+      "y": 1052,
+      "width": 250,
+      "height": 26
+    },
+    "edgebox_edge_question": {
+      "x": 310,
+      "y": 1450,
+      "width": 1100,
+      "height": 26
+    },
+    "edge_question": {
+      "x": 310,
+      "y": 1450,
+      "width": 508,
+      "height": 26
+    },
+    "footer_rule": {
+      "x": 100,
+      "y": 1500,
+      "width": 2200,
+      "height": 1
+    },
+    "footer": {
+      "x": 100,
+      "y": 1528,
+      "width": 2200,
+      "height": 107
+    },
+    "footer_summary": {
+      "x": 100,
+      "y": 1528,
+      "width": 2200,
+      "height": 29
+    },
+    "footer_message": {
+      "x": 100,
+      "y": 1528,
+      "width": 591,
+      "height": 29
+    },
+    "footer_credit": {
+      "x": 2097,
+      "y": 1532,
+      "width": 203,
+      "height": 22
+    },
+    "scale_note": {
+      "x": 100,
+      "y": 1573,
+      "width": 2200,
+      "height": 25
+    },
+    "source_note": {
+      "x": 100,
+      "y": 1614,
+      "width": 2200,
+      "height": 21
+    }
+  },
+  "chromiumText": {
+    "eyebrow": {
+      "x": 100,
+      "y": 80,
+      "width": 231.22,
+      "height": 28,
+      "text": "HOW IT WORKS",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 30,
+      "clientHeight": 30,
+      "lineCount": 1
+    },
+    "title": {
+      "x": 100,
+      "y": 126.89,
+      "width": 1649.66,
+      "height": 131,
+      "text": "Retrieval-Augmented Generation",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 130,
+      "clientHeight": 130,
+      "lineCount": 1
+    },
+    "subtitle": {
+      "x": 100,
+      "y": 276.48,
+      "width": 1147.92,
+      "height": 39,
+      "text": "A language model that looks things up in your documents before it answers.",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "lane_ingest": {
+      "x": 100,
+      "y": 409,
+      "width": 679.97,
+      "height": 26,
+      "text": "A  /  INDEX YOUR KNOWLEDGE  /  DONE AHEAD OF TIME",
+      "scrollWidth": 680,
+      "clientWidth": 680,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "lane_query": {
+      "x": 100,
+      "y": 1089,
+      "width": 712.7,
+      "height": 26,
+      "text": "B  /  ANSWER A QUESTION  /  EVERY TIME SOMEONE ASKS",
+      "scrollWidth": 713,
+      "clientWidth": 713,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "docs_step": {
+      "x": 349.67,
+      "y": 489,
+      "width": 28.33,
+      "height": 26,
+      "text": "01",
+      "scrollWidth": 28,
+      "clientWidth": 28,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "docs_title": {
+      "x": 126,
+      "y": 591,
+      "width": 179.08,
+      "height": 39,
+      "text": "Documents",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "docs_desc": {
+      "x": 126,
+      "y": 640.59,
+      "width": 233.91,
+      "height": 52.3,
+      "text": "PDFs, wikis, tickets and notes",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "chunk_step": {
+      "x": 725.3,
+      "y": 489,
+      "width": 32.7,
+      "height": 26,
+      "text": "02",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "chunk_title": {
+      "x": 506,
+      "y": 591,
+      "width": 102,
+      "height": 39,
+      "text": "Chunk",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "chunk_desc": {
+      "x": 506,
+      "y": 640.59,
+      "width": 247.61,
+      "height": 52.3,
+      "text": "Split into passages; keep each source ID",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "embed_index_step": {
+      "x": 1104.95,
+      "y": 489,
+      "width": 33.05,
+      "height": 26,
+      "text": "03",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "embed_index_title": {
+      "x": 886,
+      "y": 591,
+      "width": 108.05,
+      "height": 39,
+      "text": "Embed",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "embed_index_desc": {
+      "x": 886,
+      "y": 640.59,
+      "width": 193.06,
+      "height": 52.3,
+      "text": "A model turns each chunk into a vector",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "store_step": {
+      "x": 1104.28,
+      "y": 819,
+      "width": 33.72,
+      "height": 26,
+      "text": "04",
+      "scrollWidth": 34,
+      "clientWidth": 34,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "store_title": {
+      "x": 886,
+      "y": 921,
+      "width": 191.73,
+      "height": 39,
+      "text": "Vector store",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "store_desc": {
+      "x": 886,
+      "y": 970.59,
+      "width": 234.69,
+      "height": 52.3,
+      "text": "Vectors, chunk text and source IDs",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "question_step": {
+      "x": 345.09,
+      "y": 1169,
+      "width": 32.91,
+      "height": 26,
+      "text": "05",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "question_title": {
+      "x": 126,
+      "y": 1271,
+      "width": 141.7,
+      "height": 39,
+      "text": "Question",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "question_desc": {
+      "x": 126,
+      "y": 1320.59,
+      "width": 193.63,
+      "height": 52.3,
+      "text": "\"What is our refund window?\"",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "embed_query_step": {
+      "x": 724.88,
+      "y": 1169,
+      "width": 33.13,
+      "height": 26,
+      "text": "06",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "embed_query_title": {
+      "x": 506,
+      "y": 1271,
+      "width": 108.05,
+      "height": 39,
+      "text": "Embed",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "embed_query_desc": {
+      "x": 506,
+      "y": 1320.59,
+      "width": 188.47,
+      "height": 52.3,
+      "text": "Same model, same vector space",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "retrieve_step": {
+      "x": 1106.8,
+      "y": 1169,
+      "width": 31.2,
+      "height": 26,
+      "text": "07",
+      "scrollWidth": 31,
+      "clientWidth": 31,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "retrieve_title": {
+      "x": 886,
+      "y": 1271,
+      "width": 129.5,
+      "height": 39,
+      "text": "Retrieve",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "retrieve_desc": {
+      "x": 886,
+      "y": 1320.59,
+      "width": 218.19,
+      "height": 52.3,
+      "text": "Nearest chunks to the question",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "augment_step": {
+      "x": 1484.84,
+      "y": 1169,
+      "width": 33.16,
+      "height": 26,
+      "text": "08",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "augment_title": {
+      "x": 1266,
+      "y": 1271,
+      "width": 143.94,
+      "height": 39,
+      "text": "Augment",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "augment_desc": {
+      "x": 1266,
+      "y": 1320.59,
+      "width": 230.34,
+      "height": 52.3,
+      "text": "Question plus retrieved chunks and IDs",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "llm_step": {
+      "x": 1864.88,
+      "y": 1169,
+      "width": 33.13,
+      "height": 26,
+      "text": "09",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "llm_title": {
+      "x": 1646,
+      "y": 1271,
+      "width": 143.7,
+      "height": 39,
+      "text": "Generate",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "llm_desc": {
+      "x": 1646,
+      "y": 1320.59,
+      "width": 231.14,
+      "height": 52.3,
+      "text": "Answers using only the given context",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 55,
+      "clientHeight": 55,
+      "lineCount": 2
+    },
+    "answer_step": {
+      "x": 2249.67,
+      "y": 1169,
+      "width": 28.33,
+      "height": 26,
+      "text": "10",
+      "scrollWidth": 28,
+      "clientWidth": 28,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "answer_title": {
+      "x": 2026,
+      "y": 1271,
+      "width": 120.59,
+      "height": 39,
+      "text": "Answer",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "answer_desc": {
+      "x": 2026,
+      "y": 1320.59,
+      "width": 233.91,
+      "height": 25,
+      "text": "Cites its sources: [1] [2]",
+      "scrollWidth": 252,
+      "clientWidth": 252,
+      "scrollHeight": 27,
+      "clientHeight": 27,
+      "lineCount": 1
+    },
+    "panel_stored_title": {
+      "x": 1271,
+      "y": 492,
+      "width": 247.83,
+      "height": 24,
+      "text": "WHAT GETS STORED",
+      "scrollWidth": 998,
+      "clientWidth": 998,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "panel_stored_body": {
+      "x": 1271,
+      "y": 533,
+      "width": 980.45,
+      "height": 67.39,
+      "text": "Each chunk is saved three ways: its text, its embedding vector, and the ID of the source it came from.",
+      "scrollWidth": 998,
+      "clientWidth": 998,
+      "scrollHeight": 73,
+      "clientHeight": 73,
+      "lineCount": 2
+    },
+    "panel_why_title": {
+      "x": 131,
+      "y": 822,
+      "width": 260.14,
+      "height": 24,
+      "text": "WHY RETRIEVE FIRST",
+      "scrollWidth": 618,
+      "clientWidth": 618,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "panel_why_body": {
+      "x": 131,
+      "y": 863,
+      "width": 616.09,
+      "height": 103.78,
+      "text": "The model answers from your documents, not only from its training, and can point to where each fact came from.",
+      "scrollWidth": 618,
+      "clientWidth": 618,
+      "scrollHeight": 109,
+      "clientHeight": 109,
+      "lineCount": 3
+    },
+    "panel_how_title": {
+      "x": 1271,
+      "y": 822,
+      "width": 294.7,
+      "height": 24,
+      "text": "HOW RETRIEVAL WORKS",
+      "scrollWidth": 998,
+      "clientWidth": 998,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "panel_how_body": {
+      "x": 1271,
+      "y": 863,
+      "width": 964.31,
+      "height": 67.39,
+      "text": "The question becomes a vector. The store returns the k chunks whose vectors sit nearest to it; k is a setting you choose.",
+      "scrollWidth": 998,
+      "clientWidth": 998,
+      "scrollHeight": 73,
+      "clientHeight": 73,
+      "lineCount": 2
+    },
+    "edge_write": {
+      "x": 1030,
+      "y": 733,
+      "width": 234.28,
+      "height": 24,
+      "text": "vector + text + source ID",
+      "scrollWidth": 234,
+      "clientWidth": 234,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "edge_query_vector": {
+      "x": 817.75,
+      "y": 1053,
+      "width": 120.25,
+      "height": 24,
+      "text": "query vector",
+      "scrollWidth": 120,
+      "clientWidth": 120,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "edge_chunks": {
+      "x": 1092,
+      "y": 1053,
+      "width": 249.95,
+      "height": 24,
+      "text": "top-k chunks + source IDs",
+      "scrollWidth": 250,
+      "clientWidth": 250,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "edge_question": {
+      "x": 310,
+      "y": 1451,
+      "width": 507.86,
+      "height": 24,
+      "text": "the original question travels with the retrieved context",
+      "scrollWidth": 508,
+      "clientWidth": 508,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "footer_message": {
+      "x": 100,
+      "y": 1529,
+      "width": 598.27,
+      "height": 26,
+      "text": "INDEX ONCE  /  RETRIEVE  /  AUGMENT  /  GENERATE",
+      "scrollWidth": 598,
+      "clientWidth": 598,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "footer_credit": {
+      "x": 2091.63,
+      "y": 1532.25,
+      "width": 208.38,
+      "height": 20,
+      "text": "XYZ LAYOUT ENGINE",
+      "scrollWidth": 208,
+      "clientWidth": 208,
+      "scrollHeight": 22,
+      "clientHeight": 22,
+      "lineCount": 1
+    },
+    "scale_note": {
+      "x": 100,
+      "y": 1572.59,
+      "width": 1376.5,
+      "height": 23,
+      "text": "Conceptual diagram: real systems differ in chunk size, embedding model, store and ranking. Icons are hand-drawn vector art; no images were generated.",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 25,
+      "clientHeight": 25,
+      "lineCount": 1
+    },
+    "source_note": {
+      "x": 100,
+      "y": 1613.28,
+      "width": 884.3,
+      "height": 20,
+      "text": "Pattern: Lewis et al., \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\" (2020), arXiv:2005.11401",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 21,
+      "clientHeight": 21,
+      "lineCount": 1
+    }
+  },
+  "findings": []
+}

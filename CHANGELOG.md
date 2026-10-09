@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-09 — GH-11: RAG system diagram example
+
+- Added `examples/2026-10-09-rag-system/`: a 2400×1660 explainer of how retrieval-augmented generation works, with an ingest flow (documents → chunk → embed → vector store) and a query flow (question → embed → retrieve → augment → generate → cited answer). Fixture-driven, ten hand-drawn SVG stage icons (no image generation, nothing uploaded), rendered through the existing GH-1 Satori/resvg and Chromium functions, with PNGs, a responsive HTML viewer, `verification.json` and a README.
+- Reuses the pinned runtime in `examples/2026-10-08-solar-system/runtime/` by relative import, so no second runtime copy. No change to `tools/spike/**`, `package.json`, `test-budget.json`, or any test or workflow.
+- Bet: the existing render functions carry a second, structurally different layout (a two-lane pipeline) from fixture data alone. Failure mode: checks pass while the picture looks wrong; the agent inspected both PNGs, human review is pending. Coupling limit: moving the Solar System `runtime/` breaks this example until GH-5 lands a shared render operation. Reversibility: Easy — delete the folder and this entry.
+- Verification: render prints `PASS` (10 icon nodes, 49 text ids, both backends). Three red controls each failed by name and were restored: overflowing description (`chunk_desc`), missing `retrieve` icon, Chromium `title` off-canvas. Plan QA: Codex, 2 rounds, Approved. Answer to the skill question: no `SKILL.md` exists in the tracked repo; GH-5 does not track one.
+
 ## 2026-10-08 — Solar System diagram with Milky Way inset
 
 - Created a standalone 2400×1700 diagram (originally local in `artifacts/solar-system-2026-10-08/`), using the existing GH-1 Satori/resvg and Chromium render functions from origin commit `591971d`. Eleven independent transparent assets (Sun, eight planets, main asteroid belt, Milky Way) were generated through the operator-selected resolve-image skill with `gpt-image-2.5-flare`; retained prompts, recipe receipts, original images and display-size exports. Outputs include PNG, SVG, offline HTML with editable labels, fixture JSON, and an individual-assets ZIP.
