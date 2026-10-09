@@ -26,7 +26,7 @@ related:
 
 | What was just completed | What's next |
 |---|---|
-| Intake: issue #2, capture, roadmap park, rating `60/35/50/75`; recon below; plan drafted. | Codex plan QA; then implement on `test/gh-2-regression-canaries`. |
+| Plan revised for Codex plan-QA round 1 (R1–R4, two nits). | Codex plan QA round 2; then implement on `test/gh-2-regression-canaries`. |
 
 ## Recon (base `591971d`, branch `test/gh-2-regression-canaries` off `origin/marathon/gh-1-renderer-spike`)
 
@@ -47,38 +47,52 @@ pri 60: the operator requested it next, and it protects the spike before Phase 1
 - **Alternatives rejected:**
   - Only `spike:verify` checks committed evidence. It misses a code change that would render differently.
   - A GitHub Actions workflow conflicts with the GH-1 non-goal and needs Chromium in CI. The ratchet keeps that door closed until a named failure mode justifies it.
-- **Rollback:** delete `tools/spike/test/`, `test-budget.json`, the `test` script and the two env lines.
+- **Rollback:** delete `tools/spike/test/`, `test-budget.json`, the `test` script, the output-root override lines, and the AGENTS.md pointer bullet.
 
 ## Implementation (ordered, verification inline)
 
+**Supported host.** The suite is supported on the recorded developer host only (darwin-arm64, Node 22, Chrome for Testing as pinned by Playwright 1.64.0). C3 inherits the verifier's existing check that the committed native resvg binding matches the current platform (`verify.mjs`), so other hosts fail C3 by design until a platform-specific evidence run exists. That limit is stated, not hidden.
+
 1. **Output-root override (smallest change to the existing writer and reader).**
-   - In `render.mjs`, `const OUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output')`. `OUT` and `rel()` stay relative to the run folder name, so recorded `output/<run>/…` paths are unchanged.
-   - In `verify.mjs`, the same override for the folder it scans.
-   - Verify: the default run still writes and reads `tools/spike/output/`, and `pnpm run spike:verify` stays green on committed evidence.
-2. **Canaries:** `tools/spike/test/canaries.test.mjs` using `node:test` and `node:assert`. Each test name starts with `guards: <failure mode>`.
-   - **C1 `guards: render pipeline breaks on a clean checkout`.** Render into a temp `SPIKE_OUTPUT_ROOT`, then run the verifier against it. Expect exit 0 and `VERDICT: PASS` from both.
-   - **C2 `guards: unintended visual or layout drift`.** Compare the C1 run to the committed run on two levels:
-     - Labelled geometry must match per case and backend within 0.5 px.
-     - PNG, SVG and HTML sha256 must match byte for byte, but only when platform, arch and Chromium version equal the committed `runtime.json`. Otherwise the digest part is reported as skipped, never passed.
-   - **C3 `guards: committed evidence no longer satisfies the gate`.** Run `verify.mjs` on the committed folder and expect exit 0. This is the existing `spike:verify`, run as part of the suite.
-   - **C4 `guards: the verifier stops detecting tampering`.** Copy the committed run folder to temp, append one byte to `satori.png`, and run the verifier there. Expect exit 1 with `does not match the recorded digest`. This is the red control that proves the gate still bites.
+   - `render.mjs`: `OUT` is built from `process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output')`. `rel()` keeps emitting `output/<run>/…`, so recorded paths are unchanged.
+   - `verify.mjs`: both the folder scan and the physical `out()` reads use the same override.
+   - Verify: with no override, behaviour is byte-identical, and `pnpm run spike:verify` stays green on committed evidence.
+2. **Canaries:** one file, `tools/spike/test/canaries.test.mjs`, using `node:test` `test()` only. Each name starts with `guards: <failure mode>`.
+   - **C1 `guards: render pipeline breaks on a clean checkout`.** Spawn `render.mjs` with `SPIKE_OUTPUT_ROOT=<tmp>` and `SPIKE_RENDER_DEADLINE_MS=40000`. Require exit 0 and a stdout line starting `render: selection`. Then spawn `verify.mjs` with the same root and require exit 0 and `VERDICT: PASS`. Red control (clone, recorded): `SPIKE_INJECT_FAILURE=1` makes C1 fail.
+   - **C2 `guards: unintended visual or layout drift`.** Compare the C1 run (fresh) against a golden run folder, `SPIKE_GOLDEN_ROOT` or by default the committed `tools/spike/output`.
+     - (a) The fresh and golden case → backend → label key sets must be equal.
+     - (b) Every `x/y/width/height` must be finite on both sides and within 0.5 px.
+     - (c) The number of compared boxes must be greater than 0 and is printed.
+     - (d) PNG, `satori.svg` and HTML sha256 must match, but only when `runtime.json` platform, arch and Chromium version are equal on both sides. Otherwise C2 prints `digests: skipped (host differs)`, and geometry is still enforced.
+     - Red controls (clone, recorded), each using a copied golden with `SPIKE_GOLDEN_ROOT`: remove one label; move one coordinate by 1 px; change one golden PNG byte together with its recorded digest. Each must fail C2 at the intended assertion.
+   - **C3 `guards: committed evidence no longer satisfies the gate`.** Spawn `verify.mjs` on the committed folder and require exit 0 with `VERDICT: PASS`.
+   - **C4 `guards: the verifier stops detecting tampering`.** Copy the committed run folder to a temp root, append one byte to `satori.png`, and run the verifier there. Require exit 1 and `does not match the recorded digest`. This is a built-in red control for the gate.
 3. **Budget ratchet:** `test-budget.json` at the repo root.
-   - `budget` sets limits: `testFiles: 1`, `tests: 4`, `maxSeconds: 60`, `ciWorkflows: 0`.
-   - `history[]` records each budget change as `{date, issue, budget, reason}`.
-   - `rules` holds the human text.
-4. **Runner:** `tools/spike/test/run.mjs`, wired to `pnpm test`. Before running tests it fails when any of these holds:
-   - the number of `*.test.mjs` files outside `node_modules`/`.xyz` exceeds `testFiles`
-   - the number of `test(` calls exceeds `tests`
-   - any test name lacks the `guards: ` prefix
-   - the number of `.github/workflows/*` files exceeds `ciWorkflows`
-   - the last `history[].budget` does not deep-equal `budget`, so raising a limit requires a new history entry
-   - any history entry lacks an issue URL and reason
-   
-   It then runs `node --test` on the test file and fails if wall time exceeds `maxSeconds`.
-   - Verify red controls: add a fifth dummy test, then a test name without `guards:`, then a budget raise without a history entry. Each must fail before any test runs. Restore afterwards.
-5. **Rules text.** AGENTS.md gets one bullet under Engineering standards pointing to `test-budget.json`, with the ratchet in one sentence: budgets can drop freely, and raising one requires a history entry naming the issue and the failure mode existing tests cannot catch. The detailed rules live in `test-budget.json` itself, so there is one source of truth.
-6. **Docs:** CHANGELOG entry, this plan's status, and the roadmap row moved to In progress. `utils/pdda/pdda.sh run` must have zero errors.
-7. **Final gate:** `pnpm test` exits 0 within budget, with the three runner red controls and C4's built-in red control recorded.
+   - `budget` holds the limits: `{ testFiles: 1, tests: 4, maxSeconds: 60, ciWorkflows: 0 }`.
+   - `history[]` holds `{date, issue, budget, reason}` entries.
+   - `rules` holds the policy text, the single source of truth.
+   - **Any budget change, up or down, needs a new history entry, so the last entry always equals `budget`.** A decrease needs only a short reason. An increase must also name the issue and the failure mode the current tests cannot catch.
+4. **Runner:** `tools/spike/test/run.mjs`, wired to `pnpm test`, using Node built-ins only.
+   - **Before running, it fails when** any of the following holds:
+     - test files outside `node_modules/` and `.xyz/` exceed `testFiles`. A test file is any file matching `/\.(test|spec)\.[cm]?[jt]sx?$/`, or any file under a directory named `test`, `tests` or `__tests__` other than the runner itself.
+     - the canary file contains `it(`, `describe(`, `suite(`, `.skip`, `.todo`, `.only`, `skip:` or `todo:`. Only plain `test(` is allowed.
+     - the `test(` count exceeds `tests`.
+     - any test name lacks the `guards: ` prefix.
+     - `.github/workflows/*` exceed `ciWorkflows`.
+     - the last `history[].budget` does not deep-equal `budget`, or a history entry lacks `issue` (URL) or `reason`.
+   - **Running.** It spawns `node --test --test-reporter=tap <file>` in its own process group, with a parent deadline of `maxSeconds`. On the deadline it sends SIGTERM to the group, then SIGKILL after 5 s, and fails. The render child also carries its own `SPIKE_RENDER_DEADLINE_MS`, so the browser is closed by the renderer's existing deadline handler.
+   - **Executed-test accounting.** It parses the TAP summary and requires `# pass` to equal the declared `test(` count and to be no more than `tests`, with `# fail 0`, `# skip 0` and `# todo 0`.
+   - **Red controls** (clone, recorded):
+     - a fifth `test`;
+     - an `it(` declaration;
+     - an extra `x.test.js` file;
+     - a name without `guards:`;
+     - a budget raise without a history entry.
+     
+     Each must fail before any test runs. A temporary `maxSeconds: 3` must fail on the deadline, leaving no leftover `node --test`, render, or Chrome for Testing process (checked with `pgrep`).
+5. **Rules text.** AGENTS.md gets one bullet under Engineering standards pointing to `test-budget.json` as the test/CI ratchet. The policy text lives only in `test-budget.json`.
+6. **Docs.** Add a CHANGELOG entry and update this plan's status. Run `utils/pdda/pdda.sh run` unsandboxed: zero errors.
+7. **Final gate.** `pnpm test` exits 0 within budget, and every red control above is recorded with its exit and decisive output.
 
 ## Non-goals and test non-scope
 
