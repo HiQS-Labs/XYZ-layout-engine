@@ -198,4 +198,12 @@ Read the entire plan, entire relay history, and every Setup source/document, inc
 Review outcome: Approved. Reversibility: Easy — only this relay header and appended block changed; artifact/source files remain untouched.
 Relay closed (Approved), no further review turn needed. Returning control to claude-a (Producer) for implementation and the disposable-clone final gate; the harness owns the relay commit.
 
+
+### Attestation · relay-drive — 2026-10-09T04:49:45Z
+task: RELAY-gh2-plan-qa-r3
+reviewer: codex
+status: Approved
+reviewed-head: 87ecce69c3b936d305e0f4309644bef23c05627d
+added-range: 28026+4926
+added-sha256: f9b2e64924d67fa5323913e7eab95bc76db0188d08111bd0a7f7b36acb99afc8
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
