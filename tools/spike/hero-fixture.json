@@ -1,0 +1,22 @@
+{
+  "id": "product-hero",
+  "width": 1200,
+  "height": 630,
+  "theme": {
+    "background": "#0f172a",
+    "palette": {
+      "primary": "#f8fafc",
+      "accent": "#22c55e",
+      "muted": "#94a3b8",
+      "badge": "#facc15"
+    }
+  },
+  "product": {
+    "illustrationId": "bottle",
+    "eyebrow": "NEW · 750 ML",
+    "headline": "Hydrate smarter, all day",
+    "tagline": "Insulated steel bottle that keeps water cold for 24 hours and fits every cup holder.",
+    "price": "$34",
+    "cta": "Shop now"
+  }
+}

@@ -1,0 +1,23 @@
+swarm-preflight · project-doc · slug=gh-1-renderer-spike
+  target-root : /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike (marathon/gh-1-renderer-spike @ 92082a0f5)
+  branch      : suggested=marathon/gh-1-renderer-spike-2026-10-02 branch_ready=false skip_branch_prompt=false
+  freshness   : fetch_ok=1 upstream=none ahead=0 behind=0 dirty=1
+  ref-probed  : origin/main @ 65ba11d91 (checkout HEAD is 0 commit(s) behind the evaluated ref — probes read the ref, not your checkout)
+  candidate   : ready
+  inlined-acc : 5 criterion(a) from the acceptance-section
+  source-url  : ok — source: resolves to issue #1 (https://github.com/HiQS-Labs/XYZ-layout-engine/issues/1)
+  acceptance  : match — 5/5 criteria copied verbatim from issue #1
+  issue-state : OPEN — issue #1 is OPEN
+  readiness   : ready=1
+  lane-cli    : codex=present agy=present (advisory)
+  verdict     : ready (exit 0)
+
+DRY-RUN: ready, but packet not written. Would emit to: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/relay-system/preflight/2026-10-02/gh-1-renderer-spike
+Would suggest:
+XYZ_HARNESS_CONTEXT=swarm XYZ_SESSION_ID=gh-1-renderer-spike RELAY_WORKTREE_ISOLATION=1 .xyz/relay-automation/marathon-drive.sh \
+  --phase-brief <packet>/packet.md \
+  --reviewer agy \
+  --builder codex \
+  --artifact package.json,pnpm-lock.yaml,tools/spike/fixture.json,tools/spike/scene.mjs,tools/spike/verify.mjs,tools/spike/assets.mjs,tools/spike/assets/illustrations.svg,tools/spike/assets/font.ttf,tools/spike/assets/OFL.txt,tools/spike/assets/SOURCES.md,tools/spike/render.mjs,tools/spike/output/satori.png,tools/spike/output/satori.svg,tools/spike/output/playwright.png,tools/spike/output/measurements.json,tools/spike/output/runtime.json,tools/spike/REPORT.md,PROJECT/2-WORKING/SPECS-PRD.md,PROJECT/2-WORKING/GH-1-RENDERER-SPIKE.md,CHANGELOG.md,tools/spike/output/hero-satori.png,tools/spike/output/hero-playwright.png \
+  --pre-advance-cmd 'pnpm run spike:verify' \
+  --require-clean

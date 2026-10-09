@@ -1,0 +1,34 @@
+<!-- Hand-authored vector approximations -->
+<svg id="bottle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect x="42" y="6" width="16" height="12" rx="3" fill="#94a3b8"/>
+  <path d="M36 22 H64 Q70 22 70 30 V86 Q70 94 62 94 H38 Q30 94 30 86 V30 Q30 22 36 22 Z" fill="#22c55e"/>
+  <rect x="36" y="44" width="28" height="22" rx="4" fill="#f8fafc" opacity="0.9"/>
+</svg>
+<svg id="icon_energy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#7fb04a"/>
+  <path d="M56 16 L30 56 H48 L42 84 L70 42 H52 Z" fill="#ffffff"/>
+</svg>
+<svg id="icon_focus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#7fb04a"/>
+  <path d="M48 26 C38 22 28 30 30 40 C22 44 24 58 32 60 C32 70 42 76 48 72 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M52 26 C62 22 72 30 70 40 C78 44 76 58 68 60 C68 70 58 76 52 72 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M38 44 C42 46 44 50 42 54 M62 44 C58 46 56 50 58 54" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+</svg>
+<svg id="icon_immunity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#7fb04a"/>
+  <path d="M50 20 L74 30 V50 C74 66 62 76 50 82 C38 76 26 66 26 50 V30 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M39 51 L47 59 L62 43" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<svg id="icon_wellbeing" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#7fb04a"/>
+  <circle cx="50" cy="50" r="26" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <circle cx="41" cy="44" r="4" fill="#ffffff"/><circle cx="59" cy="44" r="4" fill="#ffffff"/>
+  <path d="M38 56 C43 64 57 64 62 56" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+</svg>
+<svg id="leaf_small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M12 72 C14 34 46 14 88 16 C86 56 60 84 22 82 Z" fill="#6fa83f"/>
+  <path d="M18 80 C36 60 56 42 80 24" fill="none" stroke="#e8f3d6" stroke-width="4" stroke-linecap="round"/>
+</svg>
+<svg id="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M50 86 C20 64 8 48 8 32 C8 18 20 8 33 8 C41 8 47 12 50 18 C53 12 59 8 67 8 C80 8 92 18 92 32 C92 48 80 64 50 86 Z" fill="#6fa83f"/>
+</svg>

@@ -1,0 +1,237 @@
+{
+  "generatedAt": "2026-10-09T04:04:27.868Z",
+  "environment": {
+    "node": "v22.22.3",
+    "platform": "darwin",
+    "arch": "arm64",
+    "osRelease": "24.6.0",
+    "cpu": "Apple M1 Max",
+    "cpuCount": 10,
+    "totalMemoryBytes": 68719476736
+  },
+  "dependencies": {
+    "satori": {
+      "name": "satori",
+      "version": "0.36.0",
+      "license": "MPL-2.0",
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/satori@0.36.0/node_modules/satori/package.json#license"
+    },
+    "resvg_js": {
+      "name": "@resvg/resvg-js",
+      "version": "2.6.2",
+      "license": "MPL-2.0",
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/@resvg+resvg-js@2.6.2/node_modules/@resvg/resvg-js/package.json#license"
+    },
+    "resvg_native_binding": {
+      "name": "@resvg/resvg-js-darwin-arm64",
+      "version": "2.6.2",
+      "license": "MPL-2.0",
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/@resvg+resvg-js-darwin-arm64@2.6.2/node_modules/@resvg/resvg-js-darwin-arm64/package.json#license"
+    },
+    "playwright": {
+      "name": "playwright",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "verified": true,
+      "provenance": "../node_modules/.pnpm/playwright@1.64.0/node_modules/playwright/package.json#license"
+    },
+    "transitive": [
+      {
+        "name": "yoga-layout",
+        "version": "3.2.1",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/yoga-layout@3.2.1/node_modules/yoga-layout/package.json#license"
+      },
+      {
+        "name": "harfbuzzjs",
+        "version": "0.10.0",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/harfbuzzjs@0.10.0/node_modules/harfbuzzjs/package.json#license"
+      },
+      {
+        "name": "@shuding/opentype.js",
+        "version": "1.4.0-beta.0",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/@shuding+opentype.js@1.4.0-beta.0/node_modules/@shuding/opentype.js/package.json#license"
+      },
+      {
+        "name": "linebreak",
+        "version": "1.1.0",
+        "license": "MIT",
+        "verified": true,
+        "provenance": "../node_modules/.pnpm/linebreak@1.1.0/node_modules/linebreak/package.json#license"
+      }
+    ],
+    "chromium": {
+      "version": "156.0.8078.4",
+      "title": "Chrome for Testing",
+      "revision": "1248",
+      "license": "Google Chrome for Testing terms (ABOUT: \"Copyright Google LLC\", credits at chrome://credits); not BSD-3-Clause Chromium source",
+      "verified": false,
+      "source": "playwright-managed download",
+      "browserVersionPinned": "156.0.8078.4",
+      "bundleRoot": "/Users/noelsaw/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64",
+      "noticeFilesAtBundleRoot": [
+        "ABOUT"
+      ],
+      "aboutExcerpt": "Google Chrome / Copyright 2026 Google LLC. All rights reserved.",
+      "licenseEvidenceLimit": "third-party notices are inside the browser (chrome://credits), not a file this spike can read; treat as unverified for shipping until the operator reviews them"
+    },
+    "font": {
+      "files": [
+        "tools/spike/assets/font.ttf",
+        "tools/spike/assets/font-bold.ttf"
+      ],
+      "family": "Inter 4.0 Regular 400 + Bold 700",
+      "license": "OFL-1.1",
+      "verified": true,
+      "provenance": "tools/spike/assets/SOURCES.md + verifier sha256 constants"
+    }
+  },
+  "licenseNotes": [
+    "satori 0.36.0 and @resvg/resvg-js 2.6.2 are MPL-2.0 / MPL-2.0 (read from their manifests). MPL-2.0 is within the PRD exception.",
+    "@resvg/resvg-js-darwin-arm64 2.6.2 is MPL-2.0 (read from ../node_modules/.pnpm/@resvg+resvg-js-darwin-arm64@2.6.2/node_modules/@resvg/resvg-js-darwin-arm64/package.json#license); it bundles the resvg Rust crate as a prebuilt .node binary, unmodified here.",
+    "Transitive satori packages read from their manifests: yoga-layout 3.2.1 MIT, harfbuzzjs 0.10.0 MIT, @shuding/opentype.js 1.4.0-beta.0 MIT, linebreak 1.1.0 MIT.",
+    "playwright 1.64.0 is Apache-2.0.",
+    "Browser: Chrome for Testing 156.0.8078.4 — Google Chrome for Testing terms (ABOUT: \"Copyright Google LLC\", credits at chrome://credits); not BSD-3-Clause Chromium source. third-party notices are inside the browser (chrome://credits), not a file this spike can read; treat as unverified for shipping until the operator reviews them"
+  ],
+  "units": {
+    "time": "milliseconds (performance.now)",
+    "memory": "bytes unless named *Kb (ps rss, kilobytes)"
+  },
+  "stageBoundaries": {
+    "satori_cold": "dynamic import(\"satori\") + yoga wasm init + first satori() layout + first resvg render + PNG encode, same process, after the fixture/font were already read",
+    "satori_warm": "satori() layout + resvg render + PNG encode for the nutrition scene; satoriMs/resvgMs split recorded per sample",
+    "playwright_cold": "chromium.launch + newContext + newPage + setContent + fonts.ready + geometry evaluate + screenshot (clip to canvas) + page close (whole helper inside the timer)",
+    "playwright_warm": "setContent + fonts.ready + geometry evaluate + screenshot (clip) on an already-launched browser and context; page creation (before the timer) and page close (after it) are excluded",
+    "importNote": "static imports of @resvg/resvg-js and playwright run at module load before any timer; cold numbers are backend initialization within an already-started process, not fresh-process startup",
+    "warmup": "one unmeasured warm render per backend precedes the timed samples; ten samples are recorded; this is not a production p95"
+  },
+  "memoryNotes": [
+    "nodeProcess.* is process.memoryUsage() of this Node process (heapUsed = V8 heap, rss = resident set) and excludes Chromium.",
+    "chromium.browserProcessRssKb is `ps -o rss` of the browser main process only; renderer/GPU child processes are not summed. It is an observable floor, not a total."
+  ],
+  "satori": {
+    "cold": {
+      "totalMs": 252.74,
+      "importMs": 66.48,
+      "firstStageMs": 177.47
+    },
+    "warm": {
+      "workload": "nutrition baseline 1000x1000",
+      "samples": [
+        132.67,
+        133.56,
+        133.83,
+        134.01,
+        133.42,
+        134.37,
+        130.41,
+        133.04,
+        132.17,
+        131.95
+      ],
+      "min": 130.41,
+      "median": 133.42,
+      "mean": 132.94,
+      "max": 134.37,
+      "split": [
+        {
+          "satoriMs": 28.57,
+          "resvgMs": 104.1
+        },
+        {
+          "satoriMs": 29.54,
+          "resvgMs": 104.03
+        },
+        {
+          "satoriMs": 29.32,
+          "resvgMs": 104.51
+        },
+        {
+          "satoriMs": 27.93,
+          "resvgMs": 106.08
+        },
+        {
+          "satoriMs": 28.46,
+          "resvgMs": 104.96
+        },
+        {
+          "satoriMs": 28.71,
+          "resvgMs": 105.66
+        },
+        {
+          "satoriMs": 26.81,
+          "resvgMs": 103.61
+        },
+        {
+          "satoriMs": 27.68,
+          "resvgMs": 105.36
+        },
+        {
+          "satoriMs": 28.13,
+          "resvgMs": 104.04
+        },
+        {
+          "satoriMs": 27.06,
+          "resvgMs": 104.9
+        }
+      ]
+    },
+    "memory": {
+      "nodeProcess": {
+        "rss": 512000000,
+        "heapTotal": 191365120,
+        "heapUsed": 152123472,
+        "external": 27221406,
+        "arrayBuffers": 3383898
+      }
+    }
+  },
+  "playwright": {
+    "cold": {
+      "totalMs": 614.23,
+      "firstStageMs": 287.23,
+      "fontLoaded": true
+    },
+    "warm": {
+      "workload": "nutrition baseline 1000x1000",
+      "samples": [
+        259.63,
+        261.39,
+        259.51,
+        260.92,
+        260.85,
+        259.74,
+        260.21,
+        260.41,
+        260.32,
+        261.4
+      ],
+      "min": 259.51,
+      "median": 260.41,
+      "mean": 260.44,
+      "max": 261.4
+    },
+    "memory": {
+      "nodeProcess": {
+        "rss": 705609728,
+        "heapTotal": 338100224,
+        "heapUsed": 302006104,
+        "external": 45005552,
+        "arrayBuffers": 21718008
+      },
+      "chromium": {
+        "browserProcessRssKb": null,
+        "pid": null,
+        "note": "Browser.process() unavailable in this Playwright build; Chromium RSS not observable here"
+      }
+    }
+  }
+}

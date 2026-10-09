@@ -1,0 +1,55 @@
+PDDA run starting — mode: observe (report-only; never blocks)
+
+== pdda-check-frontmatter ==
+SUMMARY [pdda-check-frontmatter] errors=0 warns=0 info=0
+
+== pdda-check-status-table ==
+SUMMARY [pdda-check-status-table] errors=0 warns=0 info=0
+
+== pdda-check-hardcoded-paths ==
+SUMMARY [pdda-check-hardcoded-paths] errors=0 warns=0 info=0
+
+== pdda-check-roadmap ==
+INFO [pdda-check-roadmap] ROADMAP.md ROADMAP.md not found; nothing to check
+SUMMARY [pdda-check-roadmap] errors=0 warns=0 info=1
+
+== pdda-check-roadmap-coverage ==
+INFO [pdda-check-roadmap-coverage] PROJECT/2-WORKING/MARATHON-PLAN-2026-10-01.md:1 roadmap coverage check skipped because roadmap_exempt=true
+INFO [pdda-check-roadmap-coverage] PROJECT/2-WORKING/renderer-spike/p1.md:1 roadmap coverage check skipped because roadmap_exempt=true
+INFO [pdda-check-roadmap-coverage] PROJECT/2-WORKING/renderer-spike/p2.md:1 roadmap coverage check skipped because roadmap_exempt=true
+INFO [pdda-check-roadmap-coverage] PROJECT/2-WORKING/renderer-spike/p3.md:1 roadmap coverage check skipped because roadmap_exempt=true
+SUMMARY [pdda-check-roadmap-coverage] errors=0 warns=0 info=4
+
+== pdda-check-changelog ==
+SUMMARY [pdda-check-changelog] errors=0 warns=0 info=0
+
+== pdda-stale-working-docs ==
+SUMMARY [pdda-stale-working-docs] errors=0 warns=0 info=0
+
+== pdda-check-issue-doc-sync ==
+SUMMARY [pdda-check-issue-doc-sync] errors=0 warns=0 info=0
+
+== pdda-check-releases ==
+INFO [pdda-check-releases] RELEASES.md RELEASES.md not found — nothing to check
+SUMMARY [pdda-check-releases] errors=0 warns=0 info=1
+
+== pdda-check-governance ==
+WARN [pdda-check-governance] ROUTER.md:78 dead reference '.claude/skills/pdda/SKILL.md' — no file at .claude/skills/pdda/SKILL.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:596 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:602 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:605 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:660 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:806 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:808 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] utils/pdda/PDDA-INSTALL.md:169 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] utils/pdda/PDDA-INSTALL.md:347 governance doc references env var 'PDDA_SYNC_TMP' which no shipped script in this install reads or sets
+SUMMARY [pdda-check-governance] errors=0 warns=9 info=0
+
+== pdda-check-marathon-qa ==
+SUMMARY [pdda-check-marathon-qa] errors=0 warns=0 info=0
+
+== pdda-doc-ready ==
+INFO [pdda-doc-ready] . LLM readiness review skipped (set PDDA_LLM_BIN to a model CLI such as agy/codex/claude to enable)
+SUMMARY [pdda-doc-ready] errors=0 warns=0 info=1
+
+PDDA run complete: no errors, 9 warning(s) to review — pdda-check-governance

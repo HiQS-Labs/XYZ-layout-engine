@@ -1,0 +1,8 @@
+marathon-plan · 2026-10-01 · policy=quick-wins · weights{eff:2,cx:1,risk:2,dep:3,zone:1} · gh=live
+  ledger items : 1  (queue 0 · in-progress 1)
+  active lanes : 1 across 1 wave(s)   held: 0
+
+FLAGS (deterministic signals — never auto-resolved)
+  (none)
+
+SUMMARY [marathon-plan] items=1 active=1 waves=1 drift=false held=0 (exit 0)
