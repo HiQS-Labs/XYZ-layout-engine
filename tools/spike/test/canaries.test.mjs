@@ -57,7 +57,7 @@ test('guards: unintended visual or layout drift', () => {
 });
 
 test('guards: committed evidence no longer satisfies the gate', () => {
-  const v = node('verify.mjs', {});
+  const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: COMMITTED }); // pinned: an exported override must not redirect this gate
   assert.equal(v.status, 0, `verify on committed evidence exited ${v.status}: ${(v.stdout + v.stderr).slice(-400)}`);
   assert.match(v.stdout, /^VERDICT: PASS$/m);
 });

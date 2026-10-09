@@ -65,7 +65,9 @@ const timer = setTimeout(() => {
 child.on('close', code => {
   clearTimeout(timer);
   const secs = ((Date.now() - t0) / 1000).toFixed(1);
-  if (timedOut) fail(`deadline: suite exceeded budget.maxSeconds=${budget.maxSeconds}s and was killed`);
+  // The group leader can close before the delayed SIGKILL fires; escalate now so nothing that ignored
+  // SIGTERM outlives this process.
+  if (timedOut) { try { process.kill(-child.pid, 'SIGKILL'); } catch {} fail(`deadline: suite exceeded budget.maxSeconds=${budget.maxSeconds}s and was killed`); }
   const n = k => Number((tap.match(new RegExp(`^# ${k} (\\d+)$`, 'm')) || [])[1] ?? NaN);
   const pass = n('pass'), failN = n('fail'), skip = n('skipped'), todo = n('todo');
   if (code !== 0 || failN !== 0) fail(`canaries failed (exit ${code}, fail ${failN})`);
