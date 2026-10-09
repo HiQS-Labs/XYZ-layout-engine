@@ -27,16 +27,17 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 - `examples/2026-10-08-solar-system/render-diagram.mjs` builds a Satori scene tree from `fixture.json`, renders it through `renderSatori` and `renderPlaywright`, writes PNGs plus a responsive HTML viewer, and writes `verification.json` after asserting size, image nodes, text bounds and label overlap.
 - It imports the render functions from its own pinned copy in `runtime/` (896 KB, `SOURCE.json` names commit `591971d`). `tools/spike/render.mjs` on `main` is not importable as a library, which is why that copy exists (GH-5 owns the real fix).
 - The Solar System assets come from paid `gpt-image-2.5-flare` calls through `HIQS_CHAIN_CALLER`. The GH-1 nutrition scene also used hand-authored SVG icons, so SVG art is already accepted in this pipeline.
-- No skill in the repo packages the spike or the example workflow. Only the vendored harness skills exist under `.xyz/skills/` (`.xyz/` is not tracked; a fresh clone does not have it).
+- No `SKILL.md` exists in this tracked checkout (a search of the clone found none), so no repo skill packages the spike or the example workflow. The vendored XYZ Forge harness skills live in an untracked `.xyz/` in the primary checkout only, and other skills are installed per-machine outside the repo; neither is part of this repo.
 - Not traced: Windows/Linux rendering, other font coverage. The example is Mac/Node 22 only, like the first.
 
 ## Requirements
 
-1. `examples/2026-10-09-rag-system/` renders a 2400×1500 scene with both flows: ingest (documents → chunk → embed → vector store) and query (question → embed → retrieve top-k → augment prompt → LLM → grounded answer with citations). Chunk/embed/retrieve steps are visually tied to the shared vector store.
+1. `examples/2026-10-09-rag-system/` renders a 2400×1500 scene with both flows: ingest (documents → chunk → embed → vector store) and query (question → embed → retrieve top-k → augment prompt → LLM → grounded answer with citations). Chunk/embed/retrieve steps are visually tied to the shared vector store. Retrieved chunks carry source IDs into the augmented prompt together with the original question, and the answer's citations refer to those sources (a label and arrow only, not a retrieval or citation-checking implementation).
 2. Artwork is hand-authored inline SVG icons, one per stage, composed as separate image nodes. No paid generation, no upload.
-3. `render-diagram.mjs` reuses the Solar System runtime by relative import (no second copy) and asserts: canvas size, one image node per stage icon, every text id inside the canvas, no Chromium text overflow, no label overlap. Writes `verification.json`.
-4. Outputs: Satori PNG, Chromium PNG, responsive HTML viewer, `fixture.json`, README with a stated-limits section.
-5. A `CHANGELOG.md` entry with bet, failure mode, reversibility, verification.
+3. `render-diagram.mjs` reuses the Solar System runtime by relative import (no second copy). It must set `process.env.SPIKE_LIBRARY_ONLY='1'` **before** an awaited dynamic `import()` of `../2026-10-08-solar-system/runtime/tools/spike/render.mjs` (a static import would run the experiment's `main()` first), import Playwright from the sibling `runtime/node_modules`, call `loadSatori()` before rendering, and read both fonts from the sibling runtime assets. Runtime files stay unchanged. Writes `verification.json`.
+4. Assertions are non-vacuous. The fixture names the required stages for both flows; the script asserts the expected stage-icon ids and expected text/label ids are each present, unique and non-empty (not just whatever the renderer collected), finite positive geometry for each in **both** backends, Satori and Chromium boxes inside the canvas, no Chromium text overflow, no label overlap, and canvas size. A missing id, an empty list, or a box moved outside the canvas in either backend fails by id.
+5. Outputs: Satori PNG, Chromium PNG, responsive HTML viewer, `fixture.json`, README with a stated-limits section.
+6. A `CHANGELOG.md` entry with bet, failure mode, reversibility, verification.
 
 ## Non-goals
 
@@ -53,8 +54,9 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 
 ## Verification (existing checks only)
 
-- `cd examples/2026-10-08-solar-system/runtime && pnpm install --frozen-lockfile`, then `node render-diagram.mjs` in the new folder must print its PASS line.
-- Red control: shrink one label box in `fixture.json` so text overflows; the script must fail with a named finding. Restore and rerun green.
+- Setup: `cd examples/2026-10-08-solar-system/runtime && pnpm install --frozen-lockfile`; if Chromium is absent, `pnpm exec playwright install chromium` in that same folder; then `cd ../../2026-10-09-rag-system && node render-diagram.mjs` must print its PASS line.
+- Guard check: run it once with `SPIKE_LIBRARY_ONLY` unset in the shell; it must still render and create no experiment output under the runtime folder (`git status` shows only the new example).
+- Red controls (each must fail by named id, then be restored and rerun green): (a) shrink one label box in `fixture.json` so text overflows; (b) delete one required stage's icon; (c) move one text box outside the canvas in the Chromium result.
 - `pnpm test` at the repo root stays green with budget unchanged.
 - `utils/pdda/pdda.sh run` (docs gate) before PR.
 
@@ -70,7 +72,7 @@ The Solar System example shows the spike renders one illustrated, radial scene. 
 
 | Issue | Requirement | State |
 |---|---|---|
-| #11 | 1–5 above | Plan drafted; awaiting plan QA |
+| #11 | 1–6 above | Plan drafted; awaiting plan QA |
 
 ## Rating rationale (2026-10-09)
 
