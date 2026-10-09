@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-08.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -172,5 +172,27 @@ VERDICT: FAIL
 Basis: Saved renders are substantially repaired, but exact native license evidence is demonstrably missing and successful-read prose contradicts failed lookups. Timing/probe descriptions need correction; gate consistency and failure paths need clone red controls. Prior Round 2 finding 5 remains unresolved. Approval awaits Producer dispositions and corrected evidence; runtime gates remain deferred to the full clone/harness.
 
 Handing off to claude-a (Producer) — address each finding, run full-clone checks, and append dispositions; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 → 2 (claude-a)
+
+Review outcome of this turn: all findings dispositioned; fixes committed as `034c1a7` on this clone. Full-clone runs below are orchestrator receipts (Node v22.22.3, Apple M1 Max).
+
+- **1. [Blocker] native/transitive licence evidence — Implemented.** `pkgInfo(name, hostName)` now reads `package.json` from the filesystem next to the host package (`nodeModulesAncestor`), so `@resvg/resvg-js-darwin-arm64 2.6.2 MPL-2.0` and the four satori transitives (yoga-layout 3.2.1 MIT, harfbuzzjs 0.10.0 MIT, @shuding/opentype.js 1.4.0-beta.0 MIT, linebreak 1.1.0 MIT) are recorded with `verified:true` and a realpath provenance. A failed lookup records `verified:false` + `error` and `licenseNotes` (now derived by `licenseNotes(deps)`) says UNVERIFIED instead of claiming a read. Chromium is recorded by `chromiumInfo()` as "Chrome for Testing" 156.0.8078.4, revision 1248, with the bundle `ABOUT` excerpt, the notice-file search result at the bundle root (only `ABOUT`), and an explicit `licenseEvidenceLimit`: it is a Google Chrome build, not BSD-3-Clause Chromium source, and its third-party notices live at chrome://credits, which this spike cannot read. `verify.mjs` now requires `verified:true` + version + licence + provenance for satori, resvg_js, resvg_native_binding (name must match this platform), playwright, and every transitive; rejects any GPL string; requires the chromium record fields; and fails if `licenseNotes` contains UNVERIFIED.
+  Receipt: `node -e` dump of `runtime.dependencies.resvg_native_binding` → `{"name":"@resvg/resvg-js-darwin-arm64","version":"2.6.2","license":"MPL-2.0","verified":true,"provenance":"../node_modules/.pnpm/@resvg+resvg-js-darwin-arm64@2.6.2/node_modules/@resvg/resvg-js-darwin-arm64/package.json#license"}`. Red control E (native record blanked with `verified:false`) → `VERDICT: FAIL` / `Basis: runtime.dependencies.resvg_native_binding not read from its manifest: …`.
+- **2. [Should] warm timer label — Implemented.** `stageBoundaries.playwright_warm` now reads "setContent + fonts.ready + geometry evaluate + screenshot (clip) …; page creation (before the timer) and page close (after it) are excluded"; `playwright_cold` says the whole helper is inside the timer; new `stageBoundaries.importNote` discloses that static resvg/playwright imports precede the cold timers (backend initialization in a running process, not fresh-process startup). Timer locations unchanged; samples regenerated (satori warm median 26.5 ms, playwright 70.0 ms class, see runtime.json).
+- **3. [Should] probe claims — Implemented.** Satori `consequence` now says the pinned font lacks the glyphs and satori drew `.notdef` placeholder boxes (visible in `probe-satori.png`), no fallback supplied. `glyphsDrawn` is replaced by `layoutBox` + `layoutBoxNonEmpty` (layout evidence only) and a `visualObservation` field stating that readability/placeholders are agent-observed. `measureText.interpretation` says widths are corroboration with limits, never a coverage oracle; Chromium `observation` is derived from the shared font's coverage (satori segmenter) and fallback identity stays "not exposed by the DOM". Verifier asserts the Chromium observation equals that derivation and that the width flag matches the widths.
+- **4. [Should] verifier consistency — Implemented; both counterexamples now rejected.** `checkGeometry` recomputes `region` from recorded parent bounds, `insideRegion`/`insideCanvas` from boxes, `scrollOverflow` from scroll metrics, `overflow` from all three, `unresolved` from recomputed overflow, the last fitting step's `overflowing`, and `fit`. Capability section asserts `eligibleForRecommendation === (failedMandatory.length === 0)`, recomputes `scripts` from probes, and derives `eligible` from the mandatory flags rather than the recorded boolean.
+  Receipt red A (your in-memory input applied to the real bundle: repeat=64 zeroes, deterministic=false, repeatDeterministic=false, failedMandatory=[repeatDeterministic], status=held) → `VERDICT: FAIL` / `Basis: satori: eligibleForRecommendation disagrees with mandatory failures`. Red B (`cases.baseline.playwright.text.header_headline.box.x=1100`, flags untouched) → `VERDICT: FAIL` / `Basis: baseline/playwright: header_headline insideRegion flag disagrees with boxes`. Red C (1 byte appended to satori.png) → FAIL on digest. Red D (`capabilities.playwright.heroFit=false`) → FAIL on `heroFit does not match evidence`. All restored; gate `VERDICT: PASS` afterwards.
+- **5. [Pass] — acknowledged.** No change.
+- **6. [Pass] — acknowledged.** Fitting shrink path is still unexercised by the saved cases (all fit at iteration 0); recorded as a limit, not claimed as tested.
+- **7. [Unverified] deadline/failure cleanup — Implemented and exercised.** Deadline handler now sets `deadlineHit`, closes the browser (bounded by 5 s), then exits; the main catch exits 2 when the deadline fired, 1 otherwise. `SPIKE_INJECT_FAILURE=1` throws right after browser launch (operator-only control, documented in source). Receipts: `SPIKE_RENDER_DEADLINE_MS=1500 node tools/spike/render.mjs` → exit 2, stderr `render: deadline of 1500ms exceeded; closing browser and aborting` then `render: FAILED page.screenshot: Target page, context or browser has been closed`; `pgrep -f "Chrome for Testing" | wc -l` → 0 two seconds later. `SPIKE_INJECT_FAILURE=1 node tools/spike/render.mjs` → exit 1, `render: FAILED Error: injected failure after browser launch (SPIKE_INJECT_FAILURE)`; Chrome process count → 0. Synchronous resvg rasterization still cannot be interrupted mid-call (stated in source comment); it is ~1 ms per sample here.
+- **8. [Pass] — acknowledged.** The artwork gap (sparse geometric placeholders, horizontal benefits strip vs the reference's detailed leaf and side panel) will be recorded in Phase 3 REPORT.md and the PRD; human artwork acceptance stays pending.
+
+Clean regeneration after all controls: `node tools/spike/render.mjs` → exit 0 (`render: satori: eligible`, `render: playwright: eligible`, `selection candidates: satori, playwright`); `pnpm run spike:verify` → exit 0, `VERDICT: PASS`. Chrome process count after the clean run: 0.
+
+VERDICT: PASS
+Basis: every round-1 finding is implemented or acknowledged with full-clone receipts; both reviewer counterexamples now fail the gate on a named assertion; licence records are read from manifests with provenance and the browser's licence limit is stated rather than inferred.
+
+Handing off to codex (Reviewer) — please review round 2 against commit `034c1a7`; go to the Reviewer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
