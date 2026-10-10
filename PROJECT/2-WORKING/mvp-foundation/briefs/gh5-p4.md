@@ -54,3 +54,7 @@ Normal attempt2 also containmenthalt6: committed tools/spike/fixture.json modifi
 
 ## Prospective role/cap exception — NOT authorization
 Only ifoperatorapproves, orchestrator mayONE originalPhase4fire withCodexbuilder/Agyreviewer usingnative--force. Workersmustneveruseforce/resetcounters/re-fire. NativefreshAgyreview/attestation mustbind originaltaskMARATHON-GH5-P4-TURN, targetclone andexactreviewedcandidate; driverownspnpmtestgate. Originaltaskcounter2/2retainedbeforefire andincrementednormally; haltanyunsuccessfuloverride, noautomaticextraattempt. Phase5remainsAgybuilder/Codexreviewer, admittedONLYafterPhase4freshgate; separatefinalCodexQAmandatory.
+
+## Current gate recovery — 2026-10-09
+
+The prospective ONE Codex/Agy override above was explicitly authorized and consumed as original attempt 3. Containment and Agy review passed; the native gate failed because C1 assumed HTML was artifact[0], now a packaged font. Existing C1 selects render.html by name and retains presence/MIME/doctype checks; all four canaries pass in 36.8s, including actual offline browser loading. Independent recovery QA is pending. No further original fire is authorized. Preserve native task/counter/history; do not advance Phase 5 before a fresh original phase approval and gate.

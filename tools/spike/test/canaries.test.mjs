@@ -155,8 +155,10 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   try { await assert.rejects(processRequest({ inputPath: fixturePath, backend: 'playwright' }), /injected context failure/); assert.equal(closes, 1); }
   finally { chromium.launch = launch; }
   const operation = await processRequest({ inputPath: fixturePath, format: 'html' });
-  assert.equal(operation.artifacts[0].mime, 'text/html');
-  assert.match(operation.artifacts[0].bytes.toString(), /<!doctype html>/);
+  const htmlArtifact = operation.artifacts.find(artifact => artifact.name === 'render.html');
+  assert.ok(htmlArtifact, 'requested HTML page missing from compact bundle');
+  assert.equal(htmlArtifact.mime, 'text/html');
+  assert.match(htmlArtifact.bytes.toString(), /<!doctype html>/);
   operation.request.validation.valid = false;
   await assert.rejects(publishArtifacts(operation, 'rejected', { root: space }), /cannot publish/);
 

@@ -1,6 +1,6 @@
-# HELD: originalPhase4 at2/2 aftertwo containmenthalts; Phase5unstarted. No dispatch oradditionaloverrideauthorized.
-# Phase3nativeApproved/attested e4638bf1e0a9 plusgate4/4in29.8s externalprerequisite; originalhistorypreserved.
-# PROPOSED ONLY: Codexbuilder/Agyreviewer ONE Phase4override awaitsoperator; Phase5queuedoriginalpairing, no backend/forcechange.
+# HELD: original Phase 4 attempt 3 consumed the authorized Codex/Agy override. Containment and review passed; native gate failed.
+# Existing C1 HTML selection repaired; four canaries pass in 36.8s. Independent recovery QA pending.
+# No further original Phase 4 fire is authorized. Phase 5 remains queued with its original Agy/Codex pairing.
 name: gh5-mvp-foundation
 phases:
   - id: gh5-p4

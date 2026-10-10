@@ -2,6 +2,8 @@
 
 ## 2026-10-09 — GH-5 Phase 4 Codex builder candidate
 
+- GH-5 Phase 4 gate repair: select the requested `render.html` by artifact name in existing C1, retaining MIME/doctype checks after compact export adds bundled fonts/images. C2's missing comparison output was a cascade from C1's early stop. All four canaries pass in 36.8s, including dynamic offline HTML/font/image checks; geometry and 12 artifact digests match. The native override halted; Phase 4 advancement and Phase 5 remain pending.
+
 - Added schema-validated atomic fixture saves and CLI dot-path text/theme/placement edits, requested-format exports, compact HTML with a confined content-addressed asset folder and explicit self-contained HTML. Existing render/admission/publication owners remain shared; SVG accurately retains raster artwork.
 - Bet: skip unrequested PNG raster work while retaining direct validated supplied display assets. Easy rollback via the phase commit; no derivative cache, browser pool, dependency, provider client, new test block or workflow. Revisit caching only when an admitted transform/resolution workload demonstrates useful savings.
 - Verification: focused scratch probes pass for durable rerender, strict edits/save targets, failed publication preservation, export/source tamper detection and restoration, confined HTML references and Solar placement edits. Before/after five fresh and ten truly warm samples per recipe/PNG/SVG preserve artifact and text-geometry digests; complete stage statistics and samples are retained in tools/MVP-REPORT.md. Zero unrequested raster target is met; no PNG speedup claim.
