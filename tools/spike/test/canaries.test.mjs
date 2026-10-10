@@ -39,6 +39,8 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const firstReceipt = JSON.parse(first.stdout);
   assert.equal(firstReceipt.normalized.backend, 'satori');
   assert.equal(firstReceipt.validation.valid, true);
+  assert.equal(firstReceipt.catalog.serial, 'RCP-0001');
+  assert.equal(firstReceipt.catalog.verified, true);
   const local = path.join(space, 'local-output');
   const snapshot = target => {
     const selected = selectedRun(target), manifest = readFileSync(path.join(target, 'manifest.json'));
@@ -364,6 +366,8 @@ test('guards: unintended visual or layout drift', () => {
 });
 
 test('guards: committed evidence no longer satisfies the gate', () => {
+  const catalog = spawnSync(process.execPath, [path.join(SPIKE, '../catalog.mjs'), 'verify'], { encoding: 'utf8', timeout: 15_000 });
+  assert.equal(catalog.status, 0, `catalog verify exited ${catalog.status}: ${catalog.stdout}${catalog.stderr}`);
   const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: COMMITTED }); // pinned: an exported override must not redirect this gate
   assert.equal(v.status, 0, `verify on committed evidence exited ${v.status}: ${(v.stdout + v.stderr).slice(-400)}`);
   assert.match(v.stdout, /^VERDICT: PASS$/m);
