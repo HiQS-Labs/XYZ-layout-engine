@@ -1,13 +1,12 @@
-# HELD: original Phase 4 attempt 3 consumed the authorized Codex/Agy override. Containment and review passed; native gate failed.
-# Existing C1 HTML selection repaired; four canaries pass in 36.8s. Independent Codex recovery QA Approved/attested 403636d.
-# No further original Phase 4 fire is authorized. Phase 5 remains queued with its original Agy/Codex pairing.
+# Phase 5 only. Phase 4 external prerequisite: MARATHON-GH5-P4-TURN-2 independently Agy Approved/attested
+# 49d25b92993e1cd39c856ba9c8c4f4be4199a38d, native gate 4/4 in 33.8s, native phase.approved.
+# Original Phase 5 pairing and scope; no force/retry. Final Wave 1 QA and latest-origin integration remain required.
 name: gh5-mvp-foundation
 phases:
-  - id: gh5-p4
-    name: "Measured redraw and durable edits"
-    reviewer: agy
-    brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p4.md
-    artifact: tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
+  - id: gh5-p5
+    name: "Integration and handoff"
+    reviewer: codex
+    brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p5.md
+    artifact: README.md, tools/MVP-REPORT.md, examples/2026-10-08-solar-system/README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md
     turn_timeout_s: 1500
     max_review_rounds: 2
-

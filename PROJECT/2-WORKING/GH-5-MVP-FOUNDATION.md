@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phase3 original native independently CodexApproved/attested e4638bf andgate4/4in29.8s; Phase1/2accepted, originalfailedhistory/timerreceipts preserved. | Authorized Phase 4 Codex/Agy attempt 3 passed containment and received Agy approval, but the native test gate halted on an obsolete HTML artifact-order assertion. Surgical C1 repair passes all four canaries in 36.8s; independent Codex recovery QA is Approved/attested 403636d. Native Phase 4 advancement requires another explicit override; Phase 5, final QA, integration and PR remain pending. |
+| Phases 1–4 accepted. Phase 4 original lane attempt 4 received native Agy approval/attestation at 49d25b9 and passed 4/4 canaries in 33.8s; runtime, profiling and recovery receipts preserved. | Execute original Phase 5 with Agy builder/Codex reviewer, no override, and a fresh 600-second × 6 monitor. Then latest-origin integration, final independent Wave 1 QA, pre-PR gate and ready PR. |
 
 ## Table of contents
 
@@ -209,21 +209,23 @@ Phase2 completion receipts: original native phase relay Approved/attested3bf0ff4
 
 **Goal:** Measured redraw and durable edits delivers the observable behavior below. Depends on Phase 3.
 
-- [ ] Before optimizations, measure fresh-process and warm end-to-end nutrition and promoted Solar System/supplied-asset runs on this machine. Record sample count, Node/dependency versions, dimensions, input/asset read, transform/encoding, backend layout/raster, write/export and verification timings, isolated peak Node RSS and browser RSS if used. Minimum five fresh and ten warm samples, outside the 60-second canary suite. Keep provider timings separate. Publish before/after JSON or tables in tools/MVP-REPORT.md with commands, digest/geometry comparisons and variance; no invented speedup/p95/SLA.
-- [ ] Cache only derived images using source digest + dimensions/scale + transform version; validated supplied web inputs already suitable for display should be reused directly. Unchanged redraw performs zero derivative rewrites and zero paid calls; one asset/dimension change invalidates only its derivative. Verify cached digest/size/alpha before reuse. Bound cache space and clean only owned derivative entries; do not touch immutable originals or another caller's files. Avoid persistent browser/service pools unless measurements establish need and cleanup is verified.
-- [ ] Expose durable fixture JSON save/edit/rerender/export through the existing CLI (one schema-validated write path, atomic save, errors preserve original). JSON editing is sufficient; don't build a full canvas editor or UI framework. Unknown labels/fields fail explicitly. Text/theme/placement edits never invoke image generation.
-- [ ] Generate requested formats only. Provide compact offline HTML plus asset folder and an explicit self-contained HTML option; SVG with raster art is described accurately. HTML must safely escape text and URLs; compact references remain inside the exported folder, fonts are pinned and both distributions need no network. Verification/manifests remain mandatory; optional diagnostic dumps are explicit.
-- [ ] Extend existing C1/C4 for zero derivative writes, invalidation/tamper recovery, saved edit surviving rerender, requested-format selection and offline HTML distributions; stay within ratchet. Set an optimization acceptance target after observing baseline; if no stage improves, publish that result and omit the ineffective cache complexity. Run pnpm test and record profiling separately.
+- [x] Before optimizations, measure fresh-process and warm end-to-end nutrition and promoted Solar System/supplied-asset runs on this machine. Record sample count, Node/dependency versions, dimensions, input/asset read, transform/encoding, backend layout/raster, write/export and verification timings, isolated peak Node RSS and browser RSS if used. Minimum five fresh and ten warm samples, outside the 60-second canary suite. Keep provider timings separate. Publish before/after JSON or tables in tools/MVP-REPORT.md with commands, digest/geometry comparisons and variance; no invented speedup/p95/SLA.
+- [x] Cache only derived images using source digest + dimensions/scale + transform version; validated supplied web inputs already suitable for display should be reused directly. Unchanged redraw performs zero derivative rewrites and zero paid calls; one asset/dimension change invalidates only its derivative. Verify cached digest/size/alpha before reuse. Bound cache space and clean only owned derivative entries; do not touch immutable originals or another caller's files. Avoid persistent browser/service pools unless measurements establish need and cleanup is verified.
+- [x] Expose durable fixture JSON save/edit/rerender/export through the existing CLI (one schema-validated write path, atomic save, errors preserve original). JSON editing is sufficient; don't build a full canvas editor or UI framework. Unknown labels/fields fail explicitly. Text/theme/placement edits never invoke image generation.
+- [x] Generate requested formats only. Provide compact offline HTML plus asset folder and an explicit self-contained HTML option; SVG with raster art is described accurately. HTML must safely escape text and URLs; compact references remain inside the exported folder, fonts are pinned and both distributions need no network. Verification/manifests remain mandatory; optional diagnostic dumps are explicit.
+- [x] Extend existing C1/C4 for zero derivative writes, invalidation/tamper recovery, saved edit surviving rerender, requested-format selection and offline HTML distributions; stay within ratchet. Set an optimization acceptance target after observing baseline; if no stage improves, publish that result and omit the ineffective cache complexity. Run pnpm test and record profiling separately.
 
 **Write set:** `tools/render.mjs`, `tools/request.mjs`, `tools/recipes/nutrition.mjs`, `tools/recipes/solar-system.mjs`, `tools/profile.mjs`, `package.json`, `tools/spike/test/canaries.test.mjs`, `CHANGELOG.md`, `tools/MVP-REPORT.md`.
 
 ### Phase 4 — QA checklist
 
-- [ ] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
-- [ ] Native independent reviewer is Approved and attested against the committed phase diff; receipt is on disk. Prospective operator-approved Phase4exception: Agy reviews Codexbuilder; original pairing applies unless that exception is approved. Final independent CodexWave1QA remainsmandatory.
-- [ ] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
-- [ ] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
-- [ ] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
+- [x] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
+- [x] Native independent reviewer is Approved and attested against the committed phase diff; receipt is on disk. Prospective operator-approved Phase4exception: Agy reviews Codexbuilder; original pairing applies unless that exception is approved. Final independent CodexWave1QA remainsmandatory.
+- [x] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
+- [x] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
+- [x] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
+
+Native acceptance evidence: `relay-system/2026-10-10/marathon-gh5-p4-055318.md`; copied attestation/gate/monitor receipts in `relay-system/2026-10-09/gh5-phase4-recovery/phase4-native-attestation.json` and `phase4-attempt4-native.log`. Suitable supplied assets are reused directly; no derivative cache was added because it did not improve the measured workload. No provider calls or human visual approval. The 305.4-second run completed before its first 600-second check; all six scheduled checks were cancelled.
 
 ## Phase 5 — Integration and handoff
 

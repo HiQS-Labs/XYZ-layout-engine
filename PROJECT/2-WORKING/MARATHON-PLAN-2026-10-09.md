@@ -104,3 +104,7 @@ Latestobservedstate: Phase3nativeApproved/attested e4638bf andgate29.8s. Phase4t
 ### Latest Phase 4 gate recovery — 2026-10-09
 
 The authorized original Phase 4 Codex/Agy attempt 3 passed containment and independent Agy review, then halted at the native test gate on an obsolete C1 HTML artifact-order assertion. Existing C1 now selects the requested page by name and all four canaries pass in 36.8s, including actual offline browser checks. Independent recovery QA is pending. No additional Phase 4 fire is authorized; Phase 5 retains its original pairing and remains unstarted. All final wave checkboxes stay pending. See gh5-phase4-recovery/codex-override-attempt.log and html-repair-verification.log under relay-system/2026-10-09/.
+
+### Phase 4 accepted; Phase 5 continuation — 2026-10-09
+
+Phase 4 original lane attempt 4 (supported review token MARATHON-GH5-P4-TURN-2) is native Approved/attested 49d25b9 and gate 4/4 in 33.8s. Preserve original history and native successful counter cleanup. The 305.4-second observer completed before check 1 and cancelled six remaining checks. The same canonical YAML now contains only original Phase 5, Agy builder/Codex reviewer, original five documentation owners, no force/retry; Phase 4 is an externally evidenced prerequisite. Final Wave 1 checkboxes remain pending.

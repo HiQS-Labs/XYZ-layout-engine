@@ -18,7 +18,7 @@ roadmap_exempt: true
 
 Umbrella/member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5
 Canonical plan: PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md, Phase 5.
-Order: gh5-p5, depends on gh5-p4; strictly serial.
+Order: original gh5-p5, strictly serial. External prerequisite gh5-p4 is native Approved/attested 49d25b92993e1cd39c856ba9c8c4f4be4199a38d, gate 4/4 in 33.8s and phase.approved; transcript relay-system/2026-10-10/marathon-gh5-p4-055318.md.
 Builder: Agy. Reviewer: independent Codex. No fallback, no push/merge/issue close.
 
 ## Scope
@@ -38,3 +38,7 @@ Every loop is bounded: 10 fit attempts, explicit generation/call deadlines/caps,
 ## Receipt contract
 
 Append the required native build/review block. Final block uses literal `VERDICT: PASS`, `VERDICT: FAIL` or `VERDICT: PARKED` and a nonempty `Basis:`; put conversational approval in `Review outcome:`. Only independent reviewer can approve. Follow native tick handoff/terminal protocol exactly; no builder may set Approved or self-attest. Future human artwork approval remains pending.
+
+## Mandatory probe containment
+
+For documented edit/save/install/export probes, FIRST copy fixtures/assets/modules into TMPDIR or .relay-scratch; never modify committed tools/spike/fixture.json, Solar fixture, source assets/goldens or create a root cache/helper. ALL temporary outputs/probe helpers/install directories live there. Preserve runtime owners and profiling sample/fingerprint data; Phase 5 is documentation only. No pnpm test/fullsuite during builder flight; native driver owns that fresh gate after independent Codex review. Record any unavailable PDDA or clean-install/network proof honestly; outer coordinator runs required checks.
