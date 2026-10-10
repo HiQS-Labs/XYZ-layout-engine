@@ -405,6 +405,66 @@ test('guards: the verifier stops detecting tampering', async () => {
     await assert.rejects(loadAssets(), /digest mismatch/);
     writeFileSync(sun, originalSun);
     assert.deepEqual(await loadAssets(), initialAssets);
+    // GH-10: C4 also guards immutable publication, serial retention and canonical storage.
+    // Existing canaries do not exercise catalog transactions or declared recipe bytes.
+    for (const name of ['catalog.mjs', 'catalog.sql']) cpSync(path.join(SPIKE, '..', name), path.join(root, 'tools', name));
+    cpSync(path.join(SPIKE, '../recipes/nutrition.mjs'), path.join(root, 'tools/recipes/nutrition.mjs'));
+    for (const name of ['scene.mjs','fixture.json']) cpSync(path.join(SPIKE, name), path.join(root, 'tools/spike', name));
+    cpSync(path.join(SPIKE, 'assets'), path.join(root, 'tools/spike/assets'), { recursive:true });
+    const { SCHEMA, loadDump, exportDump } = await import('../../catalog.mjs');
+    // Always isolate from Phase 2's populated committed dump.
+    const catalogFile = path.join(root, 'tools/catalog.sql');
+    writeFileSync(catalogFile, SCHEMA + 'INSERT INTO schema_migrations VALUES (1);\n');
+    const catalog = (...args) => spawnSync(process.execPath, [path.join(root,'tools/catalog.mjs'), ...args], { cwd:root, encoding:'utf8', timeout:10000 });
+    const succeeds = (...args) => { const r=catalog(...args); assert.equal(r.status,0,r.stdout+r.stderr); return r; };
+    succeeds('add','nutrition','--title',"Nutrition's recipe");
+    succeeds('publish','nutrition','1.0.0');
+    const published = readFileSync(catalogFile), stat = (await import('node:fs')).statSync(catalogFile);
+    succeeds('publish','nutrition','1.0.0');
+    assert.deepEqual(readFileSync(catalogFile),published,'same publication rewrote bytes');
+    assert.equal((await import('node:fs')).statSync(catalogFile).mtimeMs,stat.mtimeMs,'same publication rewrote dump');
+    for (const args of [['list','--json'],['show','RCP-0001','--json'],['verify','--json'],['export','--check']]) succeeds(...args);
+    assert.deepEqual(readFileSync(catalogFile),published,'read verb changed dump');
+    assert.equal((await import('node:fs')).statSync(catalogFile).mtimeMs,stat.mtimeMs,'read verb changed mtime');
+    assert.equal(readdirSync(path.join(root,'tools')).includes('.catalog.lock'),false,'lock leaked');
+    // The named P1-A6 red control must fail if the actual UPDATE trigger is removed.
+    const db = loadDump(published.toString());
+    try {
+      assert.throws(() => db.prepare("UPDATE recipe_versions SET content_sha256=?").run('0'.repeat(64)), /published version immutable/);
+      assert.throws(() => db.prepare("DELETE FROM recipe_versions").run(), /published version immutable/);
+      assert.throws(() => db.prepare("UPDATE recipe_version_files SET sha256=?").run('0'.repeat(64)), /published files immutable/);
+      assert.throws(() => db.prepare("DELETE FROM recipes").run(), /recipe identity retained/);
+      assert.equal(exportDump(db),published.toString());
+    } finally { db.close(); }
+    const sceneFile = path.join(root,'tools/spike/scene.mjs'), originalScene=readFileSync(sceneFile);
+    appendFileSync(sceneFile,'\n// changed content\n');
+    let rejected=catalog('publish','nutrition','1.0.0');
+    assert.equal(rejected.status,1); assert.match(rejected.stderr,/already published with different content/);
+    assert.deepEqual(readFileSync(catalogFile),published,'rejected publication changed dump');
+    rejected=catalog('verify','--json'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/modified declared file/);
+    rmSync(sceneFile); rejected=catalog('verify'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/missing\/unreadable declared file/);
+    writeFileSync(sceneFile,originalScene); succeeds('verify');
+    const extraPng = path.join(root,'tools/spike/assets/generated/web/heart.png');
+    writeFileSync(extraPng,readFileSync(path.join(root,'tools/spike/assets/generated/web/balance_scale.png')));
+    rejected=catalog('verify'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/namespace differs/); rmSync(extraPng);
+    succeeds('add','solar-system','--title','Solar'); succeeds('retire','solar-system','--reason','retention control');
+    succeeds('add','third-recipe','--title','Third');
+    const rows=JSON.parse(succeeds('list','--json').stdout); assert.deepEqual(rows.map(r => r.serial),['RCP-0001','RCP-0002','RCP-0003']);
+    const dump=succeeds('export').stdout, importFile=path.join(root,'roundtrip.sql'); writeFileSync(importFile,dump);
+    // Fresh destination admission preserves every GID and natural-key order.
+    writeFileSync(catalogFile,SCHEMA + 'INSERT INTO schema_migrations VALUES (1);\n');
+    succeeds('import',importFile); assert.equal(succeeds('export').stdout,dump,'dump round trip differs');
+    succeeds('export','--check');
+    const reversed=readFileSync(catalogFile,'utf8').split('\n'), rowIndexes=reversed.map((line,i) => line.startsWith('INSERT INTO recipes ') ? i : -1).filter(i => i>=0);
+    [reversed[rowIndexes[0]],reversed[rowIndexes[1]]]=[reversed[rowIndexes[1]],reversed[rowIndexes[0]]];
+    writeFileSync(catalogFile,reversed.join('\n')); assert.equal(catalog('export','--check').status,1,'noncanonical row order accepted');
+    writeFileSync(catalogFile,dump);
+    succeeds('update','nutrition','--title','Updated'); assert.notEqual(readFileSync(catalogFile,'utf8'),dump,'update failed to change dump');
+    writeFileSync(path.join(root,'tools/.catalog.lock'),'held');
+    rejected=catalog('update','nutrition','--title','Blocked'); assert.equal(rejected.status,1); assert.match(rejected.stderr,/catalog lock exists/);
+    succeeds('list'); rmSync(path.join(root,'tools/.catalog.lock'));
+    assert.equal(catalog('show').status,2,'usage exit differs');
+    console.log('# C4 catalog: publication, SQL triggers, serial retention, round trip, reads, drift, namespace and lock controls passed');
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 

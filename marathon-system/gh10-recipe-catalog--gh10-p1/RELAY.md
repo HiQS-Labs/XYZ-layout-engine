@@ -1,6 +1,6 @@
 # Marathon Phase gh10-p1
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH10-P1-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -130,3 +130,85 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+
+### Round 1 · Builder · codex
+
+Implemented Phase 1 in `tools/catalog.mjs` (one built-in-only catalog I/O owner),
+`tools/catalog.sql` (canonical schema plus migration-1 marker; no seeded recipes), and only
+C4 in `tools/spike/test/canaries.test.mjs`. This relay receives the appended receipt and required
+NEXT handoff; existing body bytes are preserved apart from the explicitly mandated NEXT header.
+
+Bet: Node's measured built-in SQLite plus a fixed dump grammar meets the local operator catalog
+requirement without a dependency or service. Reversibility: Easy module/schema/CLI changes;
+serials/slugs become Costly once published and referenced. No identity was seeded this phase.
+Ponytail: one module, no wrappers/framework/new test block/workflow; built-ins cover everything.
+
+Implemented:
+- Migration 1 tables, natural-key uniqueness, bounded serials, UUID-v4 GIDs, foreign keys,
+  immutable recipe identities and published version/file/output UPDATE/DELETE guards.
+- All requested CLI verbs, JSON read output, exit 0/1/2, errors via request.mjs `invalid()`.
+  `add` retains retired rows and allocates max+1. Publish requires strict semver matching the
+  trusted module's literal version; same digest is a no-op; changed content is refused.
+- Fixed DDL and literal INSERT-only admission; supplied SQL is never executed. Values use
+  fixed prepared statements and bound parameters. Export preserves GIDs, sorts by natural keys,
+  and has fixed columns/header/LF bytes. Import also preserves all existing published history,
+  including exact file/output membership; it can populate a fresh schema-only destination.
+- Loads only in memory per explicit operation. Importing the module opens/writes nothing.
+  Write verbs acquire tools/.catalog.lock with wx before reading, use one mutation transaction,
+  and replace changed dumps through exclusive temp + fsync + rename; cleanup runs on failure.
+  Reads and identical publication/import preserve dump bytes/mtime and create no lock.
+- Phase 0's exact declared file sets: nutrition's complete present PNG namespace and SVG,
+  Solar's eleven PNGs, fixtures and verification JSON, shared PNG inspector/scene as specified.
+  Verification checks only each current module version, published files, namespace membership,
+  ledger validity and canonical bytes. Historical versions remain immutable git history.
+  Only the two delivered trusted recipes have declared sets; other slugs can be reserved but
+  cannot publish until a trusted set is added. Shared engine/fonts remain outside recipe digests.
+
+Specific verification (no full project suite/gate):
+- `TMPDIR="$PWD/.relay-scratch/" node --test --test-name-pattern='guards: the verifier stops detecting tampering' tools/spike/test/canaries.test.mjs`:
+  baseline exit 0, 1/1 (1.34 s); extended final exit 0, 1/1 (2.48 s).
+  Key output: `C4 catalog: publication, SQL triggers, serial retention, round trip, reads, drift,
+  namespace and lock controls passed`.
+  P1-A1 red: reversing recipe INSERT row order makes export --check exit 1.
+  P1-A2: changed scene -> publish exit 1 with already-published-different-content error,
+  byte-identical dump; same content -> exit 0 with byte-identical dump and mtime.
+  P1-A3: list/show/verify/export reads leave bytes/mtime unchanged and no lock;
+  update --title changes dump bytes. Modified and missing declared files both make verify exit 1;
+  adding heart.png makes namespace verification fail. Retire then add yields RCP-0003.
+  Fresh destination export/import/export bytes are identical, including apostrophe quoting.
+  C4 explicitly asserts the actual version UPDATE trigger rejects rewriting, plus file/version
+  and recipe deletion guards. It is intended to fail when that trigger is removed.
+- `node --check tools/catalog.mjs`: exit 0.
+- `node tools/catalog.mjs export --check`: exit 0, {"canonical":true}; schema-only dump intact.
+- `node .relay-scratch/p1-probes.mjs`: final exit 0; module import has no side effects;
+  supplied DROP TABLE rejected without changing dump; imports removing identity or changing a
+  published output set rejected; recipe/output UPDATE triggers reject. Red: removing only
+  versions_no_update from a scratch module makes the identical version UPDATE succeed.
+  P1-A6's full C4 trigger-removal run remains explicitly for independent reviewer verification.
+- Targeted Python/rg static probe: exit 0; interpolated prepare SQL pattern has zero matches
+  (rg exit 1); scratch red matches (rg exit 0). Exactly four test() blocks remain;
+  no catalog lock/temp leak. Detailed result: .relay-scratch/p1-static.json.
+- P1-A5 git-index comparison is reserved to the harness: every git command is prohibited in this
+  turn. Package/lockfile/test-budget were never edited; before/after hashes during supplemental
+  probes match. This is not a claim of git-index verification or driver gate success.
+
+Probe correction: the first supplemental output-set probe exited 1 because its broad html-inline
+filter also removed the schema DDL line; catalog correctly rejected the malformed header.
+Debug-mantra direct observation identified the removed CREATE TABLE, then the scratch predicate
+was narrowed to the targeted INSERT. Final probe exits 0; no production workaround was needed.
+Initial and final logs plus the root-cause statement are retained in .relay-scratch/.
+
+Startup: ROUTER, GUIDING-PRINCIPLES, AGENTS, README, plan/Phase 0 findings and approved P0 relay
+read. Graph tools unavailable; exact-source fallback used. Startup roadmap command exited 2:
+.xyz/utils/py/releases_app.py is absent in this worktree. No ledger edit was attempted.
+Ponytail and debug-mantra skills applied. All generated probe files/results/logs are under
+.relay-scratch/ (including temp test roots via TMPDIR); no network, paid call, git, pnpm test or
+full gate ran. No other source file, dependency, workflow, budget, seed or golden changed.
+
+VERDICT: PASS
+Basis: builder's specific C4, canonical export, syntax, admission, trigger and static probes pass;
+P1-A5 git verification, reviewer P1-A6 C4 red and the full driver gate remain for their owners.
+Review outcome: pending independent Agy review; builder does not approve the phase.
+
+Handing off to agy — agy, take your turn.
