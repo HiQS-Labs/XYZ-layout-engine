@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 3
 
@@ -132,5 +132,31 @@ Handing off to Producer (claude-a) — resolve B1/B2, qualify S1, disposition th
 - **[Unverified] historical base bytes:** the 39 recipe INSERT lines are unchanged in the PR diff (`git diff -U0 origin/main...HEAD -- tools/catalog.sql` shows no `-INSERT` line); please re-measure against the base if you can.
 
 Reviewer: please re-review the whole PR head. When you approve, set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`; do not run any `tick` command.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: FAIL
+Basis: B1/B2 and the README nit are resolved in the seeded checkout, but the successfully retrieved live PR body still makes S1's broad receipt-isolation claim. Only a documentation correction remains; no additional runtime change is requested. Reversibility: Easy.
+swept file: yes
+
+Sweep: read the whole catalog module, SQL dump, design log, canary file, ROUTER, README and CHANGELOG, including their pre-existing portions; reviewed plan decisions, prep notes, budget and request/render consumer seams. No additional material pre-existing defect found in that bounded artifact sweep. Graph tools were unavailable, so source inspection was used. No git command, full suite, executable fixture or governance gate was run; only this relay file and permitted scratch were changed.
+
+- [Should] S1 remains open in the live PR description. `gh pr view 24 --json body,files,url` exited 0 this turn and returned under “What this adds”: “Design errors use the design ID or `design-log` as their field, never `dump` or a recipe name, so recipe render receipts are not marked unverified.” This contradicts `tools/catalog.mjs:85,103,118,273` and the now-correct `README.md:110-112`. Fix: replace that PR sentence with the README qualification: errors returned by verify for a structurally loadable catalog are isolated; malformed design rows invalidate catalog loading and leave recipe receipts unverified. Producer's previous disposition says this was done, but the retrieved body does not contain it. A subsequent re-fetch failed with `error connecting to api.github.com`; this finding refers to the successful retrieval, not a claim about unseen later edits.
+  Observed input: solar design ID alone changed to `nutrition`; separately its pin changed to `solar-system@9.0.0`; separately its INSERT gains one extra space before `(`. The successful PR-body retrieval quoted above still asserts universal isolation.
+  Affected scope: PR #24's documentation of design errors and recipe receipt isolation; no permissive-loader or error-field change.
+  Falsifier: a fresh successful PR-body retrieval containing the qualification at README:110-112 resolves this finding; malformed rows should continue to fail loading.
+  Probe: `node .relay-scratch/tmp/round2.mjs` (final corrected run exit 0), scratch-only mutations and `runCLI(['show','nutrition'], {root: scratchRoot})`; decisive output: `invalid ID: Validation failed: [{"field":"nutrition","message":"invalid design ID"}]`, `unpublished pin: ... unknown use-case pin`, `bad SQL: Validation failed: [{"field":"dump","message":"unsupported row"}]`. Consumer catch leaves verified false at `tools/render.mjs:349-366`.
+
+- [Pass] B2 resolved: explicit NULL admission is limited to the three nullable design columns at `tools/catalog.mjs:44,112-115`; C4 contains the migration-NULL regression assertion at `tools/spike/test/canaries.test.mjs:435`. `node .relay-scratch/tmp/round2.mjs` (exit 0) printed `migration NULL: rejected NULL not allowed in this column` and `recipe title NULL: rejected NULL not allowed in this column`; untouched all-NULL design pins loaded. The reconstructed V1 input retained all 39 recipe INSERT lines byte-identically after migration (including GIDs); this is not historical-base verification.
+
+- [Pass] B1 resolved for the previously offending run-log scope: `rg -n '/Users/|/home/|/private/var/folders/' relay-system/run-logs/2026-10-10` exited 1 with zero matches, including the run log cited in B1. This measures path-prefix removal; complete added-line containment and credential hygiene remain harness-owned.
+
+- [Pass] Integrity and honest seeds remain intact at `tools/catalog.sql:60-62`, `tools/design-log.jsonl:1-3`, `tools/catalog.mjs:90,205-220`. `node .relay-scratch/tmp/round2.mjs` (exit 0) printed fixture/artifact/receipt equality for all three seeds and `baseline: {"valid":true,"errors":[]}` / identical restored result. Design-only forged artifact and data hashes returned invalid with `modified design file`; missing, duplicate and orphan log mutations returned respectively `design must have one log line`, `duplicate design log ID` and `orphan design log line`. An initial scratch probe accidentally replaced a shared recipe digest too and exited 1 with `inconsistent published digest`; corrected mutations target only design INSERT lines, and only the final run supports these findings.
+
+- [Pass] Recovery nit resolved at `README.md:107-109`: “dump first, then the log line” and explicit verify/version-control restoration/retry guidance match `tools/catalog.mjs:338-345`. Shared path checks (`:37,86-87,137-141,292`), duplicate refusal (`:290`), insert-only triggers (`:32-34`), CLI verb allowlist (`:249`) and the ROUTER canonical rule still implement the bounded A2 mechanism. No additional machinery is needed. The remaining consistency bypass is disclosed honestly in PR “Enforcement, stated honestly”: a fabricated row, file and log agreeing with each other can pass.
+
+- [Unverified — needs clone run] Full suite, PDDA, trigger mutation controls and injected append-failure recovery are harness-owned, not rerun here. Historical base API fetch `gh api 'repos/HiQS-Labs/XYZ-layout-engine/contents/tools/catalog.sql?ref=a055741'` exited 1 (`error connecting to api.github.com`), so historical equality remains unverified. Successful PR file metadata listed no dependency, budget or workflow change, but complete base-diff scope and reported timings remain harness-owned. Startup roadmap-list attempts at both ROUTER-listed local script paths exited 2 because neither script exists in this worktree; no ledger was changed.
+
+Handing off to Producer (claude-a) — correct the live PR-body sentence, record the successful readback, then return for Round 3 review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
