@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -83,5 +83,22 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+swept file: yes
+
+*   **[Pass] Grounding:** The existing REST runner (`examples/2026-10-09-cell-division/higgsfield-spike.py`) exists as claimed. The `FINDINGS.md` claim "The REST route returned no alpha" matches `examples/2026-10-09-cell-division/FINDINGS.md:5` ("NO-GO for native transparency on the REST surface"). The inspector script claim ("real alpha requires minimum alpha below 255 and a non-zero transparent share") matches `examples/2026-10-09-cell-division/inspect-alpha.mjs:72` (`rec.real_alpha=Boolean(rec.hasAlphaChannel&&s.minAlpha<255&&s.transparentPixels>0);`).
+*   **[Pass] Spend safety:** The control "taken as the larger of that and the sum of estimates" safely bounds lagged balance reads. Worst-case overshoot is limited because the loop waits for each job ("blocks until the job finishes").
+*   **[Pass] Matrix:** The test matrix covers the variants ("flare, sunburst") and includes an explicit control "C1 flare, low, `--background opaque`".
+*   **[Pass] Inspection and verdict:** Opaque RGBA false GOs are mechanically prevented by "real alpha requires minimum alpha below 255 and a non-zero transparent share". Visual false GOs (mattes) are caught by the manual "operator-side reviewer for baked checkerboards, white boxes or fringes" check.
+*   **[Pass] Diagram change:** Smallest mechanism is preserved via "optional per-stage `image` field". Invariants remain non-vacuous because the script must "keep every existing check" and add a red control "for an opaque raster asset". Replacing interphase and cytokinesis is a sensible test of simple and complex cell geometries.
+*   **[Pass] Scope and wording:** Non-goals are respected ("No provider contract, shared layer or Higgsfield provider"). The closing keyword risk is mitigated ("avoids any closing keyword next to an issue number").
+*   **[Pass] Honest rollback:** The plan correctly states "Easy for code and docs (revert the PR). Spent credits are not recoverable". The Phase 0 rating `40/10/50/30` naturally applies since Phase 0 states "This rates the whole issue; this slice is its first phase".
+
+VERDICT: PASS
+Basis: The plan rigorously addresses the 7 QA brief questions with solid spend safeguards, verifiable alpha channel criteria, and maintains the required architecture boundaries.
+
+handing off to claude-a — relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
