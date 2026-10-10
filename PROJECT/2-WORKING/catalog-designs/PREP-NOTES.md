@@ -50,3 +50,8 @@ Only overlap: `tools/catalog.sql` in p1 and p2, serial by `depends_on`. `tools/r
 - Preflight `--dry-run` (SWARM_PREFLIGHT_ROOT=$PWD, `--target-root $PWD`): in sandbox exit 0 `verdict: ready (exit 0)` with acceptance `unknown [fetch-failed]`. With GitHub reachable, first run exit 5 `NOT-READY` (acceptance diverged: 4 issue criteria, 10 doc criteria undeclared); fixed by adding `## Acceptance — deviations from the issue`; rerun exit 0 `acceptance: match — 4 issue criteria reconciled: 14 deviation(s) declared and accounted for`, `issue-state: OPEN`, `verdict: ready (exit 0)`.
 - `marathon.sh --plan PROJECT/2-WORKING/catalog-designs/MARATHON.yaml --builder codex --pre-advance-cmd 'pnpm test' --dry-run`: exit 0, `4 phase(s) would run in order`, reviewer=agy on all four (log prints `round-cap=5`; lane `attempts 0/2`).
 - `utils/pdda/pdda.sh run`: exit 0 (observe). 1 expected ERROR: roadmap-coverage, `GH-20-CATALOG-DESIGNS.md` has no ledger pointer (row still names the old 1-INBOX path; orchestrator repoint). Warnings: 2 governance (pre-existing, `ROUTER.md:78`, `PDDA-INSTALL.md:347`), 12 issue-doc-sync (gh offline in sandbox). Frontmatter, status-table, hardcoded-paths, changelog, marathon-qa: 0 findings.
+
+## Operator approvals (2026-10-10)
+
+- Approved: the date-slug design ID rule and the three seed design IDs in `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md`. Marathon fired after this approval; nothing is merged by the marathon.
+
