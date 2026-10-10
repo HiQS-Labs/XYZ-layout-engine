@@ -143,3 +143,11 @@ STATUS: Approved
 Basis: Reviewed the complete declared artifact files. Confirmed the cache complexity was appropriately omitted as per the measurement requirements. Boundary checking on edits/exports and validation logic is sound. Verified via scratch probes that invalid save targets are properly rejected. The offline browser tests correctly await execution in the native environment via the driver gate.  [Unverified — no citation]
 
 relay closed, no further turn needed.
+
+### Attestation · relay-drive — 2026-10-10T05:21:49Z
+task: MARATHON-GH5-P4-TURN
+reviewer: agy
+status: Approved
+reviewed-head: be3ddb5561c2aa0b487e54a85b922d0e45a27d96
+added-range: 19810+549
+added-sha256: a6b24e48e56d83f62ab22edde7edcb581535c3e523736fc8011ffd3f47f45646
