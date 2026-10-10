@@ -117,4 +117,12 @@ Basis: Re-attesting the previous PASS verdict. The plan meets all criteria as es
 
 handing off to Producer — relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-10-10T19:16:03Z
+task: RELAY-gh20-a2-plan-qa-agy2
+reviewer: agy
+status: Approved
+reviewed-head: 6688c284f69137211a5d812463a915ee67b16098
+added-range: 12390+497
+added-sha256: 31af488f6bae2173d866ac85bf62e1efad896b3e92268aa487c4b348330c8969
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
