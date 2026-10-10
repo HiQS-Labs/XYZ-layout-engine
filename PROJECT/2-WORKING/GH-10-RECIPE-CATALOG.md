@@ -288,6 +288,166 @@ findings back into this section. Depends on PR #18 fixed head. Doc-only; prototy
 - [ ] Independent Agy review Approved against the committed phase diff; receipt on disk.
 - [ ] Driver ran `pnpm test` exit 0 (4/4, budget unchanged).
 
+### Phase 0 findings
+
+Observed 2026-10-10 in the admitted relay worktree. This subsection is the Phase 0
+memory injection; the earlier provisional Design file sets are superseded by the sets below.
+No runtime implementation, seed identity allocation or dependency change was made.
+
+Decision: use `node:sqlite` BECAUSE the installed Node v22.22.3 supplies the required
+in-memory database, parameter binding, transactions and aborting triggers without a dependency;
+UNLESS an admitted deployment runtime cannot load it unflagged or a required operation fails its
+probe, in which case stop and re-decide a pinned `better-sqlite3` dependency rather than silently
+switching engines. **Go:** local catalog implementation on this measured runtime, subject to
+independent review and the driver gate. Other Node versions/platforms are unverified.
+**Bet:** one owner can export a canonical text ledger using this API. **Tradeoff:** experimental
+runtime API versus a new native dependency. **Failure mode:** unavailable/changed API or an
+incomplete declared input namespace. **Reversibility:** Easy for this doc and storage module;
+Costly for serial/slug identity once referenced. No new service or abstraction is needed.
+
+#### Runtime and storage evidence
+
+| Command / probe | Exit | Observed result |
+|---|---|---|
+| `node --version` | 0 | `v22.22.3` |
+| `node -e "require('node:sqlite')"` | 0 | Loads without opt-in; exact warning body and hint below |
+| `node --no-experimental-sqlite -e "require('node:sqlite')"` | 1 | `ERR_UNKNOWN_BUILTIN_MODULE: No such built-in module: node:sqlite` |
+| `new DatabaseSync(':memory:')`; prepared `SELECT sqlite_version()` | 0 | SQLite `3.51.3` |
+| `prepare('INSERT INTO recipes VALUES(?,?,?,?,?)').run(...)`; `BEGIN IMMEDIATE` / `ROLLBACK` | 0 | Bound title `Operator's nutrition` round-trips; candidate serial 4 rolled back, rows remain 3 and next serial remains 4 |
+| `CREATE TRIGGER ... SELECT RAISE(ABORT,...)` | 0 | Published UPDATE/DELETE and file-row UPDATE/DELETE abort; removing the version UPDATE trigger permits the same UPDATE |
+
+The loading process printed `(node:74599)` followed by this exact text:
+
+```text
+ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+```
+
+Local-only comparison: `node -e "try { console.log(require.resolve('better-sqlite3')); }
+catch(e) { console.error(e.code); process.exit(1); }"` exits 1, `MODULE_NOT_FOUND`.
+Searching `package.json` and `pnpm-lock.yaml` for `better-sqlite3` returns no match.
+It would introduce a native SQLite dependency and package/lockfile changes; no installation,
+fetch, build or comparative latency claim was made. No repository Node pin was added.
+
+#### Prototype and red controls
+
+Command: `node .relay-scratch/p0-prototype.mjs`, exit 0. Scratch placement follows the current
+relay instruction (all files under `.relay-scratch/`, overriding the brief's `$TMPDIR` placement).
+The prototype is disposable evidence, not feature code or a new suite. It uses three tables
+(`recipes`, `recipe_versions`, `recipe_version_files`), foreign keys enabled, bound mutation
+parameters, fixed DDL and a SQL-string encoder that doubles apostrophes. Publication and serial
+allocation each use `BEGIN IMMEDIATE`, commit on success and rollback on failure.
+
+- `max(serial)+1`: add nutrition → 1; add solar-system → 2; retire solar-system without deleting
+  it; add third-recipe → 3. A rolled-back candidate 4 does not consume a serial. Recipe DELETE
+  aborts `ERR_SQLITE_ERROR: recipe identity retained`.
+- Publish nutrition 1.0.0 with a digest → inserted; publish the same digest → no-op with identical
+  dump bytes; publish a different digest → `already published with different content`, rollback,
+  identical dump bytes. These observations test transaction/publication mechanics, not production
+  file-digest collection or concurrent file locking.
+- P0-A2 green: `UPDATE recipe_versions SET content_sha256='changed'` aborts
+  `ERR_SQLITE_ERROR: published version immutable`. Version DELETE also aborts. File-row
+  UPDATE/DELETE abort `ERR_SQLITE_ERROR: published files immutable`.
+  Exact trigger shape: `CREATE TRIGGER versions_no_update BEFORE UPDATE ON recipe_versions
+  BEGIN SELECT RAISE(ABORT,'published version immutable'); END;`.
+  Red: `DROP TRIGGER versions_no_update`, then the identical UPDATE succeeds.
+- P0-A3 green: export → load/export → load/export all produce SHA-256
+  `d505d529ec41d3e95f446ce631ef8171ea8de6dd7a753c3306e650949b54d683`. GIDs are retained on load; fresh prototype runs allocate different UUIDs,
+  so this digest establishes equality within this run, not equality across new catalogs.
+  Recipe rows use `ORDER BY serial`; version rows use joined recipe slug then version;
+  file rows use joined slug, version, path. Columns, table order, DDL, LF newlines and header
+  are fixed; the export contains no current timestamps. Load executes parent inserts before children.
+- Ordering red: reverse each table's insertion order into another fresh database. With those same
+  ORDER BY clauses its dump still equals the original. Without ORDER BY the two digests are
+  `d505d529ec41d3e95f446ce631ef8171ea8de6dd7a753c3306e650949b54d683` and `4b88bd77f678771c2b3377d70b27df565ad42f94df2fc7ebd4c3751d789afe87`, proving insertion order would leak into bytes.
+
+The prototype/dump/runtime logs are relay-local scratch and will not be copied back. The commands,
+SQL mechanism, results and digests above persist here for independent reproduction. Production
+DDL, dump admission, lock exclusion, atomic publication and canary integration remain Phase 1 work.
+
+#### Identity decisions
+
+- GIDs: retain `rcp-` / `rcv-` plus lowercase hyphenated UUID v4 from standard-library
+  `crypto.randomUUID()`. Opaque text primary/foreign keys follow the natural-key convention in
+  `releases.sql:1-2`; do not reuse its implementation or assume its ULID-looking values mandate
+  the catalog grammar. Sorting uses natural keys, so a sortable GID adds no present benefit.
+  Import/export must preserve existing GIDs, never regenerate them.
+- Serials: retain four decimal digits, `RCP-0001` through `RCP-9999`, integer storage with a
+  1–9999 CHECK; refuse allocation 10000 rather than widening silently. Retired rows are retained;
+  committed serials are never reused. The prototype proves allocation and rollback on one
+  in-memory writer, not cross-process locking (the planned exclusive dump lock owns that).
+- Slugs: retain `^[a-z][a-z0-9]*(-[a-z0-9]+)*$` plus length 3–64, unique and immutable.
+  `nutrition` and `solar-system` already match their module exports
+  (`tools/recipes/nutrition.mjs:5-6`, `tools/recipes/solar-system.mjs:8-9`).
+  UUID syntax, slug/semver admission and immutable identity updates require Phase 1 validation;
+  they are decisions here, not claims that this prototype implements the full contract.
+
+#### Recipe input trace and declared file sets
+
+Read both complete recipe modules, `tools/spike/scene.mjs`, `tools/spike/assets.mjs` and the
+shared fixture validator. Entry path: `tools/render.mjs:183-193` selects/validates the recipe;
+`:223` calls its scene builder. User fixture bytes come from `tools/request.mjs:40` and belong
+in the render input digest, not the immutable recipe file list. Recipe validation reads the
+committed shape fixture even for custom input. No recipe write path exists in these functions.
+
+**Nutrition — declare 12 files:**
+
+- `tools/recipes/nutrition.mjs` (module): imports scene and delegates at `:1`, `:18-19`.
+- `tools/spike/fixture.json` (schema): read by `tools/recipes/nutrition.mjs:11`;
+  optional caption handling is in the module at `:12`.
+- `tools/spike/scene.mjs` (module): `createScene` resolves header, hero, footer, callouts, items and
+  benefit icons at `:63-72`; remaining scene geometry/text is in this same file.
+- `tools/spike/assets.mjs` (module): PNG preference/inspection and SVG fallback at `:43-66`.
+- `tools/spike/assets/illustrations.svg` (content): fallback read at `tools/spike/assets.mjs:58`;
+  includes `bottle`, benefit icons, `leaf_small`, `heart`.
+- Seven content files under `tools/spike/assets/generated/web/`: `balance_scale.png`,
+  `chicken_wrap.png`, `leaf_glow.png`, `parfait_jar.png`, `skip_spike.png`,
+  `snack_container.png`, `water_bottle.png`. Path/read evidence:
+  `tools/spike/assets.mjs:47-54`; default IDs: `tools/spike/fixture.json:21-46`.
+
+Nutrition illustration identifiers are syntax-checked, not fixed to default values
+(`tools/request.mjs:99-100`). Input probe (`node --input-type=module`, importing nutrition
+`validate`, exit 0) changed `sections.hero.illustrationId` to `heart` and validation accepted it.
+Therefore bind the entire present PNG namespace plus the whole fallback SVG, not just whichever
+assets a single fixture happened to use. Phase 1 `verify` must compare PNG namespace membership
+against the declared list as well as checking declared bytes: adding e.g. `heart.png` changes
+PNG-over-SVG resolution without editing any already-listed file. Extra or missing PNG paths are
+drift until published in a new version. This adds no recipe input restriction or fallback change.
+
+**Solar System — declare 15 files:**
+
+- `tools/recipes/solar-system.mjs` (module): owns validation and scene; `buildScene` calls
+  `loadAssets` at `:123` and constructs inline SVG in memory (`:125-129`, `:163`, `:183`),
+  which adds no separate disk files.
+- `examples/2026-10-08-solar-system/fixture.json` (schema): read at
+  `tools/recipes/solar-system.mjs:68`; shape validation at `:70`.
+- `examples/2026-10-08-solar-system/verification.json` (content): read at
+  `tools/recipes/solar-system.mjs:93`, enforces display digests at `:102`.
+- `tools/spike/assets.mjs` (module): imported `inspectPng` at
+  `tools/recipes/solar-system.mjs:6`, invoked at `:101`; its acceptance rules are recipe-relevant.
+- Eleven content files under `examples/2026-10-08-solar-system/assets/web/`: `asteroid-belt-diagram.png`,
+  `earth.png`, `jupiter.png`, `mars.png`, `mercury.png`, `milky-way.png`, `neptune.png`,
+  `saturn-clean.png`, `sun.png`, `uranus.png`, `venus.png`. Fixed ASSET_IDS at
+  `tools/recipes/solar-system.mjs:64`; realpath/read/digest enforcement at `:94-103`;
+  all eleven paths exist (input probe exit 0). Include the actual PNGs so catalog verification
+  detects drift independently of a render. Originals, generator, manifests and proof reports
+  other than `verification.json` are not read by these functions and are excluded.
+
+**Shared runtime boundary:** both recipes use `tools/request.mjs` for validation/limits;
+`tools/spike/assets.mjs` imports it at `:5`. As the existing design stipulates, that common engine
+file and `tools/render.mjs` remain outside recipe content. Both recipes also use
+`tools/spike/assets/font.ttf` and `font-bold.ttf` via `getFonts`
+(`tools/spike/assets.mjs:69-76`, `tools/render.mjs:177`, `:193`); these are shared runtime assets,
+excluded from the recipe digest. Limit: the current receipt backend version at
+`tools/render.mjs:349` does not hash engine source or fonts, so catalog verification alone cannot
+prove unchanged output after an engine/font edit. Existing runtime/golden checks remain necessary;
+revisit that identity boundary if engine/font provenance becomes a catalog requirement.
+
+P0-A4 is reserved to the harness: no git command was run because this turn explicitly prohibits
+it. A before/after file-hash inventory (excluding `.git`, `node_modules`, `.relay-scratch`) and
+original-document byte comparisons verify the builder's bounded edits; this is not a claim about
+git index state. Independent Agy approval and the driver's full gate remain pending.
+
 ## Phase 1 — Store, canonical dump and CLI
 
 **Goal:** `tools/catalog.mjs` and an initial schema-only `tools/catalog.sql`, with C4 guards. Depends on Phase 0.

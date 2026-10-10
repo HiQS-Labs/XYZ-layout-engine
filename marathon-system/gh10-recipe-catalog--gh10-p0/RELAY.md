@@ -1,6 +1,6 @@
 # Marathon Phase gh10-p0
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH10-P0-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -127,3 +127,59 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · codex
+
+Implemented only `### Phase 0 findings` in `PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md`.
+This relay receives the appended receipt and mandated NEXT handoff; every prior relay body byte
+is preserved except the explicitly required header NEXT change. No feature code, seed,
+package/lockfile, test-budget, test block or workflow changed.
+
+Decision: retain `node:sqlite` on measured Node v22.22.3 / SQLite 3.51.3: required operations
+work without a new native dependency. Stop/re-decide if an admitted runtime cannot load it or
+an operation probe fails. Retain UUID v4 GIDs, four-digit bounded serials (refuse 10000), and
+existing slug pattern/length. Go for implementation on the measured runtime, pending review/gate.
+
+Exact-source input trace corrected the provisional declared sets: nutrition 12 files;
+Solar System 15 files including its eleven actual PNGs and the shared PNG inspector. Nutrition's
+editable illustration IDs require PNG namespace membership verification: adding a PNG can override
+SVG fallback without changing an already-declared file. Shared engine/fonts remain outside the
+recipe digest; the current receipt backend version does not hash those bytes. Findings name that limit.
+
+Verification (specific P0 probes only):
+- `node --version`: exit 0, v22.22.3.
+- `node -e "require('node:sqlite')"`: exit 0, ExperimentalWarning and hint recorded exactly in findings.
+- `node --no-experimental-sqlite -e "require('node:sqlite')"`: exit 1,
+  ERR_UNKNOWN_BUILTIN_MODULE (expected negative control).
+- Local `require.resolve('better-sqlite3')` probe: exit 1, MODULE_NOT_FOUND;
+  absent from package/lockfile; no install/fetch or performance comparison.
+- `node .relay-scratch/p0-prototype.mjs`: exit 0; prepared binding, BEGIN IMMEDIATE/ROLLBACK,
+  serial retention, idempotent-same/reject-different publication, immutability UPDATE/DELETE
+  aborts and two dump/load cycles pass. All three canonical dump hashes are
+  d505d529ec41d3e95f446ce631ef8171ea8de6dd7a753c3306e650949b54d683.
+  Red: removing the UPDATE trigger permits the same UPDATE. Unordered export after reverse inserts
+  hashes 4b88bd77f678771c2b3377d70b27df565ad42f94df2fc7ebd4c3751d789afe87 instead.
+- `node --input-type=module` input probe: exit 0; nutrition validates hero illustrationId `heart`;
+  seven nutrition PNGs enumerated, all eleven Solar PNG paths exist.
+- `rg -n '^Decision:' PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md`: exit 0.
+  Targeted Python byte check: exit 0; deleting Decision is detected, and removing only findings
+  restores the exact original plan.
+- `python3 -B .relay-scratch/p0-check.py`: final targeted boundary/inventory check; scratch log
+  records result. P0-A4's git-index assertion is deferred to the harness because this turn
+  prohibits every git command; file hashes support containment but do not establish git state.
+
+All probes/dumps/results/logs are in `.relay-scratch/`, as the current user instruction requires,
+superseding the brief's TMPDIR wording; scratch is not copied back. ROUTER/core startup docs,
+SWE and debug-mantra skills were read. Graph tools unavailable; exact source fallback used.
+Startup roadmap read at `.xyz/utils/py/releases_app.py` exited 2 (absent in this worktree); no ledger
+changed. No git command or full test/gate suite ran. A receipt-write guard initially exited 1
+before writing: it counted NEXT in embedded instructions too. Debug-mantra confirmation found two
+substring matches but one header line, proved relay unchanged, then narrowed the match to the header.
+
+VERDICT: PASS
+Basis: measured builder P0 storage/input probes and targeted document checks only; the forbidden
+git-index check remains for the harness. No claim of driver gate success.
+Review outcome: pending independent Agy review; builder does not approve the phase.
+Reversibility: Easy documentation-only turn; identity becomes Costly once referenced.
+
+Handing off to agy — agy, take your turn.
