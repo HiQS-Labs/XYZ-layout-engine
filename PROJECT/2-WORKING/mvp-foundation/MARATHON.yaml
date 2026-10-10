@@ -2,7 +2,7 @@
 # Original failed Phase 1/cap retained; Phase2 Approved/attested and native gate passed; execute ONLY remaining phases3 -> 4 -> 5.
 # Operator explicitly authorized restart and 600-second x 6 monitoring.
 # Umbrella/member GH-5; base origin/main confirmed by operator. One full clone; one serial wave.
-# Phase3 original attempt1/2 and identity retained; operator authorized Try again.
+# Phase3 original2/2 attempts and identity retained; operator explicitly authorized ONE cap override on2026-10-09. Phases4/5 have no attempt records; no additional override authorized.
 # Agy builder (CLI flag), independent Codex reviewer; pnpm test gate (CLI flag). No auto PR/push.
 name: gh5-mvp-foundation
 phases:
