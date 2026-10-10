@@ -346,7 +346,26 @@ export async function processRequest(reqObj, options = {}) {
       digests[format] = add(format === 'html' ? 'render.html' : 'render-inline.html', 'text/html', html);
     }
   }
-  const request = { normalized, versions: { recipe: recipe.version, backend: normalized.backend === 'playwright' ? '1.64.0' : '0.36.0' }, validation: { valid: true, errors: [] }, digests, provenance: { inputPath: normalized.inputPath, inputSha256: sha256(input), fixtureSha256: sha256(JSON.stringify(fixture)), backend: normalized.backend }, fitting: { fit: unresolved.length === 0, attempts: steps.length, iterations: steps.length - 1, unresolved, steps, finalSizes: sizes } };
+  // Catalog identity is advisory; local rendering also works without a published catalog.
+  const catalog = { slug: recipe.name, version: recipe.version, contentSha256: null, verified: false };
+  try {
+    const { runCLI: catalogCLI } = await import('./catalog.mjs');
+    const { value: registered } = await catalogCLI(['show', recipe.name]);
+    const published = registered.versions.find(v => v.version === recipe.version);
+    if (!published) {
+      catalog.reason = 'current module version is unpublished';
+    } else {
+      catalog.contentSha256 = published.content_sha256;
+      const { value: verification } = await catalogCLI(['verify']);
+      const paths = new Set(published.files.map(f => f.path));
+      const errors = verification.errors.filter(e => e.field === 'dump' || e.field === recipe.name || paths.has(e.field));
+      catalog.verified = errors.length === 0;
+      if (errors.length) catalog.reason = errors.map(e => `${e.field}: ${e.message}`).join('; ');
+    }
+  } catch (error) {
+    catalog.reason = error.message;
+  }
+  const request = { normalized, catalog, versions: { recipe: recipe.version, backend: normalized.backend === 'playwright' ? '1.64.0' : '0.36.0' }, validation: { valid: true, errors: [] }, digests, provenance: { inputPath: normalized.inputPath, inputSha256: sha256(input), fixtureSha256: sha256(JSON.stringify(fixture)), backend: normalized.backend }, fitting: { fit: unresolved.length === 0, attempts: steps.length, iterations: steps.length - 1, unresolved, steps, finalSizes: sizes } };
   timings.operationMs = round(performance.now() - started);
   return { request, result, artifacts, timings, fixture, input };
   } finally {

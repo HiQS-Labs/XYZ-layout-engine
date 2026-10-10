@@ -1,4 +1,14 @@
 # Changelog
+## 2026-10-10 — GH-10 catalog: drop the serial number (plan: issue #20)
+
+- Removed the `serial` column, `RCP-NNNN` display and serial lookup from `tools/catalog.mjs`, `tools/catalog.sql`, the render receipt's `catalog` block, the C4 canary and the README/PRD text. A recipe is identified by `slug`, a version by `slug@semver`, matching the PRD recipe ID and the finalized three-ID plan on #20. The canary's retention control now checks that a retired recipe's slug cannot be reused. Refs #10. Refs #20.
+- Easy reversal (nothing was pushed or referenced before the change). `catalog verify` and `export --check` pass on the migrated dump; `pnpm test` passes.
+
+## 2026-10-10 — GH-10 local catalog documentation
+
+- Documented the delivered local recipe catalog: immutable slug/exact-version identity, files owning content and the canonical SQL ledger owning identity, version bump rules, operator-only writes, CLI exit codes and the Node SQLite ExperimentalWarning. README names variants, aliases and semver ranges as deferred; PRD §6.5 adds one delivered-observation note without new requirements. Refs #10. Refs #19.
+- Easy reversal: documentation only. Six documented catalog commands passed in a disposable scratch copy on Node v22.22.3; misspelled verb returned 2, and unknown recipe, declared-file drift, changed-content republish and non-canonical dump returned 1. Refused republish preserved ledger bytes. Targeted PDDA path/frontmatter/status checks passed with zero findings; an absolute-home-path red control raised the expected finding. Independent Agy review, the full gate and base-ref containment check remain harness-owned.
+
 ## 2026-10-10 — GH-5 final integration consumer repair
 
 - Final independent Wave 1 QA found B1: two diagrams and two cell helpers on newly integrated main still imported the removed copied Solar runtime. Migrated their import/font/package references to the existing root renderer/fonts/Playwright; corrected reproduction and design-diagram instructions. Preserved fixtures, assets, historical art, validation and the shared core. Easy rollback; no new dependency/test/engine. Refs #5.

@@ -1,0 +1,40 @@
+# Umbrella GH-19, member GH-9 (runs second). Base: the accepted GH-10 branch head (stacked on PR #18).
+# Fire only after the GH-10 lane is accepted. One full clone, one serial lane.
+# Codex builder (driver default), independent Agy reviewer. Dispatch: --pre-advance-cmd 'pnpm test'.
+# No push, no PR, no merge from builder turns.
+name: gh9-responsive-flags
+phases:
+  - id: gh9-p0
+    name: "Spike: backend evidence, narrow output and go/no-go"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/responsive-flags/briefs/gh9-p0.md
+    artifact: PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+
+  - id: gh9-p1
+    name: "Pure resolver and request admission"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/responsive-flags/briefs/gh9-p1.md
+    artifact: tools/stack.mjs, tools/request.mjs, tools/render.mjs, tools/spike/test/canaries.test.mjs
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh9-p0
+
+  - id: gh9-p2
+    name: "Nutrition adoption, narrow output and catalog bump"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/responsive-flags/briefs/gh9-p2.md
+    artifact: tools/recipes/nutrition.mjs, tools/spike/scene.mjs, tools/request.mjs, tools/catalog.sql, tools/spike/test/canaries.test.mjs
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh9-p1
+
+  - id: gh9-p3
+    name: "Docs and handoff"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/responsive-flags/briefs/gh9-p3.md
+    artifact: README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh9-p2
