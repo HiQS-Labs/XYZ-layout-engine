@@ -199,3 +199,11 @@ Basis: The documentation changes are minimal and correctly match the brief.
 Review outcome: Approved. The builder's edits are precise and verifiable.
 
 relay closed, no further turn needed
+
+### Attestation · relay-drive — 2026-10-10T20:08:24Z
+task: MARATHON-GH20-A2-P3-TURN
+reviewer: agy
+status: Approved
+reviewed-head: db41c305d5ffc58ee06a97ab3e621d778a340279
+added-range: 12984+1040
+added-sha256: 44b8506cda99b17de9b747886d2a4d3a37d09f0f0ea10751008dfda12e4deeb6
