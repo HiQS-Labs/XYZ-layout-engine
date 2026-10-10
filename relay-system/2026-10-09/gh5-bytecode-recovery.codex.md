@@ -119,4 +119,12 @@ Turn bookkeeping: the first relay-write command failed before writing (`zsh: unm
 
 Relay closed (Approved), no further turn needed. Coordinator owns supervisor attestation and any subsequent harness gate; this verdict does not authorize another original Phase3 override.
 
+
+### Attestation · relay-drive — 2026-10-10T02:40:38Z
+task: GH5-BYTECODE-RECOVERY-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: fdcea1efcdc5b96814fa394087bc119d94aa5a42
+added-range: 7462+6241
+added-sha256: b8e69453fbe4ac75c64968d9f15f08575e69015cd8688503666edda6f005ec19
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
