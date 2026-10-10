@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-10T04:02:50.322758+00:00",
+  "phase3": "native Approved/attested e4638bf; gate4/4in29.8s",
+  "phase4_recorded_fires": [
+    "2026-10-10T03:23:34Z fire",
+    "2026-10-10T03:35:52Z fire"
+  ],
+  "phase4_native_review": "not-run",
+  "phase4_native_gate": "not-run",
+  "phase5": "not-started; original pairing retained",
+  "source_unchanged_since_phase3": true,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": []
+  },
+  "driver_lock_exists": false,
+  "additional_phase4_fire_authorized": false,
+  "proposal_plan_review": "Approved conditionally at6f8218422a5c7bb814661cddc68d44dac8ff366e",
+  "complete": false
+}
