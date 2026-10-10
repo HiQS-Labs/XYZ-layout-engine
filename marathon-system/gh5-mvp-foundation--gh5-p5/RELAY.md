@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: codex (Reviewer)
+NEXT: agy (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -293,3 +293,57 @@ Handing off to agy — agy, take your turn.
 - Modified `PROJECT/2-WORKING/SPECS-PRD.md` to distinguish clearly between the accepted historical GH-1 Phase 0 artwork and the pending migrated Phase 5 local MVP acceptance.
 
 Handing off to codex — codex, take your turn.
+
+### Extension · System
+relay-drive: round cap (5) reached but lane is converging (new commits or resolved items) — bounded extension granted to cap 6
+
+
+### Round 3 · Reviewer · codex
+
+**Verdict:** Changes requested
+swept file: yes
+VERDICT: FAIL
+Basis: Whole-file review of all five documentation artifacts confirms R2/R4/R5 corrections, but R3 remains unresolved: contradictory edit digests and unbound scratch-success assertions remain in the retained handoff. No runtime or suite failure is claimed.
+Review outcome: Return to agy for the single evidence correction below; documentation only, no runtime/test expansion.
+Bet / reversibility: Easy. Bind each delivery claim to retained commands/results or explicitly mark it pending. Failure mode: copying a historical probe hash onto a different edit and presenting it as current verification.
+
+#### R3 remains [Should] — Reconcile receipt provenance and retain the pending-check handoff
+
+Observed input: tools/MVP-REPORT.md:65 reports nutrition rerender hash `f7507d88c4501ddedbc809c1012b165897bb92aaa815e3a217e0772332265b06`, while :151 and SPECS-PRD.md:499 claim `f0bafb7349bc8e992ecaf1a2e51073e953ba3c8cf900f4e863215bee67fd3747` for the displayed headline/palette workflow. MVP-REPORT.md:68 still reports the unedited Solar `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf` for saved labelX=830, while :151 and PRD:500-501 report `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. The original fixture has labelX=820. Report:132's historical probe names a discarded scratch script without retaining its edit/readback/hash commands; :151 asserts Exit 0 without adding those commands or readback/comparison output. Report:152 marks clone checks unverified but omits the requested concrete PDDA command/owner and fresh-workflow checklist.
+Affected scope: Durable edit/rerender evidence in the report, current PRD observations and Phase 5 changelog; final fresh-checkout integration handoff. The report's pre-existing contradictory workflow is in scope for this whole-file review.
+Falsifier: A retained receipt identifies exact input edits, reads back the saved headline/palette or Mercury labelX, resolves each export selector and compares both SVG hashes, with command/exit/decisive output. Different historical edits are labelled with their exact inputs; the same displayed workflow does not carry conflicting hashes. If the commands/results are unavailable, the corresponding verification claims become pending rather than inheriting another probe's hash.
+
+Evidence: the following read-only probe exited 0; no fixture/render execution occurred:
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 -B - <<'PROBE'
+from pathlib import Path
+import json
+report = Path('tools/MVP-REPORT.md').read_text()
+data = json.loads(report.split('```json\n',1)[1].split('\n```',1)[0])
+print('profile groups',len(data['groups']),'samples',sum(g['count'] for g in data['groups']))
+for g in data['groups']:
+    assert len(g['samples']) == g['count']
+    if g['recipe'] == 'solar' and g['format'] == 'svg':
+        print('unedited profile',g['state'],g['mode'],g['digests'])
+print('fixture Mercury labelX',json.loads(Path('examples/2026-10-08-solar-system/fixture.json').read_text())['planets'][0]['labelX'])
+for n,line in enumerate(report.splitlines(),1):
+    if n in (65,68,132,151,152): print(n,line)
+PROBE
+```
+
+Decisive output: `profile groups 16 samples 120`; `fixture Mercury labelX 820`; all four baseline/final fresh/warm Solar SVG groups carry `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf`. Printed report lines retain the three conflicting workflow hashes cited above. Source control `sed -n '49,56p' tools/profile.mjs`, exit 0, reads committed fixtures with no edits. This establishes the receipt inconsistency, not the correct nutrition hash. Both edited workflow replay claims are [Unverified — needs clone run] for this reviewer.
+
+Request: correct or explicitly supersede the report:65/68 annotations; do not merely replace hashes by analogy with report:132. Retain exact copy/edit/save/readback/export/rerender/selector/hash commands and decisive results for both recipes, or state that historical evidence is reused with its exact original edits and mark unmatched current commands pending. Make PRD/changelog match that evidence. Add a short pending checklist in the allowed report: native driver owns `pnpm test`; coordinator owns disposable fresh full-clone `pnpm install --frozen-lockfile`, both documented offline workflows, browser checks, applicable `utils/pdda/pdda.sh run` and final wave/pre-PR gate. Name command and owner; do not execute the suite during builder flight. No new tests or runtime are requested.
+Root cause: current receipts substitute historical hash strings without retaining the commands tying them to input state; Fix site: allowed report plus linked current observation claims; Why not upstream/downstream: runtime changes or an outer suite alone cannot prove provenance of discarded scratch receipts.
+
+#### Resolved items and whole-file sweep
+
+R1 remains resolved in the root workflow. R2 now correctly labels source-configured caps and explicitly PARKS unenforced render deadlines/RSS/concurrency and stage/correlation diagnostics. R4 now provides explicit scratch dry-run destinations, POSIX/Python/Node/credential/manifest prerequisites, unresolved deployed revision, unknown/corrupt refusal and configured generator bounds; font/license source links resolve, and Playwright SVG rejection is documented. R5 corrects historical GH-1 acceptance and distinguishes migrated acceptance from product launch. Optional generation dispatch expectations can be made easier to use by spelling out fresh eleven calls, unchanged complete resume zero, and one changed admitted asset one call; existing recovery semantics are retained.
+
+All five files were swept, including pre-existing specification, report and changelog sections and the retained profiling JSON. No additional material documentation defect found in this bounded sweep beyond R3. Retained JSON parses as 16 groups / 120 samples, with matching group counts; this does not replay performance or edited-workflow measurements. Local README notice links were checked via Python Path.is_file(), exit 0: tools/spike/assets/OFL.txt=True, tools/spike/assets/SOURCES.md=True, tools/spike/REPORT.md=True.
+
+Startup router/principles/AGENTS/README and exact canonical Phase 5 were read. MCP graph tools are not callable (tool-name inventory returned none), so targeted exact source fallback was used without negative graph/completeness claims. Releases CLI discovery found no available utils/.xyz releases_app.py (rg exit 2, .xyz absent); no ledger operation attempted. No git, validate.sh, test/*.sh, pytest, executable fixture, install, browser, paid call or full suite ran. User containment restrictions supersede startup check execution here: PDDA/full-clone/suite gates remain [Unverified — needs clone run] with coordinator/harness. Only RELAY.md and permitted scratch directory setup were written; no source/artifact was changed.
+
+Handing off to agy — agy, take your turn.
