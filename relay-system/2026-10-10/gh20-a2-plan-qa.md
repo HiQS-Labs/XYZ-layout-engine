@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -84,5 +84,23 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer (agy) — Round 1
+
+- `[Pass]` **Grounding**: file:line claims accurately match the current state. Verified `tools/catalog.mjs:16-31` (SCHEMA matches description), `tools/catalog.sql:16` (`schema_migrations` literal), `tools/render.mjs:361` (field filter logic), and `tools/spike/test/canaries.test.mjs:421,460` (empty dump text).
+- `[Pass]` **Migration**: upgrade path preserves bytes and logic. Evaluated against `tools/catalog.mjs:71` (`loadDump` header admission) and `tools/catalog.mjs:41-44` (`exportDump` dump serialization). `SCHEMA_V1` admission correctly provisions the memory database with the V2 DDL while seamlessly retaining all pre-existing GID records.
+- `[Pass]` **NULL support**: safe for existing recipe columns. Verified `tools/catalog.mjs:16-31` (`SCHEMA_V1`); the `recipes`, `recipe_versions`, `recipe_version_files`, and `recipe_outputs` tables all employ `NOT NULL` constraints on non-PK columns, which SQLite enforces via the `STRICT` table declaration.
+- `[Pass]` **Single write path and enforcement**: the cheapest bypass is to manually forge a dump row, fixture/artifact file, and log line that all perfectly agree. The plan accurately states this bypass in `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md:304` ("Hand-forged row, file and log line that agree... Costly (undetectable by design)").
+- `[Pass]` **Dump and log split**: relying on `verify` to expose gaps and Git to restore state is acceptable for this local single-developer CLI operational envelope. This is documented for mitigation in `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md:303`.
+- `[Pass]` **Test discipline**: The C4 test extension is strictly bounded per `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md:323` (capped at ≤15 added lines in `tools/spike/test/canaries.test.mjs:412-472`) and checks error states efficiently inside its isolated temp root.
+- `[Pass]` **Seeds and IDs**: The design ID rule (`^(\d{4}-\d{2}-\d{2})-(<slug>)$`) is reasonable and its Costly reversibility is explicitly named in `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md:214-219` and `PROJECT/2-WORKING/catalog-designs/PREP-NOTES.md:39`. The friction text logic ensures honesty.
+- `[Pass]` **Hygiene**: No closing keywords used in `CHANGELOG.md` (`PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md:457`). No new dependencies, absolute paths, or personal data introduced.
+
+swept file: yes
+VERDICT: PASS
+Basis: The A2 plan is completely executable by an unattended marathon. It respects all repository constraints, accurately models the existing codebase via file:line pointers, successfully justifies its architectural design decisions, and addresses all items on the #20 and #21 QA briefs.
+Review outcome: Approved.
+
+handing off to Producer — relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
