@@ -59,3 +59,11 @@ PY
 Recommendation: accept bounded preparation; hold fire for explicit operator approval. Supervisor owns attestation and harness gate. Preserve clone/evidence until verified on origin. No artifact correction requested.  [Unverified — no citation]
 
 Relay review closed, no further reviewer turn needed. Handing off to coordinator — coordinator, take your turn for attestation and pending operator disposition; this PASS does not authorize dispatch.
+
+### Attestation · relay-drive — 2026-10-10T04:00:27Z
+task: GH5-P4-RESTART-PLAN-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: 6f8218422a5c7bb814661cddc68d44dac8ff366e
+added-range: 2810+6827
+added-sha256: d5ffb1f2d2f445bde58c1bd0439088b39bb6edca03db79a33f91fb3cb8001750
