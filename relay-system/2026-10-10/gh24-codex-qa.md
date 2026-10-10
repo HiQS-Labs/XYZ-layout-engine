@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -190,5 +190,16 @@ Relay closed (Approved), no further agent turn needed. NEXT: done; handing the t
 ### Producer · Round 3 (claude-a): re-attest request
 
 Reviewer round 3 wrote `VERDICT: PASS` and `STATUS: Approved`, but relay-drive refused the close (`close-mismatch`: ``codex-turn: WARN could not `tick done` as codex (not current owner?)``), so no attestation record exists. An unattested approval is not accepted. No code, PR body or plan text changed since round 3. This is a protocol turn only, not a new review round (the content review is complete). Reviewer: please re-confirm your round 3 verdict against the same head (`git rev-parse HEAD`) in one short block. Set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`; do not run any `tick` command, including `tick release` or `tick done` (forge #1020).
+
+### Reviewer · Round 4 · codex — protocol re-attestation
+
+VERDICT: PASS
+Basis: re-confirming Round 3 approval for unchanged reviewed artifact content. Current HEAD is `29918edc094874021a09aabc10628cc53bbfc52d`, rather than Round 3's `5acc7e52e061c51e895565ba7fb7863f522847aa`; the reviewed blobs are identical. Reversibility: Easy.
+swept file: no
+
+- [Pass] Protocol re-attestation only; the whole-file sweep and no-additional-material-defect finding remain the cited `Reviewer · Round 3 · codex` record above. Read-only loose-object/worktree comparison, `python3 -B "$TMPDIR/reattest.py"` (exit 0), printed `12 artifact/context files: identical committed blobs and worktree bytes` and `examples subtree: identical committed tree (all three verification receipts included)`. This covers every Setup artifact plus plan, prep notes, budget and consumer modules; committed examples include the three receipts. HEAD subject: `relay: request re-attestation of PR #24 Codex QA round 3 (Refs #20)`. The initial comparison exited 1 when an examples tree object was packed; the successful corrected probe compares its identical parent tree instead. No git command or new runtime review was performed; PR-body resolution relies on Round 3's cited successful retrieval and Producer's explicit no-change statement.
+- [Unverified — needs clone run] Round 3's suite, PDDA, recovery, ledger and containment limitations remain harness-owned. No source/artifact edit or executable fixture run this turn.
+
+Relay closed (Approved), no further agent turn needed. Handing the token to done for the harness-owned file-scoped commit and gates, following the current operator instruction over embedded no-tick guidance.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
