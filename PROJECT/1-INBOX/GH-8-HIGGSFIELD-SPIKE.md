@@ -98,3 +98,71 @@ pri 40 / sev 10 / appeal 50 / effort 30. Severity: a missing provider option, no
 | Diagram | `PASS`, three red controls fail by named id, both PNGs inspected |
 
 Deviations from the plan: (1) the estimate route gave no price, so spend was controlled by an assumed $0.10 per 1k/low call instead of a quoted estimate; the real charge is unmeasured. (2) Requirement 3's secret scan found the real key ID and secret nowhere (see commit message). (3) The key file was mode 644 and was tightened to 600 by the orchestrator with the operator's explicit permission, as the runner requires.
+
+## Phase 0b: the CLI route (added 2026-10-09, after the REST NO-GO)
+
+### Why
+
+The REST route returned no alpha (PR #15). The installed Higgsfield CLI (`higgsfield` 1.1.26, OAuth-signed-in, workspace "Private", starter plan, 701 credits) exposes the same model as `gpt_image_2_5` with a `background` parameter (`auto`, `opaque`, `transparent`), `variant` (`flare`, `sunburst`), `quality`, `resolution`, `aspect_ratio` and `image_references`. It also lists an `image_background_remover` model. Whether `--background transparent` returns a real alpha channel is untested. The operator approved up to **20 credits** and asked that two of the six cell images in the cell-division diagram be replaced with transparent PNGs if that works. Findings so far were posted on #8 (comment 6092825389).
+
+### Recon (2026-10-09, read-only; nothing generated)
+
+- `higgsfield generate cost gpt_image_2_5 --background transparent --variant {flare,sunburst} --quality {low,medium} --resolution 1k` returns 0.25 credits (low) and 0.5 credits (medium) for either variant. The CLI price check is a number, unlike the REST estimate route. `higgsfield account status` prints the balance, so real spend can be measured by balance difference.
+- `higgsfield generate create <job_type> [--param value]... --wait` blocks until the job finishes and prints result URLs; `--json` gives raw JSON. Its output shape is not yet known and the first paid call will reveal it.
+- The CLI owns its OAuth token. This slice never reads, prints or stores that token; the script only shells out to `higgsfield`.
+- Reused: `examples/2026-10-09-cell-division/inspect-alpha.mjs` (alpha inspector, already proven on known files) and the diagram's render script and checks. The REST runner `higgsfield-spike.py` stays as is.
+- Not traced: the CLI's token location, rate limits, other models' `background` options, the MCP connector.
+
+### Requirements
+
+1. `examples/2026-10-09-cell-division/higgsfield-cli-spike.py` (Python standard library; calls the `higgsfield` CLI by subprocess; no network code of its own, no credential handling). Subcommands: `selftest` (offline, against a fake `higgsfield` shim) and `run`.
+2. **Spend control.** Hard cap 20 credits for this slice. Before every create the script runs `generate cost` with the same parameters and `account status`; it refuses unless (credits already spent, measured as starting balance minus current balance, taken as the larger of that and the sum of estimates) plus this estimate is at most 20. Calls run strictly one at a time under an exclusive file lock. No create is ever retried; an ambiguous outcome stops the run. Every call is recorded in `cli-spike-ledger.jsonl` (label, parameters, estimate, balance before and after, job id, result file hash, inspector result). If the CLI cannot report a numeric cost or balance, the run stops.
+3. **Matrix** (about 2 credits). T1 interphase and T2 cytokinesis prompts on `gpt_image_2_5 --variant flare --quality low --resolution 1k --background transparent` (these two are also the candidate diagram images); T3 sunburst, low, transparent; T4 flare, medium, transparent; C1 flare, low, `--background opaque` (control showing the parameter's effect). The first call is a smoke test whose output shape the script then parses. Downloads go to a temp folder outside the repo; result URLs are stored without query strings.
+4. **Inspection.** Every image is checked with `inspect-alpha.mjs` (real alpha requires minimum alpha below 255 and a non-zero transparent share) and viewed by the operator-side reviewer for baked checkerboards, white boxes or fringes. Verdict for the CLI route: GO if at least one image has real alpha and looks clean; otherwise NO-GO.
+5. **Diagram.** If GO, replace the `interphase` and `cytokinesis` icons in `render-diagram.mjs` and `fixture.json` with downscaled transparent PNGs (`assets/web/<id>.png`, web size, committed; originals not committed, hashes recorded). A stage may carry an optional `image` field; the script must (a) still produce exactly one `asset_<id>` image node per stage, (b) refuse a raster asset that is not real alpha, (c) record asset digests, provider, model, parameters, job id, credits and alpha statistics in `provenance.json`, and (d) keep every existing check (required ids, both backends, geometry, overflow, overlap). The other four stages keep their hand-drawn SVG icons. Both PNGs and the HTML viewer are rendered and inspected; three red controls (overflow, missing icon, off-canvas Chromium text) plus a fourth for an opaque raster asset must fail by named id. If NO-GO, the diagram is unchanged and this is reported.
+6. Docs: `FINDINGS.md` gains a CLI-route section with the matrix table and verdict; README and `CHANGELOG.md` updated; a findings comment on #8. The PR says `Refs #8` and avoids any closing keyword next to an issue number.
+
+### Non-goals
+
+- No provider contract, shared layer or Higgsfield provider (Phases 1 to 4 of #8), no skill or connector work, no change to `tools/spike/**`, `package.json`, `test-budget.json`, no new test, workflow or dependency.
+- No MCP testing and no `image_background_remover` test (a separate capability; only on the operator's request).
+- No use of the installed Higgsfield companion skills; the CLI is called directly so the spend gate applies.
+
+### Bet and rejected alternatives
+
+- Bet: the CLI's `background: transparent` returns real alpha for GPT Image 2.5, at about 0.25 to 0.5 credits per image. Failure mode: it behaves like the REST route (accepted, opaque result) or bakes a matte; both are recorded as NO-GO or UNCERTAIN and the diagram stays on SVG. Rejected: running the companion skills (they would bypass the spend gate); wrapping the REST runner again (the CLI already handles auth and the job lifecycle).
+- Spend: capped at 20 credits (about $1.25 at the documented credit price); expected about 2.5. The balance is the evidence.
+- Rollback: Easy for code and docs (revert the PR). Spent credits are not recoverable and were capped.
+
+### Verification
+
+- Selftest against a fake CLI: cap refusal (balance already at 19.8 spent plus a 0.5 estimate is refused), no create after an ambiguous outcome, second process refused by the lock, missing cost or balance stops the run; each mutation fails only its control.
+- Inspector controls as before (a known transparent PNG passes, the opaque poster fails), plus the new raster-asset-without-alpha red control in the diagram.
+- Real run: ledger totals and balance difference at or under 20 credits; the key-free repo needs no secret scan beyond confirming that no OAuth token string appears in the diff (the CLI's token file is not read).
+- Diagram `PASS` in both backends with red controls; `utils/pdda/pdda.sh run` no errors; `releases check` clean.
+
+### Ordered implementation
+
+1. Build the CLI runner and its selftest; review the code.
+2. Run the smoke call, fix the output parser, then the matrix; inspect every result.
+3. Record the verdict; if GO, wire the two images into the diagram and render; red controls; look at both PNGs.
+4. Docs, findings comment, gates, final QA, PR.
+
+### Per-issue map
+
+| Issue | Requirement | State |
+|---|---|---|
+| #8 | Phase 0b via requirements 1 to 6. Phases 1 to 4 untouched. | Phase 0b done: verdict GO on the CLI route (4 of 4 real alpha), diagram uses two transparent PNGs; awaiting final QA, then PR (ready, not merged); #8 stays open |
+
+### Phase 0b evidence (2026-10-09)
+
+| Item | Result |
+|---|---|
+| Plan QA | Agy, 1 round, Approved |
+| Code QA | Agy, 2 rounds: round 1 found token and signed-URL redaction and an unvalidated binary override (both fixed, 11/11 selftest controls, mutation-checked); round 2 Approved |
+| Live matrix | 5 jobs (1 smoke by hand, 4 by the runner): T1, T2, T3, T4 transparent, C1 opaque control; balance 701 to 699.5 credits (1.5), quoted equals measured |
+| Result | 4 of 4 transparent requests real alpha; control opaque; parameter echo matched in all five |
+| Diagram | interphase = T4, cytokinesis = T2 as 256 px web copies; `PASS` in both backends; red controls (overflow, missing icon, off-canvas text, opaque raster, swapped file) fail by named id |
+| Cap | 1.5 of 20 credits used |
+
+Deviations: (1) the smoke call was run by hand before the runner existed (recorded in the ledger by `init-ledger` from the saved output). (2) The raster display size is 176 px (the SVG icon box), not the 112 or 144 px first suggested, because the wide cytokinesis image looked undersized.

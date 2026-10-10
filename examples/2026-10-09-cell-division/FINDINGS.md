@@ -1,8 +1,41 @@
 # GH-8 Phase 0 findings: does Higgsfield return real alpha for GPT Image 2.5?
 
+**Updated 2026-10-09:** the first half of this document is the REST-route test (NO-GO). A second test through the Higgsfield CLI (Phase 0b, below) **did** return real alpha. Read the summary first.
+
 Date: 2026-10-09. Issue: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/8. Plan: `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md`. Evidence: `spike-ledger.jsonl` (every call, scrubbed; no key, no signed URL query strings).
 
-## Verdict: NO-GO for native transparency on the REST surface
+
+## Summary
+
+| Route | Verdict | Evidence |
+|---|---|---|
+| REST `marketing-studio/image/flare` and `/sunburst` | **NO-GO** | 0 of 12 paid images had an alpha channel; `background` and `output_format` were accepted and ignored |
+| CLI `higgsfield generate create gpt_image_2_5 --background transparent` | **GO** | 4 of 4 transparent requests returned real alpha (RGBA, minimum alpha 0, no opaque corners); the opaque control returned an opaque image; 1.5 credits |
+| MCP connector | **untested** | not connectable from this environment |
+
+## CLI route (Phase 0b): `gpt_image_2_5 --background transparent` returns real alpha
+
+Run 2026-10-09 with the installed `higgsfield` CLI 1.1.26 (OAuth sign-in, workspace "Private", starter plan), 1k resolution, `--aspect_ratio 1:1`, strictly one job at a time, under the operator's 20-credit cap. Every call went through `higgsfield-cli-spike.py` (price check, balance read, reserve row, then the create) and is in `cli-spike-ledger.jsonl`.
+
+| Label | Variant | Quality | `--background` | Credits (quoted / measured) | PNG colour type | Transparent pixels | Min alpha | Opaque corners | Real alpha | sha256 (first 12) | Job |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| T1-smoke-interphase | flare | low | transparent | 0.25 / 0.25 | 6 (RGBA) | 46.0% | 0 | 0 | yes | `ebe91c71dd84` | `13dd16ee` |
+| T2-cytokinesis | flare | low | transparent | 0.25 / 0.25 | 6 (RGBA) | 65.2% | 0 | 0 | yes | `ea34af329cc3` | `e1efbe5f` |
+| T3-sunburst-interphase | sunburst | low | transparent | 0.25 / 0.25 | 6 (RGBA) | 33.9% | 0 | 0 | yes | `b9b8f6a1edef` | `e8e0401e` |
+| T4-flare-medium-interphase | flare | medium | transparent | 0.5 / 0.5 | 6 (RGBA) | 48.9% | 0 | 0 | yes | `17cc8856e1af` | `3e204ac7` |
+| C1-flare-opaque-interphase (control) | flare | low | opaque | 0.25 / 0.25 | 2 (RGB) | 0% | 255 | 4 | **no** | `44933088f135` | `347fcbf0` |
+
+- **The parameter does the work.** The same prompt with `--background opaque` returned an opaque RGB image, while `transparent` returned RGBA. The job's echoed `params.background` matched the request in all five runs (the runner flags a mismatch and marks the result not GO-eligible; none occurred).
+- **Looks clean.** The four transparent images were viewed composited on the diagram's dark card colour (`#0b1529`): clean cutouts, no halo, no baked checkerboard and no white box. T3 (sunburst) is more detailed and translucent; T4 (flare, medium) has the clearest cell edge, which is why it was used for interphase.
+- **Cost:** quoted and measured agree. The balance went from 701 to 699.5 credits for the five jobs (1.5 credits; Higgsfield's own example prices 1.5 credits at $0.094, so about $0.09). The CLI's `generate cost` returns a number and `account status` returns the balance, so spend can be measured directly, unlike the REST route.
+- **Used in the diagram:** interphase uses T4 and cytokinesis uses T2, as 256 px web copies (`assets/web/`), with provenance in `assets/provenance.json` (provider, model, full params, job id, credits, original and web sha256, alpha statistics). The other four stages keep their hand-drawn SVG icons, and the footer says the two cells are AI-generated.
+- **Other things seen, not tested:** the echoed job parameters include `remove_bg: false`, and the CLI lists an `image_background_remover` model. Neither was used.
+
+Why the CLI differs from REST is not known. The CLI runs a `gpt_image_2_5` job type that lists `background` (`auto`, `opaque`, `transparent`); the REST route is a Marketing Studio endpoint whose schema has no such field. That is an observation, not an explanation.
+
+Limits of the CLI test: five jobs, one account, one resolution (1k), prompts about cells only; the two variants and two quality tiers tried, not the higher tiers; four of five images viewed (the control was only measured). The CLI needs an interactive OAuth sign-in, so unattended use is untested. MCP is still untested.
+
+## REST route verdict (Phase 0): NO-GO for native transparency on the REST surface
 
 **Real alpha returned: 0 of 12 paid generations.** Every image was a 1024 by 1024, 8-bit RGB PNG (PNG colour type 2, no alpha channel), measured by `inspect-alpha.mjs` (decoded in Chromium; `real_alpha` false, minimum alpha 255, four opaque corners). The inspector was proven first on a committed transparent Solar System PNG (`real_alpha` true) and the opaque Solar System poster (`real_alpha` false).
 
@@ -57,9 +90,10 @@ Full results (all from the ledger):
 - Asset visual review covered four of twelve images.
 - The docs-based reading of `status_url`, `request_id` and `images[].url` held on the live API; no response shape surprises other than the estimate route.
 
-## Recommendation (the issue's NO-GO options)
+## Recommendation
 
-1. Do not build a Higgsfield transparent provider on this REST surface. Keep HiQS (`background: transparent` on the OpenAI endpoint) as the only confirmed transparent path.
-2. If Higgsfield is still wanted, treat it as an **opaque-only provider** or an **`ingest` source** (Phase 2 of #8), where the engine verifies alpha itself and rejects opaque files when transparency is required. That needs no contract work beyond GH-5.
-3. A matting step (background removal after generation) is a different capability; open a separate issue rather than folding it into #8.
-4. A short MCP spike, once someone can connect the connector, is the only remaining way to flip this verdict.
+1. **REST route:** do not build a transparent Higgsfield provider on `marketing-studio/image/flare` or `/sunburst`; the NO-GO stands for that route.
+2. **CLI route:** it is a plausible transport for a Higgsfield provider (JSON output, a price check that returns a number, a readable balance, auth handled by the CLI). The contract and provider work (Phases 1 to 4 of #8) is still blocked by GH-5 and is not started; the design needs a decision on shelling out to an interactive-login CLI.
+3. HiQS (`background: transparent` on the OpenAI endpoint) remains the other confirmed transparent path. Both could be peer providers behind one contract, with the engine verifying alpha itself.
+4. A matting step (`image_background_remover`, or a local tool) is a different capability; open a separate issue if it is wanted.
+5. A short MCP spike, once someone can connect the connector, would complete the picture.

@@ -2,3 +2,6 @@
 /cell-division.svg
 # The spike's lock file is per-run state; spike-ledger.jsonl itself is committed evidence.
 /spike-ledger.lock
+/cli-spike-ledger.lock
+# Full-size generated originals are not committed (sha256 kept in assets/provenance.json); assets/web/ is.
+/assets/*.png
