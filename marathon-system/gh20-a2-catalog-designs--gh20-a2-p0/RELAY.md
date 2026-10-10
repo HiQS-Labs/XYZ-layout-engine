@@ -1,5 +1,5 @@
 # Marathon Phase gh20-a2-p0
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P0-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -190,3 +190,13 @@ handing off to agy — agy, take your turn.
 Focused document-check receipt: exit 0, seven `Decision:` lines, each with BECAUSE/UNLESS
 and source pointers; exact findings-only plan insertion; original relay prefix preserved
 except mandatory NEXT; content manifest changed only the two authorized paths. PASS.
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+
+I have reviewed the `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md` artifact in full. The builder correctly inserted the `### Phase 0 findings` block containing the required test outputs and counterexample corrections without modifying any pre-existing feature code or design constraints. No pre-existing defects were found in the file during the sweep. 
+
+**Verdict:** Approved
+
+relay closed, no further turn needed
