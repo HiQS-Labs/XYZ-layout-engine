@@ -1,6 +1,6 @@
 # Marathon Phase gh20-a2-p0
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P0-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -129,3 +129,64 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · codex
+
+Implemented the Phase 0 spike and inserted only `### Phase 0 findings` under Phase 0 in
+`PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md`. No feature code changed. This relay receives this
+appended block and the explicitly required `NEXT: agy (Reviewer)` header update; all other
+pre-existing relay bytes remain intact.
+
+Bet / reversibility: Easy for this evidence-only subsection. The prototype reuses the existing
+import, serialization, lock, transaction, confinement and atomic-dump primitives. The failure
+mode is overstating prototype evidence as a delivered CLI or full-suite budget result; those
+limits are named in the findings. Design IDs remain Costly once shared.
+
+Focused verification (Node v22.22.3, darwin-arm64; no git, no full project gate):
+
+- `python3 -B .relay-scratch/p0/setup.py` — exit 0; initializes a clean prototype with D1/D2
+  in the copied module. Additional declared recipe files are copied solely to make verify valid.
+- `node .relay-scratch/p0/probe.mjs` — final exit 0. Prototype `import tools/catalog.sql`
+  exits 0; 40 original INSERT lines retained, zero removed, all four GIDs retained; 41 lines
+  afterward (new migration row only). Two load/export and two CLI import cycles byte-identical;
+  `export --check` exit 0. Fresh add/publish reseeding removes 39 old recipe INSERT lines.
+- Same probe: one pinned and two NULL-pin rows round-trip byte-identically; half-null pin
+  and recipe-title NULL rejected through both prepared inserts and the literal loader.
+  Unpatched quote(null) throws TypeError. V1-header designs rows rejected.
+- Same probe: invalid date refused, all three seed IDs admitted; absolute, traversal,
+  non-examples paths and escaping symlink refused. D5 ordered lines pass; reversed-key
+  lines pass stringify equality but fail exact key ordering. Findings correct that red-control
+  expectation without changing D5, which already requires both predicates.
+- Same probe: successful write adds one row/line; table and log-only duplicate guards and
+  unknown-pin refusal preserve bytes. EISDIR injected at the actual log path after atomic
+  replacement leaves a persisted row despite in-memory rollback; readable-log verify exits 1
+  with `design must have one log line`. Lock removed. State restored, verify/export-check exit 0.
+- Successful three-design prototype CLI verify: 51.446 ms including startup; estimate eight
+  C4 spawns (~0.412 s), not a full-gate observation. Complete D8 implementation and real
+  suite timing belong to Phase 1 / the driver.
+- `python3 -B .relay-scratch/p0/check_docs.py` — focused document check (receipt below).
+  P0-A4's git-status command is prohibited; a before/after content manifest is the available
+  substitute, with final git containment delegated to the harness.
+
+Evidence outputs: `.relay-scratch/p0/results.json`, `migration.diff`, `probe.stdout`,
+`probe.stderr` and `docs-check.json`. They are disposable and not copied back; the plan records
+all outcomes needed by the next phase. The first expanded rerun exited 1 on a retained scratch
+symlink (EEXIST); clean setup initialization fixed it and the subsequent complete run passed.
+The document insertion guard initially matched the heading mentioned in prose and stopped
+before any write; the guard now matches a real heading. No hidden feature failures remain.
+
+Startup limits: neither relative ROUTER roadmap CLI path exists here (both attempts exit 2).
+Graph `list_projects` returned 82 projects with no matching checkout or canonical clone;
+source fallback used the exact files named by the plan, without off-lane index creation.
+
+Review outcome: Ready for independent agy review; builder does not approve the phase.
+VERDICT: PASS
+Basis: Focused prototype assertions and document containment checks support Phase 0 decisions;
+D5's standalone-stringify counterexample is explicitly corrected in the findings. This is a
+builder verification result, not independent approval or a claim that the harness gate passed.
+
+handing off to agy — agy, take your turn.
+
+Focused document-check receipt: exit 0, seven `Decision:` lines, each with BECAUSE/UNLESS
+and source pointers; exact findings-only plan insertion; original relay prefix preserved
+except mandatory NEXT; content manifest changed only the two authorized paths. PASS.

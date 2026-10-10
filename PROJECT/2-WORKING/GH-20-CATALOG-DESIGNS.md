@@ -358,6 +358,40 @@ Doc-only; no feature code in the repo.
 - [ ] P0-A4 `git status --porcelain` lists only this plan as changed by the phase.
       [Red: any scratch file in the repo shows up.]
 
+### Phase 0 findings
+
+Observed 2026-10-10 on Node v22.22.3, darwin-arm64. The focused prototype and all its
+outputs were confined to `.relay-scratch/p0/` under this temporary checkout, per the relay's
+containment override. No production module, dump, example, test or budget was edited.
+`python3 -B .relay-scratch/p0/setup.py` followed by `node .relay-scratch/p0/probe.mjs`
+exited 0 on the final clean run. The setup copies D1/D2 into the module; the probe copies
+all declared recipe files as well as the three fixtures/primary PNGs so recipe verification
+succeeds rather than timing missing-file errors. Prototype helpers and a minimal design-hash /
+one-line-presence verify extension are temporary evidence, not the Phase 1 implementation.
+
+Decision: Keep D1's frozen V1 header, derived V2 schema and migration via `import` BECAUSE the copied CLI's `import tools/catalog.sql` exited 0, retained all 40 original INSERT lines and all four distinct recipe/version GIDs, and added only migration row 2; the unified diff changes the migration header/CHECK and adds the three designs DDL lines plus that row, with zero `-INSERT` lines. Two load/export cycles and two idempotent CLI import cycles were byte-identical; `export --check` exited 0. Fresh `add`/`publish` reseeding removed 39 old recipe INSERT lines (red control). UNLESS the frozen header or table ordering changes, retain this upgrade route instead of reseeding. Source: `tools/catalog.mjs:16`, `tools/catalog.mjs:32`, `tools/catalog.mjs:70`, `tools/catalog.mjs:159`, `tools/catalog.mjs:216`; original rows: `tools/catalog.sql:16`. Probe: `.relay-scratch/p0/probe.mjs:21`.
+
+Decision: Keep D2's exact uppercase `NULL` literal and JS `null` encoding BECAUSE a solar-system@1.0.0 row and two all-NULL-pin rows exported/loaded byte-identically, with nullable fields returned as JS null; a half-null pin failed the CHECK through both a prepared insert and literal-dump admission, and `NULL` in `recipes.title` failed `NOT NULL constraint failed: recipes.title` through both paths. The unpatched quote expression threw TypeError for null; a designs row under the V1 header was refused as `unsupported row`. UNLESS a later schema intentionally makes another column nullable, SQL constraints remain the boundary rather than weakening recipe validation. Source: `tools/catalog.mjs:19`, `tools/catalog.mjs:39`, `tools/catalog.mjs:81`; probe: `.relay-scratch/p0/probe.mjs:52`.
+
+Decision: Keep D3's date-plus-slug rule BECAUSE `2026-02-30-x-y-z` was rejected by UTC date round-trip equality and all three seed IDs (`2026-10-08-solar-system`, `2026-10-09-rag-system`, `2026-10-09-cell-division`) were accepted with the existing slug pattern and 3–64-character slug limit. UNLESS externally referenced IDs require a different convention, preserve these IDs; invalid Date values must be refused before calling `toISOString`, which can throw. Reversibility: Costly once shared externally. Source: `tools/catalog.mjs:10`, `tools/catalog.mjs:51`; probe: `.relay-scratch/p0/probe.mjs:70`.
+
+Decision: Keep D4's shared relative-path predicate plus `examples/` and extension checks, then `fileBytes` BECAUSE `/abs.png`, `examples/../x.png` and `tools/elsewhere.png` were rejected before reading; an `examples/escape.png` symlink to a file outside the prototype root failed `file escapes root`. UNLESS the admitted example location changes, reuse the existing root-confinement and regular-file checks instead of a second reader. Source: `tools/catalog.mjs:60`, `tools/catalog.mjs:109`, `tools/request.mjs:8`; probe: `.relay-scratch/p0/probe.mjs:73`.
+
+Decision: Keep both D5 canonical-line predicates, and correct the spike's reordered-key expectation BECAUSE an ordered seed line passes `JSON.stringify(JSON.parse(line)) === line`, but a reversed-key line ALSO passes that equality: JSON parsing/stringifying preserves its property order. The reversed line fails the separate exact `Object.keys` order comparison required by D5. Thus the combined check rejects it; stringify equality alone cannot. UNLESS the schema deliberately changes its ordered key list, Phase 1 must retain both checks and build canvas keys as width then height. Concrete reduced counterexample: `JSON.stringify(JSON.parse('{"use_case":null,"id":"2026-10-09-rag-system"}'))` returns the same reordered string. Source: D5 above; construction uses fixture dimensions at `examples/2026-10-09-rag-system/fixture.json:5`; probe: `.relay-scratch/p0/probe.mjs:42`, `.relay-scratch/p0/probe.mjs:67`.
+
+Decision: Keep D7's dump-then-log order with explicit operator rollback BECAUSE the locked transaction / atomicDump prototype appended one row and one line on success; table duplicates, log-only duplicates and an unknown pin were refused with dump/log bytes unchanged. After replacing the dump, injecting a directory at the actual log path made append fail EISDIR: rolling back the in-memory transaction did not undo the persisted dump row. After restoring the readable old log, prototype CLI verify exited 1 with `design must have one log line` under that design ID, and the lock was removed. UNLESS cross-file atomic recovery becomes a requirement, retain the documented manual restore; do not claim the SQL transaction covers either filesystem write. Reversibility: Easy, but restoration is required on this observed partial-write path. Source: `tools/catalog.mjs:174`, `tools/catalog.mjs:205`, `tools/catalog.mjs:239`, `tools/catalog.mjs:244`, `tools/catalog.mjs:248`; probe: `.relay-scratch/p0/probe.mjs:101`, `.relay-scratch/p0/probe.mjs:128`.
+
+Decision: Budget eight added C4 CLI spawns BECAUSE the scoped checks need one successful add, duplicate refusal, unknown-pin refusal, wrong-digest verify, missing-line verify, orphan-line verify, usage refusal, and a final successful verify. UPDATE/DELETE controls reuse the in-process DB. One successful prototype `node tools/catalog.mjs verify --json` with two recipes, three designs and all declared files took 51.446 ms including process startup; eight such durations give approximately 0.412 s as a rough estimate, not a measured full-suite increment or budget pass. UNLESS Phase 1's actual complete D8 checks or write costs materially exceed this estimate, retain the existing C4 and measure the driver-run 4/4 suite against 60 s. Source: `tools/catalog.mjs:140`, `tools/spike/test/canaries.test.mjs:422`, `tools/spike/test/canaries.test.mjs:435`; probe: `.relay-scratch/p0/probe.mjs:94`.
+
+Verification limits: no graph project was registered for this checkout in `list_projects`
+(82 projects, complete pagination); exact source was read directly without creating an index.
+The ROUTER roadmap CLI is absent at both named relative paths in this harness checkout.
+No git command or full gate was run. A focused before/after file-content manifest checks the
+allowed write set in place of the forbidden P0-A4 git-status command; the harness owns git
+containment and the final gate. Scratch evidence is disposable and is not copied back; the
+observed outcomes and counterexample above are the durable record. Independent review remains
+required; all existing checkboxes and plan text outside this subsection are unchanged.
+
 ### Phase 0 — QA checklist
 
 - [ ] Findings written back with file:line pointers; each decision has BECAUSE/UNLESS.
