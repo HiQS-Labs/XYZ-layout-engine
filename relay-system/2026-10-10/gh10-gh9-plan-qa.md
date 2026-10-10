@@ -98,4 +98,12 @@ Basis: The plans accurately reflect the current codebase state with precise file
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-10T16:34:54Z
+task: RELAY-gh10-gh9-plan-qa-agy1
+reviewer: agy
+status: Approved
+reviewed-head: b81754520b2962024e5fc7260214cacfcc89a33e
+added-range: 9525+2635
+added-sha256: e9c9ecfe18dff20f97bf803023dee3ed35ec6dcf32353404ed94caaec27d84a8
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
