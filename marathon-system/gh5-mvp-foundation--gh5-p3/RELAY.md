@@ -56,11 +56,14 @@ Orchestrator repaired current owners atdc3a4d6 after source-grounded cross-model
 
 Independent native recovery Codex Round2 Approved/attested reviewed source f780bc4a81df2c203d570da37067db6d0b7d5340; receipt relay-system/2026-10-09/gh5-p3-recovery.codex.md. Existing four canaries passed28.6s; log relay-system/2026-10-09/gh5-p3-repair/review-round2-verification.log. Preserve these surgical fixes. Original Phase3 is at2/2; operator explicitly authorized ONE cap override, then Phase4→5, with600-second×6 observation and immediate terminal cancellation. Fresh native independent review and test gate are mandatory. No further fire if this additional attempt halts.
 
+## Latest operator-authorized additional attempt
+The prior override halted on an off-lane __pycache__ from the existing C1 deadline import probe. Exact surgical fix: Python -B for that probe. Suite4/4 in28.6s, no source bytecode. Independent Codex Approved/attested fdcea1efcdc5b96814fa394087bc119d94aa5a42; relay-system/2026-10-09/gh5-bytecode-recovery.codex.md. Original task/counter now3recordedfires. Operator explicitly answered “Authorize one additional attempt”; ONE fourthfire is authorized, thenPhases4→5 with600sec×6 monitoring. Preserve earlier receipts and fixes; do not alter counters. PYTHONDONTWRITEBYTECODE=1 is set for this native session. No worker full-suite/gate run; existing driver owns it. Fresh independent review and native gate still required; no furthernativefire if this one halts.
 
-## Debug mantra (auto-triggered — 2 prior attempt(s) on this phase did not reach Approved)
+
+## Debug mantra (auto-triggered — 3 prior attempt(s) on this phase did not reach Approved)
 
 Before trying again, read `relay-automation/DEBUG-MANTRA.md` (relative to the harness root) and follow its four-step discipline: reproduce reliably, know the fail path, question the hypothesis, treat this round as a breadcrumb for the next one.
-Last recorded reason (`marathon-system/gh5-mvp-foundation--gh5-p3/ESCALATION.md`): `relay-failed-before-gate`. Read it before re-guessing.
+Last recorded reason (`marathon-system/gh5-mvp-foundation--gh5-p3/ESCALATION.md`): `containment-violation (off-lane edit reverted by a turn-taker)`. Read it before re-guessing.
 
 ---
 
