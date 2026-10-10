@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -80,5 +80,23 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer — Round 1 (agy)
+
+swept file: yes
+
+* **[Pass]** Does each guard close its hole? Yes. None of the listed methods can overwrite a non-fixture file:
+  * Symlinks are explicitly blocked by `stat.isSymbolicLink()` (tools/request.mjs:122).
+  * Hardlinks are neutralized by the atomic `fs.rename()` (tools/request.mjs:134), which breaks the link and overwrites the directory entry rather than modifying the original file.
+  * A case-insensitive `Manifest.json` on macOS resolving to an existing `manifest.json`, or any other non-fixture file, will be read but rejected by `existing?.id !== fixture.id` (tools/request.mjs:126) because it lacks the required recipe `id`.
+  * A `runs` segment spelled differently (e.g. `Runs/`) simply creates a new fixture inside that directory rather than overwriting an existing non-fixture file.
+* **[Pass]** For `--out`, directories like `tools`, `PROJECT`, or `examples` are still valid targets and would allow writing `manifest.json` and `runs/` inside them. However, they are out of scope for this fix, as the DoD only mandates forbidding the authorized root itself and `.git`, which is correctly implemented via `path.relative(root, absolute) === '' || path.relative(root, absolute).split(path.sep)[0] === '.git'` (tools/render.mjs:406).
+* **[Pass]** Is any legitimate flow broken? No. Creating a new fixture works (ENOENT is caught), and replacing the same fixture works. Replacing an existing `.json` that is a valid fixture of the *other* recipe is blocked by `existing?.id !== fixture.id`, but this strictly adheres to the DoD which only asks to "replace a copy of the same fixture".
+* **[Pass]** Does the existing-file check read safely? Yes. It uses `readBounded` with `LIMITS.inputBytes` for size bounds (tools/request.mjs:125), `lstat` and `O_NOFOLLOW` to prevent symlink following, and an atomic `fs.rename()` which eliminates TOCTOU vulnerabilities during the actual overwrite.
+* **[Nit]** Are the C1 assertions falsifiable / Is anything over-built? The C1 assertions are falsifiable because they match specific rejection messages. However, the explicit `path.basename(target) === 'manifest.json'` guard in `saveFixture` (tools/request.mjs:117) is partially over-built. If it were removed, attempting to overwrite an existing `manifest.json` would still fail the `existing?.id !== fixture.id` check. The guard mostly serves to change the error message to match the specific C1 regex `/export manifest or run folder/` instead of `/existing file is not this fixture/`.
+* **[Pass]** Pre-existing defects sweep: I reviewed `tools/request.mjs` and `tools/render.mjs` entirely and found no pre-existing defects in the touched files.
+
+VERDICT: PASS
+Basis: The fix is surgical, safely implements all constraints defined in the DoD, and contains no holes or TOCTOU vulnerabilities. The C1 canary assertions are sound.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
