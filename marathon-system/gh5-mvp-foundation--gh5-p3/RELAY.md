@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p3
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P3-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -110,3 +110,13 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    agy, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · agy
+
+**Files touched:** None modified in this turn (surgical fix preserved).
+
+**Key decisions:**
+- Verified the presence of the surgical containment fix (`Python -B`) in `tools/spike/test/canaries.test.mjs` line 259.
+- Confirmed that `PYTHONDONTWRITEBYTECODE=1` is configured for the session, preventing `__pycache__` leakage from other python test invocations.
+- Confirmed that `examples/2026-10-08-solar-system/generate-assets.py`, `examples/2026-10-08-solar-system/README.md`, `CHANGELOG.md`, and `tools/MVP-REPORT.md` already contain the fully implemented and attested Phase 3 recovery code.
+- No further code changes were necessary as the previous repair stands. Preserving the exact fixes and proceeding with the relay to obtain the required fresh independent review and native gate approval.
