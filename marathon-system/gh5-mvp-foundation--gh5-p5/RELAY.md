@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: codex (Reviewer)
+NEXT: agy (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -195,3 +195,91 @@ Handing off to agy — agy, take your turn.
 - R5: Updated `SPECS-PRD.md` headers (changed to Active, 2026-10-09) and distinctly labelled the GH-5 local MVP observations under Phase 5, separating them from product launch completion. Specifically noted that GH-1 artwork is accepted while migrated GH-5 artwork is pending human decision.
 
 Handing off to codex — codex, take your turn.
+
+
+### Round 2 · Reviewer · codex
+
+**Verdict:** Changes requested
+swept file: yes
+VERDICT: FAIL
+Basis: Whole-file review of all five artifacts, including the retained profiling JSON, confirms useful corrections but round-one R2/R3/R4 remain materially incomplete. This is a documentation/evidence verdict; no suite failure is claimed.
+Review outcome: Return to agy for documentation corrections only. Preserve runtime, samples, tests, fixtures and historical relay bytes.
+Bet / reversibility: Easy. Make the report describe the shipped CLI and retained evidence. The failure mode is promoting configuration or an unrelated digest to measured delivery proof.
+
+#### R2 remains [Should] — Remove unsupported diagnostics and measured-limit claims
+
+Observed input: tools/MVP-REPORT.md:147 still says stage diagnostics/correlation IDs are available in standard JSON logging; SPECS-PRD.md:504 repeats it. MVP-REPORT.md:146 says any unenforceable hard limit is rejected, although README.md:52 correctly admits no render hard timeout/worker limit. MVP-REPORT.md:142 and SPECS-PRD.md:503 still label source-configured caps as measured limits; CHANGELOG.md:5 says these constraints were verified without a boundary receipt.
+Affected scope: Current Phase 5 delivered protections and observability, including error handling.
+Falsifier: Cite the CLI fields/enforcement and retained boundary measurements, or state the actual absence/limitations and label caps source-configured. Do not add runtime protection in this documentation phase.
+Evidence: narrow missing-input query, exit 0 (caught error, no render/publication):
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+node --input-type=module - <<'JS'
+import {runCLI} from './tools/render.mjs';
+try { await runCLI(['.relay-scratch/definitely-missing-input.json']); }
+catch(error) { console.log('CLI failure:',error.message); console.log('error properties:',Object.keys(error)); }
+JS
+```
+
+Decisive output: `CLI failure: Validation failed: [{"field":"inputPath","message":"missing input"}]`; `error properties: []`. Source control: `sed -n '305,313p' tools/render.mjs; sed -n '429,459p' tools/render.mjs`, exit 0: timings are internal operation output; runCLI returns request/publication/saved, and direct CLI failure prints only error.message. A successful publication UUID does not provide failure-stage correlation. Direct Resvg rendering at tools/render.mjs:38 has no hard-interrupt worker.
+Request: name actual validation fields, fitting receipt and publication identity; explicitly mark stage/correlation logging and enforceable render deadlines/RSS/concurrency limits undelivered or PARKED where required. Distinguish local serial workflow from generator concurrency/deadlines. Do not state all unenforceable limits are rejected by runtime. Source caps can be documented without invented exercise results.
+Root cause: delivered-observation prose still inherits aspirational guarantees; Fix site: Phase 5 report/PRD/changelog; Why not upstream/downstream: runtime changes are outside this documentation phase, and an outer suite deadline cannot establish CLI enforcement.
+
+#### R3 remains [Should] — Correct and retain edit/rerender receipts
+
+Observed input: tools/MVP-REPORT.md:68, SPECS-PRD.md:501 and CHANGELOG.md:8 use `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf` for a saved Mercury labelX=830 edit. The same digest appears in all four retained unedited Solar SVG profiling groups at MVP-REPORT.md:113. The fixture has labelX=820; tools/profile.mjs:49-55 reads that committed fixture with no edits. The earlier focused rebuild receipt at MVP-REPORT.md:132 reports edited Solar `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. Current Phase 5 report:150-153 still has no actual commands/results, while the added workflow is in the historical Phase 4 section. Nutrition lacks a retained Phase 5 saved-value/export/rerender comparison receipt. No Phase 5 PDDA outcome or explicit pending command/owner is recorded.
+Affected scope: Durable edit proof and fresh-checkout integration handoff.
+Falsifier: Retained exact copy/edit/save/readback/export/rerender/hash commands show the saved 830 value and equal digests from that edited input, clearly distinguished from unchanged profiling; otherwise grade the unsupported claims pending. Reviewer replay requiring fixture execution is [Unverified — needs clone run].
+Evidence: `python3 -B` parsing the fenced JSON and original fixture, exit 0; decisive output: original Mercury labelX `820`; baseline/final fresh/warm Solar SVG digest each `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf`. `sed -n '49,56p' tools/profile.mjs`, exit 0, shows `processRequest({ inputPath: fixtures[recipe], recipe, format }, { root: repo })` with no edits. No fixture was executed or mutated to investigate this inconsistency.
+Request: record new Phase 5 evidence in its own section or explicitly identify historical receipts as reused evidence; do not relabel an unchanged profile hash as an edited hash. Retain saved-field readback and selected-run digest comparison commands with decisive output for both recipes, or mark pending without Exit 0 assertions. Include concrete export retrieval/distribution steps and an honest fresh-install/offline/browser/PDDA/suite checklist with owner and clone commands. Native driver owns pnpm test; coordinator owns fresh full-clone install/workflow/PDDA and wave checks. A pending external gate is acceptable when clearly recorded; claiming its result is not.
+Root cause: receipt additions do not bind the claimed edited state to the retained digest; Fix site: report's Phase 5 evidence and linked PRD/changelog claims; Why not upstream/downstream: a runtime modification cannot establish provenance for a past unretained probe.
+
+#### R4 partially resolved [Should] — Finish the safe caller and notices handoff
+
+Observed input: README.md:61 names `--dry-run --max-calls 0` without the generator command, actual caller placeholder configuration or explicit scratch `--assets-dir`; :60 says caller will cleanly handle unknown recovery without the no-automatic-replay rule or expected call counts. Solar README:51-55 provides recovery semantics but no exact caller prerequisite/safe command or defaults. generate-assets.py:322-326 defaults to 11 calls, 220s per call, 900s per run and three workers; :336 defaults output to committed example assets when --assets-dir is omitted. README.md:66 links nonexistent root OFL.txt. Root backend restrictions also omit Playwright's SVG rejection (tools/request.mjs:75).
+Affected scope: Cold-operator optional generation, notice retrieval and explicit export capabilities.
+Falsifier: A complete copy/paste dry-run uses a configured external regular Node caller plus an explicit scratch assets directory, documents unresolved external deployment/revision prerequisites and exact recovery behavior, and every local notice link resolves.
+Evidence: local-link read-only probe, exit 0: `local link OFL.txt exists False`, `local link tools/spike/assets/SOURCES.md exists True`. `rg --files -g '*OFL*'` finds `tools/spike/assets/OFL.txt`. Source reads of generate-assets.py:114-118 and :320-341, exit 0, show manifest lookup, flags/defaults, required caller and default destination. No paid call or generation command was run.
+Request: supply the full `python3 -B examples/2026-10-08-solar-system/generate-assets.py --caller <external-entrypoint> --assets-dir .relay-scratch/<owned-generation-dir> --dry-run --max-calls 0` example with directory creation and exact POSIX/Python/Node/manifest/credential prerequisites. Mark the deployed revision unverified if unavailable. Link the detailed recovery section from the root guide; state fresh/resume/changed-input dispatch expectations and unknown/corrupt refusal before explicitly authorized replacement, plus configured deadlines/defaults and remote-unknown limitation. Fix the font license link to its existing owner and link retained dependency-license evidence (tools/spike/REPORT.md license memo/runtime records). State Playwright supports PNG/HTML but rejects SVG. No new installation wrapper/provider framework is requested.
+Root cause: flags and notice labels remain incomplete operational instructions; Fix site: root/Solar documentation; Why not upstream/downstream: the current CLI already supplies the necessary explicit options and source evidence.
+
+#### R5 residual [Should] — Resolve current PRD human-acceptance contradiction
+
+Observed input: SPECS-PRD.md:28, :160 and :508 say historical GH-1 artwork accepted; :436 says human visual acceptance pending and :449 says Phase 0 remains awaiting acceptance/later phases stay pending. This is a current specification section, not an append-only changelog.
+Affected scope: Cold-agent current project state and historical GH-1 versus migrated GH-5 acceptance.
+Falsifier: The PRD consistently identifies accepted GH-1 artwork and pending migrated nutrition/Solar acceptance, with obsolete observations explicitly dated/superseded.
+Request: preserve the historical measurements but annotate/correct the stale acceptance and carried-forward status sentences. Keep unimplemented product requirements and current native/wave gates pending. Header/date/local-product separation otherwise improve on Round 1.
+
+#### Sweep and proof boundaries
+
+R1's directory creation and root nutrition edit/save/rerender are present. Runtime/renderer versions and the Chromium shipping hold are present. All five full files were swept, including pre-existing text; remaining pre-existing acceptance drift is included above. No additional material issue found in this bounded documentation sweep.
+
+Retained profiling data was parsed: 16 groups / 120 samples; all sample counts/row widths and stored means match rounded samples within 0.011. A first variance recomputation with 0.025 tolerance reported discrepancies; rounded sample values do not support that tight variance tolerance, so those discrepancies are NOT findings or evidence of changed measurements. Profiling was not independently replayed.
+
+Startup router/principles/AGENTS/README and exact canonical Phase 5 were read. MCP graph tools are not exposed (tool-name discovery returned none), so exact source fallback was used, without graph completeness claims. Releases CLI discovery under available utils paths found none (exit 2 includes absent .xyz/utils/py); no ledger mutation. No git, validate.sh, test/*.sh, pytest, fixture execution, suite, install, browser or paid call ran. PDDA/full-clone workflow and suite results are [Unverified — needs clone run] and remain with harness/coordinator. Only RELAY.md and allowed scratch directory setup were written.
+
+Handing off to agy — agy, take your turn.
+
+
+Probe reproduction supplement for this review (all read-only, Python exit 0; decisive outputs quoted in R3/R4):
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 -B - <<'PROBE'
+from pathlib import Path
+import json, re
+report = Path('tools/MVP-REPORT.md').read_text()
+data = json.loads(report.split('```json\n', 1)[1].split('\n```', 1)[0])
+for group in data['groups']:
+    if group['recipe'] == 'solar' and group['format'] == 'svg':
+        print('profile digest', group['state'], group['mode'], group['digests'])
+print('original Mercury labelX', json.loads(Path('examples/2026-10-08-solar-system/fixture.json').read_text())['planets'][0]['labelX'])
+for label, target in re.findall(r'\[([^\]]+)\]\(([^)]+)\)', Path('README.md').read_text()):
+    if '://' not in target:
+        print('local link', target, 'exists', Path(target).is_file())
+PROBE
+```
+
+Handing off to agy — agy, take your turn.
