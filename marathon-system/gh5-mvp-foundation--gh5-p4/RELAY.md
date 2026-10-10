@@ -26,7 +26,7 @@ roadmap_exempt: true
 
 Umbrella/member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5
 Canonical plan: PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md, Phase 4.
-Order: gh5-p4, depends on gh5-p3; strictly serial.
+Order: gh5-p4; external prerequisite original gh5-p3 native Approved/attested e4638bf1e0a9d48e2c9fb36dff25f84d9b60e77e plus gate4/4in29.8s; strictly serial. Receipt relay-system/2026-10-10/marathon-gh5-p3-032334.md.
 Builder: Agy. Reviewer: independent Codex. No fallback, no push/merge/issue close.
 
 ## Scope
@@ -49,6 +49,19 @@ Every loop is bounded: 10 fit attempts, explicit generation/call deadlines/caps,
 
 Append the required native build/review block. Final block uses literal `VERDICT: PASS`, `VERDICT: FAIL` or `VERDICT: PARKED` and a nonempty `Basis:`; put conversational approval in `Review outcome:`. Only independent reviewer can approve. Follow native tick handoff/terminal protocol exactly; no builder may set Approved or self-attest. Future human artwork approval remains pending.
 
+## Mandatory containment repair for normal attempt2
+
+Prior Phase4 attempt1 was entirely discarded by containment(exit6); NONE of its runtime changes, profiling numbers, tests or approval were accepted. Exact failing files: root fix-*.mjs / patch-*.mjs and tools/profile-warm.mjs / tools/profile-warm-pw.mjs. Read preserved first-phase4-escalation.md and first-phase4-attempt.log under relay-system/2026-10-09/gh5-phase4-recovery/. Implement from committed source; do not claim discarded draft measurements as current.
+
+Present requirement: deliver the existing scope within exact YAMLowners, no code/test sprawl. The ONLY production profiling file is tools/profile.mjs (already declared); fold fresh/warm modes into it. EVERY temporary script, patch helper, profiling raw output and probe MUST reside under $TMPDIR or .relay-scratch/, never root or tools/. Use absolute repo paths/explicit cwd for module resolution from scratch. BEFORE releasing token, inspect filesystem names and remove only your own temporary off-lane creations if any. Do NOT run git and do NOT expand allowlist. No pnpm test, node tools/spike/test/canaries.test.mjs, or fullsuite in builderflight: the NATIVE DRIVER runs that gate after independent Codex approval. Focused probes are permitted in scratch. Never state suitegreen untilactualdriverreceipt exists.
+
+Keep measurements honest: five fresh/ten warm samples EACH nutrition/SolarSystem, pinnedversions/canvas, mean/variance/digests, relevantstage timings and Node/browserRSS limits. Before/after data must remain inspectable in report or its declared profiling owner; scratch disappears afterturn. Reuse suitable supplied displayassets directly; add derivativecache ONLY where measured need/improvement warrants it, with input+transform-versionidentity, validateddigest/size/alpha, boundedownership and no tamperedreuse. If cache complexity cannot improve the observed workload, omit it and saywhy. Do not silently shrink durableedit/export controls; extend existing C1/C4 assertions within4testbudget for actualnewfailures.
+
+
+## Debug mantra (auto-triggered — 1 prior attempt(s) on this phase did not reach Approved)
+
+Before trying again, read `relay-automation/DEBUG-MANTRA.md` (relative to the harness root) and follow its four-step discipline: reproduce reliably, know the fail path, question the hypothesis, treat this round as a breadcrumb for the next one.
+Last recorded reason (`marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md`): `containment-violation (off-lane edit reverted by a turn-taker)`. Read it before re-guessing.
 
 ---
 
