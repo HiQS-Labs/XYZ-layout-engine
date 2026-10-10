@@ -120,3 +120,7 @@ Final Wave 1 Round 1 found B1: current-main RAG/cell-diagram and two helper cons
 ### Final Wave 1 QA accepted — 2026-10-10
 
 Separate final independent Codex review is Approved/attested at 9246ae2b0d754d176907294bd059d459ff756239 (`relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`; copied native attestation `gh5-final-verification/wave1-attestation.json`). B1 is resolved; no material peer finding remains in the declared local scope. Subsequent changes record terminal receipt/checklist/status only; reviewed substantive source and claims stay unchanged. Root-bound pre-PR gate and PR publication remain next; later PR findings are adjudicated before any landing. No merge/issue closure or human/provider acceptance.
+
+### Ready PR publication — 2026-10-10
+
+Ready PR #18: https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18, head marathon/gh-5-mvp-foundation, base main. Initial published head b1c8cb8 matches origin; final independent reviewed source 9246ae2 remains unchanged. Root-bound pre-PR gate passes. This record is publication/acceptance metadata only; no merge or issue close. GitHub PR review/landing and the explicitly pending human/provider/Later scope remain future gates.

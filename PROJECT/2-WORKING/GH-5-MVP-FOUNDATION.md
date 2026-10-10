@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| All five machine phases accepted, current origin/main integrated, and final Wave 1 Codex QA independently Approved/attested at 9246ae2. Incoming consumers repaired and verified; four canaries pass in 29.5s. Peer finding B1 resolved; acceptance receipts recorded. | Root-bound pre-PR gate passed with no errors/warnings. Publish prepared ready PR with full notes; GH-5 human/provider/Later criteria stay open. Main checkout untouched. |
+| All five machine phases accepted, current origin/main integrated, and final Wave 1 Codex QA independently Approved/attested at 9246ae2. Incoming consumers repaired and verified; four canaries pass in 29.5s. Peer finding B1 resolved; acceptance receipts recorded. | Ready [PR #18](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18) published and verified on origin. Await PR review/landing and explicit human/provider decisions; retain Later scope on open GH-5. Main checkout untouched. |
 
 ## Table of contents
 
