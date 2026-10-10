@@ -62,15 +62,15 @@ cp tools/spike/fixture.json .relay-scratch/nutrition-edit.json
 node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export
 # Exit 0, saved sections.header.headline="Fuel for today", theme.palette.primary="#335577"
 node tools/render.mjs .relay-scratch/nutrition-edit.json --format svg --out .relay-scratch/nutrition-rerender
-# Exit 0, identical rerender digest f7507d88c4501ddedbc809c1012b165897bb92aaa815e3a217e0772332265b06
+# Exit 0, identical edited/rerender SVG digest 38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a
 cp examples/2026-10-08-solar-system/fixture.json .relay-scratch/solar-edit.json
 node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export
-# Exit 0, saved planets.0.labelX=830, SVG digest matches c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf
+# Exit 0, saved planets.0.labelX=830, edited SVG digest 06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb
 node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --format svg --out .relay-scratch/solar-rerender
 # Exit 0, identical rerender digest
 ```
 
-The Solar position above is the measured fixture's original Mercury labelX plus 10; the placement probe and verified saved/rerendered SVG identity. Text/theme/placement rendering has no generator/caller path and made no paid call. Note: The fresh-install/network-isolation/browser/suite claims are [Unverified — needs clone run] until the outer coordinator executes them.
+The Solar edit changes Mercury labelX from 820 to 830. The coordinator replayed these exact workflows in a new, non-shallow full clone at b0b47ce, installed an independent node_modules using `pnpm install --frozen-lockfile`, read back both saved JSON files and resolved each manifest selector before comparing SVG bytes. All commands, exit codes and decisive output are retained in [relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json](../relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json); bootstrap installation is not network-isolation evidence. Compact HTML and relocated standalone HTML for both recipes loaded all images and Inter 400/700 while HTTP(S) routing recorded zero requests. This is local browser/export proof, not an OS-level network sandbox or paid-provider measurement. Native Phase 5 suite acceptance remains pending.
 
 **Exports:** comma-separated requested formats only; duplicate/unknown formats fail. PNG requests use backend rasterization. Satori must construct SVG for its layout/geometry oracle; SVG/HTML-only requests skip PNG rasterization. Playwright's glyph-coverage oracle also skips unnecessary rasterization and HTML-only requests skip screenshot creation. `html` produces `render.html` and `assets/<content-sha256>.(png|svg|ttf)` inside the selected immutable run. `html-inline` produces a standalone `render-inline.html` with embedded images and both pinned Inter 4.0 weights. SVG retains embedded raster artwork and is not an all-vector export. Copy the selected run for compact distribution; copy just render-inline.html for self-contained distribution. Text/attribute values are escaped, network image URLs are rejected and compact references are generated from image/font attributes only (data-URL-looking label text remains unchanged). result.json and the content manifest remain mandatory; no diagnostic files are emitted by default. `verifyPublication(root)` checks confined manifest-owned file paths, total bytes and every recorded digest, including nested assets and a valid render receipt.
 
@@ -137,7 +137,7 @@ Root cause: compact HTML packaging invalidated C1's positional page assumption; 
 
 ### Phase 5 — Integration and Handoff
 
-The offline documentation and constraint definitions have been completed and verified via scratch probes.
+Documentation recovery is ready for independent review; Phase 5 native approval and gate remain pending. The first attempt halted at its review cap with no native suite run.
 
 **Source-Configured Caps and Unsupported Workloads:**
 - Input JSON is configured to bound at 256 KiB. Per-image rasterization caps are configured at 5 MiB and 16,777,216 pixels. Total scene caps are 35 MiB encoded, 16,777,216 pixels, and render area of 16,777,216 pixels. Export publication is configured not to exceed 64 MiB total bytes. These are source-configured caps; measured delivery and limits are explicitly distinguished.
@@ -148,6 +148,13 @@ The offline documentation and constraint definitions have been completed and ver
 - Remote HTTP/MCP, tenant isolation/SSRF, private caches, durable service queues, themes/adapters, and full editor are explicitly in the **Later** queue. No half-services have been shipped.
 
 **Receipts:**
-- Scratch workflows for `nutrition` and `solar-system` passed. For `nutrition`, edit and rerender produced edited SVG digest `f0bafb7349bc8e992ecaf1a2e51073e953ba3c8cf900f4e863215bee67fd3747`. For `solar-system`, edit and rerender produced edited SVG digest `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb` (distinct from the unedited `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf` baseline). All copy-only durable edits saved successfully (Exit 0) and rerendered successfully without mutating source repository files.
-- `pnpm test` assertion execution belongs to the native driver gate. Full-clone workflow, suite gates, and fresh install are explicitly `[Unverified — needs clone run]`.
+- The coordinator's fresh-full-clone workflow replay passed. For `nutrition`, edit and rerender produced edited SVG digest `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`. For `solar-system`, edit and rerender produced edited SVG digest `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb` (distinct from the unedited `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf` baseline). All copy-only durable edits saved successfully (Exit 0) and rerendered successfully without mutating source repository files.
+- Exact provenance is retained in [relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json](../relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json) and `fresh-workflow-summary.json` alongside it. The historical TURN-2 scratch script was discarded, so its different nutrition digest at line 132 has unknown original edits and is not proof of the displayed workflow. Its historical receipt is preserved without relabelling its inputs.
+
+**Remaining handoff checks (owners and commands):**
+- [x] Coordinator: fresh full clone, `pnpm install --frozen-lockfile`, both documented copy/edit/save/export/rerender workflows, saved-value readback, selectors and hash equality — `fresh-workflow-commands.json`.
+- [x] Coordinator: browser checks of both compact/standalone HTML exports, both Inter weights and all images with HTTP(S) blocked — same receipt, exit 0, zero attempted HTTP(S) requests.
+- [ ] Native driver: `pnpm test` after independent Codex review of original Phase 5; a coordinator fresh-clone suite receipt does not substitute for native acceptance.
+- [ ] Coordinator: applicable `utils/pdda/pdda.sh run` after recovery and latest-origin integration.
+- [ ] Coordinator: final independent Wave 1 Codex QA and `utils/pdda/pdda.sh marathon-qa --root "$PWD" --pre-pr --wave 1 --doc "$PWD/PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md"`. Latest-origin integration remains required first.
 - No unearned green boxes, issue closure, or production readiness are claimed. Nutrition and Solar System visual acceptance are recorded as pending human decisions. #5 remains open for Later requirements.

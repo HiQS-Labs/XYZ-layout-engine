@@ -1,10 +1,12 @@
 # XYZ Layout Engine
 
-XYZ Layout Engine is a deterministic layout and rendering engine written in TypeScript. It converts structured data (JSON) into raster (PNG) or vector (SVG, HTML) images using versioned layout recipes.
+XYZ Layout Engine is a deterministic layout and rendering engine. The current local MVP uses ESM JavaScript and a Python image-generation script; TypeScript remains a product target. It converts structured data (JSON) into raster (PNG) or vector (SVG, HTML) images using versioned layout recipes.
 
 ## Install and Offline Workflow
 
 XYZ Layout Engine supports a fully offline, self-contained workflow. Once the repository and dependencies are installed, you can render, edit, and export without any remote network calls or paid API usage.
+
+Run these commands from the repository root. Dependency installation may use the network; the rendering workflows below use pinned local assets.
 
 1. **Install dependencies:**
    ```sh
@@ -34,7 +36,7 @@ XYZ Layout Engine supports a fully offline, self-contained workflow. Once the re
    *Edits made via `--set` are durable when combined with `--save`. Rendering without `--save` produces a transient preview export without mutating the original JSON.*
 
 4. **Export Retrieval and Distribution:**
-   Check `.relay-scratch/nutrition-export/manifest.json.current` to locate the exact output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
+   Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
 ## Capabilities and Limits
 
@@ -44,12 +46,12 @@ XYZ Layout Engine supports a fully offline, self-contained workflow. Once the re
   - Aggregate scene limits: maximum of 35 MiB encoded, 16,777,216 pixels, and a total render area of 16,777,216 pixels.
   - Total published bytes across an export cannot exceed 64 MiB.
 - **Artifact Exports**: 
-  - **PNG**: Rasterized via Satori + resvg, or Chromium as a fallback.
+  - **PNG**: Rasterized via Satori + resvg, or explicitly selected Playwright/Chromium (`--backend playwright`); there is no automatic backend switch.
   - **SVG**: Accurate vector layout via Satori, retaining embedded raster artwork inside `image` nodes.
   - **HTML**: Compact offline export containing the `render.html` and locally copied `assets/` keyed by SHA-256. `html-inline` embeds assets directly into the HTML document.
 - **Fitting and Diagnostics**: 
   - Adaptive text fitting searches for a valid shrink down to 12px within a maximum of 10 iteration bounds. Non-fit exhaustion cleanly halts.
-  - Hard stage timeouts limit runaway rendering are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
+  - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
   - The delivered recipe-owned canvases are nutrition 1000×1000 and Solar System 2400×1700, scale 1. Other dimensions and scale are explicitly rejected.
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
@@ -58,7 +60,7 @@ XYZ Layout Engine supports a fully offline, self-contained workflow. Once the re
   - Arbitrary remote HTTP asset fetching, multi-tenant isolation, SSRF protection, private caches, and durable service queues are currently in the **Later** queue. We do not ship half-services; they remain disabled in local workflows.
 - **External Caller Prerequisite (Optional Generation)**:
   - Generation requires a POSIX environment with Python 3, Node, a deployed HiQS caller entry point with credentials, and a matching recipe manifest (`caller.parent.parent/assets/image-manifest.json`). Exact deployed caller revision is currently [Unverified].
-  - Caller dispatches fresh/resume/changed-input calls. Unknown or corrupt states are refused rather than automatically replayed (explicitly authorized replacement required). Generator defaults to 11 calls max, 220s per call, 900s per run, and 3 workers, with remote-unknown limitations.
+  - Expected calls with sufficient budget: eleven for fresh default jobs, zero for unchanged complete resume, one for a single changed admitted asset. Unknown or corrupt states are refused rather than automatically replayed (explicitly authorized replacement required). Generator defaults to 11 calls max, 220s per call, 900s per run, and 3 workers, with remote-unknown limitations.
   - Safe dry-run testing (no paid calls):
     ```sh
     mkdir -p .relay-scratch/assets-test

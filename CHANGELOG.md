@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-09 — GH-5 Phase 5 provenance correction (coordinator)
+
+- Corrected current workflow hashes by replaying the exact edits in a fresh full clone at b0b47ce: nutrition headline `Fuel for today` and primary `#335577` produce SVG `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`; Mercury labelX=830 produces `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. Each saved fixture readback and manifest-selected rerender matched. The earlier Phase 5 entry assigned a historical nutrition probe hash to different edits; this entry supersedes that evidence claim. Historical entries and 120 profiling samples remain preserved.
+- Frozen-lockfile install passed with independent node_modules. Compact and relocated inline HTML for both recipes loaded all images and Inter 400/700, zero HTTP(S) requests. Commands, exit codes and output: `relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json`. No paid calls, runtime/test/dependency changes or human acceptance claims.
+- Phase 5 first native attempt halted at its review cap before the suite gate; one normal attempt remains. Independent recovery QA, native Phase 5 gate, latest-origin integration and final Wave 1/pre-PR gates are still pending. Refs #5.
+
 ## 2026-10-09 — GH-5 Phase 5 Integration and Handoff (Agy builder)
 
 - Created `README.md` and updated PRD/MVP-REPORT to document the pinned offline install/render/edit/export workflows for the `nutrition` and `solar-system` recipes.

@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phases 1–4 accepted. Phase 4 original lane attempt 4 received native Agy approval/attestation at 49d25b9 and passed 4/4 canaries in 33.8s; runtime, profiling and recovery receipts preserved. | Execute original Phase 5 with Agy builder/Codex reviewer, no override, and a fresh 600-second × 6 monitor. Then latest-origin integration, final independent Wave 1 QA, pre-PR gate and ready PR. |
+| Phases 1–4 accepted. Phase 5 attempt 1 halted on conflicting documentation receipts at the review cap; native gate not run. Fresh-clone exact workflow replay and browser checks passed; original Phase 5 counter is 1/2. | Independently review provenance-only repairs, then normal original Phase 5 attempt 2 with Agy/Codex and 600-second × 6 monitoring. Latest-origin integration, final Wave 1 QA, pre-PR gate and ready PR remain required. |
 
 ## Table of contents
 
