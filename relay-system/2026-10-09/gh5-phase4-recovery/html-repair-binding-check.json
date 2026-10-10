@@ -1,0 +1,8 @@
+{
+  "original_task": "MARATHON-GH5-P4-TURN",
+  "original_reviewed_head": "be3ddb5561c2aa0b487e54a85b922d0e45a27d96",
+  "current_head": "ff271751f2288a803bb5b03dbbc068f06231c58f",
+  "original_attestation_covers_repair": false,
+  "reason": "candidate ff271751f228 changes non-transcript content after reviewed head be3ddb5561c2",
+  "required_native_route": "Same gh5-p4 lane and attempt counter; --retry gh5-p4 creates fresh supported review token; explicit one additional cap override required."
+}

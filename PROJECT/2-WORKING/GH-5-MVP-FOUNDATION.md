@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phase3 original native independently CodexApproved/attested e4638bf andgate4/4in29.8s; Phase1/2accepted, originalfailedhistory/timerreceipts preserved. | Authorized Phase 4 Codex/Agy attempt 3 passed containment and received Agy approval, but the native test gate halted on an obsolete HTML artifact-order assertion. Surgical C1 repair passes all four canaries in 36.8s; independent recovery QA is next. Native Phase 4 advancement requires another explicit override; Phase 5, final QA, integration and PR remain pending. |
+| Phase3 original native independently CodexApproved/attested e4638bf andgate4/4in29.8s; Phase1/2accepted, originalfailedhistory/timerreceipts preserved. | Authorized Phase 4 Codex/Agy attempt 3 passed containment and received Agy approval, but the native test gate halted on an obsolete HTML artifact-order assertion. Surgical C1 repair passes all four canaries in 36.8s; independent Codex recovery QA is Approved/attested 403636d. Native Phase 4 advancement requires another explicit override; Phase 5, final QA, integration and PR remain pending. |
 
 ## Table of contents
 

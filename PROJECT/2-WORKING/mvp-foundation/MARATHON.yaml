@@ -1,5 +1,5 @@
 # HELD: original Phase 4 attempt 3 consumed the authorized Codex/Agy override. Containment and review passed; native gate failed.
-# Existing C1 HTML selection repaired; four canaries pass in 36.8s. Independent recovery QA pending.
+# Existing C1 HTML selection repaired; four canaries pass in 36.8s. Independent Codex recovery QA Approved/attested 403636d.
 # No further original Phase 4 fire is authorized. Phase 5 remains queued with its original Agy/Codex pairing.
 name: gh5-mvp-foundation
 phases:
