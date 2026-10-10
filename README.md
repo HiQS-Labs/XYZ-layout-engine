@@ -60,12 +60,13 @@ Run these commands from the repository root. Dependency installation may use the
   - Arbitrary remote HTTP asset fetching, multi-tenant isolation, SSRF protection, private caches, and durable service queues are currently in the **Later** queue. We do not ship half-services; they remain disabled in local workflows.
 - **External Caller Prerequisite (Optional Generation)**:
   - Generation requires a POSIX environment with Python 3, Node, a deployed HiQS caller entry point with credentials, and a matching recipe manifest (`caller.parent.parent/assets/image-manifest.json`). Exact deployed caller revision is currently [Unverified].
-  - Expected calls with sufficient budget: eleven for fresh default jobs, zero for unchanged complete resume, one for a single changed admitted asset. Unknown or corrupt states are refused rather than automatically replayed (explicitly authorized replacement required). Generator defaults to 11 calls max, 220s per call, 900s per run, and 3 workers, with remote-unknown limitations.
-  - Safe dry-run testing (no paid calls):
+  - Expected calls with sufficient budget: thirteen default generation jobs (of which eleven are display derivatives). Zero calls for unchanged complete resume, one for a single changed admitted asset. Unknown or corrupt states are refused rather than automatically replayed (explicitly authorized replacement required). Generator defaults to 11 calls max, 220s per call, 900s per run, and 3 workers, with remote-unknown limitations.
+  - Safe dry-run testing (no paid calls) with a sufficient cap:
     ```sh
     mkdir -p .relay-scratch/assets-test
-    python3 -B examples/2026-10-08-solar-system/generate-assets.py --caller <external-entrypoint> --assets-dir .relay-scratch/assets-test --dry-run --max-calls 0
+    python3 -B examples/2026-10-08-solar-system/generate-assets.py --caller <external-entrypoint> --assets-dir .relay-scratch/assets-test --dry-run --max-calls 13
     ```
+    *Note: The generator defaults to a cap of 11. If the planned batch (13 default jobs) exceeds the configured `--max-calls`, the generator safely refuses the batch (exit code 4) and performs zero dispatches, even in dry-run mode. A cap-zero command (`--max-calls 0`) is a refusal control test.*
 
 ## Dependency and Font Notices
 

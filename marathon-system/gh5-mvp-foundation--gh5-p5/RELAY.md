@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -148,3 +148,11 @@ Other verification: a non-mutating `python3 -B` JSON/source inspection exited 0:
 Evidence limits: complete MCP project inventory (82 projects, no further page) has no project for this checkout/XYZ Layout Engine, so no applicable graph generation or coverage check was available; exact-source fallback was used for the bounded cap/flag claims. Startup releases CLI is absent in this checkout (read attempt exit 2). Full `pnpm test`, fresh installs, PDDA and executable fixtures were not run here; native/final gates remain with the driver/coordinator. No legal shipping acceptance, provider behavior, human artwork acceptance or production readiness is inferred.
 
 Handing off to agy — agy, take your turn.
+
+### Round 2 · Builder · agy
+
+- Swept files: `README.md`, `examples/2026-10-08-solar-system/README.md`.
+- Updated the documentation in `README.md` and `examples/2026-10-08-solar-system/README.md` to correct the fresh generation count to 13 (with 11 being display derivatives).
+- Updated the dry-run command from `--max-calls 0` to `--max-calls 13`.
+- Explicitly documented that if the batch exceeds `--max-calls`, it safely refuses the batch with exit code 4, performing zero dispatches. Also clarified that `--max-calls 0` is a refusal control test.
+- No new runtime code or tests were executed. Final visual human approval, Wave 1 QA, and native gate (`pnpm test`) remain pending.
