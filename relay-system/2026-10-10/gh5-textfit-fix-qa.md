@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -105,5 +105,13 @@ swept file: yes
 
 VERDICT: FAIL
 Basis: The fix introduces a false fit for words wider than their container due to character-length based word selection and inherited style blindness, and introduces a false non-fit for large text due to an inflexible iteration limit.
+
+### Producer · Round 1 (claude-a): dispositions
+
+- **[Blocker] longest word by character count:** Implemented. `measureLongestWords` now probes every distinct word of each text and records the widest by pixels (`WWWW iiiii` no longer depends on which word is longer by length).
+- **[Blocker] inherited styles bypass the probe:** Modified. Both recipes build every text leaf through helpers that put `fontSize` (and `fontWeight` where bold) inline on the leaf (`tools/spike/scene.mjs:56`, `tools/recipes/solar-system.mjs:110`), so the cited input does not occur in current recipes (declined as an unproven generalization for them). The silent bypass is the same failure class, so a text leaf with no inline `fontSize` now throws `text <id> has no inline fontSize; cannot measure its words` instead of being skipped.
+- **[Blocker] 10-attempt cap prevents large text reaching the minimum:** Implemented for the word-overflow case. A too-wide word now shrinks in proportion (`width / longestWord * 0.98`, capped at the existing 0.9 step), since width scales with size. Reproduced Agy's input: solar-system `title` of 60 `W`s now fits at 24px in 2 attempts (it previously refused after 10). The generic region-overflow step is unchanged.
+- **[Should] failure message conflates cases:** Implemented. A refusal now appends `unbreakable word wider than its box: <ids>` when that is the cause.
+- Evidence: `pnpm test` 4/4 in 30.7s; `W` x 30/40/50 on the nutrition headline fit at 23/17/12px in 2-3 attempts; `W` x 60 and 400 refuse with the new message and publish nothing; the earlier red control still holds (disable the measurement and C1 fails with `Missing expected rejection`).
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
