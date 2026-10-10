@@ -1,26 +1,13 @@
-# Remaining phases4→5 only. Phase3 original native Approved/attested e4638bf1e0a9 plus gate4/4in29.8s accepted external prerequisite; preserve historical relay/attempts/receipts. Phase4attempt1halt6 scratchofflane, normalattempt2 permitted; NO --force and no additionalPhase3fire.
-# Continuation: Phase 1 repaired outside the failed driver and independently Approved at b914323.
-# Original failed Phase 1/cap retained; Phase2 Approved/attested and native gate passed; execute ONLY remaining phases3 -> 4 -> 5.
-# Operator explicitly authorized restart and 600-second x 6 monitoring.
-# Umbrella/member GH-5; base origin/main confirmed by operator. One full clone; one serial wave.
-# Phase3 original2/2 attempts and identity retained; operator explicitly authorized ONE cap override on2026-10-09. Phases4/5 have no attempt records; no additional override authorized.
-# Agy builder (CLI flag), independent Codex reviewer; pnpm test gate (CLI flag). No auto PR/push.
+# HELD: originalPhase4 at2/2 aftertwo containmenthalts; Phase5unstarted. No dispatch oradditionaloverrideauthorized.
+# Phase3nativeApproved/attested e4638bf1e0a9 plusgate4/4in29.8s externalprerequisite; originalhistorypreserved.
+# PROPOSED ONLY: Codexbuilder/Agyreviewer ONE Phase4override awaitsoperator; Phase5queuedoriginalpairing, no backend/forcechange.
 name: gh5-mvp-foundation
 phases:
   - id: gh5-p4
     name: "Measured redraw and durable edits"
-    reviewer: codex
+    reviewer: agy
     brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p4.md
     artifact: tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md
     turn_timeout_s: 1500
     max_review_rounds: 2
-
-  - id: gh5-p5
-    name: "Integration and handoff"
-    reviewer: codex
-    brief: PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p5.md
-    artifact: README.md, tools/MVP-REPORT.md, examples/2026-10-08-solar-system/README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md
-    turn_timeout_s: 1500
-    max_review_rounds: 2
-    depends_on: gh5-p4
 

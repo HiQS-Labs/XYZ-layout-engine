@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phase 1 accepted; Phase2 repair independently Codex Approved/attested 3bf0ff4 and native gate passed four canaries26.1s. Original failures/timer receipts preserved. | Phase3 native attempt2 halted at Agy model-probe timeout; counter2/2 retained. Recovery independently Approved/attested f780bc4,4/4 tests28.6s; native gate and phases4/5 await held-lane firing disposition. Final wave QA and human/provider acceptance remain pending. |
+| Phase3 original native independently CodexApproved/attested e4638bf andgate4/4in29.8s; Phase1/2accepted, originalfailedhistory/timerreceipts preserved. | Phase4twoAgybuilder containmenthalts beforeQA/gate, counter2/2; draftsdiscarded. Proposed ONE Codexbuilder/Agyreviewer Phase4override awaitsoperator. Phase5originalpairing andfinalwave/integration/PR remainpending. |
 
 ## Table of contents
 
@@ -220,7 +220,7 @@ Phase2 completion receipts: original native phase relay Approved/attested3bf0ff4
 ### Phase 4 — QA checklist
 
 - [ ] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
-- [ ] Native independent Codex review is Approved and attested against the committed phase diff; receipt is on disk.
+- [ ] Native independent reviewer is Approved and attested against the committed phase diff; receipt is on disk. Prospective operator-approved Phase4exception: Agy reviews Codexbuilder; original pairing applies unless that exception is approved. Final independent CodexWave1QA remainsmandatory.
 - [ ] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
 - [ ] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
 - [ ] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
@@ -374,3 +374,6 @@ Recovery review round2 independently Approved/attested atf780bc4; all four concr
 
 ### Authorized override outcome — 2026-10-09
 One operator-authorized original Phase3 cap override fired at19:32:36Pacific(session20126), retaining both prior attempt records; native counter now3. Agy modelprobe passed, then its canary invocation created off-lane source `__pycache__`; containment discarded the turn and halted exit6 at150.2s before Codex review/native gate. All six scheduled600-second checks cancelled; zero intervals completed. Surgical existing C1 Python import probe now uses standard `-B`; suite4/4 in28.6s with no sourcecache. Independent native Codex QA Approved/attested exactsource fdcea1efcdc5b96814fa394087bc119d94aa5a42; receipt relay-system/2026-10-09/gh5-bytecode-recovery.codex.md. Later statusdoc updates are not that reviewed candidate. The ONE override is consumed; no furtherfire authorized. Phase3nativegate/Phases4–5/finalWave1/latestoriginintegration/readyPR remain pending. Preserveclone unpushedproof; mainuntouched. Evidence and post-run emptyclaims/no lock/no sourcecache inventory: relay-system/2026-10-09/gh5-bytecode-recovery/.
+
+### Current held Phase4 disposition — 2026-10-09
+Phase3 nativeCodexApproved e4638bf plusgate29.8s complete; twoPhase4 Agybuilderattempts containmenthalt6 beforeQA/gate, originalcounter2/2, entire draftsdiscarded. Onecheck/5cancelled ineachPhase4monitor window. No acceptedP4runtime/measurements/testchanges. Narrowreviewedrestartproposalunder relay-system/2026-10-09/gh5-phase4-recovery/ is heldpendingoperator: ONE originalPhase4 Codexbuilder/Agyreviewer override, nootherlimits/owners/identitychange. CurrentcanonicalYAML preparesPhase4ONLY; afteritsfreshnativegate Phase5queuedoriginalAgybuilder/Codexreviewerrestoredto sameYAML andadmittednormallywithoutforce. Thisdoesnotshrinkoverallscope orapproveP4. NoextraoriginalP3fire, noautomaticP4override, noPhase5backendchange. FinalWave1QA/latestoriginintegration/prePRgate/readyPRpending; sourceunchangedfromP3reviewedhead.
