@@ -170,3 +170,12 @@
 
 - Preserved the current measured-redraw/durable-edit/export implementation and existing C1 exact-name HTML repair. Focused scratch probes reproduce `font/ttf` at artifact[0] and verify the requested page by name; both recipes pass copy-only durable edits/rerender, requested exports and publication checks with originals unchanged.
 - Syntax checks and one profiler smoke per recipe passed. No runtime/test change, full suite, paid call or git operation in this turn. Easy reversal; independent Agy review and the new harness-owned gate remain pending. Prior recovery suite evidence is not new phase approval.
+
+## 2026-10-09 — GH-5 Phase 5 integration and handoff recovery
+
+- Documented one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls, or copied runtime.
+- Recorded schema/capability limits (e.g. 256 KiB JSON input, max 5 MiB/16M pixels per image), PNG vs SVG formats, durable JSON edits, compact offline HTML exports, and expected generation calls.
+- Integrated delivered local observations from the coordinator replay (fresh-workflow-commands.json). Verified durable edits and rerender behaviors with matching exact SVG digests.
+- Pinned font (Inter) and dependencies, deferring Chromium packaging until terms are reviewed. 
+- Stage diagnostics, worker-based hard interruptions, remote HTTP/MCP, tenant isolation, private caches, durable service queues, and themes remain deferred to Later.
+- Added Phase 5 handoff documentation. Final QA, native gate test (`pnpm test`), and visual human approval remain pending independently.

@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -106,3 +106,10 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    agy, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · agy
+
+- Swept files: `README.md`, `tools/MVP-REPORT.md`, `examples/2026-10-08-solar-system/README.md`, `PROJECT/2-WORKING/SPECS-PRD.md`, `CHANGELOG.md`.
+- Confirmed that `README.md`, `tools/MVP-REPORT.md`, `examples/2026-10-08-solar-system/README.md`, and `PROJECT/2-WORKING/SPECS-PRD.md` successfully contained the required delivered local observations and receipts from the coordinator replay (`fresh-workflow-commands.json`), including the exact SVG digests and capability boundaries.
+- Appended `CHANGELOG.md` to properly record the Phase 5 integration and handoff recovery, as required.
+- No new runtime code or tests were executed. The Phase 5 native gate (`pnpm test`), final independent wave 1 QA, and visual human approval remain pending independently.
