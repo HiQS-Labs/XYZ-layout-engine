@@ -1,6 +1,6 @@
 -- releases-app canonical dump (GH-32 grammar: GID-keyed rows, natural keys elsewhere,
 -- no integer PKs/FKs as values; rebuild renumbers deterministically)
--- generation: 38
+-- generation: 39
 -- table: schema_migrations
 INSERT INTO schema_migrations(version, applied_at) VALUES('1', '2026-10-01T18:15:14Z');
 INSERT INTO schema_migrations(version, applied_at) VALUES('2', '2026-10-01T18:15:14Z');
@@ -13,16 +13,18 @@ INSERT INTO schema_migrations(version, applied_at) VALUES('8', '2026-10-01T18:15
 INSERT INTO schema_migrations(version, applied_at) VALUES('9', '2026-10-01T18:15:14Z');
 -- table: settings
 INSERT INTO settings(key, value, updated_at) VALUES('enforcement', 'lenient', '2026-10-01T18:15:14Z');
-INSERT INTO settings(key, value, updated_at) VALUES('generation', '38', '2026-10-10T16:31:36Z');
+INSERT INTO settings(key, value, updated_at) VALUES('generation', '39', '2026-10-10T17:34:35Z');
 INSERT INTO settings(key, value, updated_at) VALUES('repo_slug', 'XYZ-layout-engine', '2026-10-01T18:15:14Z');
 -- table: repos
 INSERT INTO repos(global_id, slug, updated_at) VALUES('repo-01M3WATZ7NDF91ERJZE2C3RJ14', 'XYZ-layout-engine', '2026-10-01T18:15:14Z');
 -- table: issue_refs
 INSERT INTO issue_refs(global_id, url, temp_id, created_at, updated_at) VALUES('ref-01M3XF4BSN3BYNQ9KQFZWX664Q', 'https://github.com/HiQS-Labs/XYZ-layout-engine/issues/1', NULL, '2026-10-02T04:49:30Z', '2026-10-02T04:49:30Z');
 INSERT INTO issue_refs(global_id, url, temp_id, created_at, updated_at) VALUES('ref-01M4FNK6PZEJJPMNR8M4NZ5ZH7', 'https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5', NULL, '2026-10-09T06:28:48Z', '2026-10-09T06:28:48Z');
+INSERT INTO issue_refs(global_id, url, temp_id, created_at, updated_at) VALUES('ref-01M4KE30XNZXPWD3QR373E295Q', 'https://github.com/HiQS-Labs/XYZ-layout-engine/issues/19', NULL, '2026-10-10T17:34:35Z', '2026-10-10T17:34:35Z');
 -- table: marathons
 INSERT INTO marathons(global_id, repo_gid, tracking_ref_gid, status, created_at, updated_at) VALUES('mar-01M3XF4BSKA4B4QPC5NV2484MH', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', 'ref-01M3XF4BSN3BYNQ9KQFZWX664Q', 'planned', '2026-10-02T04:49:30Z', '2026-10-02T04:49:30Z');
 INSERT INTO marathons(global_id, repo_gid, tracking_ref_gid, status, created_at, updated_at) VALUES('mar-01M4FNK6PXHDY8EJ2CHVKW3D6Z', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', 'ref-01M4FNK6PZEJJPMNR8M4NZ5ZH7', 'planned', '2026-10-09T06:28:48Z', '2026-10-09T06:28:48Z');
+INSERT INTO marathons(global_id, repo_gid, tracking_ref_gid, status, created_at, updated_at) VALUES('mar-01M4KE30XHRRTHE1JJG9HCJDPG', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', 'ref-01M4KE30XNZXPWD3QR373E295Q', 'planned', '2026-10-10T17:34:35Z', '2026-10-10T17:34:35Z');
 -- table: releases
 INSERT INTO releases(global_id, repo_gid, version, codename, status, target_date, shipped_date, description, exit_criterion, tracking_ref_gid, marathon_gid, gh_release_url, milestone, front_door_reviewed, shakedown_reviewed, license_file, baseline_count, baseline_at, baseline_source, updated_at) VALUES('rel-01M3XFJBJBF1B4ARDV7M6WSVC9', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', '0.0.1', 'RendererSpike', 'draft', NULL, NULL, 'Phase 0 renderer evidence only; no production API or launch.', 'Both backend reference renders and verified geometry/repeat/long-copy evidence, independent QA, measured decision report; human artwork acceptance remains explicit.', 'ref-01M3XF4BSN3BYNQ9KQFZWX664Q', 'mar-01M3XF4BSKA4B4QPC5NV2484MH', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-02T04:57:09Z');
 INSERT INTO releases(global_id, repo_gid, version, codename, status, target_date, shipped_date, description, exit_criterion, tracking_ref_gid, marathon_gid, gh_release_url, milestone, front_door_reviewed, shakedown_reviewed, license_file, baseline_count, baseline_at, baseline_source, updated_at) VALUES('rel-01M4FNKFG0WH1873CEA47K8FGB', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', '0.1.0', 'LocalMVP', 'draft', NULL, NULL, 'Bounded local MVP arc; Later service and human/provider acceptance remain pending', 'Shared offline recipes, safe publication, durable JSON edits and measured cache/resume; human artwork acceptance before ship', 'ref-01M4FNK6PZEJJPMNR8M4NZ5ZH7', 'mar-01M4FNK6PXHDY8EJ2CHVKW3D6Z', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-10-09T06:28:57Z');
@@ -81,6 +83,7 @@ INSERT INTO op_receipts(op, target_gid, at, txn_id, session_id, state_digest_bef
 INSERT INTO op_receipts(op, target_gid, at, txn_id, session_id, state_digest_before, state_digest_after) VALUES('roadmap-repoint', 'rmi-01M4K9D37KF6EARPCQK1P0ADYZ', '2026-10-10T16:30:51Z', '7f6b499e87a64c9b8339c49534362464', 'default', '51d41707f8c681b5f3c48718744b0e53f1cb06679cd3c67147a9a5a776a29cf4', 'a0f4959cb94a7a841e5f4e0e4adc367b8058cbc40719936c91c52a00bd304e38');
 INSERT INTO op_receipts(op, target_gid, at, txn_id, session_id, state_digest_before, state_digest_after) VALUES('roadmap-rate', 'rmi-01M4K9D1V83J0VFRYH0ZRQ76J3', '2026-10-10T16:31:36Z', '4454e96c81bb4847919c5cf9242790a0', 'default', 'a0f4959cb94a7a841e5f4e0e4adc367b8058cbc40719936c91c52a00bd304e38', '81d44fb79c17977e025e1f78b7fa8f5a4c136e320944bd87aec1cd3ab6b4883e');
 INSERT INTO op_receipts(op, target_gid, at, txn_id, session_id, state_digest_before, state_digest_after) VALUES('roadmap-rate', 'rmi-01M4K9D37KF6EARPCQK1P0ADYZ', '2026-10-10T16:31:36Z', '9f587ed4017b46c5ba8d44afb33d5c32', 'default', '81d44fb79c17977e025e1f78b7fa8f5a4c136e320944bd87aec1cd3ab6b4883e', 'b101fe2acab7ec30341d88d7e08513f216ec029bee225f9febee7c70a386ab9a');
+INSERT INTO op_receipts(op, target_gid, at, txn_id, session_id, state_digest_before, state_digest_after) VALUES('marathon-add', 'mar-01M4KE30XHRRTHE1JJG9HCJDPG', '2026-10-10T17:34:35Z', '78e8c43fb6ff47a994f4a8c3941b9191', 'default', 'b101fe2acab7ec30341d88d7e08513f216ec029bee225f9febee7c70a386ab9a', '6146936be33d050241d5bf75d3736303fa22ba5d87e6a09a25bf61d2f95398f9');
 -- table: work_events
 INSERT INTO work_events(global_id, repo_gid, gh_number, txn_id, event, payload, at) VALUES('wev-01M3XF4BMX57F40A0HTD52S46J', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', '1', '30c281b053da4786bc1d7b91d8af1775', 'parked', '{"section": "Queue / parked intake"}', '2026-10-02T04:49:30Z');
 INSERT INTO work_events(global_id, repo_gid, gh_number, txn_id, event, payload, at) VALUES('wev-01M3XF92M7DSDN8RWMSNE0Q9AH', 'repo-01M3WATZ7NDF91ERJZE2C3RJ14', '1', 'b887d2399e8040de821d7deec2b39db9', 'rated', '{"rated": "85/20/80/65"}', '2026-10-02T04:52:05Z');
