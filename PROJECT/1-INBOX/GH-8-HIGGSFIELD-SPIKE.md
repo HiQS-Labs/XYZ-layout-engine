@@ -152,4 +152,17 @@ The REST route returned no alpha (PR #15). The installed Higgsfield CLI (`higgsf
 
 | Issue | Requirement | State |
 |---|---|---|
-| #8 | Phase 0b via requirements 1 to 6. Phases 1 to 4 untouched. | Plan drafted; awaiting plan QA |
+| #8 | Phase 0b via requirements 1 to 6. Phases 1 to 4 untouched. | Phase 0b done: verdict GO on the CLI route (4 of 4 real alpha), diagram uses two transparent PNGs; awaiting final QA, then PR (ready, not merged); #8 stays open |
+
+### Phase 0b evidence (2026-10-09)
+
+| Item | Result |
+|---|---|
+| Plan QA | Agy, 1 round, Approved |
+| Code QA | Agy, 2 rounds: round 1 found token and signed-URL redaction and an unvalidated binary override (both fixed, 11/11 selftest controls, mutation-checked); round 2 Approved |
+| Live matrix | 5 jobs (1 smoke by hand, 4 by the runner): T1, T2, T3, T4 transparent, C1 opaque control; balance 701 to 699.5 credits (1.5), quoted equals measured |
+| Result | 4 of 4 transparent requests real alpha; control opaque; parameter echo matched in all five |
+| Diagram | interphase = T4, cytokinesis = T2 as 256 px web copies; `PASS` in both backends; red controls (overflow, missing icon, off-canvas text, opaque raster, swapped file) fail by named id |
+| Cap | 1.5 of 20 credits used |
+
+Deviations: (1) the smoke call was run by hand before the runner existed (recorded in the ledger by `init-ledger` from the saved output). (2) The raster display size is 176 px (the SVG icon box), not the 112 or 144 px first suggested, because the wide cytokinesis image looked undersized.

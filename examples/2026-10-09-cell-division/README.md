@@ -4,9 +4,9 @@ A 2400×1480 explainer diagram of the cell cycle, rendered with the GH-1 spike's
 
 ![Cell division diagram](cell-division.png)
 
-The diagram is simplified. Human body cells carry 46 chromosomes, not the two or three drawn here, and the phases blend into one another. The six stage icons are hand-drawn SVG. No images were generated, and nothing was uploaded.
+The diagram is simplified. Human body cells carry 46 chromosomes, not the two or three drawn here, and the phases blend into one another. Four of the six stage images are hand-drawn SVG; the interphase and cytokinesis images are AI-generated (see below). No other images were generated, and nothing was uploaded.
 
-This folder also holds the GH-8 Phase 0 tools that test whether Higgsfield returns real transparency for GPT Image 2.5 (`higgsfield-spike.py`, `inspect-alpha.mjs`). **The spike's verdict is NO-GO for native transparency on the Higgsfield REST routes (0 of 12 images had an alpha channel), so the art stays hand-drawn SVG.** The evidence is in [FINDINGS.md](FINDINGS.md) and `spike-ledger.jsonl`. The MCP connector was not tested. Nothing keyed or matted is presented as native transparency.
+This folder also holds the GH-8 Higgsfield transparency tests (`higgsfield-spike.py` for the REST route, `higgsfield-cli-spike.py` for the CLI route, `inspect-alpha.mjs`). **The REST route returned no alpha (0 of 12 images); the CLI route returned real alpha 4 of 4 times** with `--background transparent` and an opaque image for the control. The interphase and cytokinesis stage images are therefore AI-generated transparent PNGs (GPT Image 2.5 through the Higgsfield CLI); the other four stages are hand-drawn SVG. Evidence: [FINDINGS.md](FINDINGS.md), `spike-ledger.jsonl`, `cli-spike-ledger.jsonl`, `assets/provenance.json`. The MCP connector was not tested. Nothing keyed or matted is presented as native transparency.
 
 ## What is here
 
@@ -21,6 +21,10 @@ This folder also holds the GH-8 Phase 0 tools that test whether Higgsfield retur
 | `inspect-alpha.mjs` | Alpha inspector: format from magic bytes, sha256, PNG IHDR colour type and bit depth, tRNS / WebP alpha flags, and pixel alpha statistics from a Chromium canvas read |
 | `FINDINGS.md` | The Phase 0 findings and verdict (NO-GO on REST; MCP untested), with the per-call table |
 | `spike-ledger.jsonl` | Append-only ledger of every estimate, reservation, submit and result of the spike (scrubbed; no key, no signed URL queries) |
+| `higgsfield-cli-spike.py` | Phase 0b runner for the Higgsfield CLI route: credit-capped (20), one job at a time, `selftest` (11 controls) and `run`; calls the installed `higgsfield` CLI and never touches its token |
+| `cli-spike-ledger.jsonl` | Ledger of the CLI runs: baseline balance, reservations, results, alpha statistics (credits only; no account details) |
+| `make-web-asset.mjs` | Makes the 256 px web copy of a generated PNG, keeping alpha |
+| `assets/web/` and `assets/provenance.json` | The two committed transparent PNGs and their provenance and alpha statistics |
 | `higgsfield-spike.py` | Phase 0 probe runner (Python standard library only): `selftest`, `estimate`, `submit`, `matrix [--dry-run]`, `discover`, `scan-secrets` |
 
 ## Reproducing the diagram
@@ -83,6 +87,7 @@ The paid matrix was run once on 2026-10-09: 12 paid generations, reserved at an 
 
 - Imports the Solar System `runtime/` by relative path, so moving that folder breaks this example. GH-5 owns a shared render operation that would remove the coupling.
 - Rendered and checked on macOS arm64, Node 22, with the Chromium that Playwright 1.64.0 installs. Other platforms are untested.
-- The spike tests the REST API only. The Higgsfield MCP connector is not tested here.
-- The response parsing in `higgsfield-spike.py` follows the published Flare docs (`request_id`, `status_url`, `images[].url`). It has only been exercised against the fake HTTP layer so far.
+- `higgsfield-spike.py` tests the REST API only; `higgsfield-cli-spike.py` tests the installed CLI. The Higgsfield MCP connector is not tested here.
+- The response parsing in `higgsfield-spike.py` follows the published Flare docs (`request_id`, `status_url`, `images[].url`). It also ran against the live API (12 paid calls, 2026-10-09) and the reply shapes held.
 - Reference: OpenStax, *Biology 2e* (2018), section 10.2 "The Cell Cycle", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle.
+- **Review status of this version:** the operator's 2026-10-09 approval covered the earlier all-SVG render (PR #15). This version, with two AI-generated transparent cell images, has not been reviewed by the operator yet.
