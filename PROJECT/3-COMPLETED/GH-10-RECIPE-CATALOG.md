@@ -2,7 +2,7 @@
 gh_issue: 10
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/10
 title: "Recipe catalog: serial + slug + semver identity, SQLite ledger, and catalog CLI"
-status: "Planned; awaiting plan QA"
+status: "Completed: Phase A1 delivered in PR #22 (fbfe02e) on 2026-10-10; serials dropped; later work continues under #20"
 created: 2026-10-09
 updated: 2026-10-10
 owner: unassigned
@@ -25,7 +25,7 @@ related:
   - https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18
   - PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md
   - PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md
-  - PROJECT/2-WORKING/recipe-catalog/MARATHON.yaml
+  - PROJECT/3-COMPLETED/recipe-catalog/MARATHON.yaml
   - PROJECT/2-WORKING/SPECS-PRD.md
 goal: >
   One operator-only recipe catalog: every trusted recipe has an immutable serial (RCP-0001), its
@@ -273,11 +273,11 @@ findings back into this section. Depends on PR #18 fixed head. Doc-only; prototy
 - [ ] Write findings (what was checked, results with commands, what it changes) into a
       `### Phase 0 findings` subsection here. Go/no-go.
 
-**Write set:** `PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md` (Phase 0 findings subsection only).
+**Write set:** `PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md` (Phase 0 findings subsection only).
 
 **Acceptance (each can fail; red control in brackets):**
 - [ ] P0-A1 Findings subsection exists with the six probe results and the decision line. [Red: an
-      empty subsection fails reviewer check `rg -n "^Decision:" PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md`.]
+      empty subsection fails reviewer check `rg -n "^Decision:" PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md`.]
 - [ ] P0-A2 Prototype trigger blocks `UPDATE recipe_versions SET content_sha256=…` with an abort.
       [Red: the same prototype without the trigger lets the UPDATE succeed.]
 - [ ] P0-A3 Prototype dump is byte-identical across two load/export cycles. [Red: exporting without
@@ -562,7 +562,7 @@ write policy; record the iteration. Depends on Phase 2.
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated.
 
 Execution: one serial lane gh10-p0 -> gh10-p1 -> gh10-p2 -> gh10-p3 from
-`PROJECT/2-WORKING/recipe-catalog/MARATHON.yaml`; Codex builder (driver default), independent Agy
+`PROJECT/3-COMPLETED/recipe-catalog/MARATHON.yaml`; Codex builder (driver default), independent Agy
 reviewer, gate `pnpm test`, 1500 s turns, two review rounds. No push, no PR, no merge from builder
 turns; the ready PR lists `Refs #10` only.
 
@@ -586,11 +586,11 @@ turns; the ready PR lists `Refs #10` only.
     },
     {
       "type": "path_absent",
-      "path": "PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md"
+      "path": "PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md"
     }
   ],
   "artifacts": [
-    "PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md",
+    "PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md",
     "tools/catalog.mjs",
     "tools/catalog.sql",
     "tools/render.mjs",
@@ -600,7 +600,7 @@ turns; the ready PR lists `Refs #10` only.
     "CHANGELOG.md"
   ],
   "artifacts_new": [
-    "PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md",
+    "PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md",
     "tools/catalog.mjs",
     "tools/catalog.sql"
   ],

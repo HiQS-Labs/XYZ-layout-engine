@@ -23,7 +23,7 @@ related:
   - https://github.com/HiQS-Labs/XYZ-layout-engine/issues/19
   - https://github.com/HiQS-Labs/XYZ-layout-engine/issues/10
   - https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18
-  - PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md
+  - PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md
   - PROJECT/2-WORKING/responsive-flags/MARATHON.yaml
   - PROJECT/2-WORKING/SPECS-PRD.md
 goal: >

@@ -6,15 +6,15 @@ phases:
   - id: gh10-p0
     name: "Spike: storage engine and identity decisions"
     reviewer: agy
-    brief: PROJECT/2-WORKING/recipe-catalog/briefs/gh10-p0.md
-    artifact: PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md
+    brief: PROJECT/3-COMPLETED/recipe-catalog/briefs/gh10-p0.md
+    artifact: PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md
     turn_timeout_s: 1500
     max_review_rounds: 2
 
   - id: gh10-p1
     name: "Store, canonical dump and CLI"
     reviewer: agy
-    brief: PROJECT/2-WORKING/recipe-catalog/briefs/gh10-p1.md
+    brief: PROJECT/3-COMPLETED/recipe-catalog/briefs/gh10-p1.md
     artifact: tools/catalog.mjs, tools/catalog.sql, tools/spike/test/canaries.test.mjs
     turn_timeout_s: 1500
     max_review_rounds: 2
@@ -23,7 +23,7 @@ phases:
   - id: gh10-p2
     name: "Seed, verify gate and render identity"
     reviewer: agy
-    brief: PROJECT/2-WORKING/recipe-catalog/briefs/gh10-p2.md
+    brief: PROJECT/3-COMPLETED/recipe-catalog/briefs/gh10-p2.md
     artifact: tools/catalog.sql, tools/render.mjs, tools/spike/test/canaries.test.mjs
     turn_timeout_s: 1500
     max_review_rounds: 2
@@ -32,7 +32,7 @@ phases:
   - id: gh10-p3
     name: "Docs and handoff"
     reviewer: agy
-    brief: PROJECT/2-WORKING/recipe-catalog/briefs/gh10-p3.md
+    brief: PROJECT/3-COMPLETED/recipe-catalog/briefs/gh10-p3.md
     artifact: README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md
     turn_timeout_s: 1500
     max_review_rounds: 2

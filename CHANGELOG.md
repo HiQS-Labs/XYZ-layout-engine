@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-10 — GH-5 (#18) and GH-10 A1 (#22) landed and reconciled
+
+- Landed PR #18 (`15c2f25`, GH-5 shared offline MVP; review blocker on text fitting fixed before merge) and PR #22 (`fbfe02e`, GH-10 A1 recipe catalog, `slug@semver`, no serial). Issue #10 closed; its row moved to Completed and its plan and marathon folder to `PROJECT/3-COMPLETED/`. #5 stays open (human artwork approval, paid-provider benchmarks and later service work are unchecked); #23 tracks the PR #18 review follow-ups. The current ID and catalog plan is the finalized comment on #20; #9 is superseded by it.
+- Easy reversal: documentation and ledger only. `releases_app.py check` clean; PDDA no errors.
+
 ## 2026-10-10 — GH-10 catalog: drop the serial number (plan: issue #20)
 
 - Removed the `serial` column, `RCP-NNNN` display and serial lookup from `tools/catalog.mjs`, `tools/catalog.sql`, the render receipt's `catalog` block, the C4 canary and the README/PRD text. A recipe is identified by `slug`, a version by `slug@semver`, matching the PRD recipe ID and the finalized three-ID plan on #20. The canary's retention control now checks that a retired recipe's slug cannot be reused. Refs #10. Refs #20.
