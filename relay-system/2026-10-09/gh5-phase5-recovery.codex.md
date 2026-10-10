@@ -129,4 +129,12 @@ Startup router/principles/AGENTS/README and canonical Phase 5 were read. Graph t
 
 Relay closed (Approved), no further reviewer turn needed. Coordinator owns native continuation and the remaining integration/acceptance gates.
 
+
+### Attestation · relay-drive — 2026-10-10T06:32:53Z
+task: GH5-P5-PROVENANCE-RECOVERY-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: 852a3410d17250d224d9c7f6d9eafad6426e4d03
+added-range: 8172+7436
+added-sha256: a98fe1b8b576367e505b48266ff10266d2008f421a16dbeef91ae69d5a7d442d
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
