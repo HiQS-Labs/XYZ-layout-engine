@@ -206,3 +206,11 @@ I also successfully ran the P2 green probes locally. I ran the `canaries.test.mj
 
 **Verdict:** Approved
 STATUS: Approved
+
+### Attestation · relay-drive — 2026-10-10T17:56:55Z
+task: MARATHON-GH10-P2-TURN
+reviewer: agy
+status: Approved
+reviewed-head: d69a1d9a39cb3ec80f01bf2ade8cb57539a10e1e
+added-range: 15070+789
+added-sha256: 3822a569d8f7579df618af651b3f94ef84614e9a5c616682b2c43a67a38ceb99
