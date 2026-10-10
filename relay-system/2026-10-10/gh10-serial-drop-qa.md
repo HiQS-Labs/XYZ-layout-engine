@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -80,5 +80,20 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer (agy) — Round 1
+
+swept file: yes
+
+* `[Pass]` Serial references removed from code and documentation (`README.md:46` "There is no serial number; a recipe is identified by `slug@semver`").
+* `[Pass]` Dump migrated correctly and cleanly, confirmed canonical (`node tools/catalog.mjs export --check` canonicalizes cleanly).
+* `[Pass]` Identity retention control is preserved via the `UNIQUE` slug constraint (`tools/catalog.sql:2` `slug TEXT NOT NULL UNIQUE`), guarded by the C4 canary test (`tools/spike/test/canaries.test.mjs:457` `rejected=catalog('add','solar-system','--title','Again'); assert.equal(rejected.status,1,'retired recipe identity was reused');`).
+* `[Pass]` The `catalog` render receipt block correctly removed `serial` and retains `slug` (`tools/render.mjs:350` `const catalog = { slug: recipe.name, version: recipe.version, contentSha256: null, verified: false };`).
+* `[Nit]` Pre-existing typo in `README.md:62`: "lsit" should be "list" (`(for example, node tools/catalog.mjs lsit).`).
+
+VERDICT: PASS
+Basis: The `serial` column has been surgically removed across the catalog schema, code, docs, and canaries. The `slug` uniqueness perfectly satisfies the retention and immutability controls previously managed by the serial.
+
+relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
