@@ -12,17 +12,16 @@ const versionPattern = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 const digestPattern = /^[a-f0-9]{64}$/;
 const gidPattern = /^(rcp|rcv)-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
-const serialName = n => `RCP-${String(n).padStart(4, '0')}`;
 const check = (ok, field, message) => { if (!ok) throw invalid(field, message); };
 export const SCHEMA = `-- XYZ Layout Engine recipe catalog; migration 1; canonical LF dump.
 -- GIDs retained; rows ordered by natural keys; no timestamps or binary database.
 CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version = 1)) STRICT;
-CREATE TABLE recipes (gid TEXT PRIMARY KEY, serial INTEGER NOT NULL UNIQUE CHECK(serial BETWEEN 1 AND 9999), slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
+CREATE TABLE recipes (gid TEXT PRIMARY KEY, slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
 CREATE TABLE recipe_versions (gid TEXT PRIMARY KEY, recipe_gid TEXT NOT NULL REFERENCES recipes(gid), version TEXT NOT NULL, content_sha256 TEXT NOT NULL, schema_sha256 TEXT NOT NULL, UNIQUE(recipe_gid,version)) STRICT;
 CREATE TABLE recipe_version_files (version_gid TEXT NOT NULL REFERENCES recipe_versions(gid), path TEXT NOT NULL, role TEXT NOT NULL CHECK(role IN ('module','schema','content')), sha256 TEXT NOT NULL, PRIMARY KEY(version_gid,path)) STRICT;
 CREATE TABLE recipe_outputs (version_gid TEXT NOT NULL REFERENCES recipe_versions(gid), format TEXT NOT NULL CHECK(format IN ('png','svg','html','html-inline')), PRIMARY KEY(version_gid,format)) STRICT;
 CREATE TRIGGER recipes_no_delete BEFORE DELETE ON recipes BEGIN SELECT RAISE(ABORT,'recipe identity retained'); END;
-CREATE TRIGGER recipes_identity BEFORE UPDATE OF gid,serial,slug ON recipes BEGIN SELECT RAISE(ABORT,'recipe identity immutable'); END;
+CREATE TRIGGER recipes_identity BEFORE UPDATE OF gid,slug ON recipes BEGIN SELECT RAISE(ABORT,'recipe identity immutable'); END;
 CREATE TRIGGER versions_no_update BEFORE UPDATE ON recipe_versions BEGIN SELECT RAISE(ABORT,'published version immutable'); END;
 CREATE TRIGGER versions_no_delete BEFORE DELETE ON recipe_versions BEGIN SELECT RAISE(ABORT,'published version immutable'); END;
 CREATE TRIGGER files_no_update BEFORE UPDATE ON recipe_version_files BEGIN SELECT RAISE(ABORT,'published files immutable'); END;
@@ -32,7 +31,7 @@ CREATE TRIGGER outputs_no_delete BEFORE DELETE ON recipe_outputs BEGIN SELECT RA
 `;
 const TABLES = [
   ['schema_migrations', ['version'], 'SELECT * FROM schema_migrations ORDER BY version', 'INSERT INTO schema_migrations VALUES (?)'],
-  ['recipes', ['gid','serial','slug','title','status','reason'], 'SELECT * FROM recipes ORDER BY serial', 'INSERT INTO recipes VALUES (?,?,?,?,?,?)'],
+  ['recipes', ['gid','slug','title','status','reason'], 'SELECT * FROM recipes ORDER BY slug', 'INSERT INTO recipes VALUES (?,?,?,?,?)'],
   ['recipe_versions', ['gid','recipe_gid','version','content_sha256','schema_sha256'], 'SELECT v.* FROM recipe_versions v JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version', 'INSERT INTO recipe_versions VALUES (?,?,?,?,?)'],
   ['recipe_version_files', ['version_gid','path','role','sha256'], 'SELECT f.* FROM recipe_version_files f JOIN recipe_versions v ON v.gid=f.version_gid JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version,f.path', 'INSERT INTO recipe_version_files VALUES (?,?,?,?)'],
   ['recipe_outputs', ['version_gid','format'], 'SELECT o.* FROM recipe_outputs o JOIN recipe_versions v ON v.gid=o.version_gid JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version,o.format', 'INSERT INTO recipe_outputs VALUES (?,?)']
@@ -46,10 +45,9 @@ export function exportDump(db) {
 function validateLedger(db) {
   check(db.prepare('PRAGMA foreign_key_check').all().length === 0, 'dump', 'foreign key violation');
   check(db.prepare('SELECT version FROM schema_migrations').all().length === 1, 'dump', 'migration 1 required');
-  const recipes = db.prepare('SELECT * FROM recipes ORDER BY serial').all();
-  for (const [i, r] of recipes.entries()) {
+  const recipes = db.prepare('SELECT * FROM recipes ORDER BY slug').all();
+  for (const r of recipes) {
     check(gidPattern.test(r.gid) && r.gid.startsWith('rcp-'), 'gid', 'invalid recipe GID');
-    check(r.serial === i + 1, 'serial', 'serial gap');
     check(slugPattern.test(r.slug) && r.slug.length >= 3 && r.slug.length <= 64, 'slug', 'invalid slug');
     for (const field of ['title','reason']) check(!r[field].includes('\0'), field, 'NUL unsupported');
     check(r.title.trim().length > 0 && (r.status === 'active' || r.reason.trim().length > 0), 'recipe', 'title/status reason required');
@@ -129,12 +127,12 @@ async function snapshot(root, slug, version) {
   return { files, content:contentDigest(files), schema:files.find(f => f.role === 'schema').sha256 };
 }
 function recipe(db, key) {
-  const r = db.prepare('SELECT * FROM recipes WHERE slug=? OR serial=?').get(key, /^RCP-\d{4}$/.test(key) ? Number(key.slice(4)) : -1);
+  const r = db.prepare('SELECT * FROM recipes WHERE slug=?').get(key);
   check(r, 'recipe', 'unknown recipe'); return r;
 }
 function show(db, key) {
   const r = recipe(db, key);
-  return { ...r, serial:serialName(r.serial), versions:db.prepare('SELECT * FROM recipe_versions WHERE recipe_gid=? ORDER BY version').all(r.gid).map(v => ({...v,
+  return { ...r, versions:db.prepare('SELECT * FROM recipe_versions WHERE recipe_gid=? ORDER BY version').all(r.gid).map(v => ({...v,
     files:db.prepare('SELECT path,role,sha256 FROM recipe_version_files WHERE version_gid=? ORDER BY path').all(v.gid),
     outputs:db.prepare('SELECT format FROM recipe_outputs WHERE version_gid=? ORDER BY format').all(v.gid).map(o => o.format)
   })) };
@@ -142,7 +140,7 @@ function show(db, key) {
 async function verify(db, root, text) {
   const errors = [];
   if (exportDump(db) !== text) errors.push({field:'dump',message:'non-canonical dump bytes'});
-  for (const r of db.prepare('SELECT * FROM recipes ORDER BY serial').all()) {
+  for (const r of db.prepare('SELECT * FROM recipes ORDER BY slug').all()) {
     try {
       const version = await moduleIdentity(root, r.slug);
       const v = db.prepare('SELECT * FROM recipe_versions WHERE recipe_gid=? AND version=?').get(r.gid, version);
@@ -161,7 +159,7 @@ async function verify(db, root, text) {
 function preserveHistory(before, after) {
   for (const r of before.prepare('SELECT * FROM recipes').all()) {
     const next = after.prepare('SELECT * FROM recipes WHERE gid=?').get(r.gid);
-    check(next && next.serial === r.serial && next.slug === r.slug, 'import', 'cannot remove/change recipe identity');
+    check(next && next.slug === r.slug, 'import', 'cannot remove/change recipe identity');
   }
   for (const v of before.prepare('SELECT gid FROM recipe_versions').all()) {
     for (const query of ['SELECT path,role,sha256 FROM recipe_version_files WHERE version_gid=? ORDER BY path', 'SELECT format FROM recipe_outputs WHERE version_gid=? ORDER BY format']) {
@@ -193,7 +191,7 @@ function parse(args) {
   }
   const counts = {list:0,show:1,add:1,publish:2,update:1,deprecate:1,retire:1,verify:0,export:0,import:1};
   const allowed = {list:['json'],show:['json'],verify:['json'],export:['json','check'],add:['title'],publish:[],update:['title'],deprecate:['reason'],retire:['reason'],import:[]};
-  if (!Object.hasOwn(counts,verb) || positions.length !== counts[verb] || Object.keys(flags).some(k => !allowed[verb].includes(k)) || (['add','update'].includes(verb) && !flags.title) || (['deprecate','retire'].includes(verb) && !flags.reason)) throw new Usage('catalog list|show <serial|slug>|add <slug> --title T|publish <slug> <version>|update <slug> --title T|deprecate|retire <slug> --reason R|verify|export [--check]|import <dump>');
+  if (!Object.hasOwn(counts,verb) || positions.length !== counts[verb] || Object.keys(flags).some(k => !allowed[verb].includes(k)) || (['add','update'].includes(verb) && !flags.title) || (['deprecate','retire'].includes(verb) && !flags.reason)) throw new Usage('catalog list|show <slug>|add <slug> --title T|publish <slug> <version>|update <slug> --title T|deprecate|retire <slug> --reason R|verify|export [--check]|import <dump>');
   for (const value of Object.values(flags)) if (typeof value === 'string') check(value.trim() && !/[\0\r\n]/.test(value), 'option', 'nonempty single line required');
   return {verb,positions,flags};
 }
@@ -207,7 +205,7 @@ export async function runCLI(args, options = {}) {
     if (write) { try { ownership = await fs.open(lock,'wx'); } catch (error) { if (error.code === 'EEXIST') throw invalid('lock', 'catalog lock exists; inspect stale/concurrent ownership manually'); throw error; } }
     const original = await fs.readFile(file,'utf8'); db = loadDump(original);
     if (!write) {
-      if (verb === 'list') return {code:0,value:db.prepare('SELECT * FROM recipes ORDER BY serial').all().map(r => ({...r,serial:serialName(r.serial)})),json:f.json};
+      if (verb === 'list') return {code:0,value:db.prepare('SELECT * FROM recipes ORDER BY slug').all(),json:f.json};
       if (verb === 'show') return {code:0,value:show(db,p[0]),json:f.json};
       if (verb === 'verify') { const value = await verify(db,root,original); return {code:value.valid ? 0 : 1,value,json:f.json}; }
       const canonical = exportDump(db);
@@ -219,9 +217,7 @@ export async function runCLI(args, options = {}) {
         incoming = loadDump(await fs.readFile(path.resolve(root,p[0]),'utf8')); preserveHistory(db,incoming); value = {imported:true};
       } else if (verb === 'add') {
         check(slugPattern.test(p[0]) && p[0].length >= 3 && p[0].length <= 64, 'slug', '3–64 lowercase slug required');
-        const serial = db.prepare('SELECT COALESCE(MAX(serial),0)+1 AS serial FROM recipes').get().serial;
-        check(serial <= 9999, 'serial', 'four digit serial range exhausted');
-        db.prepare("INSERT INTO recipes VALUES (?,?,?,?,'active','')").run(`rcp-${randomUUID()}`,serial,p[0],f.title); value = show(db,p[0]);
+        db.prepare("INSERT INTO recipes VALUES (?,?,?,'active','')").run(`rcp-${randomUUID()}`,p[0],f.title); value = show(db,p[0]);
       } else {
         const r = recipe(db,p[0]);
         if (verb === 'publish') {

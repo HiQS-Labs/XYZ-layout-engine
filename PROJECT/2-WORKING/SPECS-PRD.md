@@ -255,8 +255,8 @@ Same primitives, zero product knowledge in the core. If an infographic recipe ne
 
 **Delivered local observation (2026-10-10, GH-10):** `tools/catalog.mjs` owns an operator-only
 catalog backed by the canonical SQLite text dump `tools/catalog.sql`; files own recipe content,
-the ledger owns immutable serial/slug/exact-version identities and declared-file digests.
-The seed is `RCP-0001 nutrition@1.0.0` and `RCP-0002 solar-system@1.0.0`. Same-content
+the ledger owns immutable slug/exact-version identities and declared-file digests.
+The seed is `nutrition@1.0.0` and `solar-system@1.0.0`. Same-content
 publication is idempotent; changed content under a published version is rejected. `verify`
 checks current module versions against declared files and canonical dump bytes. Render receipts
 record catalog identity and verification status; unavailable/unpublished/drifted content records

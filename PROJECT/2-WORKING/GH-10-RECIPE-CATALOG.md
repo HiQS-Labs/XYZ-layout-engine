@@ -35,6 +35,8 @@ goal: >
   content under a published version is rejected; renders record the resolved catalog identity.
 ---
 
+> **Superseded in part (2026-10-10):** serials (`RCP-NNNN`) were dropped; identity is `slug@semver`. Current plan: the finalized three-ID plan on issue #20 (Phase A). References to serials below are historical.
+
 # GH-10 — Recipe catalog: serial + slug + semver identity
 
 ## Status

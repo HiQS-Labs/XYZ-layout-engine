@@ -1,12 +1,12 @@
 -- XYZ Layout Engine recipe catalog; migration 1; canonical LF dump.
 -- GIDs retained; rows ordered by natural keys; no timestamps or binary database.
 CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version = 1)) STRICT;
-CREATE TABLE recipes (gid TEXT PRIMARY KEY, serial INTEGER NOT NULL UNIQUE CHECK(serial BETWEEN 1 AND 9999), slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
+CREATE TABLE recipes (gid TEXT PRIMARY KEY, slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
 CREATE TABLE recipe_versions (gid TEXT PRIMARY KEY, recipe_gid TEXT NOT NULL REFERENCES recipes(gid), version TEXT NOT NULL, content_sha256 TEXT NOT NULL, schema_sha256 TEXT NOT NULL, UNIQUE(recipe_gid,version)) STRICT;
 CREATE TABLE recipe_version_files (version_gid TEXT NOT NULL REFERENCES recipe_versions(gid), path TEXT NOT NULL, role TEXT NOT NULL CHECK(role IN ('module','schema','content')), sha256 TEXT NOT NULL, PRIMARY KEY(version_gid,path)) STRICT;
 CREATE TABLE recipe_outputs (version_gid TEXT NOT NULL REFERENCES recipe_versions(gid), format TEXT NOT NULL CHECK(format IN ('png','svg','html','html-inline')), PRIMARY KEY(version_gid,format)) STRICT;
 CREATE TRIGGER recipes_no_delete BEFORE DELETE ON recipes BEGIN SELECT RAISE(ABORT,'recipe identity retained'); END;
-CREATE TRIGGER recipes_identity BEFORE UPDATE OF gid,serial,slug ON recipes BEGIN SELECT RAISE(ABORT,'recipe identity immutable'); END;
+CREATE TRIGGER recipes_identity BEFORE UPDATE OF gid,slug ON recipes BEGIN SELECT RAISE(ABORT,'recipe identity immutable'); END;
 CREATE TRIGGER versions_no_update BEFORE UPDATE ON recipe_versions BEGIN SELECT RAISE(ABORT,'published version immutable'); END;
 CREATE TRIGGER versions_no_delete BEFORE DELETE ON recipe_versions BEGIN SELECT RAISE(ABORT,'published version immutable'); END;
 CREATE TRIGGER files_no_update BEFORE UPDATE ON recipe_version_files BEGIN SELECT RAISE(ABORT,'published files immutable'); END;
@@ -14,8 +14,8 @@ CREATE TRIGGER files_no_delete BEFORE DELETE ON recipe_version_files BEGIN SELEC
 CREATE TRIGGER outputs_no_update BEFORE UPDATE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
 CREATE TRIGGER outputs_no_delete BEFORE DELETE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
 INSERT INTO schema_migrations VALUES (1);
-INSERT INTO recipes VALUES ('rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87',1,'nutrition','Nutrition','active','');
-INSERT INTO recipes VALUES ('rcp-68eafc13-c914-4506-b349-c135fcb42ee5',2,'solar-system','Solar System','active','');
+INSERT INTO recipes VALUES ('rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','nutrition','Nutrition','active','');
+INSERT INTO recipes VALUES ('rcp-68eafc13-c914-4506-b349-c135fcb42ee5','solar-system','Solar System','active','');
 INSERT INTO recipe_versions VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','1.0.0','cae72434e7f3c5fb441080532bf9c27095ea519f718b4d767425db99d7f599f8','81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95');
 INSERT INTO recipe_versions VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','rcp-68eafc13-c914-4506-b349-c135fcb42ee5','1.0.0','ccfba0b0019197ef0ac84ca5d8ed6732db4c1f0f512441317e97cb6a8d4adc1b','79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c');
 INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','tools/recipes/nutrition.mjs','module','2bad6d6f2f1e381ae10d58d32b268eaa47fdd6643f6b05b51809a41cc6286a57');

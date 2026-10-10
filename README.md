@@ -41,10 +41,10 @@ Run these commands from the repository root. Dependency installation may use the
 ## Local Recipe Catalog
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The seeded identities are `RCP-0001 nutrition@1.0.0`
-and `RCP-0002 solar-system@1.0.0`: an immutable, never-reused four-digit serial, immutable slug,
-and exact `MAJOR.MINOR.PATCH` version bound to SHA-256 digests of declared files. Older versions
-remain ledger history; their content is retained in git.
+in-memory SQLite by `tools/catalog.mjs`. The seeded identities are `nutrition@1.0.0` and
+`solar-system@1.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
+digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
+Older versions remain ledger history; their content is retained in git.
 
 Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
 
@@ -52,7 +52,7 @@ Run from the repository root on Node with built-in `node:sqlite` available (veri
 |---|---|---|
 | `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
 | `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
-| `node tools/catalog.mjs show RCP-0002` | Look up Solar System by serial | 0 |
+| `node tools/catalog.mjs show solar-system` | Look up Solar System by slug | 0 |
 | `node tools/catalog.mjs publish nutrition 1.0.0` | Unchanged publication succeeds as a no-op | 0 |
 | `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
 | `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
@@ -73,7 +73,7 @@ content again succeeds; changed content requires a new version. Bump **patch** w
 but all previously admitted requests remain byte-identical, **minor** for additive capabilities
 with those artifacts unchanged, and **major** for changed prior artifacts or a narrower schema.
 
-Render receipts record serial, slug, exact module version, published content digest and verification
+Render receipts record slug, exact module version, published content digest and verification
 status; missing, unpublished or drifted catalog content records `verified: false` with a reason
 and leaves local rendering available. Use `verify` to enforce catalog integrity. Variants, slug
 aliases/renames and semver range resolution are deferred.

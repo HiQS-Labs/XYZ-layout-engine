@@ -34,6 +34,8 @@ goal: >
   byte-identical; nutrition is republished as 1.1.0 through the GH-10 catalog.
 ---
 
+> **Superseded (2026-10-10):** this plan is not built. Responsive stacking is folded into the grid core, Phase B of the finalized plan on issue #20 (layout chosen by canvas width). Kept as history.
+
 # GH-9 — Deterministic stacking/responsive layout flags
 
 ## Status

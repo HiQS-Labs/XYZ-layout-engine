@@ -347,11 +347,10 @@ export async function processRequest(reqObj, options = {}) {
     }
   }
   // Catalog identity is advisory; local rendering also works without a published catalog.
-  const catalog = { serial: null, slug: recipe.name, version: recipe.version, contentSha256: null, verified: false };
+  const catalog = { slug: recipe.name, version: recipe.version, contentSha256: null, verified: false };
   try {
     const { runCLI: catalogCLI } = await import('./catalog.mjs');
     const { value: registered } = await catalogCLI(['show', recipe.name]);
-    catalog.serial = registered.serial;
     const published = registered.versions.find(v => v.version === recipe.version);
     if (!published) {
       catalog.reason = 'current module version is unpublished';
