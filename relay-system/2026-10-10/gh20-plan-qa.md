@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -198,7 +198,7 @@ swept file: yes
 - **[Blocker] seed data is not in `verification.json`:** Implemented. Confirmed: its keys are `artifactDigests, assets, chromiumText, findings, generatedAt, height, imageNodes, renderer, satoriBounds, textIds, width`. Fields now come from the right sources: params stay in the fixture file referenced by `fixture_path` + `data_hash`; the artifact digest is the `png` entry of `artifactDigests`. Also found by this review: only the solar system is a catalog recipe, so RAG and cell-division seed with a null use case (logged in #21 as `no_recipe`).
 - **[Blocker] hand edits to `designs` are not caught by `export --check`:** Implemented. Agreed: `export --check` only proves the dump matches the database built from it. The plan now states the real checks (`catalog verify` recomputes digests from files, checks the pinned version exists, requires exactly one #21 log line per design) and states the honest limit (not tamper-proof; a fabricated consistent row equals what the CLI writes) with a revisit trigger.
 - **[Should] Phase B leaves things unsolved:** Implemented. Added what layout-by-width does not solve (reordering, per-band content), that GH-9's `stackOrder` is dropped, and the trigger to revive it.
-- **[Pass] serial removal grounding:** noted.
+- **[Unverified — no citation] serial removal grounding:** noted.
 
 Revised text (replaces the corresponding text in the embedded plan above; the whole revised plan is the comment on issue #20, edited in place):
 
@@ -219,5 +219,17 @@ Phase B addition (inserted before the Phase B acceptance line):
 Plan header addition:
 
 > Revised after plan QA (same day): the design seeds named `verification.json` as the source of fields it does not hold, and two of the three examples are not recipes; `export --check` cannot catch a well-formed hand-written `designs` row, so the plan now says what actually catches it; Phase B now says what layout-by-width leaves unsolved.
+
+### Reviewer · Round 2
+
+- `[Pass]` Seed data sourcing is corrected. Verified that the plan now accurately reflects that `verification.json`'s `artifactDigests.png` is used for the artifact digest, and parameters are referenced from the fixture file rather than copied into the DB (e.g. "sha256 of the primary PNG, which equals the `png` entry of `artifactDigests` in the example's `verification.json`").
+- `[Pass]` Enforcement of the single write path is now honest. The plan correctly acknowledges that `export --check` will not catch well-formed manual inserts, and delegates consistency checking to `catalog verify` which will "recompute `data_hash` and `artifact_digest` from the files on disk" (satisfying the maintainable/single write path constraints).
+- `[Pass]` Phase B limitations documented. The plan now explicitly states that GH-9's `stackOrder` is dropped and layout-by-width assumes "every width band must keep the same source order and the same content", with a trigger to revive it.
+
+VERDICT: PASS
+Basis: The producer successfully resolved the blockers regarding seed data sources and enforcement gaps. The plan now meets the Definition of Done.
+swept file: yes
+
+relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
