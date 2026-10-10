@@ -174,4 +174,12 @@ Decisive output: `runtime v22.22.3 darwin-arm64 versions {'satori': '0.36.0', '@
 
 Review outcome: Approved for independent HTML recovery QA. Reversibility: Easy — this turn records evidence only and changes no source/artifact. Relay closed (Approved), no further turn needed; coordinator/supervisor owns the file-scoped commit/attestation and any separately authorized native continuation.
 
+
+### Attestation · relay-drive — 2026-10-10T05:29:42Z
+task: GH5-P4-HTML-RECOVERY-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: 403636d5d7461b9485233c094a8b32ecb341877f
+added-range: 8693+12869
+added-sha256: 7116982aa7cfc6c54a0772350c0da9801fbfa8d015657565090b9153177aeda8
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
