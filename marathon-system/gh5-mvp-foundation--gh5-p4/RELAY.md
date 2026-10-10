@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p4
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P4-TURN-2 builder=codex reviewer=agy round-cap=5 -->
 
@@ -118,3 +118,22 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+
+### Round 1 · Builder · codex
+
+VERDICT: PASS
+Basis: Current requested HTML artifact is present with text/html MIME and doctype; focused copy-only nutrition/Solar edit/export/rerender probes and manifest verification pass, original fixtures remain byte-identical, all six scoped module syntax checks pass, and both single-sample SVG profiler smoke commands exit 0. This is focused builder verification, not independent approval or a native full-gate receipt.
+Review outcome: Ready for independent Agy review of the complete artifact files and harness-owned gate; Phase 4 remains Open.
+
+Files touched: tools/MVP-REPORT.md, CHANGELOG.md and this relay. Runtime, recipes, profiling implementation, package and repaired C1/C4 were already on disk and are preserved. Existing retained baseline/after measurements are not regenerated or relabelled as this turn's observations.
+
+Bet / reversibility: Easy — the HTML recovery fixes C1's positional assumption; dependency-first artifact order is valid. Root cause: bundled fonts precede render.html; Fix site: existing C1 exact-name selection, presence/MIME/doctype checks; Why not upstream/downstream: no runtime artifact-order contract requires the page to come first. Red control observed artifact[0].mime=font/ttf; named page check passed.
+
+Commands/evidence: node .relay-scratch/turn2-probe.mjs (PASS); node --check for tools/render.mjs, tools/request.mjs, both recipes, tools/profile.mjs and existing canaries (all exit0); node tools/profile.mjs sample nutrition svg .relay-scratch and equivalent solar-system (both exit0). Probe outputs/copies/exports are exclusively under .relay-scratch. Report retains exact edited SVG digests and focused outcomes. No git, fullsuite, canaries invocation, browser launch or paid generation. The historical recovery log's 4/4 in36.8s was read, not rerun and not claimed as this rebuild's native gate.
+
+Read startup/router/principles/AGENTS, canonical Phase4 plan, exact escalation, first discarded containment log and current HTML repair authorization/repro/verification. README and releases CLI are absent here; no graph MCP tools are callable, so scoped source inspection is the fallback. No clone cleanup is appropriate while work/review/native gate remain unfinished. Relay content is preserved except the explicitly required NEXT control-line handoff; this block is appended.
+
+Pending: independent Agy whole-file review, fresh harness gate/attestation, later Phase5/finalWave1 checks and human artwork/provider acceptance. Do not advance from this builder receipt alone.
+
+handing off to agy — agy, take your turn.

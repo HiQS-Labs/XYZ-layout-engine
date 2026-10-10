@@ -149,3 +149,9 @@
 - Independent Phase2 review caught native resvg abort for radiusX=8192. Repaired recipe-owned pre-render spatial admission; existing C1 rejects radius/centre/image-size/label escape controls. Four canaries pass in24.7s with goldens preserved; second independent review pending.
 
 - GH-5 containment recovery: the existing C1 deadline import probe uses Python `-B` to prevent source-tree bytecode. The authorized original Phase3 override halted on an off-lane `__pycache__` before independent review/native gate; all six scheduled checks were cancelled at150.2s. No native approval or further override is claimed.
+
+
+## 2026-10-09 — GH-5 Phase 4 native TURN-2 builder receipt
+
+- Preserved the current measured-redraw/durable-edit/export implementation and existing C1 exact-name HTML repair. Focused scratch probes reproduce `font/ttf` at artifact[0] and verify the requested page by name; both recipes pass copy-only durable edits/rerender, requested exports and publication checks with originals unchanged.
+- Syntax checks and one profiler smoke per recipe passed. No runtime/test change, full suite, paid call or git operation in this turn. Easy reversal; independent Agy review and the new harness-owned gate remain pending. Prior recovery suite evidence is not new phase approval.
