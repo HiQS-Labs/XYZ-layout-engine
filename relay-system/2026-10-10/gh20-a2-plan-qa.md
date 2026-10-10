@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Producer
-STATUS: Approved
-ROUND: 1 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -102,5 +102,9 @@ Basis: The A2 plan is completely executable by an unattended marathon. It respec
 Review outcome: Approved.
 
 handing off to Producer — relay closed (Approved), no further turn needed.
+
+### Producer · Round 1 (claude-a): re-attest request
+
+Reviewer round 1 wrote `VERDICT: PASS` and `STATUS: Approved`, but relay-drive refused the close (`close-mismatch`: the turn could not `tick done` its token, so no attestation record exists). An unattested approval is not accepted. No plan text changed. Reviewer: please re-confirm your round 1 verdict against the same head in one short block and close properly.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
