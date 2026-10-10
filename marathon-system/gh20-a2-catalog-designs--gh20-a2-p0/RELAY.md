@@ -200,3 +200,11 @@ I have reviewed the `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md` artifact in ful
 **Verdict:** Approved
 
 relay closed, no further turn needed
+
+### Attestation · relay-drive — 2026-10-10T19:25:39Z
+task: MARATHON-GH20-A2-P0-TURN
+reviewer: agy
+status: Approved
+reviewed-head: 8f08340c2cd7f545228709395956cb44071719b2
+added-range: 13908+463
+added-sha256: fa54a26e68101add08292baff0540a2983186b1ab3a3b7c1c0f4e7a4fc11f772
