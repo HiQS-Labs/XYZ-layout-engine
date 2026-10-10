@@ -212,3 +212,11 @@ All files accurately reflect the requested bounds, zero other bytes were modifie
 
 **Verdict:** Approved
 relay closed, no further turn needed
+
+### Attestation · relay-drive — 2026-10-10T18:02:45Z
+task: MARATHON-GH10-P3-TURN
+reviewer: agy
+status: Approved
+reviewed-head: 22ddd07b5281566cc4c6f526c0484b6dd8694d9a
+added-range: 13439+717
+added-sha256: 08a119f3564858bc7f7d7c50ca975fc186d0ae256c59f2c3837b5d6276f1cfd9
