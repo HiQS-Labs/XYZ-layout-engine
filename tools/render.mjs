@@ -402,6 +402,8 @@ export async function outputRoot(target, authorizedRoot = process.cwd()) {
   const absolute = within(anchor, requested) ? path.resolve(root, path.relative(anchor, requested)) : requested;
   const historical = fileURLToPath(new URL('./spike/output', import.meta.url));
   if (!within(root, absolute) || within(historical, absolute)) throw invalid('outputRoot', 'outside authorized root or read-only spike evidence');
+  // The authorized root itself and git metadata are not export folders (an export writes manifest.json and runs/).
+  if (path.relative(root, absolute) === '' || path.relative(root, absolute).split(path.sep)[0] === '.git') throw invalid('outputRoot', 'choose a subdirectory of the authorized root');
   let current = root;
   for (const segment of path.relative(root, absolute).split(path.sep).filter(Boolean)) {
     current = path.join(current, segment);

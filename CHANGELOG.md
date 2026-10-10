@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-10 — GH-5 hardening: `--save` and `--out .` (items S1 and S2 of #23)
+
+- `--save` no longer overwrites arbitrary in-root JSON: it refuses an export `manifest.json`, anything under a `runs/` folder, and any existing file that is not a copy of the same fixture (so `--save package.json` is rejected and `package.json` is unchanged). `--out` refuses the authorized root itself and `.git`, so an export can no longer write `manifest.json` and `runs/` into the repo root. Replacing the same fixture (`--save` to its own file) and creating a new `.json` still work.
+- One assertion block added to the existing C1 canary (five lines); red controls: removing either guard makes C1 fail with `Missing expected rejection`. No new test, workflow or dependency. Refs #23. Easy to reverse (revert).
+
 ## 2026-10-10 — GH-5 (#18) and GH-10 A1 (#22) landed and reconciled
 
 - Landed PR #18 (`15c2f25`, GH-5 shared offline MVP; review blocker on text fitting fixed before merge) and PR #22 (`fbfe02e`, GH-10 A1 recipe catalog, `slug@semver`, no serial). Issue #10 closed; its row moved to Completed and its plan and marathon folder to `PROJECT/3-COMPLETED/`. #5 stays open (human artwork approval, paid-provider benchmarks and later service work are unchecked); #23 tracks the PR #18 review follow-ups. The current ID and catalog plan is the finalized comment on #20; #9 is superseded by it.
