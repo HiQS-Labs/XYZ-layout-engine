@@ -138,3 +138,5 @@
 - Independent recovery QA round 1 found and reproduced cross-date last-good discovery and default comparison-root mismatch. Reused shared selectedSpikeRun for verifier/C2 and aligned defaults; existing C1 verifies no-override flow, later-date failure discovery and selected-output tampering. Updated suite: 4/4 in 11.3s; second independent QA pending.
 
 - Independent Phase2 review caught native resvg abort for radiusX=8192. Repaired recipe-owned pre-render spatial admission; existing C1 rejects radius/centre/image-size/label escape controls. Four canaries pass in24.7s with goldens preserved; second independent review pending.
+
+- GH-5 containment recovery: the existing C1 deadline import probe uses Python `-B` to prevent source-tree bytecode. The authorized original Phase3 override halted on an off-lane `__pycache__` before independent review/native gate; all six scheduled checks were cancelled at150.2s. No native approval or further override is claimed.

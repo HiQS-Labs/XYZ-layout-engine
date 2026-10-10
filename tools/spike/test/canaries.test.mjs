@@ -256,7 +256,7 @@ else {
   for(const seed of [0.0000001,9007199254740993]) { writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'numeric',parameters:{seed}}]));result=runGen();assert.equal(result.status,4);assert.match(result.stderr,/round-trip/);assert.equal(calls(),beforeInvalidState); }
   writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'numeric',parameters:{seed:0.5}}]));result=runGen();assert.equal(result.status,0,result.stdout+result.stderr);assert.equal(calls(),beforeInvalidState+1);
   const numericManifest=JSON.parse(readFileSync(manifestFile,'utf8')); const numeric=Object.values(numericManifest).find(state=>state.input.prompt==='numeric'); const numericReceipt=path.join(genRoot,numeric.receipt), savedReceipt=readFileSync(numericReceipt);const wrongRecipe=JSON.parse(savedReceipt);wrongRecipe.recipeRef='wrong-recipe';writeFileSync(numericReceipt,JSON.stringify(wrongRecipe));numeric.receipt_sha256=sha256(readFileSync(numericReceipt));writeFileSync(manifestFile,JSON.stringify(numericManifest));const beforeRecipeReuse=calls();result=runGen(['--max-calls','0']);assert.equal(result.status,4);assert.equal(calls(),beforeRecipeReuse);writeFileSync(numericReceipt,savedReceipt);
-  const deadlineProbe=spawnSync(process.env.PYTHON || 'python3',['-c',`
+  const deadlineProbe=spawnSync(process.env.PYTHON || 'python3',['-B','-c',`
 import importlib.util, pathlib, sys, tempfile
 from unittest.mock import patch
 spec=importlib.util.spec_from_file_location('g',sys.argv[1]);g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)

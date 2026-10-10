@@ -1,0 +1,39 @@
+marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-193236-6023.log
+marathon: plan: PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml — 3 phase(s) in execution order
+marathon: ── phase 1/3: gh5-p3 (reviewer=codex, round-cap=5, artifact=examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, turn-timeout=1500s) ──
+marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
+marathon-drive:   • relay-system/logs/
+marathon-drive:   • relay-system/run-logs/
+marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p3 at 2 attempt(s) (cap 2), proceeding.
+marathon-drive: reconciled leaked open handoff: MARATHON-GH5-P3-TURN (cleared stale reservation for agy)
+marathon-drive: tick token seeded: MARATHON-GH5-P3-TURN → agy
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh5-p3-start boundary — compressor=4972MB, swap_free=0MB
+marathon-drive: phase start: running relay-drive --round-cap 5
+relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.vycXdn)
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.vycXdn) changed-files=0
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.vycXdn) changed-files=1
+rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+rtl: GH-654 off-lane candidate: examples/2026-10-08-solar-system/__pycache__/
+rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+agy-turn: agy made off-lane edits in the isolated worktree — discarded; failing the turn (exit 6)
+marathon-drive: relay escalated: containment violation — a turn-taker reverted an off-lane edit (exit 6)
+marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p3-023506.md
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh5-p3-escalated boundary — compressor=4928MB, swap_free=0MB
+marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
+
+marathon-drive: end-of-run cost summary (tick analyze) —
+--- cost ---
+run type: unspecified
+tokens: ≥0 total (≥0 in / ≥0 out) — PARTIAL, floor only: 0/6 done-tasks instrumented
+human minutes (self-reported): 0
+wall-clock (run window): 11h 13m
+per done-task: ≥0 tokens, 1h 52m wall-clock
+memory: compressor peak: 7308MB, swap free min: 0MB
+  turn peak RSS: codex: 315MB peak RSS, agy: 183MB peak RSS
+
+clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified
+marathon: HALT: phase gh5-p3 failed (marathon-drive exit 6) — chain stops; later phases NOT started
