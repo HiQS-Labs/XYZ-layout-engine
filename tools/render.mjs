@@ -52,25 +52,32 @@ export async function renderSatori(scene, font, width, height, fontFamily = 'Int
 }
 
 // Satori clamps a text box to its container, so an unbreakable word wider than the box is clipped without
-// the box showing it. Measure each text's longest word unwrapped (nowrap, same font style) and record it.
+// the box showing it. Measure every distinct word of each text unwrapped (nowrap, same font style) and record
+// the widest as longestWord. Characters differ in width, so the longest word by pixels is not the longest by length.
 const WORD_STYLE = ['fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'textTransform'];
 async function measureLongestWords(textBoxes, font, fontFamily) {
-  const items = Object.entries(textBoxes).filter(([, b]) => typeof b.text === 'string' && b.style?.fontSize).map(([id, b]) => {
-    const word = b.text.split(/\s+/).reduce((a, w) => (w.length > a.length ? w : a), '');
-    return { id, word, style: Object.fromEntries(WORD_STYLE.filter(k => b.style[k] !== undefined).map(k => [k, b.style[k]])) };
-  }).filter(i => i.word);
-  if (!items.length) return;
-  const probe = { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: 20000 },
-    children: items.map(i => ({ type: 'div', props: { id: `word_${i.id}`, style: { ...i.style, whiteSpace: 'nowrap' }, children: i.word } })) } };
+  const probes = [];
+  for (const [id, b] of Object.entries(textBoxes)) {
+    if (typeof b.text !== 'string') continue;
+    // Recipe leaves carry their own fontSize; an inherited size would be silently unmeasured, so refuse it.
+    if (!b.style?.fontSize) throw new Error(`text ${id} has no inline fontSize; cannot measure its words`);
+    const style = Object.fromEntries(WORD_STYLE.filter(k => b.style[k] !== undefined).map(k => [k, b.style[k]]));
+    for (const word of new Set(b.text.split(/\s+/).filter(Boolean))) probes.push({ id, word, style });
+  }
+  if (!probes.length) return;
+  const scene = { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: 20000 },
+    children: probes.map((p, k) => ({ type: 'div', props: { id: `word_${k}`, style: { ...p.style, whiteSpace: 'nowrap' }, children: p.word } })) } };
   const nodes = [];
-  await satori(probe, {
-    width: 20000, height: Math.ceil(items.reduce((h, i) => h + Number(i.style.fontSize) * 2, 16)),
+  await satori(scene, {
+    width: 20000, height: Math.ceil(probes.reduce((h, p) => h + Number(p.style.fontSize) * 2, 16)),
     fonts: [{ name: fontFamily, data: font.regular, weight: 400, style: 'normal' }, { name: fontFamily, data: font.bold, weight: 700, style: 'normal' }],
     onNodeDetected: n => nodes.push(n), loadAdditionalAsset: async () => []
   });
   for (const n of nodes) {
-    const id = n.props?.id?.startsWith('word_') ? n.props.id.slice(5) : null;
-    if (id && textBoxes[id]) textBoxes[id].longestWord = round(n.width);
+    const k = /^word_(\d+)$/.exec(n.props?.id ?? '')?.[1];
+    if (k === undefined) continue;
+    const box = textBoxes[probes[k].id];
+    box.longestWord = Math.max(box.longestWord ?? 0, round(n.width));
   }
   for (const b of Object.values(textBoxes)) delete b.style;
 }
@@ -268,7 +275,10 @@ export async function processRequest(reqObj, options = {}) {
       let shrunk = false;
       for (const id of overflowing) {
         if ((sizes[id] || 28) > MIN_SIZE) {
-          sizes[id] = Math.max(MIN_SIZE, Math.floor((sizes[id] || 28) * SHRINK_FACTOR));
+          // A too-wide word shrinks in proportion (width scales with size), not by a fixed step that can run out of attempts.
+          const tb = result.textBoxes[id];
+          const wordRatio = tb?.longestWord > tb.width + 0.5 ? (tb.width / tb.longestWord) * 0.98 : 1;
+          sizes[id] = Math.max(MIN_SIZE, Math.floor((sizes[id] || 28) * Math.min(SHRINK_FACTOR, wordRatio)));
           shrunk = true;
         }
       }
@@ -278,7 +288,10 @@ export async function processRequest(reqObj, options = {}) {
       }
     }
 
-    if (unresolved.length) throw invalid('fitting', `non-fit after ${steps.length} attempts: text outside its region: ${unresolved.join(', ')}`);
+    if (unresolved.length) {
+      const wide = unresolved.filter(id => result.textBoxes[id]?.longestWord > result.textBoxes[id].width + 0.5);
+      throw invalid('fitting', `non-fit after ${steps.length} attempts: text outside its region: ${unresolved.join(', ')}${wide.length ? `; unbreakable word wider than its box: ${wide.join(', ')}` : ''}`);
+    }
     if (errors.length) throw new Error('Validation failed: ' + JSON.stringify(errors));
 
     // Build structure expected by verify.mjs for `text` mapping
