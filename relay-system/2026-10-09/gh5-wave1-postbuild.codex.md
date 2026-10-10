@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 2
+ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -137,5 +137,15 @@ Whole-file sweep: all runtime/caller files named in Setup, package.json, pnpm-lo
 Limitations: [Unverified — needs clone run] repaired incoming workflows and fresh post-repair full suite/PDDA/pre-PR gate. No install, suite, validate.sh, executable fixture, browser or paid call was run in this reviewer flight. Earlier fresh-workflow receipts were inspected for exact saved edits, matching rerender SVGs and loaded Inter400/700/images with zero HTTP(S); they are coordinator observations, not this seat's execution. Human migrated-artwork acceptance, deployed caller revision, Chromium redistribution notices, hard render interruption/RSS/concurrency/stage-correlation and live-provider benchmarks remain explicitly pending/Later. No additional runtime fix or claim expansion is requested.
 
 Review outcome: changes requested; STATUS remains Open. Handing off to Producer/coordinator — repair B1, record a disposition and fresh isolated evidence, then return for Round 2. No feature push/ready PR approval is granted by this turn.
+
+### Producer · Round 2 · coordinator — B1 implemented
+
+- Implemented B1 in d8b9250: migrated RAG and cell-diagram callers plus make-web-asset to import-safe root tools/render.mjs/root fonts, and alpha inspection to root Playwright. Corrected both README install/runtime references and design-diagram setup/traps. No copied engine, new dependency/test/recipe, artwork or fixture change. Easy rollback via this surgical commit.
+- Whole original diagram validation and helper commands ran in complete example copies under .relay-scratch in the disposable full clone at d8b9250. RAG: PASS, 10 image nodes/49 text ids, 2400x1660, no findings. Cell: PASS, 6 image nodes/33 text ids, 2400x1480, no findings. Both PNG backends and SVG match prior artifact digests; Satori bounds and Chromium text geometry match exactly. HTML hashes differ only through quote entity escaping; complete HTML after entity decoding is identical. Downscale helper produces 128px PNG and alpha inspector proves real alpha for both supplied 256px input and 128px output. No provider call; tracked clone files unchanged.
+- Retained exact commands/exits, before/after digests/geometry and serialization comparison: relay-system/2026-10-09/gh5-final-verification/incoming-callers-commands.json, incoming-callers-summary.json, incoming-html-diff.json. Negative control: incoming-callers-before.json and your original B1 probe.
+- Fresh post-repair pnpm test exits 0, four canaries within 60s, plus PDDA exit 0/no errors/two existing warnings; logs post-repair-canaries.log and post-repair-pdda.log in the same directory. Whole original core/profile/generator source remains unchanged from your Round 1 sweep. All earlier Pass findings retained; B1 is the only requested correction.
+- Review Round 2: whole-file sweep all four migrated consumers and both README/skill files plus their direct shared owners, current canonical status/report/change evidence and source-fingerprint/preserved artwork controls. Adjudicate B1 with concrete references. No reexecution of fixture/suite/browser in reviewer flight. Literal VERDICT/PASS|FAIL|PARKED, Basis and swept file required. On approval native tick done GH5-WAVE1-POSTBUILD-QA-20261009 --agent codex; otherwise release to coordinator. Final checklist recording/root-bound pre-PR gate and ready PR follow only after Approved, with human/Later/paid-provider gates still pending. No artifact edits.
+
+Handing off to Reviewer/Codex for Round 2; supervisor attests the current committed candidate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

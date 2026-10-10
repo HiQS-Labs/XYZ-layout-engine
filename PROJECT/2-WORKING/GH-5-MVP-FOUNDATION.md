@@ -10,7 +10,7 @@ complexity: 4
 risk: 2
 phases: 5
 ratings_provisional: false
-updated: 2026-10-09
+updated: 2026-10-10
 owner: Neochrome
 branch: marathon/gh-5-mvp-foundation
 reversibility: Easy — local modules and manifests; preserve spike goldens and immutable assets.
@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| All five local implementation phases accepted: Phase 1 recovery and native Phases 2–5, latest Phase 5 4/4 in 29.4s. Current origin/main 447f7aa integrated at 6e54db1; fresh integrated suite 4/4 in 29.4s and PDDA no errors. | Final independent Wave 1 Codex QA, receipt-backed acceptance reconciliation, root-bound pre-PR gate, and ready PR. GH-5 Later/human/provider gates remain open. |
+| All five machine phases accepted and current origin/main integrated. Final Wave 1 Round 1 found one incoming-consumer dependency break; four consumers/setup docs repaired at d8b9250. Both diagrams/helpers pass with preserved PNG/SVG/geometry; fresh suite/PDDA pass. | Final Wave 1 Codex Round 2 adjudication, receipt-only acceptance reconciliation, root-bound pre-PR gate and ready PR. Human/provider/Later gates remain open. |
 
 ## Table of contents
 

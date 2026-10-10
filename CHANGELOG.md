@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-10 — GH-5 final integration consumer repair
+
+- Final independent Wave 1 QA found B1: two diagrams and two cell helpers on newly integrated main still imported the removed copied Solar runtime. Migrated their import/font/package references to the existing root renderer/fonts/Playwright; corrected reproduction and design-diagram instructions. Preserved fixtures, assets, historical art, validation and the shared core. Easy rollback; no new dependency/test/engine. Refs #5.
+- Disposable full-clone scratch renders pass both backends: RAG 10 icons/49 text ids, cell division 6 icons/33 text ids. PNG/SVG bytes and Satori/Chromium geometry match originals; HTML differs only in quote entity serialization, with full decoded equality. Downscale/alpha helpers pass; no paid calls. Exact proof and fresh suite/PDDA logs: `relay-system/2026-10-09/gh5-final-verification/`. Final independent Round 2 and pre-PR remain pending.
+
 ## 2026-10-09 — GH-5 machine phases accepted and origin integrated
 
 - Original Phase 5 normal attempt 2 received independent Codex approval/attestation and passed all four canaries in 29.4s. Clarified thirteen default generation jobs vs eleven selected display assets: the default eleven-call cap refuses the fresh batch; explicit dry-run cap 13 plans it without provider dispatch. Native timer completed at 555.9s and cancelled all six scheduled checks at terminal. Refs #5.

@@ -2,7 +2,7 @@
 title: Marathon Plan — ranked, freshness-validated, collision-aware queue
 status: Active (2-WORKING)
 created: 2026-10-09
-updated: 2026-10-09
+updated: 2026-10-10
 owner: noel
 branch: main
 doc_type: project
@@ -112,3 +112,7 @@ Phase 4 original lane attempt 4 (supported review token MARATHON-GH5-P4-TURN-2) 
 ### Current machine acceptance and integration — 2026-10-09
 
 Phase 5 attempt 2 is native Codex Approved/attested at 479ebe8 and gate 4/4 in 29.4s; transcript `relay-system/2026-10-10/marathon-gh5-p5-064326.md`. Observer completed at 555.9 seconds with zero scheduled checks and six cancelled at terminal. The five-phase machine arc is accepted, with Phase 1's independently reviewed recovery explicitly superseding its stopped original lane, and native gates for Phases 2–5. Main checkout untouched. Current origin/main 447f7aa integrated at 6e54db1 with every incoming content file preserved and canonical merged ledger rebuilt clean. Integrated disposable full-clone `pnpm install --frozen-lockfile` and `pnpm test` passed, four canaries in 29.4s; PDDA run no errors/two existing governance warnings. Receipts: `relay-system/2026-10-09/gh5-final-verification/`. Final Wave 1 independent review and pre-PR gate remain pending, so no push/PR/merge/issue closure yet. Historical execution overlays above are retained as history, not current firing authorization.
+
+### Final integration repair — 2026-10-10
+
+Final Wave 1 Round 1 found B1: current-main RAG/cell-diagram and two helper consumers still imported the deleted copied runtime. Surgical d8b9250 redirects them to root shared renderer/fonts/Playwright and corrects setup docs. Disposable full-clone scratch examples pass both backends with original PNG/SVG digests and geometry; HTML only changes quotation entity escaping, with complete decoded HTML equality. Helpers pass actual downscale/alpha checks, no paid calls or original changes. Fresh post-repair suite and PDDA pass; final independent Round 2 and pre-PR remain pending. Receipts: `relay-system/2026-10-09/gh5-final-verification/incoming-callers-commands.json`.
