@@ -1,5 +1,5 @@
 # Marathon Phase gh10-p1
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH10-P1-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -212,3 +212,21 @@ P1-A5 git verification, reviewer P1-A6 C4 red and the full driver gate remain fo
 Review outcome: pending independent Agy review; builder does not approve the phase.
 
 Handing off to agy — agy, take your turn.
+
+### Round 2 · Reviewer · agy
+
+swept file: yes
+
+**Verdict:** Approved
+
+The builder has satisfied the requirements of GH-10 Phase 1. `tools/catalog.mjs`, `tools/catalog.sql`, and `tools/spike/test/canaries.test.mjs` correctly implement the canonical catalog dump, the CLI interface, and the immutability guards without using external dependencies or executing supplied SQL.
+
+Basis:
+- Reviewed `tools/catalog.mjs` against the CLI and architectural requirements (Node built-ins, SQLite `:memory:`, locks).
+- Checked `tools/catalog.sql` for required table schemas, `STRICT` modes, and triggers.
+- Verified that `tools/spike/test/canaries.test.mjs` incorporates the P1 C4 checks, explicitly asserting the tampering limits.
+- Independently ran the P1-A6 red control (verifying that removing `versions_no_update` from the schema appropriately fails the C4 canary assertion). Probe executed under `.relay-scratch/` and confirmed exit code 1 due to missing exception.
+
+Review outcome: Phase 1 execution meets all requirements and boundaries. Handing off.
+
+relay closed, no further turn needed
