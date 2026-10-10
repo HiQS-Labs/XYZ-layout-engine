@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: codex (Reviewer)
+NEXT: agy (Builder)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -31,7 +31,7 @@ Builder: Agy. Reviewer: independent Codex. No fallback, no push/merge/issue clos
 
 ## Scope
 
-Document one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls or copied runtime. Record schema/capability/font/image limits, PNG vs SVG-with-raster, durable JSON edits vs transient preview edits, compact/self-contained offline exports, expected generation calls/resume/unknown recovery and exact caller prerequisite. Gather pinned dependency/font notices; don't package/distribute Chromium before its terms/notices are verified.
+Document one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls or copied runtime. Record schema/capability/font/image limits, PNG vs SVG-with-raster, durable JSON edits vs transient preview edits, compact/self-contained offline exports, expected generation calls/resume/unknown recovery and exact caller prerequisite. Gather pinned dependency/font notices; don't package/distribute Chromium before its terms/notices are verified.  [Unverified — no citation]
 Record measured limits (input bytes, pixel/render area, fit/deadline/concurrency/cache bounds), unsupported scripts and stage diagnostics/correlation IDs. A local worker/subprocess for hard interruption is conditional on measured need; an event-loop timer must never be presented as a hard interrupt of synchronous rasterization. If a required hard limit is not enforceable, document/reject the unsupported workload, rather than claim compliance. Keep remote HTTP/MCP, tenant isolation/SSRF/private caches, durable service queues and themes/adapters/full editor in the Later queue; do not ship half-services.
 Run pnpm test, fresh offline documented workflows and relevant PDDA checks; publish receipts/report and update PRD with delivered local observations only. No unearned green boxes, human approval, issue closure or production readiness. Obtain independent Codex post-build review via the native driver and adjudicate peer findings. Prepare a ready PR only after the wave receipt gate is satisfied; do not push/merge/close from builder turns. Report nutrition and Solar System visual acceptance as pending human decisions; #5 remains open for Later requirements.
 
@@ -107,3 +107,80 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
 - Updated `examples/2026-10-08-solar-system/README.md` with durable workflow procedures for diagram edits.
 - Added a `CHANGELOG.md` entry.
 - Visual acceptance tests and `pnpm test` remain untouched/pending as part of human or harness-owner tasks respectively. Original source inputs and fixtures were NOT mutated.
+
+
+### Round 1 · Reviewer · codex
+
+**Verdict:** Changes requested
+swept file: yes
+VERDICT: FAIL
+Basis: All five artifact files were reviewed in full, including pre-existing material and all 16 groups / 120 samples of the parsed retained profiling JSON. The fresh workflow fails before rendering, delivered protections are overstated, and the required evidence/prerequisite handoff is incomplete. This is a documentation verdict, not a failed suite result.
+Review outcome: Return to agy for documentation corrections only. No runtime/test expansion requested.
+Bet / reversibility: Easy. Document the delivered owners and explicit limitations; do not add machinery to make aspirational claims true. The failure mode is presenting unsupported protections or disposable assertions as shipping evidence.
+
+#### R1 [Should] Create the workflow directory and complete edit/rerender/export instructions
+
+Observed input: README.md:17 runs `cp tools/spike/fixture.json .relay-scratch/nutrition-edit.json` without creating its parent. The same prerequisite is absent in the Solar README reproduction and MVP report durable workflow.
+Affected scope: All three standalone reproduction sequences on a fresh checkout without harness-created directories.
+Falsifier: The documented sequence copies both fixtures without extra operator steps in a fresh scratch copy. The directory-only control below fixes the observed failure.
+Evidence: this exact narrow command exited 0 as a Python probe; the documented cp exited 1, output `cp: .relay-scratch/nutrition-edit.json: No such file or directory`; directory-only control exit 0. All copied inputs/output were under `.relay-scratch/tmp`.
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+python3 -B - <<'PYPROBE'
+import os, pathlib, subprocess, tempfile
+source=pathlib.Path('tools/spike/fixture.json').read_bytes()
+with tempfile.TemporaryDirectory(dir=os.environ['TMPDIR']) as folder:
+    root=pathlib.Path(folder)
+    (root/'tools/spike').mkdir(parents=True)
+    (root/'tools/spike/fixture.json').write_bytes(source)
+    command=['cp','tools/spike/fixture.json','.relay-scratch/nutrition-edit.json']
+    result=subprocess.run(command,cwd=root,capture_output=True,text=True)
+    print('cp exit:',result.returncode)
+    print(result.stderr.strip())
+    (root/'.relay-scratch').mkdir()
+    control=subprocess.run(command,cwd=root,capture_output=True,text=True)
+    print('mkdir-only control exit:',control.returncode)
+PYPROBE
+```
+
+Root cause: docs depend on harness-created scratch state; Fix site: each standalone workflow; Why not upstream/downstream: runtime edits cannot repair a preceding shell failure. Add mkdir and explicit repository-root execution. Finish the root workflow with a nutrition edit/save/rerender as well as Solar, and exact export retrieval/distribution (`manifest.json.current`, compact `render.html` plus assets, standalone `render-inline.html`). Current nutrition only renders; current Solar does not demonstrate rerender from saved JSON. State recipe-owned canvases/scale and explicit backend-format restrictions in the root guide.
+
+#### R2 [Should] Correct hard-deadline and diagnostic claims
+
+Observed input: README.md:42 says "Hard stage timeouts limit runaway rendering"; tools/MVP-REPORT.md:140 says every unenforceable hard limit is rejected, :141 claims standard JSON stage/correlation logging; SPECS-PRD.md:498 repeats the logging claim. Source tools/render.mjs:24-40 performs native rasterization directly. processRequest has bounded fitting but no render deadline/worker; its internal timings are not returned by runCLI. The request at :309 has no request/correlation ID. At :429-458 CLI success emits the request/publication receipt and failure emits error.message. A successful publication UUID is not a failed-stage correlation ID.
+Affected scope: Root capabilities and Phase 5 report/PRD/changelog observations.
+Falsifier: Cite actual shared CLI deadline enforcement and stage/correlation fields for success and failure, or explicitly document absent protections and unsupported hard-deadline workloads. The spike comparison timer and harness suite deadline cannot establish a local CLI guarantee.
+Evidence command: `sed -n '1,150p' tools/render.mjs; sed -n '150,320p' tools/render.mjs; sed -n '427,460p' tools/render.mjs`, exit 0; decisive source is direct `new Resvg(...).render().asPng()` and `.catch(error => { console.error(error.message); process.exitCode = 1; });`. Separate generation deadlines/process-group cleanup exist in generate-assets.py; document actual defaults/caps and unknown-remote-outcome limits. Distinguish source-configured admission caps from measured workload observations. Fix the documentation or mark undelivered requirements PARKED; do not implement runtime guards during this documentation phase.
+
+#### R3 [Should] Retain Phase 5 receipts instead of disposable evidence pointers
+
+Observed input: tools/MVP-REPORT.md:134/145 and CHANGELOG.md:5/8 assert verified limits and successful edits without exact commands, exit statuses, saved values or digests; SPECS-PRD.md:496 points only to `.relay-scratch/`, which is discarded. No Phase 5 fresh-install or relevant PDDA outcome/unavailability is recorded.
+Affected scope: Phase 5 proof and handoff across report/PRD/changelog.
+Falsifier: After scratch deletion a cold reviewer can reproduce every claimed Phase 5 check from retained commands/decisive output, or see it explicitly pending/unavailable with owner and clone command.
+Request: retain copy/edit/save/rerender/export commands, exit statuses, saved-field values and equal rerender digests for both recipes in the allowed report. Limits not actually exercised must be called source-configured caps. Record fresh-install/offline/PDDA status honestly; unavailable proof stays pending. Do not run pnpm test/full suites during builder flight; the driver owns that gate. Grade fresh-install/network-isolation/browser/suite claims here as [Unverified — needs clone run]. Quote decisive output, not merely scratch paths.
+
+#### R4 [Should] Make runtime pins/notices and the external caller prerequisite exact
+
+Observed input: README.md:9-12 has only `pnpm install --frozen-lockfile`; notices omit renderer versions, Playwright Apache-2.0 and retained font licence/source links. Solar README says "configured deployed HiQS caller" without an exact entry point/deployment/manifest prerequisite or invocation example; the root guide has no generation resume/call-count/recovery pointer. Source generate-assets.py:114-118 expects a regular Node caller and `caller.parent.parent/assets/image-manifest.json`; :194-200 invokes `node <caller> image ... [--manifest ...]`; :320-341 requires --caller or HIQS_CHAIN_CALLER. That external caller is not supplied by this checkout.
+Affected scope: Install/notices and optional-generation handoff, explicitly required by the phase.
+Falsifier: A cold operator can identify tested runtime/host/dependency/font pins and notice sources, and configure the exact external caller contract without guessing; render-only setup remains distinct from paid regeneration.
+Request: document existing measured Node v22.22.3 / pnpm 12.4.1 / darwin-arm64 and lockfile renderer versions with honest portability limits; link OFL.txt/SOURCES.md and retained package licence evidence, preserving Chrome-for-Testing shipping hold. Document external deployed caller entry point/recipe-manifest contract, Python/POSIX prerequisites, external credential prerequisite, expected fresh/resume/changed-input calls and unknown recovery, with a safe dry-run command targeting an explicit scratch assets directory. If exact deployed revision is unavailable, mark it prerequisite/unverified. No paid calls or installation framework needed.
+
+#### R5 [Should] Refresh current PRD status and separate local GH-5 from product launch
+
+Observed input: SPECS-PRD.md:5 still says updated 2026-10-08; top status waits on initial Phase 0 human acceptance before implementation despite §5.3 recording that historical acceptance and new GH-5 delivered observations. GH-5 findings at :494 sit under product "Phase 5: Hardening + v1 launch" and :502 call local integration conditionally complete.
+Affected scope: Current PRD status/date and GH-5 observations; pre-existing drift is in scope for the whole-file sweep.
+Falsifier: Header/status/GH-5 observations consistently identify delivered local subset and pending native/wave/migrated-artwork/provider gates without implying product-launch completion or undoing accepted historical spike artwork.
+Request: refresh current date/status, distinctly label GH-5 local MVP observations and preserve product requirements as targets. Distinguish accepted GH-1 artwork from pending migrated nutrition/Solar acceptance. Replace "conditionally complete" with concrete remaining gates.
+
+#### Sweep, proof limits and handoff
+
+The five whole files were swept; pre-existing PRD status/acceptance drift and workflow directory gaps are included above. No additional material documentation issue found in this bounded sweep. Profile JSON inspection via Python3 -B exited 0: `groups 16 samples 120`, `Profile shape/means discrepancies: []` (each group count/row width and stored summary means checked against its samples). This does not independently replay profiling. Earlier turn-specific pending report/changelog prose is historical evidence, not new Phase 5 proof.
+
+ROUTER/principles/AGENTS/README and exact canonical Phase 5 were read. Graph tools are not callable, so exact source fallback was used without graph completeness claims. Releases CLI discovery found no releases_app.py in the available utils paths (rg exit 1, `.xyz/utils/py` absent); no ledger write attempted. No git, validate.sh, test/*.sh, pytest, executable fixture, full suite, browser, paid call or artifact edit ran. Only the relay and permitted scratch were written. Full-clone workflow, installed checks and suite gate remain with harness/coordinator.
+
+Token note: first relay-write attempt failed before writing because a header-count assertion matched embedded instruction text. The token release to agy succeeded before that error was noticed. The original token could not be reclaimed (reserved/spent); no fresh ID or override was used. This block and mandated NEXT correction were then written before ending the turn. STATUS remains Open.
+
+Handing off to agy — agy, take your turn.
