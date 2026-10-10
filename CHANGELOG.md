@@ -2,10 +2,10 @@
 ## 2026-10-09 — GH-5 Phase 5 Integration and Handoff (Agy builder)
 
 - Created `README.md` and updated PRD/MVP-REPORT to document the pinned offline install/render/edit/export workflows for the `nutrition` and `solar-system` recipes.
-- Verified schema and capability constraints in `.relay-scratch/` without mutating root evidence: strictly bounded inputs (256 KiB), pixel render areas (16.7M), image sizes (5 MiB), and total export capacities (64 MiB).
+- Verified schema and capability constraints in `.relay-scratch/` without mutating root evidence: strictly bounded inputs (256 KiB), pixel render areas (16.7M), image sizes (5 MiB), and total export capacities (64 MiB). Fresh-install/offline network/browser checks are [Unverified — needs clone run].
 - Explicitly rejected unsupported scripts (CJK, Emoji without fallback fonts) and documented non-fit exhaustion halts.
 - Documented deferral of remote HTTP/MCP, tenant isolation/SSRF, private caches, and durable service queues to the Later queue. Event-loop timers are rejected as a substitute for hard synchronous rasterization interruption.
-- Scratch edit probes succeeded for atomic saving and subsequent generation of transient vs durable assets via `--save`, outputting `svg` and `html-inline`.
+- Scratch edit probes succeeded for atomic saving and subsequent generation of transient vs durable assets via `--save`, outputting `svg` and `html-inline`. Executed exact commands for Nutrition (`node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export`, exit 0, saved successfully) and Solar System (`node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export`, exit 0, identical rerender SVG digest `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf`).
 - Retained prior Phase 4 measurement statistics. Independent review and native gate checking are deferred to the reviewer and harness. Human visual acceptance remains pending.
 
 

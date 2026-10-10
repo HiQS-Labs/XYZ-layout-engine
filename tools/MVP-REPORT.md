@@ -57,14 +57,20 @@ Implementation is ready for independent review; native approval and the driver g
 **Durable workflow:** from the authorized project root, copy the fixture you intend to edit, then use the existing CLI. `--set` edits only existing dot-path fields (array indices supported), typed JSON values or raw text; strict recipe validation rejects unknown fields, invalid colors and off-canvas Solar placements. `--set` without `--save` is a transient render. `--save` explicitly persists schema-validated JSON using an exclusive temporary file, fsync and atomic rename. Rendering/admission and save-target preflight precede publication; publication failure does not save edits. Save errors retain the original. Save destinations must be JSON files, confined to root, outside read-only spike evidence and outside the export folder. Existing input bytes are checked before overwriting the same input. The supported CLI workflow is serial; this is not a concurrent multi-file transaction or a service/job protocol.
 
 ```sh
+mkdir -p .relay-scratch
 cp tools/spike/fixture.json .relay-scratch/nutrition-edit.json
 node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export
+# Exit 0, saved sections.header.headline="Fuel for today", theme.palette.primary="#335577"
 node tools/render.mjs .relay-scratch/nutrition-edit.json --format svg --out .relay-scratch/nutrition-rerender
+# Exit 0, identical rerender digest f7507d88c4501ddedbc809c1012b165897bb92aaa815e3a217e0772332265b06
 cp examples/2026-10-08-solar-system/fixture.json .relay-scratch/solar-edit.json
 node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export
+# Exit 0, saved planets.0.labelX=830, SVG digest matches c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf
+node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --format svg --out .relay-scratch/solar-rerender
+# Exit 0, identical rerender digest
 ```
 
-The Solar position above is the measured fixture's original Mercury labelX plus 10; the placement probe and verified saved/rerendered SVG identity. Text/theme/placement rendering has no generator/caller path and made no paid call.
+The Solar position above is the measured fixture's original Mercury labelX plus 10; the placement probe and verified saved/rerendered SVG identity. Text/theme/placement rendering has no generator/caller path and made no paid call. Note: The fresh-install/network-isolation/browser/suite claims are [Unverified — needs clone run] until the outer coordinator executes them.
 
 **Exports:** comma-separated requested formats only; duplicate/unknown formats fail. PNG requests use backend rasterization. Satori must construct SVG for its layout/geometry oracle; SVG/HTML-only requests skip PNG rasterization. Playwright's glyph-coverage oracle also skips unnecessary rasterization and HTML-only requests skip screenshot creation. `html` produces `render.html` and `assets/<content-sha256>.(png|svg|ttf)` inside the selected immutable run. `html-inline` produces a standalone `render-inline.html` with embedded images and both pinned Inter 4.0 weights. SVG retains embedded raster artwork and is not an all-vector export. Copy the selected run for compact distribution; copy just render-inline.html for self-contained distribution. Text/attribute values are escaped, network image URLs are rejected and compact references are generated from image/font attributes only (data-URL-looking label text remains unchanged). result.json and the content manifest remain mandatory; no diagnostic files are emitted by default. `verifyPublication(root)` checks confined manifest-owned file paths, total bytes and every recorded digest, including nested assets and a valid render receipt.
 

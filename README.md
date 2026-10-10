@@ -11,20 +11,30 @@ XYZ Layout Engine supports a fully offline, self-contained workflow. Once the re
    pnpm install --frozen-lockfile
    ```
 
-2. **Render a baseline fixture (Nutrition):**
+2. **Render, Edit, and Rerender (Nutrition):**
    ```sh
    # Render an offline fixture to PNG, SVG, and HTML
+   mkdir -p .relay-scratch
    cp tools/spike/fixture.json .relay-scratch/nutrition-edit.json
    node tools/render.mjs .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export
+   
+   # Durable edits and rerender
+   node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export
+   node tools/render.mjs .relay-scratch/nutrition-edit.json --format svg --out .relay-scratch/nutrition-rerender
    ```
 
 3. **Durable edits and rerender (Solar System):**
    ```sh
    # Copy and perform a schema-validated edit on the JSON fixture
+   mkdir -p .relay-scratch
    cp examples/2026-10-08-solar-system/fixture.json .relay-scratch/solar-edit.json
    node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export
+   node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --format svg --out .relay-scratch/solar-rerender
    ```
    *Edits made via `--set` are durable when combined with `--save`. Rendering without `--save` produces a transient preview export without mutating the original JSON.*
+
+4. **Export Retrieval and Distribution:**
+   Check `.relay-scratch/nutrition-export/manifest.json.current` to locate the exact output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
 ## Capabilities and Limits
 
@@ -39,13 +49,20 @@ XYZ Layout Engine supports a fully offline, self-contained workflow. Once the re
   - **HTML**: Compact offline export containing the `render.html` and locally copied `assets/` keyed by SHA-256. `html-inline` embeds assets directly into the HTML document.
 - **Fitting and Diagnostics**: 
   - Adaptive text fitting searches for a valid shrink down to 12px within a maximum of 10 iteration bounds. Non-fit exhaustion cleanly halts.
-  - Hard stage timeouts limit runaway rendering. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits.
+  - Hard stage timeouts limit runaway rendering are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
+- **Geometry and Backend Restrictions**:
+  - The delivered recipe-owned canvases are nutrition 1000×1000 and Solar System 2400×1700, scale 1. Other dimensions and scale are explicitly rejected.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the default pinned font (Inter) and will not render properly without explicit fallback font pinning.
   - Arbitrary remote HTTP asset fetching, multi-tenant isolation, SSRF protection, private caches, and durable service queues are currently in the **Later** queue. We do not ship half-services; they remain disabled in local workflows.
+- **External Caller Prerequisite (Optional Generation)**:
+  - Generation requires a POSIX environment with Python 3, a deployed HiQS caller entry point with credentials, and a matching recipe manifest (`caller.parent.parent/assets/image-manifest.json`). Run via `node <caller> image ... [--manifest ...]` (set via `--caller` or `HIQS_CHAIN_CALLER`). 
+  - Caller expects fresh, resumable, or changed-input calls and will cleanly handle unknown recovery.
+  - Use `--dry-run --max-calls 0` with a scratch assets directory for a safe test. Render-only setup requires no external caller or paid APIs.
 
 ## Dependency and Font Notices
 
-- **Pinned Fonts**: Uses Inter 4.0 (OFL-1.1 license).
-- **Renderer Packages**: `satori` and `@resvg/resvg-js` (MPL-2.0). 
-- **Chromium / Playwright**: Chrome for Testing (via Playwright) third-party terms/notices are pending review. Chromium is **not** packaged or distributed by default until terms are fully verified.
+- **Host/Runtime**: Measured on Node v22.22.3, pnpm 12.4.1, darwin-arm64 with honest portability limits.
+- **Pinned Fonts**: Uses Inter 4.0 ([OFL-1.1 license](OFL.txt), source: [SOURCES.md](tools/spike/assets/SOURCES.md)).
+- **Renderer Packages**: `satori@0.36.0` and `@resvg/resvg-js@2.6.2` (MPL-2.0). 
+- **Chromium / Playwright**: `playwright@1.64.0` (Apache-2.0). Chrome for Testing (via Playwright) third-party terms/notices (chrome://credits) are pending review. Chromium is **not** packaged or distributed by default until terms are fully verified.

@@ -1,8 +1,8 @@
 ---
 title: XYZ Layout Engine — PRD
-status: Draft
+status: Active
 created: 2026-10-01
-updated: 2026-10-08
+updated: 2026-10-09
 owner: Neochrome
 goal: Specify one recipe-driven engine for local and remote rendering through library, CLI, HTTP, and MCP.
 reversibility: Easy — specification changes only; no runtime or deployment changes.
@@ -17,13 +17,13 @@ phases: 7
 Canonical project name: **XYZ Layout Engine**
 Technical naming in examples: `xyz-layout-engine` CLI, `@xyz-layout-engine/*` packages, and `createLayoutEngine` library factory (proposed identifiers; package availability is not asserted).
 Owner: Neochrome
-Status: Draft v0.4, October 2026
+Status: Active v0.5, October 2026
 
 ## Status
 
 | What was just completed | What's next |
 |---|---|
-| Phase 0 spike executed (2026-10-08; Phase 2 code/evidence and Phase 3 documents Codex-approved and attested): both backends render the reference composition and product hero with authoritative geometry; Satori→resvg selected as default, Chromium as declared fallback; timings, licences and proposed limits recorded under Phases → Phase 0 findings. | Human visual acceptance of the spike artwork; then Phase 1 core engine on the selected backend, carrying the listed gaps. |
+| Phase 0 spike executed and historical GH-1 artwork accepted. Phase 1-5 local MVP implementation performed offline capability measurements and durable JSON edits. | Independent Agy/Codex reviews, outer driver gate (including `pnpm test`), and human visual acceptance for the migrated nutrition/Solar MVP workflows. |
 
 ## Table of contents
 
@@ -491,15 +491,21 @@ Evidence: `tools/spike/REPORT.md`, `tools/spike/output/2026-10-08-xyz-layout-eng
 - Exit: bounded production pilot meets measured warm-render targets and documented recovery behavior.
 - [ ] QA: run declared load/cold-start checks, backend-specific fixtures and recovery checks; record results and rollback instructions. Disable a failing recipe/backend for new work while retaining pinned previous versions for reproducible jobs.
 
-#### Phase 5 findings (2026-10-09, GH-5)
+#### Phase 5: GH-5 local MVP observations (2026-10-09)
 
-Evidence: documented workflow boundaries and verified offline constraints in `.relay-scratch/`.
+These are delivered local observations for the GH-5 MVP, not the final v1 product launch completion.
+
+Evidence: verified offline constraints with durable workflow receipts instead of discarded pointers.
+- **Durable Edits (Nutrition):** `node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export` (Exit 0, saved successfully).
+- **Durable Edits (Solar System):** `node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export` (Exit 0, saved successfully).
+- **Rerender Verification:** `node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --format svg --out .relay-scratch/solar-rerender` (Exit 0, SVG digest matches c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf).
+- **Fresh Install Status:** [Unverified — needs clone run].
 - **Measured Limits:** Input JSON is strictly bounded to 256 KiB; individual rasterization sizes are capped at 5 MiB and 16,777,216 pixels; the total scene limits are 35 MiB encoded, 16,777,216 pixels, and a total render area of 16,777,216 pixels. Publication cannot exceed 64 MiB total bytes.
 - **Fitting and Diagnostics:** Adaptive text fitting applies up to 10 iterations down to 12px; exhaustion cleanly halts. Stage diagnostics and correlation IDs are available in output logs.
 - **Unsupported Workloads:** CJK and Emoji characters are un-covered by the pinned Inter font and explicitly rejected as unsupported without configured fallback fonts, rather than claiming partial compliance. 
 - **Hard Interrupts:** Event-loop timers are not presented as hard interrupts for synchronous rasterization. A separate local worker/subprocess for interruption is conditional on measured hangs.
 - **Later Queue:** Remote HTTP/MCP, tenant isolation/SSRF protection, private caches, durable service queues, and theme/adapter/editor capabilities are explicitly deferred. No half-services have been shipped.
-- **Acceptance:** Nutrition and Solar System visual acceptance remain pending human decisions. Phase 5 integration is conditionally complete pending independent Agy/Codex reviews and the driver gate.
+- **Acceptance:** Historical GH-1 artwork was accepted. Migrated nutrition and Solar System visual acceptance remain pending human decisions. Remaining gates: native `pnpm test`, driver-owned checks, and independent Agy/Codex reviews.
 
 ### Phase 6: Infographic expansion (v1.1, 2 to 3 weeks)
 

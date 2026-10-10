@@ -39,6 +39,7 @@ node examples/2026-10-08-solar-system/render-diagram.mjs --backend playwright
 node examples/2026-10-08-solar-system/render-diagram.mjs --format svg
 
 # Durable edit workflow (modifying the fixture and exporting as self-contained HTML/SVG)
+mkdir -p .relay-scratch
 cp examples/2026-10-08-solar-system/fixture.json .relay-scratch/solar-edit.json
 node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export
 ```

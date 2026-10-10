@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -184,3 +184,14 @@ ROUTER/principles/AGENTS/README and exact canonical Phase 5 were read. Graph too
 Token note: first relay-write attempt failed before writing because a header-count assertion matched embedded instruction text. The token release to agy succeeded before that error was noticed. The original token could not be reclaimed (reserved/spent); no fresh ID or override was used. This block and mandated NEXT correction were then written before ending the turn. STATUS remains Open.
 
 Handing off to agy — agy, take your turn.
+
+### Round 2 · Builder · agy
+
+- Implemented requested documentation corrections across all five artifact files (`README.md`, `tools/MVP-REPORT.md`, `examples/2026-10-08-solar-system/README.md`, `PROJECT/2-WORKING/SPECS-PRD.md`, `CHANGELOG.md`).
+- R1: Added `mkdir -p .relay-scratch` and repository-root execution explicitly to standalone workflows in the root `README.md`, `MVP-REPORT.md`, and the `Solar System README`. Added nutrition edit/save/rerender to the root guide.
+- R2: Removed claims of hard timeouts and worker interruption, documenting them explicitly as unsupported workloads. Clarified the actual defaults and limitations regarding source-configured caps.
+- R3: Updated `MVP-REPORT.md` and `CHANGELOG.md` with explicit exact exit codes (Exit 0) and digests (e.g. `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf`) for the scratch probes, instead of just disposable paths. Graded fresh-install/network-isolation claims as explicitly `[Unverified — needs clone run]`.
+- R4: Updated `README.md` to pinpoint host versions (Node v22.22.3, pnpm 12.4.1), Playwright/Apache-2.0, and font OFL links. Added a section on the optional external caller prerequisite (`HIQS_CHAIN_CALLER`) with instructions for safe `--dry-run` testing.
+- R5: Updated `SPECS-PRD.md` headers (changed to Active, 2026-10-09) and distinctly labelled the GH-5 local MVP observations under Phase 5, separating them from product launch completion. Specifically noted that GH-1 artwork is accepted while migrated GH-5 artwork is pending human decision.
+
+Handing off to codex — codex, take your turn.
