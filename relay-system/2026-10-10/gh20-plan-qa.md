@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -172,5 +172,25 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+- `[Blocker]` Seed data is not available in `verification.json` as claimed. The plan states "Seed the three existing examples... from their verification.json digests" and requires storing `params`, `data hash`, and `use case and version`. However, `verification.json` lacks these fields; they exist in `fixture.json` and the recipe modules. Additionally, `verification.json` contains multiple `artifactDigests` (png, svg, html, chromiumPng), making "artifact digest" ambiguous.
+  Observed input: `jq 'keys' examples/2026-10-08-solar-system/verification.json` returns `["artifactDigests", "assets", "chromiumText", "findings", "generatedAt", "height", "imageNodes", "renderer", "satoriBounds", "textIds", "width"]` without `params` or `dataHash`.
+  Affected scope: Phase A2 seed instructions and table schema.
+  Falsifier: `verification.json` does not contain the necessary fields to seed the `designs` table. The plan must clarify the data source (e.g. `fixture.json`) and which specific artifact digest (e.g. SVG) is pinned.
+- `[Blocker]` Hand edits to the `designs` table will not be caught by existing checks. The plan claims "Enforcement is the existing gate... so a hand-edited dump fails pnpm test." However, `verify` only checks hashes for `recipes` and `recipe_version_files`, not `designs`. A correctly formatted manual `INSERT INTO designs` row added to `catalog.sql` will perfectly match `exportDump(db)` serialization and pass `export --check`.
+  Observed input: Adding a correctly serialized `INSERT INTO designs` row to `tools/catalog.sql`.
+  Affected scope: Phase A2 enforcement and acceptance criteria claiming no new checks are needed to catch hand edits.
+  Falsifier: Running `pnpm test` after adding a well-formatted `designs` row will pass, bypassing the CLI without detection.
+- `[Should]` The plan claims "Responsive stacking replaces GH-9" by picking a layout string by canvas width, but fails to document what this leaves unsolved. Since the grid core maps items by document order, a layout string change cannot alter the visual order of elements or change box content per band.
+  Observed input: A requirement to place an image above text on narrow screens and right of text on wide screens.
+  Affected scope: Phase B's claim to fully replace GH-9 with layout strings.
+  Falsifier: A purely string-based layout parser cannot reorder the underlying DOM/React tree rendering order without a separate mechanism.
+- `[Pass]` Removed serial constraint and verification steps. Verified `tools/catalog.mjs` and `tools/catalog.sql` both contain `serial` and `RCP-` references (e.g., `tools/catalog.mjs:15` `const serialName = n => \`RCP-${String(n).padStart(4, '0')}\`;`). The planned surgical Phase A1 correctly targets these for removal.
+
+VERDICT: FAIL
+Basis: The plan's claims about test enforcement for hand edits and the contents of `verification.json` are incorrect and need to be addressed.
+swept file: yes
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
