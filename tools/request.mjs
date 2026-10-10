@@ -113,11 +113,17 @@ export async function saveFixture(fixture, destination, options = {}) {
   const target = path.join(parent, path.basename(requested));
   const historical = fileURLToPath(new URL('./spike/output', import.meta.url));
   if (!within(root, target) || within(historical, target) || !target.endsWith('.json')) throw invalid('save', 'requires JSON inside root and outside read-only spike evidence');
+  // An export's manifest and run folders are publisher-owned, never fixture destinations.
+  if (path.basename(target) === 'manifest.json' || path.relative(root, target).split(path.sep).includes('runs')) throw invalid('save', 'refusing an export manifest or run folder');
   const bytes = Buffer.from(JSON.stringify(fixture, null, 2) + '\n');
   if (bytes.length > LIMITS.inputBytes) throw invalid('save', 'byte budget exceeded');
   try {
     const stat = await fs.lstat(target);
     if (!stat.isFile() || stat.isSymbolicLink()) throw invalid('save', 'requires regular file');
+    // Only an existing copy of this same fixture may be replaced (not package.json or any other JSON).
+    let existing;
+    try { existing = JSON.parse(Buffer.from(await readBounded(target, LIMITS.inputBytes)).toString('utf8')); } catch { throw invalid('save', 'existing file is not a fixture'); }
+    if (existing?.id !== fixture.id) throw invalid('save', 'existing file is not this fixture');
     if (options.inputPath === target && !Buffer.from(await readBounded(target, LIMITS.inputBytes)).equals(options.input)) throw invalid('save', 'input changed since render');
   } catch (e) { if (e.code !== 'ENOENT') throw e; }
   if (options.validateOnly) return target;

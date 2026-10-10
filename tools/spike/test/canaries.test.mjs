@@ -93,6 +93,13 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   // An unbreakable word wider than its box must refuse (non-fit), never publish clipped text.
   await assert.rejects(runCLI(['edited.json', '--out', 'local-output', '--set', `sections.header.headline=${'W'.repeat(120)}`], { root: space }), /non-fit/);
   assert.deepEqual(snapshot(local), unchanged);
+  // GH-23: --save never overwrites non-fixture JSON or an export manifest, and --out is never the root itself.
+  const pkgBytes = readFileSync(path.join(space, 'package.json'));
+  await assert.rejects(runCLI(['edited.json', '--out', 'save-out', '--save', 'package.json'], { root: space }), /existing file is not this fixture/);
+  assert.deepEqual(readFileSync(path.join(space, 'package.json')), pkgBytes);
+  await assert.rejects(runCLI(['edited.json', '--out', 'save-out', '--save', 'local-output/manifest.json'], { root: space }), /export manifest or run folder/);
+  await assert.rejects(runCLI(['edited.json', '--out', '.'], { root: space }), /choose a subdirectory/);
+  assert.ok(!readdirSync(space).includes('manifest.json'), 'export wrote into the root');
   // Only scratch copies are edited; the comparison renderer still reads its untouched fixture.
   assert.deepEqual(readFileSync(path.join(space, 'tools/spike/fixture.json')), readFileSync(path.join(SPIKE, 'fixture.json')));
   const beforeRender = readdirSync(space).sort();
