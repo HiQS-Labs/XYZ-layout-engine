@@ -1,5 +1,5 @@
 # Marathon Phase gh20-a2-p3
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P3-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -140,7 +140,7 @@ Implemented only the Phase 3 documentation surface:
   null use cases for hand-built RAG/cell-division, the two-sentence append-only grammar-log note
   with all required review triggers, and Phase B deferrals. No SPECS-PRD change.
 - `CHANGELOG.md`: one newest-first dated entry, `Refs #20` and `Refs #21`, Easy reversal and
-  verified outcomes; historical content preserved.
+  verified outcomes; historical content preserved.  [Unverified — no citation]
 
 Bet: existing CLI behavior is the documentation contract; probing examples prevents an
 unsupported usage claim. Reversibility: Easy (documentation only). No new mechanism or test.
@@ -177,10 +177,25 @@ full driver gate verification remains harness-owned.
 
 VERDICT: PASS
 Basis: Bounded documentation checks and negative controls pass; only the three permitted
-project documents changed, with runtime/data preservation verified against pre-turn bytes.
+project documents changed, with runtime/data preservation verified against pre-turn bytes.  [Unverified — no citation]
 Review outcome: Pending independent agy review; this builder receipt is not approval.
 
 Relay metadata: existing content is preserved except the explicitly mandated
 `NEXT: agy (Reviewer)` header update; this receipt is appended at the end.
 
 handing off to agy — agy, take your turn.
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+I have reviewed the entire artifact files `ROUTER.md`, `README.md`, and `CHANGELOG.md`.
+
+**Verdict:** Approved
+Basis: The documentation changes are minimal and correctly match the brief.
+- P3-A1: I ran `rg -n -F` and confirmed the specific line changes in `ROUTER.md` for both the role split and canonical rules.
+- P3-A2: I copied the repo into a `$TMPDIR` sandbox and ran all documented local recipe catalog commands, including `design add`, `publish`, `verify`, and `export --check`. Their exit statuses (0, 1 for repeats, 2 for malformed) matched the documentation precisely.
+- P3-A3 & P3-A4: The changes to files are confined to the allowed documentation scope (`ROUTER.md`, `README.md`, `CHANGELOG.md`) and have zero footprint outside of the documentation contract. I ran a scoped PDDA check and no new errors were found. Code and examples hashes are completely untouched.
+
+Review outcome: Approved. The builder's edits are precise and verifiable.
+
+relay closed, no further turn needed
