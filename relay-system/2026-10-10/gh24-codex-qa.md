@@ -219,4 +219,12 @@ swept file: no
 
 Relay closed (Approved), no further agent turn needed. Closing `RELAY-gh24-codex-qa-codex5` with the absolute, env-pinned `tick done --agent codex`, as specifically requested in Producer Round 4; no release to the nonexistent `done` agent. The harness owns the file-scoped commit and gates.
 
+
+### Attestation · relay-drive — 2026-10-10T20:29:13Z
+task: RELAY-gh24-codex-qa-codex5
+reviewer: codex
+status: Approved
+reviewed-head: da6156f5831481a43578be84c3e111e2d1f0ff79
+added-range: 36387+1587
+added-sha256: bfe8665848ffb240f0766e062d6e89aed5bc17bffaeb097d570ec8ce870737a2
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
