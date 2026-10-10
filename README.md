@@ -38,6 +38,46 @@ Run these commands from the repository root. Dependency installation may use the
 4. **Export Retrieval and Distribution:**
    Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
+## Local Recipe Catalog
+
+Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
+in-memory SQLite by `tools/catalog.mjs`. The seeded identities are `RCP-0001 nutrition@1.0.0`
+and `RCP-0002 solar-system@1.0.0`: an immutable, never-reused four-digit serial, immutable slug,
+and exact `MAJOR.MINOR.PATCH` version bound to SHA-256 digests of declared files. Older versions
+remain ledger history; their content is retained in git.
+
+Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
+
+| Command | Successful result | Exit |
+|---|---|---|
+| `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
+| `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
+| `node tools/catalog.mjs show RCP-0002` | Look up Solar System by serial | 0 |
+| `node tools/catalog.mjs publish nutrition 1.0.0` | Unchanged publication succeeds as a no-op | 0 |
+| `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
+| `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
+
+Exit **1** means validation, I/O or drift failure (including changed content under a published
+version, missing/modified declared files, or a non-canonical dump); exit **2** means usage error
+(for example, `node tools/catalog.mjs lsit`). `export --check` checks dump serialization, while
+`verify` also checks current recipe content. `list`, `show` and `verify` accept `--json`.
+On the verified Node line, catalog commands emit `ExperimentalWarning: SQLite is an experimental
+feature and might change at any time` on stderr; this warning also occurs when rendering loads
+the catalog and does not itself indicate failure.
+
+Catalog writes are local operator actions: `add`, `publish`, `update`, `deprecate`, `retire` and
+`import` are not tenant or render API/MCP operations. Writes use an exclusive lock and atomic dump
+replacement; a stale lock requires operator inspection and is never broken automatically.
+`publish <slug> <version>` requires the module's exact exported version. Publishing identical
+content again succeeds; changed content requires a new version. Bump **patch** when content changes
+but all previously admitted requests remain byte-identical, **minor** for additive capabilities
+with those artifacts unchanged, and **major** for changed prior artifacts or a narrower schema.
+
+Render receipts record serial, slug, exact module version, published content digest and verification
+status; missing, unpublished or drifted catalog content records `verified: false` with a reason
+and leaves local rendering available. Use `verify` to enforce catalog integrity. Variants, slug
+aliases/renames and semver range resolution are deferred.
+
 ## Capabilities and Limits
 
 - **Inputs and Area**: 

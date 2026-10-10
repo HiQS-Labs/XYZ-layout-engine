@@ -1,6 +1,6 @@
 # Marathon Phase gh10-p3
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH10-P3-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -117,3 +117,84 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+
+### Round 1 · Builder · codex
+
+Files touched: README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md;
+this relay's required NEXT header metadata and appended builder receipt.
+
+Implemented:
+- README adds local catalog identities RCP-0001 nutrition@1.0.0 and
+  RCP-0002 solar-system@1.0.0, immutable/non-reused serials and immutable slugs,
+  exact semver, files-own-content/ledger-owns-identity, declared-file digests,
+  operator writes, lock/atomic replacement and version bump rules. It documents
+  exact list/show/publish/verify/export --check commands, exit codes, SQLite's
+  ExperimentalWarning, render receipt status and deferred variants/aliases/ranges.
+- PRD adds exactly one delivered-observation note under §6.5; every other byte
+  of that file remains unchanged. No new requirement.
+- CHANGELOG adds a newest-first dated documentation entry with Refs #10 and
+  Refs #19; all historical entries are preserved, with no closing keyword.
+
+Bet: source evidence and copy-only CLI probes keep docs accurate without expanding
+catalog scope. Tradeoff: record experimental built-in SQLite on the verified Node
+line rather than imply wider portability. Failure mode: claiming ranges or remote
+writes are delivered, or confusing serialization with content verification.
+Reversibility: Easy — documentation only; no new mechanism or runtime/test edit.
+
+Verification (copies, logs, JSON and PDDA activity under .relay-scratch):
+- Node v22.22.3. Copied tools/, examples/ and package.json to
+  .relay-scratch/p3-copy under the host temporary workspace; catalog needs no
+  installed dependencies. Commands executed from that copy's root:
+  - node tools/catalog.mjs list -> 0; RCP-0001 nutrition and RCP-0002 solar-system.
+  - node tools/catalog.mjs show nutrition -> 0; version 1.0.0 and files/outputs.
+  - node tools/catalog.mjs show RCP-0002 -> 0; solar-system version 1.0.0.
+  - node tools/catalog.mjs publish nutrition 1.0.0 -> 0; identical publication.
+  - node tools/catalog.mjs verify -> 0; valid true, errors [].
+  - node tools/catalog.mjs export --check -> 0; canonical true.
+  Each emitted the documented SQLite ExperimentalWarning on stderr.
+  Full stdout/stderr/exit evidence: .relay-scratch/p3-commands.json.
+- Copy-only reds: lsit -> 2 (usage), show unknown-recipe -> 1 (unknown recipe).
+  Appended a comment to copied nutrition.mjs: verify -> 1 (modified declared file),
+  publish nutrition 1.0.0 -> 1 (already published with different content).
+  Refused publication preserved ledger bytes. Restored module. Added a trailing
+  blank line to copied catalog.sql: export --check -> 1, canonical false.
+  Restored dump; verify -> 0 again. Restored tools/examples/package bytes equal
+  the source tree.
+- Copied touched docs to .relay-scratch/p3-docs; ran narrow installed checks
+  with PDDA_MODE=full, PDDA_WORKING_DIR selecting the copy, TMPDIR and
+  PDDA_ACTIVITY_LOG under .relay-scratch, never root activity output:
+  bash utils/pdda/pdda.sh hardcoded-paths -> 0; errors=0, warns=0, info=0.
+  With PDDA_ONLY_FILE selecting copied SPECS-PRD.md:
+  bash utils/pdda/pdda.sh frontmatter -> 0; zero findings.
+  bash utils/pdda/pdda.sh status-table -> 0; zero findings.
+  Path red: absolute home path added to copied PRD -> hardcoded-paths exit 1,
+  one error; restored copy. Final path check after changelog edit -> 0, no findings.
+  Evidence: .relay-scratch/p3-doc-checks.json and .relay-scratch/p3-final-checks.json.
+- Python read-only assertions -> 0: all six README table commands match recorded
+  successful probes; PRD changes only by the §6.5 note; changelog history preserved;
+  doc fences balanced; no absolute home paths in touched docs; restored
+  tools/examples/package identical. Filesystem comparison is not a base-ref diff.
+
+P3-A1 command/exit checks complete; scratch placement follows the direct operator
+containment instruction. P3-A2 targeted doc checks complete; full PDDA run belongs
+to the harness. P3-A3 base-ref git diff also belongs to the harness. No git command,
+full project suite, paid call, runtime/test edit, ledger change, issue closure or
+human approval was performed or claimed.
+
+Startup limits: graph MCP tools unavailable, so catalog source read directly.
+Documented .xyz/utils/py/releases_app.py startup lookup failed file-not-found;
+utils/py also lacks releases_app.py. No roadmap/ledger edited. gh10-p2 has
+independent Agy approval and driver attestation; no new Phase 2 gate claim here.
+
+Handoff sequencing correction: an over-strict receipt assertion counted a NEXT
+example in the embedded instructions and failed before writing. Token release to
+agy succeeded prematurely. A reclaim was refused because the token is reserved
+for agy; no fresh token was created. Corrected only the required header NEXT and
+appended this receipt before ending the builder turn. Artifact checks were already
+complete; no existing relay body was rewritten.
+
+Review outcome: Pending independent Agy review; builder evidence is not approval.
+VERDICT: PASS
+Basis: Bounded documentation implementation and focused green/red checks passed.
+Independent approval, full gate and base-ref containment remain harness-owned.
