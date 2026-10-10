@@ -104,6 +104,13 @@ and `--flags` with a comma-separated list from `needed_row_span,non_grid_family,
 per design added through the CLI. Review it after every 10 designs or the first
 `needed_row_span`, `non_grid_family` or `needed_span_over_9` flag.
 
+The dump and the log are two separate file writes (dump first, then the log line), not one
+transaction. If the log append fails, run `node tools/catalog.mjs verify`, restore the affected dump or
+log from version control, and retry; a repeated `design add` refuses an ID the dump already holds.
+A malformed design row (for example an invalid ID or an unpublished pin) makes the whole catalog fail
+to load, so recipe receipts then report `verified: false`; only design errors that `verify` returns
+for a structurally loadable catalog are isolated from recipe verification.
+
 Phase B is deferred: the grid parser and canonical form, pixel geometry, `layouts` and
 `use_case_layouts`, filling `layout_id`, deriving grid counts/span histograms, responsive
 stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.

@@ -1,32 +1,32 @@
-marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
+marathon: run log: <clone>/relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
 marathon: plan: PROJECT/2-WORKING/catalog-designs/MARATHON-p2-p3.yaml — 2 phase(s) in execution order
 marathon: ── phase 1/2: gh20-a2-p2 (reviewer=agy, round-cap=5, artifact=tools/catalog.sql, tools/design-log.jsonl, turn-timeout=1500s) ──
 marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
 marathon-drive:   • relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
-marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+marathon-drive: relay file committed: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
 marathon-drive: tick token seeded: MARATHON-GH20-A2-P2-TURN → codex
 marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p2-start boundary — compressor=7253MB, swap_free=0MB
 marathon-drive: phase start: running relay-drive --round-cap 5
-relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs) changed-files=1
-codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.BK9NUj)
-relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.BK9NUj) changed-files=3
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+codex-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=3
 rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
-rtl: GH-654 allowlist: [tools/catalog.sql, tools/design-log.jsonl] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+rtl: GH-654 allowlist: [tools/catalog.sql, tools/design-log.jsonl] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
 codex-turn: committed codex turn (file-scoped, no push)
 codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
 codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
 codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
-relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs) changed-files=1
-agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.dvfGQa)
-relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.dvfGQa) changed-files=1
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+agy-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
 rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
-rtl: GH-654 allowlist: [tools/catalog.sql, tools/design-log.jsonl] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+rtl: GH-654 allowlist: [tools/catalog.sql, tools/design-log.jsonl] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
 agy-turn: committed agy turn (file-scoped, no push)
 agy-turn: dependency.drift — agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
 agy-turn: dependency.drift — agy changed src/project.js (0 lines); signalled for the next turn
 agy-turn: dependency.drift — agy changed src/events.js (0 lines); signalled for the next turn
-relay-drive: attested Approved by agy — reviewed a999624f084e, 783 bytes of review text, record /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.git/relay-attest/MARATHON-GH20-A2-P2-TURN.json
+relay-drive: attested Approved by agy — reviewed a999624f084e, 783 bytes of review text, record <clone>/.git/relay-attest/MARATHON-GH20-A2-P2-TURN.json
 relay-drive: relay terminated (STATUS: Approved, token done, attested by agy) after 2 turn(s)
 marathon-drive: relay approved — running pre-advance gate: pnpm test
 $ node tools/spike/test/run.mjs
@@ -73,7 +73,7 @@ ok 4 - guards: the verifier stops detecting tampering
 # duration_ms 31911.25575
 test-budget: PASS — 4 canaries in 31.9s (budget 60s)
 marathon-drive: gate-guard: gate exit 0 after 33s — peak group RSS 114MB (tier full; caps: RSS 8192MB, wall 1800s, CPU 1200s)
-marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/relay-system/2026-10-10/marathon-gh20-a2-p2-200405.md
+marathon-drive: transcript saved: <clone>/relay-system/2026-10-10/marathon-gh20-a2-p2-200405.md
 marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p2-complete boundary — compressor=7092MB, swap_free=0MB
 marathon-drive: phase gh20-a2-p2 complete — STATUS: Approved, gate passed
@@ -92,31 +92,31 @@ clone retirement: this campaign clone can be retired via /merge-cleanup (merge-c
 marathon: ── phase 2/2: gh20-a2-p3 (reviewer=agy, round-cap=5, artifact=ROUTER.md, README.md, CHANGELOG.md, turn-timeout=1500s) ──
 marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
 marathon-drive:   • relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
-marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+marathon-drive: relay file committed: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
 marathon-drive: tick token seeded: MARATHON-GH20-A2-P3-TURN → codex
 marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p3-start boundary — compressor=7091MB, swap_free=0MB
 marathon-drive: phase start: running relay-drive --round-cap 5
-relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs) changed-files=1
-codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.rSGtdW)
-relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.rSGtdW) changed-files=1
-relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.rSGtdW) changed-files=4
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+codex-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=4
 rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
-rtl: GH-654 allowlist: [ROUTER.md, README.md, CHANGELOG.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+rtl: GH-654 allowlist: [ROUTER.md, README.md, CHANGELOG.md] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
 codex-turn: committed codex turn (file-scoped, no push)
 codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
 codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
 codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
-relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs) changed-files=1
-agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.8h1dvP)
-relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.8h1dvP) changed-files=1
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+agy-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
 rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
-rtl: GH-654 allowlist: [ROUTER.md, README.md, CHANGELOG.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+rtl: GH-654 allowlist: [ROUTER.md, README.md, CHANGELOG.md] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
 agy-turn: committed agy turn (file-scoped, no push)
 agy-turn: dependency.drift — agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
 agy-turn: dependency.drift — agy changed src/project.js (0 lines); signalled for the next turn
 agy-turn: dependency.drift — agy changed src/events.js (0 lines); signalled for the next turn
-relay-drive: attested Approved by agy — reviewed db41c305d5ff, 1040 bytes of review text, record /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.git/relay-attest/MARATHON-GH20-A2-P3-TURN.json
+relay-drive: attested Approved by agy — reviewed db41c305d5ff, 1040 bytes of review text, record <clone>/.git/relay-attest/MARATHON-GH20-A2-P3-TURN.json
 relay-drive: relay terminated (STATUS: Approved, token done, attested by agy) after 2 turn(s)
 marathon-drive: relay approved — running pre-advance gate: pnpm test
 $ node tools/spike/test/run.mjs
@@ -163,7 +163,7 @@ ok 4 - guards: the verifier stops detecting tampering
 # duration_ms 32826.010583
 test-budget: PASS — 4 canaries in 32.9s (budget 60s)
 marathon-drive: gate-guard: gate exit 0 after 33s — peak group RSS 114MB (tier full; caps: RSS 8192MB, wall 1800s, CPU 1200s)
-marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/relay-system/2026-10-10/marathon-gh20-a2-p3-200857.md
+marathon-drive: transcript saved: <clone>/relay-system/2026-10-10/marathon-gh20-a2-p3-200857.md
 marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p3-complete boundary — compressor=7514MB, swap_free=0MB
 marathon-drive: phase gh20-a2-p3 complete — STATUS: Approved, gate passed

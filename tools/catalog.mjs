@@ -41,6 +41,7 @@ const designID = value => {
   const date = new Date(match[1] + 'T00:00:00Z');
   return Number.isFinite(date.getTime()) && date.toISOString().slice(0,10) === match[1];
 };
+const NULLABLE_DESIGN_COLUMNS = new Set(['use_case','use_case_version','layout_id']);
 const designFlags = ['needed_row_span','non_grid_family','needed_span_over_9','layout_forced'];
 const logKeys = ['id','use_case','use_case_version','canvas','layout','columns','rows','boxes','span_histogram','workaround_boxes','friction',...designFlags,'no_recipe'];
 const TABLES = [
@@ -109,6 +110,8 @@ export function loadDump(text) {
         if (offset < source.length) { check(source[offset] === ',' && offset + 1 < source.length, spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump', 'invalid delimiter'); offset++; }
       }
       check(values.length === spec[1].length, spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump', 'wrong column count');
+      // NULL is admitted only for the three nullable design columns; SQLite would otherwise auto-assign an INTEGER PRIMARY KEY from NULL.
+      values.forEach((v, i) => check(v !== null || (spec[0] === 'designs' && NULLABLE_DESIGN_COLUMNS.has(spec[1][i])), spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump', 'NULL not allowed in this column'));
       try { db.prepare(spec[3]).run(...values); } catch (error) { if (spec[0] === 'designs') throw invalid(values[0] ?? 'design-log',error.message); throw error; }
     }
     if (header === SCHEMA_V1) db.prepare('INSERT INTO schema_migrations VALUES (?)').run(2);

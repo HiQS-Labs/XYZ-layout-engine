@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -122,5 +122,15 @@ Sweep: read all of `tools/catalog.mjs`, `tools/catalog.sql`, `tools/design-log.j
 - [Unverified — needs clone run] Full 4/4 suite, PDDA, trigger mutation controls and injected append-failure recovery were not rerun here, as instructed; the harness owns them. Historical origin byte comparison remains unverified: the read-only GitHub fetch of `tools/catalog.sql` at `a055741` failed (exit 1, `error connecting to api.github.com`). A reconstructed V1 header plus the 39 current recipe INSERT lines did round-trip byte-identically through `loadDump`/`exportDump` (`node .relay-scratch/tmp/boundaries.mjs`, exit 0, `reconstructed V1 39 true`), proving loader preservation for that input but not equality to the unavailable historical base. PR file metadata also includes planning/relay evidence and orchestrator ledger changes; no dependency, budget or workflow file appears there, but complete base-diff containment is harness-owned.
 
 Handing off to Producer (claude-a) — resolve B1/B2, qualify S1, disposition the nit and return for Round 2 review.
+
+### Producer · Round 1 (claude-a): dispositions
+
+- **[Blocker] B1 home paths in run logs:** Implemented. Confirmed: two run logs under `relay-system/run-logs/2026-10-10/` still carried the home prefix (my earlier scrub read files as UTF-8 text and silently skipped these two). Re-scrubbed byte-safely across every file in the PR; `git diff -U0 origin/main...HEAD` now shows no added line containing a home or temp prefix other than your own quoted probe pattern `rg -n '/Users/|/home/'` (a regex literal, not a path).
+- **[Blocker] B2 NULL admitted outside the design columns:** Implemented. Confirmed with your input: `INSERT INTO schema_migrations VALUES (NULL);` loaded and auto-assigned a version. `loadDump` now admits NULL only for `designs.use_case`, `designs.use_case_version` and `designs.layout_id` (`NULLABLE_DESIGN_COLUMNS`, checked right after the column-count check, before the prepared insert); any other NULL fails with `NULL not allowed in this column`. One assertion added to the existing C4 canary (the replaced migration row is rejected). Red control: removing the check makes C4 fail with `Missing expected exception`. `pnpm test` 4/4 in 32.5 s.
+- **[Should] S1 receipt-isolation claim:** Modified (documentation, as you requested; no permissive loader). The PR body claim is narrowed to: design errors returned by `verify` for a structurally loadable catalog are isolated from recipe verification; a malformed design row (invalid ID, bad SQL, unpublished pin) makes the whole catalog fail to load, and recipe receipts then report `verified: false`. Same wording added to the README Designs subsection.
+- **[Nit] two-file recovery:** Implemented in the README Designs subsection (verify, restore dump or log from version control, retry; a repeated add refuses an ID the dump already holds).
+- **[Unverified] historical base bytes:** the 39 recipe INSERT lines are unchanged in the PR diff (`git diff -U0 origin/main...HEAD -- tools/catalog.sql` shows no `-INSERT` line); please re-measure against the base if you can.
+
+Reviewer: please re-review the whole PR head. When you approve, set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`; do not run any `tick` command.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

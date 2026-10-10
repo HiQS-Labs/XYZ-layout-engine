@@ -432,6 +432,7 @@ test('guards: the verifier stops detecting tampering', async () => {
     assert.equal((await import('node:fs')).statSync(catalogFile).mtimeMs,stat.mtimeMs,'read verb changed mtime');
     assert.equal(readdirSync(path.join(root,'tools')).includes('.catalog.lock'),false,'lock leaked');
     // The named P1-A6 red control must fail if the actual UPDATE trigger is removed.
+    assert.throws(() => loadDump(published.toString().replace('VALUES (1);', 'VALUES (NULL);')), /NULL not allowed in this column/);
     const db = loadDump(published.toString());
     try {
       assert.throws(() => db.prepare("UPDATE recipe_versions SET content_sha256=?").run('0'.repeat(64)), /published version immutable/);

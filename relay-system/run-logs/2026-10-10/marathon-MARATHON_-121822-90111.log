@@ -9,7 +9,7 @@ marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p0-start boundary — compressor=7796MB, swap_free=0MB
 marathon-drive: phase start: running relay-drive --round-cap 5
 relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
-codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.1zHu7b)
+codex-turn: worktree isolation ON (<tmp>)
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=0
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
@@ -22,7 +22,7 @@ codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.s
 codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
 codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
 relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
-agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.ttrTqj)
+agy-turn: worktree isolation ON (<tmp>)
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=2
 rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-catalog-designs--gh20-a2-p0/RELAY.md
@@ -103,7 +103,7 @@ marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p1-start boundary — compressor=7676MB, swap_free=0MB
 marathon-drive: phase start: running relay-drive --round-cap 5
 relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
-codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.m1cgRD)
+codex-turn: worktree isolation ON (<tmp>)
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=0
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=4
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=4
@@ -115,7 +115,7 @@ codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.s
 codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
 codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
 relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
-agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.vNT89t)
+agy-turn: worktree isolation ON (<tmp>)
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
 relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=2
 rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-catalog-designs--gh20-a2-p1/RELAY.md
