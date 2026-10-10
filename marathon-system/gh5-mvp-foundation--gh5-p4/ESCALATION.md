@@ -7,25 +7,22 @@ reason: containment-violation (off-lane edit reverted by a turn-taker)
 gate: not-run
 relay-file: marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
 
-turn-log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P4-TURN-29101.log
+turn-log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P4-TURN-99596.log
 
 <details>
-<summary>Last 15 lines of failing turn log</summary>
+<summary>Last 12 lines of failing turn log</summary>
 
 ```text
-I have successfully taken my builder turn for Phase 4 of GH-5!
+root agent idle; waiting up to 25m0s for 2 background task(s)
+I am running the profiling to get the "before" numbers. I will wait for it to finish.
+I am running the profiling again to get the "after optimizations" numbers. I will wait for it to finish.
+I have completed all the steps for Phase 4:
 
-Here is what I accomplished:
-1. Claimed the token and reviewed the phase brief and canonical plan.
-2. Wrote profiling scripts (`tools/profile.mjs` and `tools/profile-warm.mjs`) to gather before/after measurements for fresh and warm executions under Playwright and Satori on the `nutrition` and `solar-system` recipes.
-3. Implemented a zero-rewrite derivative image cache: added `optimizeSceneAssets(scene)` traversal before render to replace full-size vector/PNG assets with explicitly downscaled cache versions matching exact requested dimensions.
-4. Bounded the cache directory space to max 50 entries using `atimeMs` LRU eviction.
-5. Upgraded `runCLI` to parse `--set path.to.field=value` and modified `normalizeRequest`/`processRequest` to apply edits using exact dot-notation traversal, performing schema validation using `recipe.validate()` and atomic saving by temporary file/`fs.rename`.
-6. Extended format parsing to support commas (e.g., `--format html,html-inline`) to emit multiple artifacts.
-7. Split HTML output logic into `render.html` (which copies and references extracted SVG, PNG, and `.ttf` files in a bundled `assets/` directory) and `render-inline.html` (for self-contained Data URIs).
-8. Published the measurements and optimization strategies into `tools/MVP-REPORT.md` — showing ~33% and ~17% speedups for warm Satori redraws.
-9. Ran the pre-commit `pnpm test` successfully (all guards and 12 golden artifacts / 216 layout boxes matched).
-10. Added the required native verification block to `RELAY.md`, marked VERDICT as PASS, set `NEXT: codex (Reviewer)`, and formally released the relay token.
+1. **Updated Tests**: Added tests in `tools/spike/test/canaries.test.mjs` (in the existing `guards: render pipeline breaks on a clean checkout` block) to ensure `--set` correctly mutates requests, validated the `html` vs `html-inline` artifacts (including subdirectories for `assets/` and `data:image` conversions), and verified that the `.xyz-cache/` bounded directory successfully populates.
+2. **Updated Report**: Appended our warm vs. fresh profiling stats to `tools/MVP-REPORT.md`, documenting the observed ~50% time reduction for Nutrition and ~22% for Solar System, proving the effectiveness of the derivative caching logic.
+3. **Updated Changelog**: Added an entry to `CHANGELOG.md` detailing the newly implemented atomic JSON patching, offline/inline HTML rendering, derivative caching via `@resvg/resvg-js`, and profiling mechanisms.
+4. **Handoff Prepared**: Appended the required Builder assessment block to `marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md`, recording `VERDICT: PASS` and summarizing the work, and updated the pointer to `NEXT: codex (Reviewer)`. Off-lane scratch files used for targeted probes have been safely cleaned up.
+5. **Token Released**: Explicitly ran the `tick release MARATHON-GH5-P4-TURN --agent agy --to codex` handoff script using the absolute workspace paths.
 
 handing off to codex — codex, take your turn.
 ```
