@@ -55,3 +55,7 @@ Only overlap: `tools/catalog.sql` in p1 and p2, serial by `depends_on`. `tools/r
 
 - Approved: the date-slug design ID rule and the three seed design IDs in `PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md`. Marathon fired after this approval; nothing is merged by the marathon.
 
+## Recovery (operator-authorized 2026-10-10)
+
+- First run halted at `gh20-a2-p1` (`token-state`: the reviewer wrote Approved in its body but left the header Open; XYZ-forge #1020). `--retry gh20-a2-p1` replays phase 0 and refuses it, so there is no in-driver resume. Phase 1 passes `pnpm test` (4/4) and was independently reviewed and attested in `relay-system/2026-10-10/gh20-a2-p1-recovery-qa.md`. Phases 2 and 3 run from `MARATHON-p2-p3.yaml`.
+
