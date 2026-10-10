@@ -1,5 +1,5 @@
 # Marathon Phase gh5-p5
-STATUS: Open
+STATUS: Approved
 NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
@@ -156,3 +156,41 @@ Handing off to agy — agy, take your turn.
 - Updated the dry-run command from `--max-calls 0` to `--max-calls 13`.
 - Explicitly documented that if the batch exceeds `--max-calls`, it safely refuses the batch with exit code 4, performing zero dispatches. Also clarified that `--max-calls 0` is a refusal control test.
 - No new runtime code or tests were executed. Final visual human approval, Wave 1 QA, and native gate (`pnpm test`) remain pending.
+
+
+### Round 2 · Reviewer · codex
+
+swept file: yes
+
+**Verdict:** Approved
+VERDICT: PASS
+Basis: Round 1's generation documentation defect is resolved. Both README planning commands now explicitly use dry-run with cap 13, distinguish thirteen default jobs from eleven display derivatives, and explain default-cap/cap-zero refusal without changing runtime safeguards. Whole-file review found no further actionable defects in the bounded Phase 5 documentation deliverable.
+Review outcome: Approved for the native driver gate. This is independent documentation review, not suite acceptance, final integration/Wave 1 approval, human visual acceptance or production readiness.
+
+Whole-file sweep: read README.md, tools/MVP-REPORT.md (prose and parsed retained measurement JSON), examples/2026-10-08-solar-system/README.md, PROJECT/2-WORKING/SPECS-PRD.md and CHANGELOG.md. Pre-existing defects were in scope; none additional found. Historical pending statements and the superseded historical nutrition hash remain historical evidence, with the coordinator correction clearly superseding the wrong current-workflow claim. Source-configured caps are distinguished from measured observations; unsupported hard render interruption/RSS/concurrency limits and failure-stage diagnostics/correlation IDs remain explicitly PARKED, with remote/product work deferred. Exact deployed caller revision and Chromium shipping notices remain unverified rather than invented.
+
+#### [Pass] Corrected generation planning command and refusal controls
+
+Setup: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`. Created only `.relay-scratch/tmp/codex-round2/caller/bin/caller.mjs` containing `throw new Error('INERT REVIEW CALLER MUST NEVER EXECUTE');` and matching `caller/assets/image-manifest.json` containing `{"recipes":{"image_generation":"recipe:hiqs/openai-image-generation@r2"}}`. Separate fresh asset directories were used for each cap. No provider dispatch occurred.
+
+Exact command template, run separately with CAP=0,11,13:
+
+```sh
+python3 -B "$PWD/examples/2026-10-08-solar-system/generate-assets.py" --caller "$TMPDIR/codex-round2/caller/bin/caller.mjs" --assets-dir "$TMPDIR/codex-round2/assets-$CAP" --dry-run --max-calls "$CAP"
+```
+
+Decisive output: CAP=0 and CAP=11 each exited 4 with `Planned calls: 13` and `Cap exceeded; zero dispatches`. CAP=13 exited 0 with `Planned calls: 13` and `Provider price/stage metrics unavailable before dispatch; call cap is hard, dollar cap observes recorded cost only.` No generation manifest was published in any control. Exact-source fallback checked the thirteen-job list, default cap 11, and cap checking before the dry-run return in generate-assets.py. The inert caller would fail if unexpectedly executed. This directly resolves the prior count/cap finding without expanding runtime defaults.
+
+#### [Pass] Retained workflow and measurement evidence
+
+Non-mutating `python3 -B` JSON/source inspection: exit 0. All 18 retained coordinator commands report exit 0. Exact documented nutrition edits and rerender have SVG `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`; Solar labelX=830 and rerender have SVG `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. Source fixture hashes match the edit receipts. Read the fresh-workflow summary and browser readbacks: both compact and relocated inline exports loaded both Inter weights and all images, zero attempted HTTP(S) requests. These are coordinator receipts, not a fresh install/render/browser execution by this reviewer.
+
+Non-mutating `python3 -B` retained-data inspection: exit 0, `PASS: 16 groups / 120 samples / 448 summary values within two-decimal sample rounding bounds`. Parsed every sample row, checked counts/column lengths, and recomputed mean/population variance/min/max for total, layout, raster, publication, verification, render and operation timings. Initial inspection attempts exited 1 because validationFontMs has no retained raw column and because variance recomputation needs rounding propagation; neither was a runtime failure. Final check uses directly retained columns and variance tolerance `0.01 * (max - min) + 0.011`, accounting for two-decimal samples. No new performance or provider result is claimed.
+
+Evidence limits: completed MCP list_projects inventory (82 projects, offsets 0/50, has_more false) has no indexed project for this checkout or XYZ Layout Engine; no applicable generation/coverage call was possible. Verify-tier intent therefore used bounded exact-source fallback, without an exhaustive runtime claim. Startup releases CLI is absent at both router-named paths. Read the prior ESCALATION.md and the harness's `.xyz/relay-automation/DEBUG-MANTRA.md`; cap-progressing-extended had no gate run. No git, pnpm test, validate.sh, test shell script, executable fixture, PDDA gate, live paid call or artifact edit was performed in this review. Full suite/PDDA/clean integration checks that require execution remain [Unverified — needs clone run] here and belong to the native driver/coordinator.
+
+Bet / reversibility: Easy — corrected documentation describes the existing safe generator instead of weakening dispatch controls. A missed dry-run flag or wrong default count would invalidate the no-paid-call walkthrough; the positive and refusal controls falsified those risks. Only RELAY.md is changed; all temporary state is confined to .relay-scratch.
+
+Remaining owners: native driver runs the fresh Phase 5 pnpm test gate; coordinator performs latest-origin integration, applicable PDDA and final independent Wave 1/pre-PR QA. Exact caller deployment/live-provider measurements and migrated nutrition/Solar human artwork acceptance remain pending independently. No ready PR, push, merge or #5 closure is inferred.
+
+Relay closed, no further turn needed.
