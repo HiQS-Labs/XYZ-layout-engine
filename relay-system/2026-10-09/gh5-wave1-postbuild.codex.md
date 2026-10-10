@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 2
 
@@ -73,7 +73,7 @@ Operational envelope: trusted two fixed-canvas recipes, local serial library/CLI
 
 Questions:
 1. Does one shared admission/render/publication/save path preserve strict fields/types/recipe versions, filesystem confinement, safe trusted-SVG/direct-PNG subset and preallocation resource bounds, import safety, finally browser cleanup, last-good immutable manifests, exact artifact digests and durable save failure ordering? Bound claims to actual source/current serial envelope. Whole core files and their material call paths are in scope.
-2. Do nutrition/Solar recipe and migrated demo/contact-sheet callers retain trusted fonts, eleven verified supplied selected PNGs (including refined IDs), actual readable fitting/exhaustion/painted visibility, original artwork/fixture geometry and no copied-runtime/originals dependency? Incoming main examples retain bytes; inspect their direct renderer calls for compatibility where material, without modifying those unrelated examples.
+2. Do nutrition/Solar recipe and migrated demo/contact-sheet callers retain trusted fonts, eleven verified supplied selected PNGs (including refined IDs), actual readable fitting/exhaustion/painted visibility, original artwork/fixture geometry and no copied-runtime/originals dependency? Incoming main examples retain bytes; inspect their direct renderer calls for compatibility where material, without modifying those unrelated examples.  [Unverified — no citation]
 3. Does existing generator enforce caller/recipe/input/reference identity, Sun-first admission, file/whole-batch ownership, reserve-before-dispatch limits, one paid attempt, validated output/alpha/receipt reuse, bounded process-group cancellation, durable unknown states and no blind paid replay? The thirteen default jobs exceed default cap eleven; explicit dry-run cap13 is documented and source unchanged. Distinguish controlled stub behavior from live-provider evidence.
 4. Are requested-format raster skipping, compact/inline escaped/confined asset packaging, manifest-owned digests, durable --set/--save and retained 16 groups/120 samples accurately reported? Profiling samples/stats round separately, so do not mistake display rounding for precise measurement drift. No PNG speedup/latency SLA/p95/provider claim; no derivative cache because current workloads have no useful derivative transform. Verify final renderer fingerprint binding and retained geometry/byte identities.
 5. Are existing four canaries meaningful for named failure modes and still one file/four tests/60s/zero workflows, with no source-fixture/golden/test-budget changes? Current integrated-canaries.log, integrated-pdda.log, integrated-checks.json and main-integration.json show actual outcomes and limits. Canonical ledger union/rebuild check is clean generation32 and preserves other work; no raw SQLite edits or unrelated issue close.
@@ -82,5 +82,60 @@ Questions:
 Output: append one native Reviewer block with literal VERDICT: PASS|FAIL|PARKED, nonempty Basis:, swept file: yes|no; concise graded cited findings, concrete fix and input/scope/falsifier for every Should/Blocker. Say explicitly if no additional pre-existing defect is found in the declared whole-file sweep. Record commands/exits/decisive output for probes and limitations. Only independent reviewer sets first STATUS: Approved; tick done GH5-WAVE1-POSTBUILD-QA-20261009 --agent codex on approval or release to coordinator if changes requested. No artifact edits; supervisor commits/attests exact candidate. Approval covers candidate and allows receipt-only acceptance recording, not new code or rewritten product claims. Explicit handoff.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: One observed integration regression prevents approval: removing the Solar System copied runtime breaks four callers brought in from current main. The integrated four-canary receipt is green but does not exercise these callers. Repair this dependency seam and obtain fresh clone evidence before final Wave 1 approval.
+swept file: yes
+
+Whole-file sweep: all runtime/caller files named in Setup, package.json, pnpm-lock.yaml, test-budget.json, README.md, tools/MVP-REPORT.md (including parsed retained measurements), Solar README, SPECS-PRD.md, CHANGELOG.md, GH-5, marathon plan/YAML and five briefs. Also inspected incoming example import/font/render call seams and the two cell helpers. No additional pre-existing defect was found in this declared sweep beyond the dependency regression below. Graph tools/project-generation/coverage queries are unavailable in this seat; exact source fallback was used, without an exhaustive graph claim. Startup releases query exited 2 because `.xyz/utils/py/releases_app.py` is absent here. The supervisor owns exact candidate-SHA attestation; this reviewer ran no git command.
+
+- [Blocker] B1 — Deleted runtime still owns incoming caller dependencies. `examples/2026-10-09-rag-system/render-diagram.mjs:10`, `:11`, `:12`, `:15` and `examples/2026-10-09-cell-division/render-diagram.mjs:11`, `:12`, `:13`, `:16` resolve renderer, Playwright and fonts under the removed `examples/2026-10-08-solar-system/runtime/`. `examples/2026-10-09-cell-division/make-web-asset.mjs:8`, `:9`, `:20` and `inspect-alpha.mjs:9` have the same dependency. The literal first imports fail with `ERR_MODULE_NOT_FOUND`; renderer/font paths return ENOENT. This occurs before fixture reads or rendering, independent of browser availability. Byte preservation in `gh5-final-verification/main-integration.json` does not preserve executable behavior. Root shared renderer exports are present as a positive control.
+  Observed input: the exact module URLs computed by those four source callers; specifically `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs` and `examples/2026-10-08-solar-system/runtime/node_modules/playwright/index.mjs` on this integrated candidate.
+  Affected scope: these four existing incoming tools and their concrete runtime/font/dependency setup references (`examples/2026-10-09-rag-system/README.md:24`, cell README `:34`, `skills/design-diagram/SKILL.md:15`, `:37`). No new recipe, provider behavior or unrelated artwork change is requested.
+  Falsifier: if the current candidate resolves these exact imports and font reads after its documented install, with both existing diagrams still rendering successfully in a disposable full clone, migration is unnecessary. Expected control: root `tools/render.mjs` exports loadSatori/renderSatori/renderPlaywright, and migrated callers retain prior fixture/assets and reviewed geometry/artwork.
+  Fix: complete the dependency migration to the existing root renderer, root pinned fonts and installed Playwright for all four consumers; update the listed setup references/provenance wording. Preserve their fixture/artwork bytes and validation; do not restore a second copied engine or add a framework. Run the example/helper workflows only in a disposable full clone, retaining commands/exits and meaningful output comparisons, then return for review. Reversibility: Easy.
+  Root cause: current-main consumers were preserved while their runtime dependency was deleted; Fix site: their import/font/setup seams; Why not downstream: catching module errors or accepting unchanged source bytes would leave documented reproduction broken.
+
+  Probe command (no example/fixture executed; output under scratch):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module -e 'import {pathToFileURL} from "node:url"; const rt=new URL("examples/2026-10-08-solar-system/runtime/",pathToFileURL(process.cwd()+"/")); const cases=[["rag render","tools/spike/render.mjs"],["cell render","tools/spike/render.mjs"],["make-web-asset","tools/spike/render.mjs"],["inspect-alpha","node_modules/playwright/index.mjs"]]; for(const [caller,file] of cases){try{await import(new URL(file,rt));console.log(caller,"unexpectedly resolved");}catch(e){console.log(caller,e.code);process.exitCode=1;}} const shared=await import("./tools/render.mjs"); console.log("root shared exports",["loadSatori","renderSatori","renderPlaywright"].every(k=>typeof shared[k]==="function"));' > "$TMPDIR/caller-regression.log" 2>&1
+  ```
+  Exit 1. Decisive output: `rag render ERR_MODULE_NOT_FOUND`, `cell render ERR_MODULE_NOT_FOUND`, `make-web-asset ERR_MODULE_NOT_FOUND`, `inspect-alpha ERR_MODULE_NOT_FOUND`, `root shared exports true`. Initial `fs.access` probe of the same two renderers' four RT paths also returned ENOENT for renderer, Playwright and both fonts; exit 1.
+
+- [Pass] Shared local source contracts remain bounded to the documented serial/trusted filesystem envelope: descriptor-bounded reads and recipe-owned admission (`tools/request.mjs:12`, `:31`, `:80`), native fitting/exhaustion and owning finally cleanup (`tools/render.mjs:176`, `:254`, `:312`), one immutable publication commit point (`:386`) and preflight → publish → atomic save ordering (`:447`–`:453`; `tools/request.mjs:103`). Compact references are generated from image/font attributes, with escaped labels (`tools/render.mjs:58`, `:296`); requested-only raster work is gated at `:36`, `:134`, `:167`. Source review, not a new render measurement. Fix: none for these bounded paths.
+- [Pass] Solar source reads eleven selected derivatives with aggregate PNG admission and pinned display digests, including refined IDs (`tools/recipes/solar-system.mjs:63`, `:97`–`:111`), and rejects spatial escapes before rendering (`:66`–`:93`). Existing C1 has painted-pixel, real-shrink, exhausted-fit and unsupported-glyph controls (`tools/spike/test/canaries.test.mjs:203`–`:264`); these are stronger than rectangle/alpha metadata alone. Fix: retain these owners and controls.
+- [Pass] Optional generator source retains exclusive batch ownership, caller/manifest/reference identity, Sun-first admission, reserve-before-dispatch cap checks, immutable attempts and fail-closed unknown/reuse handling (`examples/2026-10-08-solar-system/generate-assets.py:116`, `:210`, `:247`–`:315`). README distinguishes thirteen default jobs from eleven selected display files and the default cap refusal. Existing C1 stubs exercise counted resume/refinement/corruption/overlap/deadline behavior; this is recorded local-stub evidence, not a live-provider claim. Fix: none within the admitted caller envelope.
+- [Pass] Retained profiling data is internally bound to current source: `tools/MVP-REPORT.md:113` contains 16 groups/120 samples, correct counts/dimensions, paired before/after artifact and geometry identities, and optimized SVG raster=0. Every optimized group fingerprints current `tools/render.mjs` as `a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a`. No new latency measurement or PNG speedup is inferred. Fix: preserve this dataset and its limitations.
+  Probe command:
+  ```sh
+  python3 -B - > "$TMPDIR/measurement-final.log" <<'PY'
+  import hashlib,json,re
+  from pathlib import Path
+  report=Path("tools/MVP-REPORT.md").read_text()
+  d=json.loads(re.search(r"```json\n(.*?)\n```",report,re.S).group(1))
+  gs=d["groups"]; cols=d["columns"]
+  assert len(gs)==16 and sum(len(g["samples"]) for g in gs)==120
+  h=hashlib.sha256(Path("tools/render.mjs").read_bytes()).hexdigest()
+  for g in gs:
+   assert len(g["samples"])==g["count"]==(5 if g["mode"]=="fresh" else 10)
+   assert g["dimensions"]==([1000,1000] if g["recipe"]=="nutrition" else [2400,1700])
+   assert all(len(row)==len(cols) for row in g["samples"])
+   other=next(x for x in gs if x["state"]!=g["state"] and all(x[k]==g[k] for k in ("recipe","format","mode")))
+   assert g["digests"]==other["digests"] and g["geometrySha256"]==other["geometrySha256"]
+   if g["state"]!="baseline":
+    assert g["rendererSha256"]==h
+    if g["format"]=="svg": assert all(row[cols.index("rasterMs")]==0 for row in g["samples"])
+  print("16 groups; 120 samples; paired digest/geometry identities; optimized SVG raster=0; current renderer="+h)
+  PY
+  ```
+  Exit 0. Decisive output: `16 groups; 120 samples; paired digest/geometry identities; optimized SVG raster=0; current renderer=a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a`.
+- [Pass] Receipt inspection: `gh5-final-verification/integrated-canaries.log:2` reports the unchanged one-file/four-test/60s/zero-workflow budget; closing span is `test-budget: PASS — 4 canaries in 29.4s (budget 60s)`, with 216 boxes and 12 identical artifacts. `integrated-pdda.log` closes with `no errors, 2 warning(s)`; `integrated-checks.json` records generation32/zero ledger failures. Native Phase4/5 logs close with `STATUS: Approved, gate passed`; Phase1 recovery is separately attested rather than fabricating its stopped native gate. Current GH-5/marathon checklists leave final QA/pre-PR and human/provider gates pending. Fix: preserve these receipts; add fresh evidence covering B1 before checking final acceptance.
+
+Limitations: [Unverified — needs clone run] repaired incoming workflows and fresh post-repair full suite/PDDA/pre-PR gate. No install, suite, validate.sh, executable fixture, browser or paid call was run in this reviewer flight. Earlier fresh-workflow receipts were inspected for exact saved edits, matching rerender SVGs and loaded Inter400/700/images with zero HTTP(S); they are coordinator observations, not this seat's execution. Human migrated-artwork acceptance, deployed caller revision, Chromium redistribution notices, hard render interruption/RSS/concurrency/stage-correlation and live-provider benchmarks remain explicitly pending/Later. No additional runtime fix or claim expansion is requested.
+
+Review outcome: changes requested; STATUS remains Open. Handing off to Producer/coordinator — repair B1, record a disposition and fresh isolated evidence, then return for Round 2. No feature push/ready PR approval is granted by this turn.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
