@@ -2,7 +2,7 @@
 
 ## 2026-10-09 — Cell division example approved
 
-- The operator reviewed and approved `examples/2026-10-09-cell-division/cell-division.png` and `cell-division.html` (the Satori render and its responsive viewer). Both already live in the conventional `examples/<date>-<slug>/` folder, named like the Solar System example's files, so nothing was moved. The README now records the approval in place of "human review pending". The Chromium comparison render is not part of the approval. Reversibility: Easy — documentation only. Verification: PDDA run and `releases check`.
+- The operator reviewed and approved `examples/2026-10-09-cell-division/cell-division.png` and `cell-division.html` (the Satori render and its responsive viewer) as published in PR #15 (`4d9aa2c`, all-SVG art); a later change to the artwork needs its own review. Both already live in the conventional `examples/<date>-<slug>/` folder, named like the Solar System example's files, so nothing was moved. The README now records the approval in place of "human review pending". The Chromium comparison render is not part of the approval. Reversibility: Easy — documentation only. Verification: PDDA run and `releases check`.
 
 ## 2026-10-09 — GH-13 and GH-8 Phase 0 landed and reconciled
 
