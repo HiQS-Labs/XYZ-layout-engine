@@ -1,0 +1,38 @@
+{
+  "title": "How cells reproduce (mitosis)",
+  "eyebrow": "CELL BIOLOGY  /  THE CELL CYCLE",
+  "subtitle": "One cell copies its DNA, then splits into two daughter cells that carry the same chromosomes.",
+  "width": 2400,
+  "height": 1480,
+  "groups": {
+    "growth": {"label": "GROW + COPY DNA", "color": "#7ad9ab"},
+    "mitosis": {"label": "MITOSIS  /  THE NUCLEUS DIVIDES", "color": "#82b8ff"},
+    "split": {"label": "THE CELL SPLITS", "color": "#f4a8c9"}
+  },
+  "stages": [
+    {"id": "interphase", "group": "growth", "col": 0, "step": "01", "title": "Interphase", "desc": "The cell grows and copies its DNA: each chromosome becomes two sister chromatids.", "image": "assets/web/interphase.png"},
+    {"id": "prophase", "group": "mitosis", "col": 1, "step": "02", "title": "Prophase", "desc": "Chromosomes coil up into visible X shapes and the spindle begins to form."},
+    {"id": "metaphase", "group": "mitosis", "col": 2, "step": "03", "title": "Metaphase", "desc": "Spindle fibers line the chromosomes up across the middle of the cell."},
+    {"id": "anaphase", "group": "mitosis", "col": 3, "step": "04", "title": "Anaphase", "desc": "The sister chromatids are pulled apart toward opposite ends of the cell."},
+    {"id": "telophase", "group": "mitosis", "col": 4, "step": "05", "title": "Telophase", "desc": "A new nuclear envelope forms around each of the two sets of chromosomes."},
+    {"id": "cytokinesis", "group": "split", "col": 5, "step": "06", "title": "Cytokinesis", "desc": "The cytoplasm pinches in two, leaving two identical daughter cells.", "image": "assets/web/cytokinesis.png"}
+  ],
+  "edges": {
+    "cycle": "each daughter cell can begin the cycle again at interphase"
+  },
+  "panels": {
+    "why": {
+      "title": "WHY IT MATTERS",
+      "body": "Mitosis is how a body grows, replaces worn-out cells and heals wounds. When its checks fail, cells can divide out of control, as in cancer."
+    },
+    "same": {
+      "title": "WHAT STAYS THE SAME",
+      "body": "Each daughter cell gets a full copy of the DNA: the same chromosomes, in the same number, as the parent cell."
+    }
+  },
+  "footerMessage": "GROW  /  COPY  /  CONDENSE  /  ALIGN  /  SEPARATE  /  SPLIT",
+  "disclaimer": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase and cytokinesis cells are AI-generated (GPT Image 2.5 via Higgsfield).",
+  "sources": [
+    "OpenStax, Biology 2e (2018), section 10.2 \"The Cell Cycle\", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle"
+  ]
+}
