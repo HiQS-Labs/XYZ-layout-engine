@@ -46,7 +46,7 @@ The script requires the six stages by name and in cycle order (interphase, proph
 - no Chromium text overflows;
 - no two text boxes overlap.
 
-These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. The operator reviewed and approved `cell-division.png` and the `cell-division.html` viewer on 2026-10-09; that approval covers the all-SVG version published in PR #15 (commit `4d9aa2c`), not the Chromium comparison render and not any later change to the artwork.
+These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. The operator reviewed and approved `cell-division.png` and the `cell-division.html` viewer on 2026-10-09; that approval covered the all-SVG version published in PR #15 (commit `4d9aa2c`). The operator then reviewed and approved the version with two AI-generated transparent cells (this change), covering the Satori `cell-division.png` and the viewer but not the Chromium comparison render.
 
 Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterwards, and the real files were rerun green:
 
