@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| All five machine phases accepted and current origin/main integrated. Final Wave 1 Round 1 found one incoming-consumer dependency break; four consumers/setup docs repaired at d8b9250. Both diagrams/helpers pass with preserved PNG/SVG/geometry; fresh suite/PDDA pass. | Final Wave 1 Codex Round 2 adjudication, receipt-only acceptance reconciliation, root-bound pre-PR gate and ready PR. Human/provider/Later gates remain open. |
+| All five machine phases accepted, current origin/main integrated, and final Wave 1 Codex QA independently Approved/attested at 9246ae2. Incoming consumers repaired and verified; four canaries pass in 29.5s. Peer finding B1 resolved; acceptance receipts recorded. | Root-bound pre-PR gate passed with no errors/warnings. Publish prepared ready PR with full notes; GH-5 human/provider/Later criteria stay open. Main checkout untouched. |
 
 ## Table of contents
 
@@ -236,7 +236,7 @@ Native acceptance evidence: `relay-system/2026-10-10/marathon-gh5-p4-055318.md`;
 
 - [x] Document one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls or copied runtime. Record schema/capability/font/image limits, PNG vs SVG-with-raster, durable JSON edits vs transient preview edits, compact/self-contained offline exports, expected generation calls/resume/unknown recovery and exact caller prerequisite. Gather pinned dependency/font notices; don't package/distribute Chromium before its terms/notices are verified.
 - [x] Record measured limits (input bytes, pixel/render area, fit/deadline/concurrency/cache bounds), unsupported scripts and stage diagnostics/correlation IDs. A local worker/subprocess for hard interruption is conditional on measured need; an event-loop timer must never be presented as a hard interrupt of synchronous rasterization. If a required hard limit is not enforceable, document/reject the unsupported workload, rather than claim compliance. Keep remote HTTP/MCP, tenant isolation/SSRF/private caches, durable service queues and themes/adapters/full editor in the Later queue; do not ship half-services.
-- [ ] Run pnpm test, fresh offline documented workflows and relevant PDDA checks; publish receipts/report and update PRD with delivered local observations only. No unearned green boxes, human approval, issue closure or production readiness. Obtain independent Codex post-build review via the native driver and adjudicate peer findings. Prepare a ready PR only after the wave receipt gate is satisfied; do not push/merge/close from builder turns. Report nutrition and Solar System visual acceptance as pending human decisions; #5 remains open for Later requirements.
+- [x] Run pnpm test, fresh offline documented workflows and relevant PDDA checks; publish receipts/report and update PRD with delivered local observations only. No unearned green boxes, human approval, issue closure or production readiness. Obtain independent Codex post-build review via the native driver and adjudicate peer findings. Prepare a ready PR only after the wave receipt gate is satisfied; do not push/merge/close from builder turns. Report nutrition and Solar System visual acceptance as pending human decisions; #5 remains open for Later requirements.
 
 **Write set:** `README.md`, `tools/MVP-REPORT.md`, `examples/2026-10-08-solar-system/README.md`, `PROJECT/2-WORKING/SPECS-PRD.md`, `CHANGELOG.md`.
 
@@ -256,8 +256,8 @@ Native Phase 5 acceptance: `relay-system/2026-10-10/marathon-gh5-p5-064326.md`, 
 ### Wave 1
 
 - [x] Wave 1 Proof of Done Test Suite Green (`pnpm test` exit 0 after all five phases, plus documented fresh offline edit/export and measured before/after report).
-- [ ] Wave 1 Post-Build Codex QA Relay executed (native per-phase transcripts under `relay-system/`; final on-disk `.codex.md` receipt must have first STATUS Approved/Closed and exact reviewed head).
-- [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (independent Codex findings resolved; later PR findings adjudicated before landing).
+- [x] Wave 1 Post-Build Codex QA Relay executed (`relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`, first STATUS Approved; native attestation reviewed 9246ae2b0d754d176907294bd059d459ff756239).
+- [x] Wave 1 CodeRabbit / Peer Review findings adjudicated (independent Codex findings resolved; later PR findings adjudicated before landing).
 
 Implementation-plan QA: Codex Approved and supervisor-attested, `relay-system/2026-10-09/gh5-marathon-plan.codex.md`, reviewed e5130905d2f6310b8880549a5db9a73a0ed214be. The contact-sheet finding is resolved; final acceptance-markup/debug-mantra cleanup and scheduling overlay receive a final independent Agy readiness check. Earlier Agy checklist approval is retained separately. Final integration requires accepted Phase 1 recovery review/test evidence plus native review+test gates for Phases 2–5, root-bound `check_marathon_qa.py --pre-pr --wave 1 --doc PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md`, and applicable PDDA checks before feature push/ready PR. Human migrated-artwork approval and live provider benchmarks are separate pending checks. No automatic closeout/merge/closure.
 
@@ -385,3 +385,5 @@ One operator-authorized original Phase3 cap override fired at19:32:36Pacific(ses
 
 ### Current held Phase4 disposition — 2026-10-09
 Phase3 nativeCodexApproved e4638bf plusgate29.8s complete; twoPhase4 Agybuilderattempts containmenthalt6 beforeQA/gate, originalcounter2/2, entire draftsdiscarded. Onecheck/5cancelled ineachPhase4monitor window. No acceptedP4runtime/measurements/testchanges. Narrowreviewedrestartproposalunder relay-system/2026-10-09/gh5-phase4-recovery/ is heldpendingoperator: ONE originalPhase4 Codexbuilder/Agyreviewer override, nootherlimits/owners/identitychange. CurrentcanonicalYAML preparesPhase4ONLY; afteritsfreshnativegate Phase5queuedoriginalAgybuilder/Codexreviewerrestoredto sameYAML andadmittednormallywithoutforce. Thisdoesnotshrinkoverallscope orapproveP4. NoextraoriginalP3fire, noautomaticP4override, noPhase5backendchange. FinalWave1QA/latestoriginintegration/prePRgate/readyPRpending; sourceunchangedfromP3reviewedhead.
+
+Final machine acceptance: independent Codex final QA Approved at 9246ae2, peer B1 resolved, and root-bound `marathon-qa --pre-pr --wave 1` exited 0/no findings (`relay-system/2026-10-09/gh5-final-verification/pre-pr-gate.log`). Ready PR notes are prepared. This acceptance excludes the original umbrella's pending human artwork, live-provider and Later work.

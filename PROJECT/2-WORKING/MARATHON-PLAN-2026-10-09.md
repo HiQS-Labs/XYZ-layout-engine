@@ -86,8 +86,8 @@ Per lane, the existing pipeline applies — no new control plane:
 ### Wave 1
 
 - [x] Wave 1 Proof of Done Test Suite Green (`pnpm test`, exit 0 after all five phases; fresh offline render/edit/export and measured report).
-- [ ] Wave 1 Post-Build Codex QA Relay executed (separate final review after all driver gates; receipt under `relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`, first STATUS Approved/Closed and exact reviewed head).
-- [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (resolve independent Codex findings and later PR findings before landing).
+- [x] Wave 1 Post-Build Codex QA Relay executed (`relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`, first STATUS Approved; independently attested reviewed head 9246ae2b0d754d176907294bd059d459ff756239).
+- [x] Wave 1 CodeRabbit / Peer Review findings adjudicated (resolve independent Codex findings and later PR findings before landing).
 
 Execution source: `PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md` and `PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml`. One serial lane, p1 -> p2 -> p3 -> p4 -> p5. Full clone on marathon/gh-5-mvp-foundation; origin/main is the confirmed base. Agy builder/Codex reviewer, driver gate pnpm test, no push until separate final wave review and root-bound QA gate pass. No automatic closeout, merge or issue closure; human artwork and live provider measurements remain pending.
 
@@ -116,3 +116,7 @@ Phase 5 attempt 2 is native Codex Approved/attested at 479ebe8 and gate 4/4 in 2
 ### Final integration repair — 2026-10-10
 
 Final Wave 1 Round 1 found B1: current-main RAG/cell-diagram and two helper consumers still imported the deleted copied runtime. Surgical d8b9250 redirects them to root shared renderer/fonts/Playwright and corrects setup docs. Disposable full-clone scratch examples pass both backends with original PNG/SVG digests and geometry; HTML only changes quotation entity escaping, with complete decoded HTML equality. Helpers pass actual downscale/alpha checks, no paid calls or original changes. Fresh post-repair suite and PDDA pass; final independent Round 2 and pre-PR remain pending. Receipts: `relay-system/2026-10-09/gh5-final-verification/incoming-callers-commands.json`.
+
+### Final Wave 1 QA accepted — 2026-10-10
+
+Separate final independent Codex review is Approved/attested at 9246ae2b0d754d176907294bd059d459ff756239 (`relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`; copied native attestation `gh5-final-verification/wave1-attestation.json`). B1 is resolved; no material peer finding remains in the declared local scope. Subsequent changes record terminal receipt/checklist/status only; reviewed substantive source and claims stay unchanged. Root-bound pre-PR gate and PR publication remain next; later PR findings are adjudicated before any landing. No merge/issue closure or human/provider acceptance.
