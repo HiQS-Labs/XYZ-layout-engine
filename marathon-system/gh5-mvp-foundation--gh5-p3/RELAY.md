@@ -1,5 +1,5 @@
 # Marathon Phase gh5-p3
-STATUS: Open
+STATUS: Approved
 NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P3-TURN builder=agy reviewer=codex round-cap=5 -->
@@ -120,3 +120,101 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
 - Confirmed that `PYTHONDONTWRITEBYTECODE=1` is configured for the session, preventing `__pycache__` leakage from other python test invocations.
 - Confirmed that `examples/2026-10-08-solar-system/generate-assets.py`, `examples/2026-10-08-solar-system/README.md`, `CHANGELOG.md`, and `tools/MVP-REPORT.md` already contain the fully implemented and attested Phase 3 recovery code.
 - No further code changes were necessary as the previous repair stands. Preserving the exact fixes and proceeding with the relay to obtain the required fresh independent review and native gate approval.
+
+### Round 1 · Reviewer · codex
+
+**Verdict:** Approved
+VERDICT: PASS
+Basis: Independent whole-file review of all five seeded artifacts found no actionable new or pre-existing defect. Narrow scratch-only probes pass for import safety, numeric/state admission, bytecode suppression and actual PNG/alpha/recipe receipt validation. Approval is the reviewer handoff to the native driver, not a claim that its fresh full-suite gate has already passed. Reversibility: Easy; preserve the approved recovery implementation and immutable historical evidence.
+Review outcome: Approved; native harness must run the existing gate before phase advance. Human artwork acceptance and live-provider performance remain pending.
+swept file: yes
+
+- [Pass] **Whole-file scope.** Read all 345 lines of `examples/2026-10-08-solar-system/generate-assets.py`, 52 lines of its README, 320 lines of `tools/spike/test/canaries.test.mjs`, 142 lines of `CHANGELOG.md`, and 48 lines of `tools/MVP-REPORT.md`; pre-existing defects were included in scope. No actionable pre-existing defect found. README regeneration/recovery limits and report/changelog historical suite receipts remain distinct from this native gate. No artifact edit is requested.
+- [Pass] **Preserved recovery semantics, source evidence.** `generate-assets.py:38,58,171,248` owns fail-closed manifest reads, atomic replacement, immutable per-attempt output/reference paths, state publication before dispatch, explicit unresolved/replacement control, nonblocking batch ownership, cap enforcement, Sun-first admission, observable serialized cost stopping and bounded process-group caller execution. `generate-assets.py:78` reuses the shared PNG inspector/native decoder and checks receipt/image hashes, recipe and alpha. `generate-assets.py:320` guards CLI dispatch. No alternate provider client or silent model/quality substitution was introduced.
+- [Pass] **Canary semantics and containment.** `canaries.test.mjs:4-7` imports `spawn`; lines 185-258 count stub invocations around resume, changed input, cap/dry-run, corrupt/unknown/in-flight state, overlapping ownership, timeout, missing output, references and numeric/recipe controls. Lines 259-272 retain the delayed in-flight publication/no-launch assertion and use `['-B','-c',…]`. Exactly four plain test blocks remain (26,277,302,308), matching the unchanged `test-budget.json`. Mutating test targets are temporary roots; no full test/fixture was executed in this worktree.
+- [Pass] **Measured admission/import and containment red control.** The first command below exited **0**. Decisive output: `import_no_dispatch_or_write: true`, both unsafe numeric inputs rejected with `numeric parameter cannot round-trip through caller; use supported decimal/safe integer`, `malformed_and_dangling_manifest_rejected: true`, `canaries: 4`; scratch-copy import without `-B` exited 0 and created bytecode, with `-B` exited 0 and created none, both stderr empty. Source SHA256 `73a5a24aeced3cbe3ee49af01913d8c1d628e4018bb424bc5b0aa0cf0dee30fb`. Only import/admission/read functions were invoked; the admission caller was never executed.
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+python3 -B - <<'PY'
+import ast, hashlib, importlib.util, json, os, pathlib, re, subprocess, tempfile
+from unittest.mock import patch
+source=pathlib.Path('examples/2026-10-08-solar-system/generate-assets.py')
+canary=pathlib.Path('tools/spike/test/canaries.test.mjs').read_text()
+scratch=pathlib.Path(tempfile.mkdtemp(prefix='p3-review-',dir=os.environ['TMPDIR']))
+spec=importlib.util.spec_from_file_location('g',source)
+g=importlib.util.module_from_spec(spec)
+with patch('subprocess.Popen',side_effect=AssertionError('import dispatched')), patch('builtins.open',side_effect=AssertionError('import wrote')):
+    spec.loader.exec_module(g)
+caller=scratch/'caller.mjs'; caller.write_text('// admission-only, never executed')
+job={'id':'sun','prompt':'exact','model':'m','size':'1024x1024','quality':'medium','background':'transparent','refinement_id':'sun-r2'}
+accepted,_=g.admit_jobs([dict(job,parameters={'seed':0.5})],caller)
+assert accepted[0]['parameters']['seed']==0.5 and accepted[0]['refinement_id']=='sun-r2'
+rejections=[]
+for value in (1e-7,9007199254740993):
+    try: g.admit_jobs([dict(job,parameters={'seed':value})],caller)
+    except ValueError as e: rejections.append(str(e))
+    else: raise AssertionError('numeric drift admitted')
+manifest=scratch/'manifest.json'
+for raw in ('{"lost":{}}','{broken'):
+    manifest.write_text(raw)
+    try: g.read_manifest_internal(manifest)
+    except ValueError: pass
+    else: raise AssertionError('malformed manifest admitted')
+manifest.unlink(); manifest.symlink_to(scratch/'missing.json')
+try: g.read_manifest_internal(manifest)
+except ValueError: pass
+else: raise AssertionError('dangling manifest admitted')
+probe=re.search(r"const deadlineProbe=spawnSync.*?\[\x27-B\x27,\x27-c\x27,`(.*?)`,py,stubJS\]",canary,re.S).group(1).split('now=[100.0]')[0]
+env=dict(os.environ); env.pop('PYTHONDONTWRITEBYTECODE',None); env.pop('PYTHONPYCACHEPREFIX',None)
+controls=[]
+for flags in ([],['-B']):
+    case=scratch/('red' if not flags else 'green'); case.mkdir()
+    target=case/source.name; target.write_bytes(source.read_bytes())
+    child=subprocess.run(['python3',*flags,'-c',probe,str(target)],cwd=scratch,env=env,capture_output=True,text=True,timeout=10)
+    controls.append({'flags':flags,'exit':child.returncode,'bytecode':(case/'__pycache__').exists(),'stderr':child.stderr})
+assert controls[0]['exit']==controls[1]['exit']==0
+assert controls[0]['bytecode'] and not controls[1]['bytecode']
+assert len(re.findall(r"^test\(",canary,re.M))==4
+ast.parse(source.read_text())
+result={'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'import_no_dispatch_or_write':True,'numeric_rejections':rejections,'malformed_and_dangling_manifest_rejected':True,'bytecode_controls':controls,'canaries':4}
+(scratch/'results.json').write_text(json.dumps(result,indent=2))
+print(json.dumps(result,indent=2))
+PY
+```
+
+- [Pass] **Measured receipt falsifiers.** `generate-assets.py:78-108`: the second command below exited **0**, decisive output `{"valid_png_alpha_receipt": true, "resealed_wrong_recipe_accepted": false, "resealed_non_png_accepted": false}`. It validated scratch copies using the actual installed inspector/Resvg path, then rejected a wrong recipe even after resealing the manifest receipt hash and rejected non-PNG bytes even after resealing the receipt image hash/size. No generator dispatch, fixture executable or provider was invoked.
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 -B - <<'PY'
+import hashlib, importlib.util, json, os, pathlib, tempfile
+source=pathlib.Path('examples/2026-10-08-solar-system/generate-assets.py')
+spec=importlib.util.spec_from_file_location('g',source);g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
+scratch=pathlib.Path(tempfile.mkdtemp(prefix='p3-receipt-',dir=os.environ['TMPDIR']))
+out=scratch/'image.png';out.write_bytes(pathlib.Path('tools/spike/assets/generated/web/balance_scale.png').read_bytes())
+receipt=scratch/'receipt.json'
+data={'status':'success','image':{'sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'bytes':out.stat().st_size},'alpha':{'verified':True,'hasAlphaChannel':True,'transparentPixelRatio':0.5},'recipeRef':'expected','attempts':[{'status':'success'}]}  [Unverified — no citation]
+receipt.write_text(json.dumps(data))
+valid=g.validate_output(out,receipt,expected_recipe='expected')
+assert valid
+data['recipeRef']='wrong';receipt.write_text(json.dumps(data))
+state={'image_sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'receipt_sha256':hashlib.sha256(receipt.read_bytes()).hexdigest()}
+wrong=g.validate_output(out,receipt,state,expected_recipe='expected')
+assert not wrong
+data['recipeRef']='expected';receipt.write_text(json.dumps(data));out.write_bytes(b'not a PNG')
+data['image']={'sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'bytes':out.stat().st_size};receipt.write_text(json.dumps(data))
+corrupt=g.validate_output(out,receipt,expected_recipe='expected')
+assert not corrupt
+result={'valid_png_alpha_receipt':valid,'resealed_wrong_recipe_accepted':wrong,'resealed_non_png_accepted':corrupt}
+(scratch/'results.json').write_text(json.dumps(result,indent=2))
+print(json.dumps(result))
+PY
+```
+
+- [Unverified — needs clone run] Full C1–C4 execution, full deadline/concurrency/recovery stub scenarios, 60-second gate compliance and post-suite containment are not remeasured here. Historical supplied results are not a fresh native gate. The harness owns `pnpm test` after this turn; this is not a source-change request or a waiver of that gate.
+
+Coverage/startup limits: graph tools (`list_projects`, `index_status`, coverage) are unavailable in this session; no matching project/generation or completeness claim is inferred. Used direct whole-file reads and targeted source citations. Followed ROUTER/GUIDING-PRINCIPLES/AGENTS and canonical Phase 3; root README is absent in this seeded pre-Phase5 tree. Omitted roadmap/PDDA runtime commands, Git, suites and executable fixtures under the explicit reviewer restriction. Read the prior containment ESCALATION, harness DEBUG-MANTRA and bytecode-recovery receipt; preserved historical evidence. Only this relay's permitted STATUS field and appended review block were changed; all probe files/results remain under `.relay-scratch/tmp`.
+
+Relay closed, no further turn needed. Native driver owns attestation and the fresh test gate.
