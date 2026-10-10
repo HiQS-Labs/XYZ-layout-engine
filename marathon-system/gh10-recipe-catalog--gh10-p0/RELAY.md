@@ -1,5 +1,5 @@
 # Marathon Phase gh10-p0
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH10-P0-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -183,3 +183,19 @@ Review outcome: pending independent Agy review; builder does not approve the pha
 Reversibility: Easy documentation-only turn; identity becomes Costly once referenced.
 
 Handing off to agy — agy, take your turn.
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+
+The Phase 0 spike and decision findings have been successfully incorporated into the plan. The findings correctly address all acceptance criteria from the brief:
+- The decision to use `node:sqlite` is properly formulated with BECAUSE and UNLESS conditions, avoiding a new native dependency (`better-sqlite3`).
+- The prototype mechanics successfully demonstrated row immutability (triggers aborting `UPDATE`), assignment of monotonic serials within transactions, and identical deterministic exports over multiple load/export cycles.
+- The declared file sets for both `nutrition` and `solar-system` recipes have been carefully enumerated using exact source code evidence. Identifying the need to bind the entire PNG namespace for `nutrition` due to illustration ID injection is a great observation and accurately aligns with the recipe logic.
+
+I have verified the code for `tools/recipes/nutrition.mjs`, `tools/spike/scene.mjs`, `tools/spike/assets.mjs` and `tools/recipes/solar-system.mjs`, confirming the file declarations correspond accurately to runtime reads and validation paths. The design correctly relies on canonical JSON fixtures to represent inputs and preserves exact asset pinning (including the 11 Solar System PNGs).
+
+No pre-existing defects or conflicts were found in the Phase 0 section or the surrounding plan sections. The scope boundaries have been respected (no execution of CI workflows, no mutations to goldens or recipe modules). 
+
+**Verdict:** Approved
+relay closed, no further turn needed
