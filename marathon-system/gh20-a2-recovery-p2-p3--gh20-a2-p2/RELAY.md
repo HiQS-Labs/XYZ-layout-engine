@@ -1,5 +1,5 @@
 # Marathon Phase gh20-a2-p2
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P2-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -191,3 +191,17 @@ Relay metadata: the existing body is preserved verbatim apart from the explicitl
 `NEXT: agy (Reviewer)` header change; this build block is appended at the end.
 
 handing off to agy — agy, take your turn.
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+I have reviewed `tools/catalog.sql` and `tools/design-log.jsonl` in their entirety. Both artifacts contain precisely the expected changes from the three CLI invocations specified in the brief.
+
+Verification run outside the repository (`.relay-scratch/tmp/`):
+- `node tools/catalog.mjs design list --json` confirmed the correct IDs, hashes, and use_case assignments.
+- `tools/design-log.jsonl` has exactly 3 lines with the expected friction text and boolean flags (`non_grid_family`, `no_recipe`).
+- `node tools/catalog.mjs verify --json` and `node tools/catalog.mjs export --check` succeeded.
+- I confirmed through `git log --stat` that no other project files were touched.
+
+**Verdict:** Approved
+relay closed, no further turn needed
