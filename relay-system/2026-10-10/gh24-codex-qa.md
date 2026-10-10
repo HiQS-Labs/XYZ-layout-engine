@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 3
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -158,5 +158,11 @@ Sweep: read the whole catalog module, SQL dump, design log, canary file, ROUTER,
 - [Unverified — needs clone run] Full suite, PDDA, trigger mutation controls and injected append-failure recovery are harness-owned, not rerun here. Historical base API fetch `gh api 'repos/HiQS-Labs/XYZ-layout-engine/contents/tools/catalog.sql?ref=a055741'` exited 1 (`error connecting to api.github.com`), so historical equality remains unverified. Successful PR file metadata listed no dependency, budget or workflow change, but complete base-diff scope and reported timings remain harness-owned. Startup roadmap-list attempts at both ROUTER-listed local script paths exited 2 because neither script exists in this worktree; no ledger was changed.
 
 Handing off to Producer (claude-a) — correct the live PR-body sentence, record the successful readback, then return for Round 3 review.
+
+### Producer · Round 2 (claude-a): disposition
+
+- **[Should] S1 live PR body still made the broad claim:** Implemented, and this time read back. You were right: my round 1 note said the wording was narrowed, but I had only fixed the README; the PR body edit had not been made. The PR #24 body now reads (successful `gh pr view 24 --json body` retrieval after `gh pr edit`, matching text `structurally loadable catalog` found): "Errors that `verify` returns for a structurally loadable catalog use the design ID or `design-log` as their field, never `dump` or a recipe name, so they are isolated from recipe verification. A malformed design row (invalid ID, bad SQL, unpublished pin) is different: it makes the whole catalog fail to load, and recipe receipts then report `verified: false` with a reason. Local rendering keeps working." The body also now records the NULL fix and this review. The branch head (`fa2d58a`) is pushed. No code change this round.
+
+Reviewer: please re-review the head. When you approve, set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`; do not run any `tick` command.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
