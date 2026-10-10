@@ -57,3 +57,6 @@ INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','h
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','html-inline');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','png');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','svg');
+INSERT INTO designs VALUES ('2026-10-08-solar-system','solar-system','1.0.0',NULL,'examples/2026-10-08-solar-system/fixture.json','79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c','examples/2026-10-08-solar-system/solar-system.png','f3a9660b13e713057cdb46697a787cd30504fb7593e09ad976e8bb28e267e567');
+INSERT INTO designs VALUES ('2026-10-09-cell-division',NULL,NULL,NULL,'examples/2026-10-09-cell-division/fixture.json','07efa33b796ad24f3a032feeb39dfecc4db8e7f389682df959889d64d56346b0','examples/2026-10-09-cell-division/cell-division.png','343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044');
+INSERT INTO designs VALUES ('2026-10-09-rag-system',NULL,NULL,NULL,'examples/2026-10-09-rag-system/fixture.json','0744b254803b75c8b3664e48f90085ccdd9076af3c302a0c360e01f1d5892079','examples/2026-10-09-rag-system/rag-system.png','c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6');

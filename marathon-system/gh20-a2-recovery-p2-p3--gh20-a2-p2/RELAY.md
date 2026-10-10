@@ -1,6 +1,6 @@
 # Marathon Phase gh20-a2-p2
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P2-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -127,3 +127,67 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+
+### Round 1 · Builder · codex
+
+Implemented Phase 2 using only three ordered `design add` CLI writes to `tools/catalog.sql`
+and `tools/design-log.jsonl`. No artifact hand edits, code changes, git commands, full suite,
+commits, or other source writes. The harness owns the commit and subsequent gate.
+
+Bet: existing CLI ownership is sufficient to seed the three committed examples without changing
+recipe identity/history. Tradeoff: dump and log are separate writes; any failed addition would
+stop the phase. Reversibility: Easy for these local text records; sharing the ID format remains
+Costly and needs the plan's operator decision before merge. No `layout_forced` or workarounds
+were claimed: source establishes orbital placement, sparse lanes/connectors, and six columns
+with spanning group bands, but does not establish those additional flags.
+
+Commands (all exited 0, in this order):
+
+```sh
+node tools/catalog.mjs design add 2026-10-08-solar-system --fixture examples/2026-10-08-solar-system/fixture.json --artifact examples/2026-10-08-solar-system/solar-system.png --use-case solar-system@1.0.0 --flags non_grid_family --friction 'Orbital placement uses elliptical radii, angles and explicit labels rather than a grid of boxes.'
+node tools/catalog.mjs design add 2026-10-09-rag-system --fixture examples/2026-10-09-rag-system/fixture.json --artifact examples/2026-10-09-rag-system/rag-system.png --friction 'No recipe exists; three lanes have empty stage cells and connectors crossing between rows.'
+node tools/catalog.mjs design add 2026-10-09-cell-division --fixture examples/2026-10-09-cell-division/fixture.json --artifact examples/2026-10-09-cell-division/cell-division.png --friction 'No recipe exists; six stages share one row, with group bands spanning columns and a return connector below.'
+```
+
+Verification (bounded P2 checks only):
+
+- Before writing: `node tools/catalog.mjs verify --json` and `node tools/catalog.mjs export --check`
+  each exited 0. Migration 2 was installed; no design rows or log existed.
+- P2-A1: `node tools/catalog.mjs design list --json` exited 0; Python assertions exited 0:
+  exactly the three planned IDs, all six SHA-256 digests equal the plan seed table, solar pinned
+  `solar-system@1.0.0`, RAG/cell pins null, all layout IDs null.
+- P2-A2: Python assertions exited 0: exactly three LF-terminated log lines in addition order,
+  solar `no_recipe:false`/`non_grid_family:true`, RAG/cell `no_recipe:true`, no claimed
+  `layout_forced` or workaround counts.
+- P2-A3: `node tools/catalog.mjs verify --json` exited 0 (`valid:true`, `errors:[]`);
+  `node tools/catalog.mjs export --check` exited 0 (`canonical:true`).
+- Red controls: copied only required catalog/declared/design files into
+  `.relay-scratch/p2-probe-root/`, then invoked `node .relay-scratch/p2-probe-root/tools/catalog.mjs verify --json`.
+  Copy baseline exited 0. Flipping one RAG PNG byte exited 1 naming
+  `2026-10-09-rag-system`; removing log line 2 exited 1 (`design must have one log line`);
+  duplicating line 3 exited 1 (`duplicate design log ID`); changing a recipe content digest
+  exited 1 (`inconsistent published digest`). Restored copy exited 0.
+- P2-A4 substitute: SHA-256 snapshot comparison exited 0 for all 66 files comprising
+  `tools/catalog.mjs`, `tools/spike/test/canaries.test.mjs`, and every example file;
+  their path set also stayed identical. Removing only the three generated design INSERT lines
+  from the new dump yields the exact pre-turn dump bytes. This proves turn-local preservation;
+  the requested comparison against P1 head was not run because the operator forbids all git.
+  P1 ancestry and the full 4/4 gate remain harness/reviewer responsibilities.
+- No catalog lock or temporary catalog file remains. All probes, snapshots and command output
+  are under `.relay-scratch/` and are not deliverable source.
+
+Startup limitation: graph tools are unavailable in this session, so the named example source
+and catalog implementation were read directly. The startup roadmap command could not run:
+`.xyz/utils/py/releases_app.py` and `utils/py/releases_app.py` are absent in this worktree.
+Neither limitation blocked the bounded seed operation or its file-specific checks.
+
+VERDICT: PASS
+Basis: Builder's bounded P2 checks and all four red controls passed; the two artifacts were
+produced exclusively by the CLI and existing recipe bytes were preserved.
+Review outcome: Pending independent agy review; this build receipt is not approval.
+
+Relay metadata: the existing body is preserved verbatim apart from the explicitly required
+`NEXT: agy (Reviewer)` header change; this build block is appended at the end.
+
+handing off to agy — agy, take your turn.
