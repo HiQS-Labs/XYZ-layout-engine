@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-09 — SOP.md: which Higgsfield method to use
+
+- Added `SOP.md` at the repo root: use the Higgsfield CLI (`--background transparent`) for transparent images and verify alpha on every result; the REST API is NO-GO for transparency; MCP is untested; the HiQS endpoint is the other working path. Includes the spend-capped procedure, standing rules, known limits and when to update it.
+- Docs only; every claim points at the existing FINDINGS.md and ledgers. Not reviewed by Agy (added after the PR #17 QA). Reversibility: Easy (delete the file).
+
 ## 2026-10-09 — GH-8 Phase 0b: the Higgsfield CLI returns real transparency; two cell images in the diagram
 
 - Tested the installed Higgsfield CLI (`higgsfield generate create gpt_image_2_5 --background transparent`) under an operator-approved 20-credit cap: **4 of 4 transparent requests returned real alpha** (RGBA, minimum alpha 0, no opaque corners) and the opaque control returned an opaque image. Five jobs cost 1.5 credits (balance 701 to 699.5, matching the quoted prices). This corrects the earlier reading of PR #15: its NO-GO applies to the REST routes only. The MCP connector is still untested. Details: `examples/2026-10-09-cell-division/FINDINGS.md`; ledger: `cli-spike-ledger.jsonl`.
