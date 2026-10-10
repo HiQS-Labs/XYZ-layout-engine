@@ -199,3 +199,11 @@ No pre-existing defects or conflicts were found in the Phase 0 section or the su
 
 **Verdict:** Approved
 relay closed, no further turn needed
+
+### Attestation · relay-drive — 2026-10-10T17:41:34Z
+task: MARATHON-GH10-P0-TURN
+reviewer: agy
+status: Approved
+reviewed-head: b4930be17551119ba729b2fd6f700eacbc5d3ac2
+added-range: 13388+1564
+added-sha256: 39cc31a2513ced46cd3aa5c030002f29b996843d70a59d001f8586adfb5efdc6
