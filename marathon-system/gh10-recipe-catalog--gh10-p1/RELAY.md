@@ -230,3 +230,11 @@ Basis:
 Review outcome: Phase 1 execution meets all requirements and boundaries. Handing off.
 
 relay closed, no further turn needed
+
+### Attestation · relay-drive — 2026-10-10T17:49:47Z
+task: MARATHON-GH10-P1-TURN
+reviewer: agy
+status: Approved
+reviewed-head: 68e54d44da98a8233ba451b44fba37f5ce93fb55
+added-range: 15978+1086
+added-sha256: 36f2c263430516cdc8f83dc086958912fc8c7c71f859fb41327c09ffad330a4b
