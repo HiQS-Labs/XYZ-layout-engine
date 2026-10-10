@@ -3,12 +3,10 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
-// Reuses the pinned GH-1 render code in the Solar System example (no second copy). The guard must be set
-// before the awaited dynamic import: a static import would run the spike's experiment main() first.
-process.env.SPIKE_LIBRARY_ONLY='1';
+// Reuses the import-safe shared renderer and pinned fonts from the repository root.
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
-const RT=new URL('../2026-10-08-solar-system/runtime/',import.meta.url);
-const {loadSatori,renderSatori,renderPlaywright}=await import(new URL('tools/spike/render.mjs',RT).href);
+const RT=new URL('../../',import.meta.url);
+const {loadSatori,renderSatori,renderPlaywright}=await import(new URL('tools/render.mjs',RT).href);
 const {chromium}=await import(new URL('node_modules/playwright/index.mjs',RT).href);
 const fixture=JSON.parse(await fs.readFile(path.join(ROOT,'fixture.json'),'utf8'));
 const {width:W,height:H,lanes,stages}=fixture;
@@ -178,7 +176,7 @@ await fs.writeFile(path.join(ROOT,'rag-system-chromium.png'),chromiumResult.png)
 await fs.writeFile(path.join(ROOT,'rag-system.svg'),result.svg);
 const responsive=chromiumResult.html.replace('</head>',`<style>html,body{width:100%!important;height:100%!important;overflow:auto!important;background:#060c1b}#canvas{transform-origin:top left}span[contenteditable]{outline:1px dashed #577da4;cursor:text}</style></head>`).replace('</body>',`<script>function fit(){const s=Math.min(1,innerWidth/${W});document.getElementById('canvas').style.transform='scale('+s+')';document.body.style.minHeight=(${H}*s)+'px'}addEventListener('resize',fit);fit();document.querySelectorAll('span').forEach(e=>{e.title='Double-click to edit this label';e.addEventListener('dblclick',()=>{e.contentEditable='true';e.focus()});e.addEventListener('blur',()=>e.removeAttribute('contenteditable'))});</script></body>`);
 await fs.writeFile(path.join(ROOT,'rag-system.html'),responsive);
-const evidence={renderer:'Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime',generatedAt:new Date().toISOString(),width:W,height:H,stages:stages.map(s=>s.id),imageNodes:found,textIds:texts,artifactDigests:{png:sha(result.png),svg:sha(result.svg),html:sha(responsive),chromiumPng:sha(chromiumResult.png)},satoriBounds:result.bounds,chromiumText:chromiumResult.textBoxes,findings};
+const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlaywright functions; root pinned dependencies/fonts',generatedAt:new Date().toISOString(),width:W,height:H,stages:stages.map(s=>s.id),imageNodes:found,textIds:texts,artifactDigests:{png:sha(result.png),svg:sha(result.svg),html:sha(responsive),chromiumPng:sha(chromiumResult.png)},satoriBounds:result.bounds,chromiumText:chromiumResult.textBoxes,findings};
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${found.length} separate icon nodes; ${texts.length} text ids present and unique; ${W}x${H} in both backends; text and icons inside canvas and cards in Satori and Chromium; no text overflow or overlap.`);

@@ -6,7 +6,7 @@ import fs from 'node:fs/promises';
 import crypto from 'node:crypto';
 import path from 'node:path';
 
-const {chromium}=await import(new URL('../2026-10-08-solar-system/runtime/node_modules/playwright/index.mjs',import.meta.url).href);
+const {chromium}=await import('playwright');
 
 const files=process.argv.slice(2);
 if(!files.length){console.error('usage: node inspect-alpha.mjs <file> [file...]');process.exit(2)}

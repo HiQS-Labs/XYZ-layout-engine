@@ -19,10 +19,10 @@ The diagram is conceptual. Real systems differ in chunk size, embedding model, v
 
 ## Reproducing
 
-This example reuses the pinned runtime in the Solar System example instead of carrying a second copy.
+This example uses the import-safe shared renderer and pinned fonts/dependencies at the repository root. Run the install command from that root.
 
-1. `cd examples/2026-10-08-solar-system/runtime && pnpm install --frozen-lockfile`. If Chromium is missing, run `pnpm exec playwright install chromium` there too.
-2. `cd ../../2026-10-09-rag-system && node render-diagram.mjs`.
+1. `pnpm install --frozen-lockfile`. If Chromium is missing, run `pnpm exec playwright install chromium` from the repository root too.
+2. `node examples/2026-10-09-rag-system/render-diagram.mjs`.
 
 A successful run prints a `PASS:` line and rewrites the PNGs, HTML and `verification.json`. `rag-system.svg` is also written but not committed.
 
@@ -34,6 +34,6 @@ Red controls run on 2026-10-09, each restored afterwards: a lengthened descripti
 
 ## Limits
 
-- Imports the Solar System `runtime/` by relative path, so moving that folder breaks this example. GH-5 owns a shared render operation that would remove the coupling.
+- Imports the root shared renderer by relative path and uses root pinned fonts/dependencies; no copied Solar runtime is required. Diagram composition/checks remain owned by this example.
 - Rendered and checked on macOS arm64, Node 22, with the Chromium that Playwright 1.64.0 installs. Other platforms are untested.
 - Pattern reference: Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (2020), https://arxiv.org/abs/2005.11401.

@@ -29,10 +29,10 @@ This folder also holds the GH-8 Higgsfield transparency tests (`higgsfield-spike
 
 ## Reproducing the diagram
 
-This example reuses the pinned runtime in the Solar System example instead of carrying a second copy.
+This example uses the import-safe shared renderer and pinned fonts/dependencies at the repository root. Run the install command from that root.
 
-1. `cd examples/2026-10-08-solar-system/runtime && pnpm install --frozen-lockfile`. If Chromium is missing, also run `pnpm exec playwright install chromium` there.
-2. `cd ../../2026-10-09-cell-division && node render-diagram.mjs`.
+1. `pnpm install --frozen-lockfile`. If Chromium is missing, also run `pnpm exec playwright install chromium` from the repository root.
+2. `node examples/2026-10-09-cell-division/render-diagram.mjs`.
 
 A successful run prints a `PASS:` line and rewrites the PNGs, HTML and `verification.json`. It also writes `cell-division.svg`, which is not committed. Inside a macOS command sandbox, Chromium can abort at launch with `MachPortRendezvous ... Permission denied`. Run it outside the sandbox when that happens.
 
@@ -85,7 +85,7 @@ The paid matrix was run once on 2026-10-09: 12 paid generations, reserved at an 
 
 ## Limits
 
-- Imports the Solar System `runtime/` by relative path, so moving that folder breaks this example. GH-5 owns a shared render operation that would remove the coupling.
+- Imports the root shared renderer by relative path and uses root pinned fonts/dependencies; no copied Solar runtime is required. Diagram composition/checks remain owned by this example.
 - Rendered and checked on macOS arm64, Node 22, with the Chromium that Playwright 1.64.0 installs. Other platforms are untested.
 - `higgsfield-spike.py` tests the REST API only; `higgsfield-cli-spike.py` tests the installed CLI. The Higgsfield MCP connector is not tested here.
 - The response parsing in `higgsfield-spike.py` follows the published Flare docs (`request_id`, `status_url`, `images[].url`). It also ran against the live API (12 paid calls, 2026-10-09) and the reply shapes held.
