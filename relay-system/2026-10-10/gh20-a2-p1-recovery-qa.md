@@ -103,4 +103,12 @@ Review outcome: Excellent work, zero over-engineering.
 
 handing off to done — relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-10-10T19:59:49Z
+task: RELAY-gh20-a2-p1-recovery-qa-agy1
+reviewer: agy
+status: Approved
+reviewed-head: 5fb13bfcf9b83454ec13fe3c30ac2f51c62ba4e6
+added-range: 8030+2718
+added-sha256: 64f7fc7c8c4d5582b10c90848984c5f446ebc2ff19814b01846d9066c06d27d5
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
