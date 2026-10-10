@@ -96,4 +96,12 @@ Basis: The `serial` column has been surgically removed across the catalog schema
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-10T18:39:35Z
+task: RELAY-gh10-serial-drop-qa-agy1
+reviewer: agy
+status: Approved
+reviewed-head: 8a36de4d6b3199d502f121457149e69249b24664
+added-range: 7454+1306
+added-sha256: 83283c50f269e4c6381b2e0e4193134d6491c5f8860c2da564ad12be2e291258
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
