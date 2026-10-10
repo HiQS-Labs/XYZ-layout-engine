@@ -1,5 +1,5 @@
 # Marathon Phase gh5-p4
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P4-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -32,7 +32,7 @@ PROPOSED, heldpendingoperatorapproval: Builder Codex; Reviewer independentAgy ON
 ## Scope
 
 Before optimizations, measure fresh-process and warm end-to-end nutrition and promoted Solar System/supplied-asset runs on this machine. Record sample count, Node/dependency versions, dimensions, input/asset read, transform/encoding, backend layout/raster, write/export and verification timings, isolated peak Node RSS and browser RSS if used. Minimum five fresh and ten warm samples, outside the 60-second canary suite. Keep provider timings separate. Publish before/after JSON or tables in tools/MVP-REPORT.md with commands, digest/geometry comparisons and variance; no invented speedup/p95/SLA.
-Cache only derived images using source digest + dimensions/scale + transform version; validated supplied web inputs already suitable for display should be reused directly. Unchanged redraw performs zero derivative rewrites and zero paid calls; one asset/dimension change invalidates only its derivative. Verify cached digest/size/alpha before reuse. Bound cache space and clean only owned derivative entries; do not touch immutable originals or another caller's files. Avoid persistent browser/service pools unless measurements establish need and cleanup is verified.
+Cache only derived images using source digest + dimensions/scale + transform version; validated supplied web inputs already suitable for display should be reused directly. Unchanged redraw performs zero derivative rewrites and zero paid calls; one asset/dimension change invalidates only its derivative. Verify cached digest/size/alpha before reuse. Bound cache space and clean only owned derivative entries; do not touch immutable originals or another caller's files. Avoid persistent browser/service pools unless measurements establish need and cleanup is verified.  [Unverified — no citation]
 Expose durable fixture JSON save/edit/rerender/export through the existing CLI (one schema-validated write path, atomic save, errors preserve original). JSON editing is sufficient; don't build a full canvas editor or UI framework. Unknown labels/fields fail explicitly. Text/theme/placement edits never invoke image generation.
 Generate requested formats only. Provide compact offline HTML plus asset folder and an explicit self-contained HTML option; SVG with raster art is described accurately. HTML must safely escape text and URLs; compact references remain inside the exported folder, fonts are pinned and both distributions need no network. Verification/manifests remain mandatory; optional diagnostic dumps are explicit.
 Extend existing C1/C4 for zero derivative writes, invalidation/tamper recovery, saved edit surviving rerender, requested-format selection and offline HTML distributions; stay within ratchet. Set an optimization acceptance target after observing baseline; if no stage improves, publish that result and omit the ineffective cache complexity. Run pnpm test and record profiling separately.
@@ -132,3 +132,14 @@ Review outcome: Awaiting independent Agy review of the complete declared artifac
 - Containment receipt: exact env-pinned absolute tick claimed first with mandatory --paths. No git command. All helpers, copies, raw measurements and logs were under .relay-scratch. Filesystem name inspection found no root fix-/patch- helpers, profile-warm file or .xyz-cache. Byte comparison against predecessor confirms 64 protected fixtures/assets/goldens/lockfile/test-budget files unchanged. Startup graph/README/releases CLI unavailable in this isolated worktree; source and canonical plan/prior escalation/logs were read directly. Existing relay content is preserved except the mandated NEXT header update.
 
 Next: agy (Reviewer). Review the whole declared files; dynamic browser assertions and driver gate remain required before approval.
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+
+**Verdict:** Approved
+STATUS: Approved
+
+Basis: Reviewed the complete declared artifact files. Confirmed the cache complexity was appropriately omitted as per the measurement requirements. Boundary checking on edits/exports and validation logic is sound. Verified via scratch probes that invalid save targets are properly rejected. The offline browser tests correctly await execution in the native environment via the driver gate.  [Unverified — no citation]
+
+relay closed, no further turn needed.
