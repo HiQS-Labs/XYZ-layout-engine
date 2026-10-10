@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -79,5 +79,31 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer - Round 1
+
+swept file: yes
+
+- **[Blocker]** `measureLongestWords` splits by `/\s+/` and incorrectly chooses the longest word by character length instead of rendered pixel width, causing false fits for visually wide short-character words.
+  Observed input: `title: "WWWW iiiii"`
+  Affected scope: `measureLongestWords` (tools/render.mjs:59)
+  Falsifier: A container of width 50px measures `longestWord` as `iiiii` (e.g. 39px) and concludes it fits, completely ignoring the `WWWW` (e.g. 129px) which overflows and will clip in production.
+- **[Blocker]** Inherited styles bypass the `longestWord` probe. Satori's `n.props.style` only surfaces inline props, so inherited styles (like `fontSize` or `fontWeight`) are missing, leading to `undefined` or default measurements.
+  Observed input: `{ style: { fontSize: 40, fontWeight: 700 }, children: { props: { id: 'text_node' }, children: 'WWWW' } }`
+  Affected scope: `measureLongestWords` filter and probe construction (tools/render.mjs:58-60)
+  Falsifier: If `fontSize` is inherited, `b.style?.fontSize` is undefined, bypassing measurement altogether (`longestWord` is undefined), yielding a false fit. If `fontWeight` is inherited, the probe renders at `weight: 400`, under-measuring the bold word and yielding a false fit.
+- **[Blocker]** The 10-attempt limit (`MAX_ATTEMPTS`) with a `0.9` shrink factor caps total size reduction to ~35% (`0.9^10`) of the original size, preventing large text from ever reaching the `12px` minimum.
+  Observed input: `title: "W".repeat(60)` in the `solar-system` recipe.
+  Affected scope: `MAX_ATTEMPTS` and shrink loop limit (tools/render.mjs:213)
+  Falsifier: The `solar-system` title starts at 108px and only shrinks to 40px in 10 attempts. It fails with `non-fit after 10 attempts` because it ran out of iterations, even though it would have successfully fit at 25px (well above the `12px` minimum).
+- **[Should]** The failure message conflates an unbreakable word exceeding its box width with wrapped text exceeding the parent region height.
+  Observed input: `title: "W".repeat(120)`
+  Affected scope: `processRequest` exception message (tools/render.mjs:281)
+  Falsifier: Throws "text outside its region", but the text never actually exceeded its region height; it was simply a word wider than its box width.
+- **[Pass]** `measureWords` correctly defaults to `false` in `renderSatori` (`tools/render.mjs:24`) and is only enabled in `processRequest` for the CLI path (`tools/render.mjs:227`).
+- **[Pass]** The canary assertion is falsifiable (`tools/spike/test/canaries.test.mjs:92`): if the `box.longestWord` check is disabled, the test fails with "Missing expected rejection". The published run is left untouched on refusal because `processRequest` throws before `publishArtifacts` is called (`tools/render.mjs:479`).
+
+VERDICT: FAIL
+Basis: The fix introduces a false fit for words wider than their container due to character-length based word selection and inherited style blindness, and introduces a false non-fit for large text due to an inflexible iteration limit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
