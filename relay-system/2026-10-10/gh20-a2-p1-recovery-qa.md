@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -81,5 +81,26 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+swept file: yes
+
+- `[Pass]` P1-A1: `verify` and `export --check` exit 0 on the migrated dump. In a `$TMPDIR` copy with `designs` DDL removed, `verify` correctly exits 1 with `migration 1 or 2 schema/header required` (`tools/catalog.mjs:95`).
+- `[Pass]` P1-A2: `git diff -U0 <base> -- tools/catalog.sql | rg -c '^-INSERT'` finds 0. The existing `INSERT INTO recipes` rows are retained identically (e.g., `tools/catalog.sql:19` `INSERT INTO recipes VALUES ('rcp-7108d3cc...`).
+- `[Pass]` P1-A3: NULL-use-case `design add` succeeds (recorded as `null` in DB) and `export --check` exits 0. A NULL injected into `recipes` slug column fails with `NOT NULL constraint failed: recipes.slug`. Implemented correctly via tokenizer literal expansion at `tools/catalog.mjs:107` (`raw === 'NULL' ? null : Number(raw)`).
+- `[Pass]` P1-A4: Second `design add` of `2026-10-08-solar-system` correctly exits 1 with `Validation failed: [{"field":"2026-10-08-solar-system","message":"design already recorded"}]`, leaving `design-log.jsonl` and `catalog.sql` unmodified (`tools/catalog.mjs:284`).
+- `[Pass]` P1-A5: `design update x` exits 2 due to strict usage validation at `tools/catalog.mjs:255` (`if (design && !['list','show','add'].includes(args[1]))`). `design list` exits 0.
+- `[Pass]` P1-A6: `rg -n 'prepare\(\s*[^']*\$\{' tools/catalog.mjs` finds 0 matches. Parameterized queries are used exclusively (e.g., `tools/catalog.mjs:298` `db.prepare('INSERT INTO designs VALUES (?,?,?,?,?,?,?,?)').run(...)`).
+- `[Pass]` P1-A7: `git diff --exit-code <base> -- package.json pnpm-lock.yaml test-budget.json tools/render.mjs tools/request.mjs tools/recipes examples tools/spike/output` exits 0.
+- `[Pass]` P1-A8: `verify` correctly assigns design error fields to the ID or `'design-log'` (never `'dump'`). Confirmed at `tools/catalog.mjs:106` (`spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump'`). If `'dump'` were incorrectly used, `tools/render.mjs:410` would catch it and fail C1 at `tools/spike/test/canaries.test.mjs:43`.
+- `[Pass]` Design verification: Digest recomputation and log parity checks are correctly implemented in `verify` at `tools/catalog.mjs:142` (`check(lines.length === designs.length, 'design-log', 'one log line per design expected');`).
+
+VERDICT: PASS
+Basis: The Phase 1 implementation cleanly satisfies all acceptance criteria in the brief. Legacy recipe rows are preserved intact, NULL literals are isolated properly, duplicate design logs are blocked, and strict error field assignment correctly prevents regression in the `render.mjs` pipeline.
+
+Review outcome: Excellent work, zero over-engineering.
+
+handing off to done — relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
