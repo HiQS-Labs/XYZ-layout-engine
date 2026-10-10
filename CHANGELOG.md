@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-09 — GH-5 machine phases accepted and origin integrated
+
+- Original Phase 5 normal attempt 2 received independent Codex approval/attestation and passed all four canaries in 29.4s. Clarified thirteen default generation jobs vs eleven selected display assets: the default eleven-call cap refuses the fresh batch; explicit dry-run cap 13 plans it without provider dispatch. Native timer completed at 555.9s and cancelled all six scheduled checks at terminal. Refs #5.
+- Integrated origin/main 447f7aa in the full task clone, retaining review ancestry and all incoming content. Resolved only ledger conflicts using row/receipt union, promoted GH-5 pointer and maximum generation, then canonical rebuild/check clean at generation 32. Main checkout untouched.
+- Integrated fresh full-clone frozen-lockfile install and four canaries passed in 29.4s; PDDA no errors/two existing governance warnings. Receipts: `relay-system/2026-10-09/gh5-final-verification/`. Final independent Wave 1 QA and pre-PR gate remain pending; human artwork/provider/notices/Later criteria are not marked complete.
+
 ## 2026-10-09 — GH-5 Phase 5 provenance correction (coordinator)
 
 - Corrected current workflow hashes by replaying the exact edits in a fresh full clone at b0b47ce: nutrition headline `Fuel for today` and primary `#335577` produce SVG `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`; Mercury labelX=830 produces `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. Each saved fixture readback and manifest-selected rerender matched. The earlier Phase 5 entry assigned a historical nutrition probe hash to different edits; this entry supersedes that evidence claim. Historical entries and 120 profiling samples remain preserved.

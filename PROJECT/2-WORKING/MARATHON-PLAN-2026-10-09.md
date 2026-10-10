@@ -85,7 +85,7 @@ Per lane, the existing pipeline applies — no new control plane:
 
 ### Wave 1
 
-- [ ] Wave 1 Proof of Done Test Suite Green (`pnpm test`, exit 0 after all five phases; fresh offline render/edit/export and measured report).
+- [x] Wave 1 Proof of Done Test Suite Green (`pnpm test`, exit 0 after all five phases; fresh offline render/edit/export and measured report).
 - [ ] Wave 1 Post-Build Codex QA Relay executed (separate final review after all driver gates; receipt under `relay-system/2026-10-09/gh5-wave1-postbuild.codex.md`, first STATUS Approved/Closed and exact reviewed head).
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (resolve independent Codex findings and later PR findings before landing).
 
@@ -108,3 +108,7 @@ The authorized original Phase 4 Codex/Agy attempt 3 passed containment and indep
 ### Phase 4 accepted; Phase 5 continuation — 2026-10-09
 
 Phase 4 original lane attempt 4 (supported review token MARATHON-GH5-P4-TURN-2) is native Approved/attested 49d25b9 and gate 4/4 in 33.8s. Preserve original history and native successful counter cleanup. The 305.4-second observer completed before check 1 and cancelled six remaining checks. The same canonical YAML now contains only original Phase 5, Agy builder/Codex reviewer, original five documentation owners, no force/retry; Phase 4 is an externally evidenced prerequisite. Final Wave 1 checkboxes remain pending.
+
+### Current machine acceptance and integration — 2026-10-09
+
+Phase 5 attempt 2 is native Codex Approved/attested at 479ebe8 and gate 4/4 in 29.4s; transcript `relay-system/2026-10-10/marathon-gh5-p5-064326.md`. Observer completed at 555.9 seconds with zero scheduled checks and six cancelled at terminal. The five-phase machine arc is accepted, with Phase 1's independently reviewed recovery explicitly superseding its stopped original lane, and native gates for Phases 2–5. Main checkout untouched. Current origin/main 447f7aa integrated at 6e54db1 with every incoming content file preserved and canonical merged ledger rebuilt clean. Integrated disposable full-clone `pnpm install --frozen-lockfile` and `pnpm test` passed, four canaries in 29.4s; PDDA run no errors/two existing governance warnings. Receipts: `relay-system/2026-10-09/gh5-final-verification/`. Final Wave 1 independent review and pre-PR gate remain pending, so no push/PR/merge/issue closure yet. Historical execution overlays above are retained as history, not current firing authorization.

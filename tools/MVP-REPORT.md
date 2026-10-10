@@ -158,3 +158,9 @@ Documentation recovery is ready for independent review; Phase 5 native approval 
 - [ ] Coordinator: applicable `utils/pdda/pdda.sh run` after recovery and latest-origin integration.
 - [ ] Coordinator: final independent Wave 1 Codex QA and `utils/pdda/pdda.sh marathon-qa --root "$PWD" --pre-pr --wave 1 --doc "$PWD/PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md"`. Latest-origin integration remains required first.
 - No unearned green boxes, issue closure, or production readiness are claimed. Nutrition and Solar System visual acceptance are recorded as pending human decisions. #5 remains open for Later requirements.
+
+### Coordinator machine acceptance and origin integration — 2026-10-09
+
+Native Phase 5 is Codex Approved/attested at 479ebe8, driver gate four canaries in 29.4s (`relay-system/2026-10-10/marathon-gh5-p5-064326.md`). Its normal second attempt finished in 555.9s; no scheduled ten-minute interval was due and all six remaining checks were cancelled. Phase 1 recovery and native Phases 2–5 are accepted; later whole-umbrella human/provider/service criteria remain pending.
+
+Current origin/main 447f7aa was integrated at 6e54db1, preserving all incoming content files and unchanged tools/runtime bytes. Canonical ledger rebuild/check is clean at generation 32. A disposable full clone checked out that integrated candidate, installed frozen-lockfile dependencies independently and passed all four canaries in 29.4s. PDDA run exited 0, no errors and two pre-existing governance warnings. Commands/results and preservation proof: `relay-system/2026-10-09/gh5-final-verification/`. Earlier fresh edit/export/local-browser receipts remain bound to identical renderer/fixture bytes after integration. Final independent Wave 1 QA, checklist reconciliation and root-bound pre-PR gate remain pending; native acceptance is not whole-wave or human approval.

@@ -1,0 +1,34 @@
+{
+  "candidate": "6e54db1",
+  "commands": [
+    {
+      "cwd": "disposable full clone",
+      "command": "pnpm install --frozen-lockfile",
+      "exit": 0
+    },
+    {
+      "cwd": "disposable full clone",
+      "command": "pnpm test",
+      "exit": 0,
+      "receipt": "integrated-canaries.log",
+      "duration_seconds": 29.4
+    },
+    {
+      "cwd": "task full clone",
+      "command": "utils/pdda/pdda.sh run",
+      "exit": 0,
+      "receipt": "integrated-pdda.log",
+      "errors": 0,
+      "existing_warnings": 2
+    },
+    {
+      "cwd": "task full clone",
+      "command": "python3 .xyz/utils/py/releases_app.py check",
+      "exit": 0,
+      "generation": 32,
+      "failures": 0,
+      "warnings": 0
+    }
+  ],
+  "fresh_workflow_binding": "Replay receipts at b0b47ce; same renderer/fixture bytes retained through latest-main integration; existing canaries freshly run on integrated candidate."
+}

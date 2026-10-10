@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phases 1–4 accepted. Phase 5 attempt 1 halted on conflicting documentation receipts at the review cap; native gate not run. Fresh-clone replay, browser checks and 4/4 canaries in 28.8s passed. Provenance-only recovery is independently Codex Approved/attested at 852a341; preflight/dry-run passed, original counter 1/2. | Execute normal original Phase 5 attempt 2 with Agy/Codex and 600-second × 6 monitoring. Latest-origin integration, final Wave 1 QA, pre-PR gate and ready PR remain required. |
+| All five local implementation phases accepted: Phase 1 recovery and native Phases 2–5, latest Phase 5 4/4 in 29.4s. Current origin/main 447f7aa integrated at 6e54db1; fresh integrated suite 4/4 in 29.4s and PDDA no errors. | Final independent Wave 1 Codex QA, receipt-backed acceptance reconciliation, root-bound pre-PR gate, and ready PR. GH-5 Later/human/provider gates remain open. |
 
 ## Table of contents
 
@@ -190,20 +190,23 @@ Phase2 completion receipts: original native phase relay Approved/attested3bf0ff4
 
 **Goal:** Resumable optional generation delivers the observable behavior below. Depends on Phase 2.
 
-- [ ] Extend the existing Python generator, not a second provider client. Keep the installed resolve-image/HiQS caller as the only paid boundary and require its explicit configured path. Accept exact job inputs, including refinement IDs, references and parameters, without rewriting published prompts/receipts during dry-run. Imported module must not dispatch calls.
-- [ ] Persist a local content-addressed manifest keyed by exact prompt/model/parameters/recipe version/reference digests. Keep source images/receipts immutable; validate digest/required alpha before reuse. Resume valid completed items and dispatch only missing or explicitly replaced jobs. Atomic per-item state must record pending -> in-flight before dispatch -> complete or unknown/failed. Crash/timeout while in-flight remains unknown and requires receipt reconciliation or explicit retry; never blind paid resubmission. Concurrent same-output invocations use an exclusive local lock and refuse safely, no daemon/database queue.
-- [ ] Show planned call count and enforce a configurable maximum calls/observable cost budget before dispatch; if price is unavailable, report that limitation and rely on the call cap rather than inventing cost. Bound attempt count and per-call/whole-run deadlines; retry only a proven non-submitted transient failure or explicit operator retry. Preserve Sun-first admission and the historical configurable three-worker ceiling until provider limits/measurement support a change. No silent model/provider/quality switch. Capture latency, caller-reported usage/cost and unavailable stage metrics honestly.
-- [ ] Extend C1 by invoking this generator against a temporary deterministic caller stub: valid resume -> zero calls, one changed input -> one call, cap exceeded -> zero calls, interrupted in-flight -> no automatic second call, corrupt output -> explicit report/replacement, concurrent manifest ownership -> safe refusal. No live paid calls or secrets in tests. Batch visual acceptance remains a human gate; preserve reference/edit lineage. Run pnpm test; record measured stub behavior as recovery evidence, never provider speed evidence.
+- [x] Extend the existing Python generator, not a second provider client. Keep the installed resolve-image/HiQS caller as the only paid boundary and require its explicit configured path. Accept exact job inputs, including refinement IDs, references and parameters, without rewriting published prompts/receipts during dry-run. Imported module must not dispatch calls.
+- [x] Persist a local content-addressed manifest keyed by exact prompt/model/parameters/recipe version/reference digests. Keep source images/receipts immutable; validate digest/required alpha before reuse. Resume valid completed items and dispatch only missing or explicitly replaced jobs. Atomic per-item state must record pending -> in-flight before dispatch -> complete or unknown/failed. Crash/timeout while in-flight remains unknown and requires receipt reconciliation or explicit retry; never blind paid resubmission. Concurrent same-output invocations use an exclusive local lock and refuse safely, no daemon/database queue.
+- [x] Show planned call count and enforce a configurable maximum calls/observable cost budget before dispatch; if price is unavailable, report that limitation and rely on the call cap rather than inventing cost. Bound attempt count and per-call/whole-run deadlines; retry only a proven non-submitted transient failure or explicit operator retry. Preserve Sun-first admission and the historical configurable three-worker ceiling until provider limits/measurement support a change. No silent model/provider/quality switch. Capture latency, caller-reported usage/cost and unavailable stage metrics honestly.
+- [x] Extend C1 by invoking this generator against a temporary deterministic caller stub: valid resume -> zero calls, one changed input -> one call, cap exceeded -> zero calls, interrupted in-flight -> no automatic second call, corrupt output -> explicit report/replacement, concurrent manifest ownership -> safe refusal. No live paid calls or secrets in tests. Batch visual acceptance remains a human gate; preserve reference/edit lineage. Run pnpm test; record measured stub behavior as recovery evidence, never provider speed evidence.
 
 **Write set:** `examples/2026-10-08-solar-system/generate-assets.py`, `examples/2026-10-08-solar-system/README.md`, `tools/spike/test/canaries.test.mjs`, `CHANGELOG.md`, `tools/MVP-REPORT.md`.
 
 ### Phase 3 — QA checklist
 
-- [ ] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
-- [ ] Native independent Codex review is Approved and attested against the committed phase diff; receipt is on disk.
-- [ ] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
-- [ ] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
-- [ ] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
+- [x] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
+- [x] Native independent Codex review is Approved and attested against the committed phase diff; receipt is on disk.
+- [x] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
+- [x] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
+- [x] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
+
+
+Native Phase 3 acceptance: `relay-system/2026-10-10/marathon-gh5-p3-032333.md`, Codex Approved/attested e4638bf, driver gate 4/4 in 29.8s; copied attestation `relay-system/2026-10-09/gh5-phase4-recovery/phase3-attestation.json`. Recovery canaries cover stub dispatch/resume/invalidation/refusal/unknown outcomes and numeric/recipe/deadline failures. No live provider or human approval.
 
 ## Phase 4 — Measured redraw and durable edits
 
@@ -231,29 +234,32 @@ Native acceptance evidence: `relay-system/2026-10-10/marathon-gh5-p4-055318.md`;
 
 **Goal:** Integration and handoff delivers the observable behavior below. Depends on Phase 4.
 
-- [ ] Document one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls or copied runtime. Record schema/capability/font/image limits, PNG vs SVG-with-raster, durable JSON edits vs transient preview edits, compact/self-contained offline exports, expected generation calls/resume/unknown recovery and exact caller prerequisite. Gather pinned dependency/font notices; don't package/distribute Chromium before its terms/notices are verified.
-- [ ] Record measured limits (input bytes, pixel/render area, fit/deadline/concurrency/cache bounds), unsupported scripts and stage diagnostics/correlation IDs. A local worker/subprocess for hard interruption is conditional on measured need; an event-loop timer must never be presented as a hard interrupt of synchronous rasterization. If a required hard limit is not enforceable, document/reject the unsupported workload, rather than claim compliance. Keep remote HTTP/MCP, tenant isolation/SSRF/private caches, durable service queues and themes/adapters/full editor in the Later queue; do not ship half-services.
+- [x] Document one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls or copied runtime. Record schema/capability/font/image limits, PNG vs SVG-with-raster, durable JSON edits vs transient preview edits, compact/self-contained offline exports, expected generation calls/resume/unknown recovery and exact caller prerequisite. Gather pinned dependency/font notices; don't package/distribute Chromium before its terms/notices are verified.
+- [x] Record measured limits (input bytes, pixel/render area, fit/deadline/concurrency/cache bounds), unsupported scripts and stage diagnostics/correlation IDs. A local worker/subprocess for hard interruption is conditional on measured need; an event-loop timer must never be presented as a hard interrupt of synchronous rasterization. If a required hard limit is not enforceable, document/reject the unsupported workload, rather than claim compliance. Keep remote HTTP/MCP, tenant isolation/SSRF/private caches, durable service queues and themes/adapters/full editor in the Later queue; do not ship half-services.
 - [ ] Run pnpm test, fresh offline documented workflows and relevant PDDA checks; publish receipts/report and update PRD with delivered local observations only. No unearned green boxes, human approval, issue closure or production readiness. Obtain independent Codex post-build review via the native driver and adjudicate peer findings. Prepare a ready PR only after the wave receipt gate is satisfied; do not push/merge/close from builder turns. Report nutrition and Solar System visual acceptance as pending human decisions; #5 remains open for Later requirements.
 
 **Write set:** `README.md`, `tools/MVP-REPORT.md`, `examples/2026-10-08-solar-system/README.md`, `PROJECT/2-WORKING/SPECS-PRD.md`, `CHANGELOG.md`.
 
 ### Phase 5 — QA checklist
 
-- [ ] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
-- [ ] Native independent Codex review is Approved and attested against the committed phase diff; receipt is on disk.
-- [ ] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
-- [ ] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
-- [ ] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
+- [x] Every phase todo has a recorded command/result or an explicit pending human/live-provider gate.
+- [x] Native independent Codex review is Approved and attested against the committed phase diff; receipt is on disk.
+- [x] Driver executes `pnpm test` exit 0, keeping one file/four canaries/60 seconds/zero workflows; prior green baseline is not phase proof.
+- [x] Bounded failure/recovery, diagnostics and Easy rollback evidence recorded in `tools/MVP-REPORT.md`; no paid calls.
+- [x] Orchestrator refreshes status/date after approval; no builder edits to plan/ledger/goldens.
+
+
+Native Phase 5 acceptance: `relay-system/2026-10-10/marathon-gh5-p5-064326.md`, Codex Approved/attested 479ebe8, 4/4 canaries in 29.4s. Exact fresh workflows and local browser proof: `relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json`; full current origin/main integration at 6e54db1 and integrated full-clone canaries 4/4 in 29.4s, PDDA no errors/2 existing warnings: `relay-system/2026-10-09/gh5-final-verification/`. The Phase 5 PR-preparation todo stays pending until final Wave 1 QA and the pre-PR gate pass. Human acceptance/provider/notices/unsupported limits remain explicitly pending.
 
 ## Acceptance & Quality Checklist
 
 ### Wave 1
 
-- [ ] Wave 1 Proof of Done Test Suite Green (`pnpm test` exit 0 after all five phases, plus documented fresh offline edit/export and measured before/after report).
+- [x] Wave 1 Proof of Done Test Suite Green (`pnpm test` exit 0 after all five phases, plus documented fresh offline edit/export and measured before/after report).
 - [ ] Wave 1 Post-Build Codex QA Relay executed (native per-phase transcripts under `relay-system/`; final on-disk `.codex.md` receipt must have first STATUS Approved/Closed and exact reviewed head).
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated (independent Codex findings resolved; later PR findings adjudicated before landing).
 
-Implementation-plan QA: Codex Approved and supervisor-attested, `relay-system/2026-10-09/gh5-marathon-plan.codex.md`, reviewed e5130905d2f6310b8880549a5db9a73a0ed214be. The contact-sheet finding is resolved; final acceptance-markup/debug-mantra cleanup and scheduling overlay receive a final independent Agy readiness check. Earlier Agy checklist approval is retained separately. Final integration requires all five native review+test gates, root-bound `check_marathon_qa.py --pre-pr --wave 1 --doc PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md`, and applicable PDDA checks before feature push/ready PR. Human migrated-artwork approval and live provider benchmarks are separate pending checks. No automatic closeout/merge/closure.
+Implementation-plan QA: Codex Approved and supervisor-attested, `relay-system/2026-10-09/gh5-marathon-plan.codex.md`, reviewed e5130905d2f6310b8880549a5db9a73a0ed214be. The contact-sheet finding is resolved; final acceptance-markup/debug-mantra cleanup and scheduling overlay receive a final independent Agy readiness check. Earlier Agy checklist approval is retained separately. Final integration requires accepted Phase 1 recovery review/test evidence plus native review+test gates for Phases 2–5, root-bound `check_marathon_qa.py --pre-pr --wave 1 --doc PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md`, and applicable PDDA checks before feature push/ready PR. Human migrated-artwork approval and live provider benchmarks are separate pending checks. No automatic closeout/merge/closure.
 
 ## Swarm Preflight Contract
 
