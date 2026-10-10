@@ -88,6 +88,9 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   await assert.rejects(runCLI(['edited.json', '--out', 'local-output', '--set', 'sections.header.unknown=x', '--save', 'edited.json'], { root: space }), /unknown field/);
   assert.deepEqual(readFileSync(editedPath), savedBytes);
   assert.deepEqual(snapshot(local), unchanged);
+  // An unbreakable word wider than its box must refuse (non-fit), never publish clipped text.
+  await assert.rejects(runCLI(['edited.json', '--out', 'local-output', '--set', `sections.header.headline=${'W'.repeat(120)}`], { root: space }), /non-fit/);
+  assert.deepEqual(snapshot(local), unchanged);
   // Only scratch copies are edited; the comparison renderer still reads its untouched fixture.
   assert.deepEqual(readFileSync(path.join(space, 'tools/spike/fixture.json')), readFileSync(path.join(SPIKE, 'fixture.json')));
   const beforeRender = readdirSync(space).sort();

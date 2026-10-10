@@ -21,7 +21,7 @@ export async function loadSatori() {
 const round = n => Math.round(n * 100) / 100;
 const rect = r => ({ x: round(r.x ?? r.left), y: round(r.y ?? r.top), width: round(r.width), height: round(r.height) });
 
-export async function renderSatori(scene, font, width, height, fontFamily = 'Inter', { raster = true } = {}) {
+export async function renderSatori(scene, font, width, height, fontFamily = 'Inter', { raster = true, measureWords = false } = {}) {
   const nodes = [];
   const missingSegments = [];
   const t0 = performance.now();
@@ -45,9 +45,34 @@ export async function renderSatori(scene, font, width, height, fontFamily = 'Int
     const id = n.props?.id;
     if (!id) continue;
     bounds[id] = rect(n);
-    if (typeof n.textContent === 'string') textBoxes[id] = { ...rect(n), text: n.textContent };
+    if (typeof n.textContent === 'string') textBoxes[id] = { ...rect(n), text: n.textContent, ...(measureWords ? { style: n.props.style } : {}) };
   }
+  if (measureWords) await measureLongestWords(textBoxes, font, fontFamily);
   return { svg, png, bounds, textBoxes, missingSegments, satoriMs: round(tLayout - t0), resvgMs: raster ? round(t1 - tLayout) : 0, stageMs: round(t1 - t0) };
+}
+
+// Satori clamps a text box to its container, so an unbreakable word wider than the box is clipped without
+// the box showing it. Measure each text's longest word unwrapped (nowrap, same font style) and record it.
+const WORD_STYLE = ['fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'textTransform'];
+async function measureLongestWords(textBoxes, font, fontFamily) {
+  const items = Object.entries(textBoxes).filter(([, b]) => typeof b.text === 'string' && b.style?.fontSize).map(([id, b]) => {
+    const word = b.text.split(/\s+/).reduce((a, w) => (w.length > a.length ? w : a), '');
+    return { id, word, style: Object.fromEntries(WORD_STYLE.filter(k => b.style[k] !== undefined).map(k => [k, b.style[k]])) };
+  }).filter(i => i.word);
+  if (!items.length) return;
+  const probe = { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: 20000 },
+    children: items.map(i => ({ type: 'div', props: { id: `word_${i.id}`, style: { ...i.style, whiteSpace: 'nowrap' }, children: i.word } })) } };
+  const nodes = [];
+  await satori(probe, {
+    width: 20000, height: Math.ceil(items.reduce((h, i) => h + Number(i.style.fontSize) * 2, 16)),
+    fonts: [{ name: fontFamily, data: font.regular, weight: 400, style: 'normal' }, { name: fontFamily, data: font.bold, weight: 700, style: 'normal' }],
+    onNodeDetected: n => nodes.push(n), loadAdditionalAsset: async () => []
+  });
+  for (const n of nodes) {
+    const id = n.props?.id?.startsWith('word_') ? n.props.id.slice(5) : null;
+    if (id && textBoxes[id]) textBoxes[id].longestWord = round(n.width);
+  }
+  for (const b of Object.values(textBoxes)) delete b.style;
 }
 
 export function cssValue(k, v) {
@@ -199,7 +224,7 @@ export async function processRequest(reqObj, options = {}) {
         }
         result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height, 'Inter', { raster });
       } else {
-        result = await renderSatori(scene, fonts, normalized.width, normalized.height, 'Inter', { raster });
+        result = await renderSatori(scene, fonts, normalized.width, normalized.height, 'Inter', { raster, measureWords: true });
       }
 
       timings.layoutMs += result.satoriMs ?? result.stageMs;
@@ -217,6 +242,8 @@ export async function processRequest(reqObj, options = {}) {
           errors.push({ field: id, message: 'missing/invalid text geometry' });
         } else if (box.x < -0.5 || box.y < -0.5 || box.x + box.width > normalized.width + 0.5 || box.y + box.height > normalized.height + 0.5) {
           overflowing.push(id);
+        } else if (box.longestWord > box.width + 0.5) {
+          overflowing.push(id); // an unbreakable word is wider than its (clamped) box
         } else {
           const region = result.bounds[parents[id]];
           if (!region || box.x < region.x - 0.5 || box.y < region.y - 0.5 || box.x + box.width > region.x + region.width + 0.5 || box.y + box.height > region.y + region.height + 0.5 || box.scrollWidth > box.clientWidth + 1 || box.scrollHeight > box.clientHeight + 1) {
