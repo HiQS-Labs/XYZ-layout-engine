@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -147,5 +147,80 @@ Review outcome: changes requested; STATUS remains Open. Handing off to Producer/
 - Review Round 2: whole-file sweep all four migrated consumers and both README/skill files plus their direct shared owners, current canonical status/report/change evidence and source-fingerprint/preserved artwork controls. Adjudicate B1 with concrete references. No reexecution of fixture/suite/browser in reviewer flight. Literal VERDICT/PASS|FAIL|PARKED, Basis and swept file required. On approval native tick done GH5-WAVE1-POSTBUILD-QA-20261009 --agent codex; otherwise release to coordinator. Final checklist recording/root-bound pre-PR gate and ready PR follow only after Approved, with human/Later/paid-provider gates still pending. No artifact edits.
 
 Handing off to Reviewer/Codex for Round 2; supervisor attests the current committed candidate.
+
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: B1 is resolved by the existing root renderer/font/Playwright migration. Read-only import probes pass, and the retained disposable-full-clone commands and comparisons cover both diagrams and both helpers, followed by a fresh four-canary/PDDA run. No open material finding remains in the bounded local MVP; pending human/provider/Later gates are preserved.
+swept file: yes
+
+Whole-file sweep this round: all four migrated consumers, both example READMEs and skills/design-diagram/SKILL.md; complete direct shared owners tools/render.mjs, tools/request.mjs and tools/spike/assets.mjs. Rechecked current GH-5/marathon acceptance status, YAML, CHANGELOG repair entry, MVP report fingerprint and complete incoming-caller/post-repair receipts. The broader unchanged runtime/profile/generator/recipe/test/package/PRD/brief sweep is recorded in Round 1; this round does not claim a second full reexecution or reread of every unchanged file. No additional pre-existing defect was found in the declared whole-file sweep. Graph tools/project-generation/coverage are unavailable in this seat; exact source fallback used. Startup roadmap query `python3 -B .xyz/utils/py/releases_app.py roadmap list` exited 2 (file absent). No git command was run; exact candidate attestation belongs to the supervisor.
+
+- [Pass] B1 closed: RAG `examples/2026-10-09-rag-system/render-diagram.mjs:8`, `:9`, `:10`, `:13`; cell `examples/2026-10-09-cell-division/render-diagram.mjs:9`, `:10`, `:11`, `:14`; downscale `make-web-asset.mjs:7`, `:8`, `:18`; alpha `inspect-alpha.mjs:9` now resolve root renderer/dependencies/fonts. Both README “Reproducing” sections say “Run the install command from that root”; design-diagram “Before you start” likewise specifies repository-root installation. No copied engine is restored. Fix: none.
+- [Pass] Repair behavior has concrete coordinator-run evidence: `relay-system/2026-10-09/gh5-final-verification/incoming-callers-commands.json` records candidate `d8b92502335b09ab9aefe1bd4b0fccd1a063703b` and all 13 commands exit 0. Its RAG output is “PASS: 10 separate icon nodes; 49 text ids present and unique; 2400x1660 in both backends”; cell is “PASS: 6 separate icon nodes; 33 text ids present and unique; 2400x1480 in both backends”. `incoming-callers-summary.json` records empty findings, equal PNG/SVG/Chromium PNG digests and equal Satori bounds/Chromium text. `incoming-html-diff.json` shows only quote entity escaping and complete decoded HTML equality. Helper output is 128×128 with `real_alpha: true` for source/output; zero paid calls. These are inspected retained clone observations, not reviewer browser execution. Fix: retain receipts.
+- [Pass] Fresh post-repair receipts preserve the existing budget and checks: `post-repair-canaries.log` closes “test-budget: PASS — 4 canaries in 29.5s (budget 60s)”, with 216 boxes/12 identical artifacts; `post-repair-pdda.log` closes “PDDA run complete: no errors, 2 warning(s)”. The two known warnings remain disclosed. `tools/MVP-REPORT.md` retained JSON still has 16 groups/120 samples and optimized renderer fingerprint `a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a`, matching current tools/render.mjs. No new latency/provider/aesthetic claim. Fix: none.
+- [Pass] Acceptance remains honest: `PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md:252` separates native Phase 5 acceptance from final/pre-PR/human gates; `:258`–`:262` leave final review/adjudication pending until this receipt. Marathon plan Wave 1 checklist likewise reserves final QA, and `CHANGELOG.md:5` reserves Round 2/pre-PR. Approval permits receipt-only reconciliation and the root-bound pre-PR gate; it does not close GH-5 or approve human artwork, deployed caller revision, Chromium notices, hard interruption/RSS/concurrency diagnostics, live-provider benchmarking or Later service work. Fix: coordinator records this terminal receipt/checklist/status only.
+
+Reviewer probe receipts (scratch discarded; no fixture/render/browser/paid operation):
+The import probe ran with `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"`, command below, stdout/stderr redirected to `"$TMPDIR/r2-imports.log"`; exit 0:
+```sh
+node --input-type=module - <<'JS'
+import {readFile,access} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+const root=pathToFileURL(process.cwd()+'/');
+for (const file of ['examples/2026-10-09-rag-system/render-diagram.mjs','examples/2026-10-09-cell-division/render-diagram.mjs','examples/2026-10-09-cell-division/make-web-asset.mjs']) {
+ const source=await readFile(file,'utf8'),rt=new URL('../../',new URL(file,root));
+ if (!source.includes("const RT=new URL('../../',import.meta.url);") || rt.href!==root.href) throw Error(file+' wrong root');
+ const renderer=await import(new URL('tools/render.mjs',rt));
+ for(const name of ['loadSatori','renderSatori','renderPlaywright']) if(typeof renderer[name]!=='function') throw Error(name);
+ await access(new URL('tools/spike/assets/font.ttf',rt)); await access(new URL('tools/spike/assets/font-bold.ttf',rt));
+ if(source.includes("new URL('node_modules/playwright/index.mjs',RT)")) {
+  const {chromium}=await import(new URL('node_modules/playwright/index.mjs',rt)); if(typeof chromium.launch!=='function')throw Error('chromium');
+ }
+ console.log(file+': root imports/exports and font paths resolve');
+}
+const alpha=await readFile('examples/2026-10-09-cell-division/inspect-alpha.mjs','utf8');
+if(!alpha.includes("await import('playwright')"))throw Error('alpha import');
+const {chromium}=await import('playwright'); if(typeof chromium.launch!=='function')throw Error('alpha chromium');
+console.log('inspect-alpha: root Playwright resolves; no browser/fixture executed');
+JS
+```
+Decisive output: all three callers print “root imports/exports and font paths resolve”; alpha prints “root Playwright resolves; no browser/fixture executed”.
+
+Receipt/fingerprint probe: `python3 -B -` with the following stdin, stdout redirected to `"$TMPDIR/r2-proof.log"`; exit 0:
+```python
+import hashlib,json,re
+from pathlib import Path
+p=Path('relay-system/2026-10-09/gh5-final-verification')
+commands=json.loads((p/'incoming-callers-commands.json').read_text())
+s=json.loads((p/'incoming-callers-summary.json').read_text())
+h=json.loads((p/'incoming-html-diff.json').read_text())
+assert s['candidate']=='d8b92502335b09ab9aefe1bd4b0fccd1a063703b'
+assert all(c['exit']==0 for c in commands)
+for name,c in s['comparison'].items():
+ assert not c['findings'] and c['satori_bounds_equal'] and c['chromium_text_equal']
+ for k in ['png','svg','chromiumPng']:
+  assert c['artifacts_equal'][k] and c['before_digests'][k]==c['after_digests'][k]
+ assert h[name]['complete_html_equal_after_entity_decoding']
+ assert c['image_nodes']==(10 if name=='rag-system' else 6)
+ assert c['text_ids']==(49 if name=='rag-system' else 33)
+assert s['helper']=={'source_width':256,'output_width':128,'real_alpha':True}
+assert s['paid_calls']==0 and s['tracked_sources_unchanged']
+assert 'test-budget: PASS — 4 canaries in 29.5s (budget 60s)' in (p/'post-repair-canaries.log').read_text()
+assert 'PDDA run complete: no errors, 2 warning(s)' in (p/'post-repair-pdda.log').read_text()
+d=json.loads(re.search(r'```json\n(.*?)\n```',Path('tools/MVP-REPORT.md').read_text(),re.S).group(1))
+fingerprint=hashlib.sha256(Path('tools/render.mjs').read_bytes()).hexdigest()
+assert len(d['groups'])==16 and sum(len(g['samples']) for g in d['groups'])==120
+assert all(g['rendererSha256']==fingerprint for g in d['groups'] if g['state']!='baseline')
+print('13 retained commands exit 0; B1 diagram PNG/SVG/geometry identities and decoded HTML equality; 128px real-alpha helper; paid calls=0')
+print('post-repair receipts: 4/4 in 29.5s; PDDA 0 errors/2 warnings')
+print('16 groups/120 samples; current renderer='+fingerprint)
+```
+Decisive output: “13 retained commands exit 0; B1 diagram PNG/SVG/geometry identities and decoded HTML equality; 128px real-alpha helper; paid calls=0”; “post-repair receipts: 4/4 in 29.5s; PDDA 0 errors/2 warnings”; “16 groups/120 samples; current renderer=a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a”.
+
+Limitations: no suites/install/validate.sh/executable fixtures/browser or provider calls were run here. Full-clone behavior is supported by the cited producer receipts; [Unverified — needs clone run] the subsequent harness/pre-PR gate has not run in this seat. Approval covers the supervisor-attested current candidate; substantive source/product-claim changes require further QA. Reversibility: Easy (relay-only verdict).
+
+Relay closed (Approved), no further review turn needed. Handing off to Producer/coordinator for receipt-only acceptance reconciliation, root-bound pre-PR gate and ready PR preparation while keeping GH-5 and pending human/provider/Later gates open.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
