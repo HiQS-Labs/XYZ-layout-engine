@@ -1,6 +1,8 @@
 import fs from 'node:fs/promises';
 import { constants } from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const LIMITS = { inputBytes: 256 * 1024, assetBytes: 5 * 1024 * 1024, assetPixels: 16777216, renderPixels: 16777216, outputBytes: 64 * 1024 * 1024 };
 export const within = (root, target) => { const rel = path.relative(root, target); return rel === '' || (rel !== '..' && !rel.startsWith('..' + path.sep) && !path.isAbsolute(rel)); };
@@ -27,7 +29,7 @@ export async function readBounded(file, limit, field = 'inputPath') {
 
 export async function normalizeRequest(req, options = {}) {
   if (!req || typeof req !== 'object' || Array.isArray(req)) throw invalid('request', 'must be an object');
-  for (const key of Object.keys(req)) if (!['inputPath', 'width', 'height', 'format', 'backend', 'scale', 'recipe'].includes(key)) throw invalid(key, 'unknown or unsupported field');
+  for (const key of Object.keys(req)) if (!['inputPath', 'width', 'height', 'format', 'backend', 'scale', 'recipe', 'edits'].includes(key)) throw invalid(key, 'unknown or unsupported field');
 
   if (typeof req.inputPath !== 'string' || !req.inputPath) throw invalid('inputPath', 'missing input');
   const root = await fs.realpath(options.root ?? process.cwd());
@@ -41,6 +43,19 @@ export async function normalizeRequest(req, options = {}) {
   catch { throw invalid('inputPath', 'invalid JSON'); }
 
   if (!fixture || typeof fixture !== 'object' || Array.isArray(fixture)) throw invalid('fixture', 'must be an object');
+  if (req.edits !== undefined) {
+    if (!Array.isArray(req.edits) || req.edits.length > 64) throw invalid('edits', 'requires at most 64 edits');
+    for (const edit of req.edits) {
+      if (!edit || typeof edit.path !== 'string' || Object.keys(edit).some(k => !['path', 'value'].includes(k))) throw invalid('edits', 'invalid edit');
+      const keys = edit.path.split('.');
+      let target = fixture;
+      for (const [i, key] of keys.entries()) {
+        if (!/^[A-Za-z0-9_]+$/.test(key) || ['__proto__', 'prototype', 'constructor'].includes(key) || !target || typeof target !== 'object' || !Object.hasOwn(target, key)) throw invalid(edit.path, 'unknown field');
+        if (i === keys.length - 1) target[key] = edit.value;
+        else target = target[key];
+      }
+    }
+  }
   const recipe = req.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : undefined);
   if (!['nutrition', 'solar-system'].includes(recipe)) throw invalid('recipe', 'select a trusted nutrition or solar-system recipe');
   const dimensions = recipe === 'nutrition' ? [1000, 1000] : [2400, 1700];
@@ -53,11 +68,13 @@ export async function normalizeRequest(req, options = {}) {
   if (width !== dimensions[0] || height !== dimensions[1]) throw invalid('width', 'only the recipe-owned canvas is supported');
   if (req.scale !== undefined && req.scale !== 1) throw invalid('scale', 'only scale 1 is supported');
   const format = req.format ?? 'png', backend = req.backend ?? 'satori';
-  if (!['png', 'svg', 'html'].includes(format)) throw invalid('format', 'unsupported format');
+  if (typeof format !== 'string') throw invalid('format', 'unsupported format');
+  const formats = format.split(',');
+  if (!formats.length || new Set(formats).size !== formats.length || formats.some(f => !['png', 'svg', 'html', 'html-inline'].includes(f))) throw invalid('format', 'unsupported or duplicate format');
   if (!['satori', 'playwright'].includes(backend)) throw invalid('backend', 'unsupported backend');
-  if (backend === 'playwright' && format === 'svg') throw invalid('format', 'Playwright has no SVG export');
+  if (backend === 'playwright' && formats.includes('svg')) throw invalid('format', 'Playwright has no SVG export');
 
-  return { normalized: { inputPath, width, height, format, backend, scale: 1, recipe }, fixture, input };
+  return { normalized: { inputPath, width, height, format, formats, backend, scale: 1, recipe }, fixture, input };
 }
 
 // Existing delivered shapes own the schema; both trusted recipes share bounded traversal.
@@ -82,4 +99,33 @@ export function validateFixtureShape(value, expected, field = 'fixture') {
     if (/\.(illustrationId|ornamentId|endIconId|iconId)$/.test(field) && !/^[A-Za-z0-9_-]+$/.test(value)) throw invalid(field, 'invalid asset id');
     if (/\.(id|asset|index)$/.test(field) && value !== expected) throw invalid(field, 'unsupported recipe identity or asset');
   }
+}
+
+// The caller renders/validates first. Only this operation writes durable fixture JSON.
+export async function saveFixture(fixture, destination, options = {}) {
+  const recipeName = options.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : undefined);
+  if (!['nutrition', 'solar-system'].includes(recipeName)) throw invalid('save', 'select a trusted recipe');
+  const recipe = await import(`./recipes/${recipeName}.mjs`);
+  await recipe.validate(fixture);
+  const root = await fs.realpath(options.root ?? process.cwd());
+  const requested = path.resolve(root, destination);
+  const parent = await fs.realpath(path.dirname(requested));
+  const target = path.join(parent, path.basename(requested));
+  const historical = fileURLToPath(new URL('./spike/output', import.meta.url));
+  if (!within(root, target) || within(historical, target) || !target.endsWith('.json')) throw invalid('save', 'requires JSON inside root and outside read-only spike evidence');
+  const bytes = Buffer.from(JSON.stringify(fixture, null, 2) + '\n');
+  if (bytes.length > LIMITS.inputBytes) throw invalid('save', 'byte budget exceeded');
+  try {
+    const stat = await fs.lstat(target);
+    if (!stat.isFile() || stat.isSymbolicLink()) throw invalid('save', 'requires regular file');
+    if (options.inputPath === target && !Buffer.from(await readBounded(target, LIMITS.inputBytes)).equals(options.input)) throw invalid('save', 'input changed since render');
+  } catch (e) { if (e.code !== 'ENOENT') throw e; }
+  if (options.validateOnly) return target;
+  const temporary = path.join(parent, `.fixture-${crypto.randomUUID()}.tmp`);
+  try {
+    const file = await fs.open(temporary, 'wx', 0o600);
+    try { await file.writeFile(bytes); await file.sync(); } finally { await file.close(); }
+    await fs.rename(temporary, target);
+  } finally { await fs.rm(temporary, { force: true }); }
+  return target;
 }

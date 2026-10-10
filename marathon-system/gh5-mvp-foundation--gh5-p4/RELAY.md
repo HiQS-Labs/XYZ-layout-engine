@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p4
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P4-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -114,3 +114,21 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · codex
+
+VERDICT: PASS
+Basis: Scoped implementation and focused filesystem probes pass; ready for independent review, not phase approval. Actual browser loading and the native full gate are explicitly pending.
+Review outcome: Awaiting independent Agy review of the complete declared artifact files and harness-owned gate.
+
+- Files touched: tools/render.mjs, tools/request.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, and this relay. Recipe source owners are unchanged and remain in reviewer scope.
+- Easy bet: preserve direct validated supplied display assets and omit an ineffective derivative cache; remove only unrequested raster work. Baseline first established dominant raster/encoding cost. Numeric acceptance target: zero unrequested raster milliseconds, with matching PNG/SVG digests and text geometry. No cache directory, derivative rewrites, browser/service pool, provider client, dependency, extra test block or workflow.
+- Existing CLI now supports strict dot-path text/theme/placement edits, schema-validated exclusive-temp/fsync/atomic JSON saves, explicit requested-format selection, compact offline HTML with confined content-addressed asset references and standalone html-inline. Save-target preflight precedes publication; unknown edits, bad saves and injected publication failures preserve input/last-good in focused controls. Source/save/publication boundaries remain confined and spike evidence stays read-only. This remains a serial local workflow, not a multi-writer transaction.
+- HTML escapes labels/attributes, refuses network image URLs and extracts image/font attributes rather than data-URL-looking text. Both pinned Inter weights are packaged. SVG includes raster artwork. The publication verifier checks all manifest-owned nested asset digests/budgets/paths and a hashed valid render receipt.
+- Profiling evidence: tools/MVP-REPORT.md embeds all 120 before/after sample values, stage statistics/variance, isolated Node peak RSS, dimensions, installed versions, exact renderer fingerprint and artifact/geometry comparisons. Each nutrition/Solar PNG/SVG state has five fresh and ten warm samples after an excluded prime. Explicit encoding observations and combined scene-validation/encoding limits are disclosed. Every measured before/after artifact and text-geometry digest matches. SVG-only raster time is zero; PNG fluctuations are not a speedup claim. No browser was used for profiles, so browser RSS is null; no provider measurement or paid call.
+- Focused verification: syntax checks for render/request/profile/canaries; durable edit/rerender, unknown edit and late-publication preservation; supplied Solar tamper rejection/restoration; export asset tamper detection/restoration; invalid save/last-good preservation; symlink/stale save refusal; literal data-URL text and URL escaping; Solar labelX+10 durable placement; profiler import-safety and owned output cleanup. Scratch-only probes pass. C1/C4 extend existing blocks for these material failure modes and offline distributions; still four tests.
+- PENDING browser receipt: the attempted offline browser probe failed before page creation with macOS sandbox bootstrap_check_in Permission denied (1100), SIGTRAP. Static bundled-reference/digest checks pass; dynamic offline image/font loading must be run by reviewer/driver in its admitted environment. C1 checks both weights/images and no network access, including a self-contained file relocated away from its asset folder. No validation was weakened and no passing browser receipt is invented.
+- PENDING native gate/review: no pnpm test, validate.sh or canaries.test.mjs execution in builder flight. No suite-green, native approval, human artwork acceptance or live-provider result is claimed. Do not advance Phase 5 until independent approval and the fresh driver gate.
+- Containment receipt: exact env-pinned absolute tick claimed first with mandatory --paths. No git command. All helpers, copies, raw measurements and logs were under .relay-scratch. Filesystem name inspection found no root fix-/patch- helpers, profile-warm file or .xyz-cache. Byte comparison against predecessor confirms 64 protected fixtures/assets/goldens/lockfile/test-budget files unchanged. Startup graph/README/releases CLI unavailable in this isolated worktree; source and canonical plan/prior escalation/logs were read directly. Existing relay content is preserved except the mandated NEXT header update.
+
+Next: agy (Reviewer). Review the whole declared files; dynamic browser assertions and driver gate remain required before approval.

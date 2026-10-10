@@ -8,8 +8,8 @@ import { mkdtempSync, readdirSync, readFileSync, cpSync, appendFileSync, rmSync,
 import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { processRequest, selectedRun, selectedSpikeRun, toDocument, publishArtifacts, outputRoot } from '../../render.mjs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { processRequest, selectedRun, selectedSpikeRun, toDocument, publishArtifacts, outputRoot, runCLI, verifyPublication } from '../../render.mjs';
 import { normalizeRequest } from '../../request.mjs';
 import { validateNutrition } from '../../recipes/nutrition.mjs';
 import { inspectPng } from '../assets.mjs';
@@ -58,6 +58,65 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   assert.ok(!readdirSync(local).some(f => f.startsWith('.staging-') || f.startsWith('.manifest-')), 'orphan stage/pointer');
   const unknown = cli(['--fallback', 'browser']);
   assert.equal(unknown.status, 1); assert.match(unknown.stderr, /unsupported option/);
+
+  // P4 failure modes extend C1: durable copy, strict edit admission, formats and offline references.
+  const edited = cli(['--set', 'sections.header.headline=Saved <label> & "quoted"', '--set', 'theme.palette.primary=#335577', '--save', 'edited.json', '--format', 'svg,html,html-inline']);
+  assert.equal(edited.status, 0, edited.stderr);
+  const savedReceipt = JSON.parse(edited.stdout);
+  const editedPath = path.join(space, 'edited.json');
+  const savedBytes = readFileSync(editedPath);
+  assert.equal(JSON.parse(savedBytes).sections.header.headline, 'Saved <label> & "quoted"');
+  assert.equal(JSON.parse(savedBytes).theme.palette.primary, '#335577');
+  const rerender = await processRequest({ inputPath: editedPath, format: 'svg' }, { root: space });
+  assert.equal(rerender.request.digests.svg, savedReceipt.digests.svg, 'saved edit did not survive rerender');
+  assert.equal(rerender.result.png, undefined, 'SVG-only request rasterized PNG');
+  assert.equal(rerender.timings.rasterMs, 0);
+  const distribution = selectedRun(local);
+  const distributionManifest = JSON.parse(readFileSync(path.join(distribution, 'manifest.json')));
+  assert.ok(!distributionManifest.files.includes('render.png'), 'unrequested PNG exported');
+  const compact = readFileSync(path.join(distribution, 'render.html'), 'utf8');
+  const inline = readFileSync(path.join(distribution, 'render-inline.html'), 'utf8');
+  assert.ok(!compact.includes('data:'));
+  assert.match(inline, /data:image\//);
+  assert.ok(!inline.includes('assets/'), 'self-contained HTML references sibling assets');
+  assert.match(compact, /Saved &lt;label&gt; &amp; &quot;quoted&quot;/);
+  for (const match of compact.matchAll(/(?:src="|url\()(assets\/[a-f0-9]{64}\.(?:png|svg|ttf))/g)) {
+    assert.ok(distributionManifest.files.includes(match[1]), 'reference absent from manifest');
+    assert.ok(readFileSync(path.join(distribution, match[1])).length > 0);
+  }
+  const unchanged = snapshot(local);
+  await assert.rejects(runCLI(['edited.json', '--out', 'local-output', '--set', 'sections.header.unknown=x', '--save', 'edited.json'], { root: space }), /unknown field/);
+  assert.deepEqual(readFileSync(editedPath), savedBytes);
+  assert.deepEqual(snapshot(local), unchanged);
+  // Only scratch copies are edited; the comparison renderer still reads its untouched fixture.
+  assert.deepEqual(readFileSync(path.join(space, 'tools/spike/fixture.json')), readFileSync(path.join(SPIKE, 'fixture.json')));
+  const beforeRender = readdirSync(space).sort();
+  await processRequest({ inputPath: editedPath, format: 'svg' }, { root: space });
+  assert.deepEqual(readdirSync(space).sort(), beforeRender, 'redraw created derivative cache');
+  const { chromium: offlineChromium } = await import('playwright');
+  const offlineBrowser = await offlineChromium.launch({ headless: true });
+  try {
+    const offlineContext = await offlineBrowser.newContext({ javaScriptEnabled: false });
+    const network = [];
+    await offlineContext.route(/^https?:/, route => { network.push(route.request().url()); return route.abort(); });
+    const standalone = path.join(space, 'standalone.html');
+    cpSync(path.join(distribution, 'render-inline.html'), standalone);
+    for (const htmlPath of [path.join(distribution, 'render.html'), standalone]) {
+      const page = await offlineContext.newPage();
+      await page.goto(pathToFileURL(htmlPath).href);
+      const evidence = await page.evaluate(async () => {
+        await document.fonts.ready;
+        return { fonts: document.fonts.check('16px Inter') && document.fonts.check('700 16px Inter'), faces: [...document.fonts].map(f => ({ family: f.family, weight: f.weight, status: f.status })), images: [...document.images].map(i => i.complete && i.naturalWidth > 0) };
+      });
+      assert.equal(evidence.fonts, true);
+      assert.deepEqual(evidence.faces.map(f => f.weight).sort(), ['400', '700']);
+      assert.ok(evidence.faces.every(f => f.family.replace(/^["']|["']$/g, '') === 'Inter' && f.status === 'loaded'));
+      assert.ok(evidence.images.length > 0 && evidence.images.every(Boolean), 'offline images failed to load');
+      await page.close();
+    }
+    assert.deepEqual(network, [], 'offline export attempted network access');
+    await offlineContext.close();
+  } finally { await offlineBrowser.close(); }
 
   const fixturePath = path.join(SPIKE, 'fixture.json');
   await assert.rejects(normalizeRequest({ inputPath: fixturePath, surprise: 1 }), /surprise/);
@@ -186,7 +245,7 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   writeFileSync(stubJS, `
 import { readFileSync, writeFileSync, appendFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 const args=process.argv, out=args[args.indexOf('--out')+1];
 appendFileSync(process.env.STUB_COUNT, 'call\\n');
 if(process.env.STUB_SLEEP) await new Promise(resolve=>setTimeout(resolve, Number(process.env.STUB_SLEEP)));
@@ -305,7 +364,7 @@ test('guards: committed evidence no longer satisfies the gate', () => {
   assert.match(v.stdout, /^VERDICT: PASS$/m);
 });
 
-test('guards: the verifier stops detecting tampering', () => {
+test('guards: the verifier stops detecting tampering', async () => {
   const root = mkdtempSync(path.join(os.tmpdir(), 'gh2-tamper-'));
   try {
     const src = runDir(COMMITTED);
@@ -314,6 +373,33 @@ test('guards: the verifier stops detecting tampering', () => {
     const v = node('verify.mjs', { SPIKE_OUTPUT_ROOT: root });
     assert.equal(v.status, 1, `tampered evidence was not rejected (exit ${v.status})`);
     assert.match(v.stderr, /does not match the recorded digest/);
+    const fixture = path.join(root, 'fixture.json');
+    cpSync(path.join(SPIKE, 'fixture.json'), fixture);
+    const literal = 'data:image/png;base64,Zg==';
+    const op = await processRequest({ inputPath: fixture, format: 'html,html-inline', edits: [{ path: 'sections.header.subtitle', value: literal }] }, { root });
+    assert.ok(op.artifacts.find(a => a.name === 'render.html').bytes.toString().includes(literal), 'data URL text rewritten as an asset');
+    const publication = await publishArtifacts(op, 'offline', { root });
+    assert.equal((await verifyPublication(publication.root)).valid, true);
+    const assetName = publication.manifest.files.find(name => name.startsWith('assets/'));
+    const assetFile = path.join(publication.directory, assetName), originalAsset = readFileSync(assetFile);
+    appendFileSync(assetFile, 'tamper');
+    await assert.rejects(verifyPublication(publication.root), /recorded digest/);
+    writeFileSync(assetFile, originalAsset);
+    assert.equal((await verifyPublication(publication.root)).valid, true);
+    // Supplied-art tamper fails before reuse; repair restores the immutable source, no derivative rebuild.
+    mkdirSync(path.join(root, 'tools/recipes'), { recursive: true });
+    cpSync(path.join(SPIKE, '../recipes/solar-system.mjs'), path.join(root, 'tools/recipes/solar-system.mjs'));
+    cpSync(path.join(SPIKE, '../request.mjs'), path.join(root, 'tools/request.mjs'));
+    mkdirSync(path.join(root, 'tools/spike'), { recursive: true });
+    cpSync(path.join(SPIKE, 'assets.mjs'), path.join(root, 'tools/spike/assets.mjs'));
+    cpSync(path.join(SPIKE, '../../examples/2026-10-08-solar-system'), path.join(root, 'examples/2026-10-08-solar-system'), { recursive: true });
+    const { loadAssets } = await import(pathToFileURL(path.join(root, 'tools/recipes/solar-system.mjs')).href);
+    const initialAssets = await loadAssets();
+    const sun = path.join(root, 'examples/2026-10-08-solar-system/assets/web/sun.png'), originalSun = readFileSync(sun);
+    writeFileSync(sun, readFileSync(path.join(root, 'examples/2026-10-08-solar-system/assets/web/earth.png')));
+    await assert.rejects(loadAssets(), /digest mismatch/);
+    writeFileSync(sun, originalSun);
+    assert.deepEqual(await loadAssets(), initialAssets);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 

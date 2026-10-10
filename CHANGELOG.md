@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-09 — GH-5 Phase 4 Codex builder candidate
+
+- Added schema-validated atomic fixture saves and CLI dot-path text/theme/placement edits, requested-format exports, compact HTML with a confined content-addressed asset folder and explicit self-contained HTML. Existing render/admission/publication owners remain shared; SVG accurately retains raster artwork.
+- Bet: skip unrequested PNG raster work while retaining direct validated supplied display assets. Easy rollback via the phase commit; no derivative cache, browser pool, dependency, provider client, new test block or workflow. Revisit caching only when an admitted transform/resolution workload demonstrates useful savings.
+- Verification: focused scratch probes pass for durable rerender, strict edits/save targets, failed publication preservation, export/source tamper detection and restoration, confined HTML references and Solar placement edits. Before/after five fresh and ten truly warm samples per recipe/PNG/SVG preserve artifact and text-geometry digests; complete stage statistics and samples are retained in tools/MVP-REPORT.md. Zero unrequested raster target is met; no PNG speedup claim.
+- Pending: sandbox blocked Chromium before page creation, so actual offline browser/font/image loading remains for independent Agy review and the harness-owned four-canary/60-second gate. Existing C1/C4 were extended; builder did not run the full suite and does not claim native approval, human artwork acceptance or live-provider measurements. All verification copies/scripts/output stayed in .relay-scratch; no git command, source fixture mutation or off-lane cache/helper was used.
+
 ## 2026-10-09 — GH-5 local MVP marathon preparation
 
 - Rebased a fresh full clone onto the operator-confirmed origin/main integration branch (a8e7e574; no development branch). Promoted GH-5 with the canonical roadmap writer, registered its marathon and LocalMVP release, and prepared five strictly sequential phase briefs/YAML. Main checkout is untouched.
