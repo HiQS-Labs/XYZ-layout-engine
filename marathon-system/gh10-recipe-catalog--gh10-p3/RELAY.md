@@ -1,5 +1,5 @@
 # Marathon Phase gh10-p3
-STATUS: Open
+STATUS: Approved
 NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH10-P3-TURN builder=codex reviewer=agy round-cap=5 -->
@@ -137,7 +137,7 @@ Implemented:
   Refs #19; all historical entries are preserved, with no closing keyword.
 
 Bet: source evidence and copy-only CLI probes keep docs accurate without expanding
-catalog scope. Tradeoff: record experimental built-in SQLite on the verified Node
+catalog scope. Tradeoff: record experimental built-in SQLite on the verified Node  [Unverified — no citation]
 line rather than imply wider portability. Failure mode: claiming ranges or remote
 writes are delivered, or confusing serialization with content verification.
 Reversibility: Easy — documentation only; no new mechanism or runtime/test edit.
@@ -198,3 +198,17 @@ Review outcome: Pending independent Agy review; builder evidence is not approval
 VERDICT: PASS
 Basis: Bounded documentation implementation and focused green/red checks passed.
 Independent approval, full gate and base-ref containment remain harness-owned.
+
+### Round 1 · Reviewer · agy
+
+swept file: yes
+I have reviewed the modified `README.md`, `PROJECT/2-WORKING/SPECS-PRD.md`, and `CHANGELOG.md` files. 
+
+- `README.md` correctly adds the detailed local catalog documentation, preserving the existing format and not introducing absolute paths.
+- `PROJECT/2-WORKING/SPECS-PRD.md` adds exactly one delivered-observation note under §6.5 as specified, without any new requirements.
+- `CHANGELOG.md` properly references `#10` and `#19` with a newest-first documentation entry, without a closing keyword.
+
+All files accurately reflect the requested bounds, zero other bytes were modified, and the path checks hold.
+
+**Verdict:** Approved
+relay closed, no further turn needed
