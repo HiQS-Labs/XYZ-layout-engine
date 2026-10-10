@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-09 — Cell division example: operator approves the version with two AI-generated cells
+
+- The operator reviewed the diagram with the two AI-generated transparent cells (interphase, cytokinesis) and approved the artwork ("Artwork looks good", 2026-10-09). This approval covers `cell-division.png` and `cell-division.html` as shipped by this change, and supersedes the earlier all-SVG-only scope recorded below. Reversibility: Easy.
+
 ## 2026-10-09 — SOP.md: which Higgsfield method to use
 
 - Added `SOP.md` at the repo root: use the Higgsfield CLI (`--background transparent`) for transparent images and verify alpha on every result; the REST API is NO-GO for transparency; MCP is untested; the HiQS endpoint is the other working path. Includes the spend-capped procedure, standing rules, known limits and when to update it.
@@ -11,6 +15,10 @@
 - The cell-division diagram now uses two AI-generated transparent PNGs, interphase (medium-quality Flare) and cytokinesis (low-quality Flare), as 256 px web copies with provenance (`assets/provenance.json`); the other four stages keep their SVG icons and the footer discloses the AI-generated cells. The renderer verifies each raster's sha256 against provenance and refuses a raster that is not real alpha. The operator's earlier approval covered the all-SVG version only; this version still needs review.
 - Added `higgsfield-cli-spike.py` (credit-capped runner around the installed CLI; 11 offline selftest controls, each mutation-checked; never reads or writes the CLI's token, records credits only, redacts tokens, signed URLs and emails) and `make-web-asset.mjs`.
 - Bet: the CLI route's `background: transparent` yields usable transparent art at 0.25 to 0.5 credits per image. Failure mode: results vary by prompt or the CLI's interactive sign-in blocks unattended use; neither was tested beyond five jobs. Reversibility: Easy (revert the PR); the 1.5 credits are spent. Process: plan approved by Agy in 1 round; code by Agy in 2 rounds (token and signed-URL redaction, test-only binary override); no change to `tools/spike/**`, `package.json`, `test-budget.json`, and no new dependency or test file. #8 stays open: its Phases 1 to 4 are not started.
+
+## 2026-10-09 — Cell division example approved
+
+- The operator reviewed and approved `examples/2026-10-09-cell-division/cell-division.png` and `cell-division.html` (the Satori render and its responsive viewer) as published in PR #15 (`4d9aa2c`, all-SVG art); a later change to the artwork needs its own review. Both already live in the conventional `examples/<date>-<slug>/` folder, named like the Solar System example's files, so nothing was moved. The README now records the approval in place of "human review pending". The Chromium comparison render is not part of the approval. Reversibility: Easy — documentation only. Verification: PDDA run and `releases check`.
 
 ## 2026-10-09 — GH-13 and GH-8 Phase 0 landed and reconciled
 

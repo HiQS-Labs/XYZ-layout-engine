@@ -46,7 +46,7 @@ The script requires the six stages by name and in cycle order (interphase, proph
 - no Chromium text overflows;
 - no two text boxes overlap.
 
-These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. Human review is still pending.
+These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. The operator reviewed and approved `cell-division.png` and the `cell-division.html` viewer on 2026-10-09; that approval covers the all-SVG version published in PR #15 (commit `4d9aa2c`), not the Chromium comparison render and not any later change to the artwork.
 
 Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterwards, and the real files were rerun green:
 
@@ -90,4 +90,4 @@ The paid matrix was run once on 2026-10-09: 12 paid generations, reserved at an 
 - `higgsfield-spike.py` tests the REST API only; `higgsfield-cli-spike.py` tests the installed CLI. The Higgsfield MCP connector is not tested here.
 - The response parsing in `higgsfield-spike.py` follows the published Flare docs (`request_id`, `status_url`, `images[].url`). It also ran against the live API (12 paid calls, 2026-10-09) and the reply shapes held.
 - Reference: OpenStax, *Biology 2e* (2018), section 10.2 "The Cell Cycle", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle.
-- **Review status of this version:** the operator's 2026-10-09 approval covered the earlier all-SVG render (PR #15). This version, with two AI-generated transparent cell images, has not been reviewed by the operator yet.
+- **Review status of this version:** approved by the operator on 2026-10-09. The earlier approval covered the all-SVG render (PR #15); the operator then reviewed this version, with two AI-generated transparent cell images, and approved it too.
