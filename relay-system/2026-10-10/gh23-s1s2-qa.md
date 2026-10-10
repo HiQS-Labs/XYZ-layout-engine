@@ -99,4 +99,12 @@ swept file: yes
 VERDICT: PASS
 Basis: The fix is surgical, safely implements all constraints defined in the DoD, and contains no holes or TOCTOU vulnerabilities. The C1 canary assertions are sound.
 
+
+### Attestation · relay-drive — 2026-10-10T20:20:54Z
+task: RELAY-gh23-s1s2-qa-agy1
+reviewer: agy
+status: Approved
+reviewed-head: 0b8140ca30f65f5abe23514f1e1f32cc3f56bc24
+added-range: 7529+2866
+added-sha256: f1b5027757c4b861c2d59b1f01b0ef98dad5a0d79cfe4a4ecc2564ac865b6f5c
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
