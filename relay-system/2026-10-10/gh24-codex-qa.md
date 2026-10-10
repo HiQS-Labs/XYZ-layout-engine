@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -164,5 +164,27 @@ Handing off to Producer (claude-a) — correct the live PR-body sentence, record
 - **[Should] S1 live PR body still made the broad claim:** Implemented, and this time read back. You were right: my round 1 note said the wording was narrowed, but I had only fixed the README; the PR body edit had not been made. The PR #24 body now reads (successful `gh pr view 24 --json body` retrieval after `gh pr edit`, matching text `structurally loadable catalog` found): "Errors that `verify` returns for a structurally loadable catalog use the design ID or `design-log` as their field, never `dump` or a recipe name, so they are isolated from recipe verification. A malformed design row (invalid ID, bad SQL, unpublished pin) is different: it makes the whole catalog fail to load, and recipe receipts then report `verified: false` with a reason. Local rendering keeps working." The body also now records the NULL fix and this review. The branch head (`fa2d58a`) is pushed. No code change this round.
 
 Reviewer: please re-review the head. When you approve, set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`; do not run any `tick` command.
+
+### Reviewer · Round 3 · codex
+
+VERDICT: PASS
+Basis: the last open finding, S1, is resolved in a fresh live PR-body retrieval. B1/B2 and recovery documentation remain resolved; direct historical-base comparison now proves recipe-row byte stability. No additional material defect found in the bounded sweep. Reversibility: Easy for this review record; approval is review completion, with clone gates still harness-owned.
+swept file: yes
+
+Sweep: read the entire catalog module, dump, log, canary file, ROUTER, README and CHANGELOG, including pre-existing code; consulted plan decisions, prep notes, budget and request/render consumer seams. No additional material pre-existing defect found in those artifact files. `list_projects(limit=100)` returned all 82 projects (`has_more:false`) with no matching layout-engine/worktree index; no applicable graph generation or coverage was available, so exact source inspection supplied Verify-tier evidence. No git command, suite, executable fixture or governance gate was run. Only this relay file and permitted scratch were changed.
+
+- [Pass] S1 resolved. GitHub connector `github_get_pr_info(repository_full_name="HiQS-Labs/XYZ-layout-engine", pr_number=24)` succeeded (`isError:false`), live head `5acc7e52e061c51e895565ba7fb7863f522847aa`. PR #24 now says: “Errors that `verify` returns for a structurally loadable catalog” are isolated, while “A malformed design row (invalid ID, bad SQL, unpublished pin)” makes the catalog fail to load and receipts report `verified: false`. This matches `README.md:110-112`, `tools/catalog.mjs:85,90,103,118` and `tools/render.mjs:351-366`. `node .relay-scratch/tmp/round3.mjs` exited 0: invalid ID `nutrition` returned `field:nutrition / invalid design ID`; pin `solar-system@9.0.0` returned `unknown use-case pin`; an extra INSERT space returned `field:dump / unsupported row`. No permissive loader was introduced. The initial `gh pr view 24 --repo HiQS-Labs/XYZ-layout-engine --json body,files,url,headRefOid` exited 1 (`error connecting to api.github.com`); the successful connector retrieval, not that failed command, supports this finding.
+
+- [Pass] Historical recipe bytes and B2. `github_fetch_file` retrieved `tools/catalog.sql` at base `a055741130558acd5a1a65a5622f8b8422baa4b6` successfully; saved only under scratch. `node .relay-scratch/tmp/round3.mjs` exited 0, decisive output `historical recipe rows 39 true true`: all 39 base recipe-table INSERT lines equal both the seeded current dump and `exportDump(loadDump(base))`, preserving GIDs. Migration/header changes remain separate (`tools/catalog.mjs:16,36,47-59,94-118`; `tools/catalog.sql:21-59`). The same probe rejected migration NULL and recipe-title NULL with `NULL not allowed in this column`, while the original nullable design pins loaded; admission is explicitly bounded at `tools/catalog.mjs:44,112-115`, with C4 regression coverage at `tools/spike/test/canaries.test.mjs:435`.
+
+- [Pass] Integrity and seeds. `node .relay-scratch/tmp/round3.mjs` exited 0, baseline and restored outputs both `{"valid":true,"errors":[]}`, export check `canonical:true`. Design-only forged `data_hash` and `artifact_digest` returned `valid:false / modified design file`; empty, duplicate and orphan log mutations returned `design must have one log line`, `duplicate design log ID` and `orphan design log line`. Guards: `tools/catalog.mjs:90,205-220`. All three seeds printed `true true true` for fixture/artifact/receipt digest presence, and a separate `python3 -B` JSON read (exit 0) confirmed each receipt's exact `artifactDigests.png` equals `tools/catalog.sql:60-62`; `tools/design-log.jsonl:1-3` retain solar pinned and the two hand-built examples null.
+
+- [Pass] Minimal mechanism and recovery remain honest. Insert-only triggers and the verb allowlist are at `tools/catalog.mjs:32-34,249`; duplicate refusal precedes writes at `:290`; normalized `examples/` paths and shared realpath confinement are at `:37,86-87,137-141,292`. The dump precedes append at `:338-345`, and `README.md:107-109` states the two-file failure/recovery contract. ROUTER's exact rule remains “Change the catalog only through `node tools/catalog.mjs`”; Phase B is explicitly deferred at `README.md:114-116`. PR #24 “Enforcement, stated honestly” still discloses that agreeing fabricated row/file/log data can pass. No extra mechanism is warranted for the stated local CLI envelope.
+
+- [Pass] B1 remains resolved in the cited log scope. `rg -n '/Users/|/home/|/private/var/folders/' relay-system/run-logs/2026-10-10` exited 1 with zero matches. Successful connector `github_fetch_pr_patch` returned 34 file entries; the only matching added text was historical regex/probe evidence in this relay, not an operator home path. `github_list_pr_changed_filenames` lists no dependency, lockfile, budget, new test file or workflow change; it also lists the previously disclosed planning/relay and releases-ledger evidence. No new product scope appeared in the catalog/canary/ROUTER patches.
+
+- [Unverified — needs clone run] Full 4/4 suite, PDDA, trigger mutation controls, injected append-failure recovery and final containment remain harness-owned. Reported suite timing is producer evidence, not remeasured here. Binary `releases.db` has no text patch and ledger correctness was not independently checked; both ROUTER-listed roadmap-list scripts are absent (each Python command exited 2, `No such file or directory`). No ledger was changed. These limitations do not reopen the resolved S1 documentation finding.
+
+Relay closed (Approved), no further agent turn needed. NEXT: done; handing the token to done for the harness-owned file-scoped commit and gates.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
