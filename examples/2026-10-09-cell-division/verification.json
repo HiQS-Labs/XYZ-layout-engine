@@ -1,7 +1,7 @@
 {
   "renderer": "Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime",
-  "art": "hand-drawn stroke-only SVG icons (Higgsfield verdict pending)",
-  "generatedAt": "2026-10-09T17:32:55.768Z",
+  "art": "hand-drawn stroke-only SVG icons; raster stages (sha256 and real alpha verified): interphase",
+  "generatedAt": "2026-10-10T02:52:59.704Z",
   "width": 2400,
   "height": 1480,
   "stages": [
@@ -20,6 +20,29 @@
     "asset_telophase",
     "asset_cytokinesis"
   ],
+  "rasterAssets": {
+    "interphase": {
+      "path": "assets/web/interphase.png",
+      "sha256": "cf782057dd0b2b2330c28089b54ba942951a1362668f05d8da2607bc41a88a35",
+      "bytes": 63256,
+      "provenance": {
+        "file": "assets/provenance.json",
+        "stage": "interphase",
+        "provider": "higgsfield-cli",
+        "model": "gpt_image_2_5",
+        "jobId": "13dd16ee-df0c-4d00-8ec6-fc4eac5965a8",
+        "originalSha256": "ebe91c71dd84c22eae2274276ee95f62031bbba2d912e3e3e61fd93cb2938961"
+      },
+      "alpha": {
+        "real_alpha": true,
+        "colorType": 6,
+        "transparentPixelRatio": 0.460778,
+        "minAlpha": 0,
+        "maxAlpha": 254,
+        "opaqueCornerCount": 0
+      }
+    }
+  },
   "textIds": [
     "eyebrow",
     "title",
@@ -56,10 +79,10 @@
     "source_note"
   ],
   "artifactDigests": {
-    "png": "b860c508f5ef8aa131647ef8c6ffc220008d82190516ae99a74786d73d35e72e",
-    "svg": "facf856a72bd87c55157a4ccb87df6ff2c4f4b4ba184540e41fedce9b11a4ea7",
-    "html": "f382d459ab45f102fafc0452bc4efeb453a125b3888b6f932ba4fa04303e02ff",
-    "chromiumPng": "fd6af7172020edab6c35bce0c115ce2670f8d6d1081fddec19957376c3de1216"
+    "png": "327b8155c960aaee9dd2a6196f177f59fb2a8e4cbf548600687bb7a63e1e83d6",
+    "svg": "5680096b92949dda21251fb585583e1e56db51f55799fbf5c31e3d6b659d41d3",
+    "html": "a17b3e9b2a43752703171b9cef4f6df4a6e825ec68fda17a72444020a5a3d00c",
+    "chromiumPng": "11558fd75f610b3a9d81506f88b77b2b10b44ef4de62ce1635d089420256f844"
   },
   "satoriBounds": {
     "canvas": {
@@ -141,10 +164,10 @@
       "height": 29
     },
     "asset_interphase": {
-      "x": 170,
-      "y": 520,
-      "width": 176,
-      "height": 176
+      "x": 202,
+      "y": 552,
+      "width": 112,
+      "height": 112
     },
     "body_interphase": {
       "x": 126,
@@ -841,9 +864,9 @@
     "scale_note": {
       "x": 100,
       "y": 1392.59,
-      "width": 1680.2,
+      "width": 2029.92,
       "height": 23,
-      "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; no images were generated.",
+      "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase cell is AI-generated (GPT Image 2.5 via Higgsfield).",
       "scrollWidth": 2200,
       "clientWidth": 2200,
       "scrollHeight": 25,

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 // Reuses the pinned GH-1 render code in the Solar System example (no second copy). The guard must be set
 // before the awaited dynamic import: a static import would run the spike's experiment main() first.
@@ -44,6 +45,30 @@ const icons={
 };
 for(const s of stages)assert.ok(icons[s.id],`no icon drawn for stage ${s.id}`);
 
+// Raster stage art (GH-8 Phase 0b). A stage may name an `image`; it is used only if its sha256 matches the stage's
+// single entry in assets/provenance.json and the alpha inspector reports real alpha. Otherwise the render refuses,
+// naming the stage. The raster takes the same icon slot, centred, at RASTER px, so the layout does not move.
+const RASTER=112;
+const provenance=JSON.parse(await fs.readFile(path.join(ROOT,'assets/provenance.json'),'utf8'));
+const rasters={};
+for(const s of stages.filter(s=>s.image)){
+ const entries=provenance.assets.filter(a=>a.stage===s.id);
+ if(entries.length!==1)throw new Error(`stage ${s.id}: needs exactly one provenance entry for ${s.image}, found ${entries.length}`);
+ const p=entries[0];
+ if(p.web?.path!==s.image)throw new Error(`stage ${s.id}: fixture image ${s.image} is not the provenance web path ${p.web?.path}`);
+ const file=path.resolve(ROOT,s.image);
+ if(!file.startsWith(ROOT+path.sep))throw new Error(`stage ${s.id}: image path ${s.image} leaves the example folder`);
+ const buf=await fs.readFile(file),digest=sha(buf);
+ if(digest!==p.web.sha256)throw new Error(`stage ${s.id}: sha256 mismatch for ${s.image}: file ${digest}, provenance ${p.web.sha256}`);
+ const run=spawnSync(process.execPath,[path.join(ROOT,'inspect-alpha.mjs'),file],{encoding:'utf8'});
+ let alpha;
+ try{alpha=JSON.parse(run.stdout.trim().split('\n').pop())}catch{throw new Error(`stage ${s.id}: the alpha inspector gave no record (exit ${run.status}): ${String(run.stderr).slice(-300)}`)}
+ if(alpha.format!=='png'||alpha.real_alpha!==true)throw new Error(`stage ${s.id}: raster asset ${s.image} is not real alpha (format ${alpha.format}, minAlpha ${alpha.minAlpha}, transparentPixelRatio ${alpha.transparentPixelRatio}); refusing to embed it`);
+ rasters[s.id]={src:`data:image/png;base64,${buf.toString('base64')}`,record:{path:s.image,sha256:digest,bytes:buf.length,
+  provenance:{file:'assets/provenance.json',stage:s.id,provider:p.provider,model:p.model,jobId:p.job_id,originalSha256:p.original?.sha256},
+  alpha:{real_alpha:alpha.real_alpha,colorType:alpha.png?.colorType,transparentPixelRatio:alpha.transparentPixelRatio,minAlpha:alpha.minAlpha,maxAlpha:alpha.decoded?.maxAlpha,opaqueCornerCount:alpha.opaqueCornerCount}}};
+}
+
 // Layout: one row of six cards that reads left to right, a dashed return loop under it (the cycle), then notes.
 const COLX=c=>100+c*376,CARD_W=312,CARD_H=450,CARD_Y=470,ICON=176;
 const LOOP_Y=CARD_Y+CARD_H+56,PANEL_Y=LOOP_Y+92,PANEL_H=190;
@@ -61,7 +86,7 @@ const cardFor=s=>{
  iconIds.push('asset_'+s.id);
  return box(cid,{position:'absolute',left:x,top:CARD_Y,width:CARD_W,height:CARD_H,border:'2px solid #2b3d57',borderRadius:26,backgroundColor:'#0b1628'},[
   box('stepbox_'+s.id,{position:'absolute',left:24,top:24,width:80},[textNode(s.id+'_step',s.step,{fontSize:22,fontWeight:700,letterSpacing:2,color},cid)]),
-  img('asset_'+s.id,ico(color,icons[s.id]),(CARD_W-ICON)/2,48,ICON),
+  rasters[s.id]?img('asset_'+s.id,rasters[s.id].src,(CARD_W-RASTER)/2,48+(ICON-RASTER)/2,RASTER):img('asset_'+s.id,ico(color,icons[s.id]),(CARD_W-ICON)/2,48,ICON),
   box('body_'+s.id,{position:'absolute',left:24,top:252,width:CARD_W-48,flexDirection:'column',gap:10},[
    textNode(s.id+'_title',s.title,{fontSize:34,fontWeight:700,color:'#f4f6fb'},cid),
    textNode(s.id+'_desc',s.desc,{fontSize:22,lineHeight:1.35,color:'#9eadc3'},cid)
@@ -178,7 +203,7 @@ await fs.writeFile(path.join(ROOT,'cell-division-chromium.png'),chromiumResult.p
 await fs.writeFile(path.join(ROOT,'cell-division.svg'),result.svg);
 const responsive=chromiumResult.html.replace('</head>',`<style>html,body{width:100%!important;height:100%!important;overflow:auto!important;background:#050c17}#canvas{transform-origin:top left}span[contenteditable]{outline:1px dashed #577da4;cursor:text}</style></head>`).replace('</body>',`<script>function fit(){const s=Math.min(1,innerWidth/${W});document.getElementById('canvas').style.transform='scale('+s+')';document.body.style.minHeight=(${H}*s)+'px'}addEventListener('resize',fit);fit();document.querySelectorAll('span').forEach(e=>{e.title='Double-click to edit this label';e.addEventListener('dblclick',()=>{e.contentEditable='true';e.focus()});e.addEventListener('blur',()=>e.removeAttribute('contenteditable'))});</script></body>`);
 await fs.writeFile(path.join(ROOT,'cell-division.html'),responsive);
-const evidence={renderer:'Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime',art:'hand-drawn stroke-only SVG icons (Higgsfield verdict pending)',generatedAt:new Date().toISOString(),width:W,height:H,stages:stages.map(s=>s.id),imageNodes:found,textIds:texts,artifactDigests:{png:sha(result.png),svg:sha(result.svg),html:sha(responsive),chromiumPng:sha(chromiumResult.png)},satoriBounds:result.bounds,chromiumText:chromiumResult.textBoxes,findings};
+const evidence={renderer:'Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime',art:`hand-drawn stroke-only SVG icons; raster stages (sha256 and real alpha verified): ${Object.keys(rasters).join(', ')||'none'}`,generatedAt:new Date().toISOString(),width:W,height:H,stages:stages.map(s=>s.id),imageNodes:found,rasterAssets:Object.fromEntries(Object.entries(rasters).map(([id,r])=>[id,r.record])),textIds:texts,artifactDigests:{png:sha(result.png),svg:sha(result.svg),html:sha(responsive),chromiumPng:sha(chromiumResult.png)},satoriBounds:result.bounds,chromiumText:chromiumResult.textBoxes,findings};
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${found.length} separate icon nodes; ${texts.length} text ids present and unique; ${W}x${H} in both backends; text and icons inside canvas and cards in Satori and Chromium; no text overflow or overlap.`);

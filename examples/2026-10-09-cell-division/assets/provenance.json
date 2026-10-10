@@ -1,0 +1,45 @@
+{
+  "note": "One entry per committed raster asset. Originals are not committed; their sha256 is recorded here and in cli-spike-ledger.jsonl. render-diagram.mjs checks the web file's sha256 against this file and refuses an asset that is not real alpha.",
+  "assets": [
+    {
+      "stage": "interphase",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "A single isolated animal cell in interphase, clean scientific illustration: a round cell with one large nucleus containing a nucleolus, a few mitochondria and soft cytoplasm, flat clean style, soft lighting, subject only on a transparent background, no backdrop, no shadow, no text, no labels",
+        "quality": "low",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "13dd16ee-df0c-4d00-8ec6-fc4eac5965a8",
+      "created_at": "2026-10-10T02:40:03.377026Z",
+      "ledger": {"file": "cli-spike-ledger.jsonl", "label": "T1-smoke-interphase"},
+      "credits": {"estimated": 0.25, "measured_by_balance": 0.25, "balance_before": 701.0, "balance_after": 700.75},
+      "original": {
+        "file": "smoke1-interphase.png (not committed)",
+        "sha256": "ebe91c71dd84c22eae2274276ee95f62031bbba2d912e3e3e61fd93cb2938961",
+        "bytes": 1203763,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {"colorType": 6, "real_alpha": true, "transparentPixelRatio": 0.460415, "minAlpha": 0, "maxAlpha": 254, "partialAlphaPixels": 565796, "opaqueCornerCount": 0}
+      },
+      "web": {
+        "path": "assets/web/interphase.png",
+        "made_with": "node make-web-asset.mjs <original> assets/web/interphase.png 224",
+        "sha256": "cf782057dd0b2b2330c28089b54ba942951a1362668f05d8da2607bc41a88a35",
+        "bytes": 63256,
+        "width": 224,
+        "height": 224,
+        "alpha": {"colorType": 6, "real_alpha": true, "transparentPixelRatio": 0.460778, "minAlpha": 0, "maxAlpha": 254, "partialAlphaPixels": 27056, "opaqueCornerCount": 0}
+      }
+    }
+  ]
+}
