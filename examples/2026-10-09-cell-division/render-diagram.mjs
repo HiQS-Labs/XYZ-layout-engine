@@ -48,7 +48,9 @@ for(const s of stages)assert.ok(icons[s.id],`no icon drawn for stage ${s.id}`);
 // Raster stage art (GH-8 Phase 0b). A stage may name an `image`; it is used only if its sha256 matches the stage's
 // single entry in assets/provenance.json and the alpha inspector reports real alpha. Otherwise the render refuses,
 // naming the stage. The raster takes the same icon slot, centred, at RASTER px, so the layout does not move.
-const RASTER=112;
+// RASTER equals the SVG icon box (ICON, 176): the generated subjects fill about 80-95% of their frame, so at this size
+// they match the line icons' visual weight (smaller sizes left the wide two-cell cytokinesis image undersized).
+const RASTER=176;
 const provenance=JSON.parse(await fs.readFile(path.join(ROOT,'assets/provenance.json'),'utf8'));
 const rasters={};
 for(const s of stages.filter(s=>s.image)){

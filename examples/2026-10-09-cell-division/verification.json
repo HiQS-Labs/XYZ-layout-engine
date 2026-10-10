@@ -1,7 +1,7 @@
 {
   "renderer": "Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime",
-  "art": "hand-drawn stroke-only SVG icons; raster stages (sha256 and real alpha verified): interphase",
-  "generatedAt": "2026-10-10T02:52:59.704Z",
+  "art": "hand-drawn stroke-only SVG icons; raster stages (sha256 and real alpha verified): interphase, cytokinesis",
+  "generatedAt": "2026-10-10T03:08:27.061Z",
   "width": 2400,
   "height": 1480,
   "stages": [
@@ -23,22 +23,43 @@
   "rasterAssets": {
     "interphase": {
       "path": "assets/web/interphase.png",
-      "sha256": "cf782057dd0b2b2330c28089b54ba942951a1362668f05d8da2607bc41a88a35",
-      "bytes": 63256,
+      "sha256": "c61ca2d72ddf3ba0ca8ff2784f604ace4f9f202ad29dfc4a2a6460cdd9b78090",
+      "bytes": 81895,
       "provenance": {
         "file": "assets/provenance.json",
         "stage": "interphase",
         "provider": "higgsfield-cli",
         "model": "gpt_image_2_5",
-        "jobId": "13dd16ee-df0c-4d00-8ec6-fc4eac5965a8",
-        "originalSha256": "ebe91c71dd84c22eae2274276ee95f62031bbba2d912e3e3e61fd93cb2938961"
+        "jobId": "3e204ac7-d507-4b9c-8489-505e401290c6",
+        "originalSha256": "17cc8856e1affd392cad1471a04ef0fe040dfac42827ff7d189e4de3fcc9df07"
       },
       "alpha": {
         "real_alpha": true,
         "colorType": 6,
-        "transparentPixelRatio": 0.460778,
+        "transparentPixelRatio": 0.488724,
         "minAlpha": 0,
-        "maxAlpha": 254,
+        "maxAlpha": 255,
+        "opaqueCornerCount": 0
+      }
+    },
+    "cytokinesis": {
+      "path": "assets/web/cytokinesis.png",
+      "sha256": "9d7564c1863e3902693d6d6c179356d70791e5cefb0e82612efa6d1aab87127d",
+      "bytes": 56390,
+      "provenance": {
+        "file": "assets/provenance.json",
+        "stage": "cytokinesis",
+        "provider": "higgsfield-cli",
+        "model": "gpt_image_2_5",
+        "jobId": "e1efbe5f-254a-4ffc-b331-9c421e53dbab",
+        "originalSha256": "ea34af329cc39bdaa1195ef1856bdc38fdf310f720aa1af7174bad86994a0eb0"
+      },
+      "alpha": {
+        "real_alpha": true,
+        "colorType": 6,
+        "transparentPixelRatio": 0.652359,
+        "minAlpha": 0,
+        "maxAlpha": 255,
         "opaqueCornerCount": 0
       }
     }
@@ -79,10 +100,10 @@
     "source_note"
   ],
   "artifactDigests": {
-    "png": "327b8155c960aaee9dd2a6196f177f59fb2a8e4cbf548600687bb7a63e1e83d6",
-    "svg": "5680096b92949dda21251fb585583e1e56db51f55799fbf5c31e3d6b659d41d3",
-    "html": "a17b3e9b2a43752703171b9cef4f6df4a6e825ec68fda17a72444020a5a3d00c",
-    "chromiumPng": "11558fd75f610b3a9d81506f88b77b2b10b44ef4de62ce1635d089420256f844"
+    "png": "343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044",
+    "svg": "06411cf30d4ceefc17419de08d9d40392bf275506390dd303a940e335bd0aac6",
+    "html": "c041e117432111de4bb517c043c9ce949ab865f41f1e02a0c4090fc8c9781982",
+    "chromiumPng": "2087fce0c14bad634b0ee7e9587fd202921d2f57b78891d94569dc2c3aa2d485"
   },
   "satoriBounds": {
     "canvas": {
@@ -164,10 +185,10 @@
       "height": 29
     },
     "asset_interphase": {
-      "x": 202,
-      "y": 552,
-      "width": 112,
-      "height": 112
+      "x": 170,
+      "y": 520,
+      "width": 176,
+      "height": 176
     },
     "body_interphase": {
       "x": 126,
@@ -864,9 +885,9 @@
     "scale_note": {
       "x": 100,
       "y": 1392.59,
-      "width": 2029.92,
+      "width": 2198.97,
       "height": 23,
-      "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase cell is AI-generated (GPT Image 2.5 via Higgsfield).",
+      "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase and cytokinesis cells are AI-generated (GPT Image 2.5 via Higgsfield).",
       "scrollWidth": 2200,
       "clientWidth": 2200,
       "scrollHeight": 25,
