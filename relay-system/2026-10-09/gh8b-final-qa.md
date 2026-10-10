@@ -99,4 +99,12 @@ Basis: The artifact fully meets all requirements in the final QA brief with no r
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-10T03:15:23Z
+task: RELAY-gh8b-final-qa-agy1b
+reviewer: agy
+status: Approved
+reviewed-head: d551ed0f545f9101213b4c1fdc2bfb5c07279052
+added-range: 9739+1894
+added-sha256: 716c0d2bb218f7461c23a873e6adb72696d21dc21a5d1a82a4fa4e0c9b27378e
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
