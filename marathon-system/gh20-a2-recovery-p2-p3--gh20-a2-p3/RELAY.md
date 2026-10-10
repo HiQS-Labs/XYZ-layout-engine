@@ -1,6 +1,6 @@
 # Marathon Phase gh20-a2-p3
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P3-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -127,3 +127,60 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+
+### Round 1 · Builder · codex
+
+Implemented only the Phase 3 documentation surface:
+
+- `ROUTER.md`: exactly the two brief-prescribed lines, naming the recipe/design catalog and
+  making `node tools/catalog.mjs` the only catalog write path.
+- `README.md`: one Designs subsection within Local Recipe Catalog, covering insert-only IDs,
+  list/show/add, exit codes and optional flags, fixture/artifact hashes, solar's published pin,
+  null use cases for hand-built RAG/cell-division, the two-sentence append-only grammar-log note
+  with all required review triggers, and Phase B deferrals. No SPECS-PRD change.
+- `CHANGELOG.md`: one newest-first dated entry, `Refs #20` and `Refs #21`, Easy reversal and
+  verified outcomes; historical content preserved.
+
+Bet: existing CLI behavior is the documentation contract; probing examples prevents an
+unsupported usage claim. Reversibility: Easy (documentation only). No new mechanism or test.
+
+Bounded verification:
+
+- P3-A1: both prescribed `rg -n -F` searches match the ROUTER role/rule lines. Removing the
+  two inserted lines reconstructs the exact original ROUTER bytes.
+- P3-A2: documented design list and solar show each exit 0 on the working tree; catalog
+  verify returns `valid:true, errors:[]` (exit 0); export check returns `canonical:true`
+  (exit 0). The README add command exits 0 in a copied catalog root under
+  `.relay-scratch/p3-codex/probe-root/`; its repeat exits 1 with dump/log bytes unchanged.
+  Show of the new ID and export check exit 0 there. Optional published pin, all four flags
+  and workarounds 0 are accepted in scratch. Unknown design exits 1; `design lsit` exits 2.
+- P3-A3 bounded substitute: existing PDDA `hardcoded-paths` check run against single-file
+  scratch copies using `PDDA_WORKING_DIR`, `PDDA_ONLY_FILE`, `PDDA_MODE=full` and a scratch
+  activity log. Baseline and final copies of all three docs have zero findings (exit 0).
+  An absolute-home-path red control in a scratch ROUTER copy exits 1 with the expected
+  finding. The updated changelog was rechecked (exit 0). Full-suite comparison is pending
+  the harness; no full project suite or gate was run by the builder.
+- P3-A4 bounded substitute: SHA-256 comparison and path-set equality for all 117 files under
+  `tools/` and `examples/` pass against the pre-turn snapshot. README minus the inserted
+  subsection equals the original; changelog history remains intact. Git/P2-head comparison
+  remains harness-owned because all git commands are forbidden for this turn.
+
+Evidence: `.relay-scratch/p3-codex/` contains baseline/final command results, write probes,
+path-check results and preservation snapshots. Scratch artifacts are not deliverable source.
+
+Startup limitations: paginated graph project inventory contains no index for this checkout
+or its task clone; no index was created under the restricted write scope. Named catalog source
+was read directly to validate the documentation. Both startup roadmap script paths are absent
+in this checkout, so that command could not run. P2 has an Approved reviewer/attestation receipt;
+full driver gate verification remains harness-owned.
+
+VERDICT: PASS
+Basis: Bounded documentation checks and negative controls pass; only the three permitted
+project documents changed, with runtime/data preservation verified against pre-turn bytes.
+Review outcome: Pending independent agy review; this builder receipt is not approval.
+
+Relay metadata: existing content is preserved except the explicitly mandated
+`NEXT: agy (Reviewer)` header update; this receipt is appended at the end.
+
+handing off to agy — agy, take your turn.

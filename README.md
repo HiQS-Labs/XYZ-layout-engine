@@ -78,6 +78,36 @@ status; missing, unpublished or drifted catalog content records `verified: false
 and leaves local rendering available. Use `verify` to enforce catalog integrity. Variants, slug
 aliases/renames and semver range resolution are deferred.
 
+### Designs
+
+Designs are insert-only records in the same catalog, identified by `YYYY-MM-DD-slug`.
+An edit forks a new design ID; there is no design update or delete command. Each record hashes
+the fixture JSON and PNG artifact and optionally pins a published use case as `slug@semver`.
+Solar System is seeded with `solar-system@1.0.0`; RAG and cell-division have a null use case
+because they are hand-built scripts with no recipe.
+
+| Command | Successful result | Exit |
+|---|---|---|
+| `node tools/catalog.mjs design list` | List recorded designs | 0 |
+| `node tools/catalog.mjs design show 2026-10-08-solar-system` | Show a design by ID (`design show <id>`) | 0 |
+| `node tools/catalog.mjs design add 2026-10-10-rag-study --fixture examples/2026-10-09-rag-system/fixture.json --artifact examples/2026-10-09-rag-system/rag-system.png --friction 'Hand-built lanes and connectors; no recipe.'` | Record a new ID and append its log line | 0 |
+
+The add example succeeds once; repeating the ID exits **1** and preserves the dump and log.
+Exit **1** also means validation, I/O or drift failure (including an unknown design or use-case
+pin); exit **2** means usage error, such as `node tools/catalog.mjs design lsit`.
+`design list` and `design show <id>` accept `--json`. Add paths must be normalized repo-relative
+paths under `examples/`; `--friction` is a required single line of 1–200 characters.
+Optional add flags are `--use-case <slug>@<semver>`, `--workarounds N` (a non-negative integer),
+and `--flags` with a comma-separated list from `needed_row_span,non_grid_family,needed_span_over_9,layout_forced`.
+
+`tools/design-log.jsonl` is an append-only record for judging the grid grammar, with one line
+per design added through the CLI. Review it after every 10 designs or the first
+`needed_row_span`, `non_grid_family` or `needed_span_over_9` flag.
+
+Phase B is deferred: the grid parser and canonical form, pixel geometry, `layouts` and
+`use_case_layouts`, filling `layout_id`, deriving grid counts/span histograms, responsive
+stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
+
 ## Capabilities and Limits
 
 - **Inputs and Area**: 
