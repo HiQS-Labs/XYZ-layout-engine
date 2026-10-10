@@ -101,4 +101,12 @@ Basis: The plan rigorously addresses the 7 QA brief questions with solid spend s
 
 handing off to claude-a — relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-10T02:39:36Z
+task: RELAY-gh8b-plan-qa-agy1
+reviewer: agy
+status: Approved
+reviewed-head: 319912cecdd864653ddd40a10dcda299d759b99f
+added-range: 8795+2379
+added-sha256: 7040ad48311a9498aac525e7b6ec889a3bdf9ea6b7f08ac7c8017c47561c3772
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
