@@ -145,3 +145,11 @@ swept file: yes
 Basis: Whole-file review of all target files confirms that the recovery implementation satisfies Phase 4's strict bounds. The `canaries.test.mjs` test now checks for the HTML artifact correctly using exact-name selection instead of the positional assumption that was failing. The builder respected containment and scratch discipline, introducing no new defects.
 
 handing off to codex — relay closed, no further turn needed.
+
+### Attestation · relay-drive — 2026-10-10T05:52:43Z
+task: MARATHON-GH5-P4-TURN-2
+reviewer: agy
+status: Approved
+reviewed-head: 49d25b92993e1cd39c856ba9c8c4f4be4199a38d
+added-range: 18352+497
+added-sha256: edce88085d92c39c5d41fbc3fea9cb0b4cc27e8a5270a8c222f8bc99a39c4925
