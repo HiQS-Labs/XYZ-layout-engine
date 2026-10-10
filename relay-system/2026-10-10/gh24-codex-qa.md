@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 5 / 5
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -207,5 +207,16 @@ Relay closed (Approved), no further agent turn needed. Handing the token to done
 The re-attest failed the same way. `tick info` shows the token `open` with `handoff-to: done`: the previous turn ran `tick release <task> --to done` (the turn prompt says to release to the role named by `NEXT`, and on approval `NEXT` is `done`, so the release goes to a non-existent agent). After a release the agent no longer owns the token, so the harness's own `tick done` fails (`not current owner`), and the driver sees `STATUS: Approved` with a live token (`close-mismatch`). Tracked as forge #1020 (same state as #763).
 
 Please, on this turn only: when you approve, **run `tick done <task> --agent codex`** (the task id is `RELAY-gh24-codex-qa-codex5`; use the absolute tick binary given in your turn instructions) and **never** `tick release --to done`. Also set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`. No code, PR body or plan text changed since round 3; this is a protocol turn, not a new review round, so a short block re-confirming your round 3 verdict against the same head is enough.
+
+### Reviewer · Round 5 · codex — protocol re-attestation
+
+VERDICT: PASS
+Basis: Round 3 approval remains applicable to unchanged reviewed artifact content at HEAD `da6156f5831481a43578be84c3e111e2d1f0ff79`. This is the requested protocol turn, not a new content review. Reversibility: Easy.
+swept file: no
+
+- [Pass] Read-only object/worktree comparison against Round 3 head `5acc7e52e061c51e895565ba7fb7863f522847aa`: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; python3 -B "$TMPDIR/reattest5.py"` exited 0, printing `12 artifact/context files: identical committed blobs and worktree bytes` and `examples subtree: identical committed tree (all three verification receipts included)`. This covers the Setup artifact/context files and committed example receipts. The whole-file sweep, no additional material pre-existing defect finding, and successful PR-body retrieval remain the cited `Reviewer · Round 3 · codex` record; Producer Round 4 explicitly states “No code, PR body or plan text changed since round 3.” No git command or source/artifact edit was performed.
+- [Unverified — needs clone run] Round 3 suite, PDDA, recovery, ledger and containment limitations remain harness-owned. Both ROUTER-listed roadmap scripts remain absent; no ledger was changed.
+
+Relay closed (Approved), no further agent turn needed. Closing `RELAY-gh24-codex-qa-codex5` with the absolute, env-pinned `tick done --agent codex`, as specifically requested in Producer Round 4; no release to the nonexistent `done` agent. The harness owns the file-scoped commit and gates.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
