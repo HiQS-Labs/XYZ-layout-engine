@@ -25,7 +25,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Phases 1–4 accepted. Phase 5 attempt 1 halted on conflicting documentation receipts at the review cap; native gate not run. Fresh-clone exact workflow replay and browser checks passed; original Phase 5 counter is 1/2. | Independently review provenance-only repairs, then normal original Phase 5 attempt 2 with Agy/Codex and 600-second × 6 monitoring. Latest-origin integration, final Wave 1 QA, pre-PR gate and ready PR remain required. |
+| Phases 1–4 accepted. Phase 5 attempt 1 halted on conflicting documentation receipts at the review cap; native gate not run. Fresh-clone replay, browser checks and 4/4 canaries in 28.8s passed. Provenance-only recovery is independently Codex Approved/attested at 852a341; preflight/dry-run passed, original counter 1/2. | Execute normal original Phase 5 attempt 2 with Agy/Codex and 600-second × 6 monitoring. Latest-origin integration, final Wave 1 QA, pre-PR gate and ready PR remain required. |
 
 ## Table of contents
 
