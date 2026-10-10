@@ -218,3 +218,11 @@ PY
 Coverage/startup limits: graph tools (`list_projects`, `index_status`, coverage) are unavailable in this session; no matching project/generation or completeness claim is inferred. Used direct whole-file reads and targeted source citations. Followed ROUTER/GUIDING-PRINCIPLES/AGENTS and canonical Phase 3; root README is absent in this seeded pre-Phase5 tree. Omitted roadmap/PDDA runtime commands, Git, suites and executable fixtures under the explicit reviewer restriction. Read the prior containment ESCALATION, harness DEBUG-MANTRA and bytecode-recovery receipt; preserved historical evidence. Only this relay's permitted STATUS field and appended review block were changed; all probe files/results remain under `.relay-scratch/tmp`.
 
 Relay closed, no further turn needed. Native driver owns attestation and the fresh test gate.
+
+### Attestation · relay-drive — 2026-10-10T03:23:02Z
+task: MARATHON-GH5-P3-TURN
+reviewer: codex
+status: Approved
+reviewed-head: e4638bf1e0a9d48e2c9fb36dff25f84d9b60e77e
+added-range: 14878+9593
+added-sha256: 443931245acae300c1c7f359841c301603956055c18c94ac5421be3c51744337
