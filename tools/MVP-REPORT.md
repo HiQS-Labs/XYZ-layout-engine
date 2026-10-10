@@ -139,15 +139,15 @@ Root cause: compact HTML packaging invalidated C1's positional page assumption; 
 
 The offline documentation and constraint definitions have been completed and verified via scratch probes.
 
-**Measured Limits and Unsupported Workloads:**
-- Input JSON is bounded to 256 KiB. Per-image rasterization limits are 5 MiB and 16,777,216 pixels. Total scene limits are 35 MiB encoded, 16,777,216 pixels, and render area of 16,777,216 pixels. Export cannot exceed 64 MiB total published bytes.
+**Source-Configured Caps and Unsupported Workloads:**
+- Input JSON is configured to bound at 256 KiB. Per-image rasterization caps are configured at 5 MiB and 16,777,216 pixels. Total scene caps are 35 MiB encoded, 16,777,216 pixels, and render area of 16,777,216 pixels. Export publication is configured not to exceed 64 MiB total bytes. These are source-configured caps; measured delivery and limits are explicitly distinguished.
 - Text fitting uses up to 10 iterations down to 12px; non-fit exhaustion halts rather than producing broken geometry.
 - Unsupported scripts (CJK, Emoji) lack coverage in the pinned Inter font and are rejected as unsupported workloads without explicit font fallbacks, rather than claiming partial compliance.
-- A local worker/subprocess for hard interruption is conditional on measured need. Event-loop timers are not presented as hard interrupts for synchronous rasterization. Any unenforceable hard limit is documented and rejected.
-- Stage diagnostics and correlation IDs are available in standard JSON logging outputs.
+- No local worker/subprocess for hard interruption is provided; enforceable render deadlines, RSS limits, and concurrency limits are unsupported and PARKED. Event-loop timers are not presented as hard interrupts for synchronous rasterization.
+- Stage diagnostics and correlation IDs are undelivered and PARKED. Actual CLI validation names fields (e.g., `inputPath`), but successful publication UUIDs do not provide failure-stage correlation.
 - Remote HTTP/MCP, tenant isolation/SSRF, private caches, durable service queues, themes/adapters, and full editor are explicitly in the **Later** queue. No half-services have been shipped.
 
 **Receipts:**
-- Scratch workflows for `nutrition` and `solar-system` passed. Saved edits were durable and accurately applied to the generated `svg`, `html`, and `html-inline` artifacts without mutating the source repository files.
-- `pnpm test` assertion execution belongs to the native driver gate.
+- Scratch workflows for `nutrition` and `solar-system` passed. For `nutrition`, edit and rerender produced edited SVG digest `f0bafb7349bc8e992ecaf1a2e51073e953ba3c8cf900f4e863215bee67fd3747`. For `solar-system`, edit and rerender produced edited SVG digest `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb` (distinct from the unedited `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf` baseline). All copy-only durable edits saved successfully (Exit 0) and rerendered successfully without mutating source repository files.
+- `pnpm test` assertion execution belongs to the native driver gate. Full-clone workflow, suite gates, and fresh install are explicitly `[Unverified — needs clone run]`.
 - No unearned green boxes, issue closure, or production readiness are claimed. Nutrition and Solar System visual acceptance are recorded as pending human decisions. #5 remains open for Later requirements.

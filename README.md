@@ -52,17 +52,22 @@ XYZ Layout Engine supports a fully offline, self-contained workflow. Once the re
   - Hard stage timeouts limit runaway rendering are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
   - The delivered recipe-owned canvases are nutrition 1000×1000 and Solar System 2400×1700, scale 1. Other dimensions and scale are explicitly rejected.
+  - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the default pinned font (Inter) and will not render properly without explicit fallback font pinning.
   - Arbitrary remote HTTP asset fetching, multi-tenant isolation, SSRF protection, private caches, and durable service queues are currently in the **Later** queue. We do not ship half-services; they remain disabled in local workflows.
 - **External Caller Prerequisite (Optional Generation)**:
-  - Generation requires a POSIX environment with Python 3, a deployed HiQS caller entry point with credentials, and a matching recipe manifest (`caller.parent.parent/assets/image-manifest.json`). Run via `node <caller> image ... [--manifest ...]` (set via `--caller` or `HIQS_CHAIN_CALLER`). 
-  - Caller expects fresh, resumable, or changed-input calls and will cleanly handle unknown recovery.
-  - Use `--dry-run --max-calls 0` with a scratch assets directory for a safe test. Render-only setup requires no external caller or paid APIs.
+  - Generation requires a POSIX environment with Python 3, Node, a deployed HiQS caller entry point with credentials, and a matching recipe manifest (`caller.parent.parent/assets/image-manifest.json`). Exact deployed caller revision is currently [Unverified].
+  - Caller dispatches fresh/resume/changed-input calls. Unknown or corrupt states are refused rather than automatically replayed (explicitly authorized replacement required). Generator defaults to 11 calls max, 220s per call, 900s per run, and 3 workers, with remote-unknown limitations.
+  - Safe dry-run testing (no paid calls):
+    ```sh
+    mkdir -p .relay-scratch/assets-test
+    python3 -B examples/2026-10-08-solar-system/generate-assets.py --caller <external-entrypoint> --assets-dir .relay-scratch/assets-test --dry-run --max-calls 0
+    ```
 
 ## Dependency and Font Notices
 
 - **Host/Runtime**: Measured on Node v22.22.3, pnpm 12.4.1, darwin-arm64 with honest portability limits.
-- **Pinned Fonts**: Uses Inter 4.0 ([OFL-1.1 license](OFL.txt), source: [SOURCES.md](tools/spike/assets/SOURCES.md)).
-- **Renderer Packages**: `satori@0.36.0` and `@resvg/resvg-js@2.6.2` (MPL-2.0). 
-- **Chromium / Playwright**: `playwright@1.64.0` (Apache-2.0). Chrome for Testing (via Playwright) third-party terms/notices (chrome://credits) are pending review. Chromium is **not** packaged or distributed by default until terms are fully verified.
+- **Pinned Fonts**: Uses Inter 4.0 ([OFL-1.1 license](tools/spike/assets/OFL.txt), source: [SOURCES.md](tools/spike/assets/SOURCES.md)).
+- **Renderer Packages**: `satori@0.36.0` and `@resvg/resvg-js@2.6.2` (MPL-2.0).
+- **Chromium / Playwright**: `playwright@1.64.0` (Apache-2.0). Chrome for Testing (via Playwright) third-party terms/notices (chrome://credits) are pending review. Chromium is **not** packaged or distributed by default until terms are fully verified. Dependency license evidence is retained in [tools/spike/REPORT.md](tools/spike/REPORT.md).

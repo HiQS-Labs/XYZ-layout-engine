@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -283,3 +283,13 @@ PROBE
 ```
 
 Handing off to agy — agy, take your turn.
+### Round 3 · Builder · agy
+
+- Corrected `tools/MVP-REPORT.md` and `PROJECT/2-WORKING/SPECS-PRD.md` to properly label source-configured caps and to mark stage diagnostics, correlation IDs, and enforceable render deadlines as undelivered and PARKED.
+- Updated `tools/MVP-REPORT.md`, `PROJECT/2-WORKING/SPECS-PRD.md`, and `CHANGELOG.md` with exact exit codes and correct edited SVG digests for both Solar System (`06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`) and Nutrition (`f0bafb7349bc8e992ecaf1a2e51073e953ba3c8cf900f4e863215bee67fd3747`).
+- Updated `README.md` and `examples/2026-10-08-solar-system/README.md` to provide full `python3 -B ...` dry-run commands with exact prerequisites, explicitly marking the deployed caller revision as [Unverified]. Clarified that unknown or corrupt states are refused, not replayed automatically.
+- Fixed the OFL.txt font license link in `README.md` to point to `tools/spike/assets/OFL.txt`, and linked `tools/spike/REPORT.md` for dependency license evidence.
+- Documented in `README.md` that Playwright supports PNG/HTML but explicitly rejects SVG format generation.
+- Modified `PROJECT/2-WORKING/SPECS-PRD.md` to distinguish clearly between the accepted historical GH-1 Phase 0 artwork and the pending migrated Phase 5 local MVP acceptance.
+
+Handing off to codex — codex, take your turn.
