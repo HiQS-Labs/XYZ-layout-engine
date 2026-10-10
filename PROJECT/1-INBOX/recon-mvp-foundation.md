@@ -1,4 +1,20 @@
+## Marathon plan QA addendum — second runtime caller
+
+At the unchanged main baseline a8e7e574, read `examples/2026-10-08-solar-system/contact-sheet.mjs` in full. Lines 3–4 import the copied renderer and fonts; line 6 reads uncommitted initial-ID originals; line 8 overwrites the committed contact sheet. Phase 2 must migrate this retained caller alongside render-diagram.mjs to shared root renderer/fonts, selected digest-verified display assets (including two refinements) and owned temp output before deleting the runtime. README line 19 promises this entry point. The native independent Codex plan QA identified the omission; no runtime failure execution is claimed. Graph remains unindexed; source fallback confirmed both consumers via a bounded runtime-import search.
+
 # Recon Map — MVP foundation
+
+## Round-3 QA refresh — published example
+
+Current source baseline is origin/main `a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c` (PR #7). The Solar System scripts, fixture, receipts and selected display PNGs now live under examples/2026-10-08-solar-system/. Read in full: generate-assets.py, render-diagram.mjs and README.md. The generator really has max_workers=3 after Sun-first admission; this does not contradict the spike's single-process renderer measurements. Original asset PNGs are absent/ignored; render-diagram.mjs:25 still reads them. Fixture selections include saturn-clean and asteroid-belt-diagram, but the generator only creates the initial saturn/asteroid-belt jobs. The original-only fresh redraw is therefore incomplete.
+
+Non-mutating input inspection found all eleven selected web PNGs present and all eleven original PNGs absent. The plan now prefers committed display assets plus their digest metadata for the offline recipe and makes originals a conditional higher-resolution/provenance input. Historical observations below remain marked by their original date, not new runtime verification.
+
+## Round-2 QA refresh — historical baseline
+
+The sections below preserve the original assessment trace. Current plan QA uses origin/main `8a44d552d538306e2439acab138ff2d423139e23` after PRs #3/#4/#6 landed, with #1/#2 closed, spike artwork accepted by the operator, and GH-1/GH-2 plans archived under PROJECT/3-COMPLETED/. The four-canary suite and test-budget.json are delivered baseline capabilities. The current scene/renderer/asset/verifier operations are unchanged by the landing reconciliation apart from report/path references.
+
+The historical Solar System artifact and generation harness are absent from this clone and their recorded local path; their detailed observations below are historical producer evidence, not independently reverified source in this QA. Recovery of assets/scripts/receipts is required before recipe promotion or a concurrency comparison. P0 now accepts nutrition plus the existing product-hero smoke; Solar System is a conditional follow-on. Renderer timings and paid generation concurrency are different measurements.
 
 ## Subject and change class
 

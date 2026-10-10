@@ -1,0 +1,19 @@
+{
+  "added_len": 497,
+  "added_sha256": "edce88085d92c39c5d41fbc3fea9cb0b4cc27e8a5270a8c222f8bc99a39c4925",
+  "added_start": 18352,
+  "artifact_sha256": null,
+  "attested_at": "2026-10-10T05:52:43Z",
+  "driver_pid": 6012,
+  "isolated": true,
+  "relay_file": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md",
+  "relay_file_rel": "marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md",
+  "reviewed_head": "49d25b92993e1cd39c856ba9c8c4f4be4199a38d",
+  "reviewer": "agy",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "task": "MARATHON-GH5-P4-TURN-2",
+  "trailer_sha256": "043e0011b5ccf09f11f2b92e2948b2c67d7ea1757a1722e44f199ef1a82ef1eb",
+  "transcript_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation"
+}

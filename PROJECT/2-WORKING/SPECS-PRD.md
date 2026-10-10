@@ -1,8 +1,8 @@
 ---
 title: XYZ Layout Engine — PRD
-status: Draft
+status: Active
 created: 2026-10-01
-updated: 2026-10-08
+updated: 2026-10-09
 owner: Neochrome
 goal: Specify one recipe-driven engine for local and remote rendering through library, CLI, HTTP, and MCP.
 reversibility: Easy — specification changes only; no runtime or deployment changes.
@@ -17,13 +17,13 @@ phases: 7
 Canonical project name: **XYZ Layout Engine**
 Technical naming in examples: `xyz-layout-engine` CLI, `@xyz-layout-engine/*` packages, and `createLayoutEngine` library factory (proposed identifiers; package availability is not asserted).
 Owner: Neochrome
-Status: Draft v0.4, October 2026
+Status: Active v0.5, October 2026
 
 ## Status
 
 | What was just completed | What's next |
 |---|---|
-| Phase 0 spike executed (2026-10-08; Phase 2 code/evidence and Phase 3 documents Codex-approved and attested): both backends render the reference composition and product hero with authoritative geometry; Satori→resvg selected as default, Chromium as declared fallback; timings, licences and proposed limits recorded under Phases → Phase 0 findings. | Human visual acceptance of the spike artwork; then Phase 1 core engine on the selected backend, carrying the listed gaps. |
+| Phase 0 spike executed and historical GH-1 artwork accepted. Phase 1-5 local MVP implementation performed offline capability measurements and durable JSON edits. | Independent Agy/Codex reviews, outer driver gate (including `pnpm test`), and human visual acceptance for the migrated nutrition/Solar MVP workflows. |
 
 ## Table of contents
 
@@ -434,7 +434,7 @@ Proposed tooling: pnpm, tsup, Vitest, Zod, Fastify, official MCP SDK, pixelmatch
 
 Evidence: `tools/spike/REPORT.md`, `tools/spike/output/2026-10-08-xyz-layout-engine-spike/` (each render writes `output/<YYYY-MM-DD>-xyz-layout-engine-spike/`, including the exact HTML Chromium rendered) (regenerate with `pnpm run spike:render`; gate `pnpm run spike:verify`, exit 0). Independent post-build QA: `relay-system/2026-10-08/gh1-spike-p2-postbuild.md` (Codex, Approved after three rounds). Hardware: Apple M1 Max, Node v22.22.3, satori 0.36.0, @resvg/resvg-js 2.6.2, playwright 1.64.0 with Chrome for Testing 156.0.8078.4.
 
-- **Reference composition:** both backends render the §5.3 nutrition fixture from structured data and separate illustrations (`output/2026-10-08-xyz-layout-engine-spike/satori.png`, `output/2026-10-08-xyz-layout-engine-spike/playwright.png`, 1000×1000). Artwork revision 2026-10-09: seven transparent illustrations generated with OpenAI gpt-image-2.5-flare using the reference as a style input (provenance in `tools/spike/assets/SOURCES.md`), Inter Bold headings, SVG benefit icons, and the reference's layout (flanking callouts, vertical benefits panel, footer pill). Agent visual assessment: the composition closely follows the reference; text readable, unclipped, non-overlapping (verifier-checked); backends are visually similar; delivered labelled-box differences have a median of 0.63 px and a maximum of 3.58 px (details in `tools/spike/REPORT.md` §8). Remaining differences: Inter Bold instead of a condensed display face, the leaf does not extend into the bottom row, icons are flat approximations. **Human visual acceptance: pending** operator review.
+- **Reference composition:** both backends render the §5.3 nutrition fixture from structured data and separate illustrations (`output/2026-10-08-xyz-layout-engine-spike/satori.png`, `output/2026-10-08-xyz-layout-engine-spike/playwright.png`, 1000×1000). Artwork revision 2026-10-09: seven transparent illustrations generated with OpenAI gpt-image-2.5-flare using the reference as a style input (provenance in `tools/spike/assets/SOURCES.md`), Inter Bold headings, SVG benefit icons, and the reference's layout (flanking callouts, vertical benefits panel, footer pill). Agent visual assessment: the composition closely follows the reference; text readable, unclipped, non-overlapping (verifier-checked); backends are visually similar; delivered labelled-box differences have a median of 0.63 px and a maximum of 3.58 px (details in `tools/spike/REPORT.md` §8). Remaining differences: Inter Bold instead of a condensed display face, the leaf does not extend into the bottom row, icons are flat approximations. **Human visual acceptance (historical Phase 0): accepted** by the operator on 2026-10-08; migrated Phase 5 workflows remain pending.
 - **Product-hero smoke:** structured 1200×630 hero (`tools/spike/hero-fixture.json`) renders exactly to canvas in both backends with no overflow (`output/2026-10-08-xyz-layout-engine-spike/hero-*.png`).
 - **Geometry decision (§5.1 gate):** both backends expose authoritative bounds for fitting without a second layout engine. Satori: `onNodeDetected` laid-out element boxes with text content (glyph ink beyond the box is not observable). Chromium: element rects plus `Range` and scroll/client metrics (ink-level). Bounded fitting (≤10 re-renders, font-size only) fit baseline, the prescribed long-copy override, and the hero at iteration 0 in both backends; the shrink path is implemented but untested by these cases.
 - **Backend differences found during the artwork revision** (orchestrator development observations from superseded intermediate renders; not in the delivered JSON, whose acceptance cases all fit at iteration 0): (1) Chromium reports glyph-box overflow at tight line-heights that Satori cannot see, and font-size fitting cannot cure it (it shrank a 50 px headline to 29.5 px), so Phase 1 fitting needs a line-height floor or knob; (2) image stretch sizing differs (Chromium stretches, Satori keeps intrinsic aspect), so recipes must size images explicitly. The verifier caught both.
@@ -446,7 +446,7 @@ Evidence: `tools/spike/REPORT.md`, `tools/spike/output/2026-10-08-xyz-layout-eng
 - **Licence memo:** satori, @resvg/resvg-js and its darwin-arm64 native binding are MPL-2.0 (within the PRD exception); satori transitives yoga-layout, harfbuzzjs, @shuding/opentype.js, linebreak are MIT; playwright is Apache-2.0; Inter is OFL-1.1. Package licences are read from installed manifests with provenance; the font licence comes from `tools/spike/assets/SOURCES.md` and the verifier's sha256 constants. **Open item:** the Playwright-managed browser is Google "Chrome for Testing", not bare Chromium; its third-party notices live at chrome://credits and are recorded as unverified for shipping until reviewed. No GPL/AGPL string appears.
 - **Proposed resource limits (targets from these measurements, to be frozen after Phase 1 on deployment hardware):** fixture JSON ≤ 256 KiB (assets by id; a resolved scene with inline images is ≈ 3.8 MB); assets ≤ 1 MiB each / 8 MiB per render (SVG or PNG); output ≤ 4096×4096 and ≤ 16 MiB; render time 5 s soft / 30 s hard (Satori), 10 s / 60 s (Chromium); fitting ≤ 10 iterations; Satori worker 1 GiB and Chromium worker 1.5 GiB, both placeholders (shared-process rss reached about 673 MiB with raster art); concurrency Satori one render per task × cores, Chromium 2–4 contexts per browser, both unmeasured under load.
 - **Backend decision:** **Satori → resvg-js is the default renderer.** It passed every mandatory check, its warm stage upper median is 133.4 ms vs 260.4 ms for Chromium here, it needs no browser process, and it emits SVG. **Playwright/Chromium stays the recipe-declared fallback** (§7.6) for CSS beyond Satori's subset and for scripts the pinned fonts do not cover; it also passed every mandatory check. Selection evidence: `measurements.selection.eligible = ["satori","playwright"]`.
-- **Carried into Phase 1:** explicit fallback fonts for non-Latin scripts; conservative line-height defaults (Satori cannot see glyph-ink overflow); Chromium memory measurement; the `globalThis.__dirname` shim required by satori 0.36.0's ESM loader; Chrome for Testing notice review. Phase 0 remains **awaiting human visual acceptance**; later phases stay pending.
+- **Carried into Phase 1:** explicit fallback fonts for non-Latin scripts; conservative line-height defaults (Satori cannot see glyph-ink overflow); Chromium memory measurement; the `globalThis.__dirname` shim required by satori 0.36.0's ESM loader; Chrome for Testing notice review. Phase 0 historical artwork is **accepted**; migrated Phase 5 acceptance stays pending.
 
 ### Phase 1: Core engine (2 to 3 weeks)
 
@@ -490,6 +490,22 @@ Evidence: `tools/spike/REPORT.md`, `tools/spike/output/2026-10-08-xyz-layout-eng
 - Six to eight commerce themes; two more commerce recipes (sale banner, new arrivals).
 - Exit: bounded production pilot meets measured warm-render targets and documented recovery behavior.
 - [ ] QA: run declared load/cold-start checks, backend-specific fixtures and recovery checks; record results and rollback instructions. Disable a failing recipe/backend for new work while retaining pinned previous versions for reproducible jobs.
+
+#### Phase 5: GH-5 local MVP observations (2026-10-09)
+
+These are delivered local observations for the GH-5 MVP, not the final v1 product launch completion.
+
+Evidence: coordinator replay in a fresh non-shallow full clone at b0b47ce. Exact copy/edit/save/readback/export/rerender/selector/hash commands and exit/output are retained in `relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json`. Native Phase 5 acceptance and final integration gates remain pending.
+- **Durable Edits (Nutrition):** `node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export` (Exit 0, edited SVG digest `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`).
+- **Durable Edits (Solar System):** `node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export` (Exit 0, edited SVG digest `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`).
+- **Rerender Verification:** `node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --format svg --out .relay-scratch/solar-rerender` (Exit 0, SVG digest identically matches `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`, which is distinct from the unedited `c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf` baseline).
+- **Fresh Install Status:** `pnpm install --frozen-lockfile` exited 0 on Node v22.22.3/pnpm 12.4.1 with independently installed node_modules. Both compact and relocated standalone HTML recipes loaded Inter 400/700 and all images with zero HTTP(S) requests. Installation may use network; browser proof is not an OS-level network sandbox.
+- **Source-Configured Caps:** Input JSON is strictly bounded to 256 KiB; individual rasterization sizes are capped at 5 MiB and 16,777,216 pixels; the total scene limits are 35 MiB encoded, 16,777,216 pixels, and a total render area of 16,777,216 pixels. Publication cannot exceed 64 MiB total bytes. These are source-configured caps; measured delivery and limits are explicitly distinguished.
+- **Fitting and Diagnostics:** Adaptive text fitting applies up to 10 iterations down to 12px; exhaustion cleanly halts. Stage diagnostics and correlation IDs are undelivered and PARKED. Actual CLI validation names fields (e.g., `inputPath`), but successful publication UUIDs do not provide failure-stage correlation.
+- **Unsupported Workloads:** CJK and Emoji characters are un-covered by the pinned Inter font and explicitly rejected as unsupported without configured fallback fonts, rather than claiming partial compliance. 
+- **Hard Interrupts:** No local worker/subprocess for hard interruption is provided; enforceable render deadlines, RSS limits, and concurrency limits are unsupported and PARKED. Event-loop timers are not presented as hard interrupts for synchronous rasterization.
+- **Later Queue:** Remote HTTP/MCP, tenant isolation/SSRF protection, private caches, durable service queues, and theme/adapter/editor capabilities are explicitly deferred. No half-services have been shipped.
+- **Acceptance:** Historical GH-1 artwork was accepted. Migrated nutrition and Solar System visual acceptance remain pending human decisions. Remaining gates: native `pnpm test`, driver-owned checks, and independent Agy/Codex reviews.
 
 ### Phase 6: Infographic expansion (v1.1, 2 to 3 weeks)
 

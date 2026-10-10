@@ -1,0 +1,21 @@
+{
+  "status": "ready-to-fire",
+  "reviewer": "agy",
+  "reviewed_head": "72dca0d63a79c92e706fb7306b67f9b48e0d359f",
+  "yaml_sha256": "3146ad2cb21c123b78f2e4778e932739864ee598b19b86c03d902c75b287577e",
+  "order": [
+    "gh5-p2",
+    "gh5-p3",
+    "gh5-p4",
+    "gh5-p5"
+  ],
+  "preflight_exit": 0,
+  "dry_run_exit": 0,
+  "pdda_exit": 0,
+  "phase1": "independently accepted b914323",
+  "old_failed_lane_preserved": true,
+  "real_monitor_intervals": 0,
+  "interval_seconds": 600,
+  "max_checks": 6,
+  "monitor_issue": "https://github.com/HiQS-Labs/XYZ-forge/issues/1006"
+}

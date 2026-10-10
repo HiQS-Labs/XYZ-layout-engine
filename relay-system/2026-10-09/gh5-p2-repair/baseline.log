@@ -1,0 +1,3 @@
+$ node tools/spike/test/run.mjs
+test-budget: FAIL — 5 tests exceed budget.tests=4
+[ELIFECYCLE] Test failed. See above for more details.

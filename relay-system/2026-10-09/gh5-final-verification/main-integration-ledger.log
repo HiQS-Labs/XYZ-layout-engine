@@ -1,0 +1,19 @@
+releases-merge-resolve: took either side of releases.db in the working tree (it is regenerated below, so the choice cannot matter)
+releases-merge-resolve: rebuilding releases.db from the merged releases.sql
+OK: foreign_keys pragma asserted per connection
+FAIL: rule=generation-mismatch: settings.generation=21 but releases.sql says 31 — write in progress, crashed, or a torn trio
+OK: receipt chain intact (20 receipt(s), business-state digest matches)
+info: 0 grandfather_entries pending disposition (the strict flip requires none pending)
+rebuilt releases.db from releases.sql (generation 21 -> 32); displaced DB backed up at /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/releases.db.bak
+OK: post-rebuild verification — DB rebuilt from releases.sql, displaced DB at releases.db.bak
+check: clean (0 failures, 0 warning(s))
+releases-merge-resolve: verifying
+OK: foreign_keys pragma asserted per connection
+OK: generation trio consistent at 32 (DB <-> dump)
+OK: receipt chain intact (36 receipt(s), business-state digest matches, 3 merge fork(s) tolerated under the merge-rebuild receipt)
+info: 0 grandfather_entries pending disposition (the strict flip requires none pending)
+check: clean (0 failures, 0 warning(s))
+releases-merge-resolve: resolving releases.db in the index now that the rebuild verified clean
+releases-merge-resolve: artifacts are consistent and staged. Review, then commit the merge yourself —
+releases-merge-resolve: this script deliberately does not commit.
+releases-merge-resolve: note: releases.db.bak holds the DB that was displaced; it is untracked and safe to delete.

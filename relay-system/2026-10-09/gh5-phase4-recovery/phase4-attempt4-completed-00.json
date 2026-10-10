@@ -1,0 +1,52 @@
+{
+  "kind": "completed",
+  "observed_at": "2026-10-10T05:53:24.353036+00:00",
+  "elapsed_seconds": 305.4,
+  "interval_seconds": 600,
+  "check": 0,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 4371,
+  "exit": 0,
+  "approved_remaining_phases": 1,
+  "total_remaining_phases": 1,
+  "scope": "phase4-only",
+  "broader_remaining_phases": 2,
+  "last_qualified_progress": {
+    "schema_version": "0.2.0",
+    "ts": "2026-10-10T05:53:18.882Z",
+    "type": "marathon.phase.approved",
+    "task": "MARATHON-GH5-P4-TURN-2",
+    "agent": "marathon"
+  },
+  "heartbeat": null,
+  "heartbeat_age_seconds": null,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": []
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md",
+    "headers": [
+      "STATUS: Approved",
+      "NEXT: done"
+    ]
+  },
+  "log_tail": [
+    "marathon-drive: phase gh5-p4 complete \u2014 STATUS: Approved, gate passed",
+    "",
+    "marathon-drive: end-of-run cost summary (tick analyze) \u2014",
+    "--- cost ---",
+    "run type: unspecified",
+    "tokens: \u22650 total (\u22650 in / \u22650 out) \u2014 PARTIAL, floor only: 0/12 done-tasks instrumented",
+    "human minutes (self-reported): 0",
+    "wall-clock (run window): 23h 22m",
+    "per done-task: \u22650 tokens, 1h 56m wall-clock",
+    "memory: compressor peak: 7308MB, swap free min: 0MB",
+    "  turn peak RSS: codex: 321MB peak RSS, agy: 183MB peak RSS",
+    "",
+    "clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified",
+    "marathon: marathon complete \u2014 all 1 phase(s) approved"
+  ],
+  "observer_only": true
+}

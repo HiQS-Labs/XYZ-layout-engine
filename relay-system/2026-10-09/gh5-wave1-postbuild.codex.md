@@ -1,0 +1,234 @@
+# RELAY · GH5 Wave 1 post-build independent QA
+<!--
+  Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
+  Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
+-->
+
+NEXT: Producer
+STATUS: Approved
+ROUND: 2 / 2
+
+## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
+1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
+2. **Check it's your turn:** `NEXT` (top) names the role to act. Confirm you are bound to it and the
+   last Log block isn't already yours. If not → STOP and reply "wrong window — nudge the <other> window."
+3. **Do your role's work** on the artifact named in Setup:
+   - **Reviewer:** review vs the Definition of Done → graded findings
+     (`[Blocker]`/`[Should]`/`[Nit]`/`[Pass]`), each with a concrete fix → set a **VERDICT**
+     (exactly PASS, FAIL, or PARKED) and a **Basis** (explanation). **Review the whole file, not just the diff** (GH-268):
+     a beta test had this loop reach `Approved` in two rounds while an independent audit of the same
+     branch found 20 issues (1 critical, 4 high) — every one of them in the pre-existing code the
+     change sat on, which nobody had read. Pre-existing defects in a file you are touching are IN
+     SCOPE; if you find none, say so explicitly rather than leaving it unstated.
+     **Declare it: every review block must contain a literal `swept file: yes` or `swept file: no`
+     line.** Without it a reviewer that skipped the sweep is indistinguishable in the transcript from
+     one that did it and found nothing — which is how the original 20 issues stayed invisible.
+     Any `[Pass]` or "verified"/"confirmed" finding MUST
+     carry a quoted span or a `file:line` citation — an uncited one is mechanically downgraded to
+     `[Unverified — no citation]` (GH-173 B3). Do **not** edit the artifact; only append findings here.
+     **A finding that asks for a behaviour change is a generalization unless you can paste the concrete
+     input — a row, a value, a `file:line` — that fails under the current code** (GH-681: the gh673
+     final QA relay generalized one late-error observation into "or a later invalid identity", the
+     Producer implemented it, the same seat `[Pass]`ed it next round, and one historical NULL-URL
+     ledger row then blanked every issue). Every `[Blocker]` or `[Should]` requesting a behaviour
+     change MUST carry three lines: `Observed input:` (the failing input you saw), `Affected scope:`
+     (the input predicate the change would govern), `Falsifier:` (the fixture or data that would show
+     the change unnecessary or wrong, and its expected result).
+     A `[Blocker]` must cite an observed failure. This is a protocol rule, not a mechanical check —
+     the Producer may disposition a request lacking these as `Declined — unproven generalization`.
+   - **Producer:** log a disposition for every open finding (Implemented / Modified / Declined + why,
+     including `Declined — unproven generalization` for a behaviour-change request that carries no
+     `Observed input:` / `Affected scope:` / `Falsifier:`), make the change, then add new work.
+4. **Append ONE block** at the very bottom, directly **above** the marker line. Never edit earlier turns.
+   Reviewer headings may be `### Reviewer · Round N`, `### Round N · Reviewer · <agent>`, `### Reviewer (<agent>)` (optionally followed by `— rN`), or `### Reviewer — Round N` (optionally followed by `(<agent>)`); follow the heading with a non-empty review body.
+5. **Update the header:** flip `NEXT`; set `STATUS` (`Approved` closes — Reviewer only; else `Open`);
+   the Producer bumps `ROUND` when opening a new cycle. If the max `ROUND` ends without `Approved`,
+   set `STATUS: Escalated`.
+6. **Commit only the relay file** (`relay(gh5-wave-1-post-build-independent-qa): <role> r<N>`); no push. **Stop** and report one line.
+7. **Hand off explicitly — EVERY turn, not just the first** (GH-268). End your turn by naming who acts
+   next and what they should do: *"handing off to <other role> — go to the <other> window and say
+   'take your turn'"*, or *"relay closed (Approved), no further turn needed"*. The beta report singled
+   this out: the Reviewer turn never told the user to return to the Producer window, so a relay that
+   was merely waiting looked stalled. A turn that ends without this line is not finished.
+
+## Setup
+- Artifact under review: Full changed runtime and callers: tools/request.mjs, tools/render.mjs, tools/profile.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/spike/assets.mjs, tools/spike/render.mjs, tools/spike/scene.mjs, tools/spike/verify.mjs, tools/spike/test/canaries.test.mjs, examples/2026-10-08-solar-system/generate-assets.py, render-diagram.mjs, contact-sheet.mjs; package.json/pnpm-lock.yaml/test-budget.json; whole README.md, tools/MVP-REPORT.md, Solar README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md; canonical GH-5 and MARATHON-PLAN-2026-10-09 docs/YAML/briefs; final-verification and phase acceptance receipts.
+- Reviewer: codex   ·   Producer: coordinator
+- Started: 2026-10-09
+- Definition of Done: Separate final Wave 1 post-build QA of the integrated committed candidate before feature push/ready PR. All material findings resolved or explicitly scoped pending human/provider/Later gates; honest evidence and no regression against the bounded local MVP. Review whole relevant files, not merely newest docs. Exact reviewed SHA attested by native supervisor.
+
+## Ground rules
+1. This file is the single source of truth. The agents never share memory — read the whole file.
+2. Take a turn only if `NEXT` names your role — otherwise reply "not my turn" and stop.
+3. One turn = one block appended at the very bottom, above the marker. Never edit earlier turns.
+4. Stay tight — findings are bullets, not essays. Grade every finding.
+5. **The Reviewer never edits the artifact.** It proposes graded findings; the Producer implements.
+6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
+
+## Final independent Wave 1 review
+
+Goal: review the entire GH-5 local MVP diff versus integrated origin/main 447f7aa, plus current execution docs and proof. This is a separate final review, not a recycled Phase 5 receipt. Independent Codex reviewer did not author this implementation; coordinator authored surgical repairs and owns the integrated fresh-full-clone suite/PDDA receipts. Read ROUTER/principles/AGENTS and canonical execution scope. Graph project is unindexed in parent; disclose unavailable graph in your seat and use exact source fallback. The frozen-lockfile install/full suite ran in a real non-shallow disposable clone at integrated 6e54db1, four tests/29.4s; source bytes unchanged by subsequent acceptance documentation. Actual fresh workflows retain exact edits/readback/selectors/hashes and both-recipe compact/inline browser fonts/images/zero HTTP(S), not OS network-sandbox/provider claims. Native Phases 2–5 accepted; Phase 1 explicitly accepted via independent recovery review/test that superseded its stopped lane, no fabricated phase.approved.
+
+Operational envelope: trusted two fixed-canvas recipes, local serial library/CLI, optional explicitly configured POSIX paid caller. No server/tenant/service/queue/editor/provider client/new dependencies/tests/workflows. Secure admission and unknown paid outcomes matter; speculative enterprise frameworks do not. You are not alone: preserve all source, write ONLY this relay and disposable scratch. No git/install/suite/validate.sh/executable fixture/browser/paid calls during this reviewer flight. Narrow read-only source/proof parsing and copied module/admitted operation probes in TMPDIR/.relay-scratch allowed; Python -B prevents bytecode. No probes against immutable fixtures/assets/goldens. You must grade any unavailable full-clone measurements honestly.
+
+Questions:
+1. Does one shared admission/render/publication/save path preserve strict fields/types/recipe versions, filesystem confinement, safe trusted-SVG/direct-PNG subset and preallocation resource bounds, import safety, finally browser cleanup, last-good immutable manifests, exact artifact digests and durable save failure ordering? Bound claims to actual source/current serial envelope. Whole core files and their material call paths are in scope.
+2. Do nutrition/Solar recipe and migrated demo/contact-sheet callers retain trusted fonts, eleven verified supplied selected PNGs (including refined IDs), actual readable fitting/exhaustion/painted visibility, original artwork/fixture geometry and no copied-runtime/originals dependency? Incoming main examples retain bytes; inspect their direct renderer calls for compatibility where material, without modifying those unrelated examples.  [Unverified — no citation]
+3. Does existing generator enforce caller/recipe/input/reference identity, Sun-first admission, file/whole-batch ownership, reserve-before-dispatch limits, one paid attempt, validated output/alpha/receipt reuse, bounded process-group cancellation, durable unknown states and no blind paid replay? The thirteen default jobs exceed default cap eleven; explicit dry-run cap13 is documented and source unchanged. Distinguish controlled stub behavior from live-provider evidence.
+4. Are requested-format raster skipping, compact/inline escaped/confined asset packaging, manifest-owned digests, durable --set/--save and retained 16 groups/120 samples accurately reported? Profiling samples/stats round separately, so do not mistake display rounding for precise measurement drift. No PNG speedup/latency SLA/p95/provider claim; no derivative cache because current workloads have no useful derivative transform. Verify final renderer fingerprint binding and retained geometry/byte identities.
+5. Are existing four canaries meaningful for named failure modes and still one file/four tests/60s/zero workflows, with no source-fixture/golden/test-budget changes? Current integrated-canaries.log, integrated-pdda.log, integrated-checks.json and main-integration.json show actual outcomes and limits. Canonical ledger union/rebuild check is clean generation32 and preserves other work; no raw SQLite edits or unrelated issue close.
+6. Are current acceptance docs honest about completed machine phases vs pending human migrated-artwork approval, exact deployed caller revision, Chromium redistribution notices, unsupported hard render interruption/RSS/concurrency/stage-correlation diagnostics, live-provider benchmarking and Later HTTP/MCP/tenant work? Final checklist QA/adjudication remain pending until this review completes. On approval, coordinator will record this terminal receipt/checklist/status only, run root-bound pre-PR gate and open a ready PR, keeping GH5 open. The substantive reviewed source/docs must not change after approval without further QA.
+
+Output: append one native Reviewer block with literal VERDICT: PASS|FAIL|PARKED, nonempty Basis:, swept file: yes|no; concise graded cited findings, concrete fix and input/scope/falsifier for every Should/Blocker. Say explicitly if no additional pre-existing defect is found in the declared whole-file sweep. Record commands/exits/decisive output for probes and limitations. Only independent reviewer sets first STATUS: Approved; tick done GH5-WAVE1-POSTBUILD-QA-20261009 --agent codex on approval or release to coordinator if changes requested. No artifact edits; supervisor commits/attests exact candidate. Approval covers candidate and allows receipt-only acceptance recording, not new code or rewritten product claims. Explicit handoff.
+
+## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: One observed integration regression prevents approval: removing the Solar System copied runtime breaks four callers brought in from current main. The integrated four-canary receipt is green but does not exercise these callers. Repair this dependency seam and obtain fresh clone evidence before final Wave 1 approval.
+swept file: yes
+
+Whole-file sweep: all runtime/caller files named in Setup, package.json, pnpm-lock.yaml, test-budget.json, README.md, tools/MVP-REPORT.md (including parsed retained measurements), Solar README, SPECS-PRD.md, CHANGELOG.md, GH-5, marathon plan/YAML and five briefs. Also inspected incoming example import/font/render call seams and the two cell helpers. No additional pre-existing defect was found in this declared sweep beyond the dependency regression below. Graph tools/project-generation/coverage queries are unavailable in this seat; exact source fallback was used, without an exhaustive graph claim. Startup releases query exited 2 because `.xyz/utils/py/releases_app.py` is absent here. The supervisor owns exact candidate-SHA attestation; this reviewer ran no git command.
+
+- [Blocker] B1 — Deleted runtime still owns incoming caller dependencies. `examples/2026-10-09-rag-system/render-diagram.mjs:10`, `:11`, `:12`, `:15` and `examples/2026-10-09-cell-division/render-diagram.mjs:11`, `:12`, `:13`, `:16` resolve renderer, Playwright and fonts under the removed `examples/2026-10-08-solar-system/runtime/`. `examples/2026-10-09-cell-division/make-web-asset.mjs:8`, `:9`, `:20` and `inspect-alpha.mjs:9` have the same dependency. The literal first imports fail with `ERR_MODULE_NOT_FOUND`; renderer/font paths return ENOENT. This occurs before fixture reads or rendering, independent of browser availability. Byte preservation in `gh5-final-verification/main-integration.json` does not preserve executable behavior. Root shared renderer exports are present as a positive control.
+  Observed input: the exact module URLs computed by those four source callers; specifically `examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs` and `examples/2026-10-08-solar-system/runtime/node_modules/playwright/index.mjs` on this integrated candidate.
+  Affected scope: these four existing incoming tools and their concrete runtime/font/dependency setup references (`examples/2026-10-09-rag-system/README.md:24`, cell README `:34`, `skills/design-diagram/SKILL.md:15`, `:37`). No new recipe, provider behavior or unrelated artwork change is requested.
+  Falsifier: if the current candidate resolves these exact imports and font reads after its documented install, with both existing diagrams still rendering successfully in a disposable full clone, migration is unnecessary. Expected control: root `tools/render.mjs` exports loadSatori/renderSatori/renderPlaywright, and migrated callers retain prior fixture/assets and reviewed geometry/artwork.
+  Fix: complete the dependency migration to the existing root renderer, root pinned fonts and installed Playwright for all four consumers; update the listed setup references/provenance wording. Preserve their fixture/artwork bytes and validation; do not restore a second copied engine or add a framework. Run the example/helper workflows only in a disposable full clone, retaining commands/exits and meaningful output comparisons, then return for review. Reversibility: Easy.
+  Root cause: current-main consumers were preserved while their runtime dependency was deleted; Fix site: their import/font/setup seams; Why not downstream: catching module errors or accepting unchanged source bytes would leave documented reproduction broken.
+
+  Probe command (no example/fixture executed; output under scratch):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module -e 'import {pathToFileURL} from "node:url"; const rt=new URL("examples/2026-10-08-solar-system/runtime/",pathToFileURL(process.cwd()+"/")); const cases=[["rag render","tools/spike/render.mjs"],["cell render","tools/spike/render.mjs"],["make-web-asset","tools/spike/render.mjs"],["inspect-alpha","node_modules/playwright/index.mjs"]]; for(const [caller,file] of cases){try{await import(new URL(file,rt));console.log(caller,"unexpectedly resolved");}catch(e){console.log(caller,e.code);process.exitCode=1;}} const shared=await import("./tools/render.mjs"); console.log("root shared exports",["loadSatori","renderSatori","renderPlaywright"].every(k=>typeof shared[k]==="function"));' > "$TMPDIR/caller-regression.log" 2>&1
+  ```
+  Exit 1. Decisive output: `rag render ERR_MODULE_NOT_FOUND`, `cell render ERR_MODULE_NOT_FOUND`, `make-web-asset ERR_MODULE_NOT_FOUND`, `inspect-alpha ERR_MODULE_NOT_FOUND`, `root shared exports true`. Initial `fs.access` probe of the same two renderers' four RT paths also returned ENOENT for renderer, Playwright and both fonts; exit 1.
+
+- [Pass] Shared local source contracts remain bounded to the documented serial/trusted filesystem envelope: descriptor-bounded reads and recipe-owned admission (`tools/request.mjs:12`, `:31`, `:80`), native fitting/exhaustion and owning finally cleanup (`tools/render.mjs:176`, `:254`, `:312`), one immutable publication commit point (`:386`) and preflight → publish → atomic save ordering (`:447`–`:453`; `tools/request.mjs:103`). Compact references are generated from image/font attributes, with escaped labels (`tools/render.mjs:58`, `:296`); requested-only raster work is gated at `:36`, `:134`, `:167`. Source review, not a new render measurement. Fix: none for these bounded paths.
+- [Pass] Solar source reads eleven selected derivatives with aggregate PNG admission and pinned display digests, including refined IDs (`tools/recipes/solar-system.mjs:63`, `:97`–`:111`), and rejects spatial escapes before rendering (`:66`–`:93`). Existing C1 has painted-pixel, real-shrink, exhausted-fit and unsupported-glyph controls (`tools/spike/test/canaries.test.mjs:203`–`:264`); these are stronger than rectangle/alpha metadata alone. Fix: retain these owners and controls.
+- [Pass] Optional generator source retains exclusive batch ownership, caller/manifest/reference identity, Sun-first admission, reserve-before-dispatch cap checks, immutable attempts and fail-closed unknown/reuse handling (`examples/2026-10-08-solar-system/generate-assets.py:116`, `:210`, `:247`–`:315`). README distinguishes thirteen default jobs from eleven selected display files and the default cap refusal. Existing C1 stubs exercise counted resume/refinement/corruption/overlap/deadline behavior; this is recorded local-stub evidence, not a live-provider claim. Fix: none within the admitted caller envelope.
+- [Pass] Retained profiling data is internally bound to current source: `tools/MVP-REPORT.md:113` contains 16 groups/120 samples, correct counts/dimensions, paired before/after artifact and geometry identities, and optimized SVG raster=0. Every optimized group fingerprints current `tools/render.mjs` as `a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a`. No new latency measurement or PNG speedup is inferred. Fix: preserve this dataset and its limitations.
+  Probe command:
+  ```sh
+  python3 -B - > "$TMPDIR/measurement-final.log" <<'PY'
+  import hashlib,json,re
+  from pathlib import Path
+  report=Path("tools/MVP-REPORT.md").read_text()
+  d=json.loads(re.search(r"```json\n(.*?)\n```",report,re.S).group(1))
+  gs=d["groups"]; cols=d["columns"]
+  assert len(gs)==16 and sum(len(g["samples"]) for g in gs)==120
+  h=hashlib.sha256(Path("tools/render.mjs").read_bytes()).hexdigest()
+  for g in gs:
+   assert len(g["samples"])==g["count"]==(5 if g["mode"]=="fresh" else 10)
+   assert g["dimensions"]==([1000,1000] if g["recipe"]=="nutrition" else [2400,1700])
+   assert all(len(row)==len(cols) for row in g["samples"])
+   other=next(x for x in gs if x["state"]!=g["state"] and all(x[k]==g[k] for k in ("recipe","format","mode")))
+   assert g["digests"]==other["digests"] and g["geometrySha256"]==other["geometrySha256"]
+   if g["state"]!="baseline":
+    assert g["rendererSha256"]==h
+    if g["format"]=="svg": assert all(row[cols.index("rasterMs")]==0 for row in g["samples"])
+  print("16 groups; 120 samples; paired digest/geometry identities; optimized SVG raster=0; current renderer="+h)
+  PY
+  ```
+  Exit 0. Decisive output: `16 groups; 120 samples; paired digest/geometry identities; optimized SVG raster=0; current renderer=a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a`.
+- [Pass] Receipt inspection: `gh5-final-verification/integrated-canaries.log:2` reports the unchanged one-file/four-test/60s/zero-workflow budget; closing span is `test-budget: PASS — 4 canaries in 29.4s (budget 60s)`, with 216 boxes and 12 identical artifacts. `integrated-pdda.log` closes with `no errors, 2 warning(s)`; `integrated-checks.json` records generation32/zero ledger failures. Native Phase4/5 logs close with `STATUS: Approved, gate passed`; Phase1 recovery is separately attested rather than fabricating its stopped native gate. Current GH-5/marathon checklists leave final QA/pre-PR and human/provider gates pending. Fix: preserve these receipts; add fresh evidence covering B1 before checking final acceptance.
+
+Limitations: [Unverified — needs clone run] repaired incoming workflows and fresh post-repair full suite/PDDA/pre-PR gate. No install, suite, validate.sh, executable fixture, browser or paid call was run in this reviewer flight. Earlier fresh-workflow receipts were inspected for exact saved edits, matching rerender SVGs and loaded Inter400/700/images with zero HTTP(S); they are coordinator observations, not this seat's execution. Human migrated-artwork acceptance, deployed caller revision, Chromium redistribution notices, hard render interruption/RSS/concurrency/stage-correlation and live-provider benchmarks remain explicitly pending/Later. No additional runtime fix or claim expansion is requested.
+
+Review outcome: changes requested; STATUS remains Open. Handing off to Producer/coordinator — repair B1, record a disposition and fresh isolated evidence, then return for Round 2. No feature push/ready PR approval is granted by this turn.
+
+### Producer · Round 2 · coordinator — B1 implemented
+
+- Implemented B1 in d8b9250: migrated RAG and cell-diagram callers plus make-web-asset to import-safe root tools/render.mjs/root fonts, and alpha inspection to root Playwright. Corrected both README install/runtime references and design-diagram setup/traps. No copied engine, new dependency/test/recipe, artwork or fixture change. Easy rollback via this surgical commit.
+- Whole original diagram validation and helper commands ran in complete example copies under .relay-scratch in the disposable full clone at d8b9250. RAG: PASS, 10 image nodes/49 text ids, 2400x1660, no findings. Cell: PASS, 6 image nodes/33 text ids, 2400x1480, no findings. Both PNG backends and SVG match prior artifact digests; Satori bounds and Chromium text geometry match exactly. HTML hashes differ only through quote entity escaping; complete HTML after entity decoding is identical. Downscale helper produces 128px PNG and alpha inspector proves real alpha for both supplied 256px input and 128px output. No provider call; tracked clone files unchanged.
+- Retained exact commands/exits, before/after digests/geometry and serialization comparison: relay-system/2026-10-09/gh5-final-verification/incoming-callers-commands.json, incoming-callers-summary.json, incoming-html-diff.json. Negative control: incoming-callers-before.json and your original B1 probe.
+- Fresh post-repair pnpm test exits 0, four canaries within 60s, plus PDDA exit 0/no errors/two existing warnings; logs post-repair-canaries.log and post-repair-pdda.log in the same directory. Whole original core/profile/generator source remains unchanged from your Round 1 sweep. All earlier Pass findings retained; B1 is the only requested correction.
+- Review Round 2: whole-file sweep all four migrated consumers and both README/skill files plus their direct shared owners, current canonical status/report/change evidence and source-fingerprint/preserved artwork controls. Adjudicate B1 with concrete references. No reexecution of fixture/suite/browser in reviewer flight. Literal VERDICT/PASS|FAIL|PARKED, Basis and swept file required. On approval native tick done GH5-WAVE1-POSTBUILD-QA-20261009 --agent codex; otherwise release to coordinator. Final checklist recording/root-bound pre-PR gate and ready PR follow only after Approved, with human/Later/paid-provider gates still pending. No artifact edits.
+
+Handing off to Reviewer/Codex for Round 2; supervisor attests the current committed candidate.
+
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: B1 is resolved by the existing root renderer/font/Playwright migration. Read-only import probes pass, and the retained disposable-full-clone commands and comparisons cover both diagrams and both helpers, followed by a fresh four-canary/PDDA run. No open material finding remains in the bounded local MVP; pending human/provider/Later gates are preserved.
+swept file: yes
+
+Whole-file sweep this round: all four migrated consumers, both example READMEs and skills/design-diagram/SKILL.md; complete direct shared owners tools/render.mjs, tools/request.mjs and tools/spike/assets.mjs. Rechecked current GH-5/marathon acceptance status, YAML, CHANGELOG repair entry, MVP report fingerprint and complete incoming-caller/post-repair receipts. The broader unchanged runtime/profile/generator/recipe/test/package/PRD/brief sweep is recorded in Round 1; this round does not claim a second full reexecution or reread of every unchanged file. No additional pre-existing defect was found in the declared whole-file sweep. Graph tools/project-generation/coverage are unavailable in this seat; exact source fallback used. Startup roadmap query `python3 -B .xyz/utils/py/releases_app.py roadmap list` exited 2 (file absent). No git command was run; exact candidate attestation belongs to the supervisor.
+
+- [Pass] B1 closed: RAG `examples/2026-10-09-rag-system/render-diagram.mjs:8`, `:9`, `:10`, `:13`; cell `examples/2026-10-09-cell-division/render-diagram.mjs:9`, `:10`, `:11`, `:14`; downscale `make-web-asset.mjs:7`, `:8`, `:18`; alpha `inspect-alpha.mjs:9` now resolve root renderer/dependencies/fonts. Both README “Reproducing” sections say “Run the install command from that root”; design-diagram “Before you start” likewise specifies repository-root installation. No copied engine is restored. Fix: none.
+- [Pass] Repair behavior has concrete coordinator-run evidence: `relay-system/2026-10-09/gh5-final-verification/incoming-callers-commands.json` records candidate `d8b92502335b09ab9aefe1bd4b0fccd1a063703b` and all 13 commands exit 0. Its RAG output is “PASS: 10 separate icon nodes; 49 text ids present and unique; 2400x1660 in both backends”; cell is “PASS: 6 separate icon nodes; 33 text ids present and unique; 2400x1480 in both backends”. `incoming-callers-summary.json` records empty findings, equal PNG/SVG/Chromium PNG digests and equal Satori bounds/Chromium text. `incoming-html-diff.json` shows only quote entity escaping and complete decoded HTML equality. Helper output is 128×128 with `real_alpha: true` for source/output; zero paid calls. These are inspected retained clone observations, not reviewer browser execution. Fix: retain receipts.
+- [Pass] Fresh post-repair receipts preserve the existing budget and checks: `post-repair-canaries.log` closes “test-budget: PASS — 4 canaries in 29.5s (budget 60s)”, with 216 boxes/12 identical artifacts; `post-repair-pdda.log` closes “PDDA run complete: no errors, 2 warning(s)”. The two known warnings remain disclosed. `tools/MVP-REPORT.md` retained JSON still has 16 groups/120 samples and optimized renderer fingerprint `a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a`, matching current tools/render.mjs. No new latency/provider/aesthetic claim. Fix: none.
+- [Pass] Acceptance remains honest: `PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md:252` separates native Phase 5 acceptance from final/pre-PR/human gates; `:258`–`:262` leave final review/adjudication pending until this receipt. Marathon plan Wave 1 checklist likewise reserves final QA, and `CHANGELOG.md:5` reserves Round 2/pre-PR. Approval permits receipt-only reconciliation and the root-bound pre-PR gate; it does not close GH-5 or approve human artwork, deployed caller revision, Chromium notices, hard interruption/RSS/concurrency diagnostics, live-provider benchmarking or Later service work. Fix: coordinator records this terminal receipt/checklist/status only.
+
+Reviewer probe receipts (scratch discarded; no fixture/render/browser/paid operation):
+The import probe ran with `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"`, command below, stdout/stderr redirected to `"$TMPDIR/r2-imports.log"`; exit 0:
+```sh
+node --input-type=module - <<'JS'
+import {readFile,access} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+const root=pathToFileURL(process.cwd()+'/');
+for (const file of ['examples/2026-10-09-rag-system/render-diagram.mjs','examples/2026-10-09-cell-division/render-diagram.mjs','examples/2026-10-09-cell-division/make-web-asset.mjs']) {
+ const source=await readFile(file,'utf8'),rt=new URL('../../',new URL(file,root));
+ if (!source.includes("const RT=new URL('../../',import.meta.url);") || rt.href!==root.href) throw Error(file+' wrong root');
+ const renderer=await import(new URL('tools/render.mjs',rt));
+ for(const name of ['loadSatori','renderSatori','renderPlaywright']) if(typeof renderer[name]!=='function') throw Error(name);
+ await access(new URL('tools/spike/assets/font.ttf',rt)); await access(new URL('tools/spike/assets/font-bold.ttf',rt));
+ if(source.includes("new URL('node_modules/playwright/index.mjs',RT)")) {
+  const {chromium}=await import(new URL('node_modules/playwright/index.mjs',rt)); if(typeof chromium.launch!=='function')throw Error('chromium');
+ }
+ console.log(file+': root imports/exports and font paths resolve');
+}
+const alpha=await readFile('examples/2026-10-09-cell-division/inspect-alpha.mjs','utf8');
+if(!alpha.includes("await import('playwright')"))throw Error('alpha import');
+const {chromium}=await import('playwright'); if(typeof chromium.launch!=='function')throw Error('alpha chromium');
+console.log('inspect-alpha: root Playwright resolves; no browser/fixture executed');
+JS
+```
+Decisive output: all three callers print “root imports/exports and font paths resolve”; alpha prints “root Playwright resolves; no browser/fixture executed”.
+
+Receipt/fingerprint probe: `python3 -B -` with the following stdin, stdout redirected to `"$TMPDIR/r2-proof.log"`; exit 0:
+```python
+import hashlib,json,re
+from pathlib import Path
+p=Path('relay-system/2026-10-09/gh5-final-verification')
+commands=json.loads((p/'incoming-callers-commands.json').read_text())
+s=json.loads((p/'incoming-callers-summary.json').read_text())
+h=json.loads((p/'incoming-html-diff.json').read_text())
+assert s['candidate']=='d8b92502335b09ab9aefe1bd4b0fccd1a063703b'
+assert all(c['exit']==0 for c in commands)
+for name,c in s['comparison'].items():
+ assert not c['findings'] and c['satori_bounds_equal'] and c['chromium_text_equal']
+ for k in ['png','svg','chromiumPng']:
+  assert c['artifacts_equal'][k] and c['before_digests'][k]==c['after_digests'][k]
+ assert h[name]['complete_html_equal_after_entity_decoding']
+ assert c['image_nodes']==(10 if name=='rag-system' else 6)
+ assert c['text_ids']==(49 if name=='rag-system' else 33)
+assert s['helper']=={'source_width':256,'output_width':128,'real_alpha':True}
+assert s['paid_calls']==0 and s['tracked_sources_unchanged']
+assert 'test-budget: PASS — 4 canaries in 29.5s (budget 60s)' in (p/'post-repair-canaries.log').read_text()
+assert 'PDDA run complete: no errors, 2 warning(s)' in (p/'post-repair-pdda.log').read_text()
+d=json.loads(re.search(r'```json\n(.*?)\n```',Path('tools/MVP-REPORT.md').read_text(),re.S).group(1))
+fingerprint=hashlib.sha256(Path('tools/render.mjs').read_bytes()).hexdigest()
+assert len(d['groups'])==16 and sum(len(g['samples']) for g in d['groups'])==120
+assert all(g['rendererSha256']==fingerprint for g in d['groups'] if g['state']!='baseline')
+print('13 retained commands exit 0; B1 diagram PNG/SVG/geometry identities and decoded HTML equality; 128px real-alpha helper; paid calls=0')
+print('post-repair receipts: 4/4 in 29.5s; PDDA 0 errors/2 warnings')
+print('16 groups/120 samples; current renderer='+fingerprint)
+```
+Decisive output: “13 retained commands exit 0; B1 diagram PNG/SVG/geometry identities and decoded HTML equality; 128px real-alpha helper; paid calls=0”; “post-repair receipts: 4/4 in 29.5s; PDDA 0 errors/2 warnings”; “16 groups/120 samples; current renderer=a5b749a255ab10e3e38b7c7ccf80fce9b31f161580cb7ed47eb873ee2614079a”.
+
+Limitations: no suites/install/validate.sh/executable fixtures/browser or provider calls were run here. Full-clone behavior is supported by the cited producer receipts; [Unverified — needs clone run] the subsequent harness/pre-PR gate has not run in this seat. Approval covers the supervisor-attested current candidate; substantive source/product-claim changes require further QA. Reversibility: Easy (relay-only verdict).
+
+Relay closed (Approved), no further review turn needed. Handing off to Producer/coordinator for receipt-only acceptance reconciliation, root-bound pre-PR gate and ready PR preparation while keeping GH-5 and pending human/provider/Later gates open.
+
+
+### Attestation · relay-drive — 2026-10-10T07:06:43Z
+task: GH5-WAVE1-POSTBUILD-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: 9246ae2b0d754d176907294bd059d459ff756239
+added-range: 24395+8911
+added-sha256: b3d79436587e831c87ac8dd5788438af85548932d766eab7067f80f9cb8db216
+<!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

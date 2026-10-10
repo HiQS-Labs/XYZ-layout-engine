@@ -1,4 +1,64 @@
 # Changelog
+## 2026-10-10 — GH-5 final integration consumer repair
+
+- Final independent Wave 1 QA found B1: two diagrams and two cell helpers on newly integrated main still imported the removed copied Solar runtime. Migrated their import/font/package references to the existing root renderer/fonts/Playwright; corrected reproduction and design-diagram instructions. Preserved fixtures, assets, historical art, validation and the shared core. Easy rollback; no new dependency/test/engine. Refs #5.
+- Disposable full-clone scratch renders pass both backends: RAG 10 icons/49 text ids, cell division 6 icons/33 text ids. PNG/SVG bytes and Satori/Chromium geometry match originals; HTML differs only in quote entity serialization, with full decoded equality. Downscale/alpha helpers pass; no paid calls. Exact proof and fresh suite/PDDA logs: `relay-system/2026-10-09/gh5-final-verification/`. Final independent Round 2 and pre-PR remain pending.
+
+## 2026-10-09 — GH-5 machine phases accepted and origin integrated
+
+- Original Phase 5 normal attempt 2 received independent Codex approval/attestation and passed all four canaries in 29.4s. Clarified thirteen default generation jobs vs eleven selected display assets: the default eleven-call cap refuses the fresh batch; explicit dry-run cap 13 plans it without provider dispatch. Native timer completed at 555.9s and cancelled all six scheduled checks at terminal. Refs #5.
+- Integrated origin/main 447f7aa in the full task clone, retaining review ancestry and all incoming content. Resolved only ledger conflicts using row/receipt union, promoted GH-5 pointer and maximum generation, then canonical rebuild/check clean at generation 32. Main checkout untouched.
+- Integrated fresh full-clone frozen-lockfile install and four canaries passed in 29.4s; PDDA no errors/two existing governance warnings. Receipts: `relay-system/2026-10-09/gh5-final-verification/`. Final independent Wave 1 QA and pre-PR gate remain pending; human artwork/provider/notices/Later criteria are not marked complete.
+
+## 2026-10-09 — GH-5 Phase 5 provenance correction (coordinator)
+
+- Corrected current workflow hashes by replaying the exact edits in a fresh full clone at b0b47ce: nutrition headline `Fuel for today` and primary `#335577` produce SVG `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`; Mercury labelX=830 produces `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. Each saved fixture readback and manifest-selected rerender matched. The earlier Phase 5 entry assigned a historical nutrition probe hash to different edits; this entry supersedes that evidence claim. Historical entries and 120 profiling samples remain preserved.
+- Frozen-lockfile install passed with independent node_modules. Compact and relocated inline HTML for both recipes loaded all images and Inter 400/700, zero HTTP(S) requests. Commands, exit codes and output: `relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json`. No paid calls, runtime/test/dependency changes or human acceptance claims.
+- Phase 5 first native attempt halted at its review cap before the suite gate; one normal attempt remains. Independent recovery QA, native Phase 5 gate, latest-origin integration and final Wave 1/pre-PR gates are still pending. Refs #5.
+
+## 2026-10-09 — GH-5 Phase 5 Integration and Handoff (Agy builder)
+
+- Created `README.md` and updated PRD/MVP-REPORT to document the pinned offline install/render/edit/export workflows for the `nutrition` and `solar-system` recipes.
+- Documented source-configured capability caps in `.relay-scratch/` without mutating root evidence: source-configured bounds for inputs (256 KiB), pixel render areas (16.7M), image sizes (5 MiB), and total export capacities (64 MiB). Enforceable render deadlines, RSS limits, and concurrency limits are unsupported. Fresh-install/offline network/browser checks are [Unverified — needs clone run].
+- Explicitly rejected unsupported scripts (CJK, Emoji without fallback fonts) and documented non-fit exhaustion halts.
+- Documented deferral of remote HTTP/MCP, tenant isolation/SSRF, private caches, and durable service queues to the Later queue. Event-loop timers are rejected as a substitute for hard synchronous rasterization interruption.
+- Scratch edit probes succeeded for atomic saving and subsequent generation of transient vs durable assets via `--save`, outputting `svg` and `html-inline`. Executed exact commands for Nutrition (`node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export`, exit 0, edited SVG digest `f0bafb7349bc8e992ecaf1a2e51073e953ba3c8cf900f4e863215bee67fd3747`) and Solar System (`node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export`, exit 0, edited SVG digest `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`).
+- Retained prior Phase 4 measurement statistics. Independent review and native gate checking are deferred to the reviewer and harness. Human visual acceptance remains pending.
+
+
+## 2026-10-09 — GH-5 Phase 4 Codex builder candidate
+
+- GH-5 Phase 4 gate repair: select the requested `render.html` by artifact name in existing C1, retaining MIME/doctype checks after compact export adds bundled fonts/images. C2's missing comparison output was a cascade from C1's early stop. All four canaries pass in 36.8s, including dynamic offline HTML/font/image checks; geometry and 12 artifact digests match. The native override halted; Phase 4 advancement and Phase 5 remain pending.
+
+- Added schema-validated atomic fixture saves and CLI dot-path text/theme/placement edits, requested-format exports, compact HTML with a confined content-addressed asset folder and explicit self-contained HTML. Existing render/admission/publication owners remain shared; SVG accurately retains raster artwork.
+- Bet: skip unrequested PNG raster work while retaining direct validated supplied display assets. Easy rollback via the phase commit; no derivative cache, browser pool, dependency, provider client, new test block or workflow. Revisit caching only when an admitted transform/resolution workload demonstrates useful savings.
+- Verification: focused scratch probes pass for durable rerender, strict edits/save targets, failed publication preservation, export/source tamper detection and restoration, confined HTML references and Solar placement edits. Before/after five fresh and ten truly warm samples per recipe/PNG/SVG preserve artifact and text-geometry digests; complete stage statistics and samples are retained in tools/MVP-REPORT.md. Zero unrequested raster target is met; no PNG speedup claim.
+- Pending: sandbox blocked Chromium before page creation, so actual offline browser/font/image loading remains for independent Agy review and the harness-owned four-canary/60-second gate. Existing C1/C4 were extended; builder did not run the full suite and does not claim native approval, human artwork acceptance or live-provider measurements. All verification copies/scripts/output stayed in .relay-scratch; no git command, source fixture mutation or off-lane cache/helper was used.
+
+## 2026-10-09 — GH-5 local MVP marathon preparation
+
+- Rebased a fresh full clone onto the operator-confirmed origin/main integration branch (a8e7e574; no development branch). Promoted GH-5 with the canonical roadmap writer, registered its marathon and LocalMVP release, and prepared five strictly sequential phase briefs/YAML. Main checkout is untouched.
+- Applied ponytail: reuse ESM/Python modules, existing HiQS caller and four canaries; no provider client, framework, service/queue/editor or extra CI. Preserved Later work and human/provider acceptance as pending. Codex implementation-plan QA is Approved/attested; fixed its concrete contact-sheet migration omission. All eleven selected display-asset digests match.
+- Reversibility: Easy — plan/ledger/receipts only, no runtime change or paid generation. Fresh baseline pnpm test passed four canaries in 8.2s, 216 geometry boxes and 12 byte-identical artifacts. Planner write/check exited 0 with one wave/no held items/no drift; added the required pending wave QA overlay after checking the generated core. Direct preflight/full YAML admission are recorded separately; execution completion is not claimed.
+
+## 2026-10-09 — GH-5 Phase 3 bounded recovery
+
+- Native second review interrupted by Codex HTTP503 before verdict/gate; original failure and monitor2/6 receipts retained, four outstanding checks cancelled. Saved independent probes identified real runtime defects; baseline C1 failed with undefined spawn. Earlier Phase3 builder claims of passing recovery/immutability were not verified.
+- Easy surgical repair in existing generator/C1/docs: one exclusive batch lock, fail-closed atomic state, immutable attempt evidence, strict safe inputs, actual output/digest/decoded-alpha validation, exact deployed caller parameters/references/recipe identity, unknown/corrupt-state refusal and Sun-first admission. Preserve historical artwork/prompts/receipts; no new provider client/framework/test/CI or paid calls.
+- Existing four canaries passed in32.1s, within60s;216 golden boxes and12 byte-identical artifacts. Real-PNG stub counts resume/refinement/cap/corruption/unknown/overlap/timeout dispatches. Cost remains an observable stopping threshold; provider measurements and human artwork acceptance pending. Independent recovery review found malformed-state replay, numeric parser drift, late deadline sampling and wrong-recipe reuse; repaired in current owners/C1. Final revised source passes4/4 in28.6s; native attempt2 halted before build at Agy model-probe20s timeout (counter2/2 retained, gate not run). Independent recovery QA continues separately; phases4/5 held.
+
+## 2026-10-09 — GH-5 local MVP Phase 2
+
+- Extended shared render tools (`tools/request.mjs`, `tools/render.mjs`) to dynamically load recipes and support adaptive text fitting (shrinks overflowing text by 10% at most 10 total attempts down to 12px, tracking bounds natively).
+- Promoted the Solar System scene to `tools/recipes/solar-system.mjs` and integrated its display assets natively via the shared pipeline.
+- Refactored `examples/2026-10-08-solar-system/render-diagram.mjs` and `contact-sheet.mjs` to be thin callers of the shared pipeline (publishing to owned tools/output roots via the shared atomic manifest), allowing the ad-hoc `runtime/` directory to be completely deleted.
+- Native monitored build halted on an off-lane shrink-canary probe (gate not run); observer recorded check 1/6 then cancelled outstanding checks. Preserved the failed attempt and repaired through existing owners; current four-canary verification passes in 24.4s, with golden geometry/digests preserved. Independent Phase 2 review and resumption remain pending.
+
+## 2026-10-08 — Agy QA of MVP improvement plan
+
+- Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.
+- Revised GH-5 to accept nutrition first with the product-hero smoke, extend the existing four canaries within the ratchet, qualify generation/render measurements separately, and use the published Solar System display assets for future offline recipe promotion. Original image inputs remain omitted; the generator does not produce the two selected refinements. All eleven selected display image digests match committed evidence.
+- Reversibility: Easy — plan/recon/QA records only. Main checkout unchanged by this task; no runtime implementation or paid image calls. Verification: matched the approved plan bytes to the reviewed commit; Agy shim, review-once, lock-resolver and attestation checks pass within their recorded limits. The aggregate vendor-snapshot gate was not green and is explicitly disqualified in `relay-system/2026-10-08/gh5-qa-receipt.json`. Targeted PDDA frontmatter, roadmap coverage and changelog checks pass with zero errors/warnings; diff whitespace passes.
 
 ## 2026-10-09 — Cell division example: operator approves the version with two AI-generated cells
 
@@ -141,3 +201,40 @@
 - Sharpened AGENTS.md and GUIDING-PRINCIPLES.md around DRY, durability, maintainability, security, and measured performance, using the ponytail lens. No engine code, tests, CI configuration, or installed PDDA runtime changed.
 - Bet: shared application operations with thin protocol adapters satisfy both deployment modes without duplicate engine behavior. Reversibility: Easy (documents only); revisit after the geometry and deployment spikes.
 - Verification: `utils/pdda/pdda.sh run` completed in observe mode: frontmatter/status/path checks pass; one pre-existing roadmap-coverage error remains (empty releases ledger; `releases` CLI unavailable on PATH), with ten existing governance warnings. PRD anchors, relative document links, fenced blocks, and edited-file whitespace pass. No runtime behavior was tested; this is a specification-only change.
+
+## [Unreleased]
+### Added
+- Reusable local library operations (\`tools/render.mjs\`, \`tools/request.mjs\`) for Satori and Chromium rendering without side-effects on import.
+- Nutrition recipe explicitly versioned and exported in \`tools/recipes/nutrition.mjs\`.
+### Changed
+- \`tools/spike/render.mjs\` uses an atomic staging directory for output and implements a direct-execution guard.
+- Validation semantics enforce input dimensions, and symlink/realpath containment.
+
+
+## 2026-10-09 — GH-5 workhorse Phase 1 recovery
+
+- Repaired the existing request/recipe/render owners: bounded confined JSON and strict nutrition fields, explicit fixed-canvas/scale subset, bounded valid PNG admission, escaped HTML and browser finally cleanup; shared requested artifacts and usable local CLI.
+- Replaced mixed mutable publication with immutable runs and one atomic manifest selector; verifier/C2 resolve that shared selector while preserving manifest-free historical goldens. Added tools/spike/verify.mjs to the Phase 1 write contract for this necessary reader seam.
+- Extended existing C1 for boundary/failure controls. Orchestrator pnpm test passed 4/4 in 10.8s, 216 geometry boxes and 12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p1-repair/. Independent committed-code QA and continuation remain pending; failed native lane/cap preserved.
+- Filed canonical XYZ Forge #1006 for opt-in bounded 600-second × 6 progress reporting. Existing heartbeat/timeouts/read-only monitors remain; no installed harness runtime edits or paid calls.
+
+- Independent recovery QA round 1 found and reproduced cross-date last-good discovery and default comparison-root mismatch. Reused shared selectedSpikeRun for verifier/C2 and aligned defaults; existing C1 verifies no-override flow, later-date failure discovery and selected-output tampering. Updated suite: 4/4 in 11.3s; second independent QA pending.
+
+- Independent Phase2 review caught native resvg abort for radiusX=8192. Repaired recipe-owned pre-render spatial admission; existing C1 rejects radius/centre/image-size/label escape controls. Four canaries pass in24.7s with goldens preserved; second independent review pending.
+
+- GH-5 containment recovery: the existing C1 deadline import probe uses Python `-B` to prevent source-tree bytecode. The authorized original Phase3 override halted on an off-lane `__pycache__` before independent review/native gate; all six scheduled checks were cancelled at150.2s. No native approval or further override is claimed.
+
+
+## 2026-10-09 — GH-5 Phase 4 native TURN-2 builder receipt
+
+- Preserved the current measured-redraw/durable-edit/export implementation and existing C1 exact-name HTML repair. Focused scratch probes reproduce `font/ttf` at artifact[0] and verify the requested page by name; both recipes pass copy-only durable edits/rerender, requested exports and publication checks with originals unchanged.
+- Syntax checks and one profiler smoke per recipe passed. No runtime/test change, full suite, paid call or git operation in this turn. Easy reversal; independent Agy review and the new harness-owned gate remain pending. Prior recovery suite evidence is not new phase approval.
+
+## 2026-10-09 — GH-5 Phase 5 integration and handoff recovery
+
+- Documented one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls, or copied runtime.
+- Recorded schema/capability limits (e.g. 256 KiB JSON input, max 5 MiB/16M pixels per image), PNG vs SVG formats, durable JSON edits, compact offline HTML exports, and expected generation calls.
+- Integrated delivered local observations from the coordinator replay (fresh-workflow-commands.json). Verified durable edits and rerender behaviors with matching exact SVG digests.
+- Pinned font (Inter) and dependencies, deferring Chromium packaging until terms are reviewed. 
+- Stage diagnostics, worker-based hard interruptions, remote HTTP/MCP, tenant isolation, private caches, durable service queues, and themes remain deferred to Later.
+- Added Phase 5 handoff documentation. Final QA, native gate test (`pnpm test`), and visual human approval remain pending independently.

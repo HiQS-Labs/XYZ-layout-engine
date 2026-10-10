@@ -4,9 +4,8 @@
 // Prints the output's dimensions, bytes and sha256 as one JSON line.
 import fs from 'node:fs/promises';
 import crypto from 'node:crypto';
-process.env.SPIKE_LIBRARY_ONLY='1';
-const RT=new URL('../2026-10-08-solar-system/runtime/',import.meta.url);
-const {loadSatori,renderSatori}=await import(new URL('tools/spike/render.mjs',RT).href);
+const RT=new URL('../../',import.meta.url);
+const {loadSatori,renderSatori}=await import(new URL('tools/render.mjs',RT).href);
 
 const [src,out,sizeArg]=process.argv.slice(2);
 const size=Number(sizeArg);

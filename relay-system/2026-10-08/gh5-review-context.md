@@ -1,0 +1,43 @@
+# GH-5 review context
+
+## Scope and evidence
+
+User request: On a new full clone of the most recent branch/PR, run relay-xyz to QA the improvement plan with Agy. Do not touch the main checkout.
+
+Full clone base: PR #4, test/gh-2-regression-canaries, d537003a1d7f37d234753d91aa8eedd403654fca. PR #4 is stacked on PR #3 and includes the renderer plus the GH-2 suite/ratchet. The current proposed plan is PROJECT/1-INBOX/GH-5-MVP-FOUNDATION.md, copied from GitHub issue #5 without substantive changes for round 1.
+
+Read ROUTER.md, GUIDING-PRINCIPLES.md, AGENTS.md and the plan fully. Then inspect tools/spike/REPORT.md, tools/spike/render.mjs, tools/spike/assets.mjs, tools/spike/verify.mjs, tools/spike/test/canaries.test.mjs, tools/spike/test/run.mjs, test-budget.json and relevant PRD sections. No implementation is requested. Initial milestone is a trusted, local/offline library and CLI, not an enterprise service or general editor. Later HTTP/MCP remains the PRD direction. Existing dependencies and checks come first; no new frameworks, queues or interfaces just to claim architectural compliance.
+
+The main checkout is outside this task's writable/read-review scope. A read-only preparation check found that its previously recorded artifacts/solar-system-2026-10-08/ and PROJECT/1-INBOX/recon-mvp-foundation.md no longer exist at those paths. They were not removed by this task. No demo assets/scripts are present in this clone. Treat the corresponding issue claims as historical producer observations, not independently verified source facts. Do not search or change the main checkout, generate paid artwork, or assume the assets are reproducible from this branch. Flag a preservation/recovery prerequisite if needed.
+
+The complete graph inventory contains 82 projects and no XYZ Layout Engine clone/project: there is no graph generation or coverage assertion. Use exact source reads. Generalized requested changes need observed input, affected scope and falsifier. Source probes must be non-mutating, outputs to scratch only. Do not execute fixtures, tests, install dependencies, run validate or PDDA inside the reviewer worktree. The producer owns full-clone verification.
+
+## Concrete questions
+
+1. Is the 7/10 foundation versus 4/10 reusable MVP assessment fairly qualified by delivered evidence, or does the plan misstate capabilities/performance? Identify outdated references versus PR #4 and distinguish historical demo observations from verified branch behavior.
+2. Is P0 the smallest coherent local MVP? Does requiring astronomy/GUI editing or worker machinery overreach the current need? Challenge sequencing ambiguity and identify missing dependencies without inventing broad infrastructure.
+3. Are caching, resumption and zero-paid-call redraw goals safe and measurable, with exact invalidation identity, bounded retries and unknown paid outcomes handled? Are there unsupported speedup promises or premature concurrency choices?
+4. Does the P0 testing request fit test-budget.json (one file, four tests, sixty seconds, zero workflows)? Specify which existing canary should be extended and which future implementation tests must wait for their owning child; do not silently expand GH-2 scope.
+5. Can a cold implementer know which acceptance gates close P0, P1 and P2? Are human acceptance, preserved last-good output, fallback capabilities and remote deferral unambiguous?
+
+Report cited [Blocker]/[Should]/[Nit]/[Pass] findings, a literal swept file: yes/no, and VERDICT PASS/FAIL/PARKED with Basis. Read the entire plan; only edit the relay thread. Approve only when the plan is coherent for its explicit envelope. Do not mark implementation, performance targets or human artwork acceptance complete.
+
+## Round 2 refresh
+
+While round 1 was running, PR #4 was updated/merged and reconciliation PR #6 landed. This QA branch was rebased onto origin/main `8a44d552d538306e2439acab138ff2d423139e23`. Sources are now the latest landed baseline, with the report recording human artwork acceptance and #1/#2 complete. The original round-1 source remains identified above for audit history. Read the revised full plan and the recon map's refresh; do not assume the earlier unavailable demo has been recovered.
+
+Producer changes: nutrition-only P0 acceptance (product-hero smoke retained), explicit reuse of four existing canaries/budget, historical generation claims separated from renderer observations, asset recovery before optional astronomy promotion, installed HiQS caller reuse, and separate P0/P1/P2 closure gates. Judge the original Blocker as an evidence/scope gap; its claimed renderer/provider-concurrency contradiction is not accepted as a technical fact.
+
+## Round 3 refresh and closure protocol
+
+Baseline now origin/main `a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c` after PR #7 published examples/2026-10-08-solar-system/. Read generate-assets.py, render-diagram.mjs, fixture.json, README.md, provenance.json and relevant verification.json asset metadata from that example as well as the revised plan. Source availability supersedes the Round-2 absence claim; originals are still omitted. No runtime scripts or paid calls are needed to verify that all original inputs are absent but all selected display PNGs exist. Check the revised supplied-assets offline promotion and generation baseline against exact source.
+
+Round 2 contained a substantive PASS but was not driver-attested: Agy released the token to codex-producer after setting Approved. The supervisor correctly refused close-mismatch (exit 4). This final turn uses a fresh token and must complete the actual close protocol.
+
+**If PASS: set STATUS: Approved and append your cited review block; DO NOT release the task to the Producer. Mark it done AS agy with the provided environment:**
+
+```bash
+TICK_REPO_ROOT="$TICK_REPO_ROOT" "$TICK_BIN" done "$RELAY_TASK" --agent "$RELAY_AGENT"
+```
+
+If the command fails, leave the claim owned by agy so the guarded shim can finish it; do not hand it back. If FAIL, leave STATUS Open and release to codex-producer as normal. A textual PASS without a done token is not accepted approval. Do not rewrite any earlier review/disposition block.

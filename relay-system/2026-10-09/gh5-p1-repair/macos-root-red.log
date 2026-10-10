@@ -1,0 +1,78 @@
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# Subtest: guards: render pipeline breaks on a clean checkout
+not ok 1 - guards: render pipeline breaks on a clean checkout
+  ---
+  duration_ms: 2037.930167
+  type: 'test'
+  location: '/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:29:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    render: FAILED Error: Validation failed: [{"field":"outputRoot","message":"outside authorized root or read-only spike evidence"}]
+        at invalid (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/request.mjs:7:44)
+        at outputRoot (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/render.mjs:191:70)
+        at async main (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/render.mjs:189:3)
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    invalid (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/request.mjs:7:44)
+    outputRoot (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/render.mjs:191:70)
+    async main (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/render.mjs:189:3)
+    TestContext.<anonymous> (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:108:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: guards: unintended visual or layout drift
+not ok 2 - guards: unintended visual or layout drift
+  ---
+  duration_ms: 0.305208
+  type: 'test'
+  location: '/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:116:1'
+  failureType: 'testCodeFailure'
+  error: 'no dated run folder under /var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/gh2-fresh-EfVbjB'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: 0
+  operator: '=='
+  stack: |-
+    runDir (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:24:10)
+    TestContext.<anonymous> (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:117:17)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: guards: committed evidence no longer satisfies the gate
+ok 3 - guards: committed evidence no longer satisfies the gate
+  ---
+  duration_ms: 117.73325
+  type: 'test'
+  ...
+# Subtest: guards: the verifier stops detecting tampering
+ok 4 - guards: the verifier stops detecting tampering
+  ---
+  duration_ms: 145.910041
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 2
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2372.001667
+test-budget: FAIL — canaries failed (exit 1, fail 2)
+[ELIFECYCLE] Test failed. See above for more details.

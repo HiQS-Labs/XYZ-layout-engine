@@ -1,0 +1,13 @@
+{
+  "schema": "operator-authorization@1",
+  "recorded_at": "2026-10-10T05:03:52.014273+00:00",
+  "operator_reply": "Authorize Phase 4 override with Codex",
+  "scope": "ONE additional original gh5-p4 fire, Codex builder and independent Agy reviewer; fresh 600-second x 6 monitoring. After Phase 4 independent approval and native gate, continue original gh5-p5 with Agy builder and Codex reviewer without force.",
+  "task": "MARATHON-GH5-P4-TURN",
+  "prior_attempts": 2,
+  "reviewed_plan_head": "6f8218422a5c7bb814661cddc68d44dac8ff366e",
+  "plan_attestation": "relay-system/2026-10-09/gh5-phase4-recovery/restart-plan-attestation.json",
+  "limits": "No counter reset, renamed lane, widened allowlist, automatic further override, or Phase 5 pairing change.",
+  "main_checkout": "untouched",
+  "execution_result": "pending"
+}

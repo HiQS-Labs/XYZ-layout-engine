@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-10-10T05:34:12.539142+00:00",
+  "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "head": "ff271751f2288a803bb5b03dbbc068f06231c58f",
+  "phase3": "native accepted; gate 4/4 in 29.8s",
+  "phase4": "original attempt 3 halted at gate; candidate preserved; C1 repair independently Approved/attested exact 403636d; local gate 4/4 in 36.8s; no native advancement",
+  "phase5": "unstarted; original Agy-builder/Codex-reviewer pairing",
+  "original_phase4_fires": [
+    "2026-10-10T03:23:34Z fire",
+    "2026-10-10T03:35:52Z fire",
+    "2026-10-10T05:03:58Z fire"
+  ],
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": []
+  },
+  "worktrees": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation  ff27175 [marathon/gh-5-mvp-foundation]",
+  "driver_locks_present": [],
+  "primary_head": "447f7aaf078c5bbcbcd232824f69959206d86ec1",
+  "primary_clean": true,
+  "unpushed_commits": 87,
+  "observer": "attempt 3 had one 600.1s check, halted at 1080.7s, cancelled remaining five; no live observer",
+  "readiness": "preflight/dry-run exit0; PDDA exit0 with two known governance warnings; no fourth original Phase4 fire authorized",
+  "clone_cleanup": "preserve unfinished work and local-only evidence; no PR/push/merge/retirement yet"
+}

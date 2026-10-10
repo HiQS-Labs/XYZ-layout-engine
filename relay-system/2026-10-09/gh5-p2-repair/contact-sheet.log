@@ -1,0 +1,15 @@
+{
+  "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system-contact-sheet",
+  "directory": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system-contact-sheet/runs/8ff47b81-b67c-4a19-b2e9-a0440eb44cad",
+  "manifest": {
+    "current": "runs/8ff47b81-b67c-4a19-b2e9-a0440eb44cad",
+    "files": [
+      "render.png",
+      "result.json"
+    ],
+    "digests": {
+      "render.png": "750140af65f3904c2d6249918abbf96da0db9e844e35fc46e43a1acb4781a8f9",
+      "result.json": "9ec5f01f71208f6436d116a37943c0b5dd91b098624b1548e8ebce3f283ae2aa"
+    }
+  }
+}

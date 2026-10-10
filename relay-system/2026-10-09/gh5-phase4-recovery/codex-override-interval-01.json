@@ -1,0 +1,77 @@
+{
+  "kind": "interval",
+  "observed_at": "2026-10-10T05:13:57.311150+00:00",
+  "elapsed_seconds": 600.1,
+  "interval_seconds": 600,
+  "check": 1,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 79696,
+  "exit": null,
+  "approved_remaining_phases": 0,
+  "total_remaining_phases": 1,
+  "scope": "phase4-only",
+  "broader_remaining_phases": 2,
+  "last_qualified_progress": {
+    "schema_version": "0.2.0",
+    "ts": "2026-10-10T05:03:58.540Z",
+    "type": "marathon.phase.start",
+    "task": "MARATHON-GH5-P4-TURN",
+    "agent": "marathon"
+  },
+  "heartbeat": {
+    "phase_id": "gh5-p4",
+    "pid": 79804,
+    "plan": "gh5-p4",
+    "relay_task": "MARATHON-GH5-P4-TURN",
+    "started_utc": "2026-10-10T05:03:58Z",
+    "updated_utc": "2026-10-10T05:13:28Z"
+  },
+  "heartbeat_age_seconds": 29.3,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": [
+      {
+        "task": "MARATHON-GH5-P4-TURN",
+        "agent": "codex",
+        "paths": [
+          "marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md",
+          "tools/render.mjs",
+          "tools/request.mjs",
+          "tools/recipes/nutrition.mjs",
+          "tools/recipes/solar-system.mjs",
+          "tools/profile.mjs",
+          "package.json",
+          "tools/spike/test/canaries.test.mjs",
+          "CHANGELOG.md",
+          "tools/MVP-REPORT.md"
+        ],
+        "epoch": 8
+      }
+    ]
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md",
+    "headers": [
+      "STATUS: Open",
+      "NEXT: codex (Builder)"
+    ]
+  },
+  "log_tail": [
+    "marathon-drive: warn: host free swap is critically low (0MB < 1024MB)",
+    "marathon-drive: memory-telemetry: phase gh5-p4-start boundary \u2014 compressor=5874MB, swap_free=0MB",
+    "marathon-drive: phase start: running relay-drive --round-cap 5",
+    "relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2",
+    "codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.cdUSAH)",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=0",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=3",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=4",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=5",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=6",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=6",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=6",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=6",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=6"
+  ],
+  "observer_only": true
+}

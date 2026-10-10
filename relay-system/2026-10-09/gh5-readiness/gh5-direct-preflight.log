@@ -1,0 +1,23 @@
+swarm-preflight · gh-bundle · slug=gh-5-mvp-foundation
+  target-root : /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation (marathon/gh-5-mvp-foundation @ fdfc5b3b7)
+  branch      : suggested=marathon/gh-5-mvp-foundation-2026-10-09 branch_ready=false skip_branch_prompt=false
+  freshness   : fetch_ok=1 upstream=none ahead=0 behind=0 dirty=1
+  ref-probed  : origin/main @ a8e7e574c (checkout HEAD is 0 commit(s) behind the evaluated ref — probes read the ref, not your checkout)
+  candidate   : ready
+  inlined-acc : 4 criterion(a) from the acceptance-section
+  source-url  : ok — source: resolves to issue #5 (https://github.com/HiQS-Labs/XYZ-layout-engine/issues/5)
+  acceptance  : match — 4/4 criteria copied verbatim from issue #5
+  issue-state : OPEN — issue #5 is OPEN
+  readiness   : ready=1
+  lane-cli    : codex=present agy=present (advisory)
+  verdict     : ready (exit 0)
+
+DRY-RUN: ready, but packet not written. Would emit to: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/preflight/2026-10-09/gh-5-mvp-foundation
+Would suggest:
+XYZ_HARNESS_CONTEXT=swarm XYZ_SESSION_ID=gh-5-mvp-foundation RELAY_WORKTREE_ISOLATION=1 .xyz/relay-automation/marathon-drive.sh \
+  --phase-brief <packet>/packet.md \
+  --reviewer agy \
+  --builder codex \
+  --artifact package.json,tools/spike/render.mjs,tools/spike/assets.mjs,tools/spike/scene.mjs,tools/spike/test/canaries.test.mjs,examples/2026-10-08-solar-system/render-diagram.mjs,examples/2026-10-08-solar-system/contact-sheet.mjs,examples/2026-10-08-solar-system/generate-assets.py,examples/2026-10-08-solar-system/README.md,CHANGELOG.md,PROJECT/2-WORKING/SPECS-PRD.md,tools/render.mjs,tools/request.mjs,tools/recipes/nutrition.mjs,tools/recipes/solar-system.mjs,tools/profile.mjs,README.md,tools/MVP-REPORT.md,examples/2026-10-08-solar-system/runtime/.gitignore,examples/2026-10-08-solar-system/runtime/SOURCE.json,examples/2026-10-08-solar-system/runtime/package.json,examples/2026-10-08-solar-system/runtime/pnpm-lock.yaml,examples/2026-10-08-solar-system/runtime/tools/spike/assets.mjs,examples/2026-10-08-solar-system/runtime/tools/spike/assets/OFL.txt,examples/2026-10-08-solar-system/runtime/tools/spike/assets/SOURCES.md,examples/2026-10-08-solar-system/runtime/tools/spike/assets/font-bold.ttf,examples/2026-10-08-solar-system/runtime/tools/spike/assets/font.ttf,examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs,examples/2026-10-08-solar-system/runtime/tools/spike/scene.mjs \
+  --pre-advance-cmd 'pnpm test' \
+  --require-clean

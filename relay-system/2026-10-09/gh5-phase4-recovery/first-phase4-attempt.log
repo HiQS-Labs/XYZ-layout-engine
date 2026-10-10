@@ -1,0 +1,150 @@
+marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-201738-16981.log
+marathon: plan: PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml — 3 phase(s) in execution order
+marathon: ── phase 1/3: gh5-p3 (reviewer=codex, round-cap=5, artifact=examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, turn-timeout=1500s) ──
+marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
+marathon-drive:   • relay-system/logs/
+marathon-drive:   • relay-system/run-logs/
+marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p3 at 3 attempt(s) (cap 2), proceeding.
+marathon-drive: reconciled leaked open handoff: MARATHON-GH5-P3-TURN (cleared stale reservation for codex)
+marathon-drive: tick token seeded: MARATHON-GH5-P3-TURN → agy
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh5-p3-start boundary — compressor=5633MB, swap_free=0MB
+marathon-drive: phase start: running relay-drive --round-cap 5
+relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.PgLBvq)
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.PgLBvq) changed-files=0
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.PgLBvq) changed-files=1
+rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+agy-turn: committed agy turn (file-scoped, no push)
+agy-turn: dependency.drift — agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
+agy-turn: dependency.drift — agy changed src/project.js (0 lines); signalled for the next turn
+agy-turn: dependency.drift — agy changed src/events.js (0 lines); signalled for the next turn
+relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.QILh1S)
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QILh1S) changed-files=0
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QILh1S) changed-files=1
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QILh1S) changed-files=1
+rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+codex-turn: committed codex turn (file-scoped, no push)
+codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
+codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
+codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
+relay-drive: attested Approved by codex — reviewed e4638bf1e0a9, 9593 bytes of review text, record /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.git/relay-attest/MARATHON-GH5-P3-TURN.json
+relay-drive: relay terminated (STATUS: Approved, token done, attested by codex) after 2 turn(s)
+marathon-drive: relay approved — running pre-advance gate: pnpm test
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# \# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed
+# \# C2 geometry: 216 boxes compared within 0.5 px
+# \# C2 digests: 12 artifacts byte-identical
+# Subtest: guards: render pipeline breaks on a clean checkout
+ok 1 - guards: render pipeline breaks on a clean checkout
+  ---
+  duration_ms: 29376.936167
+  type: 'test'
+  ...
+# Subtest: guards: unintended visual or layout drift
+ok 2 - guards: unintended visual or layout drift
+  ---
+  duration_ms: 27.320625
+  type: 'test'
+  ...
+# Subtest: guards: committed evidence no longer satisfies the gate
+ok 3 - guards: committed evidence no longer satisfies the gate
+  ---
+  duration_ms: 118.274584
+  type: 'test'
+  ...
+# Subtest: guards: the verifier stops detecting tampering
+ok 4 - guards: the verifier stops detecting tampering
+  ---
+  duration_ms: 112.844583
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29728.586542
+test-budget: PASS — 4 canaries in 29.8s (budget 60s)
+marathon-drive: gate-guard: gate exit 0 after 30s — peak group RSS 114MB (tier full; caps: RSS 8192MB, wall 1800s, CPU 1200s)
+marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p3-032333.md
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh5-p3-complete boundary — compressor=5663MB, swap_free=0MB
+marathon-drive: phase gh5-p3 complete — STATUS: Approved, gate passed
+
+marathon-drive: end-of-run cost summary (tick analyze) —
+--- cost ---
+run type: unspecified
+tokens: ≥0 total (≥0 in / ≥0 out) — PARTIAL, floor only: 0/8 done-tasks instrumented
+human minutes (self-reported): 0
+wall-clock (run window): 20h 52m
+per done-task: ≥0 tokens, 2h 36m wall-clock
+memory: compressor peak: 7308MB, swap free min: 0MB
+  turn peak RSS: codex: 315MB peak RSS, agy: 183MB peak RSS
+
+clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified
+marathon: ── phase 2/3: gh5-p4 (reviewer=codex, round-cap=5, artifact=tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, turn-timeout=1500s) ──
+marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
+marathon-drive:   • relay-system/logs/
+marathon-drive:   • relay-system/run-logs/
+marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
+lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p4 at 0 attempt(s) (cap 2), proceeding.
+marathon-drive: tick token seeded: MARATHON-GH5-P4-TURN → agy
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh5-p4-start boundary — compressor=5661MB, swap_free=0MB
+marathon-drive: phase start: running relay-drive --round-cap 5
+relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.VEhQC2)
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=1
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=2
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=4
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=5
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=9
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=13
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=17
+relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=19
+rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
+rtl: GH-654 off-lane candidate: fix-names.mjs
+rtl: GH-654 off-lane candidate: fix-regex.mjs
+rtl: GH-654 off-lane candidate: patch-allow-svg.mjs
+rtl: GH-654 off-lane candidate: patch-cache.mjs
+rtl: GH-654 off-lane candidate: patch-cli.mjs
+rtl: GH-654 off-lane candidate: patch-debug.mjs
+rtl: GH-654 off-lane candidate: patch-formats.mjs
+rtl: GH-654 off-lane candidate: patch-html-names.mjs
+rtl: GH-654 off-lane candidate: patch-publish.mjs
+rtl: GH-654 off-lane candidate: patch-render.mjs
+rtl: GH-654 off-lane candidate: patch-request.mjs
+rtl: GH-654 off-lane candidate: patch-request2.mjs
+rtl: GH-654 off-lane candidate: patch-stage.mjs
+rtl: GH-654 off-lane candidate: tools/profile-warm-pw.mjs
+rtl: GH-654 off-lane candidate: tools/profile-warm.mjs
+rtl: GH-654 allowlist: [tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
+agy-turn: agy made off-lane edits in the isolated worktree — discarded; failing the turn (exit 6)
+marathon-drive: relay escalated: containment violation — a turn-taker reverted an off-lane edit (exit 6)
+marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p4-033234.md
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh5-p4-escalated boundary — compressor=5373MB, swap_free=0MB
+marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
+
+marathon-drive: end-of-run cost summary (tick analyze) —
+--- cost ---
+run type: unspecified
+tokens: ≥0 total (≥0 in / ≥0 out) — PARTIAL, floor only: 0/8 done-tasks instrumented
+human minutes (self-reported): 0
+wall-clock (run window): 20h 52m
+per done-task: ≥0 tokens, 2h 36m wall-clock
+memory: compressor peak: 7308MB, swap free min: 0MB
+  turn peak RSS: codex: 315MB peak RSS, agy: 183MB peak RSS
+
+clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified
+marathon: HALT: phase gh5-p4 failed (marathon-drive exit 6) — chain stops; later phases NOT started

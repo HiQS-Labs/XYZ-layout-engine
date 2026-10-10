@@ -1,0 +1,50 @@
+{
+  "kind": "halted",
+  "observed_at": "2026-10-10T03:47:11.052677+00:00",
+  "elapsed_seconds": 680.2,
+  "interval_seconds": 600,
+  "check": 1,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 97789,
+  "exit": 6,
+  "approved_remaining_phases": 0,
+  "total_remaining_phases": 2,
+  "last_qualified_progress": {
+    "schema_version": "0.2.0",
+    "ts": "2026-10-10T03:47:09.513Z",
+    "type": "marathon.phase.escalated",
+    "task": "MARATHON-GH5-P4-TURN",
+    "agent": "marathon"
+  },
+  "heartbeat": null,
+  "heartbeat_age_seconds": null,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": []
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md",
+    "headers": [
+      "STATUS: Open",
+      "NEXT: agy (Builder)"
+    ]
+  },
+  "log_tail": [
+    "marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))",
+    "",
+    "marathon-drive: end-of-run cost summary (tick analyze) \u2014",
+    "--- cost ---",
+    "run type: unspecified",
+    "tokens: \u22650 total (\u22650 in / \u22650 out) \u2014 PARTIAL, floor only: 0/8 done-tasks instrumented",
+    "human minutes (self-reported): 0",
+    "wall-clock (run window): 20h 52m",
+    "per done-task: \u22650 tokens, 2h 36m wall-clock",
+    "memory: compressor peak: 7308MB, swap free min: 0MB",
+    "  turn peak RSS: codex: 315MB peak RSS, agy: 183MB peak RSS",
+    "",
+    "clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified",
+    "marathon: HALT: phase gh5-p4 failed (marathon-drive exit 6) \u2014 chain stops; later phases NOT started"
+  ],
+  "observer_only": true
+}

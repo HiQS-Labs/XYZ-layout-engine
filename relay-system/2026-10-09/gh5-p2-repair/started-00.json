@@ -1,0 +1,30 @@
+{
+  "kind": "started",
+  "observed_at": "2026-10-09T15:44:13.554182+00:00",
+  "elapsed_seconds": 0.0,
+  "interval_seconds": 600,
+  "check": 0,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 71228,
+  "exit": null,
+  "approved_remaining_phases": 0,
+  "total_remaining_phases": 4,
+  "last_qualified_progress": null,
+  "heartbeat": null,
+  "heartbeat_age_seconds": null,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": []
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p1/RELAY.md",
+    "headers": [
+      "STATUS: Open",
+      "NEXT: codex (Reviewer)",
+      "NEXT: codex (Builder)"
+    ]
+  },
+  "log_tail": [],
+  "observer_only": true
+}

@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-10T05:48:18.970916+00:00",
+  "operator_reply": "Authorize one native Phase 4 rebuild",
+  "scope": "ONE additional native gh5-p4 attempt with Codex builder/Agy reviewer, supported --retry gh5-p4 and --force on existing lane/counter; fresh 600-second x 6 observer; after approval and native gate continue gh5-p5 with original Agy/Codex pairing without force/retry.",
+  "lane": "gh5-mvp-foundation--gh5-p4",
+  "prior_fires": 3,
+  "fresh_task": "MARATHON-GH5-P4-TURN-2 (first unused native suffix)",
+  "reviewed_candidate": "403636d5d7461b9485233c094a8b32ecb341877f",
+  "proposal": "html-repair-restart-proposal.md",
+  "limits": "No further automatic override, counter reset, new lane, widened owners or Phase5 role change."
+}

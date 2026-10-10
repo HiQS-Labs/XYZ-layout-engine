@@ -1,0 +1,73 @@
+{
+  "kind": "interval",
+  "observed_at": "2026-10-10T06:05:26.878686+00:00",
+  "elapsed_seconds": 600.1,
+  "interval_seconds": 600,
+  "check": 1,
+  "max_checks": 6,
+  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "pid": 2705,
+  "exit": null,
+  "approved_remaining_phases": 0,
+  "total_remaining_phases": 1,
+  "scope": "phase5-only",
+  "broader_remaining_phases": 1,
+  "last_qualified_progress": {
+    "schema_version": "0.2.0",
+    "ts": "2026-10-10T05:55:28.048Z",
+    "type": "marathon.phase.start",
+    "task": "MARATHON-GH5-P5-TURN",
+    "agent": "marathon"
+  },
+  "heartbeat": {
+    "phase_id": "gh5-p5",
+    "pid": 2910,
+    "plan": "gh5-p5",
+    "relay_task": "MARATHON-GH5-P5-TURN",
+    "started_utc": "2026-10-10T05:55:28Z",
+    "updated_utc": "2026-10-10T06:04:58Z"
+  },
+  "heartbeat_age_seconds": 28.9,
+  "claims": {
+    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "claimed": [
+      {
+        "task": "MARATHON-GH5-P5-TURN",
+        "agent": "codex",
+        "paths": [
+          "marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
+          "README.md",
+          "tools/MVP-REPORT.md",
+          "examples/2026-10-08-solar-system/README.md",
+          "PROJECT/2-WORKING/SPECS-PRD.md",
+          "CHANGELOG.md"
+        ],
+        "epoch": 5
+      }
+    ]
+  },
+  "active_relay": {
+    "path": "marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
+    "headers": [
+      "STATUS: Open",
+      "NEXT: codex (Reviewer)"
+    ]
+  },
+  "log_tail": [
+    "codex-turn: dependency.drift \u2014 codex changed src/project.js (0 lines); signalled for the next turn",
+    "codex-turn: dependency.drift \u2014 codex changed src/events.js (0 lines); signalled for the next turn",
+    "relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2",
+    "agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.udQpPF)",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.udQpPF) changed-files=1",
+    "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.udQpPF) changed-files=4",
+    "rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
+    "rtl: GH-654 allowlist: [README.md, tools/MVP-REPORT.md, examples/2026-10-08-solar-system/README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
+    "agy-turn: committed agy turn (file-scoped, no push)",
+    "agy-turn: dependency.drift \u2014 agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn",
+    "agy-turn: dependency.drift \u2014 agy changed src/project.js (0 lines); signalled for the next turn",
+    "agy-turn: dependency.drift \u2014 agy changed src/events.js (0 lines); signalled for the next turn",
+    "relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2",
+    "codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.STqK5r)"
+  ],
+  "observer_only": true
+}
