@@ -13,7 +13,7 @@ const digestPattern = /^[a-f0-9]{64}$/;
 const gidPattern = /^(rcp|rcv)-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const check = (ok, field, message) => { if (!ok) throw invalid(field, message); };
-export const SCHEMA = `-- XYZ Layout Engine recipe catalog; migration 1; canonical LF dump.
+export const SCHEMA_V1 = `-- XYZ Layout Engine recipe catalog; migration 1; canonical LF dump.
 -- GIDs retained; rows ordered by natural keys; no timestamps or binary database.
 CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version = 1)) STRICT;
 CREATE TABLE recipes (gid TEXT PRIMARY KEY, slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
@@ -29,14 +29,29 @@ CREATE TRIGGER files_no_delete BEFORE DELETE ON recipe_version_files BEGIN SELEC
 CREATE TRIGGER outputs_no_update BEFORE UPDATE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
 CREATE TRIGGER outputs_no_delete BEFORE DELETE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
 `;
+const DESIGNS_DDL = `CREATE TABLE designs (id TEXT PRIMARY KEY, use_case TEXT, use_case_version TEXT, layout_id TEXT, fixture_path TEXT NOT NULL, data_hash TEXT NOT NULL, artifact_path TEXT NOT NULL, artifact_digest TEXT NOT NULL, CHECK((use_case IS NULL) = (use_case_version IS NULL))) STRICT;
+CREATE TRIGGER designs_no_update BEFORE UPDATE ON designs BEGIN SELECT RAISE(ABORT,'design immutable'); END;
+CREATE TRIGGER designs_no_delete BEFORE DELETE ON designs BEGIN SELECT RAISE(ABORT,'design immutable'); END;
+`;
+export const SCHEMA = SCHEMA_V1.replace('; migration 1;', '; migration 2;').replace('CHECK(version = 1)', 'CHECK(version IN (1,2))') + DESIGNS_DDL;
+const relativePath = value => typeof value === 'string' && /^[a-zA-Z0-9_./-]+$/.test(value) && !path.isAbsolute(value) && !value.split('/').some(p => !p || p === '.' || p === '..');
+const designID = value => {
+  const match = /^(\d{4}-\d{2}-\d{2})-(.+)$/.exec(value);
+  if (!match || !slugPattern.test(match[2]) || match[2].length < 3 || match[2].length > 64) return false;
+  const date = new Date(match[1] + 'T00:00:00Z');
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0,10) === match[1];
+};
+const designFlags = ['needed_row_span','non_grid_family','needed_span_over_9','layout_forced'];
+const logKeys = ['id','use_case','use_case_version','canvas','layout','columns','rows','boxes','span_histogram','workaround_boxes','friction',...designFlags,'no_recipe'];
 const TABLES = [
   ['schema_migrations', ['version'], 'SELECT * FROM schema_migrations ORDER BY version', 'INSERT INTO schema_migrations VALUES (?)'],
   ['recipes', ['gid','slug','title','status','reason'], 'SELECT * FROM recipes ORDER BY slug', 'INSERT INTO recipes VALUES (?,?,?,?,?)'],
   ['recipe_versions', ['gid','recipe_gid','version','content_sha256','schema_sha256'], 'SELECT v.* FROM recipe_versions v JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version', 'INSERT INTO recipe_versions VALUES (?,?,?,?,?)'],
   ['recipe_version_files', ['version_gid','path','role','sha256'], 'SELECT f.* FROM recipe_version_files f JOIN recipe_versions v ON v.gid=f.version_gid JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version,f.path', 'INSERT INTO recipe_version_files VALUES (?,?,?,?)'],
-  ['recipe_outputs', ['version_gid','format'], 'SELECT o.* FROM recipe_outputs o JOIN recipe_versions v ON v.gid=o.version_gid JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version,o.format', 'INSERT INTO recipe_outputs VALUES (?,?)']
+  ['recipe_outputs', ['version_gid','format'], 'SELECT o.* FROM recipe_outputs o JOIN recipe_versions v ON v.gid=o.version_gid JOIN recipes r ON r.gid=v.recipe_gid ORDER BY r.slug,v.version,o.format', 'INSERT INTO recipe_outputs VALUES (?,?)'],
+  ['designs', ['id','use_case','use_case_version','layout_id','fixture_path','data_hash','artifact_path','artifact_digest'], 'SELECT * FROM designs ORDER BY id', 'INSERT INTO designs VALUES (?,?,?,?,?,?,?,?)']
 ];
-const quote = value => typeof value === 'number' ? String(value) : "'" + value.replaceAll("'", "''") + "'";
+const quote = value => value === null ? 'NULL' : typeof value === 'number' ? String(value) : "'" + value.replaceAll("'", "''") + "'";
 const contentDigest = files => hash(files.map(f => `${f.path}\0${f.sha256}\n`).join(''));
 export function exportDump(db) {
   return SCHEMA + TABLES.map(([table, columns, query]) => db.prepare(query).all().map(row =>
@@ -44,7 +59,7 @@ export function exportDump(db) {
 }
 function validateLedger(db) {
   check(db.prepare('PRAGMA foreign_key_check').all().length === 0, 'dump', 'foreign key violation');
-  check(db.prepare('SELECT version FROM schema_migrations').all().length === 1, 'dump', 'migration 1 required');
+  check(JSON.stringify(db.prepare('SELECT version FROM schema_migrations ORDER BY version').all().map(r => r.version)) === '[1,2]', 'dump', 'migrations 1,2 required');
   const recipes = db.prepare('SELECT * FROM recipes ORDER BY slug').all();
   for (const r of recipes) {
     check(gidPattern.test(r.gid) && r.gid.startsWith('rcp-'), 'gid', 'invalid recipe GID');
@@ -57,7 +72,7 @@ function validateLedger(db) {
     check(versionPattern.test(v.version), 'version', 'strict MAJOR.MINOR.PATCH required');
     const files = db.prepare('SELECT * FROM recipe_version_files WHERE version_gid=? ORDER BY path').all(v.gid);
     for (const f of files) {
-      check(/^[a-zA-Z0-9_./-]+$/.test(f.path) && !path.isAbsolute(f.path) && !f.path.split('/').some(p => !p || p === '.' || p === '..'), 'path', 'relative normalized path required');
+      check(relativePath(f.path), 'path', 'relative normalized path required');
       check(digestPattern.test(f.sha256), 'sha256', 'invalid file digest');
     }
     const schemas = files.filter(f => f.role === 'schema');
@@ -65,28 +80,38 @@ function validateLedger(db) {
     check(digestPattern.test(v.content_sha256) && contentDigest(files) === v.content_sha256 && schemas[0].sha256 === v.schema_sha256, 'digest', 'inconsistent published digest');
     check(db.prepare('SELECT format FROM recipe_outputs WHERE version_gid=?').all(v.gid).length > 0, 'outputs', 'published outputs required');
   }
+  for (const d of db.prepare('SELECT * FROM designs ORDER BY id').all()) {
+    check(designID(d.id), d.id, 'invalid design ID');
+    for (const [key, suffix] of [['fixture_path','.json'],['artifact_path','.png']])
+      check(relativePath(d[key]) && d[key].startsWith('examples/') && d[key].endsWith(suffix), d.id, 'invalid design path');
+    check(digestPattern.test(d.data_hash) && digestPattern.test(d.artifact_digest), d.id, 'invalid design digest');
+    check(d.layout_id === null, d.id, 'layout must be null until Phase B');
+    check((d.use_case === null && d.use_case_version === null) || db.prepare('SELECT 1 FROM recipes r JOIN recipe_versions v ON v.recipe_gid=r.gid WHERE r.slug=? AND v.version=?').get(d.use_case,d.use_case_version), d.id, 'unknown use-case pin');
+  }
 }
 // Admit only our fixed DDL and literal INSERT rows, never execute supplied SQL.
 export function loadDump(text) {
-  check(text.startsWith(SCHEMA) && text.endsWith('\n'), 'dump', 'migration 1 schema/header required');
+  const header = text.startsWith(SCHEMA) ? SCHEMA : SCHEMA_V1;
+  check(text.startsWith(header) && text.endsWith('\n'), 'dump', 'migration 1 or 2 schema/header required');
   const db = new DatabaseSync(':memory:');
   try {
     db.exec('PRAGMA foreign_keys=ON'); db.exec(SCHEMA);
-    for (const line of text.slice(SCHEMA.length).split('\n').filter(Boolean)) {
+    for (const line of text.slice(header.length).split('\n').filter(Boolean)) {
       const match = /^INSERT INTO ([a-z_]+) VALUES \((.*)\);$/.exec(line);
       const spec = match && TABLES.find(t => t[0] === match[1]);
-      check(spec, 'dump', 'unsupported row');
+      check(spec && !(header === SCHEMA_V1 && spec[0] === 'designs'), 'dump', 'unsupported row');
       const values = [], source = match[2]; let offset = 0;
       while (offset < source.length) {
-        const token = /^(?:'(?:[^'\r\n\0]|'')*'|[0-9]+)/.exec(source.slice(offset));
-        check(token, 'dump', 'invalid SQL literal');
-        const raw = token[0]; values.push(raw[0] === "'" ? raw.slice(1,-1).replaceAll("''", "'") : Number(raw));
+        const token = /^(?:'(?:[^'\r\n\0]|'')*'|[0-9]+|NULL)/.exec(source.slice(offset));
+        check(token, spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump', 'invalid SQL literal');
+        const raw = token[0]; values.push(raw[0] === "'" ? raw.slice(1,-1).replaceAll("''", "'") : raw === 'NULL' ? null : Number(raw));
         offset += raw.length;
-        if (offset < source.length) { check(source[offset] === ',' && offset + 1 < source.length, 'dump', 'invalid delimiter'); offset++; }
+        if (offset < source.length) { check(source[offset] === ',' && offset + 1 < source.length, spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump', 'invalid delimiter'); offset++; }
       }
-      check(values.length === spec[1].length, 'dump', 'wrong column count');
-      db.prepare(spec[3]).run(...values);
+      check(values.length === spec[1].length, spec[0] === 'designs' ? values[0] ?? 'design-log' : 'dump', 'wrong column count');
+      try { db.prepare(spec[3]).run(...values); } catch (error) { if (spec[0] === 'designs') throw invalid(values[0] ?? 'design-log',error.message); throw error; }
     }
+    if (header === SCHEMA_V1) db.prepare('INSERT INTO schema_migrations VALUES (?)').run(2);
     validateLedger(db); return db;
   } catch (error) { db.close(); throw error; }
 }
@@ -137,9 +162,29 @@ function show(db, key) {
     outputs:db.prepare('SELECT format FROM recipe_outputs WHERE version_gid=? ORDER BY format').all(v.gid).map(o => o.format)
   })) };
 }
+async function designLog(root) {
+  let text;
+  try { text = await fs.readFile(path.join(root,'tools/design-log.jsonl'),'utf8'); }
+  catch (error) { if (error.code === 'ENOENT') return []; throw invalid('design-log',error.message); }
+  check(!text || text.endsWith('\n'), 'design-log', 'log must end with LF');
+  return text ? text.slice(0,-1).split('\n').map(line => {
+    let entry;
+    try { entry = JSON.parse(line); } catch { throw invalid('design-log','invalid JSON line'); }
+    check(entry && typeof entry === 'object' && !Array.isArray(entry) && JSON.stringify(entry) === line && JSON.stringify(Object.keys(entry)) === JSON.stringify(logKeys), 'design-log', 'non-canonical log line');
+    check(designID(entry.id), 'design-log', 'invalid log ID');
+    check(entry.canvas === null || (entry.canvas && JSON.stringify(Object.keys(entry.canvas)) === '["width","height"]' && Number.isSafeInteger(entry.canvas.width) && entry.canvas.width > 0 && Number.isSafeInteger(entry.canvas.height) && entry.canvas.height > 0), entry.id, 'invalid canvas');
+    check(['layout','columns','rows','boxes','span_histogram'].every(k => entry[k] === null) && (entry.workaround_boxes === null || (Number.isSafeInteger(entry.workaround_boxes) && entry.workaround_boxes >= 0)), entry.id, 'invalid layout/workarounds');
+    check(typeof entry.friction === 'string' && entry.friction.trim() && entry.friction.length <= 200 && !/[\0\r\n]/.test(entry.friction) && [...designFlags,'no_recipe'].every(k => typeof entry[k] === 'boolean'), entry.id, 'invalid friction/flags');
+    return entry;
+  }) : [];
+}
 async function verify(db, root, text) {
   const errors = [];
-  if (exportDump(db) !== text) errors.push({field:'dump',message:'non-canonical dump bytes'});
+  const canonical = exportDump(db);
+  if (canonical !== text) {
+    const withoutDesigns = value => value.replace(/^INSERT INTO designs .*\n/gm,'');
+    errors.push({field:withoutDesigns(canonical) === withoutDesigns(text) ? 'design-log' : 'dump',message:'non-canonical dump bytes'});
+  }
   for (const r of db.prepare('SELECT * FROM recipes ORDER BY slug').all()) {
     try {
       const version = await moduleIdentity(root, r.slug);
@@ -154,6 +199,23 @@ async function verify(db, root, text) {
       }
     } catch (error) { errors.push({field:r.slug,message:error.message}); }
   }
+  const designs = db.prepare('SELECT * FROM designs ORDER BY id').all();
+  for (const d of designs) {
+    for (const [key, digest] of [['fixture_path','data_hash'],['artifact_path','artifact_digest']]) {
+      try { check(hash(await fileBytes(root,d[key])) === d[digest], d.id, 'modified design file'); }
+      catch (error) { errors.push({field:d.id,message:error.message}); }
+    }
+  }
+  try {
+    const lines = await designLog(root), seen = new Set();
+    for (const line of lines) {
+      check(!seen.has(line.id), line.id, 'duplicate design log ID'); seen.add(line.id);
+      const d = designs.find(d => d.id === line.id);
+      check(d, 'design-log', 'orphan design log line');
+      check(line.use_case === d.use_case && line.use_case_version === d.use_case_version && line.no_recipe === (d.use_case === null), d.id, 'design log pin differs');
+    }
+    for (const d of designs) check(seen.has(d.id), d.id, 'design must have one log line');
+  } catch (error) { errors.push(...JSON.parse(error.message.slice('Validation failed: '.length))); }
   return { valid:errors.length === 0, errors };
 }
 function preserveHistory(before, after) {
@@ -180,24 +242,26 @@ async function atomicDump(file, text) {
 }
 class Usage extends Error {}
 function parse(args) {
-  const [verb, ...tail] = args, positions = [], flags = {};
+  const design = args[0] === 'design';
+  if (design && !['list','show','add'].includes(args[1])) throw new Usage('catalog design list|show <id>|add <id> --fixture P --artifact P --friction T');
+  const [verb, ...tail] = design ? args.slice(1) : args, positions = [], flags = {};
   for (let i=0; i<tail.length; i++) {
     if (!tail[i].startsWith('--')) { positions.push(tail[i]); continue; }
     const key = tail[i].slice(2);
     if (Object.hasOwn(flags,key)) throw new Usage('duplicate option');
     if (['json','check'].includes(key)) flags[key] = true;
-    else if (['title','reason'].includes(key) && tail[i+1] && !tail[i+1].startsWith('--')) flags[key] = tail[++i];
+    else if (['title','reason','fixture','artifact','friction','use-case','flags','workarounds'].includes(key) && tail[i+1] && !tail[i+1].startsWith('--')) flags[key] = tail[++i];
     else throw new Usage('unknown/missing option');
   }
   const counts = {list:0,show:1,add:1,publish:2,update:1,deprecate:1,retire:1,verify:0,export:0,import:1};
-  const allowed = {list:['json'],show:['json'],verify:['json'],export:['json','check'],add:['title'],publish:[],update:['title'],deprecate:['reason'],retire:['reason'],import:[]};
-  if (!Object.hasOwn(counts,verb) || positions.length !== counts[verb] || Object.keys(flags).some(k => !allowed[verb].includes(k)) || (['add','update'].includes(verb) && !flags.title) || (['deprecate','retire'].includes(verb) && !flags.reason)) throw new Usage('catalog list|show <slug>|add <slug> --title T|publish <slug> <version>|update <slug> --title T|deprecate|retire <slug> --reason R|verify|export [--check]|import <dump>');
-  for (const value of Object.values(flags)) if (typeof value === 'string') check(value.trim() && !/[\0\r\n]/.test(value), 'option', 'nonempty single line required');
-  return {verb,positions,flags};
+  const allowed = design ? {list:['json'],show:['json'],add:['fixture','artifact','friction','use-case','flags','workarounds']} : {list:['json'],show:['json'],verify:['json'],export:['json','check'],add:['title'],publish:[],update:['title'],deprecate:['reason'],retire:['reason'],import:[]};
+  if (!Object.hasOwn(counts,verb) || positions.length !== counts[verb] || Object.keys(flags).some(k => !allowed[verb].includes(k)) || (!design && ['add','update'].includes(verb) && !flags.title) || (design && verb === 'add' && ['fixture','artifact','friction'].some(k => !flags[k])) || (['deprecate','retire'].includes(verb) && !flags.reason)) throw new Usage('catalog list|show <slug>|add <slug> --title T|publish <slug> <version>|update <slug> --title T|deprecate|retire <slug> --reason R|verify|export [--check]|import <dump>');
+  for (const value of Object.values(flags)) if (typeof value === 'string') check(value.trim() && !/[\0\r\n]/.test(value), design ? positions[0] ?? 'design-log' : 'option', 'nonempty single line required');
+  return {verb,positions,flags,design};
 }
 // Only this module owns catalog I/O. Imports allocate no database or filesystem handle.
 export async function runCLI(args, options = {}) {
-  const {verb,positions:p,flags:f} = parse(args);
+  const {verb,positions:p,flags:f,design} = parse(args);
   const root = await fs.realpath(options.root ?? ROOT), file = path.join(root,'tools/catalog.sql'), lock = path.join(root,'tools/.catalog.lock');
   const write = ['add','publish','update','deprecate','retire','import'].includes(verb);
   let ownership, db, incoming;
@@ -205,15 +269,44 @@ export async function runCLI(args, options = {}) {
     if (write) { try { ownership = await fs.open(lock,'wx'); } catch (error) { if (error.code === 'EEXIST') throw invalid('lock', 'catalog lock exists; inspect stale/concurrent ownership manually'); throw error; } }
     const original = await fs.readFile(file,'utf8'); db = loadDump(original);
     if (!write) {
+      if (design) {
+        const value = verb === 'list' ? db.prepare('SELECT * FROM designs ORDER BY id').all() : db.prepare('SELECT * FROM designs WHERE id=?').get(p[0]);
+        check(value, p[0] ?? 'design-log', 'unknown design');
+        return {code:0,value,json:f.json};
+      }
       if (verb === 'list') return {code:0,value:db.prepare('SELECT * FROM recipes ORDER BY slug').all(),json:f.json};
       if (verb === 'show') return {code:0,value:show(db,p[0]),json:f.json};
       if (verb === 'verify') { const value = await verify(db,root,original); return {code:value.valid ? 0 : 1,value,json:f.json}; }
       const canonical = exportDump(db);
       return {code:f.check && canonical !== original ? 1 : 0,value:f.check ? {canonical:canonical === original} : canonical,json:f.json};
     }
-    db.exec('BEGIN IMMEDIATE'); let value;
+    db.exec('BEGIN IMMEDIATE'); let value, logLine;
     try {
-      if (verb === 'import') {
+      if (design) {
+        const id = p[0], lines = await designLog(root);
+        check(!db.prepare('SELECT 1 FROM designs WHERE id=?').get(id) && !lines.some(line => line.id === id), id, 'design already recorded');
+        check(designID(id), id, 'invalid design ID');
+        for (const [key,suffix] of [['fixture','.json'],['artifact','.png']]) check(relativePath(f[key]) && f[key].startsWith('examples/') && f[key].endsWith(suffix), id, 'invalid design path');
+        let useCase = null, version = null;
+        if (f['use-case']) {
+          const pin = f['use-case'].split('@');
+          check(pin.length === 2 && slugPattern.test(pin[0]) && versionPattern.test(pin[1]) && db.prepare('SELECT 1 FROM recipes r JOIN recipe_versions v ON v.recipe_gid=r.gid WHERE r.slug=? AND v.version=?').get(...pin), id, 'unknown use-case pin');
+          [useCase,version] = pin;
+        }
+        const flags = f.flags ? f.flags.split(',') : [];
+        check(flags.every(flag => designFlags.includes(flag)) && new Set(flags).size === flags.length, id, 'unknown/duplicate design flag');
+        check(!f.workarounds || (/^(0|[1-9]\d*)$/.test(f.workarounds) && Number.isSafeInteger(Number(f.workarounds))), id, 'non-negative integer workarounds required');
+        check(f.friction.length <= 200, id, 'friction must be 1–200 characters');
+        let fixture, artifact;
+        try { fixture = await fileBytes(root,f.fixture); artifact = await fileBytes(root,f.artifact); }
+        catch (error) { throw invalid(id,error.message); }
+        let data;
+        try { data = JSON.parse(fixture.toString('utf8')); } catch { throw invalid(id,'invalid fixture JSON'); }
+        const canvas = Number.isSafeInteger(data?.width) && data.width > 0 && Number.isSafeInteger(data?.height) && data.height > 0 ? {width:data.width,height:data.height} : null;
+        db.prepare('INSERT INTO designs VALUES (?,?,?,?,?,?,?,?)').run(id,useCase,version,null,f.fixture,hash(fixture),f.artifact,hash(artifact));
+        value = db.prepare('SELECT * FROM designs WHERE id=?').get(id);
+        logLine = JSON.stringify({id,use_case:useCase,use_case_version:version,canvas,layout:null,columns:null,rows:null,boxes:null,span_histogram:null,workaround_boxes:f.workarounds === undefined ? null : Number(f.workarounds),friction:f.friction,...Object.fromEntries(designFlags.map(flag => [flag,flags.includes(flag)])),no_recipe:useCase === null}) + '\n';
+      } else if (verb === 'import') {
         incoming = loadDump(await fs.readFile(path.resolve(root,p[0]),'utf8')); preserveHistory(db,incoming); value = {imported:true};
       } else if (verb === 'add') {
         check(slugPattern.test(p[0]) && p[0].length >= 3 && p[0].length <= 64, 'slug', '3–64 lowercase slug required');
@@ -240,6 +333,10 @@ export async function runCLI(args, options = {}) {
       const canonical = exportDump(incoming ?? db);
       // Keep exact bytes and mtime on idempotent publication/import.
       if (canonical !== original) await atomicDump(file,canonical);
+      if (logLine) {
+        try { await fs.appendFile(path.join(root,'tools/design-log.jsonl'),logLine,{flag:'a'}); }
+        catch (error) { throw invalid(p[0],error.message); }
+      }
       db.exec('COMMIT'); return {code:0,value};
     } catch (error) { db.exec('ROLLBACK'); throw error; }
   } catch (error) {

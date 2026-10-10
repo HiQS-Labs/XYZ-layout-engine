@@ -1,6 +1,6 @@
--- XYZ Layout Engine recipe catalog; migration 1; canonical LF dump.
+-- XYZ Layout Engine recipe catalog; migration 2; canonical LF dump.
 -- GIDs retained; rows ordered by natural keys; no timestamps or binary database.
-CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version = 1)) STRICT;
+CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version IN (1,2))) STRICT;
 CREATE TABLE recipes (gid TEXT PRIMARY KEY, slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
 CREATE TABLE recipe_versions (gid TEXT PRIMARY KEY, recipe_gid TEXT NOT NULL REFERENCES recipes(gid), version TEXT NOT NULL, content_sha256 TEXT NOT NULL, schema_sha256 TEXT NOT NULL, UNIQUE(recipe_gid,version)) STRICT;
 CREATE TABLE recipe_version_files (version_gid TEXT NOT NULL REFERENCES recipe_versions(gid), path TEXT NOT NULL, role TEXT NOT NULL CHECK(role IN ('module','schema','content')), sha256 TEXT NOT NULL, PRIMARY KEY(version_gid,path)) STRICT;
@@ -13,7 +13,11 @@ CREATE TRIGGER files_no_update BEFORE UPDATE ON recipe_version_files BEGIN SELEC
 CREATE TRIGGER files_no_delete BEFORE DELETE ON recipe_version_files BEGIN SELECT RAISE(ABORT,'published files immutable'); END;
 CREATE TRIGGER outputs_no_update BEFORE UPDATE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
 CREATE TRIGGER outputs_no_delete BEFORE DELETE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
+CREATE TABLE designs (id TEXT PRIMARY KEY, use_case TEXT, use_case_version TEXT, layout_id TEXT, fixture_path TEXT NOT NULL, data_hash TEXT NOT NULL, artifact_path TEXT NOT NULL, artifact_digest TEXT NOT NULL, CHECK((use_case IS NULL) = (use_case_version IS NULL))) STRICT;
+CREATE TRIGGER designs_no_update BEFORE UPDATE ON designs BEGIN SELECT RAISE(ABORT,'design immutable'); END;
+CREATE TRIGGER designs_no_delete BEFORE DELETE ON designs BEGIN SELECT RAISE(ABORT,'design immutable'); END;
 INSERT INTO schema_migrations VALUES (1);
+INSERT INTO schema_migrations VALUES (2);
 INSERT INTO recipes VALUES ('rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','nutrition','Nutrition','active','');
 INSERT INTO recipes VALUES ('rcp-68eafc13-c914-4506-b349-c135fcb42ee5','solar-system','Solar System','active','');
 INSERT INTO recipe_versions VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','1.0.0','cae72434e7f3c5fb441080532bf9c27095ea519f718b4d767425db99d7f599f8','81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95');

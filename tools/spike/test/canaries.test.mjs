@@ -418,7 +418,7 @@ test('guards: the verifier stops detecting tampering', async () => {
     const { SCHEMA, loadDump, exportDump } = await import('../../catalog.mjs');
     // Always isolate from Phase 2's populated committed dump.
     const catalogFile = path.join(root, 'tools/catalog.sql');
-    writeFileSync(catalogFile, SCHEMA + 'INSERT INTO schema_migrations VALUES (1);\n');
+    writeFileSync(catalogFile, SCHEMA + 'INSERT INTO schema_migrations VALUES (1);\nINSERT INTO schema_migrations VALUES (2);\n');
     const catalog = (...args) => spawnSync(process.execPath, [path.join(root,'tools/catalog.mjs'), ...args], { cwd:root, encoding:'utf8', timeout:10000 });
     const succeeds = (...args) => { const r=catalog(...args); assert.equal(r.status,0,r.stdout+r.stderr); return r; };
     succeeds('add','nutrition','--title',"Nutrition's recipe");
@@ -451,13 +451,25 @@ test('guards: the verifier stops detecting tampering', async () => {
     const extraPng = path.join(root,'tools/spike/assets/generated/web/heart.png');
     writeFileSync(extraPng,readFileSync(path.join(root,'tools/spike/assets/generated/web/balance_scale.png')));
     rejected=catalog('verify'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/namespace differs/); rmSync(extraPng);
+    const id='2026-10-08-solar-system', logFile=path.join(root,'tools/design-log.jsonl'), designArgs=['design','add',id,'--fixture','examples/2026-10-08-solar-system/fixture.json','--artifact','examples/2026-10-08-solar-system/solar-system.png','--friction','C4 control'];
+    succeeds(...designArgs); succeeds('export','--check');
+    const designDump=readFileSync(catalogFile,'utf8'), designLog=readFileSync(logFile,'utf8');
+    rejected=catalog(...designArgs); assert.equal(rejected.status,1); assert.match(rejected.stderr,/design already recorded/); assert.equal(sha256(readFileSync(catalogFile)),sha256(designDump)); assert.equal(sha256(readFileSync(logFile)),sha256(designLog));
+    rejected=catalog(...designArgs.slice(0,2),'2026-10-08-unknown-pin',...designArgs.slice(3),'--use-case','unknown@1.0.0'); assert.equal(rejected.status,1); assert.match(rejected.stderr,/unknown use-case pin/);
+    const designDB=loadDump(designDump);
+    try { assert.throws(() => designDB.prepare('UPDATE designs SET artifact_digest=?').run('0'.repeat(64)),/design immutable/); assert.throws(() => designDB.prepare('DELETE FROM designs').run(),/design immutable/); } finally { designDB.close(); }
+    const forged=loadDump(designDump); const artifactDigest=forged.prepare('SELECT artifact_digest FROM designs WHERE id=?').get(id).artifact_digest; forged.close(); writeFileSync(catalogFile,designDump.replace(artifactDigest,'0'.repeat(64)));
+    rejected=catalog('verify','--json'); assert.equal(rejected.status,1); assert.ok(JSON.parse(rejected.stdout).errors.some(e => e.field === id && /modified design file/.test(e.message))); writeFileSync(catalogFile,designDump);
+    writeFileSync(logFile,''); rejected=catalog('verify','--json'); assert.equal(rejected.status,1); assert.ok(JSON.parse(rejected.stdout).errors.some(e => e.field === id && /one log line/.test(e.message)));
+    writeFileSync(logFile,designLog+designLog.replace(id,'2026-10-08-orphan-design')); rejected=catalog('verify','--json'); assert.equal(rejected.status,1); assert.ok(JSON.parse(rejected.stdout).errors.some(e => e.field === 'design-log' && /orphan/.test(e.message))); writeFileSync(logFile,designLog);
+    assert.equal(catalog('design','update','x').status,2); succeeds('verify');
     succeeds('add','solar-system','--title','Solar'); succeeds('retire','solar-system','--reason','retention control');
     succeeds('add','third-recipe','--title','Third');
     const rows=JSON.parse(succeeds('list','--json').stdout); assert.deepEqual(rows.map(r => r.slug),['nutrition','solar-system','third-recipe']);
     rejected=catalog('add','solar-system','--title','Again'); assert.equal(rejected.status,1,'retired recipe identity was reused');
     const dump=succeeds('export').stdout, importFile=path.join(root,'roundtrip.sql'); writeFileSync(importFile,dump);
     // Fresh destination admission preserves every GID and natural-key order.
-    writeFileSync(catalogFile,SCHEMA + 'INSERT INTO schema_migrations VALUES (1);\n');
+    writeFileSync(catalogFile,SCHEMA + 'INSERT INTO schema_migrations VALUES (1);\nINSERT INTO schema_migrations VALUES (2);\n');
     succeeds('import',importFile); assert.equal(succeeds('export').stdout,dump,'dump round trip differs');
     succeeds('export','--check');
     const reversed=readFileSync(catalogFile,'utf8').split('\n'), rowIndexes=reversed.map((line,i) => line.startsWith('INSERT INTO recipes ') ? i : -1).filter(i => i>=0);

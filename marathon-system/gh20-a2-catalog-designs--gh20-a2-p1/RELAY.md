@@ -1,6 +1,6 @@
 # Marathon Phase gh20-a2-p1
 STATUS: Open
-NEXT: codex (Builder)
+NEXT: agy (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH20-A2-P1-TURN builder=codex reviewer=agy round-cap=5 -->
 
@@ -141,3 +141,80 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    codex, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+
+### Round 1 · Builder · codex
+
+Implemented D1–D8 in tools/catalog.mjs: frozen SCHEMA_V1, derived migration 2,
+insert-only designs table, NULL literals, shared normalized-path predicate, calendar-valid
+IDs, design list/show/add, canonical design-log append, pinned version checks, digest
+recomputation and log verification. Designs participate in existing import history retention.
+Design-specific validation and verification errors use the ID or design-log; noncanonical
+design row ordering is isolated from recipe errors as well.
+
+tools/catalog.sql was regenerated only by one invocation of
+node tools/catalog.mjs import tools/catalog.sql. All 40 original INSERT lines remain
+byte-identical; the only new INSERT is migration 2 (41 total, two migration rows).
+No designs or log were seeded in this phase.
+
+tools/spike/test/canaries.test.mjs changes only C4's catalog section: two migration
+literal replacements plus 12 added lines, no new test() or dependency. Its existing temp root
+covers NULL add and export-check, duplicate refusal with unchanged dump/log SHA-256,
+unknown pin, forged artifact digest, missing/orphan log, in-process UPDATE/DELETE aborts
+and design update usage. There are nine added CLI spawns including export --check, rather
+than P0's eight-spawn estimate; the measured focused test stays short.
+
+Bet / reversibility: Easy for module, schema and generated text. Reuse the existing lock,
+in-memory transaction, bound parameter statements and atomic dump replacement; Node built-ins
+suffice. The filesystem dump and log are separate writes: failed append leaves a persisted
+design row, verify reports the missing line, and operator restoration is required. No claim
+of cross-file atomicity. ID format remains Costly once referenced externally.
+
+Focused verification on Node v22.22.3, darwin-arm64:
+- Baseline node tools/catalog.mjs verify and export --check: exit 0.
+- node --check tools/catalog.mjs: exit 0.
+- node tools/catalog.mjs import tools/catalog.sql: exit 0, imported true.
+- Final node tools/catalog.mjs verify --json: exit 0, valid true, errors [].
+- Final node tools/catalog.mjs export --check: exit 0, canonical true.
+- TMPDIR="$PWD/.relay-scratch/p1/tmp" node --test
+  --test-name-pattern='guards: the verifier stops detecting tampering'
+  tools/spike/test/canaries.test.mjs: exit 0, 1/1; final duration 2453.210042 ms.
+- node .relay-scratch/p1/probe.mjs: exit 0. Proves NULL/pinned add and round trip,
+  table and log-only duplicate guards, usage exit 2, invalid calendar dates, unknown pins,
+  traversal and escaping symlinks, bad flags/workaround counts/long friction, reordered keys,
+  duplicate log IDs, inconsistent pins, missing LF, malformed log shapes, and isolated
+  noncanonical design row ordering. Loader rejects half-null pins, recipe-title NULL,
+  missing designs DDL and designs rows under V1. Injected append failure leaves the row;
+  verify exits 1 with that design ID and the lock is removed.
+- Red controls in scratch: dropping designs_no_update makes C4's assert.throws primitive
+  fail with Missing expected exception; reverting the NULL tokenizer rejects the populated
+  dump with invalid SQL literal.
+- Source scan for interpolated prepare SQL: no matches (rg exit 1 expected);
+  schema_migrations row count is 2. No tools/.catalog.lock or tools/design-log.jsonl remains.
+- Focused diff assertions: only two original C4 lines replaced, 12 lines added, no new test().
+  Original INSERT preservation is checked against the saved baseline without running git.
+
+Breadcrumbs: the first C4 run failed because the extension's final verify was placed after
+pre-existing intentionally unpublished recipe controls. The observed errors named solar-system
+and third-recipe, not designs. Moving the extension before those controls made C4 pass;
+the final rerun also passes. A scratch date mutation first hit a published recipe path and
+correctly failed its digest check; anchoring the mutation to INSERT INTO designs exercised
+the intended invalid-ID check. A scratch containment assertion initially mistook regex .test()
+for a new test(); anchoring it to a test declaration corrected the check. No production
+validation was weakened to satisfy these probes.
+
+Evidence: .relay-scratch/p1/probe.log, c4-final.log, verify.json, export-check.json and
+canaries.diff. All probe copies and test temp roots stay under .relay-scratch/p1/.
+Startup limits: neither ROUTER's relative roadmap CLI path exists (both attempts exit 2).
+No graph tools are exposed in this session; exact plan-named source fallback was used.
+No git command, full gate, network call, or off-lane persistent edit was made.
+Git-based P1-A2/P1-A7 containment and the full 4/4 budget gate are delegated to the harness;
+independent C1 receipt-isolation and full C4 red-control review remain with agy.
+
+Review outcome: Ready for independent agy review; builder does not approve the phase.
+VERDICT: PASS
+Basis: Final focused C4, catalog checks, loader/red-control and mutation probes pass;
+all original INSERT rows are retained and the allowed C4 line budget is met. This is
+builder verification, not independent approval or a claim that the full gate passed.
+
+handing off to agy — agy, take your turn.
