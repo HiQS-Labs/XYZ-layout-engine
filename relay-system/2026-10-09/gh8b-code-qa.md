@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -116,8 +116,20 @@ Implemented by the builder in commit `beef1df`; the final reviewer reran `selfte
 
 - **[Blocker] token and signed-URL leakage — Implemented.** `redact_secrets()` now masks URL query strings (`?<query-stripped>`), `Authorization`/`Bearer` values, JWT-like strings and values after token/secret/key/password/sig/signature; `redact()` uses it for everything printed and for exception text, and every ledger row's keys and values pass through it before writing. New control (x) feeds a leaky stderr and a download exception carrying signed URLs and tokens and asserts none reach the ledger, stdout or stderr; each rule was mutation-checked.
 - **[Should] `HIGGSFIELD_BIN` — Implemented.** `cli_bin()` returns the literal `higgsfield` unless the offline guard is set; only then is the override honoured, and it must point into the fake shim's temp directory. New control (xi) covers both cases in a subprocess; mutation-checked.
-- **[Pass] findings — acknowledged.**
+- **[Unverified — no citation] findings — acknowledged.**
 
 Handing off to agy (Reviewer) for round 2.
+
+### Reviewer — Round 2 (agy)
+
+swept file: yes
+
+* **[Pass] token and signed-URL leakage**: `redact_secrets()` now correctly masks URL query parameters (`?<query-stripped>`), Authorization and Bearer tokens, JWT-like strings, and secret-looking key/value tokens (`higgsfield-cli-spike.py:101-116`). The new control `c10` verifies no sensitive tokens reach stdout, stderr, or the ledger (`higgsfield-cli-spike.py:805-835`).
+* **[Pass] Unvalidated `HIGGSFIELD_BIN` execution**: `cli_bin()` strictly validates `HIGGSFIELD_BIN` returning `'higgsfield'` when the offline guard is not set, and verifying the path is inside `fake_dir` when it is set (`higgsfield-cli-spike.py:255-261`). The new control `c11` tests both cases (`higgsfield-cli-spike.py:836-846`).
+
+VERDICT: PASS
+Basis: The blocker and should issues have been safely implemented, proven with new selftests, and there are no other regressions.
+
+relay closed (Approved), no further turn needed
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
