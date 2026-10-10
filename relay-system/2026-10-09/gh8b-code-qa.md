@@ -132,4 +132,12 @@ Basis: The blocker and should issues have been safely implemented, proven with n
 
 relay closed (Approved), no further turn needed
 
+
+### Attestation · relay-drive — 2026-10-10T03:04:38Z
+task: RELAY-gh8b-code-qa-agy2
+reviewer: agy
+status: Approved
+reviewed-head: 72747bf494cd67ea19ec4acf19f36ecee6920cd5
+added-range: 13020+951
+added-sha256: 0fad47d096f010cbaa40d79c07911ac2be6ddb0c3ac3839142540a240b8b6433
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
