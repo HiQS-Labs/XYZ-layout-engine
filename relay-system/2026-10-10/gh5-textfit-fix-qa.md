@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: claude-a
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -113,5 +113,20 @@ Basis: The fix introduces a false fit for words wider than their container due t
 - **[Blocker] 10-attempt cap prevents large text reaching the minimum:** Implemented for the word-overflow case. A too-wide word now shrinks in proportion (`width / longestWord * 0.98`, capped at the existing 0.9 step), since width scales with size. Reproduced Agy's input: solar-system `title` of 60 `W`s now fits at 24px in 2 attempts (it previously refused after 10). The generic region-overflow step is unchanged.
 - **[Should] failure message conflates cases:** Implemented. A refusal now appends `unbreakable word wider than its box: <ids>` when that is the cause.
 - Evidence: `pnpm test` 4/4 in 30.7s; `W` x 30/40/50 on the nutrition headline fit at 23/17/12px in 2-3 attempts; `W` x 60 and 400 refuse with the new message and publish nothing; the earlier red control still holds (disable the measurement and C1 fails with `Missing expected rejection`).
+
+### Reviewer - Round 2
+
+swept file: yes
+
+- **[Pass]** The pixel-based word measurement is correct. Probed `measureLongestWords` on `WWWW iiiii`: it correctly creates a nowrap scene and assigns `box.longestWord` from Satori's pixel width of each word (`tools/render.mjs:80`), resolving the character count issue.
+- **[Pass]** The guard against inherited `fontSize` is solid. Verified `tools/render.mjs:63`: it throws `has no inline fontSize; cannot measure its words`, which correctly converts a silent false fit into a clear failure if an inline style is omitted.
+- **[Pass]** The proportional scaling fixes the iteration exhaustion. Probed `W.repeat(60)` in the `solar-system` recipe (`tools/render.mjs:280`); it now correctly scales down proportionally and fits in 2 attempts at 24px instead of failing after 10 attempts.
+- **[Pass]** The refusal message explicitly names unbreakable words. Probed `W.repeat(60)` in the `nutrition` recipe: it correctly throws with `non-fit after 2 attempts: text outside its region: header_headline; unbreakable word wider than its box: header_headline` (`tools/render.mjs:293`).
+- **[Pass]** The canary test successfully integrates the refusal case `sections.header.headline=${'W'.repeat(120)}` (`tools/spike/test/canaries.test.mjs:92`), securing against regressions.
+
+VERDICT: PASS
+Basis: The Producer addressed all blockers surgically. The pixel-based width measurement handles visually wide words, proportional scaling correctly fits large words without attempt exhaustion, and the strict inline style requirement secures the probe against unstyled nodes.
+
+handing off to Producer — relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
