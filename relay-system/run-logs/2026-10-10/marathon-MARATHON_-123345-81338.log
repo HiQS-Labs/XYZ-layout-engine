@@ -1,10 +1,10 @@
-marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/relay-system/run-logs/2026-10-10/marathon-MARATHON_-123345-81338.log
+marathon: run log: <clone>/relay-system/run-logs/2026-10-10/marathon-MARATHON_-123345-81338.log
 marathon: plan: PROJECT/2-WORKING/catalog-designs/MARATHON.yaml — 4 phase(s) in execution order
 marathon: ── phase 1/4: gh20-a2-p0 (reviewer=agy, round-cap=5, artifact=PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md, turn-timeout=1500s) ──
 marathon-drive: phase gh20-a2-p0 startup: attested approval found but candidate 74500aea8747 is not the reviewed revision — candidate 74500aea8747 changes non-transcript content after reviewed head 8f08340c2cd7 — not accepting it (GH-505)
 marathon-drive: phase gh20-a2-p0: terminal relay is NOT attested — refusing to treat it as satisfied; its token 'MARATHON-GH20-A2-P0-TURN' is done and cannot be reopened, so this run halts (see GH-505)
-marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/relay-system/2026-10-10/marathon-gh20-a2-p0-193346.md
+marathon-drive: transcript saved: <clone>/relay-system/2026-10-10/marathon-gh20-a2-p0-193346.md
 marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
 marathon-drive: memory-telemetry: phase gh20-a2-p0-escalated boundary — compressor=7263MB, swap_free=0MB
-marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/marathon-system/gh20-a2-catalog-designs--gh20-a2-p0/ESCALATION.md (reason: unattested-terminal)
+marathon-drive: escalation written: <clone>/marathon-system/gh20-a2-catalog-designs--gh20-a2-p0/ESCALATION.md (reason: unattested-terminal)
 marathon: HALT: phase gh20-a2-p0 failed (marathon-drive exit 4) — chain stops; later phases NOT started

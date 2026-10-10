@@ -90,10 +90,10 @@ You are the BUILDER for this phase. Read the phase brief above and implement it.
 APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delete, reorder, or rewrite any existing content — the terminal attestation refuses the approval if any byte above your block changed, even a tidy-up.
 1. Implement the brief by creating/editing the artifact file(s): ROUTER.md, README.md, CHANGELOG.md
 2. Append a build block to this relay file: `### Round N · Builder · codex` summarizing what you did (files touched, key decisions).
-3. Use this exact tick binary (run it from any directory): /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick
-   - /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick claim MARATHON-GH20-A2-P3-TURN --agent codex --paths "marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md,ROUTER.md, README.md, CHANGELOG.md"
-   - /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick ping MARATHON-GH20-A2-P3-TURN --agent codex
-   - /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick release MARATHON-GH20-A2-P3-TURN --agent codex --to agy
+3. Use this exact tick binary (run it from any directory): <clone>/.xyz/bin/tick
+   - <clone>/.xyz/bin/tick claim MARATHON-GH20-A2-P3-TURN --agent codex --paths "marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md,ROUTER.md, README.md, CHANGELOG.md"
+   - <clone>/.xyz/bin/tick ping MARATHON-GH20-A2-P3-TURN --agent codex
+   - <clone>/.xyz/bin/tick release MARATHON-GH20-A2-P3-TURN --agent codex --to agy
 4. Edit ONLY these paths: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md and ROUTER.md, README.md, CHANGELOG.md. Do NOT run git. Do NOT touch any other file — the harness commits for you.
 5. HAND OFF EXPLICITLY (GH-268): after releasing the token, end your turn by naming who acts next —
    "handing off to agy — agy, take your turn." A turn that ends without that line
@@ -107,9 +107,9 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
 You are the REVIEWER for this phase. Read the latest builder block above AND review the artifact file(s) on disk: ROUTER.md, README.md, CHANGELOG.md. REVIEW THE WHOLE FILE, NOT JUST THE DIFF (GH-268): a beta test had this loop reach 'Approved' in two rounds while an independent audit of the same branch found 20 issues (1 critical, 4 high) — every one of them in the pre-existing code the change sat on, which nobody had read. Pre-existing defects in a file you are touching are IN SCOPE; say so explicitly if you find none. DECLARE IT: your review block MUST contain a literal 'swept file: yes' or 'swept file: no' line — without it a reviewer that skipped the sweep is indistinguishable in the transcript from one that did it and found nothing, which is exactly how those 20 issues stayed invisible.
 APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delete, reorder, or rewrite any existing content — the terminal attestation refuses the approval if any byte above your block changed, even a tidy-up.
 1. Append a review block: `### Round N · Reviewer · agy` followed by your assessment.
-2. If changes needed: add `**Verdict:** Changes requested`, update the `NEXT:` line to exactly `NEXT: codex (Builder)`, then: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick release MARATHON-GH20-A2-P3-TURN --agent agy --to codex
-3. If satisfied: add `**Verdict:** Approved`, set `STATUS: Approved`, then: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick done MARATHON-GH20-A2-P3-TURN --agent agy
-4. Use this exact tick binary (run it from any directory) for all token operations: /Users/noelsaw/marathon-clones/marathon-gh-19-catalog-designs/.xyz/bin/tick
+2. If changes needed: add `**Verdict:** Changes requested`, update the `NEXT:` line to exactly `NEXT: codex (Builder)`, then: <clone>/.xyz/bin/tick release MARATHON-GH20-A2-P3-TURN --agent agy --to codex
+3. If satisfied: add `**Verdict:** Approved`, set `STATUS: Approved`, then: <clone>/.xyz/bin/tick done MARATHON-GH20-A2-P3-TURN --agent agy
+4. Use this exact tick binary (run it from any directory) for all token operations: <clone>/.xyz/bin/tick
    Edit ONLY marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md (your review block + STATUS). Do NOT edit the artifact yourself — request changes instead. Do NOT run git.
 4b. TO VERIFY A FINDING, WRITE PROBE FILES OUTSIDE THE REPO — under $TMPDIR, never inside the
    working tree. Creating even one scratch file in the repo is an off-lane write: containment
