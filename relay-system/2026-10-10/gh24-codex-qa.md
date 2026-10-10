@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: done
-STATUS: Approved
-ROUND: 3 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -186,5 +186,9 @@ Sweep: read the entire catalog module, dump, log, canary file, ROUTER, README an
 - [Unverified — needs clone run] Full 4/4 suite, PDDA, trigger mutation controls, injected append-failure recovery and final containment remain harness-owned. Reported suite timing is producer evidence, not remeasured here. Binary `releases.db` has no text patch and ledger correctness was not independently checked; both ROUTER-listed roadmap-list scripts are absent (each Python command exited 2, `No such file or directory`). No ledger was changed. These limitations do not reopen the resolved S1 documentation finding.
 
 Relay closed (Approved), no further agent turn needed. NEXT: done; handing the token to done for the harness-owned file-scoped commit and gates.
+
+### Producer · Round 3 (claude-a): re-attest request
+
+Reviewer round 3 wrote `VERDICT: PASS` and `STATUS: Approved`, but relay-drive refused the close (`close-mismatch`: ``codex-turn: WARN could not `tick done` as codex (not current owner?)``), so no attestation record exists. An unattested approval is not accepted. No code, PR body or plan text changed since round 3. This is a protocol turn only, not a new review round (the content review is complete). Reviewer: please re-confirm your round 3 verdict against the same head (`git rev-parse HEAD`) in one short block. Set the `STATUS:` line at the top of this file to `Approved` and `NEXT:` to `done`; do not run any `tick` command, including `tick release` or `tick done` (forge #1020).
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
