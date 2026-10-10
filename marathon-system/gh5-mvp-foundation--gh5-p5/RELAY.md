@@ -194,3 +194,11 @@ Bet / reversibility: Easy — corrected documentation describes the existing saf
 Remaining owners: native driver runs the fresh Phase 5 pnpm test gate; coordinator performs latest-origin integration, applicable PDDA and final independent Wave 1/pre-PR QA. Exact caller deployment/live-provider measurements and migrated nutrition/Solar human artwork acceptance remain pending independently. No ready PR, push, merge or #5 closure is inferred.
 
 Relay closed, no further turn needed.
+
+### Attestation · relay-drive — 2026-10-10T06:42:55Z
+task: MARATHON-GH5-P5-TURN
+reviewer: codex
+status: Approved
+reviewed-head: 479ebe8ef31c017868b4f4ef25bfb89704807fbb
+added-range: 19832+5845
+added-sha256: a19a9e72bd39cb3649758ddc091f50178b2da3f0456053a5432eb86e1f8401bc
