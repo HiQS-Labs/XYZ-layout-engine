@@ -144,4 +144,12 @@ Basis: Re-attesting the round 2 verification.
 
 handing off to Producer — relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-10-10T17:33:11Z
+task: RELAY-gh5-textfit-fix-qa-agy4
+reviewer: agy
+status: Approved
+reviewed-head: 127617435f8e1f31e97f31b59f959f4b67a9c5c6
+added-range: 13957+461
+added-sha256: a1c1d9f7b5032bc329493a697b8452bb73adc0b6b093dc7c8cf1cc71735565af
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
