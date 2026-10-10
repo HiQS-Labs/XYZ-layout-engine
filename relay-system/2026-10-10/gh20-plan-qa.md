@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -192,5 +192,32 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 VERDICT: FAIL
 Basis: The plan's claims about test enforcement for hand edits and the contents of `verification.json` are incorrect and need to be addressed.
 swept file: yes
+
+### Producer · Round 1 (claude-a): dispositions and revised text
+
+- **[Blocker] seed data is not in `verification.json`:** Implemented. Confirmed: its keys are `artifactDigests, assets, chromiumText, findings, generatedAt, height, imageNodes, renderer, satoriBounds, textIds, width`. Fields now come from the right sources: params stay in the fixture file referenced by `fixture_path` + `data_hash`; the artifact digest is the `png` entry of `artifactDigests`. Also found by this review: only the solar system is a catalog recipe, so RAG and cell-division seed with a null use case (logged in #21 as `no_recipe`).
+- **[Blocker] hand edits to `designs` are not caught by `export --check`:** Implemented. Agreed: `export --check` only proves the dump matches the database built from it. The plan now states the real checks (`catalog verify` recomputes digests from files, checks the pinned version exists, requires exactly one #21 log line per design) and states the honest limit (not tamper-proof; a fabricated consistent row equals what the CLI writes) with a revisit trigger.
+- **[Should] Phase B leaves things unsolved:** Implemented. Added what layout-by-width does not solve (reordering, per-band content), that GH-9's `stackOrder` is dropped, and the trigger to revive it.
+- **[Pass] serial removal grounding:** noted.
+
+Revised text (replaces the corresponding text in the embedded plan above; the whole revised plan is the comment on issue #20, edited in place):
+
+**A2. Add designs and the ROUTER pointer** (`Refs #20`, `Refs #21`).
+- Add a `designs` table to the same module and the same dump (no second DB file, no second module). Columns: design ID in `date-slug` form; pinned use case and version (**nullable**, see seeds); `layout_id` (null until Phase B); `fixture_path` and `data_hash` (sha256 of that fixture file's bytes); `artifact_path` and `artifact_digest` (sha256 of the primary PNG, which equals the `png` entry of `artifactDigests` in the example's `verification.json`). Parameters stay in the fixture file and are referenced by path and hash, not copied into the DB. No timestamps, so the dump stays deterministic.
+- Designs are insert-only. The CLI gets `design list`, `design show` and `design add`, and has no update or delete; an edit forks a new design.
+- **Seeds, stated honestly:** only the solar system is a catalog recipe, so it seeds as `solar-system@1.0.0`. The RAG and cell-division diagrams are hand-built example scripts, not recipes, so they seed with a **null use case**. That is a real finding for #20's "record any split that feels forced" and is logged in #21 as `no_recipe`. Phase B or a later recipe promotion pins them.
+- `design add` also appends one line to the design log from #21.
+- Add the pointer to **ROUTER.md** (repo-owned; the installer will not overwrite it): in the role split, one line naming `tools/catalog.mjs` and `tools/catalog.sql` as the recipe and design catalog; in the canonical rules, "Change the catalog only through `node tools/catalog.mjs`; `tools/catalog.sql` is generated output, never hand-edited."
+- **Enforcement, stated honestly.** `export --check` only proves the dump matches the database built from it, so a well-formed hand-written `INSERT` passes it. The real checks are consistency checks that `catalog verify` (already in the existing canary) gains for designs: recompute `data_hash` and `artifact_digest` from the files on disk; confirm a pinned recipe version exists; confirm there is exactly one #21 log line per design. A forged row with a wrong digest, or a row with no log line, fails `pnpm test`. This is a convention backed by consistency checks, not tamper-proofing: a person can still fabricate a row, file and log line that agree, which is the same thing the CLI would write. No git hook and no new check beyond extending `verify`. Revisit if a bypass is seen in practice.
+- Acceptance (each can fail): the three seeded designs read back with matching digests; a second `design add` for the same ID is refused; a `designs` row with a wrong digest fails `verify`; a `designs` row with no log line fails `verify`; ROUTER.md names the CLI; a hand edit to a recipe version row fails `verify`; no new test file, workflow or dependency beyond extending the existing canary.
+
+
+Phase B addition (inserted before the Phase B acceptance line):
+
+- **What this does not solve (deliberately):** layouts place boxes by reading order, so every width band must keep the same source order and the same content. Moving an image above the text on narrow canvases and to the right on wide ones, or showing different content per band, needs a per-band slot map. GH-9's `stackOrder` (`source` / `priority` / `rtl`) is therefore dropped, not delivered. Revive when the first real design needs a different order or different content on a narrow canvas.
+
+Plan header addition:
+
+> Revised after plan QA (same day): the design seeds named `verification.json` as the source of fields it does not hold, and two of the three examples are not recipes; `export --check` cannot catch a well-formed hand-written `designs` row, so the plan now says what actually catches it; Phase B now says what layout-by-width leaves unsolved.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
