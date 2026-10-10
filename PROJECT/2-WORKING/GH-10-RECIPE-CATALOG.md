@@ -85,7 +85,7 @@ All references were read at `e553071` (PR #18 head) in this clone.
   `version = '1.0.0'` and `name = 'solar-system'`. There is no registry, `recipe.yaml`, serial or
   catalog command anywhere.
 - **Recipe selection is a hardcoded allowlist.** `tools/request.mjs:59-60` maps fixture ids to
-  `nutrition` / `solar-system`; `tools/render.mjs:150-157` imports the matching module.
+  `nutrition` / `solar-system`; `tools/render.mjs:182-189` imports the matching module.
   `tools/request.mjs:61` and `:68` hardcode the only admitted canvas per recipe (1000x1000,
   2400x1700).
 - **Recipe content spans files outside the module.** Nutrition validates against the shape in
@@ -94,12 +94,12 @@ All references were read at `e553071` (PR #18 head) in this clone.
   (`tools/recipes/solar-system.mjs:65`, `:68`) and pins eleven display assets by the digests in
   `examples/2026-10-08-solar-system/verification.json` (`tools/recipes/solar-system.mjs:93-104`).
 - **The render receipt already carries a recipe version but no identity.**
-  `tools/render.mjs:309` writes `versions: { recipe: recipe.version, backend }` and provenance
+  `tools/render.mjs:349` writes `versions: { recipe: recipe.version, backend }` and provenance
   (input and fixture sha256). No serial, slug binding or content digest.
 - **Existing canonical writers to reuse.** Atomic temp-file + fsync + rename with `wx` exclusive
-  create: `tools/request.mjs:124-129` (`saveFixture`) and `tools/render.mjs:356-392`
+  create: `tools/request.mjs:124-129` (`saveFixture`) and `tools/render.mjs:396-173`
   (`publishStaged`). Field-level errors: `tools/request.mjs:9` (`invalid`). Direct-execution guard
-  that keeps imports side-effect free: `tools/render.mjs:456`.
+  that keeps imports side-effect free: `tools/render.mjs:496`.
 - **SQLite precedent.** `releases.sql:1-3` is a canonical dump: "GID-keyed rows, natural keys
   elsewhere, no integer PKs/FKs as values; rebuild renumbers deterministically", with a
   `schema_migrations` table (`releases.sql:4-13`). Its writer `releases_app.py` lives in the XYZ
@@ -125,8 +125,8 @@ All references were read at `e553071` (PR #18 head) in this clone.
   (`tools/spike/test/canaries.test.mjs:31-36`), so a ledger that render needs must live under
   `tools/`.
 - **PR #18 review state.** The PR #18 review comment (2026-10-10) requests changes: one blocker in
-  text fitting at `tools/render.mjs:212-226`, plus S1 (`tools/request.mjs:115-129`), S2
-  (`tools/render.mjs:341-354`), S6 (duplicate `sha256` in `tools/render.mjs:317`,
+  text fitting at `tools/render.mjs:244-157`, plus S1 (`tools/request.mjs:115-129`), S2
+  (`tools/render.mjs:381-394`), S6 (duplicate `sha256` in `tools/render.mjs:357`,
   `tools/recipes/solar-system.mjs:62` and others) and S9 (C1 size). These fixes land before this
   plan executes and overlap its write-set (see `recipe-catalog/PREP-NOTES.md`).
 
@@ -201,7 +201,7 @@ module currently exports is checked against the working tree (it must be publish
 must match); older published versions are immutable history whose bytes live in git, not in the tree.
 
 **Render identity.** `processRequest` adds `catalog: { serial, slug, version, contentSha256, verified }`
-to the receipt (`tools/render.mjs:309`), via a lazy import of `tools/catalog.mjs`. Unpublished or
+to the receipt (`tools/render.mjs:349`), via a lazy import of `tools/catalog.mjs`. Unpublished or
 drifted content records `verified: false` with a reason and does not block local rendering; the
 blocking gate is `catalog verify` (C3). Operator decision in PREP-NOTES.
 
@@ -292,7 +292,7 @@ findings back into this section. Depends on PR #18 fixed head. Doc-only; prototy
 
 **Goal:** `tools/catalog.mjs` and an initial schema-only `tools/catalog.sql`, with C4 guards. Depends on Phase 0.
 
-- [ ] Module with direct-execution guard (pattern `tools/render.mjs:456`); importing it opens nothing.
+- [ ] Module with direct-execution guard (pattern `tools/render.mjs:496`); importing it opens nothing.
 - [ ] Schema migration 1: `schema_migrations`, `recipes`, `recipe_versions`, `recipe_version_files`,
       `recipe_outputs`, unique natural keys, immutability and no-delete triggers.
 - [ ] Verbs and exit codes as in Design; read verbs never touch the dump or lock.

@@ -16,7 +16,7 @@ roadmap_exempt: true
 
 ## Collision map (all lanes strictly serial; no parallel lanes)
 
-| File | GH-10 phases | GH-9 phases | Open PR #18 (changes requested) |
+| File | GH-10 phases | GH-9 phases | Open PR #18 (review blocker fixed in `8e491ea`; S1/S2/S6 and others still open) |
 |---|---|---|---|
 | `tools/spike/test/canaries.test.mjs` | p1, p2 | p1, p2 | yes (S9: C1 size) |
 | `tools/render.mjs` | p2 | p1 | yes (blocker `:212-226`, S2 `:341-354`, S6 `:317`) |
@@ -55,3 +55,7 @@ Rule: rebase the stack on the fixed PR #18 head, rerun preflight, then fire GH-1
 - Preflight as given (`--project-doc PROJECT/2-WORKING/<doc> --dry-run`): GH-10 exit 6, GH-9 exit 6, `BLOCKED: project doc not found` (a relative doc resolves against the harness root). Rerun with `SWARM_PREFLIGHT_ROOT=$PWD --target-root $PWD`: GH-10 exit 0 `ready`; GH-9 exit 5 `NOT-READY`, sole reason `artifact path not found at target.ref: tools/catalog.sql` (the GH-10 dependency). Same exits with GitHub reachable; issue state OPEN.
 - `marathon.sh --plan .../recipe-catalog/MARATHON.yaml --dry-run`: exit 0, 4 phases, reviewer=agy. Responsive-flags: exit 0, 4 phases, reviewer=agy.
 - `utils/pdda/pdda.sh run`: exit 0 (observe). BLOCKER for orchestrator: 2 roadmap-coverage errors, because the GH-10/GH-9 ledger rows still point at the old 1-INBOX paths (needs a `releases roadmap` repoint). 51 warnings: 49 existing plus 2 offline issue-doc-sync warnings for the new docs. Baseline before edits: 0 errors, 49 warnings.
+
+## Rebase receipt (2026-10-10)
+
+- PR #18 review blocker (text fitting) is fixed on the PR branch at `8e491ea` (Agy code QA, 2 rounds, attested). The stack is rebased onto it; `tools/render.mjs` and `canaries.test.mjs` line citations in both plans and briefs were remapped to the fixed base (fit loop now `tools/render.mjs:220-294`). The other open review items on PR #18 (S1 `--save`, S2 `--out .`, S6 duplicated helpers, S9 canary size) still apply to the files these plans touch; rerun preflight after any further PR #18 change.

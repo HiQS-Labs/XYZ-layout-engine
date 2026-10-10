@@ -80,22 +80,22 @@ References read at `e553071` (PR #18 head).
   (`:131`), `lower` row 940 (`:139`), `items` row 700 (`:145`) of four 167-wide items (`:150`),
   `benefitsPanel` 220 (`:164`), `footer` 880 (`:185`). Rows are explicit `flexDirection: 'row'`.
 - **Canvas is fixed per recipe.** `tools/request.mjs:61` and `:68` admit only 1000x1000 for nutrition
-  and 2400x1700 for solar ("only the recipe-owned canvas is supported"). `tools/render.mjs:160` sets
+  and 2400x1700 for solar ("only the recipe-owned canvas is supported"). `tools/render.mjs:192` sets
   `fixture.width/height` from the normalized request before `buildScene`.
 - **Request fields are a closed allowlist.** `tools/request.mjs:32` admits only `inputPath, width,
   height, format, backend, scale, recipe, edits`; unknown fields are rejected. Fixture keys are closed
   by `validateFixtureShape` (`tools/request.mjs:81-102`), so flags cannot ride in the fixture without a
   schema change.
-- **One tree, two backends.** `tools/render.mjs:191-203` builds one scene per attempt and passes it to
+- **One tree, two backends.** `tools/render.mjs:223-235` builds one scene per attempt and passes it to
   Satori or Chromium (`toDocument`, `:78-91`). `toHtml` rejects any prop other than
-  `id, src, alt, width, height` (`tools/render.mjs:69`), so stack metadata must not be stored on scene
+  `id, src, alt, width, height` (`tools/render.mjs:101`), so stack metadata must not be stored on scene
   nodes; recipe-level maps keyed by node id follow the existing `CONTAINMENT` pattern
   (`tools/spike/scene.mjs:23-35`, `tools/recipes/nutrition.mjs:8`).
-- **Fitting already reports non-fit.** `tools/render.mjs:212-254` shrinks overflowing text up to ten
+- **Fitting already reports non-fit.** `tools/render.mjs:244-294` shrinks overflowing text up to ten
   attempts and throws `non-fit after N attempts` instead of publishing. The PR #18 review blocker says
-  this misses unbreakable text (`tools/render.mjs:212-226`); GH-9's "no silent clipping" relies on that
+  this misses unbreakable text (`tools/render.mjs:244-157`); GH-9's "no silent clipping" relies on that
   fix.
-- **Goldens.** C2 (`tools/spike/test/canaries.test.mjs:338-361`) compares fresh spike outputs from
+- **Goldens.** C2 (`tools/spike/test/canaries.test.mjs:341-364`) compares fresh spike outputs from
   `tools/spike/render.mjs` (which calls `createScene` directly, `tools/spike/render.mjs:263`, `:290-292`)
   with committed goldens: geometry within 0.5 px always, byte digests only when host/runtime match
   (`:355-360`, otherwise it prints `skipped`).
@@ -138,12 +138,12 @@ References read at `e553071` (PR #18 head).
 5. The receipt records `layout.resolved = [{ id, stackBelow, width: W, direction, order: [child ids] }]`.
 
 The resolver is a pure module (`tools/stack.mjs`: no I/O, no renderer import, no clock or random),
-called by `processRequest` after `recipe.buildScene` (`tools/render.mjs:191`), so library, CLI and any
+called by `processRequest` after `recipe.buildScene` (`tools/render.mjs:223`), so library, CLI and any
 later transport share it. The HTML export carries the resolved inline `flex-direction`; no media query.
 
 **Request surface.** `params: { responsive?: boolean, stackOrder?: string }` and `output?: string` join
 the allowlist at `tools/request.mjs:32`. CLI: `--param responsive=true`, `--param stackOrder=priority`,
-`--output narrow` (parsed like `--set`, `tools/render.mjs:437-444`). Unknown param keys, wrong types,
+`--output narrow` (parsed like `--set`, `tools/render.mjs:477-484`). Unknown param keys, wrong types,
 values outside the enum, or `params` on a recipe without `PARAMS` fail with field paths. Output
 selection: the per-recipe table at `tools/request.mjs:61` becomes named outputs, first entry is the
 default (today's canvas), and an explicit width/height must equal a declared output. Moving outputs
@@ -169,7 +169,7 @@ widths, only if Phase 0 shows they are required), `tools/catalog.sql` (publish 1
 
 - **GH-10 accepted on its branch** (`tools/catalog.mjs`, `tools/catalog.sql`, version bump rule). This
   branch is cut from the GH-10 branch head.
-- **PR #18 fixed head** (blocker at `tools/render.mjs:212-226`: non-fit must not miss unbreakable text).
+- **PR #18 fixed head** (blocker at `tools/render.mjs:244-157`: non-fit must not miss unbreakable text).
 - Node and the pinned Satori/Chromium from `package.json`; `pnpm install --frozen-lockfile` in the
   execution clone.
 
