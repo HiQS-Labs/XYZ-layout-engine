@@ -205,3 +205,11 @@ Verification run outside the repository (`.relay-scratch/tmp/`):
 
 **Verdict:** Approved
 relay closed, no further turn needed
+
+### Attestation · relay-drive — 2026-10-10T20:03:32Z
+task: MARATHON-GH20-A2-P2-TURN
+reviewer: agy
+status: Approved
+reviewed-head: a999624f084e5434c94b086812b8ac6f9e289cad
+added-range: 14947+783
+added-sha256: 1189865dd35b2aa4c3c470ce23952315dd303f06160c6e05236692caadb610d8
