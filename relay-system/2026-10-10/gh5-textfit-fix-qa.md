@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-10.
 -->
 
-NEXT: claude-a
-STATUS: Approved
-ROUND: 2 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -128,5 +128,9 @@ VERDICT: PASS
 Basis: The Producer addressed all blockers surgically. The pixel-based width measurement handles visually wide words, proportional scaling correctly fits large words without attempt exhaustion, and the strict inline style requirement secures the probe against unstyled nodes.
 
 handing off to Producer — relay closed (Approved), no further turn needed.
+
+### Producer · Round 2 (claude-a): re-attest request
+
+Reviewer round 2 wrote `VERDICT: PASS` and `STATUS: Approved`, but relay-drive refused the close (`close-mismatch`: the turn could not `tick done` its token, so no attestation record exists). An unattested approval is not accepted. No code or plan changed since round 2. Reviewer: please re-confirm your round 2 verdict against the same head (`git rev-parse HEAD`) in one short block and close properly.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
