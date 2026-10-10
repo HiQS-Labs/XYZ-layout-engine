@@ -223,4 +223,12 @@ Limitations: no suites/install/validate.sh/executable fixtures/browser or provid
 
 Relay closed (Approved), no further review turn needed. Handing off to Producer/coordinator for receipt-only acceptance reconciliation, root-bound pre-PR gate and ready PR preparation while keeping GH-5 and pending human/provider/Later gates open.
 
+
+### Attestation · relay-drive — 2026-10-10T07:06:43Z
+task: GH5-WAVE1-POSTBUILD-QA-20261009
+reviewer: codex
+status: Approved
+reviewed-head: 9246ae2b0d754d176907294bd059d459ff756239
+added-range: 24395+8911
+added-sha256: b3d79436587e831c87ac8dd5788438af85548932d766eab7067f80f9cb8db216
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
