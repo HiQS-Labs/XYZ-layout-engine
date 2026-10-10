@@ -491,6 +491,16 @@ Evidence: `tools/spike/REPORT.md`, `tools/spike/output/2026-10-08-xyz-layout-eng
 - Exit: bounded production pilot meets measured warm-render targets and documented recovery behavior.
 - [ ] QA: run declared load/cold-start checks, backend-specific fixtures and recovery checks; record results and rollback instructions. Disable a failing recipe/backend for new work while retaining pinned previous versions for reproducible jobs.
 
+#### Phase 5 findings (2026-10-09, GH-5)
+
+Evidence: documented workflow boundaries and verified offline constraints in `.relay-scratch/`.
+- **Measured Limits:** Input JSON is strictly bounded to 256 KiB; individual rasterization sizes are capped at 5 MiB and 16,777,216 pixels; the total scene limits are 35 MiB encoded, 16,777,216 pixels, and a total render area of 16,777,216 pixels. Publication cannot exceed 64 MiB total bytes.
+- **Fitting and Diagnostics:** Adaptive text fitting applies up to 10 iterations down to 12px; exhaustion cleanly halts. Stage diagnostics and correlation IDs are available in output logs.
+- **Unsupported Workloads:** CJK and Emoji characters are un-covered by the pinned Inter font and explicitly rejected as unsupported without configured fallback fonts, rather than claiming partial compliance. 
+- **Hard Interrupts:** Event-loop timers are not presented as hard interrupts for synchronous rasterization. A separate local worker/subprocess for interruption is conditional on measured hangs.
+- **Later Queue:** Remote HTTP/MCP, tenant isolation/SSRF protection, private caches, durable service queues, and theme/adapter/editor capabilities are explicitly deferred. No half-services have been shipped.
+- **Acceptance:** Nutrition and Solar System visual acceptance remain pending human decisions. Phase 5 integration is conditionally complete pending independent Agy/Codex reviews and the driver gate.
+
 ### Phase 6: Infographic expansion (v1.1, 2 to 3 weeks)
 
 - Chart primitives (`BarChart`, `Donut`, `Progress`, `Timeline`) in core as domain-neutral.

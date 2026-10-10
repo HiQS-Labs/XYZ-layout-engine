@@ -30,11 +30,17 @@ Sizes, distances, belt density and positions are schematic, not to scale. The ar
 Run from the repository root after `pnpm install --frozen-lockfile`:
 
 ```sh
+# Render the diagram and contact sheet
 node examples/2026-10-08-solar-system/render-diagram.mjs
 node examples/2026-10-08-solar-system/contact-sheet.mjs
+
 # Explicit browser render or vector export:
 node examples/2026-10-08-solar-system/render-diagram.mjs --backend playwright
 node examples/2026-10-08-solar-system/render-diagram.mjs --format svg
+
+# Durable edit workflow (modifying the fixture and exporting as self-contained HTML/SVG)
+cp examples/2026-10-08-solar-system/fixture.json .relay-scratch/solar-edit.json
+node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export
 ```
 
 These workflows read the eleven committed `assets/web/*.png` derivatives, checking their pinned display digests and PNG/aggregate budgets. They need no full-size originals, provider credentials or paid calls. Satori is the default; Chromium runs only when explicitly requested. New artifacts use the shared atomic manifest publisher under root `tools/output/solar-system/` and `tools/output/solar-system-contact-sheet/`; resolve `manifest.json.current` to find `render.png` (or the requested export). The committed artwork and `verification.json` remain historical provenance.

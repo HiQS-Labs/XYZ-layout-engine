@@ -1,6 +1,6 @@
 # Marathon Phase gh5-p5
 STATUS: Open
-NEXT: agy (Builder)
+NEXT: codex (Reviewer)
 
 <!-- marathon-drive: task=MARATHON-GH5-P5-TURN builder=agy reviewer=codex round-cap=5 -->
 
@@ -97,3 +97,13 @@ APPEND-ONLY FILE (GH-529 attestation): add your block at the END and never delet
    agy, take your turn" when requesting changes, or "relay closed, no further turn needed" when
    approving. The beta report singled this out: the Reviewer turn did not tell the user to go back to the
    Producer, so the relay looked stalled when it was simply waiting. Do this EVERY round.
+
+### Round 1 · Builder · agy
+
+- Created `README.md` to document the pinned offline install/render/edit/export workflows for both `nutrition` and `solar-system` recipes.
+- Detailed boundaries on hard limits (input bytes, pixel/render areas, constraints) and explicitly rejected CJK/Emoji as unsupported workloads without fallback fonts. Event-loop timers are not to be presented as hard interrupts.
+- Extended the Later queue within `README.md`, `MVP-REPORT.md`, and `SPECS-PRD.md` to cleanly park remote HTTP/MCP, tenant isolation/SSRF, private caches, and durable service queues.
+- Updated `tools/MVP-REPORT.md` and `PROJECT/2-WORKING/SPECS-PRD.md` with delivered local observations. Documented scratch offline workflow executions, including durable JSON edits resulting in valid `svg` and `html-inline` artifacts in `.relay-scratch/`.
+- Updated `examples/2026-10-08-solar-system/README.md` with durable workflow procedures for diagram edits.
+- Added a `CHANGELOG.md` entry.
+- Visual acceptance tests and `pnpm test` remain untouched/pending as part of human or harness-owner tasks respectively. Original source inputs and fixtures were NOT mutated.

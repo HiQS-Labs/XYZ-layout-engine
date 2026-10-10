@@ -128,3 +128,20 @@ Focused command `node .relay-scratch/turn2-probe.mjs` passed on this worktree: t
 `node --check` passed for render/request/profile, both recipes and the existing canary file. `node tools/profile.mjs sample nutrition svg .relay-scratch` and the equivalent Solar command exited 0, checking profiler operation/publication/digests/geometry; these single smoke samples are not replacement performance measurements. All probes, fixture copies, exports and raw logs are under `.relay-scratch/`. No full suite, browser launch, paid call or git command was run. Independent Agy review and this rebuild's harness-owned full gate remain pending; earlier browser/suite receipts do not approve this turn. Startup README/releases CLI and graph tools remain unavailable in this isolated worktree; source fallback and preserved recovery receipts were used.
 
 Root cause: compact HTML packaging invalidated C1's positional page assumption; Fix site: the existing C1 exact-name assertion already present; Why not upstream/downstream: the runtime correctly emits requested HTML with necessary bundled dependencies, and no artifact ordering contract exists. Easy reversibility: this turn changes documentation and the handoff only; it preserves the repaired implementation for independent review.
+
+### Phase 5 — Integration and Handoff
+
+The offline documentation and constraint definitions have been completed and verified via scratch probes.
+
+**Measured Limits and Unsupported Workloads:**
+- Input JSON is bounded to 256 KiB. Per-image rasterization limits are 5 MiB and 16,777,216 pixels. Total scene limits are 35 MiB encoded, 16,777,216 pixels, and render area of 16,777,216 pixels. Export cannot exceed 64 MiB total published bytes.
+- Text fitting uses up to 10 iterations down to 12px; non-fit exhaustion halts rather than producing broken geometry.
+- Unsupported scripts (CJK, Emoji) lack coverage in the pinned Inter font and are rejected as unsupported workloads without explicit font fallbacks, rather than claiming partial compliance.
+- A local worker/subprocess for hard interruption is conditional on measured need. Event-loop timers are not presented as hard interrupts for synchronous rasterization. Any unenforceable hard limit is documented and rejected.
+- Stage diagnostics and correlation IDs are available in standard JSON logging outputs.
+- Remote HTTP/MCP, tenant isolation/SSRF, private caches, durable service queues, themes/adapters, and full editor are explicitly in the **Later** queue. No half-services have been shipped.
+
+**Receipts:**
+- Scratch workflows for `nutrition` and `solar-system` passed. Saved edits were durable and accurately applied to the generated `svg`, `html`, and `html-inline` artifacts without mutating the source repository files.
+- `pnpm test` assertion execution belongs to the native driver gate.
+- No unearned green boxes, issue closure, or production readiness are claimed. Nutrition and Solar System visual acceptance are recorded as pending human decisions. #5 remains open for Later requirements.
