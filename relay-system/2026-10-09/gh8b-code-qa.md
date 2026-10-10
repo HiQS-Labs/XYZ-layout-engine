@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-09.
 -->
 
-NEXT: Reviewer
+NEXT: claude-a
 STATUS: Open
 ROUND: 1 / 3
 
@@ -82,5 +82,32 @@ Output: graded findings with citations, `VERDICT: PASS|FAIL|PARKED`, `Basis:`, a
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer — Round 1 (agy)
+
+swept file: yes
+
+* **[Blocker] Leakage of signed URLs and OAuth tokens**: The `redact()` function only masks email addresses (`EMAIL_RE`). If the CLI errors and dumps an OAuth token or a signed URL to stderr, or if a download exception includes the unstripped URL, `excerpt()` passes it through intact to the ledger and stdout (`higgsfield-cli-spike.py:100-104`).
+  * Observed input: CLI error output or exception containing `Bearer abcdef` or `https://host/path?sig=secret123`
+  * Affected scope: `redact(text)` (`higgsfield-cli-spike.py:99`)
+  * Falsifier: `redact("Failed: https://host/path?sig=123 Bearer abc")` returns `"Failed: https://host/path?sig=123 Bearer abc"` (the sensitive strings remain).
+  * Fix: Update `redact()` to strip query parameters (e.g. `\?[^ \n"']+`) and common OAuth tokens (e.g. `Bearer [A-Za-z0-9\-_]+`).
+
+* **[Should] Unvalidated `HIGGSFIELD_BIN` execution**: When the offline guard is disabled, `cli_bin()` uses `os.environ.get('HIGGSFIELD_BIN')` with no validation (`higgsfield-cli-spike.py:219`). This allows arbitrary commands to be executed in place of the CLI.
+  * Observed input: `HIGGSFIELD_BIN=/usr/bin/whoami`
+  * Affected scope: `cli_bin()` (`higgsfield-cli-spike.py:218`)
+  * Falsifier: `HIGGSFIELD_BIN=/usr/bin/whoami python3 examples/2026-10-09-cell-division/higgsfield-cli-spike.py run --dry-run` executes `/usr/bin/whoami`.
+  * Fix: Add a check inside `cli_bin()` when `HIGGSFIELD_CLI_SPIKE_OFFLINE` is not `'1'` to ensure `os.path.basename(b) == 'higgsfield'`.
+
+* **[Pass] Spend safety**: Gate logic correctly applies the maximum of balance and estimates, checking `total <= CAP_CREDITS` and `math.isfinite(total)` (`higgsfield-cli-spike.py:138`). Any `NaN` or unparseable JSON values cause `spend_total` to return `NaN` (`higgsfield-cli-spike.py:146`) or fail parsing entirely (`higgsfield-cli-spike.py:132`), safely stopping the run. `reserve` row is strictly written before the CLI is invoked (`higgsfield-cli-spike.py:352`).
+
+* **[Pass] Inspection and GO eligibility**: `go_eligible` safely checks `not row['flags']` and `row.get('inspection').get('real_alpha') is True` (`higgsfield-cli-spike.py:267-268`). An opaque RGBA or baked matte yields `transparentPixels=0`, which correctly results in `real_alpha=false` in the inspector (`inspect-alpha.mjs:72`).
+
+* **[Pass] Diagram raster path**: The pipeline correctly requires exactly one `asset_<id>` match via `assert.deepEqual` (`render-diagram.mjs:195`), validates `sha256` against `provenance.web.sha256` (`render-diagram.mjs:62`), and refuses rendering if `alpha.real_alpha!==true` (`render-diagram.mjs:66`).
+
+VERDICT: FAIL
+Basis: 1 Blocker for token/query redaction, and 1 Should for `HIGGSFIELD_BIN` validation.
+
+handing off to claude-a — go to the claude-a window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
