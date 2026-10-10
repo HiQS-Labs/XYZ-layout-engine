@@ -2,8 +2,10 @@
 """GH-8 Phase 0b: does the Higgsfield CLI's `--background transparent` return real alpha for gpt_image_2_5?
 
 Python standard library only. The script has no network code for the API and handles no credentials: it shells out
-to the `higgsfield` CLI (HIGGSFIELD_BIN, default `higgsfield`), which owns its own sign-in. The only network call it
-makes itself is an unauthenticated download of each public result_url.
+to the `higgsfield` CLI on PATH, which owns its own sign-in (HIGGSFIELD_BIN is honoured only under the selftest's
+offline guard, to select the fake shim). The only network call it makes itself is an unauthenticated download of
+each public result_url. Every string that leaves the process (ledger, stdout, stderr) is redacted: URL query
+strings, Authorization/Bearer values, JWT-like strings and secret-looking key=value tokens are masked.
 
 Subcommands:
   selftest                       offline controls against a fake `higgsfield` shim (never the real CLI)
@@ -96,8 +98,38 @@ def now():
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
 
+URL_QUERY_RE = re.compile(r'''(https?://[^\s"'?#<>]*)\?(?!<query-stripped>)[^\s"'<>]*''')
+AUTH_RE = re.compile(r'''(?i)(authorization["']?\s*[:=]\s*["']?)[^\r\n"']+''')
+BEARER_RE = re.compile(r'(?i)\bbearer\s+[A-Za-z0-9._~+/=-]+')
+JWT_RE = re.compile(r'[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}')
+SECRET_KV_RE = re.compile(r'''(?i)\b((?:access_|refresh_|id_)?token|secret|api[_-]?key|key|password|passwd|sig|'''
+                          r'''signature)(["']?\s*[:=]\s*["']?)([^\s"'&,;}]{6,})''')
+
+
+def redact_secrets(text):
+    """Masks signed-URL queries, Authorization/Bearer values, JWT-like strings and secret-looking key=value tokens.
+    Idempotent, so text redacted twice reads the same."""
+    text = URL_QUERY_RE.sub(r'\1?<query-stripped>', text)
+    text = AUTH_RE.sub(r'\1***', text)
+    text = BEARER_RE.sub('Bearer ***', text)
+    text = JWT_RE.sub('***', text)
+    return SECRET_KV_RE.sub(r'\1\2***', text)
+
+
 def redact(text):
-    return EMAIL_RE.sub('<redacted>', text)
+    """For anything printed: secrets and email addresses."""
+    return EMAIL_RE.sub('<redacted>', redact_secrets(text))
+
+
+def scrub_obj(obj):
+    """redact_secrets on every string (keys and values) inside a JSON-able value, before it is serialised."""
+    if isinstance(obj, str):
+        return redact_secrets(obj)
+    if isinstance(obj, dict):
+        return {scrub_obj(k): scrub_obj(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [scrub_obj(v) for v in obj]
+    return obj
 
 
 def excerpt(text, n=300):
@@ -164,9 +196,11 @@ class Ledger:
         return [parse_json_text(l) for l in self.path.read_text(encoding='utf-8').splitlines() if l.strip()]
 
     def append(self, **row):
-        row = {'ts': now(), **row}
+        row = scrub_obj({'ts': now(), **row})
         line = json.dumps(row, sort_keys=True, allow_nan=False)
-        if EMAIL_RE.search(line):  # the account reply carries an email address; it must never be ledgered
+        # The account reply carries an email address. It is refused outright rather than masked, so a code path
+        # that would ledger the raw account reply fails loudly.
+        if EMAIL_RE.search(line):
             raise RuntimeError('refusing to write an email address to the ledger')
         with open(self.path, 'a', encoding='utf-8') as fh:
             fh.write(line + '\n')
@@ -216,11 +250,14 @@ def exclusive_lock(ledger_path):
 # ---------------------------------------------------------------- the CLI
 
 def cli_bin():
-    b = os.environ.get('HIGGSFIELD_BIN') or 'higgsfield'
-    if os.environ.get('HIGGSFIELD_CLI_SPIKE_OFFLINE') == '1':  # selftest: only the fake shim may ever run
-        fake_dir = os.environ.get('HIGGSFIELD_CLI_SPIKE_FAKE_DIR')
-        if not (fake_dir and os.path.isabs(b) and Path(fake_dir).resolve() in Path(b).resolve().parents):
-            raise Offline(f'offline guard: refusing to run {b!r}; only the selftest fake may run')
+    """The real run always uses `higgsfield` from PATH; HIGGSFIELD_BIN is ignored unless the selftest's offline
+    guard is on, and then it must point at the fake shim inside the selftest's fake dir."""
+    if os.environ.get('HIGGSFIELD_CLI_SPIKE_OFFLINE') != '1':
+        return 'higgsfield'
+    b = os.environ.get('HIGGSFIELD_BIN') or ''
+    fake_dir = os.environ.get('HIGGSFIELD_CLI_SPIKE_FAKE_DIR')
+    if not (fake_dir and os.path.isabs(b) and Path(fake_dir).resolve() in Path(b).resolve().parents):
+        raise Offline(f'offline guard: refusing to run {b!r}; only the selftest fake may run')
     return b
 
 
@@ -547,6 +584,9 @@ if kind == 'create':
         time.sleep(5)
     if mode == 'exit1':
         sys.exit(1)
+    if mode == 'leaky':
+        sys.stderr.write(scn['stderr'])
+        sys.exit(1)
     if mode == 'garbage':
         print('Submitting job... done')
         sys.exit(0)
@@ -606,8 +646,8 @@ def selftest():
             led.append(**r)
         return led
 
-    def run(led, only=None, dry=False, inspector=stub_inspector, timeout=CREATE_TIMEOUT_S):
-        runner = Runner(led.path, raw_dir=tmp / 'raw', fetch=fake_fetch, inspector=inspector, create_timeout=timeout)
+    def run(led, only=None, dry=False, inspector=stub_inspector, timeout=CREATE_TIMEOUT_S, fetch=fake_fetch):
+        runner = Runner(led.path, raw_dir=tmp / 'raw', fetch=fetch, inspector=inspector, create_timeout=timeout)
         out = io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
             code = exit_code(lambda: run_cmd(runner, only, dry))
@@ -762,11 +802,56 @@ def selftest():
         return (f"earth.png real_alpha true (transparent {a['transparentPixelRatio']}); solar-system.png "
                 f"real_alpha false (minAlpha 255, 4 opaque corners)")
 
+    def c10():  # tokens and signed URLs in CLI stderr or a download exception never reach ledger or output
+        jwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZWxmdGVzdCJ9.c2VsZnRlc3Qtc2lnbmF0dXJl'
+        secrets = ['SECRETSIG', 'Expires=1', 'abc.def.ghi-longtokenvalue', jwt, 'tokvalue123456', 'acctok987654',
+                   'DLSECRET', 'X-Amz-Expires=60']
+        scenario(create='leaky', stderr=('error: upload https://cdn.example/x.png?sig=SECRETSIG&Expires=1 failed\n'
+                                         f'{jwt}\n'
+                                         'retry with token=tokvalue123456 {"access_token": "acctok987654"}\n'
+                                         'Authorization: Bearer abc.def.ghi-longtokenvalue\n'))
+        led = ledger('c10a')
+        code, out_a = run(led, only='T2-cytokinesis')
+        assert code == 4 and len(calls('create')) == 1, f'leaky create: exit {code}'
+
+        def leaky_fetch(url):
+            raise RuntimeError('GET https://cdn.example.invalid/u/x.png?X-Amz-Signature=DLSECRET&X-Amz-Expires=60 '
+                               'returned 403')
+        scenario()
+        led_b = ledger('c10b')
+        code, out_b = run(led_b, only='T2-cytokinesis', fetch=leaky_fetch)
+        r = events(led_b, 'result')[0]
+        assert code == 0 and 'download_failed' in r['flags'], f'download failure: exit {code}, {r.get("flags")}'
+        text = led.path.read_text() + led_b.path.read_text()
+        for s in secrets:
+            assert s not in text, f'{s!r} reached the ledger'
+            assert s not in out_a + out_b, f'{s!r} reached stdout/stderr'
+        for form in ('https://cdn.example/x.png?<query-stripped>', 'https://cdn.example.invalid/u/x.png?<query-stripped>'):
+            assert form in text, f'stripped form {form} missing from the ledger'
+        assert 'https://cdn.example/x.png?<query-stripped>' in out_a, 'stripped form missing from stderr'
+        assert redact_secrets(redact_secrets(text)) == redact_secrets(text) == text, 'redaction not idempotent'
+        return ('stderr with a signed URL, an Authorization header, a JWT, token= and access_token, and a download exception '
+                'with a signed URL: none in ledger/stdout/stderr; "?<query-stripped>" forms recorded')
+
+    def c11():  # HIGGSFIELD_BIN is honoured only under the offline guard
+        env = {k: v for k, v in os.environ.items() if not k.startswith('HIGGSFIELD_CLI_SPIKE_')}
+        env['HIGGSFIELD_BIN'] = str(shim)
+        code = ('import importlib.util, sys\n'
+                'spec = importlib.util.spec_from_file_location("cli_spike", sys.argv[1])\n'
+                'm = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\n'
+                'print(m.cli_bin())\n')
+        p = subprocess.run([sys.executable, '-B', '-c', code, __file__], capture_output=True, text=True, env=env)
+        assert p.returncode == 0 and p.stdout.strip() == 'higgsfield', f'guard off: {p.stdout!r} {p.stderr[-300:]}'
+        assert cli_bin() == str(shim), 'guard on: override not honoured'
+        return 'guard off + HIGGSFIELD_BIN=fake -> "higgsfield" (subprocess); guard on -> the fake shim path'
+
     for name, fn in (('(i) cap refusal 19.7+0.5 / 19.5+0.5', c1), ('(ii) unusable cost or balance stops', c2),
                      ('(iii) balance lag uses the larger', c3), ('(iv) ambiguous create stops, no retry', c4),
                      ('(v) second process refused by the lock', c5), ('(vi) param echo mismatch flagged', c6),
                      ('(vii) resumable, dry run, pipeline', c7), ('(viii) no email in the ledger', c8),
-                     ('(ix) inspector controls', c9)):
+                     ('(ix) inspector controls', c9),
+                     ('(x) tokens and signed URLs never reach the ledger', c10),
+                     ('(xi) HIGGSFIELD_BIN only under the offline guard', c11)):
         control(name, fn)
     import shutil
     shutil.rmtree(tmp, ignore_errors=True)
