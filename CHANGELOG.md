@@ -1,4 +1,16 @@
 # Changelog
+## 2026-10-11 — Generation safety: no double payment, no signed URLs in receipts (#23 S3, S4, S5, S7)
+
+- `examples/2026-10-08-solar-system/generate-assets.py`:
+  - A deleted `manifest.json` next to existing attempt directories is now refused instead of being read as empty and paid for again (S3).
+  - The caller inherits the run lock, so a caller left running after the generator crashes blocks `--force-retry` from paying twice; receipts are written atomically (S4).
+  - `failed` now reads the per-attempt `dispatched: false` that the real caller emits, so a never-dispatched job can be re-planned (S5).
+  - URL query strings are stripped from receipts and from the manifest's copied `attempts` (S7). Receipts are now the redacted, re-serialized caller output rather than its verbatim bytes.
+  - An empty job list exits 4 instead of 0.
+- Each item was reproduced first against a stub caller, with no paid calls.
+- The existing C1 canary is extended (no new test). Removing any one of the five guards turns C1 red. Gate: 4/4 in 35.9 s.
+- Refs #23. Easy to reverse (revert).
+
 ## 2026-10-11 — Post-QA review closed; #9, #19 and #26 reconciled
 
 - Landed #24 (`51b7a47`, GH-20 A2 design records), #25 (`7d66787`, #23 S1/S2) and #27 (`db5af24`, the #26 post-QA record: GLM 5.3 PASS with no Blocker or Should findings). Closed #26 (done), #19 (delivered by #22 and #24 under the #20 plan) and #9 (superseded by #20 Phase B). The ledger moved GH-26 to Completed and GH-9 to Deferred; the GH-26 doc moved to `PROJECT/3-COMPLETED/`, and the GH-9 doc and its marathon folder to `PROJECT/4-MISC/`. #20, #21, #23, #5 and #8 stay open. Refs #20. Refs #23.

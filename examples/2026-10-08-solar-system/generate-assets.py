@@ -4,6 +4,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -28,6 +29,52 @@ subjects = {
  'milky-way':'The Milky Way alone as an artist impression schematic face-on barred spiral galaxy, centered round-ish disk, luminous pale gold central bar, sweeping elegant blue-white spiral arms and subtle warm dust lanes. Entire galaxy fits at 85 percent canvas width. No labels, no location marker, no foreground planets, no black rectangle, no background starfield beyond the galaxy; galaxy fades smoothly to transparent space outside its disk. Educational astronomical illustration, not a claimed photograph.'
 }
 jobs=[{'id':k,'prompt':style+v,'model':'gpt-image-2.5-flare','size':'1024x1024','quality':'medium','background':'transparent'} for k,v in subjects.items()]
+
+# An attempt folder is `<asset id>_<job digest>_<uuid4 hex>` (see run_job).
+ATTEMPT_DIR = re.compile(r'[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}_[0-9a-f]{64}_[0-9a-f]{32}')
+URL_QUERY = re.compile(r'(https?://[^\s"\'?#]+)[?#][^\s"\']*')
+
+
+def redact(value):
+    # Signed URLs carry credentials in their query string; keep the location, drop the query.
+    if isinstance(value, str):
+        return URL_QUERY.sub(r'\1', value)
+    if isinstance(value, list):
+        return [redact(v) for v in value]
+    if isinstance(value, dict):
+        return {k: redact(v) for k, v in value.items()}
+    return value
+
+
+def receipt_text(stdout):
+    try:
+        return json.dumps(redact(json.loads(stdout)), ensure_ascii=False)
+    except ValueError:
+        return redact(stdout)
+
+
+def never_dispatched(result):
+    # The caller reports `dispatched` per attempt; a top-level flag is honoured if present.
+    if result.get('dispatched') is False:
+        return True
+    attempts = result.get('attempts')
+    return isinstance(attempts, list) and bool(attempts) and all(isinstance(a, dict) and a.get('dispatched') is False for a in attempts)
+
+
+def atomic_write(path, text):
+    import tempfile
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as output:
+            temporary = Path(output.name)
+            output.write(text)
+            output.flush()
+            os.fsync(output.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
 
 def job_digest(job):
     core = dict(job)
@@ -56,22 +103,11 @@ def read_manifest(path):
 
 
 def update_manifest(path, digest, updates):
-    import tempfile
     with open(path.parent / 'manifest.lock', 'a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         manifest = read_manifest_internal(path)
         manifest.setdefault(digest, {}).update(updates)
-        temporary = None
-        try:
-            with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as output:
-                temporary = Path(output.name)
-                json.dump(manifest, output, indent=2, ensure_ascii=False, allow_nan=False)
-                output.flush()
-                os.fsync(output.fileno())
-            os.replace(temporary, path)
-        finally:
-            if temporary is not None:
-                temporary.unlink(missing_ok=True)
+        atomic_write(path, json.dumps(manifest, indent=2, ensure_ascii=False, allow_nan=False))
         return manifest[digest]
 
 
@@ -117,8 +153,8 @@ def admit_jobs(job_list, caller):
     manifest_bytes = manifest_path.read_bytes() if manifest_path.exists() else b''
     recipe = json.loads(manifest_bytes)['recipes']['image_generation'] if manifest_bytes else 'configured-caller:' + hashlib.sha256(caller.read_bytes()).hexdigest()
     caller_digest = hashlib.sha256(caller.read_bytes()).hexdigest()
-    if not isinstance(job_list, list) or len(job_list) > 32:
-        raise ValueError('jobs must be a list of at most 32 exact inputs')
+    if not isinstance(job_list, list) or not 1 <= len(job_list) <= 32:
+        raise ValueError('jobs must be a list of 1 to 32 exact inputs')
     seen, admitted = set(), []
     required = {'id', 'prompt', 'model', 'size', 'quality', 'background'}
     optional = {'references', 'parameters', 'recipe_version', 'refinement_id'}
@@ -168,7 +204,7 @@ def admit_jobs(job_list, caller):
     return admitted, manifest_path if manifest_bytes else None
 
 
-def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=None, deadline=None, max_attempts=1, caller_manifest=None):
+def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=None, deadline=None, max_attempts=1, caller_manifest=None, lock_fd=None):
     import signal
     import uuid
     state = read_manifest(manifest_path).get(digest, {})
@@ -218,24 +254,27 @@ def run_job(job, digest, manifest_path, assets_dir, caller, timeout, max_budget=
         if remaining <= 0:
             update_manifest(manifest_path, digest, {'status': 'pending', 'reason': 'deadline exceeded before launch; no dispatch'})
             return False
-        process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
+        # The caller inherits the run lock, so a caller orphaned by a parent crash keeps any new run
+        # (including --force-retry) out until it exits, instead of letting a retry pay twice.
+        process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True, pass_fds=() if lock_fd is None else (lock_fd,))
         try:
             stdout, stderr = process.communicate(timeout=remaining)
         except subprocess.TimeoutExpired:
             os.killpg(process.pid, signal.SIGKILL)
             stdout, stderr = process.communicate()
-            receipt.write_text(stdout)
+            atomic_write(receipt, receipt_text(stdout))
             update_manifest(manifest_path, digest, {'status': 'unknown', 'reason': 'timeout; reconcile saved output before explicit retry'})
             return False
-        receipt.write_text(stdout)
-        result = json.loads(stdout)
+        text = receipt_text(stdout)
+        atomic_write(receipt, text)
+        result = json.loads(text)
         if not isinstance(result, dict):
             raise ValueError('invalid receipt')
         attempts = result.get('attempts')
         count = len(attempts) if isinstance(attempts, list) else attempts
         valid = process.returncode == 0 and isinstance(count, int) and not isinstance(count, bool) and 1 <= count <= max_attempts and validate_output(out, receipt, background=job['background'], expected_recipe=job['_recipe_ref'], max_attempts=max_attempts, deadline=deadline)
         valid = valid and result.get('recipeRef') == job['_recipe_ref']
-        status = 'complete' if valid else ('failed' if result.get('dispatched') is False else 'unknown')
+        status = 'complete' if valid else ('failed' if never_dispatched(result) else 'unknown')
         update_manifest(manifest_path, digest, {'status': status, 'exit': process.returncode, 'latency_seconds': time.monotonic() - start, 'attempts': attempts, 'usage': result.get('usage'), 'cost': result.get('cost'), 'image_sha256': hashlib.sha256(out.read_bytes()).hexdigest() if out.exists() else None, 'receipt_sha256': hashlib.sha256(receipt.read_bytes()).hexdigest(), 'stage_metrics': 'unavailable from configured caller'})
         if not valid:
             print(f"{job['id']}: corrupt output or unresolved caller result; inspect immutable receipt", flush=True)
@@ -263,6 +302,8 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
             print('whole-run deadline exceeded during admission', flush=True)
             return False
         manifest_path = assets_dir / 'manifest.json'
+        if not manifest_path.exists() and not manifest_path.is_symlink() and any(p.is_dir() and ATTEMPT_DIR.fullmatch(p.name) for p in assets_dir.iterdir()):
+            raise ValueError('attempt folders exist without manifest.json; restore it or reconcile before dispatch')
         manifest = read_manifest(manifest_path)
         planned = []
         for job in admitted:
@@ -286,7 +327,7 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
                 return False
             elif status == 'failed':
                 receipt = assets_dir / state.get('receipt', '')
-                if not receipt.is_file() or hashlib.sha256(receipt.read_bytes()).hexdigest() != state.get('receipt_sha256') or json.loads(receipt.read_text()).get('dispatched') is not False:
+                if not receipt.is_file() or hashlib.sha256(receipt.read_bytes()).hexdigest() != state.get('receipt_sha256') or not never_dispatched(json.loads(receipt.read_text())):
                     raise ValueError('failed state lacks authoritative non-dispatch receipt')
             planned.append((job, digest))
         print(f'Planned calls: {len(planned)}' if planned else '0 planned calls.', flush=True)
@@ -304,7 +345,7 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
             history = prior.get('history', []) + ([{k: v for k, v in prior.items() if k != 'history'}] if prior else [])
             update_manifest(manifest_path, digest, {'status': 'pending', 'job_id': job['id'], 'input': job, 'history': history, 'cost': None})
         def execute(item):
-            return run_job(*item, manifest_path, assets_dir, caller, timeout, max_budget, deadline, max_attempts, caller_manifest)
+            return run_job(*item, manifest_path, assets_dir, caller, timeout, max_budget, deadline, max_attempts, caller_manifest, lock.fileno())
         sun = next((item for item in planned if item[0]['id'] == 'sun'), None)
         if sun:
             if not execute(sun):
