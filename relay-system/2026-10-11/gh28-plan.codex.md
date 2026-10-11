@@ -98,4 +98,12 @@ swept file: yes
 
 Relay closed (Approved), no further review turn needed. Producer resumes implementation and records the final evidence required by the plan.
 
+
+### Attestation · relay-drive — 2026-10-11T16:31:58Z
+task: GH28-PLAN-20261011
+reviewer: codex
+status: Approved
+reviewed-head: 07321a6e21701e27a937c2ec5e05a02b73d7d7b4
+added-range: 7438+4966
+added-sha256: a9e79f0aeaa44b5d1d4d2d07f1c6509381b32c5a1cab0d37aa3e7df208b30c0a
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
