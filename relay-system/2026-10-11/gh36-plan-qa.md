@@ -338,4 +338,12 @@ solar-system playwright: png,html,html-inline
 
 Relay closed (Approved), no further turn needed. Producer (claude-a) can proceed with the plan in the authorized build clone and fill its evidence tables.
 
+
+### Attestation · relay-drive — 2026-10-11T23:04:01Z
+task: RELAY-gh36-plan-qa
+reviewer: codex
+status: Approved
+reviewed-head: d7eb9878deceb2da1ebe71aff0839f7825bbeb7f
+added-range: 33395+5377
+added-sha256: 183b7177a024d20b68b62eaf75f64db530af1aaabcc6be20f796f4671ca3c899
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
