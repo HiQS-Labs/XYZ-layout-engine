@@ -1,0 +1,46 @@
+{
+  "id": "recursive-process-diagram",
+  "width": 1600,
+  "height": 1340,
+  "title": "Human development as recursive belief updating",
+  "subtitle": "Each consequence becomes the next activating event. Examining a belief produces a revised outlook that later beliefs keep building on.",
+  "theme": {
+    "palette": {
+      "background": "#f3f2ee",
+      "ink": "#1f2a33",
+      "muted": "#5f6a73",
+      "rule": "#c8cbc6",
+      "surface": "#ffffff",
+      "accent": "#2c6e72",
+      "negative": "#9c4a3c",
+      "positive": "#3d6e4c"
+    }
+  },
+  "stages": [
+    { "number": 1, "formula": "A1 B1 C1" },
+    { "number": 2, "formula": "A2 B2 C2" },
+    { "number": 3, "formula": "B2 D E" },
+    { "number": 4, "formula": "B3 B4 …" }
+  ],
+  "events": [
+    { "token": "A1", "label": "Activating event", "caption": "Something happens, such as a tense conversation." },
+    { "token": "A2", "label": "Next event", "caption": "The first consequence becomes the next thing that happens." }
+  ],
+  "states": [
+    { "token": "B1", "label": "Belief", "caption": "How the event is interpreted in the moment." },
+    { "token": "B2", "label": "Updated belief", "caption": "Shaped by what the first consequence taught." }
+  ],
+  "consequences": [
+    { "token": "C1", "label": "Consequence", "caption": "The relationship is strained.", "polarity": "negative" },
+    { "token": "C2", "label": "Consequence", "caption": "The relationship is repaired.", "polarity": "positive" }
+  ],
+  "branch": {
+    "examination": { "token": "D", "label": "Examination", "caption": "Question the belief: is it accurate, and is it useful?" },
+    "outcome": { "token": "E", "label": "Revised outlook", "caption": "A more flexible way to read the next event." }
+  },
+  "trail": { "label": "Continuous belief revision", "tokens": ["B3", "B4", "…"] },
+  "footer": {
+    "note": "Schematic: the stages and outcomes are illustrative, not measured.",
+    "source": "After the ABC model of cognitive-behavioural therapy (A activating event, B belief, C consequence), with D and E shown as examination and revised outlook."
+  }
+}
