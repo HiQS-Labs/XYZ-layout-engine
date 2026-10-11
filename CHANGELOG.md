@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-11 — #33 and #35 landed; #34 reconciled
+
+- Landed #35 (`fb8b0d6`, Barlow Condensed as the starter default font) and #33 (`33f1eff`, `SYSTEM-INSTRUCTIONS.md`, rebased onto #35). Closed #34. The ledger moved GH-34 to Completed, and its capture doc moved to `PROJECT/3-COMPLETED/`. Refs #34.
+- Easy to reverse (documents and ledger only).
+
 ## 2026-10-11 — SYSTEM-INSTRUCTIONS.md: anti-slop design rules for every agent
 
 - New root file `SYSTEM-INSTRUCTIONS.md`: ten numbered rules (AS-1 to AS-10) against cliché visual output, plus a required before-and-after report. The rules were adapted from an operator-supplied list for web front ends to what this engine makes: fixed-canvas infographics, diagrams and AI-generated image assets. Web-only advice (hero sections, buttons, mobile overflow) was replaced by rules on infographic composition, fixture themes, vendored fonts and image prompts.

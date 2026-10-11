@@ -2,7 +2,7 @@
 gh_issue: 34
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/34
 title: "Barlow Condensed as the starter default font for new visual work"
-status: Proposed (1-INBOX — not yet active)
+status: Completed (2026-10-11; shipped in #35, AS-5 in #33)
 created: 2026-10-11
 owner: unassigned
 doc_type: feedback
