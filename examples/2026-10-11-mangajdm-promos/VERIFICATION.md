@@ -13,7 +13,7 @@ Three final 1080×1920 posts passed local rendering, offline export and catalog 
 
 [verification.json](verification.json) contains measured bounds, hashes, controls and runtime. [catalog-commands.json](catalog-commands.json) records the actual final CLI writes and renders. The one-off author acceptance probe was local scratch, not a new maintained suite; its transcript is [manual.log](../../relay-system/2026-10-11/gh28-verification/manual.log). Independent plan and final reviews are separate native relay receipts under `relay-system/2026-10-11/`.
 
-PDDA `run` exited0 with no errors and two pre-existing governance warnings: missing installed `.claude/skills/pdda/SKILL.md` reference and unused `PDDA_SYNC_TMP` reference. Those unchanged installed-governance files are outside this task. [pdda.log](../../relay-system/2026-10-11/gh28-verification/pdda.log). RELEASES CLI check: generation51,55receipts, zero failures/warnings.
+PDDA `run` exited0 with no errors and two pre-existing governance warnings: missing installed `.claude/skills/pdda/SKILL.md` reference and unused `PDDA_SYNC_TMP` reference. Those unchanged installed-governance files are outside this task. [pdda.log](../../relay-system/2026-10-11/gh28-verification/pdda.log). RELEASES CLI check initially generation51/55receipts; final-QA S1 CLI repoint corrected the structured plan pointer, with clean readback/check at generation52/56receipts. [Ledger repair receipt](../../relay-system/2026-10-11/gh28-verification/ledger-repoint.json).
 
 ## Findings resolved before final registration
 

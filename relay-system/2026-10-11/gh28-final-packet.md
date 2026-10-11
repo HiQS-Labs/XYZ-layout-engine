@@ -13,3 +13,7 @@ Resolved findings: initial Chromium leading failure fixed only in new recipe. Co
 Boundaries: supplied apparel is disclosed as concept/mockup; no stock/date/price/performance/manufacturer endorsement claims. Store availability unverified; real app overlays/alternative feed crops still require upload preview. No social posting or paid calls; primary checkout untouched. Three designs pin `mangajdm-promo@1.0.0`; grid metrics stay honest null, six total designs without new grammar trigger. Retain clone pending ready PR/merge handoff. No merge is authorized.
 
 Grade concrete findings Blocker/Should/Nit/Pass with reproducible path/line/failure and smallest justified fix. Declare swept file literally. Final verdict PASS/FAIL/PARKED and terminal Approved only if required outcomes verified. Reviewer edits only its relay thread, not production files. Assess the bounded product; do not demand an unrelated general recipe loader, new infrastructure, marketing availability proof or extra suites. Ready PR and final receipt reconciliation occur after your review.
+
+## Round2 repair
+
+S1 Implemented through canonical `roadmap repoint`; structured `doc_path` now resolves the working plan. Readback and generation52/56receipts clean check: `gh28-verification/ledger-repoint.json`. PDDA repeated for the ledger/document edit with unchanged warning set. Runtime, fixture/assets, recipe content digest, exports and catalog/design records are byte-identical to Round1. Recheck S1 and evidence reconciliation; no repeated full runtime suite is warranted for the ledger pointer.
