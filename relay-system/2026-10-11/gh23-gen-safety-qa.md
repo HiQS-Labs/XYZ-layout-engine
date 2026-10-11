@@ -283,4 +283,12 @@ PROBE
 
 Relay closed (Approved), no further turn needed. Harness owns the file-scoped commit and subsequent gate.
 
+
+### Attestation · relay-drive — 2026-10-11T16:36:03Z
+task: RELAY-gh23-gen-safety-qa
+reviewer: codex
+status: Approved
+reviewed-head: 6d36de7b58a9906b427115f7e3ed2e6628823d60
+added-range: 20303+8759
+added-sha256: 8d14067ad7f94cd0ae0e4af109e01e60962c6a1724c9bd5944ed7186c831f878
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
