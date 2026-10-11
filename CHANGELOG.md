@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-10 — GH-20 A2 design catalog documentation
+
+- Named the catalog CLI and canonical dump in ROUTER, with the CLI as the only write path. README documents delivered insert-only designs, CLI commands and exit codes, null use cases for hand-built RAG/cell-division, the append-only grammar log and its review triggers, and deferred Phase B work. Refs #20. Refs #21.
+- Easy reversal: documentation only. Design list/show, catalog verify and export check exited 0; a scratch-only add exited 0, duplicate add exited 1 preserving dump/log, and misspelled subverb exited 2. Optional add flags and a published use-case pin passed in scratch. Scoped PDDA path checks had zero findings; the absolute-home-path red control exited 1 as expected. ROUTER adds exactly two lines; README adds only its Designs subsection; tools/examples hashes and path set are unchanged. Independent review, full PDDA and the project gate remain harness-owned.
+
 ## 2026-10-10 — GH-5 (#18) and GH-10 A1 (#22) landed and reconciled
 
 - Landed PR #18 (`15c2f25`, GH-5 shared offline MVP; review blocker on text fitting fixed before merge) and PR #22 (`fbfe02e`, GH-10 A1 recipe catalog, `slug@semver`, no serial). Issue #10 closed; its row moved to Completed and its plan and marathon folder to `PROJECT/3-COMPLETED/`. #5 stays open (human artwork approval, paid-provider benchmarks and later service work are unchecked); #23 tracks the PR #18 review follow-ups. The current ID and catalog plan is the finalized comment on #20; #9 is superseded by it.

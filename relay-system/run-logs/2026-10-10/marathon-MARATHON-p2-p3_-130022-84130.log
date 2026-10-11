@@ -1,0 +1,182 @@
+marathon: run log: <clone>/relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
+marathon: plan: PROJECT/2-WORKING/catalog-designs/MARATHON-p2-p3.yaml — 2 phase(s) in execution order
+marathon: ── phase 1/2: gh20-a2-p2 (reviewer=agy, round-cap=5, artifact=tools/catalog.sql, tools/design-log.jsonl, turn-timeout=1500s) ──
+marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
+marathon-drive:   • relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
+marathon-drive: relay file committed: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+marathon-drive: tick token seeded: MARATHON-GH20-A2-P2-TURN → codex
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh20-a2-p2-start boundary — compressor=7253MB, swap_free=0MB
+marathon-drive: phase start: running relay-drive --round-cap 5
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+codex-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=3
+rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+rtl: GH-654 allowlist: [tools/catalog.sql, tools/design-log.jsonl] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+codex-turn: committed codex turn (file-scoped, no push)
+codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
+codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
+codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+agy-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
+rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+rtl: GH-654 allowlist: [tools/catalog.sql, tools/design-log.jsonl] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p2/RELAY.md
+agy-turn: committed agy turn (file-scoped, no push)
+agy-turn: dependency.drift — agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
+agy-turn: dependency.drift — agy changed src/project.js (0 lines); signalled for the next turn
+agy-turn: dependency.drift — agy changed src/events.js (0 lines); signalled for the next turn
+relay-drive: attested Approved by agy — reviewed a999624f084e, 783 bytes of review text, record <clone>/.git/relay-attest/MARATHON-GH20-A2-P2-TURN.json
+relay-drive: relay terminated (STATUS: Approved, token done, attested by agy) after 2 turn(s)
+marathon-drive: relay approved — running pre-advance gate: pnpm test
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# (node:5564) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# \# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed
+# \# C2 geometry: 216 boxes compared within 0.5 px
+# \# C2 digests: 12 artifacts byte-identical
+# Subtest: guards: render pipeline breaks on a clean checkout
+ok 1 - guards: render pipeline breaks on a clean checkout
+  ---
+  duration_ms: 29475.828875
+  type: 'test'
+  ...
+# Subtest: guards: unintended visual or layout drift
+ok 2 - guards: unintended visual or layout drift
+  ---
+  duration_ms: 23.637291
+  type: 'test'
+  ...
+# Subtest: guards: committed evidence no longer satisfies the gate
+ok 3 - guards: committed evidence no longer satisfies the gate
+  ---
+  duration_ms: 167.261667
+  type: 'test'
+  ...
+# \# C4 catalog: publication, SQL triggers, identity retention, round trip, reads, drift, namespace and lock controls passed
+# Subtest: guards: the verifier stops detecting tampering
+ok 4 - guards: the verifier stops detecting tampering
+  ---
+  duration_ms: 2148.945084
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 31911.25575
+test-budget: PASS — 4 canaries in 31.9s (budget 60s)
+marathon-drive: gate-guard: gate exit 0 after 33s — peak group RSS 114MB (tier full; caps: RSS 8192MB, wall 1800s, CPU 1200s)
+marathon-drive: transcript saved: <clone>/relay-system/2026-10-10/marathon-gh20-a2-p2-200405.md
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh20-a2-p2-complete boundary — compressor=7092MB, swap_free=0MB
+marathon-drive: phase gh20-a2-p2 complete — STATUS: Approved, gate passed
+
+marathon-drive: end-of-run cost summary (tick analyze) —
+--- cost ---
+run type: unspecified
+tokens: ≥0 total (≥0 in / ≥0 out) — PARTIAL, floor only: 0/3 done-tasks instrumented
+human minutes (self-reported): 0
+wall-clock (run window): 44m 59s
+per done-task: ≥0 tokens, 15m 0s wall-clock
+memory: compressor peak: 7796MB, swap free min: 0MB
+  turn peak RSS: codex: 299MB peak RSS, agy: 176MB peak RSS
+
+clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified
+marathon: ── phase 2/2: gh20-a2-p3 (reviewer=agy, round-cap=5, artifact=ROUTER.md, README.md, CHANGELOG.md, turn-timeout=1500s) ──
+marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
+marathon-drive:   • relay-system/run-logs/2026-10-10/marathon-MARATHON-p2-p3_-130022-84130.log
+marathon-drive: relay file committed: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+marathon-drive: tick token seeded: MARATHON-GH20-A2-P3-TURN → codex
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh20-a2-p3-start boundary — compressor=7091MB, swap_free=0MB
+marathon-drive: phase start: running relay-drive --round-cap 5
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+codex-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=4
+rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+rtl: GH-654 allowlist: [ROUTER.md, README.md, CHANGELOG.md] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+codex-turn: committed codex turn (file-scoped, no push)
+codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
+codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
+codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
+relay-drive: GH-370 progress (main tree fallback: <clone>) changed-files=1
+agy-turn: worktree isolation ON (<tmp>)
+relay-drive: GH-370 progress (turn worktree: <tmp>) changed-files=1
+rtl: GH-654 off-lane candidate: marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+rtl: GH-654 allowlist: [ROUTER.md, README.md, CHANGELOG.md] relay_file: <clone>/marathon-system/gh20-a2-recovery-p2-p3--gh20-a2-p3/RELAY.md
+agy-turn: committed agy turn (file-scoped, no push)
+agy-turn: dependency.drift — agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
+agy-turn: dependency.drift — agy changed src/project.js (0 lines); signalled for the next turn
+agy-turn: dependency.drift — agy changed src/events.js (0 lines); signalled for the next turn
+relay-drive: attested Approved by agy — reviewed db41c305d5ff, 1040 bytes of review text, record <clone>/.git/relay-attest/MARATHON-GH20-A2-P3-TURN.json
+relay-drive: relay terminated (STATUS: Approved, token done, attested by agy) after 2 turn(s)
+marathon-drive: relay approved — running pre-advance gate: pnpm test
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# (node:82770) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# \# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed
+# \# C2 geometry: 216 boxes compared within 0.5 px
+# \# C2 digests: 12 artifacts byte-identical
+# Subtest: guards: render pipeline breaks on a clean checkout
+ok 1 - guards: render pipeline breaks on a clean checkout
+  ---
+  duration_ms: 30279.165334
+  type: 'test'
+  ...
+# Subtest: guards: unintended visual or layout drift
+ok 2 - guards: unintended visual or layout drift
+  ---
+  duration_ms: 28.320542
+  type: 'test'
+  ...
+# Subtest: guards: committed evidence no longer satisfies the gate
+ok 3 - guards: committed evidence no longer satisfies the gate
+  ---
+  duration_ms: 171.595625
+  type: 'test'
+  ...
+# \# C4 catalog: publication, SQL triggers, identity retention, round trip, reads, drift, namespace and lock controls passed
+# Subtest: guards: the verifier stops detecting tampering
+ok 4 - guards: the verifier stops detecting tampering
+  ---
+  duration_ms: 2248.937792
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32826.010583
+test-budget: PASS — 4 canaries in 32.9s (budget 60s)
+marathon-drive: gate-guard: gate exit 0 after 33s — peak group RSS 114MB (tier full; caps: RSS 8192MB, wall 1800s, CPU 1200s)
+marathon-drive: transcript saved: <clone>/relay-system/2026-10-10/marathon-gh20-a2-p3-200857.md
+marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
+marathon-drive: memory-telemetry: phase gh20-a2-p3-complete boundary — compressor=7514MB, swap_free=0MB
+marathon-drive: phase gh20-a2-p3 complete — STATUS: Approved, gate passed
+
+marathon-drive: end-of-run cost summary (tick analyze) —
+--- cost ---
+run type: unspecified
+tokens: ≥0 total (≥0 in / ≥0 out) — PARTIAL, floor only: 0/4 done-tasks instrumented
+human minutes (self-reported): 0
+wall-clock (run window): 49m 52s
+per done-task: ≥0 tokens, 12m 28s wall-clock
+memory: compressor peak: 7796MB, swap free min: 0MB
+  turn peak RSS: codex: 317MB peak RSS, agy: 176MB peak RSS
+
+clone retirement: this campaign clone can be retired via /merge-cleanup (merge-cleanup skill) once its landings are verified
+marathon: marathon complete — all 2 phase(s) approved

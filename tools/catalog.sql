@@ -1,6 +1,6 @@
--- XYZ Layout Engine recipe catalog; migration 1; canonical LF dump.
+-- XYZ Layout Engine recipe catalog; migration 2; canonical LF dump.
 -- GIDs retained; rows ordered by natural keys; no timestamps or binary database.
-CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version = 1)) STRICT;
+CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY CHECK(version IN (1,2))) STRICT;
 CREATE TABLE recipes (gid TEXT PRIMARY KEY, slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('active','deprecated','retired')), reason TEXT NOT NULL) STRICT;
 CREATE TABLE recipe_versions (gid TEXT PRIMARY KEY, recipe_gid TEXT NOT NULL REFERENCES recipes(gid), version TEXT NOT NULL, content_sha256 TEXT NOT NULL, schema_sha256 TEXT NOT NULL, UNIQUE(recipe_gid,version)) STRICT;
 CREATE TABLE recipe_version_files (version_gid TEXT NOT NULL REFERENCES recipe_versions(gid), path TEXT NOT NULL, role TEXT NOT NULL CHECK(role IN ('module','schema','content')), sha256 TEXT NOT NULL, PRIMARY KEY(version_gid,path)) STRICT;
@@ -13,7 +13,11 @@ CREATE TRIGGER files_no_update BEFORE UPDATE ON recipe_version_files BEGIN SELEC
 CREATE TRIGGER files_no_delete BEFORE DELETE ON recipe_version_files BEGIN SELECT RAISE(ABORT,'published files immutable'); END;
 CREATE TRIGGER outputs_no_update BEFORE UPDATE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
 CREATE TRIGGER outputs_no_delete BEFORE DELETE ON recipe_outputs BEGIN SELECT RAISE(ABORT,'published outputs immutable'); END;
+CREATE TABLE designs (id TEXT PRIMARY KEY, use_case TEXT, use_case_version TEXT, layout_id TEXT, fixture_path TEXT NOT NULL, data_hash TEXT NOT NULL, artifact_path TEXT NOT NULL, artifact_digest TEXT NOT NULL, CHECK((use_case IS NULL) = (use_case_version IS NULL))) STRICT;
+CREATE TRIGGER designs_no_update BEFORE UPDATE ON designs BEGIN SELECT RAISE(ABORT,'design immutable'); END;
+CREATE TRIGGER designs_no_delete BEFORE DELETE ON designs BEGIN SELECT RAISE(ABORT,'design immutable'); END;
 INSERT INTO schema_migrations VALUES (1);
+INSERT INTO schema_migrations VALUES (2);
 INSERT INTO recipes VALUES ('rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','nutrition','Nutrition','active','');
 INSERT INTO recipes VALUES ('rcp-68eafc13-c914-4506-b349-c135fcb42ee5','solar-system','Solar System','active','');
 INSERT INTO recipe_versions VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','1.0.0','cae72434e7f3c5fb441080532bf9c27095ea519f718b4d767425db99d7f599f8','81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95');
@@ -53,3 +57,6 @@ INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','h
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','html-inline');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','png');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','svg');
+INSERT INTO designs VALUES ('2026-10-08-solar-system','solar-system','1.0.0',NULL,'examples/2026-10-08-solar-system/fixture.json','79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c','examples/2026-10-08-solar-system/solar-system.png','f3a9660b13e713057cdb46697a787cd30504fb7593e09ad976e8bb28e267e567');
+INSERT INTO designs VALUES ('2026-10-09-cell-division',NULL,NULL,NULL,'examples/2026-10-09-cell-division/fixture.json','07efa33b796ad24f3a032feeb39dfecc4db8e7f389682df959889d64d56346b0','examples/2026-10-09-cell-division/cell-division.png','343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044');
+INSERT INTO designs VALUES ('2026-10-09-rag-system',NULL,NULL,NULL,'examples/2026-10-09-rag-system/fixture.json','0744b254803b75c8b3664e48f90085ccdd9076af3c302a0c360e01f1d5892079','examples/2026-10-09-rag-system/rag-system.png','c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6');

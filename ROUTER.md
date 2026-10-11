@@ -8,6 +8,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 - `GUIDING-PRINCIPLES.md` = the north star; what the repo's goals and design tradeoffs answer to
 - `AGENTS.md` = behavioral rules, decision quality, reversibility, blast radius, proof
 - `README.md` = human-facing repo/product overview
+- `tools/catalog.mjs` + `tools/catalog.sql` = the recipe and design catalog (CLI and its canonical dump)
 - `ROADMAP.md` = LEGACY pointer ledger, frozen since the `ROADMAP_SOURCE=releases` flip — the RELEASES DB (`releases.db` via `releases.sql`) is the source of truth; write via `releases roadmap add`, never by editing this file
 - `CHANGELOG.md` = the end-of-iteration running log (first-class PDDA artifact; governed by `PROJECT/PDDA.md`)
 - `releases.db` (via `releases.sql`) = the release-planning ledger; read and write it only through `.xyz/utils/py/releases_app.py` (the retired RELEASES markdown ledger is not used here)
@@ -29,6 +30,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 
 ## Canonical rules
 
+- Change the catalog only through `node tools/catalog.mjs`; `tools/catalog.sql` is generated output, never hand-edited.
 - Do not put phase checklists, build steps, or deep execution notes in `ROADMAP.md`.
 - Propose shared runtime changes in [XYZ Forge](https://github.com/HiQS-Labs/XYZ-forge). PDDA is installed here; local adaptations require review when adopting upstream updates. Ordinary sync preserves changed files, while reinstall or explicit forced adoption can replace them.
 - `PROJECT/PDDA-ACTIVITY.jsonl` is runtime output, not source. It starts fresh in this repo and is gitignored.
