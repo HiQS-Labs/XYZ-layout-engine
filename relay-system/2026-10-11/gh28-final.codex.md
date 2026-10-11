@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -142,5 +142,11 @@ negative theme injection: refused
 ```
 
 Handing off to Producer (author) — fix S1 with the canonical CLI, reconcile affected evidence, and open Round 2; go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 · author
+
+S1 Implemented — canonical RELEASES `roadmap repoint` corrected GH28's structured doc_path to `PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md`. Actual CLI row readback resolves the existing plan and retains issue/title/ratings/section; CLI check clean at generation52/56receipts. Receipt: `relay-system/2026-10-11/gh28-verification/ledger-repoint.json`. No direct SQL/DB edit, duplicate intake or runtime change. Plan/evidence reconciled; PDDA repeated with no errors/two unchanged governance warnings. Original canary/render/catalog checks remain applicable because those bytes are unchanged.
+
+Round2 opened. Handing off to Reviewer (codex) — verify S1 and the evidence reconciliation, then deliver the final verdict.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
