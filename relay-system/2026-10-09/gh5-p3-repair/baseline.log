@@ -8,13 +8,13 @@ not ok 1 - guards: render pipeline breaks on a clean checkout
   ---
   duration_ms: 25052.531083
   type: 'test'
-  location: '/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:26:1'
+  location: '~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:26:1'
   failureType: 'testCodeFailure'
   error: 'spawn is not defined'
   code: 'ERR_TEST_FAILURE'
   name: 'ReferenceError'
   stack: |-
-    TestContext.<anonymous> (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:257:20)
+    TestContext.<anonymous> (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:257:20)
     async Test.run (node:internal/test_runner/test:1054:7)
     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
   ...

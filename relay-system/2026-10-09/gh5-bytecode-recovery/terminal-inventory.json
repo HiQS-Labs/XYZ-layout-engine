@@ -3,7 +3,7 @@
   "source_pycache_exists": false,
   "driver_lock_exists": false,
   "claims": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     "claimed": []
   },
   "original_phase_attempts": [

@@ -1473,7 +1473,7 @@ nl -ba relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-escalation.md' 
      7	gate: not-run
      8	relay-file: marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
      9	
-    10	turn-log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P4-TURN-29101.log
+    10	turn-log: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P4-TURN-29101.log
     11	
     12	<details>
     13	<summary>Last 15 lines of failing turn log</summary>
@@ -1505,7 +1505,7 @@ nl -ba relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-escalation.md' 
      7	gate: not-run
      8	relay-file: marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
      9	
-    10	turn-log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P4-TURN-99596.log
+    10	turn-log: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P4-TURN-99596.log
     11	
     12	<details>
     13	<summary>Last 12 lines of failing turn log</summary>
@@ -2078,16 +2078,16 @@ rg -n 'containment|fixture.json|\\.xyz-cache|rollback|revert|discard|backend|att
      6	  "attested_at": "2026-10-10T03:23:02Z",
      7	  "driver_pid": 18256,
      8	  "isolated": true,
-     9	  "relay_file": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
+     9	  "relay_file": "~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
     10	  "relay_file_rel": "marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md",
     11	  "reviewed_head": "e4638bf1e0a9d48e2c9fb36dff25f84d9b60e77e",
     12	  "reviewer": "codex",
     13	  "schema": "relay-drive/attest@1",
     14	  "status": "Approved",
-    15	  "target_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    15	  "target_repo": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     16	  "task": "MARATHON-GH5-P3-TURN",
     17	  "trailer_sha256": "42e695b44dfabc822cb67c806c0a62807ad7bed830d9b0234cc01c3638948216",
-    18	  "transcript_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation"
+    18	  "transcript_repo": "~/marathon-clones/marathon-gh-5-mvp-foundation"
     19	}
      1	{
      2	  "kind": "halted",
@@ -2096,7 +2096,7 @@ rg -n 'containment|fixture.json|\\.xyz-cache|rollback|revert|discard|backend|att
      5	  "interval_seconds": 600,
      6	  "check": 1,
      7	  "max_checks": 6,
-     8	  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+     8	  "clone": "~/marathon-clones/marathon-gh-5-mvp-foundation",
      9	  "pid": 97789,
     10	  "exit": 6,
     11	  "approved_remaining_phases": 0,
@@ -2111,7 +2111,7 @@ rg -n 'containment|fixture.json|\\.xyz-cache|rollback|revert|discard|backend|att
     20	  "heartbeat": null,
     21	  "heartbeat_age_seconds": null,
     22	  "claims": {
-    23	    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    23	    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     24	    "claimed": []
     25	  },
     26	  "active_relay": {
@@ -2122,7 +2122,7 @@ rg -n 'containment|fixture.json|\\.xyz-cache|rollback|revert|discard|backend|att
     31	    ]
     32	  },
     33	  "log_tail": [
-    34	    "marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))",
+    34	    "marathon-drive: escalation written: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))",
     35	    "",
     36	    "marathon-drive: end-of-run cost summary (tick analyze) \u2014",
     37	    "--- cost ---",
@@ -2143,9 +2143,9 @@ relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log:27:rtl: GH
 relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log:28:rtl: GH-654 off-lane candidate: .xyz-cache/
 relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log:30:agy-turn: agy made off-lane edits in the isolated worktree — discarded; failing the turn (exit 6)
 relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log:31:marathon-drive: relay escalated: containment violation — a turn-taker reverted an off-lane edit (exit 6)
-relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log:35:marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
+relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log:35:marathon-drive: escalation written: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:8:lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p3 at 3 attempt(s) (cap 2), proceeding.
-relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:35:relay-drive: attested Approved by codex — reviewed e4638bf1e0a9, 9593 bytes of review text, record /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.git/relay-attest/MARATHON-GH5-P3-TURN.json
+relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:35:relay-drive: attested Approved by codex — reviewed e4638bf1e0a9, 9593 bytes of review text, record ~/marathon-clones/marathon-gh-5-mvp-foundation/.git/relay-attest/MARATHON-GH5-P3-TURN.json
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:36:relay-drive: relay terminated (STATUS: Approved, token done, attested by codex) after 2 turn(s)
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:100:lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p4 at 0 attempt(s) (cap 2), proceeding.
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:116:rtl: GH-654 off-lane candidate: fix-names.mjs
@@ -2165,7 +2165,7 @@ relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:129:rtl: GH
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:130:rtl: GH-654 off-lane candidate: tools/profile-warm.mjs
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:132:agy-turn: agy made off-lane edits in the isolated worktree — discarded; failing the turn (exit 6)
 relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:133:marathon-drive: relay escalated: containment violation — a turn-taker reverted an off-lane edit (exit 6)
-relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:137:marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
+relay-system/2026-10-09/gh5-phase4-recovery/first-phase4-attempt.log:137:marathon-drive: escalation written: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
 
 codex
 The builder switch is justified by the two discarded turns. The main gaps are in admission: the brief and canonical QA checklist still require Codex review, while the proposal switches to Agy; the Phase 3 attestation also cannot certify a new Phase 4 candidate. I’m checking the retained receipts for the counter and role-binding details.
@@ -2178,41 +2178,41 @@ nl -ba relay-system/2026-10-09/gh5-phase4-recovery/second-phase4-attempt.log | s
 nl -ba PROJECT/2-WORKING/mvp-foundation/briefs/gh5-p5.md | sed -n '15,70p'
 rg --files --hidden | rg 'relay-drive|codex-turn|agy-turn|marathon-drive|attest'" in /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/consult-wt-41323-6fp8xg5_
  succeeded in 0ms:
-     1	marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-201738-16981.log
+     1	marathon: run log: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-201738-16981.log
      2	marathon: plan: PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml — 3 phase(s) in execution order
      3	marathon: ── phase 1/3: gh5-p3 (reviewer=codex, round-cap=5, artifact=examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, turn-timeout=1500s) ──
      4	marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
      5	marathon-drive:   • relay-system/logs/
      6	marathon-drive:   • relay-system/run-logs/
-     7	marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+     7	marathon-drive: relay file committed: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
      8	lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p3 at 3 attempt(s) (cap 2), proceeding.
      9	marathon-drive: reconciled leaked open handoff: MARATHON-GH5-P3-TURN (cleared stale reservation for codex)
     10	marathon-drive: tick token seeded: MARATHON-GH5-P3-TURN → agy
     11	marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
     12	marathon-drive: memory-telemetry: phase gh5-p3-start boundary — compressor=5633MB, swap_free=0MB
     13	marathon-drive: phase start: running relay-drive --round-cap 5
-    14	relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+    14	relay-drive: GH-370 progress (main tree fallback: ~/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
     15	agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.PgLBvq)
     16	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.PgLBvq) changed-files=0
     17	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.PgLBvq) changed-files=1
     18	rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
-    19	rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+    19	rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
     20	agy-turn: committed agy turn (file-scoped, no push)
     21	agy-turn: dependency.drift — agy changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
     22	agy-turn: dependency.drift — agy changed src/project.js (0 lines); signalled for the next turn
     23	agy-turn: dependency.drift — agy changed src/events.js (0 lines); signalled for the next turn
-    24	relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+    24	relay-drive: GH-370 progress (main tree fallback: ~/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
     25	codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.QILh1S)
     26	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QILh1S) changed-files=0
     27	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QILh1S) changed-files=1
     28	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.QILh1S) changed-files=1
     29	rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
-    30	rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
+    30	rtl: GH-654 allowlist: [examples/2026-10-08-solar-system/generate-assets.py, examples/2026-10-08-solar-system/README.md, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
     31	codex-turn: committed codex turn (file-scoped, no push)
     32	codex-turn: dependency.drift — codex changed relay-automation/relay-turn-lib.sh (0 lines); signalled for the next turn
     33	codex-turn: dependency.drift — codex changed src/project.js (0 lines); signalled for the next turn
     34	codex-turn: dependency.drift — codex changed src/events.js (0 lines); signalled for the next turn
-    35	relay-drive: attested Approved by codex — reviewed e4638bf1e0a9, 9593 bytes of review text, record /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/.git/relay-attest/MARATHON-GH5-P3-TURN.json
+    35	relay-drive: attested Approved by codex — reviewed e4638bf1e0a9, 9593 bytes of review text, record ~/marathon-clones/marathon-gh-5-mvp-foundation/.git/relay-attest/MARATHON-GH5-P3-TURN.json
     36	relay-drive: relay terminated (STATUS: Approved, token done, attested by codex) after 2 turn(s)
     37	marathon-drive: relay approved — running pre-advance gate: pnpm test
     38	$ node tools/spike/test/run.mjs
@@ -2256,7 +2256,7 @@ rg --files --hidden | rg 'relay-drive|codex-turn|agy-turn|marathon-drive|attest'
     76	# duration_ms 29728.586542
     77	test-budget: PASS — 4 canaries in 29.8s (budget 60s)
     78	marathon-drive: gate-guard: gate exit 0 after 30s — peak group RSS 114MB (tier full; caps: RSS 8192MB, wall 1800s, CPU 1200s)
-    79	marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p3-032333.md
+    79	marathon-drive: transcript saved: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p3-032333.md
     80	marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
     81	marathon-drive: memory-telemetry: phase gh5-p3-complete boundary — compressor=5663MB, swap_free=0MB
     82	marathon-drive: phase gh5-p3 complete — STATUS: Approved, gate passed
@@ -2276,31 +2276,31 @@ rg --files --hidden | rg 'relay-drive|codex-turn|agy-turn|marathon-drive|attest'
     96	marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
     97	marathon-drive:   • relay-system/logs/
     98	marathon-drive:   • relay-system/run-logs/
-    99	marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
+    99	marathon-drive: relay file committed: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
    100	lane-attempt-cap: --force override — lane gh5-mvp-foundation--gh5-p4 at 0 attempt(s) (cap 2), proceeding.
    101	marathon-drive: tick token seeded: MARATHON-GH5-P4-TURN → agy
    102	marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
    103	marathon-drive: memory-telemetry: phase gh5-p4-start boundary — compressor=5661MB, swap_free=0MB
    104	marathon-drive: phase start: running relay-drive --round-cap 5
-   105	relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+   105	relay-drive: GH-370 progress (main tree fallback: ~/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
    106	agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.VEhQC2)
    107	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=1
    108	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=2
    109	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=4
    110	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.VEhQC2) changed-files=5
-     1	marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-203550-97789.log
+     1	marathon: run log: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-203550-97789.log
      2	marathon: plan: PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml — 2 phase(s) in execution order
      3	marathon: ── phase 1/2: gh5-p4 (reviewer=codex, round-cap=5, artifact=tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md, turn-timeout=1500s) ──
      4	marathon-drive: WARNING: workspace is not clean — an autonomous builder can be distracted by stray files.
      5	marathon-drive:   • relay-system/logs/
      6	marathon-drive:   • relay-system/run-logs/
-     7	marathon-drive: relay file committed: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
+     7	marathon-drive: relay file committed: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
      8	marathon-drive: reconciled leaked open handoff: MARATHON-GH5-P4-TURN (cleared stale reservation for codex)
      9	marathon-drive: tick token seeded: MARATHON-GH5-P4-TURN → agy
     10	marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
     11	marathon-drive: memory-telemetry: phase gh5-p4-start boundary — compressor=5281MB, swap_free=0MB
     12	marathon-drive: phase start: running relay-drive --round-cap 5
-    13	relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
+    13	relay-drive: GH-370 progress (main tree fallback: ~/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2
     14	agy-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.2ZrkgF)
     15	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.2ZrkgF) changed-files=0
     16	relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.2ZrkgF) changed-files=1
@@ -2316,13 +2316,13 @@ rg --files --hidden | rg 'relay-drive|codex-turn|agy-turn|marathon-drive|attest'
     26	rtl: GH-654 off-lane candidate: marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
     27	rtl: GH-654 off-lane candidate: tools/spike/fixture.json
     28	rtl: GH-654 off-lane candidate: .xyz-cache/
-    29	rtl: GH-654 allowlist: [tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
+    29	rtl: GH-654 allowlist: [tools/render.mjs, tools/request.mjs, tools/recipes/nutrition.mjs, tools/recipes/solar-system.mjs, tools/profile.mjs, package.json, tools/spike/test/canaries.test.mjs, CHANGELOG.md, tools/MVP-REPORT.md] relay_file: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/RELAY.md
     30	agy-turn: agy made off-lane edits in the isolated worktree — discarded; failing the turn (exit 6)
     31	marathon-drive: relay escalated: containment violation — a turn-taker reverted an off-lane edit (exit 6)
-    32	marathon-drive: transcript saved: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p4-034709.md
+    32	marathon-drive: transcript saved: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-10/marathon-gh5-p4-034709.md
     33	marathon-drive: warn: host free swap is critically low (0MB < 1024MB)
     34	marathon-drive: memory-telemetry: phase gh5-p4-escalated boundary — compressor=5239MB, swap_free=0MB
-    35	marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
+    35	marathon-drive: escalation written: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p4/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))
     36	
     37	marathon-drive: end-of-run cost summary (tick analyze) —
     38	--- cost ---
@@ -2384,16 +2384,16 @@ rg -n 'builder|reviewer|backend|force|attest' relay-system/2026-10-09/gh5-contin
      6	  "attested_at": "2026-10-09T06:46:16Z",
      7	  "driver_pid": 64683,
      8	  "isolated": true,
-     9	  "relay_file": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-09/gh5-readiness.agy.md",
+     9	  "relay_file": "~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/2026-10-09/gh5-readiness.agy.md",
     10	  "relay_file_rel": "relay-system/2026-10-09/gh5-readiness.agy.md",
     11	  "reviewed_head": "6137a0d8dfb45b80decfd8d5217a77d76196d8bc",
     12	  "reviewer": "agy",
     13	  "schema": "relay-drive/attest@1",
     14	  "status": "Approved",
-    15	  "target_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    15	  "target_repo": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     16	  "task": "GH5-MARATHON-READINESS-AGY",
     17	  "trailer_sha256": "ef83b5616b77400421c6191b63576049a278e8264bcdd607fef1e92ad8db585e",
-    18	  "transcript_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation"
+    18	  "transcript_repo": "~/marathon-clones/marathon-gh-5-mvp-foundation"
     19	}
 relay-system/2026-10-09/gh5-p3-repair/plan.md:3:State: original native Phase3 attempt1 failed before gate because Codex HTTP503 interrupted its second review. Native task remains open handed to Agy; no approval/attestation. Original counter1/2 remains intact. Operator said Try again. Runtime fixes are Easy, confined to existing generator/C1/docs owners; preserve all existing images/prompts/receipts, predecessor edits and failed transcript. No cap increase, new lane identity, automatic provider replay or paid calls.
 relay-system/2026-10-09/gh5-p3-repair/plan.md:5:Ground truth: reviewer saved session records concurrent duplicate dispatch, missing-output completion, unresolved Sun bypass, unsafe asset ID and C1 undefined spawn/wrong lock. Baseline pnpm test captured separately. Atomic replace improved; preserve it. Existing caller accepts --reference and --param, not invented --recipe-version/--parameters; exactly one provider call. Exact receipt contract in installed resolve-image skill.

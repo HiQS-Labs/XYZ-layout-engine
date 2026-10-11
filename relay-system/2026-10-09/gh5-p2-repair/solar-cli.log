@@ -1,6 +1,6 @@
 {
   "normalized": {
-    "inputPath": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/examples/2026-10-08-solar-system/fixture.json",
+    "inputPath": "~/marathon-clones/marathon-gh-5-mvp-foundation/examples/2026-10-08-solar-system/fixture.json",
     "width": 2400,
     "height": 1700,
     "format": "png",
@@ -20,7 +20,7 @@
     "png": "b55c036c76275ae7f07bfaddf93aaac2f4bb94c0e43504fadf748da982b32d9b"
   },
   "provenance": {
-    "inputPath": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/examples/2026-10-08-solar-system/fixture.json",
+    "inputPath": "~/marathon-clones/marathon-gh-5-mvp-foundation/examples/2026-10-08-solar-system/fixture.json",
     "inputSha256": "79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c",
     "backend": "satori"
   },
@@ -109,8 +109,8 @@
     }
   },
   "publication": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system",
-    "directory": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system/runs/2ac051bd-b704-4aa1-b314-65179a729e98",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system",
+    "directory": "~/marathon-clones/marathon-gh-5-mvp-foundation/tools/output/solar-system/runs/2ac051bd-b704-4aa1-b314-65179a729e98",
     "manifest": {
       "current": "runs/2ac051bd-b704-4aa1-b314-65179a729e98",
       "files": [

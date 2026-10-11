@@ -7,7 +7,7 @@ reason: containment-violation (off-lane edit reverted by a turn-taker)
 gate: not-run
 relay-file: marathon-system/gh5-mvp-foundation--gh5-p3/RELAY.md
 
-turn-log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P3-TURN-7851.log
+turn-log: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/logs/2026-10-09/agy-turn-MARATHON-GH5-P3-TURN-7851.log
 
 <details>
 <summary>Last 8 lines of failing turn log</summary>

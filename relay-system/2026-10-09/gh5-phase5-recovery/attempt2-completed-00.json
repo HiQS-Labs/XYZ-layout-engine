@@ -5,7 +5,7 @@
   "interval_seconds": 600,
   "check": 0,
   "max_checks": 6,
-  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "clone": "~/marathon-clones/marathon-gh-5-mvp-foundation",
   "pid": 11083,
   "exit": 0,
   "approved_remaining_phases": 1,
@@ -22,7 +22,7 @@
   "heartbeat": null,
   "heartbeat_age_seconds": null,
   "claims": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     "claimed": []
   },
   "active_relay": {

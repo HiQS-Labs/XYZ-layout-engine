@@ -159,7 +159,7 @@ for g in j['groups']:
   assert abs(var-q['variance'])<max(0.03,0.02*(max(values)-min(values))),(g['state'],g['recipe'],k,'variance')
 print('PASS sample means/variances agree with retained summaries within 2-decimal rounding')
 # Compare protected seeded files with coordinator candidate without accessing git.
-a=Path('.');b=Path('/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation');paths=[Path('test-budget.json'),Path('tools/spike/fixture.json'),Path('examples/2026-10-08-solar-system/fixture.json')]
+a=Path('.');b=Path('~/marathon-clones/marathon-gh-5-mvp-foundation');paths=[Path('test-budget.json'),Path('tools/spike/fixture.json'),Path('examples/2026-10-08-solar-system/fixture.json')]
 for scope in ['tools/spike/output','tools/spike/assets','examples/2026-10-08-solar-system/assets']:
  paths += [p for p in Path(scope).rglob('*') if p.is_file()]
 checked=0;missing=[]
