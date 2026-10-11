@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -93,5 +93,64 @@ Output: graded findings (`[Blocker]`, `[Should]`, `[Nit]`, `[Pass]`) with file:l
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: two observed documentation defects prevent the promised exact edits and missed-edit detection. Fix the instructions only; no engine fallback or new test is needed.
+swept file: yes
+
+Read the entire skill, SOURCE, OFL, capture doc and CHANGELOG; inspected both TTF name/weight tables and the complete RAG script, plus relevant renderer implementations. No additional material pre-existing defect found in the artifact files. The capture's parked/TODO state is explicit, not a completion claim. Graph tools were unavailable; used direct source evidence without a graph completeness claim.
+
+- [Should] R1 — Wrong Chromium argument position. `skills/design-diagram/SKILL.md:25` says “fifth argument of both”, but the family is fifth in `tools/render.mjs:24` and sixth in `tools/render.mjs:130` because context comes first. Fix by spelling out both calls: `renderSatori(scene,fonts,W,H,'Barlow Condensed')` and `renderPlaywright(context,scene,fonts,W,H,'Barlow Condensed')`. This also corrects the “three exact edits” claim at `CHANGELOG.md:5`.
+  Observed input: following the fifth-position instruction literally produces `renderPlaywright(context,scene,fonts,800,'Barlow Condensed')`; the actual function generated Inter font faces and an invalid height in the probe below.
+  Affected scope: new RAG copies following step 2; no renderer behavior change requested.
+  Falsifier: the corrected sixth-position call must generate Barlow font faces and numeric height; the control did so.
+  Probe command (exit 0; mock page only, no browser or fixture execution):
+  ```sh
+  node --input-type=module <<'JS'
+  import fs from 'node:fs/promises';
+  import {renderPlaywright} from './tools/render.mjs';
+  const fonts={regular:await fs.readFile('tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf'),bold:await fs.readFile('tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf')};
+  const scene={type:'div',props:{id:'canvas',style:{fontFamily:'Barlow Condensed'},children:'Example'}};
+  for(const [label,args] of [['literal fifth',[800,'Barlow Condensed']],['correct sixth',[800,200,'Barlow Condensed']]]){
+    let html;
+    const context={newPage:async()=>({setContent:async h=>{html=h},evaluate:async()=>({bounds:{},textBoxes:{}}),screenshot:async()=>Buffer.alloc(0),close:async()=>{}})};
+    await renderPlaywright(context,scene,fonts,...args);
+    console.log(label+': '+html.match(/@font-face\{font-family:'[^']+'/)[0]+'; '+html.match(/html,body\{[^}]+/)[0]);
+  }
+  JS
+  ```
+  Decisive output: `literal fifth: @font-face{font-family:'Inter'; html,body{margin:0;width:800px;height:Barlow Condensedpx;overflow:hidden`; control: `correct sixth: @font-face{font-family:'Barlow Condensed'; html,body{margin:0;width:800px;height:200px;overflow:hidden`.
+
+- [Should] R2 — The negative grep cannot detect omitted family arguments. `skills/design-diagram/SKILL.md:28,50` points to this check, but the original calls at `examples/2026-10-09-rag-system/render-diagram.mjs:126,132` omit family rather than spelling Inter. After only changing font paths and canvas family, the grep prints nothing. Fix with positive checks for both explicit Barlow calls, or an explicit manual checklist, and qualify what the negative grep detects.
+  Observed input: original RAG source with the two font-path replacements and canvas family replacement, leaving both backend calls unchanged.
+  Affected scope: step-2 validation of a new copied script.
+  Falsifier: the incomplete copy must fail the revised check; the same copy with both explicit family arguments must pass.
+  Probe command (Python exit 0; grep exit 1 means no matches, the documented success condition):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  mkdir -p "$TMPDIR"
+  python3 - <<'PY'
+  from pathlib import Path
+  import subprocess
+  s=Path('examples/2026-10-09-rag-system/render-diagram.mjs').read_text()
+  s=s.replace('tools/spike/assets/font.ttf','tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf').replace('tools/spike/assets/font-bold.ttf','tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf').replace("fontFamily:'Inter'","fontFamily:'Barlow Condensed'")
+  p=Path('.relay-scratch/tmp/missed-family.mjs'); p.write_text(s)
+  r=subprocess.run(['grep','-n','-e','Inter','-e','spike/assets/font',str(p)],capture_output=True,text=True)
+  print('missed-family grep exit='+str(r.returncode)+' stdout='+repr(r.stdout))
+  for line in s.splitlines():
+    if 'await renderSatori(' in line or 'await renderPlaywright(' in line: print(line.strip())
+  PY
+  ```
+  Decisive output: `missed-family grep exit=1 stdout=''`, `const result=await renderSatori(scene,fonts,W,H);`, `chromiumResult=await renderPlaywright(context,scene,fonts,W,H);`.
+
+- [Pass] The font-bound locations are the paths, inherited canvas family and backend arguments (`examples/2026-10-09-rag-system/render-diagram.mjs:13,123,126,132`); remaining text has sizes/weights without another family override. Trap 8's mechanism follows from font registration/defaults (`tools/render.mjs:24,31,120,121,130`). The diagram's checks at `examples/2026-10-09-rag-system/render-diagram.mjs:136-181` never inspect `fontLoaded`; `processRequest` does (`tools/render.mjs:239`). No engine repair requested.
+- [Pass] Command `shasum -a 256 tools/fonts/barlow-condensed/*`, exit 0, matches `SOURCE.md:11-13`: Regular `583cec5da3b84bc4dc7c9c72e2a565c94d34e431518b19d7e250b7830ad5f996`; Bold `e476562ec9c1e16cf16475895b511f08c804f438cc9a9f80a44ea50a0eeb5b65`; OFL `186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f`. Local TTF metadata inspection also returned family Barlow Condensed, Regular/Bold, weights 400/700, consistent with `SOURCE.md:7,11,12`.
+- [Pass] The copyright and complete OFL accompany the fonts (`tools/fonts/barlow-condensed/OFL.txt:1-93`); condition 2 permits software bundling with that notice/license (`:56-61`). Font names remain Barlow Condensed. The full upstream commit/folder in `SOURCE.md:6`, with file names/hashes, identifies re-verifiable inputs. No additional packaging mechanism needed.
+- [Unverified — network unavailable] Upstream byte identity at `SOURCE.md:6` and `CHANGELOG.md:4`: for each TTF and OFL, command `curl -fLsS --max-time 25 "https://raw.githubusercontent.com/google/fonts/60824dce48f7dd28fe7d65559f2da1f6e04e585b/ofl/barlowcondensed/$name" -o "$TMPDIR/$name"` returned 6, `Could not resolve host: raw.githubusercontent.com`; cmp was skipped. Local hash agreement is not independent upstream verification.
+- [Unverified — needs clone run] Existing-byte preservation and the exact width/full-diagram render claims (`CHANGELOG.md:7-8`) remain producer evidence. No fixture, suite, PDDA or git command was run here; commit-wide path/byte comparison and absence of engine/test/dependency edits remain harness checks. The seeded ledger row (`releases.sql:45`) points at the capture and agrees with its 45/10/70/85 rating (`PROJECT/1-INBOX/GH-34-BARLOW-CONDENSED-AS-STARTER.md:77`). Both documented roadmap-list script paths were absent, so the row was read directly. AS-5 is explicitly a PR #33 dependency (`PROJECT/1-INBOX/GH-34-BARLOW-CONDENSED-AS-STARTER.md:92`); `SYSTEM-INSTRUCTIONS.md` is absent here, so that landing is not attested.
+
+Bet: precise calls and a positive check prevent silently omitted arguments with minimal documentation. Failure mode: a negative grep appears successful while defaults remain. Reversibility: Easy. Handing off to Producer (claude-a) — disposition and fix R1/R2, then open round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
