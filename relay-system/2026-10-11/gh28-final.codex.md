@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -148,5 +148,66 @@ Handing off to Producer (author) — fix S1 with the canonical CLI, reconcile af
 S1 Implemented — canonical RELEASES `roadmap repoint` corrected GH28's structured doc_path to `PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md`. Actual CLI row readback resolves the existing plan and retains issue/title/ratings/section; CLI check clean at generation52/56receipts. Receipt: `relay-system/2026-10-11/gh28-verification/ledger-repoint.json`. No direct SQL/DB edit, duplicate intake or runtime change. Plan/evidence reconciled; PDDA repeated with no errors/two unchanged governance warnings. Original canary/render/catalog checks remain applicable because those bytes are unchanged.
 
 Round2 opened. Handing off to Reviewer (codex) — verify S1 and the evidence reconciliation, then deliver the final verdict.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: S1 is resolved by current canonical CLI readback, which exactly matches the repair receipt and resolves an existing working plan. Reconciled evidence is accurate. Three portrait deliverables, trusted integration, immutable publications and design pins satisfy the bounded implementation review; no open Blocker or Should remains. Full clone gates and ready-PR reconciliation remain subsequent harness/author work.
+swept file: yes
+
+- [Pass] S1 closed. `releases.sql:45` now stores `PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md`. Independent CLI readback returns that same path, existing target and complete receipt equality, preserving title/section/issue and roadmap text with ratings 65/20/50/65. `relay-system/2026-10-11/gh28-verification/ledger-repoint.json:20` and `:28` record the corrected pointer and generation52/56receipts; `examples/2026-10-11-mangajdm-promos/VERIFICATION.md:16` and the plan's final disposition reconcile that repair. No further fix requested.
+  Probe command (exit 0): `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; python3 -B /Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/.xyz/utils/py/releases_app.py --root "$PWD" roadmap list --json > "$TMPDIR/roadmap-r2.json"`, followed by this Python query (exit 0):
+  ```python
+  import json, os
+  r = next(r for r in json.load(open(os.environ['TMPDIR']+'/roadmap-r2.json')) if str(r['gh_number']) == '28')
+  p = 'PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md'
+  assert r['doc_path'] == p and os.path.isfile(p)
+  receipt = json.load(open('relay-system/2026-10-11/gh28-verification/ledger-repoint.json'))
+  assert receipt['readback'] == r
+  ```
+  Decisive output from the query's print statements: `"gh_number": 28, "doc_path": "PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md", "section": "In progress"`; `doc_path_exists=True; CLI readback equals repair receipt`.
+- [Pass] Re-read the entire packet, canonical plan, example usage/editorial/gallery/fixtures/provenance, and all four runtime files, including pre-existing code. No additional material pre-existing defect found for the bounded trusted local workflow. Admission/import ownership remains at `tools/request.mjs:59`, `:110`, `tools/render.mjs:183`; fixed declared file sets at `tools/catalog.mjs:135`; digest/namespace checks at `tools/recipes/mangajdm-promo.mjs:24`. Retain the disclosed dump/log recovery limit (`tools/catalog.mjs:348`, `README.md:117`). Graph `list_projects` returned all82 projects with no matching worktree; coverage for these four paths returned `project not found or not indexed`. This is exact-source fallback, with no generation/completeness assertion.
+- [Pass] Independent current read-only integrity probes pass: `node tools/catalog.mjs verify --json` exit0 → `{"valid":true,"errors":[]}`; `node tools/catalog.mjs export --check` exit0 → `{"canonical":true}`. All three publications pass the existing `verifyPublication` reader (`tools/render.mjs:458`); stable PNG/SVG match selected immutable artifacts and recorded author hashes; PNG dimensions1080×1920; design fixture/artifact hashes and `mangajdm-promo@1.0.0` pins match current bytes. Exact probe below exited0. These current checks supplement Round1's independent in-memory rerender/negative controls; no repeated runtime suite was needed for a ledger pointer repair.
+- [Pass] Viewed the current committed campaign preview (`examples/2026-10-11-mangajdm-promos/preview.png`): all three compositions have legible headline/deck/CTA/domain, preserved R34 silhouette, complete four-car Integra lineup and visible full shirt print. Captions/alt text and apparel disclosure remain in `EDITORIAL.md:43`, `:49`, `:53` and `index.html:7`. This turn inspected the stored preview, not a fresh browser or the outside source library. No further visual fix requested.
+- [Unverified — needs clone run] Full canaries/install/PDDA and relocated-browser controls were not rerun here, per containment. Retain Round1's evidence distinction: author canaries report4/4 in31.9s (`relay-system/2026-10-11/gh28-verification/canaries.log:34`); current PDDA log's quoted closing span is `PDDA run complete: no errors, 2 warning(s) to review — pdda-check-governance`, consistent with `VERIFICATION.md:16`. Source-library preservation and historical ancestry remain author evidence. The harness owns subsequent gates; ready PR and final plan receipts remain explicitly pending.
+
+Current integrity probe command: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; node --input-type=module <<'JS'` with this stdin (exit0, no publication/source writes):
+```javascript
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import {verifyPublication,selectedRun} from './tools/render.mjs';
+import {runCLI} from './tools/catalog.mjs';
+const base='examples/2026-10-11-mangajdm-promos';
+const evidence=JSON.parse(await fs.readFile(`${base}/verification.json`));
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+for(const [key,id] of [['01-icon','icon'],['02-eras','eras'],['03-wear','wear']]) {
+ const root=`${base}/exports/${key}`, run=selectedRun(root), pub=await verifyPublication(root);
+ const proof=evidence.posts.find(p=>p.key===key);
+ for(const ext of ['png','svg']) {
+  const bytes=await fs.readFile(`${base}/${key}.${ext}`);
+  assert.equal(sha(bytes),sha(await fs.readFile(`${run}/render.${ext}`)));
+  assert.equal(sha(bytes),proof[`${ext}Sha256`]);
+  if(ext==='png'){assert.equal(bytes.readUInt32BE(16),1080);assert.equal(bytes.readUInt32BE(20),1920);}
+ }
+ const {value:d}=await runCLI(['design','show',`2026-10-11-mangajdm-${id}`]);
+ assert.equal(d.use_case,'mangajdm-promo');assert.equal(d.use_case_version,'1.0.0');
+ assert.equal(d.data_hash,sha(await fs.readFile(d.fixture_path)));assert.equal(d.artifact_digest,sha(await fs.readFile(d.artifact_path)));
+ const receipt=JSON.parse(await fs.readFile(`${run}/result.json`));
+ assert.equal(receipt.catalog.verified,true);assert.equal(receipt.catalog.contentSha256,'567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204');
+ assert.equal(receipt.fitting.fit,true);
+ console.log(`${key}: publication=${pub.valid}; PNG 1080x1920; PNG/SVG match selected run and author hashes; design pin/hashes match`);
+}
+```
+Decisive output:
+```text
+01-icon: publication=true; PNG 1080x1920; PNG/SVG match selected run and author hashes; design pin/hashes match
+02-eras: publication=true; PNG 1080x1920; PNG/SVG match selected run and author hashes; design pin/hashes match
+03-wear: publication=true; PNG 1080x1920; PNG/SVG match selected run and author hashes; design pin/hashes match
+```
+
+Reversibility: Easy — approval changes only this relay header and appended review. Bet: current pointer/integrity evidence plus the recorded bounded clone checks support approval; subsequent gate failure must be reconciled before PR readiness is claimed.
+
+Relay closed (Approved), no further turn needed. Returning terminal token with `done`; author may proceed with the harness gates and ready-PR handoff after this review. No self-commit or merge performed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
