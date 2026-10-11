@@ -33,7 +33,7 @@ Scope and limits: Read all five source/document owners, ROUTER/GUIDING-PRINCIPLE
 
 Bet and reversibility: Existing manifest entries must prove their state and input/output contract before automatic dispatch or reuse. Treating incomplete evidence as absent work can repeat a paid submission. Exact parameters must survive the deployed caller's parser or be rejected before scheduling. Requesting repairs and recording this relay are **Easy**; duplicated paid work is not repaired by a later local rollback.
 
-Recon: CLI at generate-assets.py:297–322 enters generate(:231), which owns generation.lock through admission/planning/publication and dispatches run_job(:158). The single manifest writer is update_manifest(:56); per-attempt evidence is written by run_job. validate_output(:76) owns image admission and reuses tools/spike/assets.mjs:10 plus native Resvg. The installed caller's pure scalar parser is NW in /Users/noelsaw/.codex/skills/hiqs-chain/scripts/chain.mjs; its CLI is never imported/executed by these probes. C1 at tools/spike/test/canaries.test.mjs:184–253 is the recovery consumer. No new provider client, queue, test block or dependency is requested.
+Recon: CLI at generate-assets.py:297–322 enters generate(:231), which owns generation.lock through admission/planning/publication and dispatches run_job(:158). The single manifest writer is update_manifest(:56); per-attempt evidence is written by run_job. validate_output(:76) owns image admission and reuses tools/spike/assets.mjs:10 plus native Resvg. The installed caller's pure scalar parser is NW in ~/.codex/skills/hiqs-chain/scripts/chain.mjs; its CLI is never imported/executed by these probes. C1 at tools/spike/test/canaries.test.mjs:184–253 is the recovery consumer. No new provider client, queue, test block or dependency is requested.
 
 #### R1 [Blocker] Existing corrupt manifest state can be reinterpreted as new paid work
 
@@ -152,7 +152,7 @@ with patch.object(g.json,'dump',side_effect=OSError('injected write error')):
     except OSError:pass
 print('ATOMIC_CONTROL',dict(preserved=mp.read_bytes()==before))
 # Only evaluate the deployed caller's pure scalar parser; never import/run its CLI.
-installed=pathlib.Path('/Users/noelsaw/.codex/skills/hiqs-chain/scripts/chain.mjs').read_text()
+installed=pathlib.Path('~/.codex/skills/hiqs-chain/scripts/chain.mjs').read_text()
 parser=installed[installed.index('function NW('):installed.index('function H9(')]
 for value in [0.5,0.0000001,9007199254740993]:
     job=dict(j,parameters={'seed':value}); g.admit_jobs([job],caller)
@@ -349,7 +349,7 @@ with (p/"generation.lock").open("a") as owner:
  fcntl.flock(owner,fcntl.LOCK_EX|fcntl.LOCK_NB)
  with patch.object(g,"admit_jobs",side_effect=AssertionError("planning under contention")):
   print("LOCK",dict(result=run(p),manifest_absent=not (p/"manifest.json").exists()))
-installed=pathlib.Path("/Users/noelsaw/.codex/skills/hiqs-chain/scripts/chain.mjs").read_text()
+installed=pathlib.Path("~/.codex/skills/hiqs-chain/scripts/chain.mjs").read_text()
 parser=installed[installed.index("function NW("):installed.index("function H9(")]
 for value in [.5,1e-7,9007199254740993,9007199254740991,"1\n"]:
  job=dict(j,parameters={"seed":value})

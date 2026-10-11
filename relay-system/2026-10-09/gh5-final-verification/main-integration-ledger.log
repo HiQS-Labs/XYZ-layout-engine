@@ -4,7 +4,7 @@ OK: foreign_keys pragma asserted per connection
 FAIL: rule=generation-mismatch: settings.generation=21 but releases.sql says 31 — write in progress, crashed, or a torn trio
 OK: receipt chain intact (20 receipt(s), business-state digest matches)
 info: 0 grandfather_entries pending disposition (the strict flip requires none pending)
-rebuilt releases.db from releases.sql (generation 21 -> 32); displaced DB backed up at /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/releases.db.bak
+rebuilt releases.db from releases.sql (generation 21 -> 32); displaced DB backed up at ~/marathon-clones/marathon-gh-5-mvp-foundation/releases.db.bak
 OK: post-rebuild verification — DB rebuilt from releases.sql, displaced DB at releases.db.bak
 check: clean (0 failures, 0 warning(s))
 releases-merge-resolve: verifying

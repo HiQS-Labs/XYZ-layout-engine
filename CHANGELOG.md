@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-11 — Home-directory paths scrubbed from committed transcripts (#23 S10)
+
+- The home-directory prefix is replaced with `~` in 139 committed `relay-system/` and `marathon-system/` files: 737 lines, same-line replacements only, done byte-safely with `perl`, so non-UTF-8 logs were not skipped. A search for the home directory now returns 0 files.
+- AGENTS.md gains a one-line rule with the scrub command for future transcripts. PDDA's `hardcoded-paths` check covers working docs only, and changing it belongs upstream in XYZ-forge.
+- Limit: Git history still holds the old bytes. Removing them would need a history rewrite and a force-push of `main`, which was not done.
+- Checks: `pnpm test` 4/4 in 33.0 s; PDDA warnings identical before and after (33 and 33, no errors); `releases check` clean; `catalog verify` valid. Refs #23. Easy to reverse (revert).
+
 ## 2026-10-11 — Generation safety: no double payment, no signed URLs in receipts (#23 S3, S4, S5, S7)
 
 - `examples/2026-10-08-solar-system/generate-assets.py`:

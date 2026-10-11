@@ -5,7 +5,7 @@
   "interval_seconds": 600,
   "check": 1,
   "max_checks": 6,
-  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "clone": "~/marathon-clones/marathon-gh-5-mvp-foundation",
   "pid": 71228,
   "exit": 6,
   "approved_remaining_phases": 0,
@@ -20,7 +20,7 @@
   "heartbeat": null,
   "heartbeat_age_seconds": null,
   "claims": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     "claimed": []
   },
   "active_relay": {
@@ -31,7 +31,7 @@
     ]
   },
   "log_tail": [
-    "marathon-drive: escalation written: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p2/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))",
+    "marathon-drive: escalation written: ~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p2/ESCALATION.md (reason: containment-violation (off-lane edit reverted by a turn-taker))",
     "",
     "marathon-drive: end-of-run cost summary (tick analyze) \u2014",
     "--- cost ---",

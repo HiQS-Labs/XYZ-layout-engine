@@ -1,5 +1,5 @@
 swarm-preflight · project-doc · slug=gh-1-renderer-spike
-  target-root : /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike (marathon/gh-1-renderer-spike @ 92082a0f5)
+  target-root : ~/marathon-clones/marathon-gh-1-renderer-spike (marathon/gh-1-renderer-spike @ 92082a0f5)
   branch      : suggested=marathon/gh-1-renderer-spike-2026-10-02 branch_ready=false skip_branch_prompt=false
   freshness   : fetch_ok=1 upstream=none ahead=0 behind=0 dirty=1
   ref-probed  : origin/main @ 65ba11d91 (checkout HEAD is 0 commit(s) behind the evaluated ref — probes read the ref, not your checkout)
@@ -12,7 +12,7 @@ swarm-preflight · project-doc · slug=gh-1-renderer-spike
   lane-cli    : codex=present agy=present (advisory)
   verdict     : ready (exit 0)
 
-DRY-RUN: ready, but packet not written. Would emit to: /Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/relay-system/preflight/2026-10-02/gh-1-renderer-spike
+DRY-RUN: ready, but packet not written. Would emit to: ~/marathon-clones/marathon-gh-1-renderer-spike/relay-system/preflight/2026-10-02/gh-1-renderer-spike
 Would suggest:
 XYZ_HARNESS_CONTEXT=swarm XYZ_SESSION_ID=gh-1-renderer-spike RELAY_WORKTREE_ISOLATION=1 .xyz/relay-automation/marathon-drive.sh \
   --phase-brief <packet>/packet.md \
