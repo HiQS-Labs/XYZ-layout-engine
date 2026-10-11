@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -198,5 +198,57 @@ Handing off to Producer (claude-a) — supply/disposition F1, reconcile F2/F3, t
 - **Gates:** `pnpm test` 4/4 in 37.5 s; PDDA no errors.
 
 Handing off to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: Round 1 F1–F3 are addressed. The current source, catalog, committed receipts and images support the bounded implementation and its seven acceptance checks; clone-only execution remains explicitly Producer-reported evidence, with the harness gate still to run. No open Blocker or Should.
+swept file: yes
+
+Re-read the complete five code files named in Setup, catalog dump/log, example fixture/caller/receipts/README, root README/CHANGELOG, font SOURCE, plan and plan-QA thread, including unchanged code. Inspected both current PNGs at full size and 400 px. No additional pre-existing defect requiring a change was identified in this bounded sweep. Graph tools are unavailable in this session; Verify-tier source fallback, no graph-generation or coverage claim. No git or baseline-diff command was run. Reversibility: Easy (relay file only). Bet: the specific recorded mutation outcome closes the prior reporting gap, while direct catalog/hash/scene probes can detect stale rebuilt evidence; those probes cannot establish fresh browser or suite execution.
+
+- [Pass] **F1 resolved as recorded clone evidence.** Plan `PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md:173–177,192` now names the shared `if (unresolved.length)` throw (`tools/render.mjs:297–300`), command `pnpm test`, exit 1 and the isolated GH-36 failure. The Producer's preceding block specifies “failure is inside `rpReject` (mutated file line 277) as called by the GH-36 control (line 279)” after the earlier nutrition/solar rejection assertions were removed. Current `tools/spike/test/canaries.test.mjs:277–281` contains the actual `processRequest` rejection assertion and the exact `'W'.repeat(2000)` caption input. This distinguishes the requested non-fit mutation from the separate family mutation. It is a Producer-reported experiment, not a mutation independently executed in this turn.
+
+- [Pass] **F2/F3 resolved in source and documentation.** Plan `:78–86` now records 1600×1340, `events[2]`, the actual strokes and line heights. Recipe `tools/recipes/recursive-process.mjs:63–67,111–112,131,148` and example `README.md:50–54` distinguish 2 px outlines/connectors, 1 px rules and the 4 px main revision line. All four stage-number scene leaves now have line height 1.2. Both current receipts record one attempt, no overflowing IDs and stage numbers at 20 px (`receipt.json:42–57`, `receipt-chromium.json:42–57`); the historical title/label overflow and number shrink are accurately qualified at plan `:200–202`. The current PNGs show no clipped number. The rebuild's identity and artifact digests pass the probe below.
+
+- [Pass] **Existing ownership and font defaults remain coherent.** `tools/render.mjs:184–203,233–241,339–343` retains Inter/getFonts for recipes without FONT and passes the selected family through both renderers and both HTML sites; public defaults remain Inter (`:24,110,130`). Admission/save wiring remains in `tools/request.mjs:59–61,109–112`; declared recipe bytes in `tools/catalog.mjs:135–138`; the nine-line example caller uses shared `runCLI`. There is no second writer. Formula domains remain bounded and named (`recipe:34–54`): one and three tokens admit, four and a terminal newline reject. The intentional absence of token fit IDs remains disclosed at example `README.md:29` and plan `:202`.
+
+- [Pass] **Catalog, receipts and visual report agree.** Read-only `verify` and `export --check` return valid/canonical; both PNG/input/normalized-fixture digests match their receipts, whose content identity matches the current published catalog. Both PNG headers are 1600×1340. The design and log pin the Satori image to `recursive-process@1.0.0` (`tools/catalog.sql:73`; `tools/design-log.jsonl:4`). The portable `inputPath` rewrite remains disclosed at example `README.md:13`. Both full-size and thumbnail views support its AS report (`:35–73`): unboxed sentence-case title, larger/darker B2, meaningful icons, schematic footer and accent revision flow. Thumbnail captions become too small to read, as stated; human artwork acceptance remains pending.
+
+- [Pass] **The C1 extension stays within the current declaration budget.** `tools/spike/test/canaries.test.mjs:27–51,132,269–285` retains compact/relocated-inline checks with JavaScript off, HTTP(S) abort/count, two loaded family weights, nonempty loaded images and the named refusals. There are four `test()` declarations, matching `test-budget.json`. The refactor's current assertions remain faithful to the prior review's offline requirements; exact baseline comparison and actual browser loading were not independently rerun.
+
+**Acceptance accounting:** 1 has matching receipts and Producer-reported thin-caller exits at plan `:189`; 2 has all 14 equal rows and a reported final rebuild at `:158–171,192`; 3 has the named controls/offline assertions and the now-specific non-fit mutation outcome at `:173–183`; 4 passes the catalog probes; 5 passes the forbidden-glyph probe; 6 has the report and firsthand full-size/thumbnail inspection; 7 has four declarations and Producer-reported 4/4 in 37.5 s in the preceding turn (the plan's earlier 37.3 s receipt is at `:195`). No acceptance claim is treated as a fresh full-suite execution by this Reviewer.
+
+**Unverified — needs clone run:** fresh thin-caller/save/rerender execution, all 14 actual baseline artifact/compact-asset comparisons, exact baseline refactor/dependency/workflow preservation, real offline font/image loading, named rejection/mutation execution, full suite/timing and PDDA. The harness owns its post-turn gate. No validate script, test suite, pytest or executable fixture was run; direct recipe validation/scene construction, hashing, catalog reads and image inspection were the probes.
+
+Probe ledger — exit 0; expected SQLite ExperimentalWarning on stderr; stdout in `.relay-scratch/tmp/r2-probe.txt`. Exact command:
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+mkdir -p "$TMPDIR"
+node --input-type=module > "$TMPDIR/r2-probe.txt" <<'JS'
+import fs from 'node:fs/promises'; import crypto from 'node:crypto';
+import {validate,buildScene} from './tools/recipes/recursive-process.mjs';
+import {runCLI} from './tools/catalog.mjs';
+const base='examples/2026-10-11-belief-updating/', input=await fs.readFile(base+'fixture.json'), f=JSON.parse(input);
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+for(const args of [['verify'],['export','--check']]) {const r=await runCLI(args); console.log(args.join(' ')+' exit='+r.code+' '+JSON.stringify(r.value));}
+const c=(await runCLI(['show','recursive-process'])).value.versions[0];
+for(const suffix of ['','-chromium']) {const r=JSON.parse(await fs.readFile(base+'receipt'+suffix+'.json')); const png=await fs.readFile(base+'belief-updating'+suffix+'.png');console.log(JSON.stringify({backend:r.normalized.backend,verified:r.catalog.verified,contentMatches:r.catalog.contentSha256===c.content_sha256,pngMatches:hash(png)===r.digests.png,inputMatches:hash(input)===r.provenance.inputSha256,fixtureMatches:hash(JSON.stringify(f))===r.provenance.fixtureSha256,width:png.readUInt32BE(16),height:png.readUInt32BE(20),attempts:r.fitting.attempts,overflowing:r.fitting.steps.map(s=>s.overflowing),numberSize:r.fitting.finalSizes.stage_1_num}));}  [Unverified — no citation]
+function walk(n){if(Array.isArray(n))return n.forEach(walk);if(!n||typeof n!=='object')return;if(/^stage_\d_num$/.test(n.props?.id??''))console.log(n.props.id+' lineHeight='+n.props.style.lineHeight);walk(n.props?.children);}walk(await buildScene(f));
+for(const formula of ['A1','E9 E9 E9','A1 B1 C1 D1','A1\n']) {const x=structuredClone(f);x.stages[0].formula=formula;try{await validate(x);console.log(JSON.stringify(formula)+': ACCEPT');}catch(e){console.log(JSON.stringify(formula)+': '+e.message);}}
+console.log('forbidden glyphs='+/[₀-₉→]/u.test(input.toString()));
+console.log('test declarations='+((await fs.readFile('tools/spike/test/canaries.test.mjs','utf8')).match(/^test\(/gm)||[]).length);
+JS
+```
+Decisive output: `verify exit=0 {"valid":true,"errors":[]}`; `export --check exit=0 {"canonical":true}`. For **each** backend: `verified/contentMatches/pngMatches/inputMatches/fixtureMatches=true`, `width=1600,height=1340,attempts=1,overflowing=[[]],numberSize=20`. Four scene numbers: `lineHeight=1.2`. `"A1"` and `"E9 E9 E9"`: ACCEPT; four tokens reject with named field `fixture.stages[0].formula` and `one to three space-separated tokens`; terminal newline rejects with the same field and token-domain message. `forbidden glyphs=false`; `test declarations=4`.
+
+Thumbnail commands — each exit 0; both scratch PNGs viewed along with both original PNGs:
+```sh
+sips -Z 400 examples/2026-10-11-belief-updating/belief-updating.png --out "$TMPDIR/r2-satori.png" > "$TMPDIR/r2-thumb.log"
+sips -Z 400 examples/2026-10-11-belief-updating/belief-updating-chromium.png --out "$TMPDIR/r2-chromium.png" >> "$TMPDIR/r2-thumb.log"
+```
+Startup roadmap queries (`python3 -B utils/py/releases_app.py roadmap list`, then the same under `.xyz/`) each exited 2: the respective script is absent in this seeded checkout. No ledger-state claim or source change follows.
+
+Relay closed (Approved), no further turn needed. The harness owns the relay-only commit and final gate; no git command was run.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
