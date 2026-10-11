@@ -132,4 +132,12 @@ VERDICT: PASS
 Basis: every README/ROUTER/SPECS-PRD claim about commands, exit codes and outputs that this worktree can measure was checked against a real run and held; all four landed PRs compose cleanly at the seams (durable edits ↔ publication ↔ catalog receipts ↔ design records); the only findings are two [Nit]-grade DRY/dead-export observations, neither of which affects behavior. The clone-run gate (`pnpm test`, spike verify) remains the harness's to run.
 swept file: yes
 
+
+### Attestation · relay-drive — 2026-10-11T16:09:35Z
+task: RELAY-gh26-postqa-glm
+reviewer: commandcode
+status: Approved
+reviewed-head: d4acbc53a46671db17b93d8c5d3a9d6adc0bf5cd
+added-range: 10349+7821
+added-sha256: 9ffd4bd3c13b065fd7c0b49271c342e4eab8da5b02ba1ff672a8853493fae36d
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
