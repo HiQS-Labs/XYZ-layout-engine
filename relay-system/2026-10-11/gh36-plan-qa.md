@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -99,5 +99,107 @@ Output: graded findings (`[Blocker]`, `[Should]`, `[Nit]`, `[Pass]`) with file:l
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: The fixed recipe is appropriately small, but D3/D5 miss existing paths, D2 relies on validation it does not provide, and C2 cannot prove the promised preservation. Revise the plan before building; no registry or new test suite is needed.
+swept file: yes
+
+Reviewed the entire 127-line plan, not a diff, and read the cited render, request, catalog, solar recipe, thin caller, canary, budget, font-source and AS-rule files. Graph tools were unavailable, so source reads were the fallback. The pre-existing implicit-font and save allow-list paths below are in scope; no other pre-existing defect requiring a change was identified in this bounded review. Reversibility: Easy (relay-only findings; artifact unchanged).
+
+- [Should] **F1 — D3 omits the implicit sixth font argument.** `tools/render.mjs:333` calls `toDocument` without a family; its default is Inter (`:110`). Replacing the four explicit `'Inter'` call arguments (`:229,232,234,336`) and `getFonts()` still leaves Satori `html-inline` declaring Inter with Barlow bytes. Fix: pass `family` at `:333` too, set the new scene's family consistently, and specify a compact/relocated-inline HTML check for Barlow 400/700 and SVG-image loading. Keep the exported renderer defaults and no-FONT branch unchanged.
+  Observed input: `toDocument` with a Barlow scene, font buffers and no fifth argument, exactly the call shape at `:333`, declares Inter.
+  Affected scope: HTML exports of a recipe exporting FONT, especially Satori `html-inline`; existing recipes retain Inter.
+  Falsifier: Satori `html-inline` for the new fixture declares and loads Barlow Condensed 400/700, while nutrition/solar artifact bytes remain unchanged.
+  Probe (exit 0; no rendering or publication):
+  ```sh
+  node --input-type=module <<'JS'
+  import {toDocument} from './tools/render.mjs';
+  const html=toDocument({type:'div',props:{style:{fontFamily:'Barlow Condensed'},children:'control'}},{regular:Buffer.from('regular'),bold:Buffer.from('bold')},1600,1400);
+  console.log(html.match(/@font-face\{font-family:'([^']+)'/)[1]);
+  JS
+  ```
+  Decisive output: `Inter`.
+
+- [Should] **F2 — D5 misses durable saves.** `tools/request.mjs:106-107` repeats fixture-id inference and the trusted allow-list in `saveFixture`; `runCLI` reaches it for `--save` at `tools/render.mjs:509-514`. Add the new identity to this existing owner as well as admission, then specify a copy-only `--set`/`--save`/rerender check with the original untouched. There is no separate recipe-validation list in current `runCLI` (`:505-508`), and catalog publication already inserts all four output formats (`tools/catalog.mjs:329`); neither needs invented extra wiring.
+  Observed input: `{id:'recursive-process-diagram'}` with `recipe:'recursive-process', validateOnly:true` rejects at the save allow-list before recipe import or filesystem writes.
+  Affected scope: durable edits of the third trusted recipe via the shared CLI/save operation.
+  Falsifier: a valid new fixture can be saved to a scratch copy and rerendered to the same artifact digest; an unknown recipe and non-fixture overwrite still reject.
+  Probe (exit 0; exception caught, no write):
+  ```sh
+  node --input-type=module <<'JS'
+  import {saveFixture} from './tools/request.mjs';
+  try { await saveFixture({id:'recursive-process-diagram'},'copy.json',{recipe:'recursive-process',validateOnly:true}); }
+  catch(e) { console.log(e.message); }
+  JS
+  ```
+  Decisive output: `Validation failed: [{"field":"save","message":"select a trusted recipe"}]`.
+
+- [Should] **F3 — D2 needs recipe-owned semantic validation.** `validateFixtureShape` fixes object keys/array lengths, bounds numbers to `(0,8192]`, and bounds text; it does not enforce `polarity` or token-letter enums, nor integral token indices (`tools/request.mjs:81-101`). State the admitted letter/index domains and add local checks in the new recipe's `validate`, with corresponding red controls in existing C1. Also resolve “three tokens, or a label”: the shared validator enforces the example's exact object keys per array position, not a union. Describe the fixed per-stage shape actually supported (including D6's stage-4 formula) rather than promising interchangeable formula/label shapes.
+  Observed input: the two concrete values in the probe below both pass the validator named by D2; the first violates the stated polarity enum and the second is not an integer subscript.
+  Affected scope: consequence polarity and formula tokens in this new recipe only; no shared-validator rewrite is required.
+  Falsifier: valid `negative`/`positive` and each admitted integer token pass, while `banana`, fractional/out-of-domain indices and disallowed letters reject with named fields.
+  Probe (exit 0):
+  ```sh
+  node --input-type=module <<'JS'
+  import {validateFixtureShape} from './tools/request.mjs';
+  for (const value of [{polarity:'banana',formula:[{letter:'A',index:1}]},{polarity:'negative',formula:[{letter:'arbitrary text',index:1.5}]}]) {
+   validateFixtureShape(value,{polarity:'negative',formula:[{letter:'A',index:1}]});
+   console.log('ACCEPTED '+JSON.stringify(value));
+  }
+  JS
+  ```
+  Decisive output: `ACCEPTED {"polarity":"banana","formula":[{"letter":"A","index":1}]}` and `ACCEPTED {"polarity":"negative","formula":[{"letter":"arbitrary text","index":1.5}]}`.
+
+- [Should] **F4 — Phase 1 / acceptance 2 overstate C2's coverage.** C2 reads `FRESH_OUTPUT` spike measurements and artifacts (`tools/spike/test/canaries.test.mjs:372-394`); that producer uses `getFonts()` directly and nutrition/hero scenes, not `processRequest` or solar (`tools/spike/render.mjs:191-195,289-305`). Its digest comparison also returns early on host mismatch (`canaries.test.mjs:390`). A green C2 therefore cannot establish D3's no-FONT preservation, especially solar output. Add a direct before/after `processRequest` artifact-digest comparison for nutrition and solar on the same pinned runtime, both backends and every supported format, plus unchanged published file/content digests. Record baseline and post-change commands/results under an explicit evidence destination; fail on any difference or missing comparison. This may be a bounded manual check in the disposable clone rather than additional test declarations.
+  Observed input: C2's actual case definitions are only `baseline`, `override`, `hero`; none select solar or route font selection through `processRequest`.
+  Affected scope: the plan's preservation proof for both existing recipes across the shared font change.
+  Falsifier: the proposed comparison records nonzero artifact counts for both recipes and rejects a one-byte changed artifact; missing solar evidence or a skipped digest check cannot pass.
+
+- [Should] **F5 — Make the AS acceptance explicit.** D2's field list (`plan:79`) omits `theme.palette` and a fixture-owned visual system, while Phase 3 only says “inspect both PNGs” (`:98`) and acceptance has no visual-report criterion. Add palette roles and the fixed spacing/type/border choices required by AS-5 (`SYSTEM-INSTRUCTIONS.md:27-28`), name the reader/takeaway and three hierarchy decisions before composition (`:47`), and require the README report to record full-size plus thumbnail inspection of both backends (`:42-52`). Keep these fields fixed and small; no theming framework is needed.
+  Observed input: the enumerated D2 schema and acceptance 1–6 (`plan:79,105-110`) provide no such required evidence.
+  Affected scope: this recipe's fixture and belief-updating example/report.
+  Falsifier: a fixture lacking palette roles or a README lacking the thumbnail/both-backend inspection record fails Phase 3 QA.
+
+- [Nit] **F6 — Tighten the execution instructions.** Phase 2's `fontLoaded true` applies to Playwright, not Satori (`tools/render.mjs:51,158-169`); require Satori `missingSegments.length === 0` instead. Acceptance 1 should spell out the two commands (`--backend satori` / `--backend playwright`) and an authorized scratch output, and name `receipt.catalog.slug/version/verified` (`:350-368`). The default thin caller produces one backend per invocation. Replace phase bullets with observable checkboxes and add concise per-phase QA/evidence destinations; name debug-mantra for execution failures. Specify an overlong *bounded* caption red value (≤2048 chars) that exhausts fitting rather than merely failing text admission.
+
+- [Pass] **The bounded extension is appropriate.** D1/D2/non-goals (`plan:17-21,78-79`) add one fixed recipe and reuse existing admission, fitting, publication and catalog ownership. `tools/render.mjs:209-293` already caps fitting at 10 attempts and 12 px. Preserve this mechanism rather than adding a structure/layout registry.
+- [Pass] **SVG images have an existing offline publication path.** Base64 SVG image sources are admitted by `tools/render.mjs:102`; compact HTML extracts them to hashed `.svg` assets (`:336-344`), and staged/publication verification admits those assets (`:428,462,480`). Use these image nodes, not raw SVG HTML elements (the serializer's allow-list is `:94`). Formula letter/index text must have leaf IDs, inline font sizes and parent regions to satisfy `:48,63,245-258`; the lowered-span rendering result itself still needs the clone run.
+- [Pass] **The ratchet and copy boundaries are sensible.** `test-budget.json` caps one file/four tests/60 seconds/zero workflows and expressly permits extending existing canaries; the plan preserves those limits (`plan:21,95,101,110`). D6/D8 explicitly remove decorative repeated heads, use sentence case/one accent, and label the content schematic (`:83,85`), consistent with AS-2/3/6/7. No new subsystem is warranted.
+
+**Unverified — needs clone run:** both-backend formula fit/containment, all PNG/HTML visual results, new recipe receipt verification, actual negative controls, and the expanded suite's ≤60-second duration. No validate script, test suite, pytest or executable fixture was run here. Font coverage is supplementary evidence only; the planned missing-glyph red control still needs execution. All probes used `PYTHONDONTWRITEBYTECODE=1` and `TMPDIR="$PWD/.relay-scratch/tmp"`; scratch is disposable and decisive outputs are retained above.
+
+Supplementary font-probe ledger (no font rendering): the attempted `python3 -B` fontTools reader stopped at `from fontTools.ttLib import TTFont` (exit 1, `ModuleNotFoundError: No module named 'fontTools'`). The standard-library fallback below exited 0. Decisive output for **both** Regular and Bold: `U+2080/2081/2082/2083/2084/2192: False; U+2026/2014/00B7: True`.
+```sh
+python3 -B <<'PY'
+from pathlib import Path
+from struct import unpack_from
+for weight in ('Regular','Bold'):
+ b=Path(f'tools/fonts/barlow-condensed/BarlowCondensed-{weight}.ttf').read_bytes()
+ u16=lambda p: unpack_from('>H',b,p)[0]
+ u32=lambda p: unpack_from('>I',b,p)[0]
+ tables={b[p:p+4]:u32(p+8) for p in range(12,12+16*u16(4),16)}
+ c=tables[b'cmap']; offsets=[c+u32(c+4+8*i+4) for i in range(u16(c+2)) if u16(c+4+8*i) in (0,3)]
+ def glyph(cp,p):
+  fmt=u16(p)
+  if fmt==12:
+   for i in range(u32(p+12)):
+    start,end,g=unpack_from('>III',b,p+16+12*i)
+    if start<=cp<=end:return g+cp-start
+  if fmt==4:
+   n=u16(p+6)//2; e=p+14; s=e+2*n+2; d=s+2*n; r=d+2*n
+   for i in range(n):
+    if u16(s+2*i)<=cp<=u16(e+2*i):
+     delta=u16(d+2*i); off=u16(r+2*i)
+     if not off:return (cp+delta)%65536
+     g=u16(r+2*i+off+2*(cp-u16(s+2*i)))
+     return (g+delta)%65536 if g else 0
+  return 0
+ print(weight,{f'U+{ord(ch):04X}':any(glyph(ord(ch),p)>0 for p in offsets) for ch in '₀₁₂₃₄→…—·'})
+PY
+```
+
+Handing off to Producer (claude-a) — revise the plan for F1–F5, disposition F6, then return it for Round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
