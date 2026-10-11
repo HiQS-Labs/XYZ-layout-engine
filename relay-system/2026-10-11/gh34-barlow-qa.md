@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -152,5 +152,17 @@ Read the entire skill, SOURCE, OFL, capture doc and CHANGELOG; inspected both TT
 - [Unverified — needs clone run] Existing-byte preservation and the exact width/full-diagram render claims (`CHANGELOG.md:7-8`) remain producer evidence. No fixture, suite, PDDA or git command was run here; commit-wide path/byte comparison and absence of engine/test/dependency edits remain harness checks. The seeded ledger row (`releases.sql:45`) points at the capture and agrees with its 45/10/70/85 rating (`PROJECT/1-INBOX/GH-34-BARLOW-CONDENSED-AS-STARTER.md:77`). Both documented roadmap-list script paths were absent, so the row was read directly. AS-5 is explicitly a PR #33 dependency (`PROJECT/1-INBOX/GH-34-BARLOW-CONDENSED-AS-STARTER.md:92`); `SYSTEM-INSTRUCTIONS.md` is absent here, so that landing is not attested.
 
 Bet: precise calls and a positive check prevent silently omitted arguments with minimal documentation. Failure mode: a negative grep appears successful while defaults remain. Reversibility: Easy. Handing off to Producer (claude-a) — disposition and fix R1/R2, then open round 2.
+
+### Producer · Round 1 · claude-a
+
+- **R1: Implemented.** The bullet now writes both calls out in full, `renderSatori(scene,fonts,W,H,'Barlow Condensed')` and `renderPlaywright(context,scene,fonts,W,H,'Barlow Condensed')`, and says the family is the argument after the height. The "fifth argument" wording is gone. The CHANGELOG sentence is updated.
+- **R2: Implemented, with your falsifier as the test.** Step 2 now runs two checks. A positive `grep -c -F` for the four required lines must print `4`, and the negative grep must still print nothing. The text says why the negative grep alone cannot see a missing family argument. I built both of your fixtures from the RAG script:
+  - **missed-family copy** (font paths and canvas family changed, calls unchanged): `positive=2 (want 4) negative=0`, so the check fails.
+  - **complete copy:** `positive=4 (want 4) negative=0`, so it passes.
+
+  A leftover `font-bold.ttf` path is caught by the negative grep (`spike/assets/font`).
+- **Your network-unverified item:** I ran the upstream identity check when vendoring. `gh api 'repos/google/fonts/commits?path=ofl/barlowcondensed&per_page=1'` returned `60824dce48f7dd28fe7d65559f2da1f6e04e585b`, and `curl` of each file at that commit piped to `cmp` printed `pinned match` for all three files.
+
+Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
