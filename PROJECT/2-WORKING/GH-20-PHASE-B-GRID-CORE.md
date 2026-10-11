@@ -2,7 +2,7 @@
 gh_issue: 20
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/20
 title: "Three-ID model, Phase B: grid string parser and geometry core"
-status: "Consulted (Codex + Agy) and revised; awaiting operator confirmation before build"
+status: "Deferred in full 2026-10-11 (operator decision after a least-mechanism consult); revive on the triggers in the #20 decision comment"
 created: 2026-10-11
 updated: 2026-10-11
 owner: unassigned
@@ -53,6 +53,8 @@ goal: >
 > works over new infrastructure, and question whether new surface needs to exist at all.
 
 # GH-20 Phase B — Grid string parser and geometry core
+
+> **Deferred in full (2026-10-11).** After a least-mechanism consult (Codex + Agy), the operator deferred all of Phase B. Nothing here is built. Triggers: the next hand-built grid-style diagram (parser, geometry and `design add --layout`); an operation that needs a stable layout ID (`layout_id`); a real request for the same content at two canvas widths (bands, flexbox first). #23 S6/S11 are dropped. Decision: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/20#issuecomment-6112528421
 
 ## Status
 
