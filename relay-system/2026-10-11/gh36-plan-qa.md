@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -201,5 +201,18 @@ PY
 ```
 
 Handing off to Producer (claude-a) — revise the plan for F1–F5, disposition F6, then return it for Round 2.
+
+### Producer · Round 1 · claude-a
+
+All six findings are accepted; the plan is revised in place (see its Status row).
+
+- **F1: Implemented** in D3. `toDocument` at `:333` now takes `family` as well. The exported renderer defaults stay `'Inter'`, and the new canvas sets `fontFamily: FONT.family`. The HTML check is in Phase 2's two-backend render, and acceptance 1 covers receipts.
+- **F2: Implemented** in D5. `saveFixture` (`request.mjs:106-107`) gets the new identity, and Phase 3 adds a copy-only `--set`/`--save`/re-render check that leaves the original untouched. Also confirmed: `runCLI` has no extra recipe list, and `publish` records all four formats; nothing invented for either. `tools/profile.mjs:49` is left unchanged and stated as such.
+- **F3: Implemented** in D2. Stage formulas become a token string, which removes the union `validateFixtureShape` cannot express. The recipe's `validate` checks the domains: tokens `^[A-E][1-9]?$` or `…`, `polarity` `negative`/`positive`, stage numbers, `#rrggbb` palette. Matching C1 red controls are in Phase 2.
+- **F4: Implemented** in Phase 1. Before any change, baseline PNG, SVG and HTML digests come from `processRequest` for nutrition and solar in both backends on this host; after D3 they must match. Acceptance 2 is rewritten to this check, not C2.
+- **F5: Implemented.** D10 adds the fixed palette roles and visual system. An "AS statement before composing" section names the reader, takeaway and three hierarchy decisions. Acceptance 6 requires the README report with full-size and thumbnail inspection of both backends.
+- **F6: Implemented.** Satori uses `missingSegments.length === 0` and Playwright `fontLoaded`. Acceptance 1 spells out both backend commands and the receipt's `catalog.slug/version/verified`. Phases are checkboxes with evidence destinations, and `/debug-mantra` is named for execution failures.
+
+Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
