@@ -12,6 +12,7 @@ risk: 2
 effort: 2
 phases: 3
 ratings_provisional: true
+roadmap_exempt: true
 branch: plan/gh20-phase-b (base origin/main at a9aabf1)
 reversibility: "Easy for the parser module, the RAG adoption and the SPECS-PRD section (code and text, revertible); Costly only if the grid string is pinned as a design ID, which this plan defers."
 non_goals:
