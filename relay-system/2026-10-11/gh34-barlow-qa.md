@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -164,5 +164,47 @@ Bet: precise calls and a positive check prevent silently omitted arguments with 
 - **Your network-unverified item:** I ran the upstream identity check when vendoring. `gh api 'repos/google/fonts/commits?path=ofl/barlowcondensed&per_page=1'` returned `60824dce48f7dd28fe7d65559f2da1f6e04e585b`, and `curl` of each file at that commit piped to `cmp` printed `pinned match` for all three files.
 
 Handing off to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: R1 and R2 are resolved against the current RAG source. No remaining Blocker or Should finding for this docs-and-assets scope; full-clone verification remains harness-owned.
+swept file: yes
+
+Read the complete skill, SOURCE, OFL, capture doc and CHANGELOG again; inspected the TTF tables, complete RAG script and relevant renderer functions. No additional material pre-existing defect found in the artifact files. Graph tools are unavailable in this session; direct source evidence used without a graph completeness claim.
+
+- [Pass] R1 resolved. The explicit calls at `skills/design-diagram/SKILL.md:25` put family after height in both signatures (`tools/render.mjs:24,130`). Together with the paths and canvas family at `skills/design-diagram/SKILL.md:24,26`, these cover every font-bound location in the current RAG script (`examples/2026-10-09-rag-system/render-diagram.mjs:13,123,126,132`). No further family override appears in its complete scene. `CHANGELOG.md:5` now describes the actual instructions. Fix: none.
+- [Pass] R2 resolved for the current copied pattern. The checks at `skills/design-diagram/SKILL.md:28-30` distinguish the missed-family copy from the complete copy, and together also catch a missed Bold path. This is a literal check of the copied script before adaptation, not a general parser for arbitrarily reformatted scripts. Fix: none.
+
+  Probe command (Python exit 0; only scratch copies, no fixture execution):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  mkdir -p "$TMPDIR"
+  python3 - <<'PROBE'
+  from pathlib import Path
+  import subprocess, shlex
+  source=Path('examples/2026-10-09-rag-system/render-diagram.mjs').read_text()
+  partial=source.replace('tools/spike/assets/font.ttf','tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf').replace('tools/spike/assets/font-bold.ttf','tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf').replace("fontFamily:'Inter'","fontFamily:'Barlow Condensed'")
+  complete=partial.replace('renderSatori(scene,fonts,W,H)',"renderSatori(scene,fonts,W,H,'Barlow Condensed')").replace('renderPlaywright(context,scene,fonts,W,H)',"renderPlaywright(context,scene,fonts,W,H,'Barlow Condensed')")
+  skill=Path('skills/design-diagram/SKILL.md').read_text()
+  commands=[line.split(chr(96))[1] for line in skill.splitlines() if line.strip().startswith('- '+chr(96)+'grep')]
+  for label,text in [('missed-family',partial),('complete',complete),('missed-bold',complete.replace('tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','tools/spike/assets/font-bold.ttf'))]:
+      folder=Path('.relay-scratch/tmp')/label
+      folder.mkdir(exist_ok=True)
+      (folder/'render-diagram.mjs').write_text(text)
+      for cmd in commands:
+          r=subprocess.run(shlex.split(cmd),cwd=folder,capture_output=True,text=True)
+          print(label,'positive' if '-c' in cmd else 'negative','exit='+str(r.returncode),'stdout='+repr(r.stdout))
+  PROBE
+  ```
+  Decisive output: missed-family positive `exit=0 stdout='2\n'`, negative `exit=1 stdout=''`; complete positive `exit=0 stdout='4\n'`, negative `exit=1 stdout=''`; missed-bold positive `exit=0 stdout='4\n'`, negative `exit=0` with line 13 containing `tools/spike/assets/font-bold.ttf`. As documented, inspect the count/output; grep exit 0 alone is not acceptance.
+
+- [Pass] Trap 8 at `skills/design-diagram/SKILL.md:54` describes the recorded mismatch, consistent with Satori's supplied-font registration (`tools/render.mjs:31`), Chromium's generated font faces (`:120-121`) and default family (`:130`). The RAG findings inspect geometry/overflow, not `fontLoaded` (`examples/2026-10-09-rag-system/render-diagram.mjs:136-181`); the shared request path does inspect it (`tools/render.mjs:239`). The trap's numerical/font-load evidence is a producer probe, not a claim that this diagram enforces font loading. Fix: none.
+- [Pass] Local file hashes still match `tools/fonts/barlow-condensed/SOURCE.md:11-13`. Command `shasum -a 256 tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf tools/fonts/barlow-condensed/OFL.txt`, exit 0: Regular `583cec5da3b84bc4dc7c9c72e2a565c94d34e431518b19d7e250b7830ad5f996`; Bold `e476562ec9c1e16cf16475895b511f08c804f438cc9a9f80a44ea50a0eeb5b65`; OFL `186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f`. The included copyright/license and bundling condition remain present (`tools/fonts/barlow-condensed/OFL.txt:1-93`, specifically `:56-61`); the full upstream commit, folder and filenames are re-verifiable inputs (`SOURCE.md:6,11-13`). No extra packaging or engine mechanism is warranted. Fix: none.
+- [Pass] The capture preserves its parked intake/checklist state rather than falsely claiming completion (`PROJECT/1-INBOX/GH-34-BARLOW-CONDENSED-AS-STARTER.md:3-6,35,51-55`); its scoped plan and PR #33 dependency are explicit (`:84-92`). Its rating agrees with the seeded row (`:77`; `releases.sql:45`). Fix: none.
+- [Unverified — network unavailable] Independent upstream byte identity remains unavailable. Command `curl -fLsS --max-time 15 "https://raw.githubusercontent.com/google/fonts/60824dce48f7dd28fe7d65559f2da1f6e04e585b/ofl/barlowcondensed/OFL.txt" -o "$TMPDIR/upstream-OFL.txt"` exited 6: `Could not resolve host: raw.githubusercontent.com`; no comparison performed. Producer's pinned-match evidence stands separately from local hash agreement (`SOURCE.md:6`; Producer round 1).
+- [Unverified — needs clone run] Width/full-diagram rendering (`CHANGELOG.md:7`), existing-byte preservation and absence of engine/test/dependency changes (`:6`) remain producer evidence plus harness checks. No git, fixture execution, suite or PDDA gate was run in this turn. This approval does not attest PR #33 landing or those deferred checks.
+
+Bet: the explicit calls and paired literal checks prevent the observed omissions without adding runtime machinery. Failure mode: checking only grep's exit code instead of the documented count/output. Reversibility: Easy. Relay closed (Approved), no further turn needed; harness owns the file-scoped commit and clone gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
