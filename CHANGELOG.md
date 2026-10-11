@@ -1,4 +1,12 @@
 # Changelog
+## 2026-10-11 — Barlow Condensed is the starter default font for new visual work (#34)
+
+- Vendored Barlow Condensed Regular (400) and Bold (700) with its SIL Open Font License under `tools/fonts/barlow-condensed/`. Each file is byte-identical to google/fonts commit `60824dce`, and `SOURCE.md` records it with sha256 values.
+- `skills/design-diagram` now switches a new diagram's copied script to Barlow Condensed unless the brief names a font. It lists the three exact edits plus a grep check, and adds trap 8: leaving out the family argument makes Chromium silently fall back to a system font while Satori still draws Barlow.
+- Existing recipes and diagrams stay on Inter; no engine, recipe or example code changed. There is no engine-level fallback yet, because nothing lets a recipe or user declare a font.
+- Proof: a probe rendered the same 40 px line at 436 px in Barlow Condensed against 613 px in Inter, matching in both backends with `fontLoaded: true`. A scratch copy of the RAG diagram with the skill's edits rendered `PASS`.
+- Easy to reverse (revert). Refs #34.
+
 ## 2026-10-11 — Home-directory paths scrubbed from committed transcripts (#23 S10)
 
 - The home-directory prefix is replaced with `~` in 139 committed `relay-system/` and `marathon-system/` files: 737 lines, same-line replacements only, done byte-safely with `perl`, so non-UTF-8 logs were not skipped. A search for the home directory now returns 0 files.
