@@ -2,13 +2,13 @@
 ## 2026-10-11 — Generation safety: no double payment, no signed URLs in receipts (#23 S3, S4, S5, S7)
 
 - `examples/2026-10-08-solar-system/generate-assets.py`:
-  - A deleted `manifest.json` next to existing attempt directories is now refused instead of being read as empty and paid for again (S3).
+  - A job whose attempt directory exists but has no manifest record (a deleted, emptied or truncated manifest) is refused instead of being paid for again, unless `--force-retry` is given (S3).
   - The caller inherits the run lock, so a caller left running after the generator crashes blocks `--force-retry` from paying twice; receipts are written atomically (S4).
   - `failed` now reads the per-attempt `dispatched: false` that the real caller emits, so a never-dispatched job can be re-planned (S5).
-  - URL query strings are stripped from receipts and from the manifest's copied `attempts` (S7). Receipts are now the redacted, re-serialized caller output rather than its verbatim bytes.
+  - URL query strings are stripped from receipts and from the manifest's copied `attempts` (S7). Receipts are now the redacted, re-serialized caller output rather than its verbatim bytes. Output that is not JSON is replaced by a fixed record (byte count and sha256), since escaped or percent-encoded signed URLs can hide in it.
   - An empty job list exits 4 instead of 0.
 - Each item was reproduced first against a stub caller, with no paid calls.
-- The existing C1 canary is extended (no new test). Removing any one of the five guards turns C1 red. Gate: 4/4 in 35.9 s.
+- The existing C1 canary is extended (no new test). Removing any one of the guards turns C1 red. Gate: 4/4 in 36.7 s. Codex QA round 1 found the emptied-manifest and unparseable-output gaps; both are fixed with C1 controls.
 - Refs #23. Easy to reverse (revert).
 
 ## 2026-10-11 — Post-QA review closed; #9, #19 and #26 reconciled

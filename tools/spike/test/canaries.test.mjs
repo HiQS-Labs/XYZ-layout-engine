@@ -264,6 +264,7 @@ const args=process.argv, out=args[args.indexOf('--out')+1];
 appendFileSync(process.env.STUB_COUNT, 'call\\n');
 if(process.env.STUB_SLEEP) await new Promise(resolve=>setTimeout(resolve, Number(process.env.STUB_SLEEP)));
 if(process.env.STUB_CORRUPT) { writeFileSync(out,'bad'); console.log('not json'); }
+else if(process.env.STUB_LEAK) { console.log('caller error: {"url": "https:\\\\/\\\\/cdn.example.test\\\\/a.png?X-Amz-Signature=SIG"} https%3A%2F%2Fcdn.example.test%2Fa.png%3FX-Amz-Signature%3DSIG'); process.exit(1); }
 else if(process.env.STUB_NODISPATCH) { console.log(JSON.stringify({status:'error',attempts:[{status:'error',dispatched:false}]})); process.exit(3); }
 else {
  const png=readFileSync(process.env.STUB_PNG); if(!process.env.STUB_MISSING) writeFileSync(out,png);
@@ -352,7 +353,9 @@ with patch.object(g.time,'monotonic',lambda:now[0]),patch.object(g,'update_manif
   result=runSigned(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),beforeSigned+1);
   const signed=Object.values(genState('g-signed'))[0];
   for(const file of ['manifest.json',signed.receipt]) assert.doesNotMatch(readFileSync(path.join(FRESH,'g-signed',file),'utf8'),/X-Amz-Signature/,`signed URL query kept in ${file}`);
-  rmSync(path.join(FRESH,'g-signed','manifest.json')); result=runSigned(); assert.equal(result.status,4); assert.match(result.stderr,/attempt folders exist without manifest/); assert.equal(calls(),beforeSigned+1,'lost manifest caused a paid replay');
+  for(const lose of [()=>rmSync(path.join(FRESH,'g-signed','manifest.json')), ()=>writeFileSync(path.join(FRESH,'g-signed','manifest.json'),'{}')]) { lose(); result=runSigned(); assert.equal(result.status,4); assert.match(result.stdout,/manifest has no record/); assert.equal(calls(),beforeSigned+1,'lost manifest caused a paid replay'); }
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'leak'}])); result=freshGen('g-leak')([],{STUB_LEAK:'1'}); assert.equal(result.status,4);
+  const leaked=Object.values(genState('g-leak'))[0]; for(const file of ['manifest.json',leaked.receipt]) assert.doesNotMatch(readFileSync(path.join(FRESH,'g-leak',file),'utf8'),/X-Amz-Signature/,`unparseable output kept a signed URL in ${file}`);
   writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'no-dispatch'}])); const runNoDispatch=freshGen('g-nodispatch');
   result=runNoDispatch([],{STUB_NODISPATCH:'1'}); assert.equal(result.status,4); assert.equal(Object.values(genState('g-nodispatch'))[0].status,'failed','per-attempt dispatched:false not read');
   const beforeReplan=calls(); result=runNoDispatch(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),beforeReplan+1);

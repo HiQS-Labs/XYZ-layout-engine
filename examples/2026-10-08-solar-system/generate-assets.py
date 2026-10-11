@@ -50,7 +50,10 @@ def receipt_text(stdout):
     try:
         return json.dumps(redact(json.loads(stdout)), ensure_ascii=False)
     except ValueError:
-        return redact(stdout)
+        # Unparseable output cannot validate, and escaped or percent-encoded URLs can hide in it,
+        # so keep a fixed credential-free record instead of the text.
+        raw = stdout.encode()
+        return json.dumps({'status': 'unparseable', 'note': 'caller stdout was not JSON; withheld to avoid persisting credentials', 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
 
 
 def never_dispatched(result):
@@ -302,8 +305,6 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
             print('whole-run deadline exceeded during admission', flush=True)
             return False
         manifest_path = assets_dir / 'manifest.json'
-        if not manifest_path.exists() and not manifest_path.is_symlink() and any(p.is_dir() and ATTEMPT_DIR.fullmatch(p.name) for p in assets_dir.iterdir()):
-            raise ValueError('attempt folders exist without manifest.json; restore it or reconcile before dispatch')
         manifest = read_manifest(manifest_path)
         planned = []
         for job in admitted:
@@ -313,6 +314,11 @@ def generate(job_list, assets_dir, caller, max_calls=11, force_retry=False, time
             status = state.get('status')
             if status not in (None, 'pending', 'in-flight', 'complete', 'unknown', 'failed'):
                 raise ValueError('unknown manifest state; reconcile before dispatch')
+            # A deleted, emptied or truncated manifest must not turn an earlier (possibly paid)
+            # attempt for this exact input into a fresh dispatch.
+            if status is None and not force_retry and any(p.is_dir() and ATTEMPT_DIR.fullmatch(p.name) for p in assets_dir.glob(f"{job['id']}_{digest}_*")):
+                print(f"{job['id']}: attempt folders exist but the manifest has no record; restore manifest.json or reconcile before --force-retry", flush=True)
+                return False
             if status == 'complete':
                 paths = [state.get('output', ''), state.get('receipt', '')]
                 if not all(p and not Path(p).is_absolute() and '..' not in Path(p).parts and (assets_dir / p).resolve().is_relative_to(assets_dir) for p in paths):

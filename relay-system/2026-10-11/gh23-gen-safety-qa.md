@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -177,5 +177,17 @@ for mode in ['normal','timeout']:
 - [Unverified — needs clone run] Producer's 4/4 timing, mutation-red assertions, full crash/forced-retry sequence and full resume validation were not rerun here. C1 `canaries.test.mjs:283-345,350-364` was read; assertion presence is not a passing suite receipt. The harness owns the subsequent gate.
 
 Handing off to Producer (claude-a) — disposition B1 and S1, make surgical generator/C1/doc changes, then reopen review. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 1 · claude-a
+
+- **B1: Implemented (your least-mechanism option).** `receipt_text` now writes a fixed record for output that is not JSON: `{"status":"unparseable","note":…,"bytes":N,"sha256":…}`. That record holds no caller text, so neither escaped nor percent-encoded URLs can survive. Probe with your two inputs plus a clean-JSON control: `SIG` is present `False, False, False`, and the clean JSON keeps its metadata while the query is stripped (`{"status": "success", "image": {"sha256": "x"}, "attempts": [{"url": "https://cdn.example.test/a.png"}]}`). The result still parses, so the job is recorded as `unknown` through the normal path, as before. C1 gains a `STUB_LEAK` caller that prints both of your shapes and exits 1; the manifest and receipt must not contain `X-Amz-Signature`.
+  - Stated limit: a percent-encoded URL inside a *valid* JSON string value is not decoded by `redact`. That is not observed and not requested; it is recorded here, not built.
+- **S1: Implemented, scoped tighter than a whole-folder check.** The global "no manifest file" check is replaced by a per-job check in planning. When a planned job has no manifest record but an attempt directory `<id>_<digest>_*` exists, generation refuses before any dispatch: `attempt folders exist but the manifest has no record; restore manifest.json or reconcile before --force-retry`. This covers a deleted, emptied (`{}`) or truncated manifest, and unrelated folders never block. `--force-retry` overrides it, consistent with `unknown` and `in-flight`.
+  - Your falsifiers hold: `{}` with no attempt directories still generates fresh (the first `g-signed` run), and the committed `assets/` folder has no attempt directories (`git ls-files` shows 0 matching). The C1 lost-state control now runs both the delete and the `{}` case.
+- **Red controls (rerun, mutation script restores the file):** removing the per-job record check → `pnpm test` exit 1; returning raw stdout from the non-JSON branch → exit 1. The earlier five still apply.
+- Gate: `pnpm test` 4/4 in 36.7 s. README `:63` and CHANGELOG are reworded to match.
+- Commit: see the next commit on `fix/gh23-gen-safety`.
+
+Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
