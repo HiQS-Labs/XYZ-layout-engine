@@ -60,9 +60,11 @@ const svgData = s => `data:image/svg+xml;base64,${Buffer.from(s).toString('base6
 const img = (id, svg, x, y, w, h = w) => node('img', id, { position: 'absolute', left: x, top: y, width: w, height: h }, undefined, { src: svgData(svg) });
 const flowImg = (svg, w, h = w) => node('img', null, { width: w, height: h, flexShrink: 0 }, undefined, { src: svgData(svg) });
 
-// Visual system (AS-5): 8 px spacing scale, one 12 px card radius, one 2 px stroke, no shadows or gradients.
-// Barlow Condensed's line box is 1.2 em (hhea 1000/-200), so no text uses a line height below 1.2:
-// Chromium reports a tighter line as overflow at every size.
+// Visual system (AS-5): 8 px spacing scale, one 12 px card radius, no shadows or gradients. Strokes: 2 px for
+// node outlines and connectors, 1 px for column rules, 4 px for the main revision line.
+// Barlow Condensed's line box is 1.2 em (hhea 1000/-200), so all text uses a line height of at least 1.2: at 1.1
+// Chromium reported the title and labels as overflowing through all ten fit attempts, and at 1.0 it shrank the
+// stage numbers from 20 to 16 px.
 const STROKE = 2, RADIUS = 12;
 const W = 1600, H = 1340, MARGIN = 80, COL = (W - 2 * MARGIN) / 4;
 const cx = i => MARGIN + COL * i + COL / 2;
@@ -143,7 +145,7 @@ export async function buildScene(fixture, sizes = {}) {
     tokens.forEach((t, k) => { if (k) formula.push(arrowGlyph(p.muted)); formula.push(token(t, 34, p.muted)); });
     children.push(box(`stage_${i + 1}`, { position: 'absolute', left: MARGIN + COL * i, top: 236, width: COL, height: 104, flexDirection: 'column', alignItems: 'center', gap: 10 }, [
       box(null, { width: 40, height: 40, borderRadius: 20, border: `${STROKE}px solid ${p.rule}`, alignItems: 'center', justifyContent: 'center' }, [
-        text(`stage_${i + 1}_num`, String(stage.number), { fontWeight: 700, color: p.muted, lineHeight: 1 })
+        text(`stage_${i + 1}_num`, String(stage.number), { fontWeight: 700, color: p.muted, lineHeight: 1.2 })
       ]),
       box(null, { alignItems: 'center', gap: 10 }, formula)
     ]));

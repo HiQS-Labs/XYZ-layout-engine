@@ -49,9 +49,9 @@ Patterns avoided, by rule:
 - **AS-4:** unequal weight on purpose: B₂ is larger than B₁, and the accent marks the revision path.
 - **AS-5:**
   - the palette roles are in the fixture;
-  - one 2 px stroke, one 12 px card radius, no shadows;
+  - strokes of 2 px for outlines and connectors, 1 px for rules and 4 px for the main revision line; one 12 px card radius; no shadows;
   - Barlow Condensed 700 for headings and tokens, 400 for copy;
-  - line heights of 1.2 to 1.3. Barlow's line box is 1.2 em, so anything tighter overflows in Chromium.
+  - line heights of 1.2 to 1.3. Barlow's line box is 1.2 em. At 1.1 Chromium reported the title and labels as overflowing at every fit attempt, and at 1.0 it shrank the stage numbers.
 - **AS-6:** the reference's repeated, identical person-head icons were dropped as decoration. Each remaining icon depicts its step:
   - speech bubbles: an event between people;
   - a broken link: a strained relationship;

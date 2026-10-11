@@ -14,7 +14,7 @@
   "catalog": {
     "slug": "recursive-process",
     "version": "1.0.0",
-    "contentSha256": "c2b68a836ce4bfb908bc3c8370c48e18cfd8d1d3a34acb829537ef653079c265",
+    "contentSha256": "04c200f32c1806b6d874eb92bdcaa724b2143f3763e72807a88fb663055a1364",
     "verified": true
   },
   "versions": {
@@ -26,7 +26,7 @@
     "errors": []
   },
   "digests": {
-    "png": "36a99d19b7d8ec48927d9e1832c43576a590571a57d6cbe5c48168c91c7c947b"
+    "png": "4cf71f5a10756ba6519832d11d0fc8028273a7ea9538ddde32bdfd1909d20478"
   },
   "provenance": {
     "inputPath": "examples/2026-10-11-belief-updating/fixture.json",
@@ -36,18 +36,13 @@
   },
   "fitting": {
     "fit": true,
-    "attempts": 3,
-    "iterations": 2,
+    "attempts": 1,
+    "iterations": 0,
     "unresolved": [],
     "steps": [
       {
         "iteration": 0,
-        "overflowing": [
-          "stage_1_num",
-          "stage_2_num",
-          "stage_3_num",
-          "stage_4_num"
-        ],
+        "overflowing": [],
         "sizes": {
           "title": 56,
           "subtitle": 25,
@@ -75,82 +70,15 @@
           "footer_note": 17,
           "footer_source": 16
         }
-      },
-      {
-        "iteration": 1,
-        "overflowing": [
-          "stage_1_num",
-          "stage_2_num",
-          "stage_3_num",
-          "stage_4_num"
-        ],
-        "sizes": {
-          "title": 56,
-          "subtitle": 25,
-          "stage_1_num": 18,
-          "stage_2_num": 18,
-          "stage_3_num": 18,
-          "stage_4_num": 18,
-          "event_1_label": 22,
-          "event_1_caption": 18,
-          "event_2_label": 22,
-          "event_2_caption": 18,
-          "state_1_label": 22,
-          "state_1_caption": 18,
-          "state_2_label": 22,
-          "state_2_caption": 18,
-          "consequence_1_label": 22,
-          "consequence_1_caption": 18,
-          "consequence_2_label": 22,
-          "consequence_2_caption": 18,
-          "examination_label": 22,
-          "examination_caption": 18,
-          "outcome_label": 22,
-          "outcome_caption": 18,
-          "trail_label": 22,
-          "footer_note": 17,
-          "footer_source": 16
-        }
-      },
-      {
-        "iteration": 2,
-        "overflowing": [],
-        "sizes": {
-          "title": 56,
-          "subtitle": 25,
-          "stage_1_num": 16,
-          "stage_2_num": 16,
-          "stage_3_num": 16,
-          "stage_4_num": 16,
-          "event_1_label": 22,
-          "event_1_caption": 18,
-          "event_2_label": 22,
-          "event_2_caption": 18,
-          "state_1_label": 22,
-          "state_1_caption": 18,
-          "state_2_label": 22,
-          "state_2_caption": 18,
-          "consequence_1_label": 22,
-          "consequence_1_caption": 18,
-          "consequence_2_label": 22,
-          "consequence_2_caption": 18,
-          "examination_label": 22,
-          "examination_caption": 18,
-          "outcome_label": 22,
-          "outcome_caption": 18,
-          "trail_label": 22,
-          "footer_note": 17,
-          "footer_source": 16
-        }
       }
     ],
     "finalSizes": {
       "title": 56,
       "subtitle": 25,
-      "stage_1_num": 16,
-      "stage_2_num": 16,
-      "stage_3_num": 16,
-      "stage_4_num": 16,
+      "stage_1_num": 20,
+      "stage_2_num": 20,
+      "stage_3_num": 20,
+      "stage_4_num": 20,
       "event_1_label": 22,
       "event_1_caption": 18,
       "event_2_label": 22,

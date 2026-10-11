@@ -7,13 +7,13 @@
 - **Recipe-declared fonts:** `processRequest` now loads a font the recipe declares; this recipe uses Barlow Condensed. Recipes without `FONT` keep Inter.
   - Proof: all 14 nutrition and solar artifacts (Satori `png,svg,html,html-inline`; Playwright `png,html,html-inline`) are byte-identical before and after.
   - The font lacks subscript digits and `→`, so subscripts are drawn as smaller spans and arrows as SVG.
-  - Its 1.2 em line box means no line height below 1.2, or Chromium reports overflow; this is recorded in `SOURCE.md`.
+  - Its line box is 1.2 em. Below that, Chromium reports overflow: at 1.1 the title and labels failed every fit attempt, and at 1.0 stage numbers shrank. All text uses at least 1.2; this is recorded in `SOURCE.md`.
 - **New example:** `examples/2026-10-11-belief-updating/` holds the renders from both backends, receipts (`verified: true`), and a README with the AS report. It is recorded as a design with its #21 log line.
 - **Canary C1** (no new test) covers:
   - both-backend renders;
   - glyph coverage;
   - offline HTML, through a shared `assertOfflineExport` helper that the nutrition check also uses now;
-  - five named refusals, each going red when its guard is removed.
+  - five named refusals, each going red when its guard is removed. The non-fit guard is the engine's shared throw, and the GH-36 control catches it on its own.
 
   `pnpm test` runs 4/4 in about 38 s.
 - Easy to reverse (revert). Refs #36.
