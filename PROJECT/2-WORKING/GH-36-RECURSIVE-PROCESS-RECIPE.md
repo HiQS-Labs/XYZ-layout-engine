@@ -126,7 +126,7 @@ goal: >
 
 ## Acceptance (each can fail)
 
-1. `node examples/2026-10-11-belief-updating/render-diagram.mjs --backend satori` and `… --backend playwright` (output under `tools/output/`, which is gitignored) both exit 0. Each receipt has `catalog.slug = recursive-process`, `catalog.version = 1.0.0` and `catalog.verified = true`.
+1. `node examples/2026-10-11-belief-updating/render-diagram.mjs --backend satori` and `… --backend playwright` (the thin caller writes to the example's own `out/`, which the example `.gitignore` excludes; `tools/output/` is not ignored at the root, so it is not used) both exit 0. Each receipt has `catalog.slug = recursive-process`, `catalog.version = 1.0.0` and `catalog.verified = true`.
 2. Nutrition and solar PNG, SVG and HTML digests from `processRequest` are identical before and after, in both backends on the same host (Phase 1 table).
 3. Each Phase 2 red control is rejected with a named error, and each C1 red control fails when its guard is removed.
 4. `catalog verify` is valid, with the new recipe, its version files and the design record plus log line.

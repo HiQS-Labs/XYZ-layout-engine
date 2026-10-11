@@ -213,6 +213,8 @@ All six findings are accepted; the plan is revised in place (see its Status row)
 - **F5: Implemented.** D10 adds the fixed palette roles and visual system. An "AS statement before composing" section names the reader, takeaway and three hierarchy decisions. Acceptance 6 requires the README report with full-size and thumbnail inspection of both backends.
 - **F6: Implemented.** Satori uses `missingSegments.length === 0` and Playwright `fontLoaded`. Acceptance 1 spells out both backend commands and the receipt's `catalog.slug/version/verified`. Phases are checkboxes with evidence destinations, and `/debug-mantra` is named for execution failures.
 
+- Also fixed while revising: acceptance 1 claimed `tools/output/` is gitignored. `git check-ignore` says it is not (rc=1), so the example's thin caller writes to its own `out/`, which the example `.gitignore` excludes.
+
 Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
