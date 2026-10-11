@@ -2,7 +2,7 @@
 gh_issue: 28
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
-status: "Planned; independent plan QA pending"
+status: "Built and locally verified; final QA pending"
 created: 2026-10-11
 updated: 2026-10-11
 owner: Codex
@@ -22,7 +22,7 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 
 | What was just completed | What's next |
 |---|---|
-| Fresh full clone at origin/main a9aabf1d3dfd68923d091f202b5f463e96cfba94; merged recipe/design CLI confirmed; source library scanned; existing four canaries pass in 57.8s and catalog verify is clean. Intake registered and rated through RELEASES. | Independent Codex plan QA, then the bounded recipe and three editorial posts; final independent QA and ready PR. |
+| Three portrait posts, captions/alt text, provenance, recipe and three CLI design records built. Both backends fit; deterministic/offline/edit/red controls pass; four canaries pass in31.9s. Plan QA Approved. | Run final independent Codex QA on the committed implementation, then push and open a ready PR against main. |
 
 ## Table of contents
 
@@ -36,14 +36,14 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 - [x] Confirm origin/main includes PR18 shared renderer, PR22 catalog, PR24 designs and PR25 admission fixes; no development branch exists.
 - [x] Scan the supplied library (362 non-dot files; artwork, mockups, logos, source website). Read its README, SOP and website copy, and inspect the selected art visually. Original library stays read-only.
 - [x] Persist the issue and RELEASES rating 65/20/50/65. Priority65: an explicit user-requested creative deliverable; severity20: missing example, no observed runtime failure; appeal50: neutral operator default; effort cheapness65: one fixed layout and three fixtures with existing artwork, moderate bounded implementation. No recurrence claim or priority override.
-- [ ] Commit the plan and receive independent Codex Approved within at most three review rounds; review writes only its relay thread.
+- [x] Independent Codex plan QA Approved in round1 at reviewed07321a6; driver exit0 and native attestation. Receipt: `relay-system/2026-10-11/gh28-plan.codex.md`. Nit disposition: corrected source references below; no scope change.
 
 ### Recon map and prior art
 
 Graph list_projects returned all82 indexed projects with no Layout Engine project; check_index_coverage returned not indexed. Evidence is exact source fallback, not an exhaustive graph audit. Installed prior_art_recon resolves its own vendored root and warns that no ledger is there; target-root roadmap/issue/PR readback supplies the missing evidence. No existing MangaJDM task was found in the retrieved issue list, current roadmap or recent PR list; issue28 owns this work.
 
-- CLI `tools/render.mjs:489` → `processRequest:174` → `tools/request.mjs:34` normalize/edit/admit → trusted recipe.validate/buildScene → existing `getFonts`, Satori or Playwright → measured fitting/containment → `writeExport` immutable run and atomic manifest. Request, render backend, export and saved-fixture writes keep their existing owners.
-- `tools/request.mjs:69` admits only nutrition/solar-system; `:75` fixes their canvases. `saveFixture:132` separately admits the same trusted names, validates and atomically writes only eligible fixture JSON. Add this recipe to both explicit trusted admissions, preserving all old branches and restrictions.
+- CLI `tools/render.mjs:489` → `processRequest:175` → `tools/request.mjs:34` normalize/edit/admit → trusted recipe.validate/buildScene → existing `getFonts`, Satori or Playwright → measured fitting/containment → `publishArtifacts` immutable run and atomic manifest. Request, render backend, export and saved-fixture writes keep their existing owners.
+- `tools/request.mjs:60` admits only nutrition/solar-system; `:61/:68` fixes their canvases. `saveFixture:106` separately admits the same trusted names, validates and atomically writes only eligible fixture JSON. Add this recipe to both explicit trusted admissions, preserving all old branches and restrictions.
 - `tools/render.mjs:183` selects the same two explicit recipe imports. Add one explicit module import; no dynamic tenant code, registry abstraction or alternate renderer.
 - `tools/recipes/solar-system.mjs` is the existing recipe contract: literal name/version, validate, TEXT_IDS/CONTAINMENT/DEFAULT_SIZES, bounded digest-checked local assets and buildScene. New `tools/recipes/mangajdm-promo.mjs` follows it; `tools/request.mjs` shape traversal and `tools/spike/assets.mjs:inspectPng` remain shared.
 - `tools/catalog.mjs:123` declaredFiles has two trusted file sets, `moduleIdentity:143` parses literal exports, `snapshot:151` hashes their content, `runCLI:266` owns lock/dump replacement; design add:289 owns fixture/PNG hashes and log append. Add one explicit declared set, then use CLI add/publish/design add. Never write catalog.sql or design-log.jsonl directly.
@@ -69,22 +69,26 @@ Risk/containment: Easy isolated commits; shared request/import/catalog selection
 ### Phase 1 — QA checklist
 
 - [x] Grounded source paths, owners, minimal alternative, rollback class and falsifiable checks are written here.
-- [ ] Independent plan QA Approved; receipt links and any finding dispositions recorded here.
+- [x] Independent plan QA Approved; native attestation and reviewer nit disposition recorded above.
 
 ## Phase 2 — Recipe, three designs and verified handoff
 
 **Goal:** Three usable portrait promos, reproducible via the merged renderer, with verified catalog recipe and design pins and a ready PR.
 
-- [ ] Create display derivatives and source→display hashes/dimensions in `examples/2026-10-11-mangajdm-promos/assets/` and `provenance.json`; no original source edits. Keep only the four used assets, no unrelated business files.
-- [ ] Add `tools/recipes/mangajdm-promo.mjs`; add trusted selection to normalize/saveFixture/processRequest and one declared catalog file set. Validate fixed canvas, fixed artwork enum, bounded fields/colors, canonical asset path/namespace and display digests through existing helpers. Preserve old recipe versions/files/outputs.
-- [ ] Create three separate editable fixtures, export each through `node tools/render.mjs` to its own `exports/` directory (PNG/SVG/compact+inline offlineHTML). Copy selected immutable artifacts to stable per-post filenames in the example; manifest-selected bytes must match. Add captions/alt text/usage/rerender commands and a local preview gallery.
-- [ ] Inspect all three final PNGs and browser previews; fix clipping, weak type or lost image detail. Verify each1080×1920, all named text fits parent containment, essential copy remains inside the chosen guide, all HTML images/fonts load with zero HTTP(S), relocated compact/inline outputs remain self-contained, no missing assets or unsupported glyphs. Rerender twice with byte-identical PNG/SVG and a saved-copy editorial edit that changes only the intended text. Negative controls: unsupported art and wrong canvas refused; asset digest tamper refused/restored; duplicate catalog design add preserves dump/log bytes.
-- [ ] Publish recipe via catalog CLI add/publish; record three unique `2026-10-11-mangajdm-*` design IDs with `--use-case mangajdm-promo@1.0.0`, fixture, primary PNG and truthful friction/workaround fields. Read each back, verify all hashes/pins/log lines, canonical dump, and existing rows/history/log prefixes unchanged. Review the design log if a first triggering grammar flag is emitted; no unsupported grid metrics.
-- [ ] Record actual manual validation in the example `VERIFICATION.md`/`verification.json`; existing `pnpm test`4/4 ≤60s, catalog verify/export--check and target PDDA pass (inspect any warnings). Add a focused changelog entry and accurate current README recipe capability.
+- [x] Create display derivatives and source→display hashes/dimensions in `examples/2026-10-11-mangajdm-promos/assets/` and `provenance.json`; no original source edits. Keep only the four used assets, no unrelated business files.
+- [x] Add `tools/recipes/mangajdm-promo.mjs`; add trusted selection to normalize/saveFixture/processRequest and one declared catalog file set. Validate fixed canvas, fixed artwork enum, bounded fields/colors, canonical asset path/namespace and display digests through existing helpers. Preserve old recipe versions/files/outputs.
+- [x] Create three separate editable fixtures, export each through `node tools/render.mjs` to its own `exports/` directory (PNG/SVG/compact+inline offlineHTML). Copy selected immutable artifacts to stable per-post filenames in the example; manifest-selected bytes must match. Add captions/alt text/usage/rerender commands and a local preview gallery.
+- [x] Inspect all three final PNGs and browser previews; fix clipping, weak type or lost image detail. Verify each1080×1920, all named text fits parent containment, essential copy remains inside the chosen guide, all HTML images/fonts load with zero HTTP(S), relocated compact/inline outputs remain self-contained, no missing assets or unsupported glyphs. Rerender twice with byte-identical PNG/SVG and a saved-copy editorial edit that changes only the intended text. Negative controls: unsupported art and wrong canvas refused; asset digest tamper refused/restored; duplicate catalog design add preserves dump/log bytes.
+- [x] Publish recipe via catalog CLI add/publish; record three unique `2026-10-11-mangajdm-*` design IDs with `--use-case mangajdm-promo@1.0.0`, fixture, primary PNG and truthful friction/workaround fields. Read each back, verify all hashes/pins/log lines, canonical dump, and existing rows/history/log prefixes unchanged. Review the design log if a first triggering grammar flag is emitted; no unsupported grid metrics.
+- [x] Record actual manual validation in the example `VERIFICATION.md`/`verification.json`; existing `pnpm test`4/4 ≤60s, catalog verify/export--check and target PDDA pass (inspect any warnings). Add a focused changelog entry and accurate current README recipe capability.
 - [ ] Commit implementation; final independent Codex QA Approved within3rounds on current implementation/evidence. Resolve concrete findings surgically, rerun affected checks only. Push to origin and open a ready PR against main; verify head/base/readiness, leave issue open and clone retained for handoff. Main checkout unchanged; no merge or social publishing.
 
 ### Phase 2 — QA checklist
 
-- [ ] All three visible outputs, editable fixtures, editorial/alt text, provenance and CLI identities exist and meet checks above.
-- [ ] Existing4canaries, catalog integrity, old output/history preservation and PDDA evidence recorded; no new suite/dependency/CI or alternate writer.
+- [x] All three visible outputs, editable fixtures, editorial/alt text, provenance and CLI identities exist and meet checks above.
+- [x] Existing4canaries, catalog integrity, old output/history preservation and PDDA evidence recorded; no new suite/dependency/CI or alternate writer.
 - [ ] Final non-author Codex Approved matches the committed implementation; ready PR readback and clone handoff recorded. Remaining platform crop/UI review and real product availability are explicitly outside these local assets.
+
+### Phase 2 evidence and disposition
+
+Actual checks and hashes: `examples/2026-10-11-mangajdm-promos/VERIFICATION.md` and `verification.json`; command records and raw local logs are linked there. Chromium exposed short headline leading; only the new recipe leading/region changed, preserving shared guards. Early uncommitted trial catalog/log writes were retained in ignored scratch and rolled back to exact origin bytes before final CLI registration; no remote history changed. All original catalog rows/log prefix remain. Source hashes are unchanged. Final source edits remain additive and Easy to reverse; no new dependency, test suite or CI workflow. Origin/main readback remains a9aabf1. Final QA and ready PR are pending, not claimed complete.

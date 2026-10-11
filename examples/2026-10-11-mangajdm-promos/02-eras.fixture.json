@@ -1,0 +1,22 @@
+{
+  "id": "mangajdm-promo",
+  "width": 1080,
+  "height": 1920,
+  "art": "integra",
+  "issue": "02",
+  "eyebrow": "THROUGH THE ERAS",
+  "headline": {
+    "line1": "EVERY ERA.",
+    "line2": "ONE OBSESSION."
+  },
+  "deck": "Different generations. Same garage dream.",
+  "cta": "Which era is yours?",
+  "artNote": "INTEGRA / THE LINEUP",
+  "website": "MangaJDM.com",
+  "theme": {
+    "paper": "#f4f1ea",
+    "ink": "#0a0a0a",
+    "accent": "#e63227"
+  }
+}
+

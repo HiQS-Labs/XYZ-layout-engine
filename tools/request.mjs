@@ -56,9 +56,9 @@ export async function normalizeRequest(req, options = {}) {
       }
     }
   }
-  const recipe = req.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : undefined);
-  if (!['nutrition', 'solar-system'].includes(recipe)) throw invalid('recipe', 'select a trusted nutrition or solar-system recipe');
-  const dimensions = recipe === 'nutrition' ? [1000, 1000] : [2400, 1700];
+  const recipe = req.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : fixture?.id === 'mangajdm-promo' ? 'mangajdm-promo' : undefined);
+  if (!['nutrition', 'solar-system', 'mangajdm-promo'].includes(recipe)) throw invalid('recipe', 'select a trusted nutrition, solar-system or mangajdm-promo recipe');
+  const dimensions = recipe === 'nutrition' ? [1000, 1000] : recipe === 'mangajdm-promo' ? [1080, 1920] : [2400, 1700];
   const width = req.width ?? fixture.width ?? 1000, height = req.height ?? fixture.height ?? 1000;
   for (const [key, value] of [['width', width], ['height', height]]) {
     if (!Number.isInteger(value) || value <= 0 || value > 8192) throw invalid(key, 'invalid dimension');
@@ -103,8 +103,8 @@ export function validateFixtureShape(value, expected, field = 'fixture') {
 
 // The caller renders/validates first. Only this operation writes durable fixture JSON.
 export async function saveFixture(fixture, destination, options = {}) {
-  const recipeName = options.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : undefined);
-  if (!['nutrition', 'solar-system'].includes(recipeName)) throw invalid('save', 'select a trusted recipe');
+  const recipeName = options.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : fixture?.id === 'mangajdm-promo' ? 'mangajdm-promo' : undefined);
+  if (!['nutrition', 'solar-system', 'mangajdm-promo'].includes(recipeName)) throw invalid('save', 'select a trusted recipe');
   const recipe = await import(`./recipes/${recipeName}.mjs`);
   await recipe.validate(fixture);
   const root = await fs.realpath(options.root ?? process.cwd());
