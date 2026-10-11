@@ -2,7 +2,7 @@
 gh_issue: 28
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
-status: "Final QA Approved; PR handoff pending"
+status: "PR ready; awaiting merge"
 created: 2026-10-11
 updated: 2026-10-11
 owner: Codex
@@ -22,7 +22,7 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 
 | What was just completed | What's next |
 |---|---|
-| Three portrait posts, captions/alt text, provenance, recipe and three CLI design records built. Both backends fit; deterministic/offline/edit/red controls pass; four canaries pass in31.9s. Plan QA Approved. | Final Codex QA Approved in Round2 and attested at04160ed; push and open a ready PR against main. |
+| Three portrait posts, captions/alt text, provenance, recipe and three CLI design records built. Both backends fit; deterministic/offline/edit/red controls pass; four canaries pass in31.9s. Plan QA Approved. | [PR32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32) is open, non-draft and mergeable against main. Await merge; no social posting or merge performed. |
 
 ## Table of contents
 
@@ -81,13 +81,13 @@ Risk/containment: Easy isolated commits; shared request/import/catalog selection
 - [x] Inspect all three final PNGs and browser previews; fix clipping, weak type or lost image detail. Verify each1080×1920, all named text fits parent containment, essential copy remains inside the chosen guide, all HTML images/fonts load with zero HTTP(S), relocated compact/inline outputs remain self-contained, no missing assets or unsupported glyphs. Rerender twice with byte-identical PNG/SVG and a saved-copy editorial edit that changes only the intended text. Negative controls: unsupported art and wrong canvas refused; asset digest tamper refused/restored; duplicate catalog design add preserves dump/log bytes.
 - [x] Publish recipe via catalog CLI add/publish; record three unique `2026-10-11-mangajdm-*` design IDs with `--use-case mangajdm-promo@1.0.0`, fixture, primary PNG and truthful friction/workaround fields. Read each back, verify all hashes/pins/log lines, canonical dump, and existing rows/history/log prefixes unchanged. Review the design log if a first triggering grammar flag is emitted; no unsupported grid metrics.
 - [x] Record actual manual validation in the example `VERIFICATION.md`/`verification.json`; existing `pnpm test`4/4 ≤60s, catalog verify/export--check and target PDDA pass (inspect any warnings). Add a focused changelog entry and accurate current README recipe capability.
-- [ ] Commit implementation; final independent Codex QA Approved within3rounds on current implementation/evidence. Resolve concrete findings surgically, rerun affected checks only. Push to origin and open a ready PR against main; verify head/base/readiness, leave issue open and clone retained for handoff. Main checkout unchanged; no merge or social publishing.
+- [x] Commit implementation; final independent Codex QA Approved within3rounds on current implementation/evidence. Resolve concrete findings surgically, rerun affected checks only. Push to origin and open a ready PR against main; verify head/base/readiness, leave issue open and clone retained for handoff. Main checkout unchanged; no merge or social publishing.
 
 ### Phase 2 — QA checklist
 
 - [x] All three visible outputs, editable fixtures, editorial/alt text, provenance and CLI identities exist and meet checks above.
 - [x] Existing4canaries, catalog integrity, old output/history preservation and PDDA evidence recorded; no new suite/dependency/CI or alternate writer.
-- [ ] Final non-author Codex Approved matches the committed implementation; ready PR readback and clone handoff recorded. Remaining platform crop/UI review and real product availability are explicitly outside these local assets.
+- [x] Final non-author Codex Approved matches the committed implementation; ready PR readback and clone handoff recorded. Remaining platform crop/UI review and real product availability are explicitly outside these local assets.
 
 ### Phase 2 evidence and disposition
 
@@ -96,3 +96,9 @@ Actual checks and hashes: `examples/2026-10-11-mangajdm-promos/VERIFICATION.md` 
 Final QA Round1 disposition: S1 Implemented. The separate RELEASES structured `doc_path` still held the inbox location despite the roadmap text linking2-WORKING. Canonical CLI `roadmap repoint --gid rmi-01M4NWHAKMSH1P4Y6Y9H66BW0H --doc-path PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md` corrected it. CLI list readback resolves the existing plan; ledger check clean at generation52/56receipts. Evidence: `relay-system/2026-10-11/gh28-verification/ledger-repoint.json`. Runtime and published recipe content unchanged; existing canary/render evidence remains applicable. Round2 requested.
 
 Final native QA: Round2 PASS/Approved, driver exit0, isolated reviewer Codex; reviewed04160ed3bf932c5559bcd93674e58855b54231a5. Receipt: `relay-system/2026-10-11/gh28-final-attestation.json`; thread: `gh28-final.codex.md`. Reviewer independently reproduced PNG/SVG hashes/pins and checked all three images. S1 is closed; no open Blocker/Should. Approval preserves runtime/assets/catalog content unchanged. PR creation and remote readback remain pending.
+
+### Ready PR handoff
+
+[PR32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32) is open against main from `feat/mangajdm-portrait-promos`; remote readback verified non-draft/MERGEABLE and matching pushed head. No hosted checks are configured for this PR (empty check rollup); local canaries, catalog, RELEASES and PDDA gates passed as recorded. Changes after reviewed04160ed are review/attestation receipts and status documents only; recipe, assets, fixtures, outputs and catalog/design bytes are unchanged. Issue28 stays open and RELEASES stays In progress pending landing, not shipped.
+
+The fresh full task clone is retained for merge handoff with scratch/repair evidence; primary checkout and source library are unchanged. Once landing is verified, `/merge-cleanup` can retire this task clone under the repository cleanup SOP after preserving any unique work/evidence. No clone teardown or merge is implied by this ready PR.
