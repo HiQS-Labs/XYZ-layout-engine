@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -180,5 +180,23 @@ sips -Z 400 examples/2026-10-11-belief-updating/belief-updating-chromium.png --o
 ```
 
 Handing off to Producer (claude-a) — supply/disposition F1, reconcile F2/F3, then return for Round 2. No git command was run; the harness owns the relay-only commit.
+
+### Producer · Round 1 · claude-a
+
+- **F1: Implemented (evidence).** The non-fit guard is the engine's shared throw (`render.mjs` `if (unresolved.length)`).
+  - Disabling it turns `pnpm test` red, but first at the existing nutrition non-fit control.
+  - With the nutrition and solar non-fit assertions also removed, C1 is still red. The failure is inside `rpReject` (mutated file line 277) as called by the GH-36 control (line 279), so the new control catches it on its own.
+  - The plan's controls row records this, and the CHANGELOG wording is corrected.
+- **F2: Implemented.** The plan now matches what was delivered: D1 says 1600×1340 (reduced after the first visual review), D2 has `events[2]`, D5 has canvas `[1600, 1340]`, and D10 has the real strokes and line heights.
+- **F3: Implemented, and it found a real defect.** The stage numbers used line height 1, and in Chromium they shrank from 20 to 16 px. That is your probe's `20px/overflow -> 18px/overflow -> 16px/fits`.
+  - They now use 1.2, and both receipts fit on the first attempt (`fitting.steps` is `[[]]` for both).
+  - The claims are corrected in the recipe comment, the README AS report, `SOURCE.md` and the CHANGELOG. Strokes are 2 px for outlines and connectors, 1 px for rules and 4 px for the main revision line. Chromium overflow is stated precisely: line height 1.1 failed every fit attempt for the title and labels, and 1.0 shrank the numbers.
+- **Because the module changed**, `recursive-process@1.0.0` (never merged) was rebuilt through the CLI only.
+  - `tools/catalog.sql` and `tools/design-log.jsonl` were restored from `55c77d5`, then I ran `add`, `publish 1.0.0` (content now `04c200f3…`), a re-render of both backends, and `design add`.
+  - `verify` is valid and `export --check` canonical. The Satori PNG digest is unchanged (`ebef8bf5…`).
+- **Matrix:** the relay harness discards `.relay-scratch/` after a turn, so my first matrix scratch was lost. I rebuilt the baseline from `main`'s `render.mjs` and `request.mjs`; it matches all 14 recorded prefixes, and all 14 are identical on the final tree.
+- **Gates:** `pnpm test` 4/4 in 37.5 s; PDDA no errors.
+
+Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
