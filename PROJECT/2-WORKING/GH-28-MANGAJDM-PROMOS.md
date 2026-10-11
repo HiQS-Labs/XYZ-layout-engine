@@ -2,7 +2,7 @@
 gh_issue: 28
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
-status: "Built and locally verified; final QA pending"
+status: "Final QA Approved; PR handoff pending"
 created: 2026-10-11
 updated: 2026-10-11
 owner: Codex
@@ -22,7 +22,7 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 
 | What was just completed | What's next |
 |---|---|
-| Three portrait posts, captions/alt text, provenance, recipe and three CLI design records built. Both backends fit; deterministic/offline/edit/red controls pass; four canaries pass in31.9s. Plan QA Approved. | Run final independent Codex QA on the committed implementation, then push and open a ready PR against main. |
+| Three portrait posts, captions/alt text, provenance, recipe and three CLI design records built. Both backends fit; deterministic/offline/edit/red controls pass; four canaries pass in31.9s. Plan QA Approved. | Final Codex QA Approved in Round2 and attested at04160ed; push and open a ready PR against main. |
 
 ## Table of contents
 
@@ -94,3 +94,5 @@ Risk/containment: Easy isolated commits; shared request/import/catalog selection
 Actual checks and hashes: `examples/2026-10-11-mangajdm-promos/VERIFICATION.md` and `verification.json`; command records and raw local logs are linked there. Chromium exposed short headline leading; only the new recipe leading/region changed, preserving shared guards. Early uncommitted trial catalog/log writes were retained in ignored scratch and rolled back to exact origin bytes before final CLI registration; no remote history changed. All original catalog rows/log prefix remain. Source hashes are unchanged. Final source edits remain additive and Easy to reverse; no new dependency, test suite or CI workflow. Origin/main readback remains a9aabf1. Final QA and ready PR are pending, not claimed complete.
 
 Final QA Round1 disposition: S1 Implemented. The separate RELEASES structured `doc_path` still held the inbox location despite the roadmap text linking2-WORKING. Canonical CLI `roadmap repoint --gid rmi-01M4NWHAKMSH1P4Y6Y9H66BW0H --doc-path PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md` corrected it. CLI list readback resolves the existing plan; ledger check clean at generation52/56receipts. Evidence: `relay-system/2026-10-11/gh28-verification/ledger-repoint.json`. Runtime and published recipe content unchanged; existing canary/render evidence remains applicable. Round2 requested.
+
+Final native QA: Round2 PASS/Approved, driver exit0, isolated reviewer Codex; reviewed04160ed3bf932c5559bcd93674e58855b54231a5. Receipt: `relay-system/2026-10-11/gh28-final-attestation.json`; thread: `gh28-final.codex.md`. Reviewer independently reproduced PNG/SVG hashes/pins and checked all three images. S1 is closed; no open Blocker/Should. Approval preserves runtime/assets/catalog content unchanged. PR creation and remote readback remain pending.

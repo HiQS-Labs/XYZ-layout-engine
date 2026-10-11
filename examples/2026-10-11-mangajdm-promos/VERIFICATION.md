@@ -24,3 +24,7 @@ Initial Chromium fitting exposed headline leading shorter than Inter glyph heigh
 Use the render/edit and catalog commands in [README.md](README.md); run `pnpm test` and `utils/pdda/pdda.sh run` from the repo root. Recipe content digest: `567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204`.
 
 The artwork is supplied imagery, with source Japanese lettering baked into rasters. The apparel is a concept/mockup. Live store availability was not established. Actual TikTok/Instagram overlay and feed-crop previews still belong to the upload step; these are9:16 masters, with no claim about every placement. Nothing was posted to a social account. A changed cataloged design requires a new design ID; changed declared recipe bytes require a new version. The catalog retains its pre-existing two-file dump/log recovery limitation and deferred layout grammar fields.
+
+## Independent QA
+
+Native Codex plan QA Approved in Round1. Final native Codex QA Approved in Round2, driver exit0 and [attestation](../../relay-system/2026-10-11/gh28-final-attestation.json) on reviewed04160ed3bf932c5559bcd93674e58855b54231a5. [Full review](../../relay-system/2026-10-11/gh28-final.codex.md) independently reproduces PNG/SVG bytes, text fit, design pins/hashes and red controls, plus visual inspection. S1 structured plan pointer was repaired through CLI; no open Blocker/Should. These final receipt/document edits change no published recipe or output bytes.

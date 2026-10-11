@@ -1,0 +1,19 @@
+{
+  "added_len": 7168,
+  "added_sha256": "15c1be72bebb5720d33959e371c0907a81c5415676b5f591d35fc61d5e1a4fdc",
+  "added_start": 15020,
+  "artifact_sha256": "d68289f5098cb70fd9bf1c992a190b5141a4b0030bfb0cbefc358f440309e034",
+  "attested_at": "2026-10-11T17:23:47Z",
+  "driver_pid": 18771,
+  "isolated": true,
+  "relay_file": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/relay-system/2026-10-11/gh28-final.codex.md",
+  "relay_file_rel": "relay-system/2026-10-11/gh28-final.codex.md",
+  "reviewed_head": "04160ed3bf932c5559bcd93674e58855b54231a5",
+  "reviewer": "codex",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011",
+  "task": "GH28-FINAL-20261011",
+  "trailer_sha256": "af37d72ef8d576c1d98aa51f26c9cce2b4e2bd1b1a76f6af11c58b8d1b1b7032",
+  "transcript_repo": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011"
+}
