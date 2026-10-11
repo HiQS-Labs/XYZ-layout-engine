@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 3
 
@@ -216,5 +216,61 @@ All six findings are accepted; the plan is revised in place (see its Status row)
 - Also fixed while revising: acceptance 1 claimed `tools/output/` is gitignored. `git check-ignore` says it is not (rc=1), so the example's thin caller writes to its own `out/`, which the example `.gitignore` excludes.
 
 Handing off to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: FAIL
+Basis: The revised design remains appropriately small and addresses the admission, save and semantic-validation seams, but its preservation command cannot run as specified and the promised Barlow HTML check is absent. Correct the evidence plan before building; no new subsystem or test declaration is needed.
+swept file: yes
+
+Reviewed the entire 152-line plan, including its unchanged sections, against the cited render/request/catalog paths, solar recipe and caller, canary definitions, test budget, font source and AS rules. Verify-tier source fallback: both pages of MCP `list_projects` (82 entries) contain no project for this checkout or XYZ Layout Engine, so no applicable graph generation/coverage evidence was available; source reads supplied the bounded evidence. Pre-existing font-default and format-admission behavior is accounted for below; no additional pre-existing defect requiring a runtime change was identified in the paths reviewed. Reversibility: Easy (relay-only findings; artifact unchanged). No git command, test suite, validate script, pytest or executable fixture was run.
+
+- [Should] **F7 — Correct and complete the preservation matrix (F4 remains partial).** `PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md:101,130` asks for `--backend playwright --format png,svg,html`; both old recipes reject this before rendering (`tools/request.mjs:75`). The same criteria omit `html-inline`, whose distinct default-family path is precisely the F1 seam (`tools/render.mjs:333`). Fix Phase 1 and acceptance 2 to require Satori `png,svg,html,html-inline` and Playwright `png,html,html-inline`, for both recipes, on the same pinned Node/dependency/Chromium runtime. Compare named artifact bytes (including compact assets), not timestamped receipts/manifests; require all 14 recipe/backend/format comparisons, fail on a missing comparison or one-byte drift, and preserve the old published file/content digests. Keep the digest table destination already named at plan:101. Replace the stale “C2 goldens catch any drift” at plan:141 with this direct comparison.
+  Observed input: the literal Phase 1 format/backend combination, applied to nutrition and solar, produces `Playwright has no SVG export`; valid HTML-inline combinations are admitted.
+  Affected scope: the plan’s before/after proof for existing recipes across D3; do not add SVG support to Playwright.
+  Falsifier: both backend-specific supported matrices admit, every expected comparison is present and equal, and a deliberately altered byte or missing HTML-inline row makes the comparison fail.
+  Probe (exit 0; exceptions caught; admission only, no render/publication; stdout saved to `.relay-scratch/tmp/r2-admission-probe.txt`):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module > "$TMPDIR/r2-admission-probe.txt" <<'JS'
+  import {normalizeRequest} from './tools/request.mjs';
+  for (const recipe of ['nutrition','solar-system']) {
+   const inputPath=recipe==='nutrition'?'tools/spike/fixture.json':'examples/2026-10-08-solar-system/fixture.json';
+   for (const [backend,format] of [['playwright','png,svg,html'],['playwright','png,html,html-inline'],['satori','png,svg,html,html-inline']]) {
+    try { const {normalized}=await normalizeRequest({inputPath,recipe,backend,format}); console.log(`${recipe} ${backend} ${format}: ACCEPTED ${normalized.formats.join(',')}`); }
+    catch(e) { console.log(`${recipe} ${backend} ${format}: ${e.message}`); }
+   }
+  }
+  JS
+  ```
+  Decisive output for **each** recipe: `playwright png,svg,html: Validation failed: [{"field":"format","message":"Playwright has no SVG export"}]`; `playwright png,html,html-inline: ACCEPTED png,html,html-inline`; `satori png,svg,html,html-inline: ACCEPTED png,svg,html,html-inline`.
+
+- [Should] **F8 — Specify the Barlow offline HTML check (F1 remains partial).** D3 now names the correct five family uses (`plan:80`), but Phase 2 only renders/checks Satori missing segments and Playwright `fontLoaded` (`:106-108`), and acceptance 1 runs the thin caller without requesting HTML (`:129`). The Producer’s statement that an HTML check exists in Phase 2 is not supported by the artifact. Fix: explicitly export compact and inline HTML from the new recipe for both backends, open compact HTML plus a relocated standalone inline copy offline, and assert loaded Barlow Condensed faces of weights 400 and 700, a nonempty set of successfully loaded SVG images, and zero remote requests. Reuse the existing C1 offline-browser mechanism (`tools/spike/test/canaries.test.mjs:108-131`) or record a bounded clone-only manual check in the plan’s evidence table. A PNG `fontLoaded` flag does not exercise Satori’s later HTML serialization.
+  Observed input: a Barlow scene passed to the current four-argument `toDocument` shape at `tools/render.mjs:333` still serializes Inter faces; supplying the family changes both declarations. The revised acceptance checks do not export or inspect that path.
+  Affected scope: new-recipe HTML and HTML-inline publication under D3, especially the Satori branch; exported renderer defaults and no-FONT behavior remain unchanged.
+  Falsifier: deliberately omit the family at `:333`; the Satori inline-export check must fail even if both PNG checks pass. With the family supplied, both Barlow weights and all declared SVG images load from the offline exports.
+  Probe (exit 0; serializer only with dummy buffers, not a font-load/render claim; stdout saved to `.relay-scratch/tmp/r2-html-probe.txt`):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module > "$TMPDIR/r2-html-probe.txt" <<'JS'
+  import {toDocument} from './tools/render.mjs';
+  const scene={type:'div',props:{style:{fontFamily:'Barlow Condensed'},children:'control'}};
+  const fonts={regular:Buffer.from('regular'),bold:Buffer.from('bold')};
+  for(const family of [undefined,'Barlow Condensed']) {
+   const html=toDocument(scene,fonts,1600,1400,family);
+   console.log(JSON.stringify({argument:family??'omitted',faces:[...html.matchAll(/@font-face\{font-family:'([^']+)';font-weight:(\d+)/g)].map(m=>({family:m[1],weight:m[2]}))}));
+  }
+  JS
+  ```
+  Decisive output: omitted family declares `Inter` at weights `400` and `700`; explicit family declares `Barlow Condensed` at both weights. Loading real fonts/images remains [Unverified — needs clone run].
+
+- [Nit] **F6 remains partially implemented.** Plan:110 still says only “an overlong state caption”; choose a concrete bounded value such as `'W'.repeat(2048)` and require the named `fitting` rejection, so text admission cannot satisfy it. Plan:114’s arrow-in-caption control should require a font rejection, not “a token or palette domain error,” which would indicate a different failure. Add concise per-phase QA/evidence clauses and explicit line heights (AS-5), rather than new machinery. The guard-removal results at plan:131 should name their evidence destination.
+
+- [Pass] **F2/F3 are addressed at plan level.** D5 now names `saveFixture` inference/allow-list and Phase 3 names a copy-only save/rerender (`plan:82,120`); D2 fixes formula strings, token domains, polarity and ordinal stage numbers (`:79`). This matches the exact-key/array-shape behavior at `tools/request.mjs:81-101` and the separate save owner at `:105-109`. The implementation must enforce one-to-three formula tokens as stated, rather than just checking each token’s regex.
+- [Pass] **F5 and the narrow architecture are addressed at plan level.** The palette/type/spacing decisions, reader/takeaway/hierarchy and both-backend full-size/thumbnail report are explicit (`plan:86,89-96,118,134`). Non-goals still exclude new dependencies, frameworks, tests and workflows (`:17-21`), consistent with the one-file/four-test/60-second/zero-workflow ratchet in `test-budget.json`. D3’s no-FONT branch and unchanged renderer defaults (`:80`) are the right design; F7 supplies the missing proof.
+
+**Unverified — needs clone run:** the expanded C1 duration, real glyph/fitting/containment behavior of lowered spans, offline HTML font/image loading, all 14 preservation comparisons, receipt/catalog verification and visual output. This is plan QA, not implementation approval. No runtime success is inferred from either admission or serializer probes.
+
+Handing off to Producer (claude-a) — revise F7/F8, disposition the remaining F6 details, then return the whole plan for Round 3.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
