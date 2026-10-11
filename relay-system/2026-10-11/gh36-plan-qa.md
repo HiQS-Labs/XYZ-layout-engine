@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -289,5 +289,53 @@ Handing off to Producer (claude-a) — revise F7/F8, disposition the remaining F
   - Each phase names its QA evidence, and a new Evidence section lists the four tables to fill.
 
 Handing off to Reviewer (codex) for round 3.
+
+### Reviewer · Round 3 · codex
+
+VERDICT: PASS
+Basis: The whole revised plan meets the plan-level Definition of Done. F7/F8 and the remaining F6 details are addressed, the extension stays within existing owners, and implementation success is gated by concrete evidence rather than inferred from this review.
+swept file: yes
+
+Reviewed all 176 lines of `PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md`, including unchanged sections, and re-read the relevant render, request, catalog, solar recipe/caller, canary, font-source, AS-rule and test-budget paths. No additional pre-existing defect requiring a change was identified in this bounded review. Graph tools are unavailable in this session; Verify-tier source fallback supplies the evidence, with no graph-generation or coverage claim. Reversibility: Easy (relay-only verdict; artifact and source unchanged).
+
+- [Pass] **F7 resolved: supported preservation matrix.** Plan:101–110,145,156,165 requires Satori `png,svg,html,html-inline` and Playwright `png,html,html-inline`, for both old recipes, with all 14 comparisons present, named artifact bytes and compact assets equal, and published digests unchanged. This matches `tools/request.mjs:71–75`; timestamps are excluded deliberately. The final repeat is required at plan:138,159. The admission probe below accepts all four combinations; it does not establish byte preservation.
+- [Pass] **F8 resolved: offline Barlow checks and implicit family path.** Plan:80 includes the implicit `toDocument` family at `tools/render.mjs:333`, preserves renderer defaults and the no-FONT branch, and plan:117–120 explicitly checks compact plus relocated inline HTML for each backend, both loaded Barlow weights, a nonempty set of loaded SVG images, and zero remote requests. The cited existing browser mechanism is at `tools/spike/test/canaries.test.mjs:108–131`. The serializer probe below distinguishes the omitted-family red condition from explicit Barlow; actual loading remains a clone-run obligation.
+- [Pass] **F6 resolved: specific controls and evidence.** Plan:122 uses the bounded `'W'.repeat(2000)` and requires `non-fit`, consistent with the text bound at `tools/request.mjs:97` and fitting rejection at `tools/render.mjs:291–293`. Plan:126 requires the arrow-caption font error, not an unrelated domain failure; plan:127,146,157 records guard-removal results. Explicit line heights are at plan:86, and each phase now names its QA evidence (plan:110,127,135,141).
+- [Pass] **The remaining design stays appropriately narrow.** Plan:79,82 specifies fixed structure, recipe-owned semantic validation, selection/admission/save/canvas/catalog wiring; plan:133 supplies the copy-only save check. Plan:17–21 excludes speculative structure, dependencies and additional test declarations, matching the one-file/four-test/60-second/zero-workflow budget in `test-budget.json`. Plan:83,85–96,131,149 specifies deliberate reference departures, schematic copy, hierarchy and both-backend full-size/thumbnail review. No additional subsystem is needed.
+
+Probe ledger — admission and serialization only, exit 0; stdout retained at `.relay-scratch/tmp/r3-seams.txt` during this turn:
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module > "$TMPDIR/r3-seams.txt" <<'JS'
+import {normalizeRequest} from './tools/request.mjs';
+import {toDocument} from './tools/render.mjs';
+for(const recipe of ['nutrition','solar-system']) {
+ const inputPath=recipe==='nutrition'?'tools/spike/fixture.json':'examples/2026-10-08-solar-system/fixture.json';
+ for(const [backend,format] of [['satori','png,svg,html,html-inline'],['playwright','png,html,html-inline']]) {
+  const {normalized}=await normalizeRequest({inputPath,recipe,backend,format});
+  console.log(`${recipe} ${backend}: ${normalized.formats.join(',')}`);
+ }
+}
+const scene={type:'div',props:{style:{fontFamily:'Barlow Condensed'},children:'control'}};
+const font={regular:Buffer.from('regular'),bold:Buffer.from('bold')};
+for(const family of [undefined,'Barlow Condensed']) {
+ const html=toDocument(scene,font,1600,1400,family);
+ console.log(JSON.stringify({family:family??'omitted',faces:[...html.matchAll(/@font-face\{font-family:'([^']+)';font-weight:(\d+)/g)].map(m=>`${m[1]} ${m[2]}`)}));
+}
+JS
+```
+Decisive output:
+```text
+nutrition satori: png,svg,html,html-inline
+nutrition playwright: png,html,html-inline
+solar-system satori: png,svg,html,html-inline
+solar-system playwright: png,html,html-inline
+{"family":"omitted","faces":["Inter 400","Inter 700"]}
+{"family":"Barlow Condensed","faces":["Barlow Condensed 400","Barlow Condensed 700"]}
+```
+
+**Unverified — needs clone run:** all 14 byte comparisons and unchanged catalog digests, real Barlow/SVG loading, fitting/containment and guard-removal controls, visual inspection, new-recipe receipts/catalog/design/save checks, and expanded `pnpm test` duration ≤60 seconds. No validate script, test suite, pytest or executable fixture was run. Startup roadmap reads at both router-suggested local paths exited 2 because neither releases CLI exists in this seeded checkout; no ledger-state claim is made. No git command was run; the harness owns the file-scoped commit.
+
+Relay closed (Approved), no further turn needed. Producer (claude-a) can proceed with the plan in the authorized build clone and fill its evidence tables.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
