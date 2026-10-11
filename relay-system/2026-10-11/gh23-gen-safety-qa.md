@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -94,5 +94,88 @@ Output: graded findings (`[Blocker]`, `[Should]`, `[Nit]`, `[Pass]`) with file:l
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: S4's lock mechanism works in a narrow OS probe and S5 matches the real receipt shape, but S7 retains credentials in malformed stdout and S3 permits replay when the manifest is emptied to `{}`. Surgical repairs in the existing generator/C1 are warranted; no dependency or new suite.
+swept file: yes
+
+Read the entire generator, canaries file, example README and CHANGELOG, including pre-existing code. The empty-manifest gap below is also a pre-existing defect; no other material pre-existing defect was identified. Graph tools were unavailable; source reads were used without a graph completeness claim. Only this relay file was edited. Proposed fixes: Easy. Bet: fail closed on lost payment history and unparseable receipts; the tradeoff is refusal until local reconciliation. No git, suite, executable fixture or paid provider call was run.
+
+- [Blocker] **B1 — malformed stdout can retain a complete signed URL.** `examples/2026-10-08-solar-system/generate-assets.py:35`, `:49-53`, `:265`, `:269`: the non-JSON fallback only recognizes literal `https://`; an error preamble with slash-escaped JSON bypasses it, and its return value is written to the immutable receipt. Percent-encoded URL log text also retains the signature. C1 `tools/spike/test/canaries.test.mjs:351-354` covers only clean JSON.
+  Observed input: `caller error: {"url": "https:\/\/cdn.example.test\/a.png?X-Amz-Signature=SIG"}` returns unchanged from `receipt_text`; `error downloading https%3A%2F%2Fcdn.example.test%2Fa.png%3FX-Amz-Signature%3DSIG` does too. These are concrete malformed-receipt fixtures, not a claim that the deployed caller emitted them.
+  Affected scope: non-JSON stdout persisted on normal and timeout paths, specifically these escaped/encoded signed-URL shapes.
+  Falsifier: these two inputs must persist no recoverable signed URL; clean JSON must retain recipe/image/alpha/attempt metadata and still pass the existing digest/resume control.
+  Fix: the least mechanism is to persist a fixed credential-free diagnostic for non-JSON stdout, which cannot validate anyway; alternatively sanitize these concrete shapes before writing. Extend existing C1 with malformed stdout controls. README `:63` and CHANGELOG `:8` currently overstate stripping for these cases.
+  Probe command, exit **0**, after `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; mkdir -p "$TMPDIR"`:
+  ```sh
+  python3 -B - <<'PY'
+import importlib.util, json
+s=importlib.util.spec_from_file_location('g','examples/2026-10-08-solar-system/generate-assets.py')
+g=importlib.util.module_from_spec(s); s.loader.exec_module(g)
+u='https://cdn.example.test/a.png?X-Amz-Signature=SIG'
+for text in ['caller error: '+json.dumps({'url':u}).replace('/',r'\/'),
+             'error downloading https%3A%2F%2Fcdn.example.test%2Fa.png%3FX-Amz-Signature%3DSIG']:
+    print(g.receipt_text(text))
+PY
+  ```
+  Decisive output: both inputs above unchanged, with `X-Amz-Signature` and `SIG` retained. The combined scratch probe exited **0** and printed `signature_retained=True` for both; clean JSON and ordinary plaintext controls printed `signature_retained=False`.
+
+- [Should] **S1 — `{}` defeats the lost-state guard.** `generate-assets.py:88-95`, `:305-312`: attempt evidence is checked only when the manifest is absent. With an emptied manifest, the same admitted digest reaches launch without `--force-retry`. C1 `:355` only deletes the file.
+  Observed input: `manifest.json = {}` alongside `sun_<current admitted 64-hex digest>_<32-hex UUID>`; the probe below reaches `Popen` for that digest (intercepted, zero provider calls).
+  Affected scope: an empty manifest object alongside recognized attempt directories; this request does not generalize to arbitrary invalid historical rows or unrelated folders.
+  Falsifier: this fixture must refuse before launch; `{}` with no attempt directories must still allow fresh generation, and the committed historical `assets/*.result.json` layout must remain admissible.
+  Fix: apply the existing orphan-attempt check to an empty loaded manifest too. Extend the existing C1 lost-state control to `{}`; preserve the reconciliation requirement.
+  Probe command, exit **0**, with the same scratch environment:
+  ```sh
+  python3 -B - <<'PY'
+import importlib.util, pathlib, tempfile
+from unittest.mock import patch
+s=importlib.util.spec_from_file_location('g','examples/2026-10-08-solar-system/generate-assets.py')
+g=importlib.util.module_from_spec(s); s.loader.exec_module(g)
+root=pathlib.Path(tempfile.mkdtemp()); caller=root/'caller.mjs'; caller.write_text('// inert caller')
+job=dict(id='sun',prompt='a',model='m',size='1024x1024',quality='medium',background='transparent')
+j=g.admit_jobs([job],caller)[0][0]; j['reference_digests']=[]
+assets=root/'assets'; assets.mkdir(); (assets/('sun_'+g.job_digest(j)+'_'+'a'*32)).mkdir()
+(assets/'manifest.json').write_text('{}')
+def no_call(*a,**k):
+    print('Popen reached for same digest without force_retry; provider call intercepted')
+    raise AssertionError('intercepted dispatch')
+with patch.object(g.subprocess,'Popen',no_call):
+    try: g.generate([job],assets,caller)
+    except AssertionError as e: print(str(e))
+PY
+  ```
+  Decisive output: `Planned calls: 1`, `Popen reached for same digest without force_retry; provider call intercepted`, `intercepted dispatch`. The companion dry-run probe refused the absent manifest with `attempt folders exist without manifest.json; restore it or reconcile before dispatch`, but returned `True` for `{}`.
+
+- [Pass] **S4 mechanism, narrowly measured.** `generate-assets.py:259` passes the existing descriptor; `:263-264` kills/reaps the process group; the context at `:294` closes the generator's descriptor. Command `python3 -B - <<'PY' … PY`, exit **0**, used this exact body after scratch setup:
+  ```python
+import fcntl, os, pathlib, signal, subprocess, tempfile
+path=pathlib.Path(tempfile.mkdtemp())/'generation.lock'
+def acquire():
+    f=open(path,'a')
+    try: fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    except BlockingIOError: f.close(); return False
+    f.close(); return True
+for mode in ['normal','timeout']:
+    parent=open(path,'a'); fcntl.flock(parent,fcntl.LOCK_EX)
+    child=subprocess.Popen(['node','-e',"console.log('ready');setTimeout(()=>{},500)"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,start_new_session=True,pass_fds=(parent.fileno(),))
+    assert child.stdout.readline().strip()=='ready'
+    parent.close()
+    print(mode,'orphan lock blocks='+str(not acquire()))
+    if mode=='timeout': os.killpg(child.pid,signal.SIGKILL)
+    child.communicate()
+    print(mode,'after reap lock available='+str(acquire()))
+  ```
+  Decisive output: `normal orphan lock blocks=True`, `normal after reap lock available=True`, `timeout orphan lock blocks=True`, `timeout after reap lock available=True`. A caller that explicitly passes the descriptor to descendants can delay retries conservatively. This measures the OS mechanism, not the full generator crash scenario.
+
+- [Pass] **S5 and empty-job admission, helper evidence.** `generate-assets.py:56-61` reads per-attempt flags; `:156-157` rejects zero jobs. The combined import probe (`python3 -B "$TMPDIR/review-probe.py"`, exit **0**) called `never_dispatched` on `{'attempts':[{'dispatched':False}]}`, mixed false/true attempts, empty attempts and `json.loads(Path('examples/2026-10-08-solar-system/assets/sun.result.json').read_text())`: decisive results `True, False, False, False`. The real Sun receipt contains `attempts[0].dispatched:true`. `admit_jobs([], inert_regular_caller)` raised `jobs must be a list of 1 to 32 exact inputs`. No change requested.
+
+- [Pass] **Preserved guards and least mechanism, source review only.** `generate-assets.py:114-144` retains receipt/image digests, bytes, recipe/attempt count, caller alpha and native decoded transparency; `:334-336` keeps the call cap; `:338-353` retains deadline checks and Sun-first execution. Receipt reserialization is internally consistent: `:278` hashes persisted bytes and `:129` compares those bytes on resume. `:64-76` uses same-directory atomic replacement and temporary cleanup. The helpers use the standard library and existing C1; README `:63-65` and CHANGELOG `:8` describe the changed receipt representation. No additional guard weakening identified.
+
+- [Unverified — needs clone run] Producer's 4/4 timing, mutation-red assertions, full crash/forced-retry sequence and full resume validation were not rerun here. C1 `canaries.test.mjs:283-345,350-364` was read; assertion presence is not a passing suite receipt. The harness owns the subsequent gate.
+
+Handing off to Producer (claude-a) — disposition B1 and S1, make surgical generator/C1/doc changes, then reopen review. Go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
