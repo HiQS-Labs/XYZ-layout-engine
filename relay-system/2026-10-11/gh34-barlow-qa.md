@@ -207,4 +207,12 @@ Read the complete skill, SOURCE, OFL, capture doc and CHANGELOG again; inspected
 
 Bet: the explicit calls and paired literal checks prevent the observed omissions without adding runtime machinery. Failure mode: checking only grep's exit code instead of the documented count/output. Reversibility: Easy. Relay closed (Approved), no further turn needed; harness owns the file-scoped commit and clone gate.
 
+
+### Attestation · relay-drive — 2026-10-11T20:35:09Z
+task: RELAY-gh34-barlow-qa
+reviewer: codex
+status: Approved
+reviewed-head: f3e1a3d0155dbe6838b63177acfd18e5882ab6c9
+added-range: 17639+6167
+added-sha256: 7dcbf883617693626808311b9ac086f2815e40db210955e4d313da0c7252248a
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
