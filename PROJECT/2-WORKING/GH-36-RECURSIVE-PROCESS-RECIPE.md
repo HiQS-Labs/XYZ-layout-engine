@@ -2,7 +2,7 @@
 gh_issue: 36
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/36
 title: "Recursive-process recipe and a belief-updating example diagram"
-status: "Planned; awaiting Codex plan QA"
+status: "Built; plan QA Approved (round 3); awaiting final Codex QA"
 created: 2026-10-11
 updated: 2026-10-11
 owner: unassigned
@@ -48,7 +48,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Codex plan QA round 3 (the last), then build Phases 1–4. |
+| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Built (Phases 1–4); evidence below. Next: final Codex QA, then PR. |
 
 ## Observed current state (`da97d78`)
 
@@ -98,11 +98,11 @@ goal: >
 ## Phases
 
 ### Phase 1 — Font plumbing, proven byte-neutral
-- [ ] Before any change, record a baseline on this host from `main` (`da97d78`), with the same Node, dependencies and Chromium. Outputs go under `.relay-scratch/base-<slug>-<backend>`:
+- [x] Before any change, record a baseline on this host from `main` (`da97d78`), with the same Node, dependencies and Chromium. Outputs go under `.relay-scratch/base-<slug>-<backend>`:
   - Satori: `node tools/render.mjs <fixture> --recipe <slug> --backend satori --format png,svg,html,html-inline --out …`
   - Playwright: `… --backend playwright --format png,html,html-inline` (Playwright has no SVG, `request.mjs:75`)
   - both for nutrition and for solar: 2 recipes × 7 backend-format pairs = 14 comparisons (Codex F7).
-- [ ] D3 in `render.mjs`, then re-render the same matrix into `.relay-scratch/after-…`.
+- [x] D3 in `render.mjs`, then re-render the same matrix into `.relay-scratch/after-…`.
   - Compare the bytes of each named artifact, including the compact HTML's extracted assets; skip timestamped receipts and manifests.
   - Every one of the 14 must match. A missing comparison or a single byte of drift fails the phase.
   - `catalog verify` must still report the published file and content digests for both recipes unchanged.
@@ -110,33 +110,33 @@ goal: >
   - QA evidence: the "Phase 1 digest matrix" table in the Evidence section.
 
 ### Phase 2 — Recipe module and wiring
-- [ ] D1, D2, D4, D6, D10 in `tools/recipes/recursive-process.mjs`, and the D5 wiring.
-- [ ] Extend the existing C1 test (no new test):
+- [x] D1, D2, D4, D6, D10 in `tools/recipes/recursive-process.mjs`, and the D5 wiring.
+- [x] Extend the existing C1 test (no new test):
   - `processRequest` renders the example fixture in Satori and in Playwright with no findings;
   - Satori `missingSegments.length === 0`, and Playwright `fontLoaded === true` (Codex F6).
   - **Offline HTML check (Codex F8).** Export compact `html` and `html-inline` for the new recipe from both backends. Reuse C1's existing offline-browser block (`canaries.test.mjs:108-131`), parameterized by family, rather than copying it. Open the compact HTML and a relocated standalone copy of the inline HTML with JavaScript off and every `http(s)` request aborted. Assert:
     - Barlow Condensed faces of weight 400 and 700, both `loaded`;
     - a non-empty set of SVG images, all loaded;
     - zero network requests.
-- [ ] C1 red controls, each rejected with a named error:
+- [x] C1 red controls, each rejected with a named error:
   - state caption `'W'.repeat(2000)`, within the 2048-character admission bound, rejected with the named `non-fit` fitting error rather than an admission error;
   - a fifth stage (shape);
   - token `F1`;
   - `polarity: "neutral"`;
   - a `→` typed into a caption, rejected as a font error (`unsupported text/font`, `render.mjs:239`), not as a domain error.
-- [ ] QA evidence: the "Phase 2 controls" table in the Evidence section. For each control: the command, the error text, and the result when its guard is removed.
+- [x] QA evidence: the "Phase 2 controls" table in the Evidence section. For each control: the command, the error text, and the result when its guard is removed.
 
 ### Phase 3 — Example, design record and AS report
-- [ ] `examples/2026-10-11-belief-updating/`: fixture, thin caller, committed PNGs from both backends, `receipt.json`, README.
-- [ ] Inspect both PNGs at full size and at thumbnail size (about 400 px wide). The README records the AS report: patterns avoided by rule ID, exceptions with reasons, and what was inspected.
-- [ ] `catalog add recursive-process`, `publish recursive-process 1.0.0`, `design add 2026-10-11-belief-updating --use-case recursive-process@1.0.0 …`; `catalog verify` valid.
-- [ ] Copy-only save check: `--set` a caption, `--save` into `.relay-scratch/`, re-render; the original fixture is unchanged (Codex F2).
+- [x] `examples/2026-10-11-belief-updating/`: fixture, thin caller, committed PNGs from both backends, `receipt.json`, README.
+- [x] Inspect both PNGs at full size and at thumbnail size (about 400 px wide). The README records the AS report: patterns avoided by rule ID, exceptions with reasons, and what was inspected.
+- [x] `catalog add recursive-process`, `publish recursive-process 1.0.0`, `design add 2026-10-11-belief-updating --use-case recursive-process@1.0.0 …`; `catalog verify` valid.
+- [x] Copy-only save check: `--set` a caption, `--save` into `.relay-scratch/`, re-render; the original fixture is unchanged (Codex F2).
 
 - QA evidence: the README's AS report and the "Phase 3 checks" table (catalog, design and save-check output).
 ### Phase 4 — Docs and gates
-- [ ] README recipe list and canvas line, CHANGELOG.
-- [ ] Gates: `pnpm test` 4/4 within 60 s; `catalog verify`; PDDA no errors; the Phase 1 digest re-check repeated on the final commit.
-- [ ] Execution failures are diagnosed with `/debug-mantra` before any retry.
+- [x] README recipe list and canvas line, CHANGELOG.
+- [x] Gates: `pnpm test` 4/4 within 60 s; `catalog verify`; PDDA no errors; the Phase 1 digest re-check repeated on the final commit.
+- [x] Execution failures are diagnosed with `/debug-mantra` before any retry.
 
 - QA evidence: the final gate lines in the PR body and the "Phase 4 gates" row.
 ## Acceptance (each can fail)
@@ -151,12 +151,53 @@ goal: >
 
 ## Evidence (filled in during the build)
 
-| Table | Content |
-|---|---|
-| Phase 1 digest matrix | 14 rows: recipe, backend, format, baseline sha256, after sha256, equal |
-| Phase 2 controls | Each control: input, command, named error, result with its guard removed; the offline HTML check output |
-| Phase 3 checks | `catalog verify`, `design show`, and the save-check before and after digests of the original fixture |
-| Phase 4 gates | `pnpm test` line, PDDA line, final repeat of the digest matrix |
+**Phase 1 digest matrix.** These are the baseline from `main` code at `da97d78` and the final tree, on the same host and runtime. The baseline was run twice and was deterministic. The html rows include the digest of the extracted asset set; receipts and manifests are excluded.
+
+| Recipe | Backend | Format | Baseline sha256 | Final sha256 | Equal |
+|---|---|---|---|---|---|
+| nutrition | satori | png | `f4451bfa94dc2657` | `f4451bfa94dc2657` | yes |
+| nutrition | satori | svg | `f7507d88c4501dde` | `f7507d88c4501dde` | yes |
+| nutrition | satori | html | `d1a526f05e1ad0e8` | `d1a526f05e1ad0e8` | yes |
+| nutrition | satori | html-inline | `2ea09773b7b2eed4` | `2ea09773b7b2eed4` | yes |
+| nutrition | playwright | png | `4d7050949c22ddf7` | `4d7050949c22ddf7` | yes |
+| nutrition | playwright | html | `d1a526f05e1ad0e8` | `d1a526f05e1ad0e8` | yes |
+| nutrition | playwright | html-inline | `2ea09773b7b2eed4` | `2ea09773b7b2eed4` | yes |
+| solar-system | satori | png | `b55c036c76275ae7` | `b55c036c76275ae7` | yes |
+| solar-system | satori | svg | `c5034e8e9f90817a` | `c5034e8e9f90817a` | yes |
+| solar-system | satori | html | `f64b1887e29b3abe` | `f64b1887e29b3abe` | yes |
+| solar-system | satori | html-inline | `06b50d68441584c6` | `06b50d68441584c6` | yes |
+| solar-system | playwright | png | `7b3c09ff696a9dbd` | `7b3c09ff696a9dbd` | yes |
+| solar-system | playwright | html | `f64b1887e29b3abe` | `f64b1887e29b3abe` | yes |
+| solar-system | playwright | html-inline | `06b50d68441584c6` | `06b50d68441584c6` | yes |
+
+**Phase 2 controls** (C1, `tools/spike/test/canaries.test.mjs`). Each guard was removed in turn, and each removal turned `pnpm test` red (exit 1):
+
+| Control | Named refusal | Guard removed: result |
+|---|---|---|
+| state caption `'W'.repeat(2000)` | `non-fit` | (engine fit loop, existing) |
+| fifth stage | `requires 4 entries` | shared shape check removed → red |
+| token `F1` | `token must be A-E…` | token regex `^.*$` → red |
+| polarity `neutral` | `polarity must be negative or positive` | check disabled → red |
+| `→` in a caption | `unsupported text/font` | declared font not loaded (Inter has `→`) → red |
+| offline HTML, both backends | Barlow Condensed 400 and 700 loaded, SVG images loaded, 0 requests | Chromium given `'Inter'` instead of the declared family → red |
+| Satori glyph coverage | `missingSegments` is `[]` for the recipe scene | (covered by the font-loading removal above) |
+
+**Phase 3 checks.**
+- `catalog add recursive-process`, then `publish recursive-process 1.0.0`, gave content `c2b68a836ce4bfb9…` and schema `efb027aae59d800e…`.
+- `design add 2026-10-11-belief-updating --use-case recursive-process@1.0.0` gave artifact `ebef8bf5cd1776d8…` and appended its #21 log line.
+- `catalog verify` reports `{"valid":true,"errors":[]}`, and `export --check` reports `{"canonical":true}`.
+- Both thin-caller runs exit 0, with receipts showing `recursive-process` `1.0.0` `verified: true`.
+- The save check (`--set states.0.caption=…` then `--save .relay-scratch/rp-saved.json`, then a re-render) exited 0 both times. The original fixture's sha256 was `efb027aae59d800e…` before and after.
+
+**Phase 4 gates.**
+- `pnpm test`: PASS, 4 canaries in 37.3 s (budget 60 s).
+- `catalog verify`: valid.
+- PDDA: no errors (33 governance warnings, the same as `main`).
+- Matrix: 14/14 identical on the final tree.
+
+**Recon findings made during the build** (recorded in `tools/fonts/barlow-condensed/SOURCE.md` and the recipe):
+- Barlow Condensed's line box is 1.2 em. At line height 1.1, Chromium reported overflow at every size and the fit loop could not converge.
+- Formula tokens render without IDs, so the fit loop does not check them. Validation bounds their width instead: at most three tokens of one letter and one digit.
 
 ## Risks and rollback
 

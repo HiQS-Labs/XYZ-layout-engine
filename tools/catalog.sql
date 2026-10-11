@@ -19,8 +19,10 @@ CREATE TRIGGER designs_no_delete BEFORE DELETE ON designs BEGIN SELECT RAISE(ABO
 INSERT INTO schema_migrations VALUES (1);
 INSERT INTO schema_migrations VALUES (2);
 INSERT INTO recipes VALUES ('rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','nutrition','Nutrition','active','');
+INSERT INTO recipes VALUES ('rcp-9bf7025e-5aca-4ecc-8a44-8557fcb1f6ff','recursive-process','Recursive process','active','');
 INSERT INTO recipes VALUES ('rcp-68eafc13-c914-4506-b349-c135fcb42ee5','solar-system','Solar System','active','');
 INSERT INTO recipe_versions VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87','1.0.0','cae72434e7f3c5fb441080532bf9c27095ea519f718b4d767425db99d7f599f8','81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95');
+INSERT INTO recipe_versions VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','rcp-9bf7025e-5aca-4ecc-8a44-8557fcb1f6ff','1.0.0','c2b68a836ce4bfb908bc3c8370c48e18cfd8d1d3a34acb829537ef653079c265','efb027aae59d800ee9c81a05ae33a3d89adee7aec84047b22de7697d67f57248');
 INSERT INTO recipe_versions VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','rcp-68eafc13-c914-4506-b349-c135fcb42ee5','1.0.0','ccfba0b0019197ef0ac84ca5d8ed6732db4c1f0f512441317e97cb6a8d4adc1b','79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c');
 INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','tools/recipes/nutrition.mjs','module','2bad6d6f2f1e381ae10d58d32b268eaa47fdd6643f6b05b51809a41cc6286a57');
 INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','tools/spike/assets.mjs','module','b688386866d9ea0d491d8100b2aef14a4cdb76e8fbae9e6b7615c32743f4a582');
@@ -34,6 +36,10 @@ INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482
 INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','tools/spike/assets/illustrations.svg','content','926164e226a97af42061d3ba872e38685cfadffad6ca92c2833f0f7d924f31d5');
 INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','tools/spike/fixture.json','schema','81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95');
 INSERT INTO recipe_version_files VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','tools/spike/scene.mjs','module','c796e7c5a16e5cf634e4749fb407b035a864793b6fccf86af2cc1d821ad1bc8b');
+INSERT INTO recipe_version_files VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','examples/2026-10-11-belief-updating/fixture.json','schema','efb027aae59d800ee9c81a05ae33a3d89adee7aec84047b22de7697d67f57248');
+INSERT INTO recipe_version_files VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content','e476562ec9c1e16cf16475895b511f08c804f438cc9a9f80a44ea50a0eeb5b65');
+INSERT INTO recipe_version_files VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content','583cec5da3b84bc4dc7c9c72e2a565c94d34e431518b19d7e250b7830ad5f996');
+INSERT INTO recipe_version_files VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','tools/recipes/recursive-process.mjs','module','0402ff2d7be8d188ec08512f67fdbf2d528d92eb60fa1e87027f656157cd9364');
 INSERT INTO recipe_version_files VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','examples/2026-10-08-solar-system/assets/web/asteroid-belt-diagram.png','content','648e16b4a832caef9180d0de7e18f5ed077a86108ba7ff658b67284d36c50b21');
 INSERT INTO recipe_version_files VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','examples/2026-10-08-solar-system/assets/web/earth.png','content','0f377324f4d0ed2befda1baa54b5dfa30714795e4bee35092f0336e3401835a1');
 INSERT INTO recipe_version_files VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','examples/2026-10-08-solar-system/assets/web/jupiter.png','content','56d6021a3a3818a513ca48485c0ac2b65a110ff6dbd7825232522f48affbbece');
@@ -53,6 +59,10 @@ INSERT INTO recipe_outputs VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','h
 INSERT INTO recipe_outputs VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','html-inline');
 INSERT INTO recipe_outputs VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','png');
 INSERT INTO recipe_outputs VALUES ('rcv-d4ebdb2d-6d4c-455a-9130-9a90f75482e3','svg');
+INSERT INTO recipe_outputs VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','html');
+INSERT INTO recipe_outputs VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','html-inline');
+INSERT INTO recipe_outputs VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','png');
+INSERT INTO recipe_outputs VALUES ('rcv-595d0c56-ef5d-4f17-b48e-07807bd0c532','svg');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','html');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','html-inline');
 INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','png');
@@ -60,3 +70,4 @@ INSERT INTO recipe_outputs VALUES ('rcv-173885ba-c089-4f38-a135-e9e206455bb1','s
 INSERT INTO designs VALUES ('2026-10-08-solar-system','solar-system','1.0.0',NULL,'examples/2026-10-08-solar-system/fixture.json','79116fc098ef557530c95ee0920a88f72f63142473bd9bc74a01b5f4aecec12c','examples/2026-10-08-solar-system/solar-system.png','f3a9660b13e713057cdb46697a787cd30504fb7593e09ad976e8bb28e267e567');
 INSERT INTO designs VALUES ('2026-10-09-cell-division',NULL,NULL,NULL,'examples/2026-10-09-cell-division/fixture.json','07efa33b796ad24f3a032feeb39dfecc4db8e7f389682df959889d64d56346b0','examples/2026-10-09-cell-division/cell-division.png','343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044');
 INSERT INTO designs VALUES ('2026-10-09-rag-system',NULL,NULL,NULL,'examples/2026-10-09-rag-system/fixture.json','0744b254803b75c8b3664e48f90085ccdd9076af3c302a0c360e01f1d5892079','examples/2026-10-09-rag-system/rag-system.png','c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6');
+INSERT INTO designs VALUES ('2026-10-11-belief-updating','recursive-process','1.0.0',NULL,'examples/2026-10-11-belief-updating/fixture.json','efb027aae59d800ee9c81a05ae33a3d89adee7aec84047b22de7697d67f57248','examples/2026-10-11-belief-updating/belief-updating.png','ebef8bf5cd1776d8ad06021e0e8b3a3b09ee51365674e5b5b011a990a82c7f22');

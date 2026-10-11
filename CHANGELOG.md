@@ -1,4 +1,23 @@
 # Changelog
+## 2026-10-11 — Recursive-process recipe and a belief-updating example (#36)
+
+- **New recipe:** `recursive-process@1.0.0` (`tools/recipes/recursive-process.mjs`), published through the catalog CLI. It is a fixed-structure recipe driven by a fixture: four stage columns, two A→B→C cycles, an examination branch and a continuous-revision trail.
+  - It validates its own domains: formula tokens, polarity and stage numbers.
+  - It is wired into recipe selection, admission (canvas 1600×1340), `--save`, and the catalog's declared files.
+- **Recipe-declared fonts:** `processRequest` now loads a font the recipe declares; this recipe uses Barlow Condensed. Recipes without `FONT` keep Inter.
+  - Proof: all 14 nutrition and solar artifacts (Satori `png,svg,html,html-inline`; Playwright `png,html,html-inline`) are byte-identical before and after.
+  - The font lacks subscript digits and `→`, so subscripts are drawn as smaller spans and arrows as SVG.
+  - Its 1.2 em line box means no line height below 1.2, or Chromium reports overflow; this is recorded in `SOURCE.md`.
+- **New example:** `examples/2026-10-11-belief-updating/` holds the renders from both backends, receipts (`verified: true`), and a README with the AS report. It is recorded as a design with its #21 log line.
+- **Canary C1** (no new test) covers:
+  - both-backend renders;
+  - glyph coverage;
+  - offline HTML, through a shared `assertOfflineExport` helper that the nutrition check also uses now;
+  - five named refusals, each going red when its guard is removed.
+
+  `pnpm test` runs 4/4 in about 38 s.
+- Easy to reverse (revert). Refs #36.
+
 ## 2026-10-11 — #33 and #35 landed; #34 reconciled
 
 - Landed #35 (`fb8b0d6`, Barlow Condensed as the starter default font) and #33 (`33f1eff`, `SYSTEM-INSTRUCTIONS.md`, rebased onto #35). Closed #34. The ledger moved GH-34 to Completed, and its capture doc moved to `PROJECT/3-COMPLETED/`. Refs #34.
