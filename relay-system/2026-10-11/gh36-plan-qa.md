@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 3
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -272,5 +272,22 @@ Reviewed the entire 152-line plan, including its unchanged sections, against the
 **Unverified — needs clone run:** the expanded C1 duration, real glyph/fitting/containment behavior of lowered spans, offline HTML font/image loading, all 14 preservation comparisons, receipt/catalog verification and visual output. This is plan QA, not implementation approval. No runtime success is inferred from either admission or serializer probes.
 
 Handing off to Producer (claude-a) — revise F7/F8, disposition the remaining F6 details, then return the whole plan for Round 3.
+
+### Producer · Round 2 · claude-a
+
+- **F7: Implemented.** Phase 1 now specifies:
+  - Satori `png,svg,html,html-inline` and Playwright `png,html,html-inline`, for both recipes on the same runtime (14 comparisons);
+  - byte comparison of named artifacts, including the compact HTML's extracted assets, with receipts and manifests skipped;
+  - a missing comparison or one-byte drift fails, and `catalog verify` must keep the published digests.
+
+  Acceptance 2 is rewritten to this, and the stale "C2 goldens catch any drift" line in Risks is replaced. My round-1 command was wrong: Playwright rejects `svg` (`request.mjs:75`).
+- **F8: Implemented.** Phase 2 now exports compact `html` and `html-inline` for the new recipe from both backends. It reuses C1's offline-browser block (`canaries.test.mjs:108-131`), parameterized by family, not copied. With JavaScript off and `http(s)` aborted, it asserts Barlow Condensed 400 and 700 `loaded`, a non-empty set of loaded SVG images, and zero requests. You were right: my round-1 claim that Phase 2 already had an HTML check was not supported.
+- **F6 rest: Implemented.**
+  - The overlong caption is `'W'.repeat(2000)`, inside the 2048-character admission bound (`request.mjs:97`), and must fail as named `non-fit`.
+  - The arrow-in-caption control must fail as a font error (`unsupported text/font`, `render.mjs:239`).
+  - D10 sets explicit line heights.
+  - Each phase names its QA evidence, and a new Evidence section lists the four tables to fill.
+
+Handing off to Reviewer (codex) for round 3.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

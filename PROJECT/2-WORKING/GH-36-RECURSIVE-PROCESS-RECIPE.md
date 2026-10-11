@@ -48,7 +48,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit); all six are folded in below. | Codex plan QA round 2, then build Phases 1–4. |
+| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Codex plan QA round 3 (the last), then build Phases 1–4. |
 
 ## Observed current state (`da97d78`)
 
@@ -83,7 +83,7 @@ goal: >
 | D6 | **AS-rule departures from the reference, on purpose:** <br>• No boxed all-caps title: sentence case, no container (AS-3, AS-5). <br>• The identical person-head icons under each state are dropped as decoration (AS-6). <br>• Stage 4 gets a real formula (B₃ → B₄ …) instead of an empty header (AS-7). <br>• The trail starts at B₃, not a repeated B₂ (AS-7). <br>• The revised state B₂ gets more weight than B₁ (AS-4). <br>• One accent, used only on the revision path (AS-2). <br>• Icons depict their step: two speech bubbles (event), a broken link (negative), linked rings (positive), a magnifier with a question mark (examination), a rewritten page (revised outcome) (AS-6, AS-8). | `SYSTEM-INSTRUCTIONS.md` overrides the reference where they conflict; the README reports each choice. |
 | D7 | **Example** `examples/2026-10-11-belief-updating/`: <br>• `fixture.json` (the schema); <br>• a thin `render-diagram.mjs` caller; <br>• committed `belief-updating.png` (Satori) and `belief-updating-chromium.png`; <br>• the `receipt.json` from `processRequest`; <br>• a README with the AS report; <br>• a design record via `catalog design add 2026-10-11-belief-updating --use-case recursive-process@1.0.0` plus its #21 log line. | Same shape as the solar example; the design record pins this artifact to the recipe version. |
 | D8 | **Copy:** the reference's topic (an ABC-style belief-updating cycle). The footer marks it schematic. The source line names the model only as "after the ABC model of cognitive-behavioural therapy (A activating event, B belief, C consequence; D, E as examination and revised outlook)". There are no invented figures or quotes. | AS-7: honest and specific. |
-| D10 | **Visual system in the fixture (AS-5, Codex F5).** `theme.palette` has fixed roles: `background`, `ink`, `muted`, `rule`, `surface`, `accent` (revision path only), `negative`, `positive`. The recipe fixes one spacing unit (8 px scale), one corner radius (12 px, cards only), one 2 px stroke for lines and outlines, and no shadows or gradients. Type: Barlow Condensed 700 for the title, formulas and state tokens; 400 for labels and captions; explicit sizes in `DEFAULT_SIZES`. | A small, fixed system that the README reports against; no theming framework. |
+| D10 | **Visual system in the fixture (AS-5, Codex F5).** `theme.palette` has fixed roles: `background`, `ink`, `muted`, `rule`, `surface`, `accent` (revision path only), `negative`, `positive`. The recipe fixes one spacing unit (8 px scale), one corner radius (12 px, cards only), one 2 px stroke for lines and outlines, and no shadows or gradients. Type: Barlow Condensed 700 for the title, formulas and state tokens; 400 for labels and captions; explicit sizes in `DEFAULT_SIZES`; explicit line heights of 1.1 for the title and tokens and 1.3 for labels and captions. | A small, fixed system that the README reports against; no theming framework. |
 | D9 | **Phase B is not triggered.** The layout is 4 equal stage columns computed inline (`colW = (W − 2·margin) / 4`), with nodes straddling the column lines; it is not a span grid. | The #20 trigger is a hand-built grid-style diagram; this is a recipe with no spans. |
 
 ## AS statement before composing (SYSTEM-INSTRUCTIONS "Report")
@@ -98,20 +98,33 @@ goal: >
 ## Phases
 
 ### Phase 1 — Font plumbing, proven byte-neutral
-- [ ] Before any change, record baseline artifact digests on this host from `main` (`da97d78`). Scratch outputs go under `.relay-scratch/`. Record PNG, SVG and HTML for nutrition and solar in both backends, using `node tools/render.mjs <fixture> --recipe <slug> --backend <b> --format png,svg,html --out .relay-scratch/base-<slug>-<b>`. Evidence: a digest table in this doc.
-- [ ] D3 in `render.mjs`, then re-render into `.relay-scratch/after-…`. Every digest must match the baseline (Codex F4: C2 does not cover `processRequest` or solar). `pnpm test` must stay green.
+- [ ] Before any change, record a baseline on this host from `main` (`da97d78`), with the same Node, dependencies and Chromium. Outputs go under `.relay-scratch/base-<slug>-<backend>`:
+  - Satori: `node tools/render.mjs <fixture> --recipe <slug> --backend satori --format png,svg,html,html-inline --out …`
+  - Playwright: `… --backend playwright --format png,html,html-inline` (Playwright has no SVG, `request.mjs:75`)
+  - both for nutrition and for solar: 2 recipes × 7 backend-format pairs = 14 comparisons (Codex F7).
+- [ ] D3 in `render.mjs`, then re-render the same matrix into `.relay-scratch/after-…`.
+  - Compare the bytes of each named artifact, including the compact HTML's extracted assets; skip timestamped receipts and manifests.
+  - Every one of the 14 must match. A missing comparison or a single byte of drift fails the phase.
+  - `catalog verify` must still report the published file and content digests for both recipes unchanged.
+  - `pnpm test` stays green.
+  - QA evidence: the "Phase 1 digest matrix" table in the Evidence section.
 
 ### Phase 2 — Recipe module and wiring
 - [ ] D1, D2, D4, D6, D10 in `tools/recipes/recursive-process.mjs`, and the D5 wiring.
 - [ ] Extend the existing C1 test (no new test):
   - `processRequest` renders the example fixture in Satori and in Playwright with no findings;
   - Satori `missingSegments.length === 0`, and Playwright `fontLoaded === true` (Codex F6).
+  - **Offline HTML check (Codex F8).** Export compact `html` and `html-inline` for the new recipe from both backends. Reuse C1's existing offline-browser block (`canaries.test.mjs:108-131`), parameterized by family, rather than copying it. Open the compact HTML and a relocated standalone copy of the inline HTML with JavaScript off and every `http(s)` request aborted. Assert:
+    - Barlow Condensed faces of weight 400 and 700, both `loaded`;
+    - a non-empty set of SVG images, all loaded;
+    - zero network requests.
 - [ ] C1 red controls, each rejected with a named error:
-  - an overlong state caption (non-fit);
+  - state caption `'W'.repeat(2000)`, within the 2048-character admission bound, rejected with the named `non-fit` fitting error rather than an admission error;
   - a fifth stage (shape);
   - token `F1`;
   - `polarity: "neutral"`;
-  - a `→` typed into a caption (missing glyph, or a token or palette domain error).
+  - a `→` typed into a caption, rejected as a font error (`unsupported text/font`, `render.mjs:239`), not as a domain error.
+- [ ] QA evidence: the "Phase 2 controls" table in the Evidence section. For each control: the command, the error text, and the result when its guard is removed.
 
 ### Phase 3 — Example, design record and AS report
 - [ ] `examples/2026-10-11-belief-updating/`: fixture, thin caller, committed PNGs from both backends, `receipt.json`, README.
@@ -119,26 +132,37 @@ goal: >
 - [ ] `catalog add recursive-process`, `publish recursive-process 1.0.0`, `design add 2026-10-11-belief-updating --use-case recursive-process@1.0.0 …`; `catalog verify` valid.
 - [ ] Copy-only save check: `--set` a caption, `--save` into `.relay-scratch/`, re-render; the original fixture is unchanged (Codex F2).
 
+- QA evidence: the README's AS report and the "Phase 3 checks" table (catalog, design and save-check output).
 ### Phase 4 — Docs and gates
 - [ ] README recipe list and canvas line, CHANGELOG.
 - [ ] Gates: `pnpm test` 4/4 within 60 s; `catalog verify`; PDDA no errors; the Phase 1 digest re-check repeated on the final commit.
 - [ ] Execution failures are diagnosed with `/debug-mantra` before any retry.
 
+- QA evidence: the final gate lines in the PR body and the "Phase 4 gates" row.
 ## Acceptance (each can fail)
 
 1. `node examples/2026-10-11-belief-updating/render-diagram.mjs --backend satori` and `… --backend playwright` (the thin caller writes to the example's own `out/`, which the example `.gitignore` excludes; `tools/output/` is not ignored at the root, so it is not used) both exit 0. Each receipt has `catalog.slug = recursive-process`, `catalog.version = 1.0.0` and `catalog.verified = true`.
-2. Nutrition and solar PNG, SVG and HTML digests from `processRequest` are identical before and after, in both backends on the same host (Phase 1 table).
-3. Each Phase 2 red control is rejected with a named error, and each C1 red control fails when its guard is removed.
+2. All 14 Phase 1 comparisons are byte-identical, and none is missing. Satori covers `png,svg,html,html-inline` and Playwright `png,html,html-inline`, for nutrition and solar on the same runtime (Evidence: Phase 1 digest matrix).
+3. Each Phase 2 red control is rejected with its named error, and each fails when its guard is removed (Evidence: Phase 2 controls). The offline HTML check passes for the new recipe in both backends.
 4. `catalog verify` is valid, with the new recipe, its version files and the design record plus log line.
 5. The fixture has no `₀`–`₉` or `→` characters (`git grep`).
 6. The README has the AS report, including the full-size and thumbnail inspection of both backends.
 7. No new test file, `test()` block, dependency or workflow; `pnpm test` within 60 s.
 
+## Evidence (filled in during the build)
+
+| Table | Content |
+|---|---|
+| Phase 1 digest matrix | 14 rows: recipe, backend, format, baseline sha256, after sha256, equal |
+| Phase 2 controls | Each control: input, command, named error, result with its guard removed; the offline HTML check output |
+| Phase 3 checks | `catalog verify`, `design show`, and the save-check before and after digests of the original fixture |
+| Phase 4 gates | `pnpm test` line, PDDA line, final repeat of the digest matrix |
+
 ## Risks and rollback
 
 | Risk | Mitigation | Rollback |
 |---|---|---|
-| The font change perturbs existing output | It is a no-op branch for recipes without `FONT`; C2 goldens catch any drift | Revert Phase 1 (Easy) |
+| The font change perturbs existing output | It is a no-op branch for recipes without `FONT`; the Phase 1 direct comparison of 14 artifacts catches any drift (C2 does not cover `processRequest`) | Revert Phase 1 (Easy) |
 | Satori and Chromium disagree on subscript spans or hexagons | Hexagons and arrows are SVG; the subscript is a plain flex span; inspect both PNGs | Adjust the recipe (Easy) |
 | The fixed structure is too rigid for the next diagram | Stated as a non-goal; revisit when a second recursive diagram needs a different count | New recipe version (Easy) |
 
