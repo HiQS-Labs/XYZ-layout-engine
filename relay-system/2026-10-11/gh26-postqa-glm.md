@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -95,5 +95,41 @@ Output: graded findings (`[Blocker]`, `[Should]`, `[Nit]`, `[Pass]`) with file:l
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 (commandcode, GLM 5.3)
+
+Reviewed the whole in-scope files (not just diffs): `tools/render.mjs` (520 l), `tools/request.mjs` (137 l), `tools/catalog.mjs` (357 l), `tools/profile.mjs` (103 l), `tools/recipes/nutrition.mjs` (23 l), `tools/recipes/solar-system.mjs` (202 l), `tools/spike/test/canaries.test.mjs` (496 l), `tools/design-log.jsonl`, `test-budget.json`, `README.md`, `ROUTER.md`, `PROJECT/2-WORKING/SPECS-PRD.md`; `tools/catalog.sql` reviewed through the loader (`loadDump` catalog.mjs:94–120) and `export --check` canonical-bytes proof rather than raw read. All probes run on Node v22.22.3 at `d4acbc5` (= `7d66787` + relay bookkeeping only), outputs under `.relay-scratch/`; catalog writes against an exported copy.
+
+**Run table** (command → exit → decisive output):
+- `node tools/render.mjs .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out …` → 0 → `"catalog": {"slug": "nutrition", … "verified": true}`
+- README step-2 edit `--set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save …` → 0 → saved JSON reads back `headline: Fuel for today`, `primary: #335577`
+- rerender `--format svg --out .relay-scratch/nutrition-rerender` → 0 → svg digest `38c3c44daa33df60…` = the digest recorded in SPECS-PRD:509
+- Solar System `--recipe solar-system --set 'planets.0.labelX=830' --save …` → 0 → `labelX: 830` persisted; rerender digest `06f195aea8f3e2bf…` = SPECS-PRD:510–511
+- determinism: two renders of `tools/spike/fixture.json` → 0/0 → both `render.svg` sha256 `f7507d88c4501dde…`, `cmp` identical
+- `catalog list|show nutrition|show solar-system|verify|export --check` and `design list|show <3 seeds>` and `--json` variants → all 0 → e.g. `{"valid": true, "errors": []}`, `{"canonical": true}`
+- copy: `design add 2026-10-10-rag-study …` → 0; repeat → 1 → `"design already recorded"`; `catalog.mjs lsit` / `design lsit` → 2 → usage line; `publish nutrition 1.0.0` → 0 (no-op); `publish nutrition 1.0.1` → 1 → `"must match module version"`
+- copy: hand-tampered dump (module sha256 → `0`×64) → `verify` 1, load refused `"inconsistent published digest"`; render receipt → `"verified": false, "reason": … "inconsistent published digest"`, render itself → 0
+- copy: design-artifact tamper → `verify` 1 (`"modified design file"`, field = design id) but render receipt stayed `"verified": true` (isolated, README:110–112); missing `catalog.sql` → receipt `"verified": false` reason `ENOENT…`, render 0; appended malformed design row (`bad-id`) → `verify` 1 `"invalid design ID"`, whole catalog fails to load, receipt `"verified": false`, render 0
+- negative controls (all exit 1, named error, files byte-untouched): `--save package.json` → `"existing file is not this fixture"`; `--save <export>/manifest.json` → `"refusing an export manifest or run folder"`; `--out .` and `--out .git` → `"choose a subdirectory of the authorized root"`; 120-char unbreakable headline → `"non-fit … unbreakable word wider than its box: header_headline"`; `--set width=999` → `"only the recipe-owned canvas is supported"`; `--recipe warp-drive` → `"select a trusted nutrition or solar-system recipe"`; `--set sections.header.nonexistent=1` → `"unknown field"`
+- containment: `git status --porcelain` → only `?? .relay-scratch/`; no tracked file modified.
+
+**Findings:**
+- [Pass] README "Install and Offline Workflow" steps 2–4 behave exactly as written: edits durable via `--save`, `manifest.json` `current` = `runs/<uuid>` resolvable per step 4, rerender digests reproduce SPECS-PRD's recorded `38c3c44d…`/`06f195ae…` (README:16–39, SPECS-PRD:509–511; runs quoted above).
+- [Pass] Determinism: byte-identical SVG across two independent same-fixture renders (runs quoted above; consistent with render.mjs:126 seeded starfield).
+- [Pass] Catalog exit-code contract matches README:51–63 — success 0, validation/drift 1 (duplicate design add, wrong-version publish, tampered dump, bad design row), usage 2 (`lsit`, `design lsit`).
+- [Pass] Receipt seam (render.mjs:349–367) is correct on every failure shape I could construct: design-only errors isolated (`verified: true`), whole-catalog load failure / missing file / digest drift each yield `verified: false` with a named reason and never block local rendering — exactly README:76–79, 110–112.
+- [Pass] Negative controls: each refusal names its field, exits 1, and left the target byte-identical (verified by `cmp`/`shasum` before/after) — matches GH-25 hardening and canaries.test.mjs:96–102.
+- [Pass] Resource-limit claims match source: 256 KiB input (request.mjs:7,17), 5 MiB + 16,777,216 px per image (assets.mjs:22), 35 MiB aggregate scene (assets.mjs:26), 64 MiB publication (render.mjs:436), fitting ≤10 iterations to 12 px (render.mjs:209–211) — README:120–131.
+- [Pass] One owner per concern, no second write path found: `validateFixtureShape` is the sole schema walker (request.mjs:81, called from nutrition.mjs:13 / solar-system.mjs:70); `processRequest` is the sole fitting/geometry owner (render.mjs:175–294); `runCLI` + `atomicDump` are the sole catalog write path (catalog.mjs:266–352, 239–245) and render.mjs touches the catalog only through read verbs `show`/`verify` (render.mjs:352–359); `saveFixture` is the sole fixture writer (request.mjs:105–136); `publishStaged`'s rename is the sole commit point (render.mjs:447). New duplication beyond #23: none.
+- [Nit] `sha256` one-liner is defined five times: render.mjs:376, solar-system.mjs:62, profile.mjs:46, canaries.test.mjs:22, and as `hash` in catalog.mjs:14. Possibly already covered by #23 S3–S10 — only new if absent there. No observed failure; cosmetic DRY.
+- [Nit] nutrition.mjs:22–23 legacy re-export block is partially dead: `validateNutrition` is live (canaries.test.mjs:14) but `buildNutritionScene` and the re-exported `DEFAULT_SIZES`/`NUTRITION_TEXT_IDS`/`NUTRITION_CONTAINMENT` have no live caller (spike scripts import from scene.mjs:17 directly). `Observed input:` no caller in-tree (`rg "buildNutritionScene|from '../recipes/nutrition.mjs'" tools` → only nutrition.mjs itself and canaries' `validateNutrition`); `Affected scope:` the `export {…}` line nutrition.mjs:23 only; `Falsifier:` any in-tree or documented external import of those names, in which case the line stays. Producer's call; not blocking.
+- [Pass] `tools/profile.mjs` is not dead: wired as `pnpm profile` (package.json:11) and documented in MVP-REPORT.md:84–87.
+- [Pass] test-budget.json ratchet intact: budget {testFiles 1, tests 4, maxSeconds 60, ciWorkflows 0} with matching last history entry (test-budget.json:10–18), enforced by tools/spike/test/run.mjs:15–52; canaries are 4 `guards:` `test()` blocks (canaries.test.mjs:26,350,375,383).
+- [Unverified — needs clone run] `pnpm test` (budget-enforced canary suite incl. offline HTML/font/network-assertion probes, canaries.test.mjs:108–131) and `tools/spike/verify.mjs` committed-evidence gate were not executed in this worktree per relay rules; the harness gate after my turn owns them.
+- Pre-existing defects beyond the two [Nit]s: none found in the sweep of the code the four PRs sit on; stated explicitly rather than left unstated.
+
+VERDICT: PASS
+Basis: every README/ROUTER/SPECS-PRD claim about commands, exit codes and outputs that this worktree can measure was checked against a real run and held; all four landed PRs compose cleanly at the seams (durable edits ↔ publication ↔ catalog receipts ↔ design records); the only findings are two [Nit]-grade DRY/dead-export observations, neither of which affects behavior. The clone-run gate (`pnpm test`, spike verify) remains the harness's to run.
+swept file: yes
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
