@@ -17,7 +17,7 @@ roadmap_exempt: true
 # GH-9 Phase 0 — Spike: backend evidence, narrow output and go/no-go
 
 Umbrella: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/19. Member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/9.
-Canonical plan: `PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 0 and Design (the exact width rule).
+Canonical plan: `PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 0 and Design (the exact width rule).
 Order: gh9-p0 -> gh9-p1 -> gh9-p2 -> gh9-p3, strictly serial. Builder: Codex. Reviewer: independent Agy.
 
 ## Goal
@@ -28,7 +28,7 @@ canvas-relative, and a go/no-go. No engine code.
 
 ## Allowed files
 
-Only `PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md`, and inside it only a new
+Only `PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md`, and inside it only a new
 `### Phase 0 findings` subsection. All prototypes and renders run from a scratch copy under
 `$TMPDIR` (copy `tools/`, `package.json`, symlink `node_modules`).
 

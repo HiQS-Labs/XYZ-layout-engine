@@ -2,7 +2,7 @@
 gh_issue: 9
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/9
 title: "Add deterministic stacking/responsive layout flags (responsive, stackOrder) to recipes"
-status: "Planned; awaiting plan QA"
+status: "Superseded by #20 (Phase B grid core); issue closed 2026-10-11"
 created: 2026-10-09
 updated: 2026-10-10
 owner: unassigned
@@ -24,7 +24,7 @@ related:
   - https://github.com/HiQS-Labs/XYZ-layout-engine/issues/10
   - https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18
   - PROJECT/3-COMPLETED/GH-10-RECIPE-CATALOG.md
-  - PROJECT/2-WORKING/responsive-flags/MARATHON.yaml
+  - PROJECT/4-MISC/responsive-flags/MARATHON.yaml
   - PROJECT/2-WORKING/SPECS-PRD.md
 goal: >
   Nutrition renders a declared narrow output whose declared rows collapse to columns when, and only
@@ -223,11 +223,11 @@ prototypes in `$TMPDIR`. Depends on GH-10 Phase 3 accepted.
 - [ ] Write a `### Phase 0 findings` subsection here with commands, results, the chosen `H` and a
       go/no-go; on no-go stop and park.
 
-**Write set:** `PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md` (Phase 0 findings subsection only).
+**Write set:** `PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md` (Phase 0 findings subsection only).
 
 **Acceptance (each can fail; red control in brackets):**
 - [ ] G0-A1 Findings name the chosen `H`, thresholds and go/no-go. [Red: reviewer check
-      `rg -n "^Decision:" PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md` fails on an empty subsection.]
+      `rg -n "^Decision:" PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md` fails on an empty subsection.]
 - [ ] G0-A2 Prototype narrow render fits with zero unresolved text and two repeats share a digest.
       [Red: the same prototype at `H` minus 200 reports non-fit.]
 - [ ] G0-A3 1000x1000 tree deep-equal before/after any width refactor. [Red: changing one width literal
@@ -337,7 +337,7 @@ prototypes in `$TMPDIR`. Depends on GH-10 Phase 3 accepted.
 - [ ] Wave 1 CodeRabbit / Peer Review findings adjudicated.
 
 Execution: one serial lane gh9-p0 -> gh9-p1 -> gh9-p2 -> gh9-p3 from
-`PROJECT/2-WORKING/responsive-flags/MARATHON.yaml`, only after GH-10 is accepted. Codex builder,
+`PROJECT/4-MISC/responsive-flags/MARATHON.yaml`, only after GH-10 is accepted. Codex builder,
 independent Agy reviewer, gate `pnpm test`, 1500 s turns, two review rounds. No push, no PR, no merge
 from builder turns; the ready PR lists `Refs #9` only.
 
@@ -357,11 +357,11 @@ from builder turns; the ready PR lists `Refs #9` only.
     },
     {
       "type": "path_absent",
-      "path": "PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md"
+      "path": "PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md"
     }
   ],
   "artifacts": [
-    "PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md",
+    "PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md",
     "tools/stack.mjs",
     "tools/catalog.sql",
     "tools/request.mjs",
@@ -374,7 +374,7 @@ from builder turns; the ready PR lists `Refs #9` only.
     "CHANGELOG.md"
   ],
   "artifacts_new": [
-    "PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md",
+    "PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md",
     "tools/stack.mjs"
   ],
   "remediation": {

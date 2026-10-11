@@ -2,7 +2,7 @@
 gh_issue: 26
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/26
 title: "Post-QA review of landed MVP, catalog and designs (#18, #22, #24, #25)"
-status: Proposed (1-INBOX — not yet active)
+status: Completed (2026-10-11; GLM 5.3 post-QA PASS, recorded in #27)
 created: 2026-10-11
 owner: unassigned
 doc_type: feedback

@@ -17,7 +17,7 @@ roadmap_exempt: true
 # GH-9 Phase 3 — Docs and handoff
 
 Umbrella: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/19. Member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/9.
-Canonical plan: `PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 3. Builder: Codex. Reviewer: independent Agy. Strictly serial after gh9-p2.
+Canonical plan: `PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 3. Builder: Codex. Reviewer: independent Agy. Strictly serial after gh9-p2.
 
 ## Goal
 

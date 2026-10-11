@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-11 — Post-QA review closed; #9, #19 and #26 reconciled
+
+- Landed #24 (`51b7a47`, GH-20 A2 design records), #25 (`7d66787`, #23 S1/S2) and #27 (`db5af24`, the #26 post-QA record: GLM 5.3 PASS with no Blocker or Should findings). Closed #26 (done), #19 (delivered by #22 and #24 under the #20 plan) and #9 (superseded by #20 Phase B). The ledger moved GH-26 to Completed and GH-9 to Deferred; the GH-26 doc moved to `PROJECT/3-COMPLETED/`, and the GH-9 doc and its marathon folder to `PROJECT/4-MISC/`. #20, #21, #23, #5 and #8 stay open. Refs #20. Refs #23.
+- Easy to reverse (documents and ledger only).
+
 ## 2026-10-10 — GH-5 hardening: `--save` and `--out .` (items S1 and S2 of #23)
 
 - `--save` no longer overwrites arbitrary in-root JSON: it refuses an export `manifest.json`, anything under a `runs/` folder, and any existing file that is not a copy of the same fixture (so `--save package.json` is rejected and `package.json` is unchanged). `--out` refuses the authorized root itself and `.git`, so an export can no longer write `manifest.json` and `runs/` into the repo root. Replacing the same fixture (`--save` to its own file) and creating a new `.json` still work.

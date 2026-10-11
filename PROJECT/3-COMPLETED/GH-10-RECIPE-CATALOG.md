@@ -24,7 +24,7 @@ related:
   - https://github.com/HiQS-Labs/XYZ-layout-engine/issues/9
   - https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18
   - PROJECT/2-WORKING/GH-5-MVP-FOUNDATION.md
-  - PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md
+  - PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md
   - PROJECT/3-COMPLETED/recipe-catalog/MARATHON.yaml
   - PROJECT/2-WORKING/SPECS-PRD.md
 goal: >

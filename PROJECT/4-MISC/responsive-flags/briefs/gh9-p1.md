@@ -17,7 +17,7 @@ roadmap_exempt: true
 # GH-9 Phase 1 — Pure resolver and request admission
 
 Umbrella: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/19. Member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/9.
-Canonical plan: `PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 1, Design and Phase 0 findings. Builder: Codex. Reviewer: independent Agy. Strictly serial after gh9-p0.
+Canonical plan: `PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 1, Design and Phase 0 findings. Builder: Codex. Reviewer: independent Agy. Strictly serial after gh9-p0.
 
 ## Goal
 

@@ -17,7 +17,7 @@ roadmap_exempt: true
 # GH-9 Phase 2 — Nutrition adoption, narrow output and catalog bump
 
 Umbrella: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/19. Member: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/9.
-Canonical plan: `PROJECT/2-WORKING/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 2 and Phase 0 findings; version bump rule in `PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md`. Builder: Codex. Reviewer: independent Agy.
+Canonical plan: `PROJECT/4-MISC/GH-9-STACKING-RESPONSIVE-FLAGS.md`, Phase 2 and Phase 0 findings; version bump rule in `PROJECT/2-WORKING/GH-10-RECIPE-CATALOG.md`. Builder: Codex. Reviewer: independent Agy.
 
 ## Goal
 
