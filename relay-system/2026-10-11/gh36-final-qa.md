@@ -251,4 +251,12 @@ Startup roadmap queries (`python3 -B utils/py/releases_app.py roadmap list`, the
 
 Relay closed (Approved), no further turn needed. The harness owns the relay-only commit and final gate; no git command was run.
 
+
+### Attestation · relay-drive — 2026-10-11T23:31:50Z
+task: RELAY-gh36-final-qa
+reviewer: codex
+status: Approved
+reviewed-head: bc35b3db40441d0c47e94cd166aa732f1ff405f6
+added-range: 24942+9391
+added-sha256: e7ac7055d6561972fc9bc4b9f4d3448d17451640a158b28d9db3f8baf0ac6b72
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
