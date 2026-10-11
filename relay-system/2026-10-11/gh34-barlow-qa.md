@@ -52,7 +52,7 @@ ROUND: 1 / 3
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: commit `85d3527` (`git show --stat 85d3527`): `tools/fonts/barlow-condensed/` (two TTFs, `OFL.txt`, `SOURCE.md`), `skills/design-diagram/SKILL.md` (step 2 font paragraph and trap 8), `CHANGELOG.md`, the #34 capture doc and its ledger row. Context: issue #34; `tools/render.mjs:24-50,110-130,155-168,239`; `examples/2026-10-09-rag-system/render-diagram.mjs:13,123,126,132`.
+- Artifact under review: commit `85d3527` (`git show --stat 85d3527`): `tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf`, `tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf`, `tools/fonts/barlow-condensed/OFL.txt`, `tools/fonts/barlow-condensed/SOURCE.md`, `skills/design-diagram/SKILL.md` (step 2 font paragraph and trap 8), `CHANGELOG.md`, `PROJECT/1-INBOX/GH-34-BARLOW-CONDENSED-AS-STARTER.md` and its ledger row. Context: issue #34; `tools/render.mjs:24-50,110-130,155-168,239`; `examples/2026-10-09-rag-system/render-diagram.mjs:13,123,126,132`.
 - Reviewer: codex   ·   Producer: claude-a
 - Started: 2026-10-11
 - Definition of Done (from #34):
