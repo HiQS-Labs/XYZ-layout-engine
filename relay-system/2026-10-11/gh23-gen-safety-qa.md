@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -189,5 +189,98 @@ Handing off to Producer (claude-a) — disposition B1 and S1, make surgical gene
 - Commit: see the next commit on `fix/gh23-gen-safety`.
 
 Handing off to Reviewer (codex) for round 2.
+
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: B1 and S1 are resolved by narrow probes; the exact-input lost-state check and credential-free malformed receipt preserve the existing safety mechanisms. No remaining Blocker or Should found. Full suite and mutation execution remain harness-owned.
+swept file: yes
+
+Read the entire current generator, canaries file, example README and CHANGELOG, including pre-existing code; no additional material pre-existing defect identified in this bounded sweep. Graph project discovery paginated all 82 projects and found no index for this worktree, so direct source reads were used; no graph generation or completeness claim. Only the relay file changed outside exempt scratch. No git, suite, executable fixture or provider call. Reversibility: Easy. Bet: exact admitted digest evidence is the appropriate replay boundary; a changed digest remains a new input. Non-JSON receipt text is sacrificed because it cannot validate and can contain credentials.
+
+- [Pass] **B1 resolved.** `examples/2026-10-08-solar-system/generate-assets.py:49-56` replaces unparseable stdout with fixed metadata; `:268,271-272` uses it on timeout and normal paths. Both round-1 escaped/encoded fixtures produced credential-free `unparseable` records. Clean JSON retained status, recipe, image and alpha metadata and stripped the signed query. Existing C1 `tools/spike/test/canaries.test.mjs:267,357-358` covers both malformed shapes; `:353-355` covers clean JSON. No fix requested.
+
+- [Pass] **S1 resolved with an explicit retry boundary.** `generate-assets.py:317-321` matches the same ID/digest and full UUID pattern defined at `:34`, matching creation at `:230`. Absent, empty and partially lost manifests refused the same attempt before dispatch; explicit retry dry-runs admitted it. Fresh `{}`, a historical `sun.result.json`, and a different-digest attempt remained admitted. C1 `:356` asserts deletion and `{}` refuse without extra calls. README's “unless `--force-retry` is given” at `:63` accurately states the repair's authorized override. No fix requested.
+
+- [Pass] **S5 and empty admission preserved.** `generate-assets.py:59-64,159-160,280,334-337`: helper controls returned `[True, False, False, False]` for all-false, mixed false/true, empty attempts and the real Sun receipt. Empty jobs raised `jobs must be a list of 1 to 32 exact inputs`. C1 `:351,359-361` asserts rejection and safe re-planning. No fix requested.
+
+  Repro command for the three findings above (exit **0**); all temporary state is under the pinned scratch TMPDIR:
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  mkdir -p "$TMPDIR"
+  python3 -B - <<'PROBE'
+import importlib.util,json,pathlib,tempfile
+from unittest.mock import patch
+s=importlib.util.spec_from_file_location('g','examples/2026-10-08-solar-system/generate-assets.py')
+g=importlib.util.module_from_spec(s);s.loader.exec_module(g)
+u='https://cdn.example.test/a.png?X-Amz-Signature=SIG'
+for text in ['caller error: '+json.dumps({'url':u}).replace('/',r'\/'),'error downloading https%3A%2F%2Fcdn.example.test%2Fa.png%3FX-Amz-Signature%3DSIG']:
+    result=json.loads(g.receipt_text(text)); assert result['status']=='unparseable' and 'SIG' not in json.dumps(result)
+    print('malformed stdout: credential absent, bytes/hash retained')
+clean={'status':'success','recipeRef':'recipe:x','image':{'bytes':1,'sha256':'x'},'alpha':{'verified':True},'attempts':[{'dispatched':True,'url':u}]}  [Unverified — no citation]
+result=json.loads(g.receipt_text(json.dumps(clean)))
+assert result['attempts'][0]['url']=='https://cdn.example.test/a.png'
+for key in ('status','recipeRef','image','alpha'): assert result[key]==clean[key]
+print('clean JSON: metadata preserved, signed query absent')
+root=pathlib.Path(tempfile.mkdtemp());caller=root/'caller.mjs';caller.write_text('// inert')
+job=dict(id='sun',prompt='a',model='m',size='1024x1024',quality='medium',background='transparent')
+j=g.admit_jobs([job],caller)[0][0];j['reference_digests']=[]
+digest=g.job_digest(j)
+def forbidden(*a,**k): raise AssertionError('provider launch attempted')
+with patch.object(g.subprocess,'Popen',forbidden):
+    for state in ('absent','empty','truncated'):
+        assets=root/state;assets.mkdir()
+        (assets/('sun_'+digest+'_'+'a'*32)).mkdir()
+        if state=='empty':(assets/'manifest.json').write_text('{}')
+        if state=='truncated':(assets/'manifest.json').write_text(json.dumps({'b'*64:{'status':'pending'}}))
+        assert g.generate([job],assets,caller,dry_run=True) is False
+        print(state+': refused')
+        assert g.generate([job],assets,caller,dry_run=True,force_retry=True) is True
+        print(state+': explicit retry admitted')
+    fresh=root/'fresh';fresh.mkdir();(fresh/'manifest.json').write_text('{}')
+    assert g.generate([job],fresh,caller,dry_run=True) is True
+    print('fresh empty manifest: admitted')
+    (fresh/'sun.result.json').write_text('{}')
+    (fresh/('sun_'+'b'*64+'_'+'a'*32)).mkdir()
+    assert g.generate([job],fresh,caller,dry_run=True) is True
+    print('historical receipt and different digest: admitted')
+real=json.loads(pathlib.Path('examples/2026-10-08-solar-system/assets/sun.result.json').read_text())
+values=[g.never_dispatched(x) for x in [{'attempts':[{'dispatched':False}]},{'attempts':[{'dispatched':False},{'dispatched':True}]},{'attempts':[]},real]]
+assert values==[True,False,False,False];print('non-dispatch controls:',values)
+try:g.admit_jobs([],caller)
+except ValueError as e:print('empty jobs:',str(e))
+else:raise AssertionError('empty jobs accepted')
+PROBE
+  ```
+  Decisive output: two `malformed stdout: credential absent, bytes/hash retained`; `clean JSON: metadata preserved, signed query absent`; `absent: refused`, `empty: refused`, `truncated: refused`, each followed by `explicit retry admitted`; `fresh empty manifest: admitted`; `historical receipt and different digest: admitted`; `non-dispatch controls: [True, False, False, False]`; `empty jobs: jobs must be a list of 1 to 32 exact inputs`. Dry-run probes measure planning refusal/admission, not full generator execution.
+
+- [Pass] **S4 OS mechanism re-measured.** `generate-assets.py:262,265-267,297,354` passes the run descriptor, kills/reaps the process group on timeout and closes the owning context. The following narrow OS probe exited **0**, printing `normal: orphan blocks; reaped caller releases` and `timeout: orphan blocks; reaped caller releases`. C1 `:362-367` contains the full crash/forced-retry assertion, not rerun here. Explicit descriptor inheritance by caller descendants can conservatively prolong ownership; no normal-completion leak seen in this probe.
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  mkdir -p "$TMPDIR"
+  python3 -B - <<'PROBE'
+import fcntl,os,pathlib,signal,subprocess,tempfile
+p=pathlib.Path(tempfile.mkdtemp())/'lock'
+def available():
+    with open(p,'a') as f:
+        try:fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB);return True
+        except BlockingIOError:return False
+for mode in ('normal','timeout'):
+    f=open(p,'a');fcntl.flock(f,fcntl.LOCK_EX)
+    child=subprocess.Popen(['node','-e',"console.log('ready');setTimeout(()=>{},200)"],stdout=subprocess.PIPE,text=True,start_new_session=True,pass_fds=(f.fileno(),))
+    assert child.stdout.readline().strip()=='ready';f.close()
+    assert not available()
+    if mode=='timeout':os.killpg(child.pid,signal.SIGKILL)
+    child.communicate();assert available()
+    print(mode+': orphan blocks; reaped caller releases')
+PROBE
+  ```
+
+- [Pass] **Preservation and docs, source evidence.** `generate-assets.py:117-147` retains PNG/alpha/recipe/image/receipt validation; `:340-342,344-346,355-359` retains cap, deadline and Sun-first guards; `:67-79` retains atomic replacement. Receipt hash writing at `:281` and checking at `:132` use persisted bytes consistently. Existing C1 `:284-347` contains resume/cap/corruption/unknown/concurrency/timeout/reference/recipe/deadline assertions. Example README `:63-65` and CHANGELOG `:5-11` describe the current semantics and limits; no new dependency, test file or workflow is introduced by the reviewed repair.
+
+- [Unverified — needs clone run] Producer's 4/4 in 36.7s, mutation-red results, full crash/forced-retry scenario and native resume/alpha validation were not executed in this reviewer worktree. C1 assertion presence is source evidence only; the subsequent harness gate must validate integration. Valid-JSON strings containing wholly percent-encoded URLs remain the producer's stated redaction limit; no actual caller receipt with that shape was observed here.
+
+Relay closed (Approved), no further turn needed. Harness owns the file-scoped commit and subsequent gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
