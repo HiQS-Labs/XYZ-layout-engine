@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -79,5 +79,23 @@ Review writes only this relay file. No implementation, paid operations or test-s
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: The complete plan meets the supplied review packet: additive trusted recipe, existing render/save/catalog owners, three bounded editorial outputs, falsifiable acceptance and preserved history. No blocking omissions or additional pre-existing defects found in the swept plan. Approval is for build readiness, not implementation or source-image verification. Reversibility: Easy; the bet is that the reported source observations hold, with final visual/runtime gates detecting a bad selection before publication.
+swept file: yes
+
+- [Pass] Integration owners are explicit in `.relay-artifacts/GH-28-MANGAJDM-PROMOS.md:45`–49 and :79: normalize admission/canvas, saveFixture admission, processRequest import and catalog declaredFiles. Source readback supports the approach: `tools/request.mjs:59`–75 and :105–135; `tools/render.mjs:183`–199. Fitting, fonts, backend and publication stay shared (`tools/render.mjs:209`–295, :329–368, :474–515); no new registry is needed.
+- [Pass] The recipe contract is grounded: `tools/recipes/solar-system.mjs:8`–60, :67–105 and :116; pinned asset loading reuses bounded read/namespace/digest checks and `tools/spike/assets.mjs:10`–38. The derivative helper preserves aspect ratio and alpha via the existing renderer (`examples/2026-10-09-cell-division/make-web-asset.mjs:15`–23). Plan :78–79 assigns provenance, fixed selectors and asset admission; no new encoder/dependency is warranted.
+- [Pass] Content and geometry acceptance is concrete: plan :55 and :58–63 specify portrait size, copy guide, full multi-car containment, preserved shirt print, mockup disclosure and conservative claims; :80–81 requires three primary PNGs, manifest-byte equality, text containment, offline font/image loading, relocated HTML, deterministic rerenders and a saved-copy edit. These are measurable future gates, not claims that the images have already passed.
+- [Pass] Writer/history contract is sufficient: plan :67 and :82 requires stable publication, version/ID changes after publication, per-insert reconciliation, real fixture/primary PNG hashes, exact use-case pins and unchanged prior rows/log prefixes. `tools/catalog.mjs:79`–81 requires exactly one schema in the declared set; :289–311 hashes actual design bytes and leaves Phase B fields null; :319–340 preserves immutable publication and uses the existing two-file writer. README's “Designs are insert-only records” and two-write recovery limitation agree. Keep these existing owners.
+- [Pass] Ratings and complexity are proportional as written: plan :38 states “severity20: missing example, no observed runtime failure; appeal50: neutral operator default” and gives independent priority/effort rationale without synthetic urgency. Plan :65 caps the recipe at about150lines and excludes new tests/dependencies/grid/service machinery; `test-budget.json` budget is 1 file/4 tests/60 seconds/0 workflows.
+- [Pass] Isolation, failure detection and handoff are explicit: plan :37/:78 preserves originals, :67 supplies rollback/tripwires and debug-mantra, :39/:84 bounds independent review to three rounds, and :83–90 requires recorded actual checks and a ready PR while leaving main untouched. Existing fitting bounds are `tools/render.mjs:209`–211. Retain the planned final verification rather than adding a suite for this review.
+- [Nit] Recon citations/naming drift at plan :45–46: the current export owner is `publishArtifacts` (:474), not `writeExport`; trusted recipe admission is `tools/request.mjs:60`, canvas selection/check is :61/:68, save admission/validation is :106–109, and `processRequest` begins at `tools/render.mjs:175`. Fix those references when updating the plan; the named responsibilities and proposed edits remain sound.
+- [Unverified — needs clone run] Plan :25/:51 reports baseline canary/shim results; those were not reproduced here. Final tests, image previews, digest/relocation/edited-copy controls and PDDA are pending execution gates (:81–90). No test suite, fixture executable, renderer or validator was run in this turn.
+- [Unverified — external evidence] Source-library provenance/selected-image observations (:37/:57–63), RELEASES persistence and live issue body were not independently read back. Read-only query `gh issue view 28 --repo HiQS-Labs/XYZ-layout-engine --json title,body` exited 1: “error connecting to api.github.com”; web fetch of the same issue returned “Cache miss”. Review uses the supplied Definition of Done and specific packet, not an independently fetched issue. Graph inventory returned all82 projects with no matching checkout; coverage query for the six named code paths returned “project not found or not indexed”; exact-source fallback was used without indexing/mutation.
+
+Relay closed (Approved), no further review turn needed. Producer resumes implementation and records the final evidence required by the plan.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
