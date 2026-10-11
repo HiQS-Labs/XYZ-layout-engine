@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-10 — GH-5 hardening: `--save` and `--out .` (items S1 and S2 of #23)
+
+- `--save` no longer overwrites arbitrary in-root JSON: it refuses an export `manifest.json`, anything under a `runs/` folder, and any existing file that is not a copy of the same fixture (so `--save package.json` is rejected and `package.json` is unchanged). `--out` refuses the authorized root itself and `.git`, so an export can no longer write `manifest.json` and `runs/` into the repo root. Replacing the same fixture (`--save` to its own file) and creating a new `.json` still work.
+- One assertion block added to the existing C1 canary (five lines); red controls: removing either guard makes C1 fail with `Missing expected rejection`. No new test, workflow or dependency. Refs #23. Easy to reverse (revert).
+
 ## 2026-10-10 — GH-20 A2 design catalog documentation
 
 - Named the catalog CLI and canonical dump in ROUTER, with the CLI as the only write path. README documents delivered insert-only designs, CLI commands and exit codes, null use cases for hand-built RAG/cell-division, the append-only grammar log and its review triggers, and deferred Phase B work. Refs #20. Refs #21.
