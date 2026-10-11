@@ -2,6 +2,8 @@
 
 **On your first action in this repo, follow the startup sequence in `ROUTER.md` before recommending or editing anything.** It names the canonical files and the order to read them. Re-run it (or `/pdda`) when you switch tasks, resume a long session, or feel context has drifted.
 
+For any visual work (recipes, diagrams, fixture copy or themes, image prompts), `SYSTEM-INSTRUCTIONS.md` sets the design rules and overrides recipe, skill and prompt defaults.
+
 See `GUIDING-PRINCIPLES.md` for the repo's north star — the goals and tradeoff lens these rules serve.
 
 ## Operating principles

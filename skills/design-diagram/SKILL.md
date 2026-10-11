@@ -9,6 +9,7 @@ Turn a topic into a fixture-driven diagram rendered by the repo's existing Sator
 
 ## Before you start
 
+- Read `SYSTEM-INSTRUCTIONS.md` at the repo root first. Its AS rules override this skill's defaults for anything visual, and the report it requires goes in the README.
 - Work in a fresh full clone on a task branch, never in the primary checkout. `/start-task` does this and also handles the issue, plan and review; use it when the diagram is tracked work.
 - Resolve filesystem paths with URL objects and fileURLToPath; use a disposable full clone for gates.
 - Read `examples/2026-10-09-rag-system/README.md`, `examples/2026-10-09-rag-system/render-diagram.mjs` and `examples/2026-10-09-rag-system/fixture.json` first.
