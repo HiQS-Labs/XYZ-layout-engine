@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-11.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -95,5 +95,90 @@ Output: graded findings (`[Blocker]`, `[Should]`, `[Nit]`, `[Pass]`) with file:l
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: The bounded implementation and committed artifacts support the feature, but acceptance 3 is not fully evidenced: the non-fit guard-removal result is absent despite the blanket claim that every refusal was falsified. No observed runtime Blocker. One Should evidence request and documentation Nits; no registry, extra test or subsystem requested.
+swept file: yes
+
+Swept the whole current seeded contents of the five code files, catalog dump/log, example fixture/caller/receipts/README, root README/CHANGELOG, font SOURCE, plan and plan-QA thread, including unchanged sections. Also inspected both committed PNGs at full size and at 400 px. No additional pre-existing defect requiring a runtime change was identified in this bounded sweep. Graph tools are unavailable; Verify-tier source fallback, with no graph-generation/coverage claim. No git command or baseline diff was run. Reversibility: Easy (this relay file only). Bet: an absent evidence row warrants a targeted request, not an assertion that the guard was never tested; an existing clone-run receipt would resolve it.
+
+- [Should] **F1 — Complete the non-fit falsification evidence (acceptance 3).** `PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md:127,146,173–183` requires the command, named error and guard-removal result for each control. The non-fit row at `:177` contains only `(engine fit loop, existing)`, while `:173`, example `README.md:31` and `CHANGELOG.md:16` claim all five refusals go red when their guard is removed. Existing C1 does contain the concrete rejection at `tools/spike/test/canaries.test.mjs:281`; that assertion's presence is not a witnessed falsification. Fix: supply the existing clone-run receipt, or perform the missing removal in a disposable full clone, naming the precise guard, command, exit status and decisive C1 failure. Keep it in the existing canary and restore the source before final gates. Do not replace it with the separate offline-family mutation. Correct any blanket claim if that experiment has not happened.
+  Observed input: `states[0].caption = 'W'.repeat(2000)`; its evidence cell is literally `(engine fit loop, existing)` rather than a removal outcome.
+  Affected scope: evidence for this named refusal and acceptance 3; no production behaviour change requested.
+  Falsifier: a dated clone-run receipt shows this exact input rejected as `fitting/non-fit` normally, then the relevant guard removed and the existing C1 rejection assertion failing (exit 1), followed by restored-source passing gates. That resolves this request without new implementation.
+  Root cause: the evidence table substitutes the existing mechanism's name for a measured mutation result; Fix site: the plan evidence and corresponding clone experiment; Why not upstream/downstream: neither a renderer rewrite nor a new suite supplies this missing receipt.
+
+- [Nit] **F2 — Reconcile the final decisions in the plan.** Plan `:78,79,82,86` still specifies 1600×1400, singular `event`, and title/token line height 1.1, while the delivered schema has 1600×1340 and `events[2]`, and the recipe uses title/token line height 1.2 (`tools/recipes/recursive-process.mjs:67,73,136`; example `fixture.json:3–4,25–28`). The smaller canvas, two-event cycle and line-box adjustment are reasonable, but update D1/D2/D5/D10 or append explicit final dispositions so a cold reader need not reconcile the brief against stale decisions.
+
+- [Nit] **F3 — The AS report's universal stroke/line-height claims are inaccurate.** Example `README.md:52,54,67`, recipe `:62–67`, font `SOURCE.md:8` and `CHANGELOG.md:10` say one 2 px stroke and no line height below 1.2. In fact recipe `:109–110` uses 1 px rules, `:129` a 4 px revision path, and `:146` explicitly uses line height 1 for stage numbers. The Chromium receipt records those numbers overflowing at 20/18 px and fitting at 16 px, contradicting “overflow at every size.” Fix the report and universal wording to describe the actual system and deliberate exceptions. If the Producer elects to change published recipe bytes, republish/rebuild its catalog and design evidence through the existing owner; a prose correction is sufficient for this Nit. No clipped stage number is alleged.
+
+- [Pass] **D3 and the existing owners are coherent.** `tools/render.mjs:184–203,233–241,339–343` selects the new recipe, uses its FONT only when declared, retains `getFonts()`/Inter otherwise, and passes `family` at both compact and inline HTML sites as well as both renderers. Public defaults at `:24,110,130` remain Inter. Admission and save inference/allow-lists include the new identity (`tools/request.mjs:59–61,109–112`); `tools/catalog.mjs:135–138` pins the module/schema/two fonts. The example caller at `:1–9` reuses `runCLI`; no second writer is introduced. These are source-level conclusions; exact old-artifact preservation remains a clone-run observation.
+
+- [Pass] **Recipe domains and decision (a) are bounded and honestly disclosed.** `tools/recipes/recursive-process.mjs:34–54` combines fixed shape, ordered integer stage numbers, one-to-three space-separated tokens, the A–E/optional 1–9/ellipsis domain and the polarity enum; palette errors come from `tools/request.mjs:98`. The admission probe accepts one and three tokens and rejects four with `fixture.stages[0].formula`. Additional probes rejected empty/double-spaced formulas, F1, fractional stage numbers, neutral polarity and terminal-newline token/palette values with named fields. Token spans intentionally have no IDs (`recipe:72–77,140–148`), are fixed-size short strings in fixed regions, and the limitation is stated at example `README.md:29` and plan `:200`. This is appropriate for the stated fixed structure; no variable-length token fitting is claimed.
+
+- [Pass] **Committed identity and artifact evidence is internally consistent (acceptance 4/5 and receipt portion of 1).** The read-only catalog probe returns valid/canonical. Both PNG digests and original input digest match the corresponding receipts, with 1600×1340 dimensions, `catalog.verified: true` and `fitting.fit: true` (example `receipt.json:2–40`, `receipt-chromium.json:2–40`; catalog's design row and log's final line). The fixture contains no subscript digit or arrow glyph. Making the two `inputPath` fields repo-relative is disclosed at example `README.md:14`, preserves these digests and is acceptable for committed portable evidence. It does not prove a fresh thin-caller invocation succeeded.
+
+- [Pass] **C1 retains the necessary offline checks and four declarations.** `tools/spike/test/canaries.test.mjs:27–51,132,269–285` shares one helper across nutrition and the new recipe: compact plus relocated inline HTML, JavaScript off, HTTP(S) abort/count, both loaded font weights/families, a nonempty set of loaded images and zero remote requests. The supplied new scene uses SVG images. The four `test()` declarations remain in the existing file, consistent with `test-budget.json`. The helper preserves the checks described in plan-QA F8; exact byte-for-byte refactor comparison against the git baseline and successful browser execution were not independently performed here.
+
+- [Pass] **D6/D8 and the visual report's substantive content match the committed PNGs.** Example `README.md:35–49,55–65,69–73` and `fixture.json:42–44` describe a specific schematic relationship cycle, sentence-case unboxed title, larger/darker B2, meaningful step icons, B3-starting trail and accent revision path. Both full-size and 400 px images show those choices, clear flow and no gradients/repeated decorative heads; the thumbnail retains hierarchy while captions become too small to read, as disclosed. Acceptance 6's report exists; F3 corrects its measurable system details. Human artwork approval remains explicitly pending.
+
+**Acceptance accounting:** 1 has consistent committed receipts but fresh invocations are not independently rerun; 2 has all 14 recorded equal comparisons at plan `:155–171`, not independently reproduced; 3 contains the required code/offline assertions but F1 leaves its falsification evidence incomplete; 4 and 5 pass the read-only probes; 6 has the report and independently inspected images, with F3's inaccuracies; 7 has four current declarations and a producer-reported 37.3 s run (`plan:193`), not an independent suite/timing or baseline file/dependency/workflow comparison.
+
+**Unverified — needs clone run:** all 14 actual before/after artifact and compact-asset comparisons, exact baseline diff/refactor/dependency/workflow preservation, fresh thin-caller/save/rerender runs, real font/offline loading, named refusal execution and each mutation, and complete suite/PDDA gates. The harness owns its gate after this turn. No validate script, test suite, pytest or executable fixture was run here. Direct validation, scene construction/serialization, data hashing, image inspection and catalog read verbs are the only probes; no artifact/source was edited.
+
+Probe ledger (scratch is disposable; decisive output retained here). All commands used `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"`; the scratch directory already exists.
+
+Evidence/scene probe — exit 0:
+```sh
+node --input-type=module > "$TMPDIR/evidence.txt" <<'JS'
+import fs from "node:fs/promises"; import {buildScene} from "./tools/recipes/recursive-process.mjs";
+const plan=await fs.readFile("PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md","utf8");
+console.log(plan.split("\n").filter(l=>l.startsWith("| state caption")||l.startsWith("**Phase 2 controls")).join("\n"));
+const source=JSON.parse(await fs.readFile("examples/2026-10-11-belief-updating/fixture.json","utf8"));
+const scene=await buildScene(source);function walk(n){if(Array.isArray(n)){n.forEach(walk);return;}if(!n||typeof n!=="object")return;if(/^stage_\d_num$/.test(n.props?.id??""))console.log(JSON.stringify({id:n.props.id,fontSize:n.props.style.fontSize,lineHeight:n.props.style.lineHeight}));walk(n.props?.children);}walk(scene);
+const r=JSON.parse(await fs.readFile("examples/2026-10-11-belief-updating/receipt-chromium.json","utf8"));console.log("recorded Chromium stage_1_num: "+r.fitting.steps.map(x=>`${x.sizes.stage_1_num}px/${x.overflowing.includes("stage_1_num")?"overflow":"fits"}`).join(" -> "));
+JS
+```
+Decisive output: the quoted evidence cell above; all four stage-number spans have `fontSize:20,lineHeight:1`; `recorded Chromium stage_1_num: 20px/overflow -> 18px/overflow -> 16px/fits`. This reads recorded geometry outcomes, not a fresh Chromium observation.
+
+Summary probe — exit 0 (SQLite emits its expected ExperimentalWarning):
+```sh
+node --input-type=module > "$TMPDIR/summary-probe.txt" <<'JS'
+import fs from "node:fs/promises"; import crypto from "node:crypto";
+import {validate} from "./tools/recipes/recursive-process.mjs";
+import {runCLI} from "./tools/catalog.mjs";
+const base="examples/2026-10-11-belief-updating/";
+const input=await fs.readFile(base+"fixture.json"), fixture=JSON.parse(input);
+const hash=b=>crypto.createHash("sha256").update(b).digest("hex");
+for(const formula of ["A1","E9 E9 E9","A1 B1 C1 D1"]){const f=structuredClone(fixture);f.stages[0].formula=formula;try{await validate(f);console.log(JSON.stringify(formula)+": ACCEPT");}catch(e){console.log(JSON.stringify(formula)+": "+e.message);}}
+for(const args of [["verify"],["export","--check"]]){const {code,value}=await runCLI(args);console.log(args.join(" ")+" exit="+code+" "+JSON.stringify(value));}
+for(const suffix of ["","-chromium"]){const r=JSON.parse(await fs.readFile(base+"receipt"+suffix+".json"));const png=await fs.readFile(base+"belief-updating"+suffix+".png");console.log(JSON.stringify({backend:r.normalized.backend,verified:r.catalog.verified,fit:r.fitting.fit,pngDigestMatches:hash(png)===r.digests.png,inputDigestMatches:hash(input)===r.provenance.inputSha256,width:png.readUInt32BE(16),height:png.readUInt32BE(20)}));}
+console.log("forbidden glyphs="+/[₀-₉→]/u.test(input.toString()));
+console.log("test declarations="+((await fs.readFile("tools/spike/test/canaries.test.mjs","utf8")).match(/^test\(/gm)||[]).length);
+JS
+```
+Decisive output:
+```text
+"A1": ACCEPT
+"E9 E9 E9": ACCEPT
+"A1 B1 C1 D1": Validation failed: [{"field":"fixture.stages[0].formula","message":"one to three space-separated tokens"}]
+verify exit=0 {"valid":true,"errors":[]}
+export --check exit=0 {"canonical":true}
+{"backend":"satori","verified":true,"fit":true,"pngDigestMatches":true,"inputDigestMatches":true,"width":1600,"height":1340}
+{"backend":"playwright","verified":true,"fit":true,"pngDigestMatches":true,"inputDigestMatches":true,"width":1600,"height":1340}
+forbidden glyphs=false
+test declarations=4
+```
+Supplementary admission/serializer probe (`node --input-type=module`, exit 0, `.relay-scratch/tmp/domains.txt`): default family declares `Inter 400, Inter 700`, explicit family declares `Barlow Condensed 400, Barlow Condensed 700`; admission reports nutrition 1000×1000, solar-system 2400×1700, recursive-process 1600×1340. Dummy font buffers were used for serialization, so no loading claim follows.
+
+Thumbnail commands — exit 0, outputs only in scratch; viewed both with the image viewer:
+```sh
+sips -Z 400 examples/2026-10-11-belief-updating/belief-updating.png --out "$TMPDIR/satori-thumb.png" > "$TMPDIR/thumb.log"
+sips -Z 400 examples/2026-10-11-belief-updating/belief-updating-chromium.png --out "$TMPDIR/chromium-thumb.png" >> "$TMPDIR/thumb.log"
+```
+
+Handing off to Producer (claude-a) — supply/disposition F1, reconcile F2/F3, then return for Round 2. No git command was run; the harness owns the relay-only commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
