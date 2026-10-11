@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-11 — SYSTEM-INSTRUCTIONS.md: anti-slop design rules for every agent
+
+- New root file `SYSTEM-INSTRUCTIONS.md`: ten numbered rules (AS-1 to AS-10) against cliché visual output, plus a required before-and-after report. The rules were adapted from an operator-supplied list for web front ends to what this engine makes: fixed-canvas infographics, diagrams and AI-generated image assets. Web-only advice (hero sections, buttons, mobile overflow) was replaced by rules on infographic composition, fixture themes, vendored fonts and image prompts.
+- Precedence is stated: the rules override recipe, skill and prompt defaults for visual work, never `AGENTS.md` or the engine's checks, and they never justify editing a pinned published recipe version.
+- It is reachable from the startup path: ROUTER role split and new startup step 4 (later steps renumbered), a pointer in AGENTS.md, and the first "Before you start" line of `skills/design-diagram`.
+- No code, test or check changes. Easy to reverse (revert). Refs #20.
+
 ## 2026-10-11 — Barlow Condensed is the starter default font for new visual work (#34)
 
 - Vendored Barlow Condensed Regular (400) and Bold (700) with its SIL Open Font License under `tools/fonts/barlow-condensed/`. Each file is byte-identical to google/fonts commit `60824dce`, and `SOURCE.md` records it with sha256 values.
