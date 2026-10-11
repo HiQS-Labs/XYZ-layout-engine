@@ -210,4 +210,12 @@ Reversibility: Easy — approval changes only this relay header and appended rev
 
 Relay closed (Approved), no further turn needed. Returning terminal token with `done`; author may proceed with the harness gates and ready-PR handoff after this review. No self-commit or merge performed.
 
+
+### Attestation · relay-drive — 2026-10-11T17:23:47Z
+task: GH28-FINAL-20261011
+reviewer: codex
+status: Approved
+reviewed-head: 04160ed3bf932c5559bcd93674e58855b54231a5
+added-range: 15020+7168
+added-sha256: 15c1be72bebb5720d33959e371c0907a81c5415676b5f591d35fc61d5e1a4fdc
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
