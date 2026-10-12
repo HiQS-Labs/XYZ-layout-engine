@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -67,5 +67,34 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: Block on one ordinary-I/O commit-boundary gap in the proposed compensation; the two-fix scope and loader design otherwise meet the plan DoD. This is plan review, not implementation approval.
+swept file: yes
+
+- [Should] Make `atomicDump` success/failure identify whether rename committed before using rejection to trigger log compensation (.relay-artifacts/GH-38-FOLLOWUP-FIXES.md:28,36,43; tools/catalog.mjs:253-259). Its `finally` unconditionally calls `fs.rm` after successful rename. A cleanup error therefore rejects an already committed write: for the proposed log-first sequence this can leave a new log with the old dump, or restore the old log after the new dump has committed. Cheapest correction: have the existing helper skip obsolete-temp removal after successful rename (or otherwise distinguish committed publication), and specify a narrow post-rename cleanup control alongside the planned rename-failure controls. No journal or power-loss contract is requested. Reversibility: Easy.
+  Observed input: Exact current `atomicDump` body, with successful open/write/sync/close/rename and `fs.rm` throwing injected `EACCES`; it rejected after the rename event. This is a non-mutating call-sequence probe, not an observed full filesystem/catalog failure.
+  Affected scope: Ordinary I/O rejection from cleanup after successful atomic replacement, when the helper is reused for the log and catalog.
+  Falsifier: In a disposable clone, the same successful-rename/cleanup-error control must leave dump and log at the same committed state without triggering compensation of an already committed catalog; pre-rename failure must still preserve old bytes/absence and allow retry. If the revised helper never attempts cleanup after successful rename, this particular failure path is eliminated.
+  Probe command: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; node "$TMPDIR/atomic-cleanup.mjs" > "$TMPDIR/atomic-cleanup.out"` — exit 0; decisive output: `{"events":["write","sync","close","rename committed","cleanup EACCES"],"result":"rejected","code":"EACCES"}`. Exact probe source (scratch is discarded):
+  ```js
+  import { readFileSync } from 'node:fs';
+  const source = readFileSync('tools/catalog.mjs', 'utf8');
+  const body = source.slice(source.indexOf('async function atomicDump('), source.indexOf('\nclass Usage'));
+  const events = [];
+  const fs = { open: async () => ({ writeFile: async () => events.push('write'), sync: async () => events.push('sync'), close: async () => events.push('close') }), rename: async () => events.push('rename committed'), rm: async () => { events.push('cleanup EACCES'); throw Object.assign(new Error('injected cleanup EACCES'), {code:'EACCES'}); } };
+  const atomicDump = new Function('fs', 'randomUUID', body + '\nreturn atomicDump;')(fs, () => 'probe');
+  try { await atomicDump('catalog.sql', 'new dump'); } catch (e) { console.log(JSON.stringify({events, result:'rejected', code:e.code})); }
+  ```
+- [Pass] Recovery stays in the existing catalog owner/lock and explicitly excludes journal/schema/power-loss expansion (artifact:28,32; tools/catalog.mjs:280-287,352-365). Exact-byte/absence restoration and explicit rollback errors are useful, falsifiable requirements (artifact:42-43). Root cause: durable dump publication precedes fallible log append; fix site: existing catalog writer; a renderer patch cannot repair this ownership/order defect.
+- [Pass] The shared loader preserves the actual duplicated containment/bounded-read/PNG inspection/digest/data-URL sequence and keeps recipe-specific inputs at callers (artifact:30; tools/recipes/solar-system.mjs:92-106; tools/recipes/mangajdm-promo.mjs:24-38). Lazy reuse fits the existing request import in tools/spike/assets.mjs:5. No additional loader defect found in the source sweep.
+- [Pass] Published history/design pins and pinned Nutrition asset-owner bytes are explicitly retained; patch versions are conditioned on artifact-byte preservation (artifact:30,37-38,45-46). Existing catalog immutability/history protections remain the owner (tools/catalog.mjs:23-30,238-251).
+- [Pass] Rating 80/85/50/65 has an explicit rationale and bounded incident-history uncertainty (artifact:51); the unchanged budget is exactly 4 tests / 1 file / 60 seconds / 0 workflows (artifact:36,38; test-budget.json `budget`). The 35-format target is 5 fixtures × (4 Satori + 3 Playwright); it is a future comparison, not a measured pass.
+- [Nit] Add the evidence destination and an explicit rollback-failure manual control to implementation step 1, so the second acceptance checkbox's diagnostic requirement has a recorded witness (artifact:36,43). Reuse the existing task evidence; no additional test block is needed.
+- [Unverified — needs clone run] Prior append-EACCES reproduction, baseline digests, suite duration and final preservation remain reported evidence in relay-system/2026-10-12/gh38-recon.md, not independently rerun here. No validate.sh, test shell scripts, pytest, executable fixtures, or git commands ran. Graph inventory returned all 82 projects with `has_more:false`; neither this worktree nor XYZ Layout Engine has an index, so no generation/coverage metadata exists and direct source fallback was used. Whole seeded plan and catalog/request/Solar/Manga/PNG-owner source were read; the cleanup issue above is pre-existing and in scope. No other material plan defect found in this bounded sweep.
+
+Handing off to Producer (author) — revise the commit-boundary contract and return for Round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
