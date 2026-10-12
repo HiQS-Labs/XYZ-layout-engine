@@ -1,0 +1,5 @@
+OK: foreign_keys pragma asserted per connection
+OK: generation trio consistent at 57 (DB <-> dump)
+OK: receipt chain intact (61 receipt(s), business-state digest matches, 4 merge fork(s) tolerated under the merge-rebuild receipt)
+info: 0 grandfather_entries pending disposition (the strict flip requires none pending)
+check: clean (0 failures, 0 warning(s))

@@ -1,8 +1,8 @@
 # Changelog
-## 2026-10-11 — #33 and #35 landed; #34 reconciled
+## 2026-10-12 — MangaJDM integration and public receipt paths
 
-- Landed #35 (`fb8b0d6`, Barlow Condensed as the starter default font) and #33 (`33f1eff`, `SYSTEM-INSTRUCTIONS.md`, rebased onto #35). Closed #34. The ledger moved GH-34 to Completed, and its capture doc moved to `PROJECT/3-COMPLETED/`. Refs #34.
-- Easy to reverse (documents and ledger only).
+- Integrated current main into PR #32. Removed one extra changelog preamble blank line and replayed GH28 through the canonical RELEASES CLI, retaining GH34 and both ratings. No runtime/recipe content change. Refs #28.
+- Applied current public-repo transcript path redaction. Republished only export input-path metadata through the existing publisher; all PNG/SVG/HTML/fonts/images and catalog hashes remain byte-identical. Original runs are retained in Git history/private scratch; native attestations retain their original review hashes. Easy to reverse.
 
 ## 2026-10-11 — SYSTEM-INSTRUCTIONS.md: anti-slop design rules for every agent
 
@@ -11,14 +11,10 @@
 - It is reachable from the startup path: ROUTER role split and new startup step 4 (later steps renumbered), a pointer in AGENTS.md, and the first "Before you start" line of `skills/design-diagram`.
 - No code, test or check changes. Easy to reverse (revert). Refs #20.
 
-## 2026-10-11 — Barlow Condensed is the starter default font for new visual work (#34)
+## 2026-10-11 — MangaJDM portrait promos via recipe/catalog
 
-- Vendored Barlow Condensed Regular (400) and Bold (700) with its SIL Open Font License under `tools/fonts/barlow-condensed/`. Each file is byte-identical to google/fonts commit `60824dce`, and `SOURCE.md` records it with sha256 values.
-- `skills/design-diagram` now switches a new diagram's copied script to Barlow Condensed unless the brief names a font. It lists the three exact edits (the backend calls written out in full) plus a positive and a negative grep check, and adds trap 8: leaving out the family argument makes Chromium silently fall back to a system font while Satori still draws Barlow.
-- Existing recipes and diagrams stay on Inter; no engine, recipe or example code changed. There is no engine-level fallback yet, because nothing lets a recipe or user declare a font.
-- Proof: a probe rendered the same 40 px line at 436 px in Barlow Condensed against 613 px in Inter, matching in both backends with `fontLoaded: true`. A scratch copy of the RAG diagram with the skill's edits rendered `PASS`.
-- Easy to reverse (revert). Refs #34.
-
+- Added one fixed `mangajdm-promo@1.0.0` recipe and three1080×1920 examples: icon, generations and apparel concept. Supplied art/provenance, editable fixtures, PNG/SVG/offline HTML, gallery and TikTok/Instagram captions/alt text are included. Existing CLI publishes the recipe and records three design IDs; no new dependency, test suite, grid parser or renderer. Refs #28. Refs #21.
+- Both backends fit at full type sizes; repeated PNG/SVG bytes, saved-copy edits, relocated offline exports, asset/canvas/art/duplicate red controls and old catalog/history retention pass. Four canaries pass in31.9s. Independent plan QA Approved; final Codex QA Approved/attested in Round2 after a CLI ledger-pointer correction. Evidence: `examples/2026-10-11-mangajdm-promos/VERIFICATION.md`. Ready [PR #32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32); issue28 remains open pending merge. Easy reversal: task commits together. No social posting, paid image calls or primary-checkout edits.
 ## 2026-10-11 — Home-directory paths scrubbed from committed transcripts (#23 S10)
 
 - The home-directory prefix is replaced with `~` in 139 committed `relay-system/` and `marathon-system/` files: 737 lines, same-line replacements only, done byte-safely with `perl`, so non-UTF-8 logs were not skipped. A search for the home directory now returns 0 files.
@@ -37,6 +33,19 @@
 - Each item was reproduced first against a stub caller, with no paid calls.
 - The existing C1 canary is extended (no new test). Removing any one of the guards turns C1 red. Gate: 4/4 in 36.7 s. Codex QA round 1 found the emptied-manifest and unparseable-output gaps; both are fixed with C1 controls.
 - Refs #23. Easy to reverse (revert).
+
+## 2026-10-11 — Barlow Condensed is the starter default font for new visual work (#34)
+
+- Vendored Barlow Condensed Regular (400) and Bold (700) with its SIL Open Font License under `tools/fonts/barlow-condensed/`. Each file is byte-identical to google/fonts commit `60824dce`, and `SOURCE.md` records it with sha256 values.
+- `skills/design-diagram` now switches a new diagram's copied script to Barlow Condensed unless the brief names a font. It lists the three exact edits (the backend calls written out in full) plus a positive and a negative grep check, and adds trap 8: leaving out the family argument makes Chromium silently fall back to a system font while Satori still draws Barlow.
+- Existing recipes and diagrams stay on Inter; no engine, recipe or example code changed. There is no engine-level fallback yet, because nothing lets a recipe or user declare a font.
+- Proof: a probe rendered the same 40 px line at 436 px in Barlow Condensed against 613 px in Inter, matching in both backends with `fontLoaded: true`. A scratch copy of the RAG diagram with the skill's edits rendered `PASS`.
+- Easy to reverse (revert). Refs #34.
+
+## 2026-10-11 — #33 and #35 landed; #34 reconciled
+
+- Landed #35 (`fb8b0d6`, Barlow Condensed as the starter default font) and #33 (`33f1eff`, `SYSTEM-INSTRUCTIONS.md`, rebased onto #35). Closed #34. The ledger moved GH-34 to Completed, and its capture doc moved to `PROJECT/3-COMPLETED/`. Refs #34.
+- Easy to reverse (documents and ledger only).
 
 ## 2026-10-11 — Post-QA review closed; #9, #19 and #26 reconciled
 
