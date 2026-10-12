@@ -1,0 +1,29 @@
+[merge-probe] start pnpm-native test
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# [merge-probe] start node --input-type=module
+# [merge-probe] end node --input-type=module 75 ms status 0
+# [merge-probe] start node render.mjs
+# [merge-probe] end node render.mjs 591 ms status 0
+# [merge-probe] start node render.mjs
+# [merge-probe] end node render.mjs 358 ms status 0
+# [merge-probe] start node render.mjs
+# [merge-probe] end node render.mjs 428 ms status 1
+# [merge-probe] start node render.mjs
+# [merge-probe] end node render.mjs 39 ms status 1
+# [merge-probe] start node render.mjs
+# [merge-probe] end node render.mjs 566 ms status 0
+# (node:73465) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# [merge-probe] start node --input-type=module
+# [merge-probe] end node --input-type=module 47 ms status 0
+# [merge-probe] start node render.mjs
+# [merge-probe] end node render.mjs 21497 ms status 0
+# [merge-probe] start node verify.mjs
+# [merge-probe] end node verify.mjs 206 ms status 0
+# [merge-probe] start node verify.mjs
+# [merge-probe] end node verify.mjs 240 ms status 1
+test-budget: FAIL — deadline: suite exceeded budget.maxSeconds=60s and was killed
+[ELIFECYCLE] Test failed. See above for more details.
+[merge-probe] end pnpm-native test 60173 ms status 1

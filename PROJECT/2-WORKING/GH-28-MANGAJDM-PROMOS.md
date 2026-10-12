@@ -2,7 +2,7 @@
 gh_issue: 28
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
-status: "PR ready; awaiting merge"
+status: "Merge held; current integration suite deadline"
 created: 2026-10-11
 updated: 2026-10-12
 owner: Codex
@@ -22,7 +22,7 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 
 | What was just completed | What's next |
 |---|---|
-| Three portrait posts, captions/alt text, provenance, recipe and three CLI design records built. Both backends fit; deterministic/offline/edit/red controls pass; four canaries pass in31.9s. Plan QA Approved. | [PR32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32) is open, non-draft and mergeable against main. Await merge; no social posting or merge performed. |
+| PR32 integration conflicts resolved through canonical writer; public path metadata republished with unchanged visuals/hashes. Catalog and pre-merge ledger gate pass in a second full clone. | Integration canaries time out at unchanged60s in repaired and clean-main controls under high host load. Resume when host load is reduced; do not merge or remove unlanded clones. |
 
 ## Table of contents
 
@@ -109,3 +109,7 @@ The fresh full task clone is retained for merge handoff with scratch/repair evid
 - Updating roadmap text does not repoint structured doc_path; use `roadmap repoint` after moving the canonical plan.
 - Check both rendering backends before final catalog registration: Inter glyph height can exceed short line-height boxes even when Satori fits.
 - Published recipe files remain immutable. Public export receipt redaction can use the existing publisher to select new runs with unchanged visual artifact bytes; preserve original runs in history/private backup.
+
+### Merge-cleanup gate hold — 2026-10-12
+
+Six bounded attempts across two isolated full clones hit the unchanged60second test deadline, including clean origin/main da97d78 as a control. Process instrumentation shows rendering subprocesses succeeding; measured host load averages were roughly190–330. A thread-cap experiment did not help, and its environment was not made a default. No failing functional assertion was observed before deadline, but the required suite has not passed; original31.9s evidence does not certify the current integration. Repairs are preserved and published as a draft; merging/closure/archive/teardown remain blocked on a passing gate. Primary checkout remains clean on da97d78. See `relay-system/2026-10-12/gh28-merge-verification/deadline-attempts.json`.
