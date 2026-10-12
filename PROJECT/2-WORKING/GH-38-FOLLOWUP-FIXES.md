@@ -2,7 +2,8 @@
 gh_issue: 38
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/38
 title: "Post-merge follow-up fixes: catalog recovery and shared PNG loader"
-status: "Captured; plan QA pending"
+goal: "Keep catalog/log consistent after ordinary write errors and share the two pinned PNG loading paths without changing artwork."
+status: "Implemented and verified; final Codex QA pending"
 created: 2026-10-12
 updated: 2026-10-12
 owner: Codex
@@ -19,7 +20,7 @@ phases: 3
 
 | What was just completed | What's next |
 |---|---|
-| Post-merge audit reproduced the catalog/log partial commit; user authorized both fixes and merging. Fresh full clone at ab94133. | Plan QA, implement, verify, final QA, PR and merge on main. |
+| Post-merge audit reproduced the catalog/log partial commit; user authorized both fixes and merging. Fresh full clone at ab94133. | Plan QA Approved (round2); implementation complete. Verify, final QA, PR and merge on main. |
 
 ## Scope and bet
 
@@ -39,13 +40,22 @@ Alternative: rollback the old direct append after failure risks partially append
 
 ## Acceptance
 
-- [ ] Failed log write leaves no new immutable design, preserves exact old log/dump, releases lock and permits retry.
-- [ ] Failed catalog commit restores exact log bytes/absence; rollback failure is explicit, not silently swallowed.
-- [ ] Both recipes reuse one bounded/digest-checked PNG reader with domain inputs retained in recipe modules.
-- [ ] New1.0.1 pins are published, old recipe identities/versions/files/output records and all design pins are retained.
-- [ ] 35output-format digests/assets/fit steps match baseline; existing canaries and canonical checks pass.
+- [x] Failed log write leaves no new immutable design, preserves exact old log/dump, releases lock and permits retry.
+- [x] Failed catalog commit restores exact log bytes/absence; rollback failure is explicit, not silently swallowed.
+- [x] Both recipes reuse one bounded/digest-checked PNG reader with domain inputs retained in recipe modules.
+- [x] New1.0.1 pins are published, old recipe identities/versions/files/output records and all design pins are retained.
+- [x] 35output-format digests/assets/fit steps match baseline; existing canaries and canonical checks pass.
 - [ ] Plan and final native Codex relay QA Approved; PR merged and main synced; original GH36 clone remains preserved.
 
 ## Rating rationale
 
 Rated80/85/50/65: priority reflects user immediate repair request and a failed write leaving an immutable unlogged design; severity85 for catalog inconsistency and blocked safe retry, neutral appeal50 (no operator score), cheapness65 for bounded existing-writer/loader edits with version publication. One distinct audit injection reproduced the failure; no recurring incidents demonstrated. Recent14day history inspected through catalog git log and issue38; preceding-window production incident trend remains unknown. This is one grouped two-fix task under the existing issue, not new duplicate intake.
+
+## Implementation evidence
+
+- Plan QA Approved round2; ordinary-I/O atomic commit boundary corrected as requested. Shared core helper replaces both loaders; both recipes published1.0.1 via CLI. Nutrition assets and all example files are unchanged.
+- Existing C4 recovery controls pass and turn red when compensation is disabled; existing C4 PNG tamper control turns red when the shared digest guard is disabled. Both mutations restored exactly.
+- Four manual recovery controls pass: missing-log restoration/retry, partial staged write/retry, no obsolete-temp cleanup after commit, and explicit rollback-failure diagnosis.
+-76old catalog rows and exact design-log bytes retained;35baseline/final format/assets/fit records match exactly.
+- Full pnpm test:4/4in39.3s unchanged60s. Catalog verify/export and RELEASES check pass. Final PDDA run below records current result.
+- Evidence: relay-system/2026-10-12/gh38-verification/.

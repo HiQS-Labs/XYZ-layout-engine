@@ -251,11 +251,11 @@ function preserveHistory(before, after) {
   }
 }
 async function atomicDump(file, text) {
-  const temp = `${file}.${randomUUID()}.tmp`; let handle;
+  const temp = `${file}.${randomUUID()}.tmp`; let handle, committed = false;
   try {
     handle = await fs.open(temp, 'wx'); await handle.writeFile(text); await handle.sync(); await handle.close(); handle = undefined;
-    await fs.rename(temp, file);
-  } finally { if (handle) await handle.close(); await fs.rm(temp, { force:true }); }
+    await fs.rename(temp, file); committed = true;
+  } finally { if (handle) await handle.close(); if (!committed) await fs.rm(temp, { force:true }); }
 }
 class Usage extends Error {}
 function parse(args) {
@@ -348,11 +348,27 @@ export async function runCLI(args, options = {}) {
       }
       validateLedger(incoming ?? db);
       const canonical = exportDump(incoming ?? db);
-      // Keep exact bytes and mtime on idempotent publication/import.
-      if (canonical !== original) await atomicDump(file,canonical);
+      // Stage the whole log atomically: a failed write must not leave a partial appended line.
+      const logFile = path.join(root,'tools/design-log.jsonl');
+      let originalLog = null;
       if (logLine) {
-        try { await fs.appendFile(path.join(root,'tools/design-log.jsonl'),logLine,{flag:'a'}); }
-        catch (error) { throw invalid(p[0],error.message); }
+        try { originalLog = await fs.readFile(logFile); }
+        catch (error) { if (error.code !== 'ENOENT') throw error; }
+        await atomicDump(logFile,Buffer.concat([originalLog ?? Buffer.alloc(0),Buffer.from(logLine)]));
+      }
+      try {
+        // Keep exact bytes and mtime on idempotent publication/import.
+        if (canonical !== original) await atomicDump(file,canonical);
+      } catch (error) {
+        if (logLine) {
+          try {
+            if (originalLog === null) await fs.unlink(logFile);
+            else await atomicDump(logFile,originalLog);
+          } catch (rollback) {
+            throw invalid(p[0],`${error.message}; design-log rollback failed: ${rollback.message}; recovery required`);
+          }
+        }
+        throw error;
       }
       db.exec('COMMIT'); return {code:0,value};
     } catch (error) { db.exec('ROLLBACK'); throw error; }

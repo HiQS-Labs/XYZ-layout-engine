@@ -1,11 +1,6 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import crypto from 'node:crypto';
-import { invalid, LIMITS, readBounded, within, validateFixtureShape } from '../request.mjs';
-import { inspectPng } from '../spike/assets.mjs';
+import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
-export const version = '1.0.0';
+export const version = '1.0.1';
 export const name = 'solar-system';
 
 export const SOLAR_SYSTEM_TEXT_IDS = [
@@ -59,7 +54,6 @@ export const DEFAULT_SIZES = {
 export const TEXT_IDS = SOLAR_SYSTEM_TEXT_IDS;
 export const CONTAINMENT = SOLAR_SYSTEM_CONTAINMENT;
 
-const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 export const ASSET_IDS = ['sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn-clean', 'uranus', 'neptune', 'asteroid-belt-diagram', 'milky-way'];
 const EXAMPLE = new URL('../../examples/2026-10-08-solar-system/', import.meta.url);
@@ -90,19 +84,7 @@ export async function validate(fixture) {
 
 // Read the exact pinned display derivatives; no copies, full-size originals, provider or host fallback.
 export async function loadAssets() {
-  const proof = JSON.parse(await readBounded(new URL('verification.json', EXAMPLE), LIMITS.inputBytes));
-  const root = await fs.realpath(fileURLToPath(new URL('assets/web/', EXAMPLE)));
-  if (!within(await fs.realpath(fileURLToPath(EXAMPLE)), root)) throw invalid('asset', 'asset namespace symlink escape rejection');
-  const assets = {}, budget = { bytes: 0, pixels: 0 };
-  for (const id of ASSET_IDS) {
-    const target = await fs.realpath(path.join(root, `${id}.png`));
-    if (!within(root, target)) throw invalid(`asset.${id}`, 'symlink escape rejection');
-    const bytes = await readBounded(target, LIMITS.assetBytes, `asset.${id}`);
-    inspectPng(bytes, budget);
-    if (sha256(bytes) !== proof.assets[id]?.display?.sha256) throw invalid(`asset.${id}`, 'display digest mismatch');
-    assets[id] = `data:image/png;base64,${bytes.toString('base64')}`;
-  }
-  return assets;
+  return readPinnedPngs(EXAMPLE, 'verification.json', ASSET_IDS);
 }
 
 const node = (type, id, style, children, extra = {}) => ({ type, props: { ...(id ? { id } : {}), style, children, ...extra } });

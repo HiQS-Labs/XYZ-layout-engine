@@ -52,7 +52,7 @@ node tools/render.mjs examples/2026-10-11-mangajdm-promos/01-icon.fixture.json -
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
 in-memory SQLite by `tools/catalog.mjs`. The delivered identities include `nutrition@1.0.0`,
-`solar-system@1.0.0`, `mangajdm-promo@1.0.0` and `recursive-process@1.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
+`solar-system@1.0.1`, `mangajdm-promo@1.0.1` and `recursive-process@1.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
 Older versions remain ledger history; their content is retained in git.
 
