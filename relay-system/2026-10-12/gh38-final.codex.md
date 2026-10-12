@@ -86,4 +86,12 @@ No Blocker or Should findings. Only this relay file was edited; temporary analys
 
 Relay closed (Approved), no further turn needed. Producer author may continue authorized landing after the harness gate.
 
+
+### Attestation · relay-drive — 2026-10-12T21:01:30Z
+task: GH38-FINAL-20261012
+reviewer: codex
+status: Approved
+reviewed-head: 6bcb9b32453a23b5a1d224669ca434a36718eadc
+added-range: 5458+4489
+added-sha256: 60d6d919a5d243c0731808ff48aefdc0f60d6061dda87a9c2af21f6009e949e4
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
