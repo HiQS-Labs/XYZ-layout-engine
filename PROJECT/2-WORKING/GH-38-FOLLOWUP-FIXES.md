@@ -23,7 +23,7 @@ phases: 3
 
 ## Scope and bet
 
-Fix the two review findings on issue38 only. Existing manual artwork approval, Forge main-branch reconciliation and legacy governance warnings remain tracked in the umbrella issue and are not this implementation's acceptance gates. Reuse the previous current-state recon, saved beside this plan. Graph inventory all82 has no project index; direct-source fallback used.
+Fix the two review findings on issue38 only. Existing manual artwork approval, Forge main-branch reconciliation and legacy governance warnings remain tracked in the umbrella issue and are not this implementation's acceptance gates. Reuse the previous current-state recon, saved in relay-system/2026-10-12/gh38-recon.md. Graph inventory all82 has no project index; direct-source fallback used.
 
 The local CLI must return a write error with catalog/log consistent and permit retry. Existing atomicDump is the canonical staged/fsynced rename owner. Replace direct append with a full atomic log write before the catalog commit; snapshot exact old log bytes (including absence), and restore them if catalog commit fails. Fail loudly if rollback itself fails. SQLite COMMIT follows durable writes. Keep the exclusive CLI lock. No journal, schema/table, new persistence owner, renderer recovery patch, or power-loss transaction guarantee. Cost accepted: rewrite the small local log and one compensating write on a failed catalog commit. Existing verify diagnoses corrupt prior state; this fix prevents new ordinary-I/O partial commits, not recovery of already damaged catalogs.
 
@@ -43,7 +43,7 @@ Alternative: rollback the old direct append after failure risks partially append
 - [ ] Failed catalog commit restores exact log bytes/absence; rollback failure is explicit, not silently swallowed.
 - [ ] Both recipes reuse one bounded/digest-checked PNG reader with domain inputs retained in recipe modules.
 - [ ] New1.0.1 pins are published, old recipe identities/versions/files/output records and all design pins are retained.
-- [ ]35output-format digests/assets/fit steps match baseline; existing canaries and canonical checks pass.
+- [ ] 35output-format digests/assets/fit steps match baseline; existing canaries and canonical checks pass.
 - [ ] Plan and final native Codex relay QA Approved; PR merged and main synced; original GH36 clone remains preserved.
 
 ## Rating rationale
