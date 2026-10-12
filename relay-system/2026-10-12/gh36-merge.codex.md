@@ -128,4 +128,12 @@ swept file: yes
 
 Relay closed (Approved), no further review turn needed. Handing completion to Producer (author) and the harness for the file-scoped commit, clone gate and landing workflow; human artwork review remains pending.
 
+
+### Attestation · relay-drive — 2026-10-12T19:19:05Z
+task: GH36-MERGE-20261012
+reviewer: codex
+status: Approved
+reviewed-head: 506044823ce5b39984944ce27cbd52fb906ef4e6
+added-range: 11874+4019
+added-sha256: da46c83e58c880639666ef357ccd27060ddf1c9843e1aa7b717bd82ce03d2a62
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
