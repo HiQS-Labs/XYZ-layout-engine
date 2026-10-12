@@ -1,0 +1,103 @@
+{
+  "normalized": {
+    "inputPath": "examples/2026-10-11-belief-updating/fixture.json",
+    "width": 1600,
+    "height": 1340,
+    "format": "png",
+    "formats": [
+      "png"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "recursive-process"
+  },
+  "catalog": {
+    "slug": "recursive-process",
+    "version": "1.0.0",
+    "contentSha256": "04c200f32c1806b6d874eb92bdcaa724b2143f3763e72807a88fb663055a1364",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "1.0.0",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "ebef8bf5cd1776d8ad06021e0e8b3a3b09ee51365674e5b5b011a990a82c7f22"
+  },
+  "provenance": {
+    "inputPath": "examples/2026-10-11-belief-updating/fixture.json",
+    "inputSha256": "efb027aae59d800ee9c81a05ae33a3d89adee7aec84047b22de7697d67f57248",
+    "fixtureSha256": "b7b220334beed6c3ae3fccc153a30b5f99723aae2bec56cf2157477254426f64",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "title": 56,
+          "subtitle": 25,
+          "stage_1_num": 20,
+          "stage_2_num": 20,
+          "stage_3_num": 20,
+          "stage_4_num": 20,
+          "event_1_label": 22,
+          "event_1_caption": 18,
+          "event_2_label": 22,
+          "event_2_caption": 18,
+          "state_1_label": 22,
+          "state_1_caption": 18,
+          "state_2_label": 22,
+          "state_2_caption": 18,
+          "consequence_1_label": 22,
+          "consequence_1_caption": 18,
+          "consequence_2_label": 22,
+          "consequence_2_caption": 18,
+          "examination_label": 22,
+          "examination_caption": 18,
+          "outcome_label": 22,
+          "outcome_caption": 18,
+          "trail_label": 22,
+          "footer_note": 17,
+          "footer_source": 16
+        }
+      }
+    ],
+    "finalSizes": {
+      "title": 56,
+      "subtitle": 25,
+      "stage_1_num": 20,
+      "stage_2_num": 20,
+      "stage_3_num": 20,
+      "stage_4_num": 20,
+      "event_1_label": 22,
+      "event_1_caption": 18,
+      "event_2_label": 22,
+      "event_2_caption": 18,
+      "state_1_label": 22,
+      "state_1_caption": 18,
+      "state_2_label": 22,
+      "state_2_caption": 18,
+      "consequence_1_label": 22,
+      "consequence_1_caption": 18,
+      "consequence_2_label": 22,
+      "consequence_2_caption": 18,
+      "examination_label": 22,
+      "examination_caption": 18,
+      "outcome_label": 22,
+      "outcome_caption": 18,
+      "trail_label": 22,
+      "footer_note": 17,
+      "footer_source": 16
+    }
+  }
+}

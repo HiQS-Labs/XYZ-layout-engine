@@ -142,6 +142,10 @@ async function declaredFiles(root, slug) {
       ...['font.ttf','font-bold.ttf'].map(n => ['tools/spike/assets/' + n,'content'])
     ];
   }
+  if (slug === 'recursive-process') return [
+    ['tools/recipes/recursive-process.mjs','module'], ['examples/2026-10-11-belief-updating/fixture.json','schema'],
+    ['tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content'], ['tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content']
+  ];
   throw invalid('slug', 'no trusted declared file set');
 }
 async function fileBytes(root, relative) {

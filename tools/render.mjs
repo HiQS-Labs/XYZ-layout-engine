@@ -186,13 +186,19 @@ export async function processRequest(reqObj, options = {}) {
     recipe = await import('./recipes/solar-system.mjs');
   } else if (normalized.recipe === 'mangajdm-promo') {
     recipe = await import('./recipes/mangajdm-promo.mjs');
+  } else if (normalized.recipe === 'recursive-process') {
+    recipe = await import('./recipes/recursive-process.mjs');
   } else {
     throw new Error('Validation failed: ' + JSON.stringify([{ field: 'fixture.id', message: 'unsupported recipe identity' }]));
   }
 
   await recipe.validate(fixture);
   fixture.width = normalized.width; fixture.height = normalized.height;
-  const fonts = await getFonts();
+  // A recipe may declare its own vendored font; recipes without FONT keep the pinned Inter pair.
+  const family = recipe.FONT?.family ?? 'Inter';
+  const fonts = recipe.FONT
+    ? { regular: await readBounded(recipe.FONT.regular, LIMITS.assetBytes, 'font'), bold: await readBounded(recipe.FONT.bold, LIMITS.assetBytes, 'font') }
+    : await getFonts();
 
   timings.validationFontMs = round(performance.now() - validationStart);
   const raster = normalized.formats.includes('png');
@@ -228,12 +234,12 @@ export async function processRequest(reqObj, options = {}) {
       if (normalized.backend === 'playwright') {
         // The same pinned-font coverage oracle prevents Chromium's per-glyph system fallback.
         if (attempt === 0) {
-          const coverage = await renderSatori(scene, fonts, normalized.width, normalized.height, 'Inter', { raster: false });
+          const coverage = await renderSatori(scene, fonts, normalized.width, normalized.height, family, { raster: false });
           if (coverage.missingSegments.length) throw invalid('font', 'unsupported text/font');
         }
-        result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height, 'Inter', { raster });
+        result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height, family, { raster });
       } else {
-        result = await renderSatori(scene, fonts, normalized.width, normalized.height, 'Inter', { raster, measureWords: true });
+        result = await renderSatori(scene, fonts, normalized.width, normalized.height, family, { raster, measureWords: true });
       }
 
       timings.layoutMs += result.satoriMs ?? result.stageMs;
@@ -332,10 +338,10 @@ export async function processRequest(reqObj, options = {}) {
     if (format === 'png' || format === 'svg') {
       digests[format] = add(`render.${format}`, format === 'png' ? 'image/png' : 'image/svg+xml', format === 'png' ? result.png : result.svg);
     } else {
-      let html = result.html ?? toDocument(scene, fonts, normalized.width, normalized.height);
+      let html = result.html ?? toDocument(scene, fonts, normalized.width, normalized.height, family);
       if (format === 'html') {
         // Extract only image/font attributes, never label text containing a data URL.
-        html = toDocument(scene, fonts, normalized.width, normalized.height, 'Inter', source => {
+        html = toDocument(scene, fonts, normalized.width, normalized.height, family, source => {
           const match = /^data:(image\/png|image\/svg\+xml|font\/ttf);base64,([A-Za-z0-9+/=]+)$/.exec(source);
           if (!match) throw invalid('asset', 'unsupported offline asset');
           const [, mime, encoded] = match, bytes = Buffer.from(encoded, 'base64');

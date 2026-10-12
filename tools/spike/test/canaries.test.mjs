@@ -9,7 +9,7 @@ import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { processRequest, selectedRun, selectedSpikeRun, toDocument, publishArtifacts, outputRoot, runCLI, verifyPublication } from '../../render.mjs';
+import { processRequest, selectedRun, selectedSpikeRun, toDocument, publishArtifacts, outputRoot, runCLI, verifyPublication, renderSatori } from '../../render.mjs';
 import { normalizeRequest } from '../../request.mjs';
 import { validateNutrition } from '../../recipes/nutrition.mjs';
 import { inspectPng } from '../assets.mjs';
@@ -22,6 +22,34 @@ let FRESH_OUTPUT = FRESH;
 const sha256 = buf => createHash('sha256').update(buf).digest('hex');
 const runDir = root => selectedSpikeRun(root, JSON.parse(readFileSync(path.join(SPIKE, '../../package.json'))).name).directory;
 const node = (script, env) => spawnSync(process.execPath, [path.join(SPIKE, script)], { env: { ...process.env, ...env }, encoding: 'utf8', timeout: 50_000 });
+
+// Opens a compact export and a relocated standalone inline copy with JavaScript off and every http(s)
+// request aborted; both font weights of the family and every image must load, with zero network access.
+async function assertOfflineExport(distribution, standalone, family) {
+  const { chromium: offlineChromium } = await import('playwright');
+  const offlineBrowser = await offlineChromium.launch({ headless: true });
+  try {
+    const offlineContext = await offlineBrowser.newContext({ javaScriptEnabled: false });
+    const network = [];
+    await offlineContext.route(/^https?:/, route => { network.push(route.request().url()); return route.abort(); });
+    cpSync(path.join(distribution, 'render-inline.html'), standalone);
+    for (const htmlPath of [path.join(distribution, 'render.html'), standalone]) {
+      const page = await offlineContext.newPage();
+      await page.goto(pathToFileURL(htmlPath).href);
+      const evidence = await page.evaluate(async fam => {
+        await document.fonts.ready;
+        return { fonts: document.fonts.check(`16px '${fam}'`) && document.fonts.check(`700 16px '${fam}'`), faces: [...document.fonts].map(f => ({ family: f.family, weight: f.weight, status: f.status })), images: [...document.images].map(i => i.complete && i.naturalWidth > 0) };
+      }, family);
+      assert.equal(evidence.fonts, true);
+      assert.deepEqual(evidence.faces.map(f => f.weight).sort(), ['400', '700']);
+      assert.ok(evidence.faces.every(f => f.family.replace(/^["']|["']$/g, '') === family && f.status === 'loaded'));
+      assert.ok(evidence.images.length > 0 && evidence.images.every(Boolean), 'offline images failed to load');
+      await page.close();
+    }
+    assert.deepEqual(network, [], 'offline export attempted network access');
+    await offlineContext.close();
+  } finally { await offlineBrowser.close(); }
+}
 
 test('guards: render pipeline breaks on a clean checkout', async () => {
   const root = path.resolve(SPIKE, '..', '..');
@@ -105,30 +133,7 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const beforeRender = readdirSync(space).sort();
   await processRequest({ inputPath: editedPath, format: 'svg' }, { root: space });
   assert.deepEqual(readdirSync(space).sort(), beforeRender, 'redraw created derivative cache');
-  const { chromium: offlineChromium } = await import('playwright');
-  const offlineBrowser = await offlineChromium.launch({ headless: true });
-  try {
-    const offlineContext = await offlineBrowser.newContext({ javaScriptEnabled: false });
-    const network = [];
-    await offlineContext.route(/^https?:/, route => { network.push(route.request().url()); return route.abort(); });
-    const standalone = path.join(space, 'standalone.html');
-    cpSync(path.join(distribution, 'render-inline.html'), standalone);
-    for (const htmlPath of [path.join(distribution, 'render.html'), standalone]) {
-      const page = await offlineContext.newPage();
-      await page.goto(pathToFileURL(htmlPath).href);
-      const evidence = await page.evaluate(async () => {
-        await document.fonts.ready;
-        return { fonts: document.fonts.check('16px Inter') && document.fonts.check('700 16px Inter'), faces: [...document.fonts].map(f => ({ family: f.family, weight: f.weight, status: f.status })), images: [...document.images].map(i => i.complete && i.naturalWidth > 0) };
-      });
-      assert.equal(evidence.fonts, true);
-      assert.deepEqual(evidence.faces.map(f => f.weight).sort(), ['400', '700']);
-      assert.ok(evidence.faces.every(f => f.family.replace(/^["']|["']$/g, '') === 'Inter' && f.status === 'loaded'));
-      assert.ok(evidence.images.length > 0 && evidence.images.every(Boolean), 'offline images failed to load');
-      await page.close();
-    }
-    assert.deepEqual(network, [], 'offline export attempted network access');
-    await offlineContext.close();
-  } finally { await offlineBrowser.close(); }
+  await assertOfflineExport(distribution, path.join(space, 'standalone.html'), 'Inter');
 
   const fixturePath = path.join(SPIKE, 'fixture.json');
   await assert.rejects(normalizeRequest({ inputPath: fixturePath, surprise: 1 }), /surprise/);
@@ -253,6 +258,31 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const p2 = path.join(FRESH, 'fail.json');
   writeFileSync(p2, JSON.stringify(failFixture));
   await assert.rejects(processRequest({ inputPath: p2, format: 'png', recipe: 'solar-system' }, { root: FRESH }), /text outside its region|missing\/invalid text geometry|text outside canvas/);
+
+  // GH-36: the recursive-process recipe renders in both backends in its declared font, its exports work
+  // offline, and its own domains (tokens, polarity, stage count), fit and glyph coverage refuse by name.
+  const rpSource = JSON.parse(readFileSync(path.join(SPIKE, '../../examples/2026-10-11-belief-updating/fixture.json'), 'utf8'));
+  const rpRecipe = await import('../../recipes/recursive-process.mjs');
+  const rpFonts = { regular: readFileSync(rpRecipe.FONT.regular), bold: readFileSync(rpRecipe.FONT.bold) };
+  const rpCoverage = await renderSatori(await rpRecipe.buildScene({ ...rpSource }), rpFonts, rpSource.width, rpSource.height, rpRecipe.FONT.family, { raster: false });
+  assert.deepEqual(rpCoverage.missingSegments, [], 'recipe text needs glyphs the declared font lacks');
+  const rpPath = path.join(FRESH, 'recursive.json'); writeFileSync(rpPath, JSON.stringify(rpSource));
+  for (const backend of ['satori', 'playwright']) {
+    const out = `rp-${backend}`;
+    const receipt = await runCLI([rpPath, '--recipe', 'recursive-process', '--backend', backend, '--format', 'png,html,html-inline', '--out', out], { root: FRESH });
+    assert.equal(receipt.catalog.slug, 'recursive-process');
+    await assertOfflineExport(selectedRun(path.join(FRESH, out)), path.join(FRESH, `${out}-standalone.html`), rpRecipe.FONT.family);
+  }
+  const rpReject = async (edit, pattern) => {
+    const fixture = structuredClone(rpSource); edit(fixture);
+    const file = path.join(FRESH, 'recursive-bad.json'); writeFileSync(file, JSON.stringify(fixture));
+    await assert.rejects(processRequest({ inputPath: file, format: 'png', recipe: 'recursive-process' }, { root: FRESH }), pattern);
+  };
+  await rpReject(f => { f.states[0].caption = 'W'.repeat(2000); }, /non-fit/);
+  await rpReject(f => { f.stages.push({ number: 5, formula: 'B5' }); }, /requires 4 entries/);
+  await rpReject(f => { f.states[0].token = 'F1'; }, /token must be A-E/);
+  await rpReject(f => { f.consequences[0].polarity = 'neutral'; }, /polarity must be negative or positive/);
+  await rpReject(f => { f.events[0].caption = 'A then B → C'; }, /unsupported text\/font/);
 
   // Generator recovery controls stay inside C1 and never invoke a provider.
   const stubJS = path.join(FRESH, 'stub.mjs'), stubCount = path.join(FRESH, 'stub-count');
