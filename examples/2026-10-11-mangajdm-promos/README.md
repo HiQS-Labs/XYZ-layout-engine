@@ -51,5 +51,5 @@ A changed design forks a new date-slug ID. The published recipe content is immut
 
 The palette comes from the supplied website's ink/paper/red theme. Generated output uses pinned local Inter rather than fetching website fonts; Japanese lettering present inside supplied artwork remains raster art.
 
-See [VERIFICATION.md](VERIFICATION.md) for actual checks, boundaries and run receipts. The task plan/reviews live under `PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md` and `relay-system/2026-10-11/`.
+See [VERIFICATION.md](VERIFICATION.md) for actual checks, boundaries and run receipts. The task plan/reviews live under `PROJECT/3-COMPLETED/GH-28-MANGAJDM-PROMOS.md` and `relay-system/2026-10-11/`.
 

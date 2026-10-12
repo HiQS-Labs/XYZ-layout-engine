@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-12 — MangaJDM PR32 landed and GH28 closed
+
+- Squash-merged PR #32 as005ba14; issue #28 closed. Three portrait promos, one trusted recipe and three CLI catalog designs are on main. Fresh full-clone canaries pass4/4 in41.0s after concurrent workloads were paused; earlier deadline holds are preserved as evidence, and the60s budget is unchanged. Refs #28.
+- Moved the completed plan to `PROJECT/3-COMPLETED/` and reconciled its RELEASES pointer/section through the canonical CLI, retaining ratings and prior rows. The installed wave reconciler hardcodes development and refused main; used the existing project lifecycle/CLI checks without modifying Forge runtime or bypassing gates. Single-PR run; unrelated PR #37 remains untouched.
+- Easy reversal (task/closeout commits); backup and fresh handle/claim/provenance checks govern clone retirement. No social posting or paid calls.
+
 ## 2026-10-12 — MangaJDM integration and public receipt paths
 
 - Integrated current main into PR #32. Removed one extra changelog preamble blank line and replayed GH28 through the canonical RELEASES CLI, retaining GH34 and both ratings. No runtime/recipe content change. Refs #28.

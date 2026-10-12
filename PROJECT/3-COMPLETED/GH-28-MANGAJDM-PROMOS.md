@@ -2,7 +2,7 @@
 gh_issue: 28
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
-status: "Integration gate passed; landing pending"
+status: "Completed; PR32 merged"
 created: 2026-10-11
 updated: 2026-10-12
 owner: Codex
@@ -22,7 +22,7 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 
 | What was just completed | What's next |
 |---|---|
-| PR32 conflicts and public receipt paths repaired; fresh full-clone canaries pass4/4 in41.0s after workloads were paused. Catalog and ledger gates pass. | Restore PR32 to ready, squash-merge against main, reconcile issue28/plan/ledger, and back up/retire verified idle completed clones. |
+| PR32 squash-merged as005ba14; issue28 closed; three portrait examples and CLI catalog records landed. Fresh integration canaries pass4/4 in41.0s. | No implementation work remains. Actual upload crops/overlays are an operator posting step. Archive/ledger closeout is recorded below; clone cleanup observes active handles. |
 
 ## Table of contents
 
@@ -117,3 +117,7 @@ Six bounded attempts across two isolated full clones hit the unchanged60second t
 ### Gate hold resolved — 2026-10-12
 
 Operator paused concurrent workloads. Unmodified `pnpm test` in the same validation full clone at6a059ed passed4/4 in41.0s, zero skips, within the unchanged60s budget; no thread-cap environment. Catalog verify/export and RELEASES check also pass. Receipt: `relay-system/2026-10-12/gh28-merge-verification/resumed-canaries.log`. The earlier timeout hold is resolved; its logs are preserved as historical evidence, not current status. Metadata/receipt updates below change no runtime, recipe content, or visual artifact bytes.
+
+## Landed closeout — 2026-10-12
+
+PR32 is verified MERGED as005ba14baa3b774bf550411419cd35c0bbb90d0f; issue28 is CLOSED. Primary fast-forwarded to that commit. Installed wave_reconcile hardcodes development throughout and refused main; no runtime was changed or checks skipped. This project uses canonical RELEASES `roadmap move/update/repoint`, Git document lifecycle, app check and PDDA for the equivalent main-branch closeout. Ratings65/20/50/65 retained. Single-PR run; no batch issue applies. Source library and visual artifact bytes remain unchanged. Completed clone removal is conditional on no active handles/claims, with verified backup before Trash.
