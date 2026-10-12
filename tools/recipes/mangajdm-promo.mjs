@@ -1,18 +1,12 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import crypto from 'node:crypto';
-import { invalid, LIMITS, readBounded, within, validateFixtureShape } from '../request.mjs';
-import { inspectPng } from '../spike/assets.mjs';
+import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
 export const name = 'mangajdm-promo';
-export const version = '1.0.0';
+export const version = '1.0.1';
 export const TEXT_IDS = ['eyebrow', 'issue', 'line1', 'line2', 'art_note', 'deck', 'cta', 'website'];
 export const CONTAINMENT = { masthead: ['eyebrow', 'issue'], headline: ['line1', 'line2'], art_caption: ['art_note'], message: ['deck'], action: ['cta'], destination: ['website'] };
 export const DEFAULT_SIZES = { eyebrow: 24, issue: 24, line1: 100, line2: 100, art_note: 24, deck: 32, cta: 32, website: 36 };
 const EXAMPLE = new URL('../../examples/2026-10-11-mangajdm-promos/', import.meta.url);
 const ART = ['r34', 'integra', 'silvia-shirt'];
-const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 export async function validate(fixture) {
   const shape = JSON.parse(await readBounded(new URL('01-icon.fixture.json', EXAMPLE), LIMITS.inputBytes));
@@ -22,19 +16,7 @@ export async function validate(fixture) {
 }
 
 async function loadAssets(art) {
-  const proof = JSON.parse(await readBounded(new URL('provenance.json', EXAMPLE), LIMITS.inputBytes));
-  const root = await fs.realpath(fileURLToPath(new URL('assets/web/', EXAMPLE)));
-  if (!within(await fs.realpath(fileURLToPath(EXAMPLE)), root)) throw invalid('asset', 'asset namespace symlink escape rejection');
-  const assets = {}, budget = { bytes: 0, pixels: 0 };
-  for (const id of ['logo', art]) {
-    const target = await fs.realpath(path.join(root, `${id}.png`));
-    if (!within(root, target)) throw invalid(`asset.${id}`, 'symlink escape rejection');
-    const bytes = await readBounded(target, LIMITS.assetBytes, `asset.${id}`);
-    inspectPng(bytes, budget);
-    if (hash(bytes) !== proof.assets[id]?.display?.sha256) throw invalid(`asset.${id}`, 'display digest mismatch');
-    assets[id] = `data:image/png;base64,${bytes.toString('base64')}`;
-  }
-  return assets;
+  return readPinnedPngs(EXAMPLE, 'provenance.json', ['logo', art]);
 }
 
 const box = (id, style, children) => ({ type: 'div', props: { id, style: { display: 'flex', ...style }, children } });

@@ -27,6 +27,25 @@ export async function readBounded(file, limit, field = 'inputPath') {
   } finally { await handle.close(); }
 }
 
+// Shared local PNG reader; recipe modules own the provenance filename and selected asset IDs.
+export async function readPinnedPngs(example, provenance, ids) {
+  const { inspectPng } = await import('./spike/assets.mjs');
+  const proof = JSON.parse(await readBounded(new URL(provenance, example), LIMITS.inputBytes));
+  const base = await fs.realpath(fileURLToPath(example));
+  const root = await fs.realpath(fileURLToPath(new URL('assets/web/', example)));
+  if (!within(base, root)) throw invalid('asset', 'asset namespace symlink escape rejection');
+  const assets = {}, budget = { bytes: 0, pixels: 0 };
+  for (const id of ids) {
+    const target = await fs.realpath(path.join(root, `${id}.png`));
+    if (!within(root, target)) throw invalid(`asset.${id}`, 'symlink escape rejection');
+    const bytes = await readBounded(target, LIMITS.assetBytes, `asset.${id}`);
+    inspectPng(bytes, budget);
+    if (crypto.createHash('sha256').update(bytes).digest('hex') !== proof.assets[id]?.display?.sha256) throw invalid(`asset.${id}`, 'display digest mismatch');
+    assets[id] = `data:image/png;base64,${bytes.toString('base64')}`;
+  }
+  return assets;
+}
+
 export async function normalizeRequest(req, options = {}) {
   if (!req || typeof req !== 'object' || Array.isArray(req)) throw invalid('request', 'must be an object');
   for (const key of Object.keys(req)) if (!['inputPath', 'width', 'height', 'format', 'backend', 'scale', 'recipe', 'edits'].includes(key)) throw invalid(key, 'unknown or unsupported field');

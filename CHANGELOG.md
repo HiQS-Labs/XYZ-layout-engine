@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-12 — GH-38 catalog write recovery and shared PNG loading
+
+- The catalog writer atomically stages the design log before committing the dump and restores exact prior log bytes/absence if the dump write fails. Rollback failure is explicit. Successful atomic renames no longer attempt obsolete-temp cleanup and cannot be mistaken for failed commits.
+- Solar and MangaJDM now reuse the bounded, contained, PNG-inspected, digest-checked reader beside the existing core file-read helpers. Published both as 1.0.1 through the catalog CLI; retained old 1.0.0 records and design pins. Nutrition's pinned asset module and all artwork/fonts/fixtures stay unchanged.
+- Extended existing C4 with log/dump write failure and retry assertions; no added test block, suite, dependency, workflow or budget. Four canaries pass in39.3s; compensation/digest guard removals turn checks red.35format comparisons retain identical output/assets/fit;76old catalog rows and the design log are preserved.
+- Limit: ordinary local I/O recovery, not process/power-loss atomicity. Issue38's human artwork, canonical Forge reconciliation and governance-reference follow-ups remain outside these two fixes.
+
 ## 2026-10-12 — GH-36 / PR #37 landing and output preservation
 
 - Merged PR #37 (`4434fc5ee0`) after a surgical semantic conflict repair and independent Codex merge QA (Approved, round 2). All four trusted recipes remain published; original recipe modules, fixtures, font binaries and artwork are retained.

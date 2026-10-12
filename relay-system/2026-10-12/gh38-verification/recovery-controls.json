@@ -1,0 +1,51 @@
+[
+  {
+    "kind": "missing-log-rollback",
+    "result": {
+      "code": 1,
+      "error": "Validation failed: [{\"field\":\"catalog\",\"message\":\"injected catalog rename failure\"}]"
+    },
+    "logRenames": 1,
+    "rmCalls": 0,
+    "passed": true
+  },
+  {
+    "kind": "partial-write",
+    "result": {
+      "code": 1,
+      "error": "Validation failed: [{\"field\":\"catalog\",\"message\":\"injected partial staged log write\"}]"
+    },
+    "logRenames": 0,
+    "rmCalls": 0,
+    "passed": true
+  },
+  {
+    "kind": "post-rename-cleanup",
+    "result": {
+      "code": 0,
+      "value": {
+        "id": "2026-10-12-recovery-control",
+        "use_case": null,
+        "use_case_version": null,
+        "layout_id": null,
+        "fixture_path": "examples/audit/fixture.json",
+        "data_hash": "efb027aae59d800ee9c81a05ae33a3d89adee7aec84047b22de7697d67f57248",
+        "artifact_path": "examples/audit/image.png",
+        "artifact_digest": "ebef8bf5cd1776d8ad06021e0e8b3a3b09ee51365674e5b5b011a990a82c7f22"
+      }
+    },
+    "logRenames": 0,
+    "rmCalls": 0,
+    "passed": true
+  },
+  {
+    "kind": "rollback-failure",
+    "result": {
+      "code": 1,
+      "error": "Validation failed: [{\"field\":\"2026-10-12-recovery-control\",\"message\":\"injected catalog rename failure; design-log rollback failed: injected log rollback failure; recovery required\"}]"
+    },
+    "logRenames": 2,
+    "rmCalls": 0,
+    "passed": true
+  }
+]

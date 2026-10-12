@@ -513,6 +513,24 @@ test('guards: the verifier stops detecting tampering', async () => {
     rejected=catalog('verify'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/namespace differs/); rmSync(extraPng);
     const id='2026-10-08-solar-system', logFile=path.join(root,'tools/design-log.jsonl'), designArgs=['design','add',id,'--fixture','examples/2026-10-08-solar-system/fixture.json','--artifact','examples/2026-10-08-solar-system/solar-system.png','--friction','C4 control'];
     succeeds(...designArgs); succeeds('export','--check');
+    // GH-38: an ordinary log/catalog write failure must preserve the pair and permit retry.
+    const { default: catalogFs } = await import('node:fs/promises');
+    const { runCLI: writeCatalog } = await import('../../catalog.mjs');
+    for (const target of ['design-log.jsonl','catalog.sql']) {
+      const beforeDump = readFileSync(catalogFile), beforeLog = readFileSync(logFile);
+      const args = [...designArgs]; args[2] = `${id}-${target === 'catalog.sql' ? 'catalog' : 'log'}-recovery`;
+      const rename = catalogFs.rename;
+      catalogFs.rename = async (from,to) => {
+        if (path.basename(to) === target) throw new Error(`injected ${target} write failure`);
+        return rename(from,to);
+      };
+      try { await assert.rejects(writeCatalog(args,{root}), /injected .* write failure/); }
+      finally { catalogFs.rename = rename; }
+      assert.deepEqual(readFileSync(catalogFile),beforeDump,'failed write changed catalog');
+      assert.deepEqual(readFileSync(logFile),beforeLog,'failed write changed design log');
+      assert.ok(!readdirSync(path.join(root,'tools')).includes('.catalog.lock'),'failed write retained lock');
+      assert.equal((await writeCatalog(args,{root})).code,0,'failed registration cannot retry');
+    }
     const designDump=readFileSync(catalogFile,'utf8'), designLog=readFileSync(logFile,'utf8');
     rejected=catalog(...designArgs); assert.equal(rejected.status,1); assert.match(rejected.stderr,/design already recorded/); assert.equal(sha256(readFileSync(catalogFile)),sha256(designDump)); assert.equal(sha256(readFileSync(logFile)),sha256(designLog));
     rejected=catalog(...designArgs.slice(0,2),'2026-10-08-unknown-pin',...designArgs.slice(3),'--use-case','unknown@1.0.0'); assert.equal(rejected.status,1); assert.match(rejected.stderr,/unknown use-case pin/);
