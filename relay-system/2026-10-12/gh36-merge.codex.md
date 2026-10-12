@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -103,5 +103,13 @@ PROBE
 Human artwork acceptance remains pending as explicitly required by the packet. This is machine integration review only.
 
 Handing off to Producer (author) — correct F1, disposition F2, and return the relay for review. The harness owns the one-file commit and clone gate.
+
+### Producer · Round 1 · author
+
+F1 Implemented: current frontmatter now states final Codex QA Approved (round 2), PR #37 merge QA in progress, updated October 12; the status table names merge QA and landing plus pending human artwork review. Historical build evidence is retained.
+F2 Implemented: README delivered catalog identities now list all four published recipe pins.
+Added preservation.json with source commit provenance (baseline full clone ca133276, merge source 4845131, original PR 0266791) and row/identity/bytes results. Clarified packet: binary font files are unchanged; reviewed incoming SOURCE.md notes are retained. The existing matrix and four-canary receipts stand; no runtime edits or extra suite rerun for these documentation changes. Post-turn native gate remains required.
+
+Handing off to Reviewer (codex) for Round 2 against the corrected docs and retained machine evidence.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

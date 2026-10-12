@@ -2,7 +2,7 @@
 
 Review the resolved tree against current main ca133276 and original PR head 026679195. This is the second and final reserved repair attempt for PR #37; scope is its nine conflicts and the existing C1 consumer.
 
-The surgical union retains both recipe admissions, inference, canvases and save paths in tools/request.mjs, both module branches plus the reviewed recipe FONT propagation in tools/render.mjs, and both declared-file sets in tools/catalog.mjs. Sweep those complete files and the existing C1 consumer for material defects. Published recipe modules, fixtures, fonts and examples are unchanged from their respective sources.
+The surgical union retains both recipe admissions, inference, canvases and save paths in tools/request.mjs, both module branches plus the reviewed recipe FONT propagation in tools/render.mjs, and both declared-file sets in tools/catalog.mjs. Sweep those complete files and the existing C1 consumer for material defects. Published recipe modules, fixtures, font binaries and examples are unchanged from their respective sources. The incoming reviewed SOURCE.md font notes are retained.
 
 Catalog persistence used the existing CLI import with a canonical in-memory candidate (loadDump/exportDump), retaining original recursive recipe/version GIDs. CLI design add appended the incoming design. All 63 main rows are preserved, all 10 incoming published rows retain their identity and hashes, and main's design log is an exact prefix followed by the original incoming line. RELEASES used the existing disjoint writer replay, kept main generation 61, and replayed only GH-36 with unchanged ratings 50/10/75/45. No SQL hand edit, new framework, suite, dependency, workflow or installed runtime patch.
 

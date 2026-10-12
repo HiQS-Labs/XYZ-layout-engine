@@ -2,9 +2,9 @@
 gh_issue: 36
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/36
 title: "Recursive-process recipe and a belief-updating example diagram"
-status: "Built; plan QA Approved (round 3); awaiting final Codex QA"
+status: "Built; final Codex QA Approved (round 2); PR #37 merge QA in progress"
 created: 2026-10-11
-updated: 2026-10-11
+updated: 2026-10-12
 owner: unassigned
 doc_type: feedback
 complexity: 3
@@ -26,7 +26,7 @@ related:
   - SYSTEM-INSTRUCTIONS.md
   - tools/fonts/barlow-condensed/SOURCE.md
 goal: >
-  A third trusted recipe, `recursive-process@1.0.0`, renders the "recursive process" diagram type
+  An additional trusted recipe, `recursive-process@1.0.0`, renders the "recursive process" diagram type
   through the shared `processRequest` with text fit and containment, in Barlow Condensed, both
   backends. A new example `examples/2026-10-11-belief-updating/` renders the operator's reference
   topic through it, is recorded as a design (with its #21 log line), and follows the AS rules with
@@ -48,7 +48,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Built (Phases 1–4); evidence below. Next: final Codex QA, then PR. |
+| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Built (Phases 1–4); evidence below. Final Codex QA Approved (round 2); PR #37 awaits merge QA and landing. Human review of the artwork is pending. |
 
 ## Observed current state (`da97d78`)
 
