@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-12 — GH-38 follow-up fixes landed (PR #39)
+
+- PR #39 merged as `f6219536ad` after Approved native Codex plan and final QA; catalog recovery and shared PNG loading are complete. Four canaries passed in39.3s;35format/assets/fit comparisons remain identical and76old catalog rows/design-log bytes are retained.
+- Issue38 keeps its human artwork, canonical Forge main-branch reconciliation and governance-reference carry-overs open. Its two code findings are checked complete with PR/evidence links. Source example output is unchanged, including primary-only historical render runs.
+- Generic wave reconciliation still refuses main because it hardcodes development; closeout uses the canonical project RELEASES CLI and PDDA without an installed-runtime patch. Task clone retirement follows verified backup-first cleanup; original GH36 clone remains preserved.
+
 ## 2026-10-12 — GH-38 catalog write recovery and shared PNG loading
 
 - The catalog writer atomically stages the design log before committing the dump and restores exact prior log bytes/absence if the dump write fails. Rollback failure is explicit. Successful atomic renames no longer attempt obsolete-temp cleanup and cannot be mistaken for failed commits.

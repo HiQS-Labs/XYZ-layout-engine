@@ -3,7 +3,7 @@ gh_issue: 38
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/38
 title: "Post-merge follow-up fixes: catalog recovery and shared PNG loader"
 goal: "Keep catalog/log consistent after ordinary write errors and share the two pinned PNG loading paths without changing artwork."
-status: "Implemented and verified; final Codex QA pending"
+status: "Two fixes merged in PR #39; umbrella carry-overs pending"
 created: 2026-10-12
 updated: 2026-10-12
 owner: Codex
@@ -20,7 +20,7 @@ phases: 3
 
 | What was just completed | What's next |
 |---|---|
-| Post-merge audit reproduced the catalog/log partial commit; user authorized both fixes and merging. Fresh full clone at ab94133. | Plan QA Approved (round2); implementation complete. Verify, final QA, PR and merge on main. |
+| Post-merge audit reproduced the catalog/log partial commit; user authorized both fixes and merging. Fresh full clone at ab94133. | Plan QA Approved (round2); implementation complete. PR #39 merged (`f6219536ad`), final Codex QA Approved. Next: remaining issue38 human artwork, Forge reconciliation and governance-reference follow-ups. |
 
 ## Scope and bet
 
@@ -45,7 +45,7 @@ Alternative: rollback the old direct append after failure risks partially append
 - [x] Both recipes reuse one bounded/digest-checked PNG reader with domain inputs retained in recipe modules.
 - [x] New1.0.1 pins are published, old recipe identities/versions/files/output records and all design pins are retained.
 - [x] 35output-format digests/assets/fit steps match baseline; existing canaries and canonical checks pass.
-- [ ] Plan and final native Codex relay QA Approved; PR merged and main synced; original GH36 clone remains preserved.
+- [x] Plan and final native Codex relay QA Approved; PR merged and main synced; original GH36 clone remains preserved.
 
 ## Rating rationale
 
@@ -59,3 +59,7 @@ Rated80/85/50/65: priority reflects user immediate repair request and a failed w
 -76old catalog rows and exact design-log bytes retained;35baseline/final format/assets/fit records match exactly.
 - Full pnpm test:4/4in39.3s unchanged60s. Catalog verify/export and RELEASES check pass. Final PDDA run below records current result.
 - Evidence: relay-system/2026-10-12/gh38-verification/.
+
+## Landing (2026-10-12)
+
+PR #39 merged as `f6219536ad5b85a70b4897df4d3267c048390523`; both requested fixes are complete. Final native Codex QA Approved/attested. Issue38 remains open as the umbrella for its three unimplemented carry-overs, not for these two repaired findings. The task clone is eligible for verified backup-first retirement; the original GH36 clone remains preserved.
