@@ -2,7 +2,7 @@
 gh_issue: 28
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
-status: "Merge held; current integration suite deadline"
+status: "Integration gate passed; landing pending"
 created: 2026-10-11
 updated: 2026-10-12
 owner: Codex
@@ -22,7 +22,7 @@ reversibility: "Easy — isolated additive recipe and example assets, existing C
 
 | What was just completed | What's next |
 |---|---|
-| PR32 integration conflicts resolved through canonical writer; public path metadata republished with unchanged visuals/hashes. Catalog and pre-merge ledger gate pass in a second full clone. | Integration canaries time out at unchanged60s in repaired and clean-main controls under high host load. Resume when host load is reduced; do not merge or remove unlanded clones. |
+| PR32 conflicts and public receipt paths repaired; fresh full-clone canaries pass4/4 in41.0s after workloads were paused. Catalog and ledger gates pass. | Restore PR32 to ready, squash-merge against main, reconcile issue28/plan/ledger, and back up/retire verified idle completed clones. |
 
 ## Table of contents
 
@@ -113,3 +113,7 @@ The fresh full task clone is retained for merge handoff with scratch/repair evid
 ### Merge-cleanup gate hold — 2026-10-12
 
 Six bounded attempts across two isolated full clones hit the unchanged60second test deadline, including clean origin/main da97d78 as a control. Process instrumentation shows rendering subprocesses succeeding; measured host load averages were roughly190–330. A thread-cap experiment did not help, and its environment was not made a default. No failing functional assertion was observed before deadline, but the required suite has not passed; original31.9s evidence does not certify the current integration. Repairs are preserved and published as a draft; merging/closure/archive/teardown remain blocked on a passing gate. Primary checkout remains clean on da97d78. See `relay-system/2026-10-12/gh28-merge-verification/deadline-attempts.json`.
+
+### Gate hold resolved — 2026-10-12
+
+Operator paused concurrent workloads. Unmodified `pnpm test` in the same validation full clone at6a059ed passed4/4 in41.0s, zero skips, within the unchanged60s budget; no thread-cap environment. Catalog verify/export and RELEASES check also pass. Receipt: `relay-system/2026-10-12/gh28-merge-verification/resumed-canaries.log`. The earlier timeout hold is resolved; its logs are preserved as historical evidence, not current status. Metadata/receipt updates below change no runtime, recipe content, or visual artifact bytes.
