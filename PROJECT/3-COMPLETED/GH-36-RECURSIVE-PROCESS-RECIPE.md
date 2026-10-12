@@ -225,3 +225,5 @@ PR #37 merged as `4434fc5ee0`. Merge QA is independently Approved and attested; 
 - [ ] Human review of the artwork is pending.
 
 The generic wave reconciler refused main because it hardcodes development. Closeout used the project's canonical RELEASES CLI and PDDA checks; installed runtime files were not changed.
+
+Closeout checks: primary PDDA has zero errors; after issue closure its issue/doc-sync check is clean. Primary has nine governance warnings about legacy RELEASES.md references, the missing pdda skill reference, and the unused installer environment-variable reference. All cited governance documents and tracked check sources are unchanged from ca133276. The vendored repair clone reported two warnings under its installed runtime; neither run introduced a runtime repair.
