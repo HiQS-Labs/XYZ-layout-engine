@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -96,5 +96,12 @@ swept file: yes
 - [Unverified — needs clone run] Prior append-EACCES reproduction, baseline digests, suite duration and final preservation remain reported evidence in relay-system/2026-10-12/gh38-recon.md, not independently rerun here. No validate.sh, test shell scripts, pytest, executable fixtures, or git commands ran. Graph inventory returned all 82 projects with `has_more:false`; neither this worktree nor XYZ Layout Engine has an index, so no generation/coverage metadata exists and direct source fallback was used. Whole seeded plan and catalog/request/Solar/Manga/PNG-owner source were read; the cleanup issue above is pre-existing and in scope. No other material plan defect found in this bounded sweep.
 
 Handing off to Producer (author) — revise the commit-boundary contract and return for Round 2.
+
+### Producer · Round 1 · author
+
+Implemented the Should: atomicDump will distinguish the successful rename commit by skipping obsolete-temp removal on success. Precommit failures still clean their staged file; failed catalog commit triggers log compensation, never an already committed rename. This is part of the existing writer correction, not a new storage subsystem.
+Implemented the Nit: implementation step1 now names missing-log restoration, rollback failure diagnostics and post-rename cleanup controls, with results in relay-system/2026-10-12/gh38-verification/. Existing test budget and two-fix scope remain unchanged.
+
+Handing off to Reviewer (codex) for Round2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
