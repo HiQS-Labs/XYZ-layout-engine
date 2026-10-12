@@ -1,4 +1,12 @@
 # Changelog
+## 2026-10-12 — GH-36 / PR #37 landing and output preservation
+
+- Merged PR #37 (`4434fc5ee0`) after a surgical semantic conflict repair and independent Codex merge QA (Approved, round 2). All four trusted recipes remain published; original recipe modules, fixtures, font binaries and artwork are retained.
+- Verification: four existing canaries passed in 39.7s under the unchanged 60s budget; 35 format comparisons against main matched every digest, compact asset and fit step. Canonical catalog and RELEASES checks pass; PDDA reports zero errors with two existing governance warnings.
+- Preserved all 79 original example files by SHA-256, restoring both ignored belief-updating render runs to the primary examples folder. Kept the original GH-36 clone at the operator's request; disposable verification clones are eligible for backup-first cleanup.
+- Reconciled GH-36 through the canonical project RELEASES CLI and archived its completed implementation plan. The installed wave reconciler hardcodes development and refused main; no installed runtime patch or gate bypass was used.
+- Carry-over: Human review of the artwork is pending.
+
 ## 2026-10-12 — MangaJDM PR32 landed and GH28 closed
 
 - Squash-merged PR #32 as005ba14; issue #28 closed. Three portrait promos, one trusted recipe and three CLI catalog designs are on main. Fresh full-clone canaries pass4/4 in41.0s after concurrent workloads were paused; earlier deadline holds are preserved as evidence, and the60s budget is unchanged. Refs #28.

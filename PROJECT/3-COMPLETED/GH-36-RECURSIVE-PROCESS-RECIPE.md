@@ -2,7 +2,7 @@
 gh_issue: 36
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/36
 title: "Recursive-process recipe and a belief-updating example diagram"
-status: "Built; final Codex QA Approved (round 2); PR #37 merge QA in progress"
+status: "Completed: PR #37 merged; final and merge Codex QA Approved"
 created: 2026-10-11
 updated: 2026-10-12
 owner: unassigned
@@ -48,7 +48,7 @@ goal: >
 
 | What was just completed | What's next |
 |---|---|
-| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Built (Phases 1–4); evidence below. Final Codex QA Approved (round 2); PR #37 awaits merge QA and landing. Human review of the artwork is pending. |
+| Issue, clone, capture promoted to this plan, ledger row rated `50/10/75/45`, recon at `da97d78`. Codex plan QA round 1 failed (F1–F5 Should, F6 Nit), and round 2 failed (F7, F8 Should, the rest of F6); all are folded in below. | Built (Phases 1–4); evidence below. PR #37 merged as `4434fc5ee0`; final and merge Codex QA Approved. Machine requirements are complete. Human review of the artwork is pending. |
 
 ## Observed current state (`da97d78`)
 
@@ -217,3 +217,11 @@ goal: >
 - Appeal 75: interpreted from the operator's explicit request to build this recipe; it is labelled as an interpretation.
 - Effort 45: a new recipe, engine font wiring, catalog publication and an example; about a day of focused work.
 - Recurrence: not applicable.
+
+## Landing and carry-over (2026-10-12)
+
+PR #37 merged as `4434fc5ee0`. Merge QA is independently Approved and attested; four canaries passed in 39.7s and all 35 format comparisons against main matched exactly, including assets and fit steps. Catalog history and original published identities are preserved. All 79 original example files are hash-verified in the primary, including both ignored render runs. The original task clone is preserved at the operator's request.
+
+- [ ] Human review of the artwork is pending.
+
+The generic wave reconciler refused main because it hardcodes development. Closeout used the project's canonical RELEASES CLI and PDDA checks; installed runtime files were not changed.
