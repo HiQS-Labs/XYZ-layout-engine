@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -67,5 +67,41 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: runtime union and available machine evidence look sound; the explicit current-plan/final-QA documentation criterion is not met. One Should correction, Easy reversibility. No runtime repair or additional suite is requested.
+swept file: yes
+
+- [Should] F1 — Reconcile the live GH-36 plan with the completed final review and existing PR. `PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md:5` still says “awaiting final Codex QA”; its status table at `:51` says “Next: final Codex QA, then PR.” The retained final-QA relay already has `status: Approved` and `reviewed-head: bc35b3db40441d0c47e94cd166aa732f1ff405f6` in its final attestation (`relay-system/2026-10-11/gh36-final-qa.md`, quoted span), and this artifact is explicitly PR #37 merge QA. A cold agent receives the wrong next action. Fix the frontmatter date/status and status table to distinguish completed implementation QA from this merge review, harness gate/landing, and pending human artwork approval; retain the historical evidence. This is required by the packet's “README/current plan status reflect final QA” DoD (`.relay-artifacts/gh36-merge-packet.md:15`).
+  Observed input: the two current status strings quoted above.
+  Affected scope: this plan's current frontmatter and two-column status table only.
+  Falsifier: a plan whose current status already cites the approved final-QA receipt and PR #37, while leaving merge/human acceptance pending, would make this finding unnecessary.
+- [Nit] F2 — `README.md:54–56` lists three delivered catalog identities; add `recursive-process@1.0.0` alongside them so the new publication is discoverable. The canvas/font documentation already mentions it (`README.md:143–144`).
+- [Pass] Four recipes retain admission/inference/canvas and save selection (`tools/request.mjs:59–61,105–109`), render module selection and bounded declared-font loading (`tools/render.mjs:183–201`), and both incoming declared-file sets (`tools/catalog.mjs:134–148`). Family propagation reaches Satori, Playwright and both HTML forms (`tools/render.mjs:237–242,341–344`). Swept all of request.mjs, render.mjs and catalog.mjs, plus C1 and its offline helper (`tools/spike/test/canaries.test.mjs:25–401`); no material pre-existing runtime defect found in this bounded sweep. Keep the existing owners and mechanisms; no source change requested.
+- [Pass] Read-only catalog probes on this tree: `node tools/catalog.mjs verify --json > "$TMPDIR/catalog-verify.txt"` exited 0 with `{"valid":true,"errors":[]}`; `node tools/catalog.mjs export --check > "$TMPDIR/catalog-export.txt"` exited 0 with `{"canonical":true}`. Expected SQLite ExperimentalWarning only. These support current publication/content integrity, not independent historical ancestry proof.
+- [Pass] Stored comparison records are identical, not merely their top-level digests. The following probe exited 0 with `PASS: 10 unique fixture/backend records, 35 formats; complete records including artifacts and fitting equal`. Evidence inputs: `relay-system/2026-10-12/gh36-merge-verification/main-matrix.json` and `merged-matrix.json`, quoted decisive output below. This checks recorded artifact/compact-asset hashes and fit steps; it does not execute rendering or establish baseline revision provenance.
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 -B - <<'PROBE' > "$TMPDIR/matrix-probe.txt"
+import json,pathlib
+p=pathlib.Path("relay-system/2026-10-12/gh36-merge-verification")
+a=json.loads((p/"main-matrix.json").read_text());b=json.loads((p/"merged-matrix.json").read_text())
+assert len(a)==len(b)==10
+assert len({(x["inputPath"],x["backend"]) for x in a})==10
+assert sum(len(x["digests"]) for x in a)==35
+assert a==b
+print("PASS: 10 unique fixture/backend records, 35 formats; complete records including artifacts and fitting equal")
+PROBE
+```
+
+- [Pass] Retained gate receipts report `# pass 4`, `# fail 0`, and `4 canaries in 39.7s (budget 60s)` (`relay-system/2026-10-12/gh36-merge-verification/canaries.log:37–43`); the budget remains four tests/one file/60 seconds/no workflows (`test-budget.json`, quoted `"budget": { "testFiles": 1, "tests": 4, "maxSeconds": 60, "ciWorkflows": 0 }`). PDDA's closing span is `no errors, 2 warning(s) to review — pdda-check-governance` (`gh36-merge-verification/pdda.log` under the same directory). RELEASES receipt reports final generation 66 and clean receipt chain (`ledger.log:2–5`); generation 61 in the packet is the retained main starting generation, not the final generation. Preserve these receipts; do not describe them as fresh reviewer executions.
+- [Unverified — needs clone run] Fresh suite/render/offline-browser checks, exact source union against ca133276/026679195, historical 63/10 row retention, append-only log/changelog comparison and private output restoration are not independently re-executed here. No git, validate.sh, test script, pytest or executable fixture was run. The post-turn harness gate remains required. Both startup RELEASES CLI paths are absent in this seed; no substitute writer was used. Graph inventory (all 82 projects, both pages) has no matching worktree project/generation, so direct-source fallback was used; graph coverage cannot be claimed.
+
+Human artwork acceptance remains pending as explicitly required by the packet. This is machine integration review only.
+
+Handing off to Producer (author) — correct F1, disposition F2, and return the relay for review. The harness owns the one-file commit and clone gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
