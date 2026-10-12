@@ -264,10 +264,12 @@ const args=process.argv, out=args[args.indexOf('--out')+1];
 appendFileSync(process.env.STUB_COUNT, 'call\\n');
 if(process.env.STUB_SLEEP) await new Promise(resolve=>setTimeout(resolve, Number(process.env.STUB_SLEEP)));
 if(process.env.STUB_CORRUPT) { writeFileSync(out,'bad'); console.log('not json'); }
+else if(process.env.STUB_LEAK) { console.log('caller error: {"url": "https:\\\\/\\\\/cdn.example.test\\\\/a.png?X-Amz-Signature=SIG"} https%3A%2F%2Fcdn.example.test%2Fa.png%3FX-Amz-Signature%3DSIG'); process.exit(1); }
+else if(process.env.STUB_NODISPATCH) { console.log(JSON.stringify({status:'error',attempts:[{status:'error',dispatched:false}]})); process.exit(3); }
 else {
  const png=readFileSync(process.env.STUB_PNG); if(!process.env.STUB_MISSING) writeFileSync(out,png);
  const hash=b=>createHash('sha256').update(b).digest('hex');
- console.log(JSON.stringify({status:'success', image:{sha256:hash(png),bytes:png.length}, alpha:{hasAlphaChannel:true,verified:true,transparentPixelRatio:0.5}, recipeRef:'configured-caller:'+hash(readFileSync(fileURLToPath(import.meta.url))), argv:args.slice(2),attempts:[{status:'success'}],usage:{images:1},cost:{usd:0.01}}));
+ console.log(JSON.stringify({status:'success', image:{sha256:hash(png),bytes:png.length}, alpha:{hasAlphaChannel:true,verified:true,transparentPixelRatio:0.5}, recipeRef:'configured-caller:'+hash(readFileSync(fileURLToPath(import.meta.url))), argv:args.slice(2),attempts:[{status:'success',dispatched:true,url:'https://cdn.example.test/a.png?X-Amz-Signature=SIG'}],usage:{images:1},cost:{usd:0.01}}));
 }
 `);
   const py = path.join(SPIKE, '../../examples/2026-10-08-solar-system/generate-assets.py');
@@ -343,6 +345,26 @@ def forbidden(*args,**kwargs): raise AssertionError('launch after deadline')
 with patch.object(g.time,'monotonic',lambda:now[0]),patch.object(g,'update_manifest',delayed),patch.object(g.subprocess,'Popen',forbidden):
  assert g.generate([job],pathlib.Path(tempfile.mkdtemp()),pathlib.Path(sys.argv[2]),run_timeout=1) is False
 `,py,stubJS],{encoding:'utf8',timeout:10000});assert.equal(deadlineProbe.status,0,deadlineProbe.stdout+deadlineProbe.stderr);
+  // #23 S3/S4/S5/S7 and the empty job list, each in a fresh assets dir.
+  const freshGen = name => { const dir=path.join(FRESH,name); mkdirSync(dir); return (extra=[],env={}) => spawnSync(process.env.PYTHON || 'python3',[py,'--caller',stubJS,'--assets-dir',dir,'--jobs',jobsFile,...extra],{env:{...genEnv,...env},encoding:'utf8',timeout:15000}); };
+  const genState = name => JSON.parse(readFileSync(path.join(FRESH,name,'manifest.json'),'utf8'));
+  writeFileSync(jobsFile,'[]'); result=freshGen('g-empty')(); assert.equal(result.status,4); assert.match(result.stderr,/1 to 32/);
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'signed'}])); const runSigned=freshGen('g-signed'), beforeSigned=calls();
+  result=runSigned(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),beforeSigned+1);
+  const signed=Object.values(genState('g-signed'))[0];
+  for(const file of ['manifest.json',signed.receipt]) assert.doesNotMatch(readFileSync(path.join(FRESH,'g-signed',file),'utf8'),/X-Amz-Signature/,`signed URL query kept in ${file}`);
+  for(const lose of [()=>rmSync(path.join(FRESH,'g-signed','manifest.json')), ()=>writeFileSync(path.join(FRESH,'g-signed','manifest.json'),'{}')]) { lose(); result=runSigned(); assert.equal(result.status,4); assert.match(result.stdout,/manifest has no record/); assert.equal(calls(),beforeSigned+1,'lost manifest caused a paid replay'); }
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'leak'}])); result=freshGen('g-leak')([],{STUB_LEAK:'1'}); assert.equal(result.status,4);
+  const leaked=Object.values(genState('g-leak'))[0]; for(const file of ['manifest.json',leaked.receipt]) assert.doesNotMatch(readFileSync(path.join(FRESH,'g-leak',file),'utf8'),/X-Amz-Signature/,`unparseable output kept a signed URL in ${file}`);
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'no-dispatch'}])); const runNoDispatch=freshGen('g-nodispatch');
+  result=runNoDispatch([],{STUB_NODISPATCH:'1'}); assert.equal(result.status,4); assert.equal(Object.values(genState('g-nodispatch'))[0].status,'failed','per-attempt dispatched:false not read');
+  const beforeReplan=calls(); result=runNoDispatch(); assert.equal(result.status,0,result.stdout+result.stderr); assert.equal(calls(),beforeReplan+1);
+  writeFileSync(jobsFile,JSON.stringify([{...job,prompt:'orphan'}])); const runOrphan=freshGen('g-orphan'), beforeOrphan=calls();
+  const parent=spawn(process.env.PYTHON || 'python3',[py,'--caller',stubJS,'--assets-dir',path.join(FRESH,'g-orphan'),'--jobs',jobsFile],{env:{...genEnv,STUB_SLEEP:'1500'},stdio:'ignore'});
+  const orphanStarted=Date.now()+3000; while(calls()===beforeOrphan && Date.now()<orphanStarted) await new Promise(resolve=>setTimeout(resolve,20));
+  parent.kill('SIGKILL'); await new Promise(resolve=>parent.on('close',resolve));
+  result=runOrphan(['--force-retry']); assert.equal(result.status,4); assert.match(result.stdout,/concurrent manifest ownership/); assert.equal(calls(),beforeOrphan+1,'forced retry paid twice while the orphaned caller ran');
+  await new Promise(resolve=>setTimeout(resolve,1700));
   console.log('# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed');
   }
 });

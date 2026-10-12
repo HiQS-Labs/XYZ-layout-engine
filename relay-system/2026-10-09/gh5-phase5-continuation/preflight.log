@@ -1,5 +1,5 @@
 swarm-preflight · project-doc · slug=gh-5-mvp-foundation
-  target-root : /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation (marathon/gh-5-mvp-foundation @ d38a619a2)
+  target-root : ~/marathon-clones/marathon-gh-5-mvp-foundation (marathon/gh-5-mvp-foundation @ d38a619a2)
   branch      : suggested=marathon/gh-5-mvp-foundation-2026-10-10 branch_ready=false skip_branch_prompt=false
   freshness   : fetch_ok=1 upstream=origin/marathon/gh-5-mvp-foundation ahead=94 behind=0 dirty=1
   ref-probed  : origin/main @ 447f7aaf0 (checkout HEAD is 9 commit(s) behind the evaluated ref — probes read the ref, not your checkout)
@@ -12,7 +12,7 @@ swarm-preflight · project-doc · slug=gh-5-mvp-foundation
   lane-cli    : codex=present agy=present (advisory)
   verdict     : ready (exit 0)
 
-DRY-RUN: ready, but packet not written. Would emit to: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/preflight/2026-10-10/gh-5-mvp-foundation
+DRY-RUN: ready, but packet not written. Would emit to: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/preflight/2026-10-10/gh-5-mvp-foundation
 Would suggest:
 XYZ_HARNESS_CONTEXT=swarm XYZ_SESSION_ID=gh-5-mvp-foundation RELAY_WORKTREE_ISOLATION=1 .xyz/relay-automation/marathon-drive.sh \
   --phase-brief <packet>/packet.md \

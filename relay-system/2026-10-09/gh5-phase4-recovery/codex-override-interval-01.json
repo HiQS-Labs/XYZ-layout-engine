@@ -5,7 +5,7 @@
   "interval_seconds": 600,
   "check": 1,
   "max_checks": 6,
-  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "clone": "~/marathon-clones/marathon-gh-5-mvp-foundation",
   "pid": 79696,
   "exit": null,
   "approved_remaining_phases": 0,
@@ -29,7 +29,7 @@
   },
   "heartbeat_age_seconds": 29.3,
   "claims": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     "claimed": [
       {
         "task": "MARATHON-GH5-P4-TURN",
@@ -61,7 +61,7 @@
     "marathon-drive: warn: host free swap is critically low (0MB < 1024MB)",
     "marathon-drive: memory-telemetry: phase gh5-p4-start boundary \u2014 compressor=5874MB, swap_free=0MB",
     "marathon-drive: phase start: running relay-drive --round-cap 5",
-    "relay-drive: GH-370 progress (main tree fallback: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2",
+    "relay-drive: GH-370 progress (main tree fallback: ~/marathon-clones/marathon-gh-5-mvp-foundation) changed-files=2",
     "codex-turn: worktree isolation ON (/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T//rtl-wt.cdUSAH)",
     "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=0",
     "relay-drive: GH-370 progress (turn worktree: /private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/rtl-wt.cdUSAH) changed-files=3",

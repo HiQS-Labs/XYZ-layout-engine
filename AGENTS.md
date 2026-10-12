@@ -2,6 +2,8 @@
 
 **On your first action in this repo, follow the startup sequence in `ROUTER.md` before recommending or editing anything.** It names the canonical files and the order to read them. Re-run it (or `/pdda`) when you switch tasks, resume a long session, or feel context has drifted.
 
+For any visual work (recipes, diagrams, fixture copy or themes, image prompts), `SYSTEM-INSTRUCTIONS.md` sets the design rules and overrides recipe, skill and prompt defaults.
+
 See `GUIDING-PRINCIPLES.md` for the repo's north star — the goals and tradeoff lens these rules serve.
 
 ## Operating principles
@@ -54,6 +56,7 @@ project's own startup documents and policies when updating installed checks.
 
 - The canonical project name is **XYZ Layout Engine**; use it in current documentation and user-facing references. Technical naming follows `PROJECT/2-WORKING/SPECS-PRD.md`.
 
+- This is a public repo. Before committing `relay-system/` or `marathon-system/` transcripts, replace the home-directory prefix byte-safely (`git grep -lz "$HOME" | xargs -0 perl -pi -e "s#\Q$HOME\E#~#g"`); `git grep -I "$HOME"` must then return nothing. PDDA's `hardcoded-paths` check covers working docs, not transcripts.
 - PROJECT/PDDA.md owns the shared document contract.
 - utils/pdda/pdda.sh runs installed checks.
 - This repository owns its project documents, roadmap and changelog.

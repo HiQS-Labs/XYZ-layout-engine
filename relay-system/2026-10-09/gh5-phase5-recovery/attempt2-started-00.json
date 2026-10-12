@@ -5,7 +5,7 @@
   "interval_seconds": 600,
   "check": 0,
   "max_checks": 6,
-  "clone": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "clone": "~/marathon-clones/marathon-gh-5-mvp-foundation",
   "pid": 11083,
   "exit": null,
   "approved_remaining_phases": 0,
@@ -16,7 +16,7 @@
   "heartbeat": null,
   "heartbeat_age_seconds": null,
   "claims": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     "claimed": []
   },
   "active_relay": {
@@ -27,7 +27,7 @@
     ]
   },
   "log_tail": [
-    "marathon: run log: /Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-233415-11083.log",
+    "marathon: run log: ~/marathon-clones/marathon-gh-5-mvp-foundation/relay-system/run-logs/2026-10-09/marathon-MARATHON_-233415-11083.log",
     "marathon: plan: PROJECT/2-WORKING/mvp-foundation/MARATHON.yaml \u2014 1 phase(s) in execution order",
     "marathon: \u2500\u2500 phase 1/1: gh5-p5 (reviewer=codex, round-cap=5, artifact=README.md, tools/MVP-REPORT.md, examples/2026-10-08-solar-system/README.md, PROJECT/2-WORKING/SPECS-PRD.md, CHANGELOG.md, turn-timeout=1500s) \u2500\u2500"
   ],

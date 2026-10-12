@@ -10,7 +10,7 @@
   "phase5": "not-started; original pairing retained",
   "source_unchanged_since_phase3": true,
   "claims": {
-    "root": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+    "root": "~/marathon-clones/marathon-gh-5-mvp-foundation",
     "claimed": []
   },
   "driver_lock_exists": false,

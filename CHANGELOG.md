@@ -1,9 +1,47 @@
 # Changelog
+## 2026-10-11 — SYSTEM-INSTRUCTIONS.md: anti-slop design rules for every agent
+
+- New root file `SYSTEM-INSTRUCTIONS.md`: ten numbered rules (AS-1 to AS-10) against cliché visual output, plus a required before-and-after report. The rules were adapted from an operator-supplied list for web front ends to what this engine makes: fixed-canvas infographics, diagrams and AI-generated image assets. Web-only advice (hero sections, buttons, mobile overflow) was replaced by rules on infographic composition, fixture themes, vendored fonts and image prompts.
+- Precedence is stated: the rules override recipe, skill and prompt defaults for visual work, never `AGENTS.md` or the engine's checks, and they never justify editing a pinned published recipe version.
+- It is reachable from the startup path: ROUTER role split and new startup step 4 (later steps renumbered), a pointer in AGENTS.md, and the first "Before you start" line of `skills/design-diagram`.
+- No code, test or check changes. Easy to reverse (revert). Refs #20.
 
 ## 2026-10-11 — MangaJDM portrait promos via recipe/catalog
 
 - Added one fixed `mangajdm-promo@1.0.0` recipe and three1080×1920 examples: icon, generations and apparel concept. Supplied art/provenance, editable fixtures, PNG/SVG/offline HTML, gallery and TikTok/Instagram captions/alt text are included. Existing CLI publishes the recipe and records three design IDs; no new dependency, test suite, grid parser or renderer. Refs #28. Refs #21.
 - Both backends fit at full type sizes; repeated PNG/SVG bytes, saved-copy edits, relocated offline exports, asset/canvas/art/duplicate red controls and old catalog/history retention pass. Four canaries pass in31.9s. Independent plan QA Approved; final Codex QA Approved/attested in Round2 after a CLI ledger-pointer correction. Evidence: `examples/2026-10-11-mangajdm-promos/VERIFICATION.md`. Ready [PR #32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32); issue28 remains open pending merge. Easy reversal: task commits together. No social posting, paid image calls or primary-checkout edits.
+## 2026-10-11 — Home-directory paths scrubbed from committed transcripts (#23 S10)
+
+- The home-directory prefix is replaced with `~` in 139 committed `relay-system/` and `marathon-system/` files: 737 lines, same-line replacements only, done byte-safely with `perl`, so non-UTF-8 logs were not skipped. A search for the home directory now returns 0 files.
+- AGENTS.md gains a one-line rule with the scrub command for future transcripts. PDDA's `hardcoded-paths` check covers working docs only, and changing it belongs upstream in XYZ-forge.
+- Limit: Git history still holds the old bytes. Removing them would need a history rewrite and a force-push of `main`, which was not done.
+- Checks: `pnpm test` 4/4 in 33.0 s; PDDA warnings identical before and after (33 and 33, no errors); `releases check` clean; `catalog verify` valid. Refs #23. Easy to reverse (revert).
+
+## 2026-10-11 — Generation safety: no double payment, no signed URLs in receipts (#23 S3, S4, S5, S7)
+
+- `examples/2026-10-08-solar-system/generate-assets.py`:
+  - A job whose attempt directory exists but has no manifest record (a deleted, emptied or truncated manifest) is refused instead of being paid for again, unless `--force-retry` is given (S3).
+  - The caller inherits the run lock, so a caller left running after the generator crashes blocks `--force-retry` from paying twice; receipts are written atomically (S4).
+  - `failed` now reads the per-attempt `dispatched: false` that the real caller emits, so a never-dispatched job can be re-planned (S5).
+  - URL query strings are stripped from receipts and from the manifest's copied `attempts` (S7). Receipts are now the redacted, re-serialized caller output rather than its verbatim bytes. Output that is not JSON is replaced by a fixed record (byte count and sha256), since escaped or percent-encoded signed URLs can hide in it.
+  - An empty job list exits 4 instead of 0.
+- Each item was reproduced first against a stub caller, with no paid calls.
+- The existing C1 canary is extended (no new test). Removing any one of the guards turns C1 red. Gate: 4/4 in 36.7 s. Codex QA round 1 found the emptied-manifest and unparseable-output gaps; both are fixed with C1 controls.
+- Refs #23. Easy to reverse (revert).
+
+## 2026-10-11 — Barlow Condensed is the starter default font for new visual work (#34)
+
+- Vendored Barlow Condensed Regular (400) and Bold (700) with its SIL Open Font License under `tools/fonts/barlow-condensed/`. Each file is byte-identical to google/fonts commit `60824dce`, and `SOURCE.md` records it with sha256 values.
+- `skills/design-diagram` now switches a new diagram's copied script to Barlow Condensed unless the brief names a font. It lists the three exact edits (the backend calls written out in full) plus a positive and a negative grep check, and adds trap 8: leaving out the family argument makes Chromium silently fall back to a system font while Satori still draws Barlow.
+- Existing recipes and diagrams stay on Inter; no engine, recipe or example code changed. There is no engine-level fallback yet, because nothing lets a recipe or user declare a font.
+- Proof: a probe rendered the same 40 px line at 436 px in Barlow Condensed against 613 px in Inter, matching in both backends with `fontLoaded: true`. A scratch copy of the RAG diagram with the skill's edits rendered `PASS`.
+- Easy to reverse (revert). Refs #34.
+
+## 2026-10-11 — #33 and #35 landed; #34 reconciled
+
+- Landed #35 (`fb8b0d6`, Barlow Condensed as the starter default font) and #33 (`33f1eff`, `SYSTEM-INSTRUCTIONS.md`, rebased onto #35). Closed #34. The ledger moved GH-34 to Completed, and its capture doc moved to `PROJECT/3-COMPLETED/`. Refs #34.
+- Easy to reverse (documents and ledger only).
+
 ## 2026-10-11 — Post-QA review closed; #9, #19 and #26 reconciled
 
 - Landed #24 (`51b7a47`, GH-20 A2 design records), #25 (`7d66787`, #23 S1/S2) and #27 (`db5af24`, the #26 post-QA record: GLM 5.3 PASS with no Blocker or Should findings). Closed #26 (done), #19 (delivered by #22 and #24 under the #20 plan) and #9 (superseded by #20 Phase B). The ledger moved GH-26 to Completed and GH-9 to Deferred; the GH-26 doc moved to `PROJECT/3-COMPLETED/`, and the GH-9 doc and its marathon folder to `PROJECT/4-MISC/`. #20, #21, #23, #5 and #8 stay open. Refs #20. Refs #23.

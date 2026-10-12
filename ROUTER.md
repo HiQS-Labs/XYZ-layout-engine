@@ -7,6 +7,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 - `ROUTER.md` = startup order and canonical entry points
 - `GUIDING-PRINCIPLES.md` = the north star; what the repo's goals and design tradeoffs answer to
 - `AGENTS.md` = behavioral rules, decision quality, reversibility, blast radius, proof
+- `SYSTEM-INSTRUCTIONS.md` = design and taste rules (anti-slop) that override recipe, skill and prompt defaults for visual work
 - `README.md` = human-facing repo/product overview
 - `tools/catalog.mjs` + `tools/catalog.sql` = the recipe and design catalog (CLI and its canonical dump)
 - `ROADMAP.md` = LEGACY pointer ledger, frozen since the `ROADMAP_SOURCE=releases` flip — the RELEASES DB (`releases.db` via `releases.sql`) is the source of truth; write via `releases roadmap add`, never by editing this file
@@ -22,11 +23,12 @@ This file is the first entry point for an AI agent working in this repo: it tell
 1. Read `ROUTER.md` to understand the repo's operating order and canonical files. -> expect one clear next file, not a repo-wide scavenger hunt.
 2. Read `GUIDING-PRINCIPLES.md` for the repo's north star. -> expect the goals and tradeoff lens that every design choice answers to.
 3. Read `AGENTS.md` before making recommendations or edits. -> expect explicit assumptions, a reversibility read on consequential changes, and verified claims only.
-4. Read `README.md` for the repo's purpose and baseline usage. -> expect a short explanation of what is canonical here.
-5. If the task is about the PDDA contract or enforcement model, read `PROJECT/PDDA.md`. -> expect the source of truth for lifecycle, roadmap, changelog, and enforcement rules.
-6. Run `python3 utils/py/releases_app.py roadmap list` (or `.xyz/utils/py/releases_app.py roadmap list`) to find the active effort or parked intake. -> expect links outward to the canonical `PROJECT/**` docs; the roadmap is a pointer ledger, not a plan body. (`ROADMAP.md` is the frozen legacy file — do not read it for current state or edit it.)
-7. Before reporting success on repo changes, run `utils/pdda/pdda.sh run` or the relevant single check (`utils/pdda/pdda.sh <check>`). -> expect deterministic findings first, then any LLM review.
-8. If you are exploring an unknown system, proposing a new spike, or are blocked, search `PROJECT/3-COMPLETED/` and `CHANGELOG.md` for past context first. -> expect to recover memory of past struggles, gotchas, or decisions.
+4. Read `SYSTEM-INSTRUCTIONS.md` before creating or changing anything visual (recipes, diagrams, fixture copy or themes, image prompts). -> expect ten numbered rules (AS-1 to AS-10) that override recipe, skill and prompt defaults, and a required report.
+5. Read `README.md` for the repo's purpose and baseline usage. -> expect a short explanation of what is canonical here.
+6. If the task is about the PDDA contract or enforcement model, read `PROJECT/PDDA.md`. -> expect the source of truth for lifecycle, roadmap, changelog, and enforcement rules.
+7. Run `python3 utils/py/releases_app.py roadmap list` (or `.xyz/utils/py/releases_app.py roadmap list`) to find the active effort or parked intake. -> expect links outward to the canonical `PROJECT/**` docs; the roadmap is a pointer ledger, not a plan body. (`ROADMAP.md` is the frozen legacy file — do not read it for current state or edit it.)
+8. Before reporting success on repo changes, run `utils/pdda/pdda.sh run` or the relevant single check (`utils/pdda/pdda.sh <check>`). -> expect deterministic findings first, then any LLM review.
+9. If you are exploring an unknown system, proposing a new spike, or are blocked, search `PROJECT/3-COMPLETED/` and `CHANGELOG.md` for past context first. -> expect to recover memory of past struggles, gotchas, or decisions.
 
 ## Canonical rules
 

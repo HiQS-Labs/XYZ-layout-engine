@@ -6,13 +6,13 @@ not ok 1 - guards: render pipeline breaks on a clean checkout
   ---
   duration_ms: 2037.930167
   type: 'test'
-  location: '/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:29:1'
+  location: '~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:29:1'
   failureType: 'testCodeFailure'
   error: |-
     render: FAILED Error: Validation failed: [{"field":"outputRoot","message":"outside authorized root or read-only spike evidence"}]
-        at invalid (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/request.mjs:7:44)
-        at outputRoot (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/render.mjs:191:70)
-        at async main (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/render.mjs:189:3)
+        at invalid (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/request.mjs:7:44)
+        at outputRoot (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/render.mjs:191:70)
+        at async main (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/render.mjs:189:3)
     
     
     1 !== 0
@@ -23,10 +23,10 @@ not ok 1 - guards: render pipeline breaks on a clean checkout
   actual: 1
   operator: 'strictEqual'
   stack: |-
-    invalid (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/request.mjs:7:44)
-    outputRoot (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/render.mjs:191:70)
-    async main (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/render.mjs:189:3)
-    TestContext.<anonymous> (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:108:10)
+    invalid (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/request.mjs:7:44)
+    outputRoot (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/render.mjs:191:70)
+    async main (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/render.mjs:189:3)
+    TestContext.<anonymous> (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:108:10)
     async Test.run (node:internal/test_runner/test:1054:7)
     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
   ...
@@ -35,7 +35,7 @@ not ok 2 - guards: unintended visual or layout drift
   ---
   duration_ms: 0.305208
   type: 'test'
-  location: '/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:116:1'
+  location: '~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:116:1'
   failureType: 'testCodeFailure'
   error: 'no dated run folder under /var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/gh2-fresh-EfVbjB'
   code: 'ERR_ASSERTION'
@@ -44,8 +44,8 @@ not ok 2 - guards: unintended visual or layout drift
   actual: 0
   operator: '=='
   stack: |-
-    runDir (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:24:10)
-    TestContext.<anonymous> (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:117:17)
+    runDir (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:24:10)
+    TestContext.<anonymous> (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:117:17)
     Test.runInAsyncScope (node:async_hooks:214:14)
     Test.run (node:internal/test_runner/test:1047:25)
     Test.processPendingSubtests (node:internal/test_runner/test:744:18)

@@ -6,14 +6,14 @@
   "attested_at": "2026-10-10T06:42:55Z",
   "driver_pid": 12291,
   "isolated": true,
-  "relay_file": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
+  "relay_file": "~/marathon-clones/marathon-gh-5-mvp-foundation/marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
   "relay_file_rel": "marathon-system/gh5-mvp-foundation--gh5-p5/RELAY.md",
   "reviewed_head": "479ebe8ef31c017868b4f4ef25bfb89704807fbb",
   "reviewer": "codex",
   "schema": "relay-drive/attest@1",
   "status": "Approved",
-  "target_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation",
+  "target_repo": "~/marathon-clones/marathon-gh-5-mvp-foundation",
   "task": "MARATHON-GH5-P5-TURN",
   "trailer_sha256": "0c8f0c0099948db86c4cdc6090580ef527215b6cd8eb0da21fd37d43e34c8f1f",
-  "transcript_repo": "/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation"
+  "transcript_repo": "~/marathon-clones/marathon-gh-5-mvp-foundation"
 }

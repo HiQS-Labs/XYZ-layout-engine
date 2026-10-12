@@ -8,7 +8,7 @@ not ok 1 - guards: render pipeline breaks on a clean checkout
   ---
   duration_ms: 11556.4945
   type: 'test'
-  location: '/Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:26:1'
+  location: '~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:26:1'
   failureType: 'testCodeFailure'
   error: |-
     must actually shrink
@@ -21,7 +21,7 @@ not ok 1 - guards: render pipeline breaks on a clean checkout
   actual: false
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (file:///Users/noelsaw/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:155:10)
+    TestContext.<anonymous> (file://~/marathon-clones/marathon-gh-5-mvp-foundation/tools/spike/test/canaries.test.mjs:155:10)
     async Test.run (node:internal/test_runner/test:1054:7)
     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
   ...
