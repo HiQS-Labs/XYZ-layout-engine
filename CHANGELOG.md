@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-12 — MangaJDM integration and public receipt paths
+
+- Integrated current main into PR #32. Removed one extra changelog preamble blank line and replayed GH28 through the canonical RELEASES CLI, retaining GH34 and both ratings. No runtime/recipe content change. Refs #28.
+- Applied current public-repo transcript path redaction. Republished only export input-path metadata through the existing publisher; all PNG/SVG/HTML/fonts/images and catalog hashes remain byte-identical. Original runs are retained in Git history/private scratch; native attestations retain their original review hashes. Easy to reverse.
+
 ## 2026-10-11 — SYSTEM-INSTRUCTIONS.md: anti-slop design rules for every agent
 
 - New root file `SYSTEM-INSTRUCTIONS.md`: ten numbered rules (AS-1 to AS-10) against cliché visual output, plus a required before-and-after report. The rules were adapted from an operator-supplied list for web front ends to what this engine makes: fixed-canvas infographics, diagrams and AI-generated image assets. Web-only advice (hero sections, buttons, mobile overflow) was replaced by rules on infographic composition, fixture themes, vendored fonts and image prompts.

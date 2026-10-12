@@ -6,14 +6,14 @@
   "attested_at": "2026-10-11T16:31:58Z",
   "driver_pid": 84711,
   "isolated": true,
-  "relay_file": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/relay-system/2026-10-11/gh28-plan.codex.md",
+  "relay_file": "~/marathon-clones/mangajdm-portrait-promos-20261011/relay-system/2026-10-11/gh28-plan.codex.md",
   "relay_file_rel": "relay-system/2026-10-11/gh28-plan.codex.md",
   "reviewed_head": "07321a6e21701e27a937c2ec5e05a02b73d7d7b4",
   "reviewer": "codex",
   "schema": "relay-drive/attest@1",
   "status": "Approved",
-  "target_repo": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011",
+  "target_repo": "~/marathon-clones/mangajdm-portrait-promos-20261011",
   "task": "GH28-PLAN-20261011",
   "trailer_sha256": "578402dee584083ce757ceddfee002ac49f0d50b924114b4a0bfb546dbe8355b",
-  "transcript_repo": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011"
+  "transcript_repo": "~/marathon-clones/mangajdm-portrait-promos-20261011"
 }

@@ -78,7 +78,7 @@ swept file: yes
   Observed input: GH-28 row, `doc_path=PROJECT/1-INBOX/GH-28-MANGAJDM-PROMOS.md`; filesystem lookup is false while the working plan exists.
   Affected scope: This GH-28 row's document pointer only; retain ratings, section, other rows and completed receipts.
   Falsifier: If CLI readback returns `PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md` and that path exists, S1 is resolved; a real canonical inbox plan would also overturn the missing-target observation, but the current canonical plan is the working document.
-  Probe command (exit 0): `PYTHONDONTWRITEBYTECODE=1 python3 -B /Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/.xyz/utils/py/releases_app.py --root "$PWD" roadmap list --json > "$PWD/.relay-scratch/tmp/roadmap.json"`; subsequent Python JSON/filesystem query below also exited 0:
+  Probe command (exit 0): `PYTHONDONTWRITEBYTECODE=1 python3 -B ~/marathon-clones/mangajdm-portrait-promos-20261011/.xyz/utils/py/releases_app.py --root "$PWD" roadmap list --json > "$PWD/.relay-scratch/tmp/roadmap.json"`; subsequent Python JSON/filesystem query below also exited 0:
   ```python
   import json, os
   rows = json.load(open(os.environ['TMPDIR'] + '/roadmap.json'))
@@ -156,7 +156,7 @@ Basis: S1 is resolved by current canonical CLI readback, which exactly matches t
 swept file: yes
 
 - [Pass] S1 closed. `releases.sql:45` now stores `PROJECT/2-WORKING/GH-28-MANGAJDM-PROMOS.md`. Independent CLI readback returns that same path, existing target and complete receipt equality, preserving title/section/issue and roadmap text with ratings 65/20/50/65. `relay-system/2026-10-11/gh28-verification/ledger-repoint.json:20` and `:28` record the corrected pointer and generation52/56receipts; `examples/2026-10-11-mangajdm-promos/VERIFICATION.md:16` and the plan's final disposition reconcile that repair. No further fix requested.
-  Probe command (exit 0): `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; python3 -B /Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/.xyz/utils/py/releases_app.py --root "$PWD" roadmap list --json > "$TMPDIR/roadmap-r2.json"`, followed by this Python query (exit 0):
+  Probe command (exit 0): `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; python3 -B ~/marathon-clones/mangajdm-portrait-promos-20261011/.xyz/utils/py/releases_app.py --root "$PWD" roadmap list --json > "$TMPDIR/roadmap-r2.json"`, followed by this Python query (exit 0):
   ```python
   import json, os
   r = next(r for r in json.load(open(os.environ['TMPDIR']+'/roadmap-r2.json')) if str(r['gh_number']) == '28')

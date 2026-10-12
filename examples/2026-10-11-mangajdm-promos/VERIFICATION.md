@@ -28,3 +28,9 @@ The artwork is supplied imagery, with source Japanese lettering baked into raste
 ## Independent QA
 
 Native Codex plan QA Approved in Round1. Final native Codex QA Approved in Round2, driver exit0 and [attestation](../../relay-system/2026-10-11/gh28-final-attestation.json) on reviewed04160ed3bf932c5559bcd93674e58855b54231a5. [Full review](../../relay-system/2026-10-11/gh28-final.codex.md) independently reproduces PNG/SVG bytes, text fit, design pins/hashes and red controls, plus visual inspection. S1 structured plan pointer was repaired through CLI; no open Blocker/Should. These final receipt/document edits change no published recipe or output bytes.
+
+## Integration repair — 2026-10-12
+
+Integrated main da97d78. The changelog repair removes one extra heading blank line and preserves all dated sections; canonical CLI replay preserves both GH28 and GH34 ledger rows/ratings. Current public-repo policy required replacing home-directory prefixes in three relay files. Native attestation values describe the original review bytes; their path strings are now redacted archival metadata. Original review commits remain in Git history.
+
+The three export receipts now use repo-relative input paths. Existing `publishArtifacts` created new immutable selected runs and manifest hashes from the same render/artifact bytes; earlier runs remain recoverable in Git history and private scratch. PNG/SVG/compact and inline HTML/fonts/images are byte-identical, catalog recipe digest and design hashes unchanged. [Republication receipt](../../relay-system/2026-10-12/gh28-merge-verification/republication.json). No published recipe content or runtime guard changed.

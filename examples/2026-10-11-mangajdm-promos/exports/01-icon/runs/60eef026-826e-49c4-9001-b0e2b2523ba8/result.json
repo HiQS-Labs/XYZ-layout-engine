@@ -1,6 +1,6 @@
 {
   "normalized": {
-    "inputPath": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/examples/2026-10-11-mangajdm-promos/03-wear.fixture.json",
+    "inputPath": "examples/2026-10-11-mangajdm-promos/01-icon.fixture.json",
     "width": 1080,
     "height": 1920,
     "format": "png,svg,html,html-inline",
@@ -29,15 +29,15 @@
     "errors": []
   },
   "digests": {
-    "png": "54fc96b86dda9c8d1dc63a12216d36f8a50b903590c959f443a3af39a97bc939",
-    "svg": "c527a6f42451405d3512dfcaa03fd56e7013f687858cece9859f813e053aa38a",
-    "html": "e8a1f4349d60adca3d92bb903f73e2df757adffd53909e8ad61f84b737830ec3",
-    "html-inline": "07a55763363728808635af05b4ea41d1ace626a23702885cb3152b3de50098a9"
+    "png": "40e5932a45c3011f232a7c582f57a5cf7e7a82848d0bd30fd5ada62f177d0492",
+    "svg": "ad61f3918c19048b52d360d957254402fe77dd0dd07775b31526026f3aa03775",
+    "html": "a8da2eb3a74c362f38de597850dfa86f2ba5e60e61c7c25cc3b8abcf61269fcc",
+    "html-inline": "5b292c0545693182a42c1e87f98983c48258bb1199bef33ada5a9f54aad2b49c"
   },
   "provenance": {
-    "inputPath": "/Users/noelsaw/marathon-clones/mangajdm-portrait-promos-20261011/examples/2026-10-11-mangajdm-promos/03-wear.fixture.json",
-    "inputSha256": "810b10a2d26ea1e3e21f0ef5d4f5c8b9c0b28b5574bcd1d831bb00ca172d5475",
-    "fixtureSha256": "4ee5f316d2094510f7e3487e8f667ba5d7db733e1b25f11813c3d4db3737c911",
+    "inputPath": "examples/2026-10-11-mangajdm-promos/01-icon.fixture.json",
+    "inputSha256": "ad913bade2ae8de1bd553d9fb65578fd1a28b77222d267a46071aae1bad318c0",
+    "fixtureSha256": "720ce7a21e48b43616f78c637b7fd135b5735b8483fc11ce68e77c8056f6ad89",
     "backend": "satori"
   },
   "fitting": {

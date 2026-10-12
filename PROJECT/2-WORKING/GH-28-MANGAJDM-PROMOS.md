@@ -4,7 +4,7 @@ source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/28
 title: "MangaJDM — three portrait promo posts"
 status: "PR ready; awaiting merge"
 created: 2026-10-11
-updated: 2026-10-11
+updated: 2026-10-12
 owner: Codex
 doc_type: feedback
 goal: Deliver three editable 1080×1920 portrait promos from one published recipe, with design records and examples exports.
@@ -102,3 +102,10 @@ Final native QA: Round2 PASS/Approved, driver exit0, isolated reviewer Codex; re
 [PR32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32) is open against main from `feat/mangajdm-portrait-promos`; remote readback verified non-draft/MERGEABLE and matching pushed head. No hosted checks are configured for this PR (empty check rollup); local canaries, catalog, RELEASES and PDDA gates passed as recorded. Changes after reviewed04160ed are review/attestation receipts and status documents only; recipe, assets, fixtures, outputs and catalog/design bytes are unchanged. Issue28 stays open and RELEASES stays In progress pending landing, not shipped.
 
 The fresh full task clone is retained for merge handoff with scratch/repair evidence; primary checkout and source library are unchanged. Once landing is verified, `/merge-cleanup` can retire this task clone under the repository cleanup SOP after preserving any unique work/evidence. No clone teardown or merge is implied by this ready PR.
+
+## Lessons Learned (For Future Agents)
+
+- The strict additive changelog merger expects new complete dated sections immediately after the existing preamble; even an extra blank line can require a bounded caller repair. Preserve history instead of weakening that guard.
+- Updating roadmap text does not repoint structured doc_path; use `roadmap repoint` after moving the canonical plan.
+- Check both rendering backends before final catalog registration: Inter glyph height can exceed short line-height boxes even when Satori fits.
+- Published recipe files remain immutable. Public export receipt redaction can use the existing publisher to select new runs with unchanged visual artifact bytes; preserve original runs in history/private backup.
