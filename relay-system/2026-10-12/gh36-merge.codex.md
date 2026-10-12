@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -111,5 +111,21 @@ F2 Implemented: README delivered catalog identities now list all four published 
 Added preservation.json with source commit provenance (baseline full clone ca133276, merge source 4845131, original PR 0266791) and row/identity/bytes results. Clarified packet: binary font files are unchanged; reviewed incoming SOURCE.md notes are retained. The existing matrix and four-canary receipts stand; no runtime edits or extra suite rerun for these documentation changes. Post-turn native gate remains required.
 
 Handing off to Reviewer (codex) for Round 2 against the corrected docs and retained machine evidence.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: Ship with the required post-turn clone gate. F1 and F2 are resolved; the complete packet and bounded source sweep reveal no additional material defect. Approval covers machine integration review; human artwork acceptance remains pending. Bet: retained clone receipts describe the seeded source; historical ancestry and restoration remain for the harness/operator to verify. This relay-only status edit is Easy to reverse.
+swept file: yes
+
+- [Pass] F1 resolved. The current plan says “Built; final Codex QA Approved (round 2); PR #37 merge QA in progress”, “updated: 2026-10-12”, and “PR #37 awaits merge QA and landing. Human review of the artwork is pending.” (PROJECT/2-WORKING/GH-36-RECURSIVE-PROCESS-RECIPE.md, quoted spans). Historical implementation evidence remains labelled by its earlier baseline. No further correction requested.
+- [Pass] F2 resolved. README now lists “nutrition@1.0.0”, “solar-system@1.0.0”, “mangajdm-promo@1.0.0” and “recursive-process@1.0.0” in Local Recipe Catalog (README.md, quoted identities). Keep this correction.
+- [Pass] Re-read the whole packet, README and current plan; swept complete tools/request.mjs, tools/render.mjs, tools/catalog.mjs and the complete C1/helper scope (tools/spike/test/canaries.test.mjs:1–401). No additional material pre-existing defect found in that scope. Four-recipe admission/save/canvas branches (tools/request.mjs:59–61,105–109), module/font selection (tools/render.mjs:183–201), family propagation (:237–242,341–344) and both incoming declared-file sets (tools/catalog.mjs:134–148) remain consistent. No runtime change requested.
+- [Pass] Fresh read-only commands “node tools/catalog.mjs verify --json > "$TMPDIR/round2-catalog.txt"” and “node tools/catalog.mjs export --check > "$TMPDIR/round2-export.txt"” returned valid=true/errors=[] and canonical=true respectively, with only the expected SQLite ExperimentalWarning; the combined probe command exited 0. Keep the existing publication.
+- [Pass] Fresh record probe “python3 -B - <<'PROBE' > "$TMPDIR/round2-probe.txt"” exited 0, asserting 10 unique inputPath/backend records, 35 digest formats and complete main-matrix.json == merged-matrix.json, plus preservation.json's 63/10 counts, five true preservation flags, 35 formats and ca133276/026679195 commit prefixes. Decisive output: “PASS: 10 unique matrix records / 35 formats equal; preservation receipt internally consistent (63/10 rows and source commits); historical provenance not independently measured”. Inputs are relay-system/2026-10-12/gh36-merge-verification/{main-matrix.json,merged-matrix.json,preservation.json}. This establishes stored-record equality and receipt consistency, not fresh rendering or historical retention. Preserve these receipts.
+- [Unverified — no citation] Retained receipts state “# pass 4”, “# fail 0”, “4 canaries in 39.7s (budget 60s)” (gh36-merge-verification/canaries.log under this relay date), and “generation trio consistent at 66” / “check: clean (0 failures, 0 warning(s))” (ledger.log, same directory). test-budget.json retains testFiles=1, tests=4, maxSeconds=60, ciWorkflows=0. These are producer-run receipts, not fresh reviewer suite executions.
+- [Unverified — needs clone run] Round 1 limits persist: no fresh suite/render/browser run, git ancestry/source-union comparison, historical row/prefix comparison or private output restoration was performed here. The post-turn native clone gate remains required. Both startup RELEASES CLI paths are absent (fresh existence probe). All 82 graph projects were inventoried (has_more: false); none matches this worktree, so direct-source fallback was used and no graph generation/coverage is claimed.
+
+Relay closed (Approved), no further review turn needed. Handing completion to Producer (author) and the harness for the file-scoped commit, clone gate and landing workflow; human artwork review remains pending.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
