@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -67,5 +67,23 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: PASS
+Basis: Ship the two scoped fixes. Complete changed runtime files and the existing canary consumer were swept; no actionable pre-existing defect was found. Ordinary I/O compensation meets the stated envelope without another persistence owner. Reversibility: Easy source changes; recipe publications retain immutable history.
+swept file: yes
+
+- [Pass] Catalog boundaries: `tools/catalog.mjs:253` skips obsolete-temp cleanup after committed rename; `:351` stages the log before catalog publication; `:363` restores exact bytes or absence; `:368` reports "recovery required" on failed compensation. Exclusive ownership and immutable guards remain at `:286` and `:238`. No correction needed.
+- [Pass] Existing C4 targets both failed publications and asserts both stores unchanged, lock release, and successful retry (`tools/spike/test/canaries.test.mjs:519`, `:529`, `:532`). Retained compensation mutation fails at `:530`; retained PNG digest mutation fails at `:468` with "Missing expected rejection." Receipts: `relay-system/2026-10-12/gh38-verification/compensation-red.log:1`, `png-digest-red.log:1` in the same directory. Four retained manual controls cover missing log, partial staged write, commit cleanup, and explicit failed rollback (`recovery-controls.source.txt:3`, `recovery-controls.json:1` in that directory). No additional suite or test required.
+- [Pass] Shared PNG loading keeps selection in the recipes (`tools/recipes/solar-system.mjs:85`, `tools/recipes/mangajdm-promo.mjs:18`), bounded descriptor reads (`tools/request.mjs:12`), base/root containment and digest checks (`:31`), and existing CRC/decompression/aggregate budgets (`tools/spike/assets.mjs:10`). Both modules declare 1.0.1. No parallel registry, fallback, or scene change added.
+- [Pass] Read-only snapshot probe: command `python3 -B .relay-scratch/static-review.py`, exit 0. Decisive output: candidate `6bcb9b32453a23b5a1d224669ca434a36718eadc`, "committed_source_matches_worktree": true, "baseline_rows": 76, "retained_rows": 76, "log_identical": true, "examples_fonts_unchanged": true, "matrix_equal": true. Raw object reads checked SHA-1 without invoking git. The packed baseline tools/spike tree could not be expanded; the canary diff and unchanged asset owner were instead compared with the existing baseline checkout whose main ref is ab94133. This is a bounded review, not an exhaustive repository audit. History receipt: `relay-system/2026-10-12/gh38-verification/history-preservation.json:2`; recipe history also inspected in `tools/catalog.sql`.
+- [Pass] Saved matrix probe: command `python3 -B -` reading baseline-matrix.json/final-matrix.json and comparing decoded records, exit 0. Decisive output: "before/after equal: True fixture/backend records: 10 format records: 35". Includes digests, compact assets and fit records (`relay-system/2026-10-12/gh38-verification/baseline-matrix.json:1`, `final-matrix.json:1` in that directory). This measures retained evidence equality, not fresh renders.
+- [Pass] Narrow runtime probe: command `node --input-type=module - <<'JS'`, exit 0. It invokes read-only catalog verify/export, reads the eleven Solar assets, temporarily redirects fs.open from sun.png to earth.png, then substitutes an outside realpath for assets/web. Each substitution is restored in finally; no disk contents change. Decisive output: "catalog verify/export: 0/0; Solar assets: 11; substituted valid PNG: digest rejected; namespace escape: rejected". Relevant owners: `tools/catalog.mjs:296`, `tools/request.mjs:36`, `:43`.
+- [Unverified — needs clone run] Fresh suite execution was intentionally not performed in this review worktree. Retained full-clone receipt reports "PASS — 4 canaries in 39.3s (budget 60s)" (`relay-system/2026-10-12/gh38-verification/canaries.log:1`); budget remains four tests/one file/zero workflows (`test-budget.json:12`). Harness gate owns fresh execution. Retained PDDA reports no errors/two governance warnings (`pdda.log:1` in the same evidence directory). Those warnings and human artwork/Forge reconciliation remain in issue38, not completed by this verdict.
+
+No Blocker or Should findings. Only this relay file was edited; temporary analysis files stayed in .relay-scratch. No git invocation, fixture execution, validation suite, paid call, or artifact edit was performed.
+
+Relay closed (Approved), no further turn needed. Producer author may continue authorized landing after the harness gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
