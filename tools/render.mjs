@@ -184,6 +184,8 @@ export async function processRequest(reqObj, options = {}) {
     recipe = await import('./recipes/nutrition.mjs');
   } else if (normalized.recipe === 'solar-system') {
     recipe = await import('./recipes/solar-system.mjs');
+  } else if (normalized.recipe === 'mangajdm-promo') {
+    recipe = await import('./recipes/mangajdm-promo.mjs');
   } else if (normalized.recipe === 'recursive-process') {
     recipe = await import('./recipes/recursive-process.mjs');
   } else {

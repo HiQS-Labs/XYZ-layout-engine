@@ -1,0 +1,60 @@
+{
+  "gate": "pnpm test",
+  "status": "BLOCKED",
+  "hostLoadObserved": [
+    190.88,
+    330.56
+  ],
+  "runtimeBudgetUnchanged": true,
+  "threadCapNotAdopted": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "control": "integration repair",
+      "exit": 1,
+      "deadlineSeconds": 60,
+      "result": "suite killed at deadline",
+      "evidence": "mangajdm-merge-canaries.log"
+    },
+    {
+      "attempt": 2,
+      "control": "integration repair",
+      "exit": 1,
+      "deadlineSeconds": 60,
+      "result": "suite killed at deadline",
+      "evidence": "mangajdm-merge-canaries-retry.log"
+    },
+    {
+      "attempt": 3,
+      "control": "integration repair",
+      "exit": 1,
+      "deadlineSeconds": 60,
+      "result": "suite killed at deadline",
+      "evidence": "mangajdm-merge-canaries-trace.log"
+    },
+    {
+      "attempt": 4,
+      "control": "integration repair",
+      "exit": 1,
+      "deadlineSeconds": 60,
+      "result": "suite killed at deadline",
+      "evidence": "mangajdm-second-canaries.log"
+    },
+    {
+      "attempt": 5,
+      "control": "integration repair",
+      "exit": 1,
+      "deadlineSeconds": 60,
+      "result": "suite killed at deadline",
+      "evidence": "mangajdm-thread-capped-canaries.log"
+    },
+    {
+      "attempt": 6,
+      "control": "main da97d78",
+      "exit": 1,
+      "deadlineSeconds": 60,
+      "result": "suite killed at deadline",
+      "evidence": "mangajdm-main-control-canaries.log"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# (node:99469) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+test-budget: FAIL — deadline: suite exceeded budget.maxSeconds=60s and was killed
+[ELIFECYCLE] Test failed. See above for more details.

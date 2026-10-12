@@ -1,0 +1,742 @@
+{
+  "base": "a9aabf1d3dfd68923d091f202b5f463e96cfba94",
+  "node": "v22.22.3",
+  "platform": "darwin",
+  "arch": "arm64",
+  "paidCalls": 0,
+  "posts": [
+    {
+      "key": "01-icon",
+      "width": 1080,
+      "height": 1920,
+      "pngSha256": "40e5932a45c3011f232a7c582f57a5cf7e7a82848d0bd30fd5ada62f177d0492",
+      "svgSha256": "ad61f3918c19048b52d360d957254402fe77dd0dd07775b31526026f3aa03775",
+      "manifestVerified": true,
+      "catalogVerified": true,
+      "recipeDigest": "567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204",
+      "twoRerendersByteIdentical": true,
+      "playwrightFit": true,
+      "finalSizes": {
+        "eyebrow": 24,
+        "issue": 24,
+        "line1": 100,
+        "line2": 100,
+        "art_note": 24,
+        "deck": 32,
+        "cta": 32,
+        "website": 36
+      },
+      "offlineHtml": [
+        {
+          "format": "render.html",
+          "images": 3,
+          "fonts": 2,
+          "httpRequests": 0,
+          "textBounds": [
+            {
+              "id": "eyebrow",
+              "text": "THE ICON FILES",
+              "x": 80,
+              "y": 284.40625,
+              "width": 213.859375,
+              "height": 31.1875,
+              "scrollWidth": 214,
+              "clientWidth": 214,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "issue",
+              "text": "VOL.01 / 01",
+              "x": 789.921875,
+              "y": 284.40625,
+              "width": 130.078125,
+              "height": 31.1875,
+              "scrollWidth": 130,
+              "clientWidth": 130,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "line1",
+              "text": "FOR THE",
+              "x": 76,
+              "y": 338,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "line2",
+              "text": "OBSESSED.",
+              "x": 76,
+              "y": 466,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "art_note",
+              "text": "R34 / MANGA STUDY",
+              "x": 106,
+              "y": 1320.40625,
+              "width": 274.546875,
+              "height": 31.1875,
+              "scrollWidth": 275,
+              "clientWidth": 275,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "deck",
+              "text": "Car culture. Inked differently.",
+              "x": 80,
+              "y": 1396,
+              "width": 437.9375,
+              "height": 41.59375,
+              "scrollWidth": 438,
+              "clientWidth": 438,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "cta",
+              "text": "Choose your icon.",
+              "x": 104,
+              "y": 1502.203125,
+              "width": 283.984375,
+              "height": 41.59375,
+              "scrollWidth": 284,
+              "clientWidth": 284,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "website",
+              "text": "MangaJDM.com",
+              "x": 80,
+              "y": 1581.59375,
+              "width": 277.21875,
+              "height": 46.796875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 47,
+              "clientHeight": 47
+            }
+          ]
+        },
+        {
+          "format": "standalone.html",
+          "images": 3,
+          "fonts": 2,
+          "httpRequests": 0,
+          "textBounds": [
+            {
+              "id": "eyebrow",
+              "text": "THE ICON FILES",
+              "x": 80,
+              "y": 284.40625,
+              "width": 213.859375,
+              "height": 31.1875,
+              "scrollWidth": 214,
+              "clientWidth": 214,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "issue",
+              "text": "VOL.01 / 01",
+              "x": 789.921875,
+              "y": 284.40625,
+              "width": 130.078125,
+              "height": 31.1875,
+              "scrollWidth": 130,
+              "clientWidth": 130,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "line1",
+              "text": "FOR THE",
+              "x": 76,
+              "y": 338,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "line2",
+              "text": "OBSESSED.",
+              "x": 76,
+              "y": 466,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "art_note",
+              "text": "R34 / MANGA STUDY",
+              "x": 106,
+              "y": 1320.40625,
+              "width": 274.546875,
+              "height": 31.1875,
+              "scrollWidth": 275,
+              "clientWidth": 275,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "deck",
+              "text": "Car culture. Inked differently.",
+              "x": 80,
+              "y": 1396,
+              "width": 437.9375,
+              "height": 41.59375,
+              "scrollWidth": 438,
+              "clientWidth": 438,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "cta",
+              "text": "Choose your icon.",
+              "x": 104,
+              "y": 1502.203125,
+              "width": 283.984375,
+              "height": 41.59375,
+              "scrollWidth": 284,
+              "clientWidth": 284,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "website",
+              "text": "MangaJDM.com",
+              "x": 80,
+              "y": 1581.59375,
+              "width": 277.21875,
+              "height": 46.796875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 47,
+              "clientHeight": 47
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "02-eras",
+      "width": 1080,
+      "height": 1920,
+      "pngSha256": "a3070829143a1d5f6e69d946bb8d83e0cbb8a55341cc53ed520d483d60c3b9e6",
+      "svgSha256": "4d4e2869dfc5516514079f10b19e86577f6143687e1619daf7cd6f021e8b6adf",
+      "manifestVerified": true,
+      "catalogVerified": true,
+      "recipeDigest": "567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204",
+      "twoRerendersByteIdentical": true,
+      "playwrightFit": true,
+      "finalSizes": {
+        "eyebrow": 24,
+        "issue": 24,
+        "line1": 100,
+        "line2": 100,
+        "art_note": 24,
+        "deck": 32,
+        "cta": 32,
+        "website": 36
+      },
+      "offlineHtml": [
+        {
+          "format": "render.html",
+          "images": 3,
+          "fonts": 2,
+          "httpRequests": 0,
+          "textBounds": [
+            {
+              "id": "eyebrow",
+              "text": "THROUGH THE ERAS",
+              "x": 80,
+              "y": 284.40625,
+              "width": 277.21875,
+              "height": 31.1875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "issue",
+              "text": "VOL.01 / 02",
+              "x": 785.140625,
+              "y": 284.40625,
+              "width": 134.859375,
+              "height": 31.1875,
+              "scrollWidth": 135,
+              "clientWidth": 135,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "line1",
+              "text": "EVERY ERA.",
+              "x": 76,
+              "y": 338,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "line2",
+              "text": "ONE OBSESSION.",
+              "x": 76,
+              "y": 466,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "art_note",
+              "text": "INTEGRA / THE LINEUP",
+              "x": 106,
+              "y": 1320.40625,
+              "width": 296.515625,
+              "height": 31.1875,
+              "scrollWidth": 297,
+              "clientWidth": 297,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "deck",
+              "text": "Different generations. Same garage dream.",
+              "x": 80,
+              "y": 1396,
+              "width": 651.203125,
+              "height": 41.59375,
+              "scrollWidth": 651,
+              "clientWidth": 651,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "cta",
+              "text": "Which era is yours?",
+              "x": 104,
+              "y": 1502.203125,
+              "width": 307.203125,
+              "height": 41.59375,
+              "scrollWidth": 307,
+              "clientWidth": 307,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "website",
+              "text": "MangaJDM.com",
+              "x": 80,
+              "y": 1581.59375,
+              "width": 277.21875,
+              "height": 46.796875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 47,
+              "clientHeight": 47
+            }
+          ]
+        },
+        {
+          "format": "standalone.html",
+          "images": 3,
+          "fonts": 2,
+          "httpRequests": 0,
+          "textBounds": [
+            {
+              "id": "eyebrow",
+              "text": "THROUGH THE ERAS",
+              "x": 80,
+              "y": 284.40625,
+              "width": 277.21875,
+              "height": 31.1875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "issue",
+              "text": "VOL.01 / 02",
+              "x": 785.140625,
+              "y": 284.40625,
+              "width": 134.859375,
+              "height": 31.1875,
+              "scrollWidth": 135,
+              "clientWidth": 135,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "line1",
+              "text": "EVERY ERA.",
+              "x": 76,
+              "y": 338,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "line2",
+              "text": "ONE OBSESSION.",
+              "x": 76,
+              "y": 466,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "art_note",
+              "text": "INTEGRA / THE LINEUP",
+              "x": 106,
+              "y": 1320.40625,
+              "width": 296.515625,
+              "height": 31.1875,
+              "scrollWidth": 297,
+              "clientWidth": 297,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "deck",
+              "text": "Different generations. Same garage dream.",
+              "x": 80,
+              "y": 1396,
+              "width": 651.203125,
+              "height": 41.59375,
+              "scrollWidth": 651,
+              "clientWidth": 651,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "cta",
+              "text": "Which era is yours?",
+              "x": 104,
+              "y": 1502.203125,
+              "width": 307.203125,
+              "height": 41.59375,
+              "scrollWidth": 307,
+              "clientWidth": 307,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "website",
+              "text": "MangaJDM.com",
+              "x": 80,
+              "y": 1581.59375,
+              "width": 277.21875,
+              "height": 46.796875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 47,
+              "clientHeight": 47
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "03-wear",
+      "width": 1080,
+      "height": 1920,
+      "pngSha256": "54fc96b86dda9c8d1dc63a12216d36f8a50b903590c959f443a3af39a97bc939",
+      "svgSha256": "c527a6f42451405d3512dfcaa03fd56e7013f687858cece9859f813e053aa38a",
+      "manifestVerified": true,
+      "catalogVerified": true,
+      "recipeDigest": "567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204",
+      "twoRerendersByteIdentical": true,
+      "playwrightFit": true,
+      "finalSizes": {
+        "eyebrow": 24,
+        "issue": 24,
+        "line1": 100,
+        "line2": 100,
+        "art_note": 24,
+        "deck": 32,
+        "cta": 32,
+        "website": 36
+      },
+      "offlineHtml": [
+        {
+          "format": "render.html",
+          "images": 3,
+          "fonts": 2,
+          "httpRequests": 0,
+          "textBounds": [
+            {
+              "id": "eyebrow",
+              "text": "GARAGE TO STREET",
+              "x": 80,
+              "y": 284.40625,
+              "width": 270.234375,
+              "height": 31.1875,
+              "scrollWidth": 270,
+              "clientWidth": 270,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "issue",
+              "text": "VOL.01 / 03",
+              "x": 784.765625,
+              "y": 284.40625,
+              "width": 135.234375,
+              "height": 31.1875,
+              "scrollWidth": 135,
+              "clientWidth": 135,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "line1",
+              "text": "WEAR YOUR",
+              "x": 76,
+              "y": 338,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "line2",
+              "text": "NEXT CHAPTER.",
+              "x": 76,
+              "y": 466,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "art_note",
+              "text": "SILVIA / APPAREL CONCEPT",
+              "x": 106,
+              "y": 1320.40625,
+              "width": 364.015625,
+              "height": 31.1875,
+              "scrollWidth": 364,
+              "clientWidth": 364,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "deck",
+              "text": "Garage obsession. Everyday expression.",
+              "x": 80,
+              "y": 1396,
+              "width": 614.5625,
+              "height": 41.59375,
+              "scrollWidth": 615,
+              "clientWidth": 615,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "cta",
+              "text": "Follow the next chapter.",
+              "x": 104,
+              "y": 1502.203125,
+              "width": 373.5,
+              "height": 41.59375,
+              "scrollWidth": 374,
+              "clientWidth": 374,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "website",
+              "text": "MangaJDM.com",
+              "x": 80,
+              "y": 1581.59375,
+              "width": 277.21875,
+              "height": 46.796875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 47,
+              "clientHeight": 47
+            }
+          ]
+        },
+        {
+          "format": "standalone.html",
+          "images": 3,
+          "fonts": 2,
+          "httpRequests": 0,
+          "textBounds": [
+            {
+              "id": "eyebrow",
+              "text": "GARAGE TO STREET",
+              "x": 80,
+              "y": 284.40625,
+              "width": 270.234375,
+              "height": 31.1875,
+              "scrollWidth": 270,
+              "clientWidth": 270,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "issue",
+              "text": "VOL.01 / 03",
+              "x": 784.765625,
+              "y": 284.40625,
+              "width": 135.234375,
+              "height": 31.1875,
+              "scrollWidth": 135,
+              "clientWidth": 135,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "line1",
+              "text": "WEAR YOUR",
+              "x": 76,
+              "y": 338,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "line2",
+              "text": "NEXT CHAPTER.",
+              "x": 76,
+              "y": 466,
+              "width": 844,
+              "height": 125,
+              "scrollWidth": 844,
+              "clientWidth": 844,
+              "scrollHeight": 125,
+              "clientHeight": 125
+            },
+            {
+              "id": "art_note",
+              "text": "SILVIA / APPAREL CONCEPT",
+              "x": 106,
+              "y": 1320.40625,
+              "width": 364.015625,
+              "height": 31.1875,
+              "scrollWidth": 364,
+              "clientWidth": 364,
+              "scrollHeight": 31,
+              "clientHeight": 31
+            },
+            {
+              "id": "deck",
+              "text": "Garage obsession. Everyday expression.",
+              "x": 80,
+              "y": 1396,
+              "width": 614.5625,
+              "height": 41.59375,
+              "scrollWidth": 615,
+              "clientWidth": 615,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "cta",
+              "text": "Follow the next chapter.",
+              "x": 104,
+              "y": 1502.203125,
+              "width": 373.5,
+              "height": 41.59375,
+              "scrollWidth": 374,
+              "clientWidth": 374,
+              "scrollHeight": 42,
+              "clientHeight": 42
+            },
+            {
+              "id": "website",
+              "text": "MangaJDM.com",
+              "x": 80,
+              "y": 1581.59375,
+              "width": 277.21875,
+              "height": 46.796875,
+              "scrollWidth": 277,
+              "clientWidth": 277,
+              "scrollHeight": 47,
+              "clientHeight": 47
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    "unknown artwork/path selector refused",
+    "wrong canvas refused",
+    "valid PNG with wrong digest refused",
+    "durable saved-copy deck edit and identical rerender; original fixture unchanged",
+    "duplicate design ID refused with exact dump/log bytes retained"
+  ],
+  "catalog": {
+    "recipesOriginalRowsPreserved": 2,
+    "recipe_versionsOriginalRowsPreserved": 2,
+    "recipe_version_filesOriginalRowsPreserved": 27,
+    "recipe_outputsOriginalRowsPreserved": 8,
+    "designsOriginalRowsPreserved": 3,
+    "designIds": [
+      "2026-10-11-mangajdm-icon",
+      "2026-10-11-mangajdm-eras",
+      "2026-10-11-mangajdm-wear"
+    ],
+    "originalLogPrefixPreserved": true,
+    "totalDesigns": 6,
+    "grammarReviewTrigger": false
+  },
+  "commands": [
+    "node .workhorse/manual-checks.mjs"
+  ],
+  "scriptSha256": "93cc747dcc3679152104574abbc5e360c48603aaa6a8bccc7352f6ce74363670",
+  "sourceAssetsUnchanged": true,
+  "manualVisualReview": {
+    "reviewer": "author Codex",
+    "checked": [
+      "R34 silhouette and manga lines remain visible",
+      "complete Integra four-car lineup retained",
+      "full supplied model and shirt print retained",
+      "English headlines/deck/CTA/website legible; source mockup disclosure present"
+    ],
+    "platformNote": "9:16 masters; actual app overlays and alternative feed crops require upload preview, not asserted compliant with every placement"
+  }
+}

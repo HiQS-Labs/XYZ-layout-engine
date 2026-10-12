@@ -38,11 +38,21 @@ Run these commands from the repository root. Dependency installation may use the
 4. **Export Retrieval and Distribution:**
    Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
+## MangaJDM portrait promos
+
+[Three coordinated portrait posts](examples/2026-10-11-mangajdm-promos/README.md) share the trusted
+`mangajdm-promo` recipe. Each has an editable fixture, PNG/SVG/offline HTML exports, captions and
+alt text, with its own pinned design record. See the [preview gallery](examples/2026-10-11-mangajdm-promos/index.html).
+
+```sh
+node tools/render.mjs examples/2026-10-11-mangajdm-promos/01-icon.fixture.json --recipe mangajdm-promo --format png,svg,html,html-inline --out .relay-scratch/mangajdm-icon
+```
+
 ## Local Recipe Catalog
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The seeded identities are `nutrition@1.0.0` and
-`solar-system@1.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
+in-memory SQLite by `tools/catalog.mjs`. The delivered identities include `nutrition@1.0.0`,
+`solar-system@1.0.0` and `mangajdm-promo@1.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
 Older versions remain ledger history; their content is retained in git.
 
@@ -130,7 +140,7 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
   - Adaptive text fitting searches for a valid shrink down to 12px within a maximum of 10 iteration bounds. Non-fit exhaustion cleanly halts.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
-  - The delivered recipe-owned canvases are nutrition 1000×1000, Solar System 2400×1700 and recursive process 1600×1340, scale 1. Other dimensions and scale are explicitly rejected.
+  - The delivered recipe-owned canvases are nutrition 1000×1000, Solar System 2400×1700, MangaJDM promo 1080×1920 and recursive process 1600×1340, scale 1. Other dimensions and scale are explicitly rejected.
   - A recipe may declare its own vendored font (`FONT` export); recursive process uses Barlow Condensed (`tools/fonts/barlow-condensed/`). Recipes that declare none keep Inter. Example: `examples/2026-10-11-belief-updating/`.
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 

@@ -1,0 +1,6 @@
+(node:23584) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+01-icon native/rerender/Playwright PASS
+02-eras native/rerender/Playwright PASS
+03-wear native/rerender/Playwright PASS
+All manual controls, catalog history, source hashes and relocated offline exports PASS

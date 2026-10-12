@@ -1,0 +1,19 @@
+{
+  "added_len": 4966,
+  "added_sha256": "a9e79f0aeaa44b5d1d4d2d07f1c6509381b32c5a1cab0d37aa3e7df208b30c0a",
+  "added_start": 7438,
+  "artifact_sha256": "81dd8538f16f7c0e0695f8b880ec3915622cb059115efd2e7f7bd0e39834aae4",
+  "attested_at": "2026-10-11T16:31:58Z",
+  "driver_pid": 84711,
+  "isolated": true,
+  "relay_file": "~/marathon-clones/mangajdm-portrait-promos-20261011/relay-system/2026-10-11/gh28-plan.codex.md",
+  "relay_file_rel": "relay-system/2026-10-11/gh28-plan.codex.md",
+  "reviewed_head": "07321a6e21701e27a937c2ec5e05a02b73d7d7b4",
+  "reviewer": "codex",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "~/marathon-clones/mangajdm-portrait-promos-20261011",
+  "task": "GH28-PLAN-20261011",
+  "trailer_sha256": "578402dee584083ce757ceddfee002ac49f0d50b924114b4a0bfb546dbe8355b",
+  "transcript_repo": "~/marathon-clones/mangajdm-portrait-promos-20261011"
+}

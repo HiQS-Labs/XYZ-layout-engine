@@ -1,0 +1,26 @@
+[
+  {
+    "post": "01-icon",
+    "previousRun": "runs/919880f3-fdc4-4153-9a89-c10dd93505bc",
+    "currentRun": "runs/60eef026-826e-49c4-9001-b0e2b2523ba8",
+    "allRenderAssetDigestsUnchanged": true,
+    "receiptPaths": "examples/2026-10-11-mangajdm-promos/01-icon.fixture.json",
+    "manifestVerified": true
+  },
+  {
+    "post": "02-eras",
+    "previousRun": "runs/25c6ba5a-b37b-4020-98ff-d3157bd50395",
+    "currentRun": "runs/36b7c3da-5fc5-48e6-a1ac-fa3cc47da2fc",
+    "allRenderAssetDigestsUnchanged": true,
+    "receiptPaths": "examples/2026-10-11-mangajdm-promos/02-eras.fixture.json",
+    "manifestVerified": true
+  },
+  {
+    "post": "03-wear",
+    "previousRun": "runs/3d2e3fdc-abe7-4928-ad42-fde4542d2654",
+    "currentRun": "runs/2926e523-97ea-44d7-8d94-1a8a09d4efa5",
+    "allRenderAssetDigestsUnchanged": true,
+    "receiptPaths": "examples/2026-10-11-mangajdm-promos/03-wear.fixture.json",
+    "manifestVerified": true
+  }
+]

@@ -1,0 +1,75 @@
+{
+  "normalized": {
+    "inputPath": "examples/2026-10-11-mangajdm-promos/02-eras.fixture.json",
+    "width": 1080,
+    "height": 1920,
+    "format": "png,svg,html,html-inline",
+    "formats": [
+      "png",
+      "svg",
+      "html",
+      "html-inline"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "mangajdm-promo"
+  },
+  "catalog": {
+    "slug": "mangajdm-promo",
+    "version": "1.0.0",
+    "contentSha256": "567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "1.0.0",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "a3070829143a1d5f6e69d946bb8d83e0cbb8a55341cc53ed520d483d60c3b9e6",
+    "svg": "4d4e2869dfc5516514079f10b19e86577f6143687e1619daf7cd6f021e8b6adf",
+    "html": "fa9af28f4f9c951a08a171f3d0e57db6907fe93202086c82cb0164ccca1ae51a",
+    "html-inline": "877eba07c1a122453bf79a9d5e0d95aff2de73551ddc4109bfe03a46e7eeeeef"
+  },
+  "provenance": {
+    "inputPath": "examples/2026-10-11-mangajdm-promos/02-eras.fixture.json",
+    "inputSha256": "6f35f8206ec99d706405946b9af0430270b268dfc0acfbe3b5e366fc7ac8ac25",
+    "fixtureSha256": "f6144ffbee60cc4efa5e53ce935a97edd0ab8ed6b3d3898eb5da0e650bbd80c8",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "eyebrow": 24,
+          "issue": 24,
+          "line1": 100,
+          "line2": 100,
+          "art_note": 24,
+          "deck": 32,
+          "cta": 32,
+          "website": 36
+        }
+      }
+    ],
+    "finalSizes": {
+      "eyebrow": 24,
+      "issue": 24,
+      "line1": 100,
+      "line2": 100,
+      "art_note": 24,
+      "deck": 32,
+      "cta": 32,
+      "website": 36
+    }
+  }
+}

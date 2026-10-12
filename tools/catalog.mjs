@@ -132,6 +132,16 @@ async function declaredFiles(root, slug) {
     [SOLAR_ROOT + 'fixture.json','schema'], [SOLAR_ROOT + 'verification.json','content'],
     ...['asteroid-belt-diagram','earth','jupiter','mars','mercury','milky-way','neptune','saturn-clean','sun','uranus','venus'].map(n => [SOLAR_ROOT + `assets/web/${n}.png`,'content'])
   ];
+  if (slug === 'mangajdm-promo') {
+    const example = 'examples/2026-10-11-mangajdm-promos/';
+    return [
+      ['tools/recipes/mangajdm-promo.mjs','module'], ['tools/spike/assets.mjs','module'],
+      [example + '01-icon.fixture.json','schema'],
+      ...['02-eras.fixture.json','03-wear.fixture.json','provenance.json'].map(n => [example + n,'content']),
+      ...['r34','integra','silvia-shirt','logo'].map(n => [example + `assets/web/${n}.png`,'content']),
+      ...['font.ttf','font-bold.ttf'].map(n => ['tools/spike/assets/' + n,'content'])
+    ];
+  }
   if (slug === 'recursive-process') return [
     ['tools/recipes/recursive-process.mjs','module'], ['examples/2026-10-11-belief-updating/fixture.json','schema'],
     ['tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content'], ['tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content']
