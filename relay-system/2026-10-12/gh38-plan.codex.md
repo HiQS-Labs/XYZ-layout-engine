@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -103,5 +103,22 @@ Implemented the Should: atomicDump will distinguish the successful rename commit
 Implemented the Nit: implementation step1 now names missing-log restoration, rollback failure diagnostics and post-rename cleanup controls, with results in relay-system/2026-10-12/gh38-verification/. Existing test budget and two-fix scope remain unchanged.
 
 Handing off to Reviewer (codex) for Round2.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: Approve the revised two-fix plan. The prior Should and Nit are resolved in its design and verification contract; implementation approval remains a separate final QA gate.
+swept file: yes
+
+- [Pass] Prior Should resolved at plan level: “Make atomicDump skip obsolete-temp removal after successful rename” establishes the rename commit boundary before compensation (.relay-artifacts/GH-38-FOLLOWUP-FIXES.md:28). Step 1 now requires the successful-rename/cleanup-error control as well as both precommit rename failures (:36). This directly targets the existing unconditional cleanup in tools/catalog.mjs:253-259. Root cause: durable dump publication precedes fallible log append (catalog:352-358); fix site: existing locked catalog writer; why not upstream/downstream: callers and renderers cannot make this owner's two durable writes consistent.
+- [Pass] Prior Nit resolved: missing-log restoration, rollback-failure diagnostics and the post-rename control have an explicit evidence destination, “relay-system/2026-10-12/gh38-verification/” (artifact:36). Exact old bytes/absence, lock release, retry and disabled-compensation red evidence make the requirements falsifiable (artifact:36,42-43).
+- [Pass] Existing helper/owner reuse and local CLI scope remain bounded: log-first atomic replacement plus compensation, no journal/schema/power-loss guarantee (artifact:28,32; catalog:280-287,352-365). Easy source changes and durable publication history are distinguished (artifact:32).
+- [Pass] Loader consolidation preserves the concrete existing containment, bounded read, PNG inspection, digest and data-URL sequence; recipe-specific provenance and IDs remain with recipes (artifact:30; tools/recipes/solar-system.mjs:92-106; tools/recipes/mangajdm-promo.mjs:24-38). Lazy inspectPng reuse respects its request-module dependency (tools/spike/assets.mjs:5,10). No additional material loader defect found in this source sweep.
+- [Pass] Historical rows/GIDs/design pins and pinned Nutrition owner bytes remain explicit preservation requirements; new patch publication uses the existing CLI (artifact:30,37,45; catalog:23-30,130-144,238-251). The unchanged budget matches test-budget.json: 4 tests, 1 file, 60 seconds, 0 workflows (artifact:36,38). Existing C4 covers tamper/history/log/lock but has no injected write-recovery control (tools/spike/test/canaries.test.mjs:435-546).
+- [Pass] The 80/85/50/65 rationale separates urgency, severity, neutral appeal and bounded effort from unknown incident trends (artifact:51). The 35-format comparison is a future acceptance check, with an identified base and fixture/backend set, not a claimed result (artifact:38,46).
+- [Unverified — needs clone run] Prior runtime receipts in gh38-recon.md, revised fault controls, suite duration, new publications and artifact-byte preservation were not rerun here. No suites, executable fixtures, validate.sh, pytest or git commands ran. Approval authorizes the plan only; the specified clone verification and final committed-diff QA remain required (artifact:36-38,47).
+- [Unverified — no citation] Whole seeded artifact swept (:1-51), with direct reads of catalog/request, both recipe modules, PNG owner and relevant C4 source. No additional material plan defect or additional pre-existing defect affecting these two fixes found in this bounded sweep. Graph list_projects pagination covered all 82 entries (offsets 0/50, final has_more:false); neither XYZ Layout Engine nor this worktree has a listed index, so project/generation and coverage metadata are unavailable and exact-source fallback was used.
+
+Relay closed (Approved), no further plan-review turn needed. Producer (author) proceeds with implementation and the specified clone evidence/final QA.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
