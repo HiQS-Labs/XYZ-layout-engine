@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -110,5 +110,23 @@ Handing off to Producer (claude-a): supply the comparison evidence, disposition 
 - [Unverified — needs clone run] → Agreed. The inspector and PDDA results remain Producer evidence, as stated in the PR body.
 
 Back to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: Approve the docs-only PR for squash merge. The supplied comparison evidence resolves the previous Should: the extra changes are review bookkeeping and the canonical rating audit trail. Reversibility: Easy. Bet: the supplied base/head evidence represents the named revisions; the failure mode is a different merge head, so approval applies to c49d7e69 and does not replace the harness gate.
+swept file: yes
+
+Read the entire seeded artifact and its evidence appendix, the complete skill, SOP and both prior relay threads, and the GH-8 close-out/diff context. Reviewed all supplied diff hunks, including SQL and database comparisons. No additional pre-existing defect requiring a fix was found in this scope. This is not a fresh exhaustive audit of historical CHANGELOG entries or SQLite free pages. The graph inventory has no index for this isolated worktree; no structural code discovery was needed. The Producer labels this round 2; the header counter remains unchanged because its increment belongs to the Producer. No Git, executable fixture, suite, roadmap command, paid call or PDDA gate ran.
+
+- [Pass] Previous Should resolved: .relay-artifacts/pr40-body.md:65 supplies the post-approval comparison, :143 the eight-file inventory, :156 the non-relay text diff, :377 the database dump delta, :417 row counts and :437 the canonical check receipt. Both complete relay files were read separately. These are attributable Producer evidence, not independently regenerated Git output.
+- [Nit] Question 1 is literally no: the appendix at :69 says “2 files changed, 34 insertions(+), 4 deletions(-)”. Besides the skill description, the final-QA transcript changes NEXT/STATUS and grading vocabulary, and adds the review and attestation (:70–128). The only skill change removes “(or any image)” (:129–138). These appropriate review records do not block merge. Describe the commit as “one-line skill wording change plus final-QA transcript/attestation”.
+- [Pass] Question 3 is yes for business scope, with audit rows: the canonical SQL diff (:277) and database diff (:377) show generation 76→77, GH-8 effort 30→85 with matching raw_text/updated_at, one roadmap-rate receipt and one rated event for GH-8. No other row change appears in the supplied full dump comparison. Row counts change only for op_receipts 80→81 and work_events 52→53. The supplied check says “receipt chain intact (81 receipt(s), business-state digest matches” and “check: clean (0 failures, 0 warning(s))”. Do not describe this as literally only two database rows changing.
+- [Pass] The actual PR body says “Refs #8. The issue gets closed by hand after merge” (:5); its workflow summary matches skills/higgsfield-cli/SKILL.md:23–31 and SOP.md:11. Fresh probe command: python3 -B - (inline standard-library regex scan of the body before the comparison appendix); exit 0; decisive output “PR_body_closing_keyword_matches=0”. The appendix is review evidence, not text to paste into GitHub's PR description: its quoted SOP diff contains the historical closing-keyword example.
+- [Unverified — no citation] Fresh bounded hygiene/path probe: python3 -B - read the seven named PR text files and actual PR body, scanning absolute home prefixes, email shapes, HTTP URL queries, common token shapes and .pem/.key paths; exit 0. Decisive output: “absolute_home matches=0”, “email matches=0”, “url_query matches=0”, “token_shape matches=0”, “key_path matches=0”, “input_paths_exist=True”. The five inputs are SOP, design instructions, findings, provenance and inspector named in the skill. Generic tilde skill-install examples are intentional. This scan does not establish absence of every secret encoding or deleted SQLite bytes.
+- [Unverified — no citation] No merge-blocking SOP contradiction or broken required input path identified: skill :25 reserves cumulative quotes against the cap; :26 stops ambiguous outcomes; :27 distinguishes signed fetching from prohibited retention; :28 requires PNG and real alpha; :30 records provenance. SOP :51 keeps the skill synchronized. The disclosed historical-status nit remains suitable for post-merge cleanup.
+- [Unverified — needs clone run] Inspector controls and PDDA remain Producer results and the post-turn harness's responsibility. GitHub's live closing-reference state and SQLite deleted-page hygiene were not independently queried. Approval is not a fresh execution claim.
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the completed review; the harness owns the file-scoped commit and deferred gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
