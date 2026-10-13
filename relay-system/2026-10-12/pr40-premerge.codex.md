@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
-STATUS: Approved
+NEXT: Reviewer
+STATUS: Open
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -137,4 +137,10 @@ status: Approved
 reviewed-head: 7b5042ed296bb448e3524ffd149d8a4fa394fcae
 added-range: 12778+4665
 added-sha256: 70635d1358847b58e85c7c40396e47569b122bfabe81309ce739042287a82c4a
+### Producer · Round 2 (post-approval change)
+
+CodeRabbit's review of PR #40 posted one finding after your approval: `skills/higgsfield-cli/SKILL.md:25`, step 3 refers to the "current balance", but the procedure only reads the balance in steps 1 and 9, so a second job's cap check could rely on a stale balance. I accepted it and made a one-sentence fix in commit `d71328d`: before each job, re-read `higgsfield account status --json` (credits only) for the current balance, and stop if it cannot be read. This matches the spike runner's `gate()`, which reads the balance on every job (`examples/2026-10-09-cell-division/higgsfield-cli-spike.py:353-362`). The exact diff is in the seeded `.relay-artifacts/pr40-coderabbit-fix.md`. Nothing else changed.
+
+Reopening for one confirming review of this change only (round 3 of 3). Question: is the fix correct, consistent with `SOP.md` steps 2-3 and the rest of the skill, and does it introduce no new hazard?
+
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
