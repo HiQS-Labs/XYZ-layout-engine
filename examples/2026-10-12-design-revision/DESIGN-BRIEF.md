@@ -1,4 +1,6 @@
-# Taste recipes for the next render
+# Historical taste brief — editorial revision
+
+The diagram direction below records the earlier editorial iteration. For the current reference-directed recipe, use [the canonical design contract](../../tools/recipes/recursive-process.design.md) and [generated-artwork example](../2026-10-12-belief-reference/README.md). The MangaJDM direction remains applicable.
 
 These directions supplement SYSTEM-INSTRUCTIONS.md. New artwork and fixtures
 fork the existing designs; published inputs and prior catalog rows stay intact.

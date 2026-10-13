@@ -1,4 +1,14 @@
 # Changelog
+## 2026-10-12 — GH-38 reference-directed diagram and generated artwork
+
+- Published `recursive-process@3.0.0` with the supplied reference's four stages, belief hexagons, consequence cards and continuation arrow. Astra at low reasoning effort implemented and rendered the recipe in both backends. Six individual PNG illustrations are pinned with prompts, settings, receipts and source/display hashes; seven successful image calls include one examination refinement.
+- The reusable design/artwork contracts live under `tools/recipes/recursive-process.*`. The new gallery, AS review and replay instructions live in `examples/2026-10-12-belief-reference/`. Fresh artwork generation is probabilistic; retained assets and deterministic geometry preserve the accepted composition. Provider PNG metadata requires the existing display converter; no engine guards were weakened.
+- Saved the accepted earlier gallery and all linked imagery under gitignored `temp/2026-10-12-accepted-design-gallery/`; retained its Git checkpoint with tag `archive/gh38-editorial-2026-10-12`. Kept one combined design branch, synchronized local main and integrated origin/main, preserving both unrelated parked branches.
+- Replay checkpoints: `fe4d6b2` design contract, `ab9136b` generated assets, `636f476` recipe/catalog publication, `de0c86d` final renders and evidence. Earlier before/after checkpoints remain in history. Nothing pushed or merged on GitHub.
+- Verification: both complete exports pass publication/catalog/fit checks; all 35 retained hashes pass. Existing four canaries pass in 39.5 seconds under the unchanged 60-second budget. The existing unsupported-font assertion now uses CJK because the selected Inter face supports arrows.
+- Preservation checks retain all 160 prior catalog rows and the original example trees. Final PDDA reports zero errors and three warnings: two existing governance references plus the unrelated GH-8 issue/roadmap state mismatch following upstream integration.
+- Bet: explicit reference anchors plus separately generated, pinned illustrations make close visual reproduction reliable while leaving individual artwork variable. Easy reversal through the recorded commits; exact new image pixels are not promised.
+
 ## 2026-10-12 — GH-38 expressive design revision of PR #32 and PR #37
 
 - Revised the taste brief and had an Astra sub-agent at low reasoning effort implement and render three artwork-led MangaJDM posters and a belief-updating diagram with a sweeping feedback path. Larger subject imagery and concrete copy replace the uniform framed promo layout; plain-language labels and a distinct examination branch lead the diagram.
