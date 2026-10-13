@@ -27,7 +27,8 @@
     },
     {
       "id": "examination",
-      "subject": "Two interlocking gears with a large question mark above them. Pale blue-grey gear faces, thin charcoal outlines. Represents examining a belief; keep gear teeth simple and readable."
+      "subject": "Two interlocking gears with a large question mark above them. Pale blue-grey gear faces, thin charcoal outlines. Represents examining a belief; keep gear teeth simple and readable.",
+      "refinementPrompt": "Create one small diagram icon as a transparent PNG cutout. ONLY two simple interlocking gears and a question mark above them. Thin charcoal outlines, solid pale grey-blue gear faces, muted teal hubs. Flat orthographic front view. The area outside the three shapes and the holes inside the gears must have alpha zero. No background colour, no haze, no glow, no vignette, no cast shadow, no gradients, no texture. Entire icon centered with 15 percent empty transparent margin. No words, digits, frame or surrounding diagram."
     },
     {
       "id": "revised-philosophy",

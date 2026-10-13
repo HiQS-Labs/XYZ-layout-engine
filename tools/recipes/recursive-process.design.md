@@ -54,13 +54,18 @@ Additional explanatory copy may use compact captions without changing anchors.
 ## LLM artwork pass
 
 Read `recursive-process.artwork.json`. For each asset concatenate `sharedStyle`
-and that asset's `subject`, retaining the exact model and settings. Generate one
+and that asset's `subject`, unless it has an accepted `refinementPrompt`; use
+that exact replacement prompt when present. Retain the exact model and settings. Generate one
 transparent PNG per asset, not a sheet or a complete infographic. Review the
 six outputs together for shared stroke weight, scale, palette, silhouette and
 padding. Reuse the accepted profile PNG for all five placements.
 
-Use the existing bounded generator's `--jobs` input and explicit HiQS caller;
-do not add another provider, queue or retry mechanism. Cache accepted bytes and
+Use the existing HiQS single-image caller explicitly, at most six initial calls,
+and the existing display-asset conversion helper. The legacy solar batch runner
+currently rejects source PNGs containing caBX provenance metadata even after
+successful provider output; do not replay those paid jobs blindly. Inspect the
+saved receipt and use the validated display derivative, retaining original bytes.
+Do not add another provider, queue or retry mechanism. Cache accepted bytes and
 receipts, check alpha and digests, and load them with the existing pinned PNG
 reader. No silent SVG replacement if a required PNG is absent. Publication
 must pin the artwork specification, accepted PNGs and provenance with the new
