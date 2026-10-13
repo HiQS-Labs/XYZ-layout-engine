@@ -128,4 +128,12 @@ Re-read the entire GH-8 document, SOP, design-diagram skill, inspector, provenan
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) may implement the approved plan and run its existing verification in the disposable full clone.
 
+
+### Attestation · relay-drive — 2026-10-13T03:05:38Z
+task: GH8-CLI-SKILL-PLAN-20261012
+reviewer: codex
+status: Approved
+reviewed-head: 9b539aa9c1493d9c647e08b387034936a4515516
+added-range: 13796+4232
+added-sha256: e227e188983c74589a88c5e95595c7b4600854b3a12c3a1542664c24750bdcce
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
