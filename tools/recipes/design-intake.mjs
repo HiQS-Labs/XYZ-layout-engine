@@ -6,7 +6,7 @@ import { invalid, readBounded, within, LIMITS } from '../request.mjs';
 import { inspectPng } from '../spike/assets.mjs';
 
 export const name = 'design-intake';
-export const version = '1.0.0';
+export const version = '1.0.1';
 export const FONT = {
   family: 'Barlow Condensed',
   regular: new URL('../fonts/barlow-condensed/BarlowCondensed-Regular.ttf', import.meta.url),
@@ -100,6 +100,7 @@ export async function preflight(f, options = {}) {
   text(f.artwork.style, 'artwork.style');
   array(f.artwork.items, 'artwork.items', 0, 32);
   const assets = {}, assetIds = new Set(), budget = { bytes: 0, pixels: 0 };
+  let plannedPixels = 0;
   for (const [i,a] of f.artwork.items.entries()) {
     const field = `artwork.items.${i}`;
     object(a, ['id', 'prompt', 'width', 'height', 'file'], field);
@@ -107,7 +108,8 @@ export async function preflight(f, options = {}) {
     object(a.prompt, ['subject', 'view', 'lighting', 'background', 'exclusions'], `${field}.prompt`);
     for (const [k,v] of Object.entries(a.prompt)) text(v, `${field}.prompt.${k}`);
     for (const k of ['width','height']) check(Number.isInteger(a[k]) && a[k] > 0 && a[k] <= 8192, `${field}.${k}`, 'invalid image dimension');
-    check(a.width * a.height <= LIMITS.assetPixels, field, 'asset area exceeds budget');
+    plannedPixels += a.width * a.height;
+    check(plannedPixels <= LIMITS.assetPixels, field, 'planned aggregate asset area exceeds budget');
     if (a.file === null) { pending.push({ field: `${field}.file`, message: `artwork ${a.id} is not pinned` }); continue; }
     object(a.file, ['path', 'sha256'], `${field}.file`);
     check(typeof a.file.path === 'string' && a.file.path.endsWith('.png'), `${field}.file.path`, 'requires PNG');

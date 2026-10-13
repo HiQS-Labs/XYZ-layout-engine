@@ -1,6 +1,6 @@
 # DESIGN.md intake contract v1
 
-`design-intake@1.0.0` is a trusted adapter for **data-only** recipes authored by an LLM using `skills/design-intake/SKILL.md`. The adapter is the validation authority; `node tools/intake.mjs capabilities` reports the current capability envelope. There is no Markdown parser or LLM API call inside the engine. A source hash and quoted requirements establish traceability, not proof that all instructions were faithfully translated.
+`design-intake@1.0.1` is a trusted adapter for **data-only** recipes authored by an LLM using `skills/design-intake/SKILL.md`. The adapter is the validation authority; `node tools/intake.mjs capabilities` reports the current capability envelope. There is no Markdown parser or LLM API call inside the engine. A source hash and quoted requirements establish traceability, not proof that all instructions were faithfully translated.
 
 See `examples/2026-10-12-design-intake/fixture.json` for a complete accepted package. JSON objects below require exactly the stated keys. Unknown keys, executable code and arbitrary CSS are refused.
 
@@ -16,7 +16,7 @@ See `examples/2026-10-12-design-intake/fixture.json` for a complete accepted pac
 | `settings.type` | `display` and `body`, each `{size, weight, lineHeight}`: size 12..512, weight 400 or 700, lineHeight 1..2 |
 | Spacing / shape treatment | `spacing` 1..128; every element x/y/width/height follows this grid. `cornerRadius` 0..128 and `borderWidth` 0..16 apply to every rectangle. No shadow/gradient fields. |
 | `artwork` | `{style, items}`; one nonempty shared style and 0..32 individual items |
-| Artwork item | `{id, prompt, width, height, file}`; prompt has exactly `subject, view, lighting, background, exclusions`, each nonempty text. File is null while pending, otherwise `{path, sha256}`. Dimensions match the PNG. PNG checks use the engine's bounded non-interlaced 8-bit RGBA subset. Background is prompt intent, not a programmatic alpha guarantee; inspect actual pixels. |
+| Artwork item | `{id, prompt, width, height, file}`; prompt has exactly `subject, view, lighting, background, exclusions`, each nonempty text. File is null while pending, otherwise `{path, sha256}`. Dimensions match the PNG; aggregate planned pixels cannot exceed 16,777,216, even before generation. PNG checks use the engine's bounded non-interlaced 8-bit RGBA subset. Background is prompt intent, not a programmatic alpha guarantee; inspect actual pixels. |
 | `elements` | 1..100 objects; unique IDs; at least one and at most 64 text elements. All artwork must be placed. |
 
 Every element has `id, type, x, y, width, height`. IDs match `[a-z][a-z0-9_]{0,63}`. Geometry is finite, inside the canvas and on the spacing grid. Additional keys:

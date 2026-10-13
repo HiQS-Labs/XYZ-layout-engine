@@ -327,6 +327,8 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const draft = structuredClone(intakeSource); draft.artwork.items[0].file = null; intakeWrite(draft);
   const pending = await intakeCLI(['check', intakePath], { root: FRESH });
   assert.equal(pending.ready, false); assert.equal(pending.pending.length, 1);
+  const overBudget = structuredClone(draft); overBudget.artwork.items[0].width = 8192; overBudget.artwork.items[0].height = 8192; intakeWrite(overBudget);
+  await assert.rejects(intakeCLI(['check', intakePath], { root: FRESH }), /planned aggregate asset area/);
   draft.requirements[0].feature = 'gradient'; draft.requirements[1].status = 'unsupported'; draft.requirements[1].target = null;
   intakeWrite(draft);
   assert.equal((await intakeCLI(['check', intakePath], { root: FRESH })).unsupported.length, 2);
