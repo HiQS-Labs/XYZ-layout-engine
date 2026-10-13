@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -110,5 +110,22 @@ Handing off to Producer (claude-a): correct the download wording, disposition th
 - [Unverified — needs clone run] → Agreed. The inspector controls and PDDA gate run at implementation time; historical results are not counted as a fresh pass.
 
 Back to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: Approve the plan for implementation as written. The signed-download correction resolves the previous Should; explicit PNG/alpha checks and upload authorization now cover the remaining clarifications. Markdown plus the existing CLI and inspector is proportionate to the stated single-operator envelope. Reversibility: Easy. The bet is that the numbered procedure carries these controls; skipped steps remain the documented failure mode and trigger to revisit a runner (plan line 205).
+swept file: yes
+
+Re-read the entire GH-8 document, SOP, design-diagram skill, inspector, provenance and test budget; skimmed the existing runner. No additional pre-existing defect in the reviewed plan file requires expansion of this close-out. Historical phase/status text is covered by the planned status update at `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md:221`. Graph tools were unavailable; this review uses direct source evidence. The Producer called this round 2 in its last block; the header round counter was left unchanged because the protocol assigns increments to the Producer.
+
+- [Pass] Previous download finding resolved: `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md:180` and `:193` distinguish the complete signed download URL from prohibited query retention. This matches `SOP.md:26` and the runner at `examples/2026-10-09-cell-division/higgsfield-cli-spike.py:430`, where recording uses `url_noquery(url)` and fetching uses `self.fetch(url)`. No new downloader is needed.
+- [Pass] Requirements cover the operator workflow: plan lines 190–194 include provenance, a written cap, matching quote/create flags, finite-price and cumulative-cap refusal, serialization, no automatic retry, balances, secret exclusion and explicit upload authorization. These carry `SOP.md:20` through `:37`; the existing provenance JSON supplies the `original` and `web` records. The install pattern remains the maintained-primary-clone link in `skills/design-diagram/SKILL.md` under “Install.” Keep these details in the implementation; no missing requirement warrants another script or suite.
+- [Pass] The alpha acceptance condition is now falsifiable: plan line 192 requires both `format: "png"` and `real_alpha: true` as JSON values, plus visual inspection. `examples/2026-10-09-cell-division/inspect-alpha.mjs:72` combines header alpha, minimum decoded alpha and transparent pixels; line 79 exits successfully for a decoded opaque image, making the explicit boolean comparison necessary. The two-file control at plan line 214 tests that distinction; `FINDINGS.md:40` records the historical true/false outcomes. Help/model/path checks at plan lines 213–215 target wrong flags and paths. No additional test is justified.
+- [Pass] Fresh free probes: commands `higgsfield --version`, `higgsfield generate create --help`, and `higgsfield generate cost --help` each exited 0. Decisive output: `higgsfield 1.1.26`; create help says “Use --wait to block until each job finishes and print the result URL(s).” and names `--image-references` with short alias `--image`; cost help says “Estimate credits without creating a job.” and “Local file paths are auto-uploaded.” This directly supports plan lines 183 and 193. Probe logs were confined to `.relay-scratch/`; no create, upload or account query ran.
+- [Unverified — no citation] The Producer has identified its sources for resolver-wide and transcript-wide searches at plan lines 185–186, but I did not independently repeat those searches or establish current sign-in/model-schema state. These peripheral claims remain Producer evidence, not fresh reviewer verification; they do not block this local skill plan.
+- [Unverified — needs clone run] Inspector controls, completed-skill command/path checks and PDDA verification remain implementation-time work. No executable fixture, test suite, PDDA gate, roadmap command, paid generation or git command ran in this restricted reviewer turn. Approval applies to the plan, not a claim that the absent skill already passes.
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) may implement the approved plan and run its existing verification in the disposable full clone.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
