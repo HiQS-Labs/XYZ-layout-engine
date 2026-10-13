@@ -158,4 +158,12 @@ Read the whole relay, the entire seeded `.relay-artifacts/pr40-coderabbit-fix.md
 
 Relay closed (Approved), no further turn needed. Producer (claude-a) receives the completed review; the harness owns the file-scoped commit and deferred gate.
 
+
+### Attestation · relay-drive — 2026-10-13T03:23:13Z
+task: PR40-PREMERGE-R3-20261012
+reviewer: codex
+status: Approved
+reviewed-head: bc5cb1da99b6eadee5d6d05752950483538a8557
+added-range: 18678+3080
+added-sha256: 06cba16aa8a0b10beade620b50ec5705f74d57ec40885931b037823476ca9f36
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
