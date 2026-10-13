@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -67,7 +67,7 @@ Questions:
 4. Is the verification enough to catch a wrong skill (wrong flag, wrong path, inspector not proving alpha)? Is the red control (earth.png true / solar-system.png false) meaningful?
 5. Anything over-built, or anything the plan should drop?
 
-Grade each finding [Blocker]/[Should]/[Nit]/[Pass]; a [Blocker] or [Should] asking for a behaviour change needs Observed input / Affected scope / Falsifier lines. Set STATUS: Approved if the plan can be implemented as written (Nits allowed).
+Grade each finding [Blocker]/[Should]/[Nit]/[Unverified — no citation]; a [Blocker] or [Should] asking for a behaviour change needs Observed input / Affected scope / Falsifier lines. Set STATUS: Approved if the plan can be implemented as written (Nits allowed).
 
 ## Ground rules
 1. This file is the single source of truth. The agents never share memory — read the whole file.
@@ -78,5 +78,27 @@ Grade each finding [Blocker]/[Should]/[Nit]/[Pass]; a [Blocker] or [Should] aski
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: The skill-only scope is appropriate, but correct the signed-download instruction before implementation. This is a documentation correction, reversibility Easy; the failure mode is teaching an agent to discard the download credential before making the request.
+swept file: yes
+
+Read the entire GH-8 document, SOP, design-diagram skill, inspector, provenance and test budget; skimmed the CLI runner. The earlier Phase 0/0b requirements are historical; their stale status is already covered by the planned status update. No additional pre-existing defect in the reviewed plan file requires expanding this close-out. Graph tools were unavailable, so evidence is direct source reading. No git, paid calls, fixture execution or test suites ran.
+
+- [Should] Correct the Recon summary's “download without the query string” (`PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md:180`). `SOP.md:26` says download the signed `result_url` but do not store its query; the runner separately records `url_noquery(url)` and calls `self.fetch(url)` (`examples/2026-10-09-cell-division/higgsfield-cli-spike.py:430`). Cheapest fix: explicitly preserve the complete signed URL for the download request, while excluding its query from logs, chat and durable provenance. No new script required.
+  Observed input: The literal instruction at plan line 180 conflicts with the cited SOP and runner's treatment of a signed `result_url`.
+  Affected scope: CLI result downloads whose query carries authorization; this does not change the prohibition on recording signed queries.
+  Falsifier: A revised procedure that passes the complete returned URL to the downloader and stores only a query-free URL resolves this finding; if the Producer intended only record redaction, make that distinction explicit. No live URL was fetched and no HTTP failure is claimed.
+- [Pass] Keep the Markdown-only mechanism. The existing runner bakes in `CAP_CREDITS = 20.0`, `BASELINE_CREDITS = 701.0` and a five-job `MATRIX` (`examples/2026-10-09-cell-division/higgsfield-cli-spike.py:48`, `:49`, `:70`); the plan instead carries cap, quote-before-create, serialization, no automatic retry and balance checks at line 191. Nothing in this single-operator envelope demonstrates a need for another runner, test or provider abstraction. Preserve cumulative spend accounting when writing the procedure.
+- [Pass] Secrecy, explicit upload authorization, provenance and installation have existing owners: plan lines 190–193, `SOP.md:29`, `SOP.md:35`, `SOP.md:37`, `examples/2026-10-09-cell-division/assets/provenance.json` (the `original` and `web` records), and `skills/design-diagram/SKILL.md:59` (maintained-primary-clone symlink, preserve different existing entry). Carry these into the skill as planned.
+- [Pass] The free CLI help supports the chosen mechanism and the upload warning. Probe commands: `higgsfield --version`, `higgsfield generate create --help`, `higgsfield generate cost --help`; each exited 0. Decisive output: `higgsfield 1.1.26`; create says “Use --wait to block until each job finishes and print the result URL(s).”; cost says “Estimate credits without creating a job.” and “Local file paths are auto-uploaded.” The latter warning applies even during cost estimation.
+- [Pass] The proposed two-file alpha control is meaningful: the inspector computes `real_alpha` from header alpha plus decoded minimum alpha and transparent pixel count (`examples/2026-10-09-cell-division/inspect-alpha.mjs:72`); historical control outcomes are recorded in `examples/2026-10-09-cell-division/FINDINGS.md:40`. The planned help/model checks and path checks at plan lines 213–215 address wrong flags and missing paths. Compare the JSON boolean explicitly: an opaque decoded file still exits 0 (`inspect-alpha.mjs:79`).
+- [Nit] Make the PNG acceptance condition explicit alongside alpha: require `format: "png"` as well as `real_alpha: true`. The inspector also handles WebP (`inspect-alpha.mjs:65`), so alpha alone is not a format assertion. This clarifies the already-stated PNG requirement at plan line 190 without adding machinery.
+- [Unverified — needs clone run] The current earth/poster inspector control and PDDA gate were not executed in this review environment. Run the existing planned checks in the disposable full clone; do not interpret historical evidence as a fresh pass.
+- [Unverified — no citation] Current sign-in/model schema, global Higgsfield skill behavior, resolver catalog contents and the exhaustive Claude-log assertion at plan lines 183–186 were not independently established here. Cite the Producer's concrete source/probe for these peripheral Recon claims or narrow them to the evidence actually inspected; they do not justify additional implementation scope.
+
+Handing off to Producer (claude-a): correct the download wording, disposition these findings, and return the plan for review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
