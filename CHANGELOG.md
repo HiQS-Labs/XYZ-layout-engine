@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-12 — GH-42 DESIGN.md intake
+
+- Added the agent-assisted `design-intake` skill, a strict data-only recipe adapter, and capability preflight. Pinned Markdown, quoted requirement mappings, settings and separate PNG prompts now feed the existing validation, fitting and atomic export operations; no new LLM API/provider dependency or custom HTML renderer.
+- Bet: explicit capabilities preserve art direction better than silent substitutions. Unsupported fonts/effects and unpinned assets block rendering; source/asset hashes, geometry and planned pixel budgets fail by field. Easy reversal; existing recipes retain their artifact bytes.
+- Published `design-intake@1.0.1` and dependency-only `recursive-process@5.0.1`. Neutral synthetic-PNG example is public; private project inputs remain untouched. Multiple font families, arbitrary CSS and semantic-fidelity proof are outside this first version.
+- Verification so far: Codex plan Approved, C1 passed, both new backend exports/visual inspections passed, and 28/28 prior artifact digests unchanged. Final QA and full gates are recorded in the GH-42 working plan before PR handoff.
+
 ## 2026-10-12 — GH-8 close-out landed (PR #40)
 
 - PR #40 merged as `f98a529` after Codex plan, final and pre-merge QA (Approved) and a CodeRabbit fix (the balance is re-read before each job's cap check). Issue #8 closed with the decision recorded: CLI route; REST NO-GO; MCP untested and dropped; Phases 1 to 4 dropped. Refs NeochromeTeam/hiqs-ai-resolve#43 (catalog ledger).

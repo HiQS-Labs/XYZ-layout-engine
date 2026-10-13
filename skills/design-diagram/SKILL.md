@@ -5,6 +5,8 @@ description: Build a reproducible explainer diagram or infographic in the XYZ La
 
 # design-diagram
 
+For a supplied DESIGN.md or art-direction document, use [design-intake](../design-intake/SKILL.md) first. It maps settings and artwork prompts into the standard pipeline and reports unsupported requirements. The scene-authoring workflow below remains for custom code-authored diagrams.
+
 Turn a topic into a fixture-driven diagram rendered by the repo's existing Satori and Chromium functions, with checks that fail by name, then ship it as an example folder. The working pattern is `examples/2026-10-09-rag-system/` (hand-drawn SVG icons). `examples/2026-10-08-solar-system/` is the variant with paid generated raster art. Copy and adapt; do not invent a new structure.
 
 ## Before you start

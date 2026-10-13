@@ -142,6 +142,11 @@ async function declaredFiles(root, slug) {
       ...['font.ttf','font-bold.ttf'].map(n => ['tools/spike/assets/' + n,'content'])
     ];
   }
+  if (slug === 'design-intake') return [
+    ['tools/recipes/design-intake.mjs','module'], ['tools/recipes/design-intake.contract.md','schema'],
+    ['tools/request.mjs','module'], ['tools/render.mjs','module'], ['tools/spike/assets.mjs','module'],
+    ['tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content'], ['tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content']
+  ];
   if (slug === 'recursive-process') return [
     ['tools/recipes/recursive-process.mjs','module'], ['tools/request.mjs','module'], ['tools/spike/assets.mjs','module'],
     ['examples/2026-10-11-belief-updating/fixture.json','schema'],

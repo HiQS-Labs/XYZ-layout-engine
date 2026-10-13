@@ -75,9 +75,9 @@ export async function normalizeRequest(req, options = {}) {
       }
     }
   }
-  const recipe = req.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : fixture?.id === 'mangajdm-promo' ? 'mangajdm-promo' : fixture?.id === 'recursive-process-diagram' ? 'recursive-process' : undefined);
-  if (!['nutrition', 'solar-system', 'mangajdm-promo', 'recursive-process'].includes(recipe)) throw invalid('recipe', 'select a trusted nutrition, solar-system, mangajdm-promo or recursive-process recipe');
-  const dimensions = recipe === 'nutrition' ? [1000, 1000] : recipe === 'mangajdm-promo' ? [1080, 1920] : recipe === 'recursive-process' ? [1600, 1340] : [2400, 1700];
+  const recipe = req.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : fixture?.id === 'mangajdm-promo' ? 'mangajdm-promo' : fixture?.id === 'recursive-process-diagram' ? 'recursive-process' : fixture?.id === 'design-intake' ? 'design-intake' : undefined);
+  if (!['nutrition', 'solar-system', 'mangajdm-promo', 'recursive-process', 'design-intake'].includes(recipe)) throw invalid('recipe', 'select a trusted nutrition, solar-system, mangajdm-promo, recursive-process or design-intake recipe');
+  const dimensions = recipe === 'design-intake' ? [fixture.width, fixture.height] : recipe === 'nutrition' ? [1000, 1000] : recipe === 'mangajdm-promo' ? [1080, 1920] : recipe === 'recursive-process' ? [1600, 1340] : [2400, 1700];
   const width = req.width ?? fixture.width ?? 1000, height = req.height ?? fixture.height ?? 1000;
   for (const [key, value] of [['width', width], ['height', height]]) {
     if (!Number.isInteger(value) || value <= 0 || value > 8192) throw invalid(key, 'invalid dimension');
@@ -122,10 +122,10 @@ export function validateFixtureShape(value, expected, field = 'fixture') {
 
 // The caller renders/validates first. Only this operation writes durable fixture JSON.
 export async function saveFixture(fixture, destination, options = {}) {
-  const recipeName = options.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : fixture?.id === 'mangajdm-promo' ? 'mangajdm-promo' : fixture?.id === 'recursive-process-diagram' ? 'recursive-process' : undefined);
-  if (!['nutrition', 'solar-system', 'mangajdm-promo', 'recursive-process'].includes(recipeName)) throw invalid('save', 'select a trusted recipe');
+  const recipeName = options.recipe ?? (fixture?.id === 'nutrition-infographic' ? 'nutrition' : fixture?.id === 'solar-system-diagram' ? 'solar-system' : fixture?.id === 'mangajdm-promo' ? 'mangajdm-promo' : fixture?.id === 'recursive-process-diagram' ? 'recursive-process' : fixture?.id === 'design-intake' ? 'design-intake' : undefined);
+  if (!['nutrition', 'solar-system', 'mangajdm-promo', 'recursive-process', 'design-intake'].includes(recipeName)) throw invalid('save', 'select a trusted recipe');
   const recipe = await import(`./recipes/${recipeName}.mjs`);
-  await recipe.validate(fixture);
+  await recipe.validate(fixture, options);
   const root = await fs.realpath(options.root ?? process.cwd());
   const requested = path.resolve(root, destination);
   const parent = await fs.realpath(path.dirname(requested));

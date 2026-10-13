@@ -38,6 +38,18 @@ Run these commands from the repository root. Dependency installation may use the
 4. **Export Retrieval and Distribution:**
    Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
+## DESIGN.md intake
+
+Use the repository-local [design-intake skill](skills/design-intake/SKILL.md) to have an active agent translate an art-direction document into settings, separate artwork prompts and a data-only recipe. There is no new LLM API dependency. [The contract](tools/recipes/design-intake.contract.md) and [neutral worked example](examples/2026-10-12-design-intake/README.md) describe the supported subset.
+
+```sh
+node tools/intake.mjs capabilities
+node tools/intake.mjs check examples/2026-10-12-design-intake/fixture.json
+node tools/render.mjs examples/2026-10-12-design-intake/fixture.json --format png,svg,html,html-inline --out temp/intake-export
+```
+
+The intake checker reports unsupported requirements and pending artwork before rendering or spending. Accepted recipes use the standard offline validation, fitting and export pipeline. Keep private inputs in ignored `temp/`. V1 supports one bundled font family and absolute text/PNG/rectangle layouts; it explicitly refuses unsupported typography or effects. Structural checks do not prove an LLM captured the art direction faithfully: inspect the rendered result against the source.
+
 ## MangaJDM portrait promos
 
 [Three coordinated portrait posts](examples/2026-10-11-mangajdm-promos/README.md) share the trusted

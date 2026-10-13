@@ -285,6 +285,55 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   // Inter supports arrows; CJK still exercises the same unsupported-font boundary.
   await rpReject(f => { f.events[0].caption = 'Belief 漢'; }, /unsupported text\/font/);
 
+  // GH-42: LLM-produced data must not bypass the standard fit/export boundary or local pins.
+  // Extend C1: no new suite or paid/network dependency.
+  const intakeDir = 'examples/2026-10-12-design-intake';
+  mkdirSync(path.join(FRESH, 'examples'), { recursive: true });
+  cpSync(path.join(root, intakeDir), path.join(FRESH, intakeDir), { recursive: true });
+  const intakeSource = JSON.parse(readFileSync(path.join(FRESH, intakeDir, 'fixture.json'), 'utf8'));
+  const intakePath = path.join(FRESH, 'intake.json');
+  const { runCLI: intakeCLI } = await import('../../intake.mjs');
+  const intakeWrite = f => writeFileSync(intakePath, JSON.stringify(f));
+  intakeWrite(intakeSource);
+  assert.equal((await intakeCLI(['check', intakePath], { root: FRESH })).ready, true);
+  for (const backend of ['satori', 'playwright']) {
+    const out = path.join(FRESH, `intake-${backend}`);
+    const receipt = await runCLI([intakePath, '--backend', backend, '--format', 'png,html,html-inline', '--out', out], { root: FRESH });
+    assert.equal(receipt.catalog.verified, true);
+    assert.equal(receipt.catalog.slug, 'design-intake');
+    assert.equal(receipt.fitting.fit, true);
+    await verifyPublication(out);
+    await assertOfflineExport(selectedRun(out), path.join(FRESH, `intake-${backend}.html`), 'Barlow Condensed');
+  }
+  const intakeManifest = readFileSync(path.join(FRESH, 'intake-satori/manifest.json'));
+  const intakeReject = async (edit, pattern) => {
+    const f = structuredClone(intakeSource); edit(f); intakeWrite(f);
+    await assert.rejects(runCLI([intakePath, '--format', 'svg', '--out', path.join(FRESH, 'intake-satori')], { root: FRESH }), pattern);
+    assert.deepEqual(readFileSync(path.join(FRESH, 'intake-satori/manifest.json')), intakeManifest, 'failed intake changed publication');
+  };
+  await intakeReject(f => { f.source.sha256 = '0'.repeat(64); }, /source.sha256.*digest mismatch/);
+  await intakeReject(f => { f.settings.fontFamily = 'Anton, Noto Sans JP'; }, /no substitution/);
+  await intakeReject(f => { f.artwork.items[0].file = null; }, /not pinned/);
+  await intakeReject(f => { f.artwork.items[0].file.sha256 = '0'.repeat(64); }, /digest mismatch/);
+  await intakeReject(f => { f.artwork.items[0].file.path = '../escape.png'; }, /without traversal/);
+  symlinkSync(path.join(root, intakeDir, 'ridge.png'), path.join(FRESH, 'outside.png'));
+  await intakeReject(f => { f.artwork.items[0].file.path = 'outside.png'; }, /symlink escape/);
+  await intakeReject(f => { f.elements = []; }, /elements.*requires/);
+  await intakeReject(f => { f.elements[0].style = { filter: 'blur(1px)' }; }, /requires exactly/);
+  await intakeReject(f => { f.elements[1].y = f.elements[0].y; }, /text region overlaps/);
+  await intakeReject(f => { f.elements[1].x = f.width; }, /outside canvas/);
+  await intakeReject(f => { f.elements[1].id = 'header_caption'; f.elements[1].width = 8; f.elements[1].height = 8; f.elements[1].text = 'W'.repeat(100); }, /non-fit/);
+  await intakeReject(f => { f.elements[1].text = '漢字'; }, /unsupported text\/font/);
+  const draft = structuredClone(intakeSource); draft.artwork.items[0].file = null; intakeWrite(draft);
+  const pending = await intakeCLI(['check', intakePath], { root: FRESH });
+  assert.equal(pending.ready, false); assert.equal(pending.pending.length, 1);
+  draft.requirements[0].feature = 'gradient'; draft.requirements[1].status = 'unsupported'; draft.requirements[1].target = null;
+  intakeWrite(draft);
+  assert.equal((await intakeCLI(['check', intakePath], { root: FRESH })).unsupported.length, 2);
+  intakeWrite(intakeSource);
+  await assert.rejects(intakeCLI(['check', intakePath, '--backend', 'playwright', '--format', 'svg'], { root: FRESH }), /no SVG export/);
+  console.log('# C1 intake: both backends, offline exports, source/assets/capabilities, ID namespace, fit and failed-publication controls passed');
+
   // Generator recovery controls stay inside C1 and never invoke a provider.
   const stubJS = path.join(FRESH, 'stub.mjs'), stubCount = path.join(FRESH, 'stub-count');
   writeFileSync(stubJS, `

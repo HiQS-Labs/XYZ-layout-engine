@@ -1,6 +1,6 @@
 ---
 title: DESIGN.md intake through the standard renderer
-status: Active — plan QA pending
+status: Active — implementation complete, final QA pending
 created: 2026-10-12
 updated: 2026-10-12
 owner: Codex
@@ -18,7 +18,7 @@ phases: 1
 
 | What was just completed | What's next |
 |---|---|
-| Captured intake and traced renderer limitations. | Complete plan review before implementation. |
+| Plan approved; adapter, skill, neutral example and focused checks implemented. | Final review, full gate and ready PR. |
 
 ## Request
 
@@ -69,6 +69,17 @@ Plan/final reviewers: grade the concrete local agent workflow and commensurate c
 
 ## Evidence and handoff
 
-Plan QA pending. Implementation not started. PR pending.
+Plan QA Approved in round 2, attested against 2d581cd07f68; relay driver exit 0. Reviewer writes were isolated. R1/R2 accepted as below.
+
+Implementation: trusted adapter and schema contract; thin capabilities/preflight entry; official repo skill; request/save/render seam reuse; neutral ridge example. Published adapter 1.0.0 then 1.0.1 for planned aggregate pixel-budget admission, with prior accepted artifacts unchanged. Recursive-process 5.0.1 accounts for request dependency hashes. The initial 1.0.0 source is retained as a separate checkpoint for catalog history.
+
+Verification on Node 22.22.3 / darwin-arm64 / pinned dependencies:
+- Catalog verify and canonical export passed; skill quick_validate passed.
+- Both backend outputs and verifyPublication passed; full-size and thumbnail PNG inspection performed, no observed collision. Human acceptance pending.
+- C1 passed in 36.2s before the planned-pixel control addition; both backends and relocated offline HTML tested. All named source/asset/capability/geometry/fit and publication-preservation controls passed. Final full gate must include the added budget assertion.
+- 28/28 PNG/SVG/HTML/inline artifact digests matched origin/main baseline for all four prior recipes on both backends. Baseline captured in separate disposable gate clone, not historical committed output.
+- Root cause of first browser failure: fixture headline lineHeight 1.1 put glyph bounds above its region at 80px, 28px and 12px. Recipe lineHeight 1.3 fixed it; shared fit checks unchanged. Test-local duplicate variable declaration was corrected before C1 ran. No failed run claimed as a pass.
+
+Final QA/full PDDA/full canaries and PR pending. Private project files untouched.
 
 Plan round 1 dispositions: R1 accepted — namespace generated text/region IDs to avoid nutrition header_caption bypass; verify an overflowing input element named header_caption fails normally. R2 accepted — replace scaffold DoD with explicit plan criteria.
