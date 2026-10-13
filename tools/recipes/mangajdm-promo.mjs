@@ -1,7 +1,7 @@
 import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
 export const name = 'mangajdm-promo';
-export const version = '2.0.0';
+export const version = '3.0.0';
 export const TEXT_IDS = ['eyebrow', 'issue', 'line1', 'line2', 'art_note', 'deck', 'cta', 'website'];
 export const CONTAINMENT = { masthead: ['eyebrow', 'issue'], headline: ['line1', 'line2'], art_caption: ['art_note'], message: ['deck'], action: ['cta'], destination: ['website'] };
 export const DEFAULT_SIZES = { eyebrow: 24, issue: 24, line1: 156, line2: 88, art_note: 24, deck: 32, cta: 32, website: 36 };
@@ -45,7 +45,7 @@ export async function buildScene(fixture, sizes = {}) {
       text('line2', fixture.headline.line2, { fontWeight: 700, letterSpacing: -3, lineHeight: 1.3, color: accent })
     ]),
     box('art_caption', at(64, eras ? 1280 : 1696, 952, 40), [text('art_note', fixture.artNote, { fontWeight: 700, letterSpacing: 2 })]),
-    box('message', at(64, eras ? 1352 : 1744, 952, 88), [text('deck', fixture.deck, { fontSize: s.deck, lineHeight: 1.3, fontWeight: eras ? 700 : 400 })]),
+    box('message', at(64, eras ? 1352 : 1744, 952, 88), [text('deck', fixture.deck, { fontSize: s.deck, lineHeight: 1.3, fontWeight: 400 })]),
     box('action', at(64, eras ? 1496 : 1808, 952, 48), [text('cta', fixture.cta, { color: accent, fontWeight: 700 })]),
     box('destination', at(64, 1864, 952, 48), [text('website', fixture.website, { fontWeight: 700, letterSpacing: -1 })])
   ];
