@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-12 — C2 connector bend refinement
+
+- Replaced the cramped C2 connector turn with a 20px rounded elbow and 16px horizontal lead into its arrowhead. Removed the isolated divider fragment immediately below it. The recipe/design contract own this geometry; Barlow Condensed, artwork and other placements are unchanged.
+- Published `recursive-process@5.0.0` in source commit `b5c6700`; Astra light regenerated both backends under `examples/2026-10-12-belief-reference/renders-v5/`. Earlier outputs remain intact; no hand-edited HTML or image-generation calls. Easy reversal using separate source and artifact commits.
+
+- Verification: both full exports pass publication/catalog and first-attempt fitting; both final PNGs inspected. Catalog canonical check and targeted PDDA changelog check pass. Render evidence is committed separately as `caaf248`; this two-path geometry correction uses focused render checks rather than rerunning the unchanged general suite.
+
 ## 2026-10-12 — Diagram divider clearance and bundled condensed typography
 
 - Corrected the reusable `recursive-process` recipe's stage rules at the marked activating-event, consequence and examination locations. Individual divider gaps also clear the revised-philosophy caption and footer. Extended the examination connector's horizontal leg from 8 to 37 reference pixels so its arrowhead approaches the visible gears.
