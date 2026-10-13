@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -197,5 +197,41 @@ Handing off to Producer — fix/disposition R1 and the documentation nit, retain
 R1 accepted: explicit string type predicate before colour regex; exact singleton-array C1 red control added. Direct probe in TESTS-RESULTS/2026-10-12-GH-42/palette-control.log passes green/string and red/array. The old malformed array failed rendering, so patch 1.0.2 preserves admitted artifact bytes. Contract/catalog publication updated through the CLI; catalog verify passes. Documentation nit accepted: canvas section now states the bounded intake exception.
 
 Please review round 2 against the actual corrected source and prior findings. Only changed implementation is the palette predicate; the other changes are its version/catalog pin, regression assertion and documentation. Prior complete source sweep stands as round-1 evidence; perform the protocol-required full read of touched files without repeating unrelated discovery or full suites. Full gate follows approval; producer's baseline comparison was already performed, and is not claimed as independent reviewer evidence. No private input or external provider action is requested.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: Ship with the conditions already stated in the Definition of Done: code review is complete; disposable-clone full canary and PDDA gates still precede a ready PR. R1 and the canvas documentation nit are resolved. No further implementation change requested.
+swept file: yes
+
+Full-source sweep repeated for the adapter, intake entry point, request/save owner, renderer, catalog module, recursive-process recipe and complete canary file; also read the contract, both skills, neutral source/fixture/README and root README. Catalog data received the read-only canonical/digest checks below. No additional actionable pre-existing defect observed in this bounded sweep. Verify-tier graph check again identifies another checkout, generation 2026-10-13T02:52:30Z, with tools/examples excluded and new intake paths missing; findings use local source fallback, not graph completeness. The prior round's visual inspection remains prior evidence; no new visual or full-suite run is claimed.
+
+- [Pass] **R1 resolved.** tools/recipes/design-intake.mjs:69 now requires a string before the color regex. The existing C1 assertion at tools/spike/test/canaries.test.mjs:315 supplies exactly the singleton array, expects the named palette error, and shares the publication-preservation helper. Action: retain this assertion in the pending full gate. Narrow independent probe (exit **0**, no artifacts):
+  ~~~sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  mkdir -p "$TMPDIR"
+  node --input-type=module <<'JS'
+  import fs from 'node:fs/promises';
+  import assert from 'node:assert/strict';
+  import {preflight, version} from './tools/recipes/design-intake.mjs';
+  const f = JSON.parse(await fs.readFile('examples/2026-10-12-design-intake/fixture.json'));
+  assert.equal((await preflight(f)).ready, true);
+  console.log('version', version, 'string ready true');
+  f.settings.palette.ink = ['#343b3a'];
+  await assert.rejects(preflight(f), error => {
+    console.log(error.message);
+    return /settings.palette.ink.*requires #rrggbb/.test(error.message);
+  });
+  console.log('PASS: singleton array rejected before scene construction');
+  JS
+  ~~~
+  Decisive output: `version 1.0.2 string ready true`; `Validation failed: [{"field":"settings.palette.ink","message":"requires #rrggbb"}]`; `PASS: singleton array rejected before scene construction`.
+- [Pass] **Published pins are consistent.** The adapter and contract identify design-intake@1.0.2 (tools/recipes/design-intake.mjs:9; contract opening paragraph). Read-only command sequence `node tools/catalog.mjs verify --json` then `node tools/catalog.mjs export --check` exited **0**, producing respectively `{"valid":true,"errors":[]}` and `{"canonical":true}` (SQLite experimental warning only). These checks read and validate the seeded catalog; no publication performed. Action: retain this version/pin pair.
+- [Pass] **Documentation nit resolved.** README.md:155 explicitly permits the design-intake declared canvas up to 8192 pixels per side and 16,777,216 pixels total, while retaining scale 1. This agrees with adapter dimension checks and request admission. Action: none.
+- [Unverified — needs clone run] Full four-canary/PDDA gates, including the new palette assertion, remain pending as designed. The direct palette probe is not a canary run. Independent regeneration of the 28/28 prior-artifact comparison was not performed in this review; the producer's recorded comparison remains producer evidence.
+
+Review closure is Easy to reverse if the pending gates expose a failure. Approval assumes those gates remain mandatory before ready PR; it does not authorize skipping them. Only this relay file was edited; no git, suites, executable fixtures, source changes or generated exports were run.
+
+Relay closed (Approved), no further review turn needed. Producer/harness acts next: run the pending disposable-clone gates and prepare the ready PR only if they pass. Token handoff uses done.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
