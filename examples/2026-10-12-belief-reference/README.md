@@ -1,8 +1,31 @@
 # Reference-directed recursive belief updating
 
+## Version 5 — C2 arrow correction
+
+Current recipe: `recursive-process@5.0.0`, source commit `b5c6700`.
+Open the corrected [Satori HTML](renders-v5/satori/render-inline.html),
+[Chromium HTML](renders-v5/playwright/render-inline.html),
+[Satori PNG](renders-v5/satori/render.png), [Chromium PNG](renders-v5/playwright/render.png),
+or [SVG](renders-v5/satori/render.svg). The existing gallery remains the historical
+version 3; version 3 and 4 outputs remain unchanged.
+
+The C2 connector now has a 20px rounded elbow and 16px straight approach to its
+arrowhead. The isolated x660 divider stub beneath it was removed. The recipe and
+its design contract own the correction; HTML was regenerated without hand edits.
+No new imagery or other composition changes were made.
+
+Both complete backend exports passed validation, catalog verification,
+first-attempt fit and publication digest checks; see [verification-v5.json](verification-v5.json).
+Inspected both final PNGs at full size and 420px thumbnails (AS-10): the bend is
+clear, the arrowhead has a straight lead, and the adjacent divider stub is absent.
+Replay the commands below from source commit `b5c6700` for version 5.
+The compact evidence and receipt-sanitization conventions below apply unchanged.
+New catalog design: `2026-10-12-belief-reference-c2-elbow`, pinned to version 5.0.0
+and `renders-v5/satori/render.png`; the existing design records remain immutable.
+
 ## Version 4 — corrected clearances and Barlow Condensed
 
-Current recipe: `recursive-process@4.0.0`, published in source commit `36a2f7c`.
+Historical recipe: `recursive-process@4.0.0`, published in source commit `36a2f7c`.
 Open the corrected engine-generated [Satori HTML](renders-v4/satori/render-inline.html),
 [Chromium HTML](renders-v4/playwright/render-inline.html), [Satori PNG](renders-v4/satori/render.png),
 [Chromium PNG](renders-v4/playwright/render.png), or [SVG](renders-v4/satori/render.svg).
