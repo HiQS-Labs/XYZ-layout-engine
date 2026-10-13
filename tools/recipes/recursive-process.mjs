@@ -2,7 +2,7 @@ import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } fr
 
 // Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned PNG assets.
 // Fixed semantic structure; bounded copy and palette remain fixture-owned.
-export const version = '4.0.0';
+export const version = '5.0.0';
 export const name = 'recursive-process';
 
 export const FONT = {
@@ -85,7 +85,7 @@ export async function buildScene(fixture, sizes = {}) {
   const dividers = [
     'M180 215V448M180 842V1178',
     'M418 215V570M418 842V996M418 1098V1178',
-    'M660 215V406M660 944V992M660 1102V1178',
+    'M660 215V406M660 1102V1178',
     'M955 215V484M955 842V1178'
   ];
   for (const d of dividers) shapes.push(path(d, p.rule, 1));
@@ -101,7 +101,7 @@ export async function buildScene(fixture, sizes = {}) {
   shapes.push(path('M168 648H213'),head(213,648),path('M407 648H565'),head(565,648));
   shapes.push(path('M310 868Q310 928 403 928'),head(403,928));
   shapes.push(path('M465 850C465 803 546 759 598 716'),path('M588 717L598 716L595 726'));
-  shapes.push(path('M662 868Q662 928 674 928'),head(674,928));
+  shapes.push(path('M638 868V908Q638 928 658 928H674'),head(674,928));
   shapes.push(path('M789 928H824V690'),head(824,690,'u'));
   shapes.push(path('M662 546V430H699'),head(699,430));
   shapes.push(path('M793 430H817'),head(817,430));

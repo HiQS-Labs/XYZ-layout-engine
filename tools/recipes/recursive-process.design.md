@@ -101,3 +101,8 @@ examination elbow reaches x699 at y430, giving a distinct horizontal arrowhead
 near the accepted gear silhouette. Keep its upward leg visually separate from
 the x660 divider. Formula arrows are engine-rendered SVG geometry because the
 bundled Barlow Condensed font does not cover the arrow glyph; no font fallback.
+
+The profile-to-C2 connector uses a 20px rounded elbow and a 16px straight
+horizontal approach to its arrowhead (`M638 868V908Q638 928 658 928H674`).
+Keep the x660 divider absent between the profile connector and the consequence
+caption; an isolated stub there reads as part of the causal arrow.
