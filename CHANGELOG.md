@@ -1,4 +1,13 @@
 # Changelog
+## 2026-10-12 — GH-38 expressive design revision of PR #32 and PR #37
+
+- Revised the taste brief and had an Astra sub-agent at low reasoning effort implement and render three artwork-led MangaJDM posters and a belief-updating diagram with a sweeping feedback path. Larger subject imagery and concrete copy replace the uniform framed promo layout; plain-language labels and a distinct examination branch lead the diagram.
+- Published `mangajdm-promo@3.0.0` and `recursive-process@2.0.0` through the catalog CLI. MangaJDM's intermediate `2.0.0` remains in history: its all-bold Integra layout exposed Chromium's unused regular-font check, resolved with regular supporting copy in a separate version and commit. Original examples and design records remain intact.
+- Separate commits retain the baseline checkpoint, taste direction, source/fixtures, font correction, and rendered evidence. The comparison gallery and replay instructions live in `examples/2026-10-12-design-revision/`. No new imagery was generated; the posters reuse supplied brand assets.
+- Verification: all eight recipe/backend receipts report valid output and verified catalog identity; existing canaries pass 4/4 in 36.8 seconds under the unchanged 60-second budget. Visual inspection covers both backends at full and thumbnail sizes. Human preference remains for the operator to judge.
+- Final catalog verification and canonical export pass; all 40 retained-file hashes match. All 113 baseline catalog rows, the old design-log prefix and original example trees are preserved. Full PDDA reports zero errors and the same two pre-existing governance warnings.
+- Bet: expressive composition and clearer process flow improve these examples without changing the shared renderer. Easy reversal through the recorded Git checkpoints; revisit the direction if the artwork still misses the intended taste.
+
 ## 2026-10-12 — GH-38 follow-up fixes landed (PR #39)
 
 - PR #39 merged as `f6219536ad` after Approved native Codex plan and final QA; catalog recovery and shared PNG loading are complete. Four canaries passed in39.3s;35format/assets/fit comparisons remain identical and76old catalog rows/design-log bytes are retained.

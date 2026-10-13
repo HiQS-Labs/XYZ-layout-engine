@@ -38,6 +38,18 @@ MangaJDM 2.0.0 is preserved as a superseded local attempt. The Integra fixture h
 
 ## Replay
 
+To replay the separate commits on a new branch from the original baseline:
+
+```sh
+git switch -c replay/gh38-design 9f5aa7947e9518445771964129cd4554c5c11c76
+git cherry-pick cd84a82 72c3e61 49cffd6 35a77e1 ec7ed24 fa1d637
+```
+
+The first three commits capture the baseline and taste direction; `35a77e1`
+and `ec7ed24` change source; `fa1d637` captures the rendered after state.
+Use a clean checkout for this sequence. The branch `design/gh38-taste-rerender`
+also retains the later verification closeout.
+
 Use a clean checkout at `ec7ed24` for exact final source, or the later artifact commit to also obtain the committed evidence. Install the locked dependencies with `pnpm install --frozen-lockfile`; ensure the repository-supported Chromium is installed. Run from the repository root on Node 22.22.3 (the recorded environment was macOS arm64).
 
 ```sh
