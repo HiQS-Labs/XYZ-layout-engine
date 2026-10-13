@@ -282,7 +282,8 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   await rpReject(f => { f.stages.push({ number: 5, formula: 'B5' }); }, /requires 4 entries/);
   await rpReject(f => { f.states[0].token = 'F1'; }, /token must be A-E/);
   await rpReject(f => { f.consequences[0].polarity = 'neutral'; }, /polarity must be negative or positive/);
-  await rpReject(f => { f.events[0].caption = 'A then B → C'; }, /unsupported text\/font/);
+  // Inter supports arrows; CJK still exercises the same unsupported-font boundary.
+  await rpReject(f => { f.events[0].caption = 'Belief 漢'; }, /unsupported text\/font/);
 
   // Generator recovery controls stay inside C1 and never invoke a provider.
   const stubJS = path.join(FRESH, 'stub.mjs'), stubCount = path.join(FRESH, 'stub-count');

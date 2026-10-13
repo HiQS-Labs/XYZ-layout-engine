@@ -1,14 +1,14 @@
-import { invalid, LIMITS, readBounded, validateFixtureShape } from '../request.mjs';
+import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
-// Recursive process: two horizontal A -> B -> C passes, a sweeping feedback route,
-// an examination branch (D -> E), and a continuous-revision trail. Fixed structure; the copy and palette come from the fixture.
-export const version = '2.0.0';
+// Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned PNG assets.
+// Fixed semantic structure; bounded copy and palette remain fixture-owned.
+export const version = '3.0.0';
 export const name = 'recursive-process';
 
 export const FONT = {
-  family: 'Barlow Condensed',
-  regular: new URL('../fonts/barlow-condensed/BarlowCondensed-Regular.ttf', import.meta.url),
-  bold: new URL('../fonts/barlow-condensed/BarlowCondensed-Bold.ttf', import.meta.url)
+  family: 'Inter',
+  regular: new URL('../spike/assets/font.ttf', import.meta.url),
+  bold: new URL('../spike/assets/font-bold.ttf', import.meta.url)
 };
 
 const NODES = ['event_1', 'event_2', 'state_1', 'state_2', 'consequence_1', 'consequence_2', 'examination', 'outcome'];
@@ -25,9 +25,9 @@ export const CONTAINMENT = {
   footer: ['footer_note', 'footer_source']
 };
 export const DEFAULT_SIZES = {
-  title: 72, subtitle: 28, stage_1_num: 20, stage_2_num: 20, stage_3_num: 20, stage_4_num: 20,
-  ...Object.fromEntries(NODES.flatMap(n => [[`${n}_label`, 34], [`${n}_caption`, 25]])),
-  trail_label: 28, footer_note: 22, footer_source: 20
+  title: 32, subtitle: 18, stage_1_num: 20, stage_2_num: 20, stage_3_num: 20, stage_4_num: 20,
+  ...Object.fromEntries(NODES.flatMap(n => [[`${n}_label`, 20], [`${n}_caption`, 16]])),
+  trail_label: 20, footer_note: 15, footer_source: 14
 };
 
 const EXAMPLE = new URL('../../examples/2026-10-11-belief-updating/', import.meta.url);
@@ -54,51 +54,77 @@ export async function validate(fixture) {
   return fixture;
 }
 
+const ART_ROOT = new URL('../../examples/2026-10-12-belief-reference/', import.meta.url);
+const ART_IDS = ['activating-event', 'person-profile', 'negative-consequence', 'positive-consequence', 'examination', 'revised-philosophy'];
 const node = (type, id, style, children, extra = {}) => ({ type, props: { ...(id ? { id } : {}), style, children, ...extra } });
 const box = (id, style, children) => node('div', id, { display: 'flex', ...style }, children);
 const svgData = s => `data:image/svg+xml;base64,${Buffer.from(s).toString('base64')}`;
-const img = (id, svg, x, y, w, h = w) => node('img', id, { position: 'absolute', left: x, top: y, width: w, height: h }, undefined, { src: svgData(svg) });
-
-// 8px spacing scale, square geometry, solid ink and one red revision accent. No card grid.
-// Barlow Condensed needs a 1.2em minimum line box on both renderers.
-const W = 1600, H = 1340;
-function token(value, size, color) {
-  return node('span', null, {fontSize:size, lineHeight:1.3, fontWeight:700, color}, value);
+// Reference coordinates are uniformly fitted into the supported canvas; they are never stretched.
+const W = 1600, H = 1340, SCALE = H / 1294, OFFSET = (W - 1320 * SCALE) / 2;
+const at = (x, y, w, h, extra = {}) => ({ position: 'absolute', left: OFFSET + x * SCALE, top: y * SCALE, width: w * SCALE, height: h * SCALE, ...extra });
+function notation(value, size, color) {
+  const glyph = (v, n, more = {}) => node('span', null, { fontSize: n * SCALE, lineHeight: 1.3, fontWeight: 400, color, ...more }, v);
+  return box(null, { alignItems: 'baseline' }, [glyph(value[0], size), ...(value.length > 1 ? [glyph(value.slice(1), size * 0.58, { transform: `translateY(${size * 0.15 * SCALE}px)` })] : [])]);
 }
 export async function buildScene(fixture, sizes = {}) {
   const s = { ...DEFAULT_SIZES, ...sizes }, p = fixture.theme.palette;
-  const at = (left, top, width, height, extra = {}) => ({position:'absolute',left,top,width,height,...extra});
-  const text = (id, value, style = {}) => node('span', id, {flexShrink:0,fontSize:s[id],lineHeight:1.3,color:p.ink,...style},value);
-  const group = (id, data, x, y, width, color = p.ink) => box(id, at(x,y,width,132,{flexDirection:'column',gap:4}), [
-    box(null,{alignItems:'baseline',gap:12},[text(`${id}_label`,data.label,{fontWeight:700,color}), token(data.token,22,color)]),
-    text(`${id}_caption`,data.caption,{color:p.muted})
+  const assets = await readPinnedPngs(ART_ROOT, 'provenance.json', ART_IDS);
+  const text = (id, content, style = {}) => node('span', id, { flexShrink: 0, fontSize: s[id] * SCALE, lineHeight: 1.3, color: p.ink, ...style }, content);
+  const artwork = (id, asset, x, y, w, h = w) => node('img', id, at(x, y, w, h, { objectFit: 'contain' }), undefined, { src: assets[asset], alt: asset.replaceAll('-', ' ') });
+  const group = (id, data, x, y, w, h) => box(id, at(x, y, w, h, { flexDirection: 'column', alignItems: 'center', gap: 4 * SCALE, paddingLeft: 3 * SCALE, paddingRight: 3 * SCALE }), [
+    text(`${id}_label`, data.label, { textAlign: 'center', fontWeight: 700 }),
+    text(`${id}_caption`, data.caption, { textAlign: 'center', color: p.muted })
   ]);
-  const path = (d,c,w=6) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const arrow = (x,y,dir,c) => `<path d="${dir==='d'?`M${x-10} ${y-16}L${x} ${y}L${x+10} ${y-16}`:`M${x-16} ${y-10}L${x} ${y}L${x-16} ${y+10}`}" fill="none" stroke="${c}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const flow = [
-    path('M350 334H682',p.ink),arrow(682,334,'r',p.ink),path('M890 334H1212',p.ink),arrow(1212,334,'r',p.ink),
-    path('M1414 334H1456Q1520 334 1520 398V530Q1520 586 1464 586H312Q256 586 256 642',p.ink,8),arrow(256,642,'d',p.ink),
-    path('M350 714H682',p.ink),arrow(682,714,'r',p.ink),path('M890 714H1212',p.ink),arrow(1212,714,'r',p.ink),
-    path('M800 920V962',p.accent,8),arrow(800,962,'d',p.accent),
-    path('M896 1020H990',p.accent,8),arrow(990,1020,'r',p.accent),
-    path('M1200 1020H1376',p.accent,8),arrow(1376,1020,'r',p.accent),
-    path('M1414 714H1456V992',p.muted,4),arrow(1456,992,'d',p.muted)
-  ];
-  // Beliefs are a lens over the same event strokes; examination enlarges that lens.
-  const lens = (x,y,c,question=false) => `<g transform="translate(${x} ${y})"><path d="M-60 -20H32M-60 0H48M-60 20H20" stroke="${p.rule}" stroke-width="8"/><circle r="54" fill="${p.background}" stroke="${c}" stroke-width="6"/><path d="M-30 -18H24M-30 0H30M-30 18H12M40 40L76 76" stroke="${c}" stroke-width="6" stroke-linecap="round"/>${question?`<rect x="-34" y="-34" width="68" height="68" fill="${p.background}"/><path d="M-16 -14C-16 -38 22 -38 22 -14C22 0 2 0 2 14" fill="none" stroke="${c}" stroke-width="6"/><circle cx="2" cy="28" r="4" fill="${c}"/>`:''}</g>`;
-  const conversation = (x,y) => `<g transform="translate(${x} ${y})" fill="${p.background}" stroke="${p.ink}" stroke-width="6"><path d="M-66 -50H48V16H-12L-42 44V16H-66Z"/><path d="M-14 30V52H28L56 76V52H76V-8H62"/><path d="M-44 -26H24M-44 -4H6"/></g>`;
-  const consequence = (x,y,broken) => `<g transform="translate(${x} ${y})" fill="none" stroke="${p.ink}" stroke-width="7"><rect x="-70" y="-24" width="72" height="48" rx="24"/><rect x="${broken?20:-2}" y="-24" width="72" height="48" rx="24"/>${broken?'<path d="M10 -60V-40M10 40V60"/>':''}</g>`;
-  const drawings = [conversation(256,334),lens(800,334,p.ink),consequence(1336,334,fixture.consequences[0].polarity === 'negative'),conversation(256,714),lens(800,714,p.ink),consequence(1336,714,fixture.consequences[1].polarity === 'negative'),lens(800,1020,p.accent,true),
-    `<g transform="translate(1096 1020)" fill="none" stroke="${p.accent}" stroke-width="6"><path d="M-48 -56H26L50 -32V62H-48Z M26 -56V-32H50 M-24 -12H22 M-24 8H22 M-24 28H6"/></g>`];
-  const children = [img('structure',`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">${flow.join('')}${drawings.join('')}</svg>`,0,0,W,H),
-    box('header',at(64,40,1472,164,{flexDirection:'column',gap:8}),[text('title',fixture.title,{fontWeight:700,lineHeight:1.2}),text('subtitle',fixture.subtitle,{color:p.muted,maxWidth:1400})])];
-  const stagePositions = [[64,232,420],[64,624,420],[480,968,210],[1304,968,240]];
-  fixture.stages.forEach((stage,i)=>{const [x,y,w]=stagePositions[i];children.push(box(`stage_${i+1}`,at(x,y,w,36),[text(`stage_${i+1}_num`,`${String(stage.number).padStart(2,'0')} / ${['EVENT TO CONSEQUENCE','THE NEXT PASS','EXAMINE','CONTINUE'][i]}`,{fontWeight:700,color:i>1?p.accent:p.muted,letterSpacing:1})]));});
-  children.push(group('event_1',fixture.events[0],80,424,360),group('state_1',fixture.states[0],624,424,360),group('consequence_1',fixture.consequences[0],1160,424,344));
-  children.push(group('event_2',fixture.events[1],80,804,360),group('state_2',fixture.states[1],624,804,360),group('consequence_2',fixture.consequences[1],1160,804,344));
-  children.push(group('examination',fixture.branch.examination,480,1096,400,p.accent),group('outcome',fixture.branch.outcome,928,1096,344,p.accent));
-  children.push(box('trail',at(1304,1096,232,116,{flexDirection:'column',gap:8}),[text('trail_label',fixture.trail.label,{fontWeight:700,color:p.accent})]));
-  children.push(box(null,at(1400,1008,136,60,{gap:16,alignItems:'center'}),fixture.trail.tokens.map(t=>token(t,32,p.accent))));
-  children.push(box('footer',at(64,1240,1472,88,{flexDirection:'column',gap:4,borderTop:`1px solid ${p.rule}`,paddingTop:8}),[text('footer_note',fixture.footer.note,{color:p.muted}),text('footer_source',fixture.footer.source,{color:p.muted})]));
+  const hex = (x, y, w, h) => `${x},${y-h/2} ${x+w/2},${y-h/4} ${x+w/2},${y+h/4} ${x},${y+h/2} ${x-w/2},${y+h/4} ${x-w/2},${y-h/4}`;
+  const path = (d, color = p.muted, width = 2) => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const head = (x, y, dir = 'r', color = p.muted) => `<path d="${dir === 'r' ? `M${x-9} ${y-5}L${x} ${y}L${x-9} ${y+5}` : dir === 'u' ? `M${x-5} ${y+9}L${x} ${y}L${x+5} ${y+9}` : `M${x-5} ${y-9}L${x} ${y}L${x+5} ${y-9}`}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+  const shapes = [];
+  // Reference-specific title panel, stage rules, hexagons and consequence cards (AS exceptions).
+  shapes.push(`<rect x="75" y="71" width="1170" height="80" rx="18" fill="${p.rule}" opacity=".28"/><rect x="75" y="67" width="1170" height="80" rx="18" fill="${p.surface}" stroke="${p.rule}"/>`);
+  for (const x of [180,418,660,955]) shapes.push(path(`M${x} 215V570M${x} 842V1208`, p.rule, 1));
+  for (const x of [300,540,805,1095]) shapes.push(`<circle cx="${x}" cy="238" r="21" fill="${p.background}" stroke="${p.rule}"/>`);
+  shapes.push(`<circle cx="105" cy="648" r="62" fill="${p.surface}" stroke="${p.rule}" stroke-width="2"/>`);
+  for (const [x,w,h] of [[310,180,190],[662,180,190]]) {
+    shapes.push(`<polygon points="${hex(x,651,w,h)}" fill="${p.rule}" opacity=".3"/><polygon points="${hex(x,648,w,h)}" fill="${p.surface}" stroke="${p.muted}" stroke-width="2"/>`);
+  }
+  for (const x of [890,1026,1163]) shapes.push(`<polygon points="${hex(x,744,86,100)}" fill="${p.surface}" stroke="${p.rule}" stroke-width="2"/>`);
+  for (const x of [465,735]) shapes.push(`<rect x="${x-52.5}" y="858" width="105" height="140" rx="12" fill="${p.surface}" stroke="${p.rule}" stroke-width="1.5"/>`);
+  // Wide continuation is a directional band, not an extra causal edge from E.
+  shapes.push(`<path d="M790 620H1215V596L1275 648L1215 700V676H790Z" fill="${p.accent}" fill-opacity=".3" stroke="${p.muted}" stroke-width="1.5"/>`);
+  shapes.push(path('M168 648H213'),head(213,648),path('M407 648H565'),head(565,648));
+  shapes.push(path('M310 868Q310 928 403 928'),head(403,928));
+  shapes.push(path('M465 850C465 803 546 759 598 716'),path('M588 717L598 716L595 726'));
+  shapes.push(path('M662 868Q662 928 674 928'),head(674,928));
+  shapes.push(path('M789 928H824V690'),head(824,690,'u'));
+  shapes.push(path('M662 546V430H670'),head(670,430));
+  shapes.push(path('M793 430H817'),head(817,430));
+  for (const [a,b] of [[939,981],[1075,1118]]) shapes.push(path(`M${a} 744H${b-5}`),head(b-5,744));
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><g transform="translate(${OFFSET} 0) scale(${SCALE})">${shapes.join('')}</g></svg>`;
+  const children = [node('img', 'structure', { position:'absolute',left:0,top:0,width:W,height:H }, undefined, { src: svgData(svg) }),
+    box('header', at(95,82,1130,132,{flexDirection:'column',alignItems:'center',gap:40*SCALE}), [text('title',fixture.title,{fontWeight:400,textAlign:'center'}),text('subtitle',fixture.subtitle,{color:p.muted,textAlign:'center'})])];
+  fixture.stages.forEach((stage,i) => children.push(box(`stage_${i+1}`,at([300,540,805,1095][i]-21,216,42,44,{alignItems:'center',justifyContent:'center'}),[text(`stage_${i+1}_num`,String(stage.number))])));
+  // Formula tokens remain fixture-driven; arrows and subscripts are engine geometry.
+  for (const [i,x] of [[0,224],[1,478]]) {
+    const parts = [];
+    fixture.stages[i].formula.split(' ').forEach((t,k) => { if(k)parts.push(node('span',null,{fontSize:20*SCALE,color:p.muted,lineHeight:1.3},'→'));parts.push(notation(t,28,p.ink)); });
+    children.push(box(null,at(x,320,230,48,{alignItems:'center',gap:8*SCALE}),parts));
+  }
+  children.push(artwork('activating_event_art','activating-event',47,590,116),artwork('examination_art','examination',675,360,120),artwork('revised_philosophy_art','revised-philosophy',824,367,112,126));
+  for(const [x,y,w] of [[250,744,120],[602,744,120],[853,802,74],[989,802,74],[1126,802,74]]) children.push(artwork(null,'person-profile',x,y,w));
+  fixture.consequences.forEach((c,i)=>children.push(artwork(`consequence_${i+1}_art`,`${c.polarity}-consequence`,[422,692][i],900,86)));
+  children.push(box(null,at(250,591,120,100,{justifyContent:'center',alignItems:'center'}),[notation(fixture.states[0].token,72,p.ink)]),box(null,at(602,591,120,100,{justifyContent:'center',alignItems:'center'}),[notation(fixture.states[1].token,78,p.ink)]));
+  const trail = [fixture.states[1].token,...fixture.trail.tokens.filter(t=>t!=='…')].slice(0,3);
+  trail.forEach((t,i)=>children.push(box(null,at([850,986,1123][i],711,80,60,{justifyContent:'center',alignItems:'center'}),[notation(t,32,p.ink)])));
+  children.push(box(null,at(1240,709,60,60,{alignItems:'center'}),[notation('…',32,p.muted)]));
+  children.push(group('event_1',fixture.events[0],8,464,186,112),group('event_2',fixture.events[1],421,1088,226,104));
+  children.push(group('state_1',fixture.states[0],205,448,210,104),group('state_2',fixture.states[1],485,450,164,112));
+  fixture.consequences.forEach((c,i)=>{
+    const x=[412.5,682.5][i];children.push(box(null,at(x,863,105,40,{justifyContent:'center'}),[notation(c.token,30,p.ink)]));
+    children.push(group(`consequence_${i+1}`,c,x-42,1008,189,78));
+  });
+  children.push(box(null,at(705,318,60,44,{justifyContent:'center'}),[notation(fixture.branch.examination.token,30,p.ink)]),box(null,at(850,318,60,44,{justifyContent:'center'}),[notation(fixture.branch.outcome.token,30,p.ink)]));
+  children.push(group('examination',fixture.branch.examination,675,486,140,104),group('outcome',fixture.branch.outcome,813,500,160,104));
+  children.push(box('trail',at(945,556,310,64,{justifyContent:'center',alignItems:'center'}),[text('trail_label',fixture.trail.label,{textAlign:'center'})]));
+  children.push(box('footer',at(75,1194,1170,90,{flexDirection:'column',gap:8*SCALE}),[text('footer_note',fixture.footer.note,{color:p.muted}),text('footer_source',fixture.footer.source,{color:p.muted})]));
   return box('canvas',{position:'relative',width:W,height:H,backgroundColor:p.background,fontFamily:FONT.family,color:p.ink,overflow:'hidden'},children);
 }
