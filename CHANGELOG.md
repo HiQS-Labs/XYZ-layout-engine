@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-12 — GH-8 close-out landed (PR #40)
+
+- PR #40 merged as `f98a529` after Codex plan, final and pre-merge QA (Approved) and a CodeRabbit fix (the balance is re-read before each job's cap check). Issue #8 closed with the decision recorded: CLI route; REST NO-GO; MCP untested and dropped; Phases 1 to 4 dropped. Refs NeochromeTeam/hiqs-ai-resolve#43 (catalog ledger).
+- Capture doc moved to `PROJECT/3-COMPLETED/`, with a note that its older Phase 0/0b status tables are historical. Ledger re-pointed and reconciled to Completed through the canonical RELEASES CLI.
+- The `higgsfield-cli` skill is deployed as a copy in the Skills Army collection and linked into Claude Code, Codex, Antigravity, ZCode and Grok Bot.
+
 ## 2026-10-12 — Accepted design merge verification
 
 - Operator approved landing the combined MangaJDM and belief-diagram revisions. Preserve separate replay commits using a merge commit. Refreshed two documentation hashes after the earlier replay/historical-brief notes; rendered evidence is unchanged.

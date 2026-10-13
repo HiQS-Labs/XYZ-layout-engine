@@ -2,7 +2,7 @@
 gh_issue: 8
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/8
 title: "Add Higgsfield MCP connector as a first-class transparent image generation provider (pluggable provider architecture)"
-status: "Close-out 2026-10-12: Phase 0 (REST NO-GO, PR #15) and Phase 0b (CLI GO, PR #17) landed; Phases 1 to 4 dropped by the operator; the higgsfield-cli skill is in review on its task branch. #8 closes after it merges."
+status: "Completed 2026-10-12: PR #40 merged (f98a529); issue #8 closed. CLI route chosen (higgsfield-cli skill + SOP.md); REST NO-GO; MCP untested and dropped; Phases 1 to 4 dropped."
 created: 2026-10-09
 doc_type: feedback
 effort: 3
@@ -166,6 +166,8 @@ The REST route returned no alpha (PR #15). The installed Higgsfield CLI (`higgsf
 | Cap | 1.5 of 20 credits used |
 
 Deviations: (1) the smoke call was run by hand before the runner existed (recorded in the ledger by `init-ledger` from the saved output). (2) The raster display size is 176 px (the SVG icon box), not the 112 or 144 px first suggested, because the wide cytokinesis image looked undersized.
+
+> **Historical note (2026-10-12):** the per-issue tables and status lines in the Phase 0 and Phase 0b sections above record their state at the time (for example "Phases 1 to 4 untouched", "awaiting final QA"). The close-out below supersedes them: #8 is closed and Phases 1 to 4 are dropped.
 
 ## Close-out: the Higgsfield CLI skill (added 2026-10-12)
 
