@@ -3,6 +3,11 @@
 These directions supplement SYSTEM-INSTRUCTIONS.md. New artwork and fixtures
 fork the existing designs; published inputs and prior catalog rows stay intact.
 
+Operator priority: **more expressive art direction and imagery**. This must be
+a visible compositional redesign, not merely removing clutter or changing a
+colour. Use dramatic scale, strong typography and intentional image placement.
+Keep clarity as a constraint, not the entire aesthetic ambition.
+
 ## MangaJDM — artwork-led editorial posters
 
 Reader: a car and manga enthusiast viewing a portrait post on a phone.
@@ -23,6 +28,11 @@ No new images or fonts are required. Use existing pinned Inter for continuity;
 record that intentional choice. No invented products, availability or claims.
 Keep margins deliberate, use one spacing scale, and define type and palette
 roles in the new fixtures within the existing schema.
+Aim for a manga automotive editorial cover: oversized subject type, bold
+ink/red contrast, and imagery that owns the canvas. Give the R34, multi-era
+Integra artwork and apparel concept distinct compositions within one family.
+Use the supplied images themselves; new AI-generated artwork is optional only
+if a specific unmet need is established, never a substitute for the brand art.
 
 ## Belief updating — a readable feedback diagram
 
@@ -44,6 +54,10 @@ and controlled neutral/accent roles. Remove ornamental icon rings and avoid
 arbitrary shape variety. Keep arrows away from text. Use space and alignment
 before cards. Preserve the schematic disclosure and source wording; do not
 introduce clinical claims or imply guaranteed positive outcomes.
+Aim for a memorable explanatory plate: a strong sweeping feedback path,
+purposeful visual metaphors for belief and examination, and a distinct accent
+branch. Domain-specific imagery is welcome where it explains the node; do not
+reduce the redesign to a plain text flowchart or reuse generic icon badges.
 
 ## Acceptance and replay
 
