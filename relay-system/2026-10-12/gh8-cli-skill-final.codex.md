@@ -52,7 +52,8 @@ ROUND: 1 / 3
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: the implementation commit `d8fdbb4` on this branch (diff against `origin/main` = `9f5aa79`): `skills/higgsfield-cli/SKILL.md` (new), `SOP.md`, `CHANGELOG.md` (top entry), `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md` (status line). The approved plan is the "## Close-out: the Higgsfield CLI skill" section of that doc; its plan QA is `relay-system/2026-10-12/gh8-cli-skill-plan.codex.md` (Approved round 2).
+- Artifact under review: `skills/higgsfield-cli/SKILL.md` (new), `SOP.md`, `CHANGELOG.md` (top entry), `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md` (status line).
+- Scope: implementation commit d8fdbb4 on this branch; base is main at 9f5aa79 (git diff 9f5aa79 d8fdbb4). The approved plan is the "## Close-out: the Higgsfield CLI skill" section of that doc; its plan QA is `relay-system/2026-10-12/gh8-cli-skill-plan.codex.md` (Approved round 2).
 - Reviewer: codex   ·   Producer: claude-a
 - Started: 2026-10-12
 - Operational envelope: one operator's local Mac; an agent follows a Markdown skill to run the installed, signed-in `higgsfield` CLI a few times a week. No script, test or dependency was added on purpose (plan Non-goals, `test-budget.json`). Do not ask for one unless a stated requirement cannot be met without it.
