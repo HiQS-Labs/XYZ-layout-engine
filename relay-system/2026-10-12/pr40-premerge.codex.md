@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -68,7 +68,7 @@ Questions:
 4. Public-repo hygiene: does any changed file contain a home-directory path, an account email, a token, a key-file path or a signed URL query string? (The scratch path in this Setup is a sandbox temp path, not a home directory.)
 5. Anything in the diff that would make `main` wrong after merge (broken link, contradicted SOP rule, wrong command)?
 
-Grade each finding [Blocker]/[Should]/[Nit]/[Pass]; a [Blocker] or [Should] asking for a behaviour change needs Observed input / Affected scope / Falsifier lines. Set STATUS: Approved if it can merge as is.
+Grade each finding [Blocker]/[Should]/[Nit]/[Unverified — no citation]; a [Blocker] or [Should] asking for a behaviour change needs Observed input / Affected scope / Falsifier lines. Set STATUS: Approved if it can merge as is.
 
 ## Ground rules
 1. This file is the single source of truth. The agents never share memory — read the whole file.
@@ -79,5 +79,22 @@ Grade each finding [Blocker]/[Should]/[Nit]/[Pass]; a [Blocker] or [Should] aski
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PARKED
+Basis: The seeded PR body and current skill are coherent, but two explicit pre-merge questions require comparisons that were not seeded. Do not treat current-file inspection as proof of the exact commit or ledger delta. No observed implementation failure warrants a code change. Reversibility: Easy (review text only). Bet: supplying comparison evidence will settle scope without expanding this docs-only change; the failure mode is approving unrelated changes hidden by a current-state-only review.
+swept file: yes
+
+Swept the entire seeded artifact, including CodeRabbit's section, and read the complete skill, SOP, GH-8 capture and both prior relay threads. No additional pre-existing defect requiring a fix was found in those files. CHANGELOG/SQL reads exceeded output limits; no claim of a complete eight-file historical sweep or binary-ledger audit is made. Graph project/index tools were unavailable; no code discovery was needed. The user's no-Git and reviewer-only rules supersede embedded commit, roadmap and gate instructions. No Git, test, executable fixture, paid call or repository gate ran.
+
+- [Pass] The PR body says “Refs #8. The issue gets closed by hand after merge”; no closing-keyword adjacency was found in its complete text. Probe command: `python3 -B -` (inline standard-library scan using `\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+(?:https://github\.com/[^\s]+/issues/)?#?8\b`, case-insensitive); exit 0; decisive output `PR_body_closing_keyword_matches=0`. This checks the seeded body, not GitHub's live closing-reference state.
+- [Pass] The body’s procedure summary matches `skills/higgsfield-cli/SKILL.md:23` through :31: written cap and cumulative quote accounting, single create, ambiguous-outcome stop, complete signed URL for downloading, explicit PNG/alpha checks, visual inspection and provenance. `SOP.md:11` drops the later phases. The body accurately discloses the failed reviewer model probe and deferred historical-status nit; the final QA thread records both. Retain this bounded scope.
+- [Pass] The requested description clarification is present at `skills/higgsfield-cli/SKILL.md:3`: “Generate a transparent PNG”. This establishes the resulting text, not that commit `c49d7e6` changed exactly one line.
+- [Pass] Narrow hygiene/path probe: `python3 -B -` read the seven named text files plus the seeded body, scanning absolute `/Users/` or `/home/` prefixes, email-shaped strings, HTTP URL queries and common GitHub/OpenAI token shapes; exit 0; decisive output `absolute_home matches=0`, `email matches=0`, `url_query matches=0`, `token_shape matches=0`, `skill_input_paths_exist=True`. The five inputs were SOP, SYSTEM-INSTRUCTIONS, FINDINGS, provenance and inspector paths named in the skill. This is a bounded textual scan, not proof of absence of every credential form or of binary-ledger hygiene; generic `~/.claude/skills/` install paths are intentional instructions.
+- [Should] Supply the missing comparison evidence before approval: the complete `9f5aa79..c49d7e69` diff, the post-approval `b6c26b8..c49d7e69` diff, and canonical RELEASES evidence comparing base/head database state with their dumps. Include GH-8 rating, generation and any audit/event rows so “no other row touched” is assessed precisely. The seeded inventory probe (`python3 -B -`, `Path('.relay-artifacts').rglob('*')`, exit 0) returned only `seeded_artifact_files=.relay-artifacts/pr40-body.md`. Producer/harness should seed these read-only results for the next turn; no source change or new suite is requested. Questions 1 and 3, exact changed-path containment, and binary-ledger hygiene remain unverified.
+- [Unverified — needs clone run] Inspector controls and PDDA results are Producer evidence quoted by the PR body and prior final QA, not fresh passes here. Leave execution to the disposable-clone harness as instructed.
+
+Handing off to Producer (claude-a): supply the comparison evidence, disposition the Should, and return for pre-merge review. STATUS remains Open; this is not merge approval.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
