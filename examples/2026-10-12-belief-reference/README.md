@@ -1,5 +1,52 @@
 # Reference-directed recursive belief updating
 
+## Version 4 — corrected clearances and Barlow Condensed
+
+Current recipe: `recursive-process@4.0.0`, published in source commit `36a2f7c`.
+Open the corrected engine-generated [Satori HTML](renders-v4/satori/render-inline.html),
+[Chromium HTML](renders-v4/playwright/render-inline.html), [Satori PNG](renders-v4/satori/render.png),
+[Chromium PNG](renders-v4/playwright/render.png), or [SVG](renders-v4/satori/render.svg).
+The existing `index.html` gallery and `renders/` folder are **historical version 3**,
+retained unchanged to preserve their published design digest. No HTML was hand edited.
+
+The recipe now gives each divider separate gaps: x180 clears the activating-event
+text; x418 clears the C1 caption; x660 clears the C2 caption/profile connector and
+B2-to-examination route; x955 clears the revised-philosophy caption. Every divider
+ends at y1178 before the footer. The examination elbow extends to x699 near the
+visible gear silhouette, so its arrowhead is distinct from the background rule.
+The reusable design contract records label clearances and PNG-aware endpoints.
+
+The operator-selected bundled Barlow Condensed regular/bold faces replace Inter.
+Formula separators are SVG arrows because this font lacks the arrow glyph. Existing
+text fitting and unsupported-glyph guards remain active; both the new and legacy
+fixtures passed both backend preflights. Artwork bytes, positions, main composition
+and semantic connections were preserved. No additional image generation occurred.
+
+AS-5: the font change is explicit and uses the existing licensed bundle. AS-6:
+dividers remain subordinate guides, separated from causal connectors. AS-10:
+reviewed both final PNGs at full 1600×1340 size and 420px-long-edge thumbnails;
+the marked overlaps are clear and the longer examination arrow is visible.
+Captions still need full-size viewing; accepted image soft-edge shading is unchanged.
+
+Both final exports passed catalog verification and first-attempt fitting;
+`verifyPublication` verified all complete-export files. Details and digests are in
+[verification-v4.json](verification-v4.json). The compact evidence/sanitized-receipt
+conventions below also apply to `renders-v4/`. Run the same render commands below
+from `36a2f7c` to reproduce version 4; use `636f476` specifically for version 3.
+Verify all retained files with `shasum -a 256 -c SHA256SUMS` from this directory.
+
+A new immutable design was registered through the catalog CLI:
+
+```sh
+node tools/catalog.mjs design add 2026-10-13-belief-reference-clearance \
+  --fixture examples/2026-10-12-belief-reference/fixture.json \
+  --artifact examples/2026-10-12-belief-reference/renders-v4/satori/render.png \
+  --use-case recursive-process@4.0.0 --workarounds 1 \
+  --friction 'Per-divider clearance and PNG-aware arrow endpoint; bundled Barlow Condensed with geometric formula arrows.'
+```
+
+## Version 3 historical record
+
 This version recreates the supplied reference composition with six individually generated PNG illustrations and deterministic text, shapes and connectors. The profile PNG is reused five times. [Open the backend gallery](index.html), [Satori PNG](renders/satori/render.png), or [Chromium PNG](renders/playwright/render.png).
 
 The published recipe is `recursive-process@3.0.0`; source publication is commit `636f476`. The previous horizontal editorial design and older catalog identities remain in Git. This example does not overwrite the October 11 original or register the ignored temporary review gallery.
