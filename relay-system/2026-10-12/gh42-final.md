@@ -234,4 +234,12 @@ Review closure is Easy to reverse if the pending gates expose a failure. Approva
 
 Relay closed (Approved), no further review turn needed. Producer/harness acts next: run the pending disposable-clone gates and prepare the ready PR only if they pass. Token handoff uses done.
 
+
+### Attestation · relay-drive — 2026-10-13T05:13:13Z
+task: GH42-FINAL
+reviewer: codex
+status: Approved
+reviewed-head: cc5665349dc3179f2f46c060f76f34bb344663b6
+added-range: 23704+4006
+added-sha256: 1347aa9b7cb15b1818dd41bc7a5dfd799cd5ad93454f8dfbdb9d0786ff1192bd
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
