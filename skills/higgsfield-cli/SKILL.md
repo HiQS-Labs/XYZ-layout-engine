@@ -1,6 +1,6 @@
 ---
 name: higgsfield-cli
-description: Generate a transparent PNG (or any image) through the Higgsfield CLI for the XYZ Layout Engine repo, under an operator credit cap, with the alpha channel proven and provenance recorded. Use when asked to "generate a transparent image with Higgsfield", "make a cutout / icon / illustration with Higgsfield", "use the Higgsfield CLI", or "/higgsfield-cli <subject>". Works only inside an XYZ Layout Engine checkout (it needs `SOP.md` and `examples/2026-10-09-cell-division/inspect-alpha.mjs`).
+description: Generate a transparent PNG through the Higgsfield CLI for the XYZ Layout Engine repo, under an operator credit cap, with the alpha channel proven and provenance recorded. Use when asked to "generate a transparent image with Higgsfield", "make a cutout / icon / illustration with Higgsfield", "use the Higgsfield CLI", or "/higgsfield-cli <subject>". Works only inside an XYZ Layout Engine checkout (it needs `SOP.md` and `examples/2026-10-09-cell-division/inspect-alpha.mjs`).
 ---
 
 # higgsfield-cli
