@@ -4,7 +4,7 @@
 - Added the agent-assisted `design-intake` skill, a strict data-only recipe adapter, and capability preflight. Pinned Markdown, quoted requirement mappings, settings and separate PNG prompts now feed the existing validation, fitting and atomic export operations; no new LLM API/provider dependency or custom HTML renderer.
 - Bet: explicit capabilities preserve art direction better than silent substitutions. Unsupported fonts/effects and unpinned assets block rendering; source/asset hashes, geometry and planned pixel budgets fail by field. Easy reversal; existing recipes retain their artifact bytes.
 - Published `design-intake@1.0.2` and dependency-only `recursive-process@5.0.1`. Neutral synthetic-PNG example is public; private project inputs remain untouched. Multiple font families, arbitrary CSS and semantic-fidelity proof are outside this first version.
-- Verification so far: Codex plan Approved, C1 passed, both new backend exports/visual inspections passed, and 28/28 prior artifact digests unchanged. Final QA and full gates are recorded in the GH-42 working plan before PR handoff.
+- Verification: Codex plan and final QA Approved; all four canaries passed in 41.0s in an isolated clone; both new backend exports/visual inspections passed; 28/28 prior artifact digests unchanged. Catalog and canonical checks pass. PDDA has no errors, issue-state warnings cleared by refresh, and two pre-existing governance warnings remain. See the GH-42 working plan and TESTS-RESULTS evidence.
 
 ## 2026-10-12 — GH-8 close-out landed (PR #40)
 

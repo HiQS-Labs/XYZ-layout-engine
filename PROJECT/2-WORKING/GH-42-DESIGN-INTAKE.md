@@ -1,6 +1,6 @@
 ---
 title: DESIGN.md intake through the standard renderer
-status: Active — implementation complete, final QA pending
+status: Verified — preparing ready PR
 created: 2026-10-12
 updated: 2026-10-12
 owner: Codex
@@ -18,7 +18,7 @@ phases: 1
 
 | What was just completed | What's next |
 |---|---|
-| Plan approved; adapter, skill, neutral example and focused checks implemented. | Final review, full gate and ready PR. |
+| Plan/final Codex QA Approved; full canaries and required gates passed. | Open ready PR; retain task clone until merge. |
 
 ## Request
 
@@ -80,7 +80,9 @@ Verification on Node 22.22.3 / darwin-arm64 / pinned dependencies:
 - 28/28 PNG/SVG/HTML/inline artifact digests matched origin/main baseline for all four prior recipes on both backends. Baseline captured in separate disposable gate clone, not historical committed output.
 - Root cause of first browser failure: fixture headline lineHeight 1.1 put glyph bounds above its region at 80px, 28px and 12px. Recipe lineHeight 1.3 fixed it; shared fit checks unchanged. Test-local duplicate variable declaration was corrected before C1 ran. No failed run claimed as a pass.
 
-Final QA/full PDDA/full canaries and PR pending. Private project files untouched.
+Final Codex QA Approved in round 2 (driver exit 0), attested to cc5665349dc3. Full four-canary run passed in 41.0s in the disposable full gate clone at 90d76d90400b5a4b2c08880b410fedce994df1f5; HEAD and tracked tree unchanged before/after. Full PDDA: no errors. Its 19 initial issue-state warnings were resolved by the supported gh-refresh and narrow issue-doc-sync rerun with GH_REPO explicitly set for the local-origin gate clone; issue sync now reports zero warnings. Two pre-existing governance warnings remain (ROUTER pdda skill reference and PDDA_SYNC_TMP reference). Catalog verification/canonical dump and skill validation pass. No test-budget raise or new suite/workflow/dependency.
+
+Evidence: TESTS-RESULTS/2026-10-12-GH-42/{C1.log,full-canaries.log,pdda.log,issue-sync.log,palette-control.log,prior-artifact-digests.json}. The full gate includes the planned-budget and palette-array red controls. Roadmap doc_path was reconciled through roadmap repoint and read back; rated 65/40/50/55 retained. Private project files untouched. Ready PR being created; merge remains unauthorized.
 
 Plan round 1 dispositions: R1 accepted — namespace generated text/region IDs to avoid nutrition header_caption bypass; verify an overflowing input element named header_caption fails normally. R2 accepted — replace scaffold DoD with explicit plan criteria.
 
