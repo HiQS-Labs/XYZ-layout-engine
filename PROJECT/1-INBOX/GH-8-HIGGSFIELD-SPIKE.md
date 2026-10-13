@@ -2,7 +2,7 @@
 gh_issue: 8
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/8
 title: "Add Higgsfield MCP connector as a first-class transparent image generation provider (pluggable provider architecture)"
-status: "Phase 0 landed in PR #15 (4d9aa2c) on 2026-10-09 with a NO-GO verdict on REST; Phases 1 to 4 stay open (issue #8 open)."
+status: "Close-out 2026-10-12: Phase 0 (REST NO-GO, PR #15) and Phase 0b (CLI GO, PR #17) landed; Phases 1 to 4 dropped by the operator; the higgsfield-cli skill is in review on its task branch. #8 closes after it merges."
 created: 2026-10-09
 doc_type: feedback
 effort: 3

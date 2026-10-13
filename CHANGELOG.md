@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-12 — GH-8 close-out: the Higgsfield CLI skill
+
+- New `skills/higgsfield-cli/SKILL.md`: an agent makes a transparent PNG through the installed Higgsfield CLI (`gpt_image_2_5 --background transparent`) with a written credit cap, a `generate cost` quote before each single create, no automatic retry, a full signed download whose query is never stored, the existing `inspect-alpha.mjs` check (`format: "png"` and `real_alpha: true`), and provenance in the shape of the cell-division example. No reference images or local files go to Higgsfield unless the operator asks. Refs #8.
+- `SOP.md` points agents at the skill and records the operator's 2026-10-12 decision: the CLI is the route; issue #8's Phases 1 to 4 (provider contract, `ingest`, a built-in provider) are dropped. MCP stays untested; REST stays NO-GO for transparency.
+- Bet: a numbered procedure over the existing CLI and inspector is enough for occasional asset work, so no runner, test, dependency or workflow was added. Revisit if a second recurring Higgsfield consumer appears or a skipped step causes an incident. Easy to reverse (delete the skill folder, revert the SOP lines).
+- Verification: every CLI command and flag in the skill checked against `higgsfield` 1.1.26 help and `model get` (no paid call); every repo path checked; inspector control earth.png → `real_alpha: true`, solar-system.png → `false`; `utils/pdda/pdda.sh run`. Plan QA: Codex, 2 rounds, Approved.
+
 ## 2026-10-12 — GH-38 follow-up fixes landed (PR #39)
 
 - PR #39 merged as `f6219536ad` after Approved native Codex plan and final QA; catalog recovery and shared PNG loading are complete. Four canaries passed in39.3s;35format/assets/fit comparisons remain identical and76old catalog rows/design-log bytes are retained.

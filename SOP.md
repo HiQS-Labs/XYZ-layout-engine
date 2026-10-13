@@ -8,6 +8,8 @@ Last verified: 2026-10-09 (Higgsfield CLI 1.1.26). Evidence: `examples/2026-10-0
 
 To generate an image that must have a transparent background, use the Higgsfield **CLI** with `--background transparent`, and check the alpha channel of every result yourself. Do not use the Higgsfield REST API for transparency. Do not rely on the MCP connector; it is untested.
 
+Agents: follow the `higgsfield-cli` skill (`skills/higgsfield-cli/SKILL.md`). It carries out the procedure below step by step. The CLI is the chosen route for this repo; issue #8's Phases 1 to 4 (provider contract, `ingest`, a built-in Higgsfield provider) were dropped on 2026-10-12.
+
 | Method | Transparent image | Status | Use it for |
 |---|---|---|---|
 | CLI `higgsfield generate create gpt_image_2_5 --background transparent` | Real alpha in 4 of 4 runs; the `--background opaque` control came back opaque | GO | Anything that needs a transparent PNG, and any other Higgsfield image |
@@ -35,7 +37,7 @@ Run one job at a time. Never retry a failed job automatically; read the failure 
 - Keep key files and tokens out of the repo, out of chat, out of logs. Never print any part of a key. If you must test a key file, check its mode is 600 first.
 - Spend only under an explicit operator cap, and stop at the cap.
 - Commit only the assets you use, with provenance (provider, model, parameters, job id, hashes). Raw downloads stay out of the repo.
-- In PRs and commits for Higgsfield work write `Refs #8`. Never write a closing keyword near `#8`, even in a negation; "does not close #8" closed it once.
+- In PRs and commits, never write a GitHub closing keyword next to an issue number unless you mean to close it, even in a negation: "does not close #8" closed #8 once.
 
 ## Known limits (revisit these before relying on the result)
 
@@ -46,4 +48,4 @@ Run one job at a time. Never retry a failed job automatically; read the failure 
 
 ## When to change this SOP
 
-Update the table and the "Last verified" date when any of these happens: an MCP spike runs (pass or fail); the REST docs list a transparency field; a CLI version changes the `--background` behaviour; or the first Higgsfield provider (issue #8, Phases 1 to 4) lands and becomes the supported entry point. Record the evidence in the same change.
+Update the table and the "Last verified" date when any of these happens: an MCP spike runs (pass or fail); the REST docs list a transparency field; or a CLI version changes the `--background` behaviour. Record the evidence in the same change, and update `skills/higgsfield-cli/SKILL.md` with it.
