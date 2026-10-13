@@ -129,4 +129,12 @@ Read the entire seeded artifact and its evidence appendix, the complete skill, S
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the completed review; the harness owns the file-scoped commit and deferred gate.
 
+
+### Attestation · relay-drive — 2026-10-13T03:21:02Z
+task: PR40-PREMERGE-20261012
+reviewer: codex
+status: Approved
+reviewed-head: 7b5042ed296bb448e3524ffd149d8a4fa394fcae
+added-range: 12778+4665
+added-sha256: 70635d1358847b58e85c7c40396e47569b122bfabe81309ce739042287a82c4a
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
