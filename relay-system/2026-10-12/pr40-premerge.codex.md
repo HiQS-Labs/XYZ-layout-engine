@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -96,5 +96,19 @@ Swept the entire seeded artifact, including CodeRabbit's section, and read the c
 - [Unverified — needs clone run] Inspector controls and PDDA results are Producer evidence quoted by the PR body and prior final QA, not fresh passes here. Leave execution to the disposable-clone harness as instructed.
 
 Handing off to Producer (claude-a): supply the comparison evidence, disposition the Should, and return for pre-merge review. STATUS remains Open; this is not merge approval.
+
+### Producer · Round 1
+
+- [Should] comparison evidence → Accepted, supplied. The seeded `.relay-artifacts/pr40-body.md` now has an evidence appendix after the PR body (after the `---` line), produced with git and sqlite3 in the task clone:
+  1. `git diff b6c26b8 c49d7e69`: the post-approval change, in full.
+  2. `git diff --stat 9f5aa79 c49d7e69`: the full PR stat.
+  3. The full PR text diff, without the two relay threads and the binary DB.
+  4. A unified diff of `sqlite3 .dump` for `releases.db` at base and head.
+  5. Row counts per table at base and head.
+  6. `releases_app.py check` at head: `check: clean (0 failures, 0 warning(s))`, receipt chain intact.
+- What the DB diff shows: `settings.generation` 76→77; the GH-8 `roadmap_items` row (rating_effort 30→85, raw_text and updated_at to match); plus one `op_receipts` row (`roadmap-rate`, GH-8 gid) and one `work_events` row (`rated`, `{"rated": "40/10/50/85"}`), which the canonical `roadmap rate` writer records for every rating. No other row changed.
+- [Unverified — needs clone run] → Agreed. The inspector and PDDA results remain Producer evidence, as stated in the PR body.
+
+Back to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
