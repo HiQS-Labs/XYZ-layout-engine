@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -71,7 +71,7 @@ Questions:
 4. Do the SOP edits keep the SOP and the skill consistent, and is anything still pointing at the dropped Phases 1 to 4?
 5. Anything over-built, missing, or outside the plan in the diff?
 
-Grade each finding [Blocker]/[Should]/[Nit]/[Pass]; a [Blocker] or [Should] asking for a behaviour change needs Observed input / Affected scope / Falsifier lines. Set STATUS: Approved if it can ship as is (Nits allowed).
+Grade each finding [Blocker]/[Should]/[Nit]/[Unverified — no citation]; a [Blocker] or [Should] asking for a behaviour change needs Observed input / Affected scope / Falsifier lines. Set STATUS: Approved if it can ship as is (Nits allowed).
 
 ## Ground rules
 1. This file is the single source of truth. The agents never share memory — read the whole file.
@@ -82,5 +82,27 @@ Grade each finding [Blocker]/[Should]/[Nit]/[Pass]; a [Blocker] or [Should] aski
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: Ship the transparent-PNG skill as written; no Blocker or Should found. The five close-out requirements are covered with the existing CLI and inspector. Reversibility: Easy. The bet is that an agent follows the numbered procedure for this occasional, single-operator workflow; skipping its gates remains the documented failure mode, not a reason to add a runner now.
+swept file: yes
+
+Read the complete skill, SOP, GH-8 capture and CHANGELOG, plus the approved plan relay, inspector, provenance shape and test budget. No additional pre-existing defect requiring a fix was found in the reviewed artifacts; historical-status wording is noted below. Graph tools were unavailable (no callable project/index/search tools); source reading was used. No git, paid generation, local-file upload, executable fixture, test suite, PDDA or roadmap command ran. The user’s reviewer-only restrictions supersede those startup execution steps.
+
+- [Pass] Requirement 1: the skill is usable without the runner: preconditions at `skills/higgsfield-cli/SKILL.md:12`, numbered procedure at :23–31, provenance at :30, traps at :33, maintained-primary-clone installation at :45, and completion criteria at :49. No new mechanism is needed; retain this bounded scope.
+- [Pass] Requirement 2: cap and serialization are explicit at skill :8 and :17; :25 refuses missing/non-finite/non-positive quotes and totals above the cap. Its “larger of (starting balance minus current balance) and the sum of earlier quotes” prevents a lagging balance from resetting reserved spend. For example, a 0.5 cap with two earlier 0.25 quotes refuses another 0.25 even if the balance is unchanged (arithmetic inspection, not a live billing measurement). Skill :26 accepts only the expected completed job and stops on every other outcome without retry; :23/:31 provide opening/closing balances. Retain these controls.
+- [Pass] Requirement 3: skill :28 requires both `format: "png"` and `real_alpha: true`, warns that exit 0 alone proves nothing, and :29 adds inspection on the target colour. This matches `examples/2026-10-09-cell-division/inspect-alpha.mjs:72` (header alpha plus decoded minimum alpha and transparent pixels) and :79 (opaque decoded files still exit 0). No new test or inspector is warranted.
+- [Pass] Requirement 4: skill :24 explicitly gates local references on the operator’s request for both cost and create; :27 preserves the complete signed URL for fetching while forbidding query retention; :23/:30 exclude account email, tokens and signed URLs, and keep raw downloads outside the repo. These carry `SOP.md:37` and :39. Retain the complete-URL versus stored-URL distinction.
+- [Pass] Requirement 5 and SOP consistency: `SOP.md:11` names the skill and drops Phases 1 to 4; :51 requires updating the skill when the SOP changes. `CHANGELOG.md:2` has the single close-out entry, and `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md:5` correctly leaves merge/issue closure pending. The new procedure strengthens rather than weakens SOP :22–39. No current close-out instruction asks for the dropped provider work.
+- [Pass] Free CLI help probes support the command surface at skill :23–26. Commands `higgsfield --version`, `higgsfield account status --help`, `higgsfield auth login --help`, `higgsfield generate list --help`, `higgsfield generate cost --help`, and `higgsfield generate create --help` each exited 0. Decisive output: `higgsfield 1.1.26`; account help says “Show account email, plan, and available credits”; auth says “Start browser-based OAuth login”; list documents `--json`; cost says “Estimate credits without creating a job” and “Local file paths are auto-uploaded”; create names `--image-references`, alias `--image`, and “Use --wait to block until each job finishes”. The job field names also match the existing runner at `examples/2026-10-09-cell-division/higgsfield-cli-spike.py:291`, :309, :408 and :426. No wrong field was identified from that source evidence.
+- [Pass] Referenced input files exist. Probe: `python3 -B` with `Path(p).is_file()` for `SOP.md`, `SYSTEM-INSTRUCTIONS.md`, `examples/2026-10-09-cell-division/FINDINGS.md`, `examples/2026-10-09-cell-division/assets/provenance.json`, and `examples/2026-10-09-cell-division/inspect-alpha.mjs`; exit 0, decisive output `exists=True` for all five. These are the inputs named at skill :14, :28, :30 and :37. This checks filesystem existence, not tracked status.
+- [Nit] Skill :3 advertises “(or any image)”, but :8/:26/:28 require a transparent result. Cheapest clarification: remove that parenthetical so an opaque-image request is not routed into a procedure that rejects its intended output. The requested transparent-PNG scope is unaffected.
+- [Nit] The old per-issue tables in `PROJECT/1-INBOX/GH-8-HIGGSFIELD-SPIKE.md` still say “Phases 1 to 4 untouched” and “awaiting final QA, then PR (ready, not merged)”. The current status at :5 and dated close-out at :170 supersede them. Label those older tables historical when next maintaining the capture; preserve their evidence rather than reviving dropped work.
+- [Unverified — no citation] Fresh model-schema query `higgsfield model get gpt_image_2_5 --json` exited 3 with `Error: Higgsfield API request failed.` No create or cost request was made. The Setup’s successful model/price probes remain Producer evidence; current remote schema, account state and an actual create response were not independently measured in this turn.
+- [Unverified — needs clone run] Inspector controls and PDDA were not rerun under the reviewer restrictions. Setup records the Producer’s earth=true / poster=false controls and no PDDA errors; the post-turn harness owns fresh execution. Git was prohibited, so the exact `9f5aa79..d8fdbb4` diff and absence of off-plan changed paths remain for harness containment verification. Approval does not substitute for those gates.
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the completed review; the harness performs the file-scoped commit and deferred gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
