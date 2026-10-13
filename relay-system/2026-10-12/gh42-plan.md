@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -142,5 +142,24 @@ Plan QA pending. Implementation not started. PR pending.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: Block plan readiness on one concrete fitting-seam omission; the overall local, data-only approach is proportionate. This is plan QA, not an observed failure of an implementation that does not yet exist.
+swept file: yes
+
+- [Should] R1 — Account for the existing nutrition-only caption exception when admitting fixture-derived text IDs. The plan's “fixture-derived IDs/default sizes/containment feed existing fitting checks” does not address the unconditional `header_caption` special cases at `tools/render.mjs:254` and `tools/render.mjs:310`. Both skip this ID when `fixture.sections?.header?.caption` is absent, and the latter overwrites its geometry with `{ present: false }`. Cheapest fix: state that the new adapter reserves/rejects this ID (with a field-specific error), or scope both exceptions to nutrition while preserving its optional-caption behavior. Add this case to the already planned targeted red controls; no new suite.
+  Observed input: Current source predicates `id === 'header_caption' && !fixture.sections?.header?.caption` at both cited locations. A planned intake text element whose ID is `header_caption`, with no nutrition `sections.header.caption`, satisfies those predicates regardless of its text/box geometry. Source-traced counterexample; no new-adapter runtime repro claimed.
+  Affected scope: Only design-intake text IDs interacting with the shared fitting/receipt loops; preserve existing nutrition caption semantics and prior artifact bytes.
+  Falsifier: A design-intake fixture containing an overflowing `header_caption` element must either fail explicitly as a reserved ID or undergo normal fitting and fail on exhausted fit; it must never succeed by recording that element as absent. An omitted nutrition caption must retain its existing behavior.
+- [Nit] R2 — The Setup Definition of Done remains `_<fill in the acceptance criteria the Reviewer grades against>_`. Replace it with a reference to the embedded “Implementation and acceptance (one phase)” and “QA packet”, distinguishing plan approval from final implementation acceptance. Those sections supplied this round's review criteria.
+- [Pass] The proposed trust boundary and reuse are appropriate: “No arbitrary CSS, HTML, code, remote URLs or data URLs accepted” and “Rendering uses tools/render.mjs directly, never wrapper HTML.” Existing `normalizeRequest` owns backend/format rejection (`tools/request.mjs:89`), and `processRequest` owns recipe validation and scene construction (`tools/render.mjs:195`, `tools/render.mjs:231`). Keep those owners as planned.
+- [Pass] The catalog dependency consequence is recognized: the plan says “request.mjs is pinned by recursive-process@5.0.0”, and `tools/catalog.mjs:146` includes `tools/request.mjs` in recursive-process's declared files. The planned byte-equality evidence before a patch publication is an acceptance obligation, not evidence already earned.
+- [Pass] Verification and visual scope are proportionate: “no new test/suite/workflow/dependency”, the named negative controls, and “Visual inspect PNGs and thumbnail” cover structural and visual review separately. The stated four-test/60-second ceiling matches `test-budget.json`. Final visual evidence must follow SYSTEM-INSTRUCTIONS.md AS-10 and its Report section; none was produced or assessed this turn.
+
+Evidence limits: Read the entire relay file and embedded artifact, including pre-existing text. The pre-existing placeholder R2 is noted; no other defect found in the reviewed plan beyond R1. Supporting source inspection was bounded to request validation/save, render validation/fitting/export, and catalog declared files, not a whole-engine audit. Verify-tier graph coverage for XYZ-layout-engine generation `2026-10-13T02:52:30Z` reports `tools/` excluded and this relay path missing in the indexed main checkout; local source supplied the evidence. Both startup roadmap CLI locations are absent in this review worktree, so RELEASES ratings and historical recon remain producer-reported. No full suite, runtime render, private project access, or git command was run.
+
+Reversibility: Easy — only this review block and NEXT header change. Relay-file verification checks one appended block, unchanged embedded artifact/prior text, valid handoff header, final marker, and no home-directory prefix. Producer should disposition R1/R2 and return the amended plan for Round 2. Handing off to producer — take your turn.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
