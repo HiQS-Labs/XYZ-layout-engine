@@ -43,7 +43,7 @@ Verify-tier graph: XYZ-layout-engine ready; tools/ and examples/ explicitly excl
 
 - tools/request.mjs normalizeRequest -> contained bounded JSON, fixed recipe list/canvases; saveFixture -> same recipe validators, safe atomic JSON replacement. Extend both allowlists for the trusted adapter; allow bounded canvas dimensions only for that recipe. No arbitrary module paths.
 - tools/render.mjs processRequest -> recipe.validate -> pinned fonts -> buildScene -> shared Satori/Playwright geometry and fitting -> artifacts -> publishArtifacts/verifyPublication. Extend recipe validation/build context with root and inputPath, and optional per-fixture text contract; no second rendering/export path.
-- tools/recipes/design-intake.mjs (new owner) -> strict settings, supported capabilities, source and asset hash/PNG checks; buildScene returns constrained nodes. Import existing readBounded, within, LIMITS and inspectPng. One bundled Barlow Condensed family, 400/700, keeps existing font API. Text boxes own IDs and containment; render's fit loop remains authoritative.
+- tools/recipes/design-intake.mjs (new owner) -> strict settings, supported capabilities, source and asset hash/PNG checks; buildScene returns constrained nodes. Import existing readBounded, within, LIMITS and inspectPng. One bundled Barlow Condensed family, 400/700, keeps existing font API. Adapter-generated text IDs use the intake_text_ prefix (never header_caption), and region IDs use intake_region_; input element IDs remain independent. Text boxes own IDs and containment; render's fit loop remains authoritative.
 - tools/intake.mjs (new thin CLI/library) -> expose adapter capabilities; preflight a package without rendering or spending. Report all declared unsupported requirements with paths, then run the same recipe validator; ready mode also checks pinned source/PNG assets. Rendering uses tools/render.mjs directly, never wrapper HTML.
 - tools/catalog.mjs declaredFiles -> include new adapter/contract and shared dependencies; publish new design-intake@1.0.0. request.mjs is pinned by recursive-process@5.0.0, so publish 5.0.1 only after prior artifacts are proved unchanged.
 - skills/design-diagram/SKILL.md currently documents bespoke scene copying; route DESIGN.md inputs to new skills/design-intake/SKILL.md. README documents supported contract, translation vs validation limits, capability report and standard commands.
@@ -70,3 +70,5 @@ Plan/final reviewers: grade the concrete local agent workflow and commensurate c
 ## Evidence and handoff
 
 Plan QA pending. Implementation not started. PR pending.
+
+Plan round 1 dispositions: R1 accepted — namespace generated text/region IDs to avoid nutrition header_caption bypass; verify an overflowing input element named header_caption fails normally. R2 accepted — replace scaffold DoD with explicit plan criteria.

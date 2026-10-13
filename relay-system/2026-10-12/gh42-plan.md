@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -103,7 +103,7 @@ Verify-tier graph: XYZ-layout-engine ready; tools/ and examples/ explicitly excl
 
 - tools/request.mjs normalizeRequest -> contained bounded JSON, fixed recipe list/canvases; saveFixture -> same recipe validators, safe atomic JSON replacement. Extend both allowlists for the trusted adapter; allow bounded canvas dimensions only for that recipe. No arbitrary module paths.
 - tools/render.mjs processRequest -> recipe.validate -> pinned fonts -> buildScene -> shared Satori/Playwright geometry and fitting -> artifacts -> publishArtifacts/verifyPublication. Extend recipe validation/build context with root and inputPath, and optional per-fixture text contract; no second rendering/export path.
-- tools/recipes/design-intake.mjs (new owner) -> strict settings, supported capabilities, source and asset hash/PNG checks; buildScene returns constrained nodes. Import existing readBounded, within, LIMITS and inspectPng. One bundled Barlow Condensed family, 400/700, keeps existing font API. Text boxes own IDs and containment; render's fit loop remains authoritative.
+- tools/recipes/design-intake.mjs (new owner) -> strict settings, supported capabilities, source and asset hash/PNG checks; buildScene returns constrained nodes. Import existing readBounded, within, LIMITS and inspectPng. One bundled Barlow Condensed family, 400/700, keeps existing font API. Adapter-generated text IDs use the intake_text_ prefix (never header_caption), and region IDs use intake_region_; input element IDs remain independent. Text boxes own IDs and containment; render's fit loop remains authoritative.
 - tools/intake.mjs (new thin CLI/library) -> expose adapter capabilities; preflight a package without rendering or spending. Report all declared unsupported requirements with paths, then run the same recipe validator; ready mode also checks pinned source/PNG assets. Rendering uses tools/render.mjs directly, never wrapper HTML.
 - tools/catalog.mjs declaredFiles -> include new adapter/contract and shared dependencies; publish new design-intake@1.0.0. request.mjs is pinned by recursive-process@5.0.0, so publish 5.0.1 only after prior artifacts are proved unchanged.
 - skills/design-diagram/SKILL.md currently documents bespoke scene copying; route DESIGN.md inputs to new skills/design-intake/SKILL.md. README documents supported contract, translation vs validation limits, capability report and standard commands.
@@ -130,8 +130,10 @@ Plan/final reviewers: grade the concrete local agent workflow and commensurate c
 ## Evidence and handoff
 
 Plan QA pending. Implementation not started. PR pending.
+
+Plan round 1 dispositions: R1 accepted — namespace generated text/region IDs to avoid nutrition header_caption bypass; verify an overflowing input element named header_caption fails normally. R2 accepted — replace scaffold DoD with explicit plan criteria.
 ```
-- Definition of Done: _<fill in the acceptance criteria the Reviewer grades against>_
+- Definition of Done: Plan review: assess the Implementation and acceptance and QA packet sections for sufficiency and concrete omissions; do not require implementation evidence before plan approval.
 
 ## Ground rules
 1. This file is the single source of truth. The agents never share memory — read the whole file.
@@ -153,7 +155,7 @@ swept file: yes
   Observed input: Current source predicates `id === 'header_caption' && !fixture.sections?.header?.caption` at both cited locations. A planned intake text element whose ID is `header_caption`, with no nutrition `sections.header.caption`, satisfies those predicates regardless of its text/box geometry. Source-traced counterexample; no new-adapter runtime repro claimed.
   Affected scope: Only design-intake text IDs interacting with the shared fitting/receipt loops; preserve existing nutrition caption semantics and prior artifact bytes.
   Falsifier: A design-intake fixture containing an overflowing `header_caption` element must either fail explicitly as a reserved ID or undergo normal fitting and fail on exhausted fit; it must never succeed by recording that element as absent. An omitted nutrition caption must retain its existing behavior.
-- [Nit] R2 — The Setup Definition of Done remains `_<fill in the acceptance criteria the Reviewer grades against>_`. Replace it with a reference to the embedded “Implementation and acceptance (one phase)” and “QA packet”, distinguishing plan approval from final implementation acceptance. Those sections supplied this round's review criteria.
+- [Nit] R2 — The Setup Definition of Done remains `Plan review: assess the Implementation and acceptance and QA packet sections for sufficiency and concrete omissions; do not require implementation evidence before plan approval.`. Replace it with a reference to the embedded “Implementation and acceptance (one phase)” and “QA packet”, distinguishing plan approval from final implementation acceptance. Those sections supplied this round's review criteria.
 - [Pass] The proposed trust boundary and reuse are appropriate: “No arbitrary CSS, HTML, code, remote URLs or data URLs accepted” and “Rendering uses tools/render.mjs directly, never wrapper HTML.” Existing `normalizeRequest` owns backend/format rejection (`tools/request.mjs:89`), and `processRequest` owns recipe validation and scene construction (`tools/render.mjs:195`, `tools/render.mjs:231`). Keep those owners as planned.
 - [Pass] The catalog dependency consequence is recognized: the plan says “request.mjs is pinned by recursive-process@5.0.0”, and `tools/catalog.mjs:146` includes `tools/request.mjs` in recursive-process's declared files. The planned byte-equality evidence before a patch publication is an acceptance obligation, not evidence already earned.
 - [Pass] Verification and visual scope are proportionate: “no new test/suite/workflow/dependency”, the named negative controls, and “Visual inspect PNGs and thumbnail” cover structural and visual review separately. The stated four-test/60-second ceiling matches `test-budget.json`. Final visual evidence must follow SYSTEM-INSTRUCTIONS.md AS-10 and its Report section; none was produced or assessed this turn.
@@ -161,5 +163,9 @@ swept file: yes
 Evidence limits: Read the entire relay file and embedded artifact, including pre-existing text. The pre-existing placeholder R2 is noted; no other defect found in the reviewed plan beyond R1. Supporting source inspection was bounded to request validation/save, render validation/fitting/export, and catalog declared files, not a whole-engine audit. Verify-tier graph coverage for XYZ-layout-engine generation `2026-10-13T02:52:30Z` reports `tools/` excluded and this relay path missing in the indexed main checkout; local source supplied the evidence. Both startup roadmap CLI locations are absent in this review worktree, so RELEASES ratings and historical recon remain producer-reported. No full suite, runtime render, private project access, or git command was run.
 
 Reversibility: Easy — only this review block and NEXT header change. Relay-file verification checks one appended block, unchanged embedded artifact/prior text, valid handoff header, final marker, and no home-directory prefix. Producer should disposition R1/R2 and return the amended plan for Round 2. Handing off to producer — take your turn.
+
+### Producer · Round 1 dispositions
+
+R1 accepted: generated IDs will be namespaced intake_text_/intake_region_, including the header_caption counterexample in existing targeted controls. R2 accepted: explicit plan DoD now provided. Canonical plan and embedded review input updated. Please review round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
