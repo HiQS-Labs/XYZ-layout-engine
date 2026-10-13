@@ -1,0 +1,200 @@
+{
+  "sourceCommit": "ec7ed24",
+  "runtime": {
+    "node": "v22.22.3",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "receiptNote": "Only the local home-directory prefix was replaced by ~. export-manifest.json records original export receipt hashes; retained file hashes are in SHA256SUMS.",
+  "renders": [
+    {
+      "fixture": "01-icon.fixture.json",
+      "backend": "satori",
+      "recipe": "mangajdm-promo@3.0.0",
+      "formats": [
+        "png",
+        "svg",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "94f9a6b42b9a9bec367b758f7a065f4bd585d62471da5760af3abe5611fa74de",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "01-icon.fixture.json",
+      "backend": "playwright",
+      "recipe": "mangajdm-promo@3.0.0",
+      "formats": [
+        "png",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "7aa36ad88ea86563aeff380100180b831f987e82d04a409b13e4b2d555f9aece",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "02-eras.fixture.json",
+      "backend": "satori",
+      "recipe": "mangajdm-promo@3.0.0",
+      "formats": [
+        "png",
+        "svg",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "dd89f6ad948ec52f3c8d18fc8d4b79ee5d2015abc137f7701bda88d36faf7dc7",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "02-eras.fixture.json",
+      "backend": "playwright",
+      "recipe": "mangajdm-promo@3.0.0",
+      "formats": [
+        "png",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "bbf4bb7f3bbf6ab9642f7c13437610ca7e4aa3b1a3c40ee84ce8479f8f65de74",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "03-wear.fixture.json",
+      "backend": "satori",
+      "recipe": "mangajdm-promo@3.0.0",
+      "formats": [
+        "png",
+        "svg",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "fab1c354a65786977d0d05b211ed4f2f5c46ed0adb58dce8492ac42d51fd1959",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "03-wear.fixture.json",
+      "backend": "playwright",
+      "recipe": "mangajdm-promo@3.0.0",
+      "formats": [
+        "png",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "1bf165f461a12a09ee048c20c4cf99c9856be5c0c7f0dcd0b002539b0bfa1f69",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "04-belief.fixture.json",
+      "backend": "satori",
+      "recipe": "recursive-process@2.0.0",
+      "formats": [
+        "png",
+        "svg",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "0aa486583df467c0665da17c514cb90efafa00a7350fac394d52dc81c6601bf5",
+      "allExportDigestsVerified": true
+    },
+    {
+      "fixture": "04-belief.fixture.json",
+      "backend": "playwright",
+      "recipe": "recursive-process@2.0.0",
+      "formats": [
+        "png",
+        "html",
+        "html-inline"
+      ],
+      "fit": true,
+      "attempts": 1,
+      "catalogVerified": true,
+      "pngSha256": "e87f23830bc1ce507366629f1fa7c47f9aa679464edfe6b0f59e2cc762044cd1",
+      "allExportDigestsVerified": true
+    }
+  ],
+  "publicationVerification": [
+    {
+      "stem": "01-icon",
+      "backend": "satori",
+      "valid": true,
+      "files": 9,
+      "bytes": 9280826
+    },
+    {
+      "stem": "01-icon",
+      "backend": "playwright",
+      "valid": true,
+      "files": 8,
+      "bytes": 6545101
+    },
+    {
+      "stem": "02-eras",
+      "backend": "satori",
+      "valid": true,
+      "files": 9,
+      "bytes": 10466547
+    },
+    {
+      "stem": "02-eras",
+      "backend": "playwright",
+      "valid": true,
+      "files": 8,
+      "bytes": 7446850
+    },
+    {
+      "stem": "03-wear",
+      "backend": "satori",
+      "valid": true,
+      "files": 9,
+      "bytes": 12254185
+    },
+    {
+      "stem": "03-wear",
+      "backend": "playwright",
+      "valid": true,
+      "files": 8,
+      "bytes": 8640161
+    },
+    {
+      "stem": "04-belief",
+      "backend": "satori",
+      "valid": true,
+      "files": 8,
+      "bytes": 1309525
+    },
+    {
+      "stem": "04-belief",
+      "backend": "playwright",
+      "valid": true,
+      "files": 7,
+      "bytes": 696343
+    }
+  ],
+  "tests": {
+    "command": "pnpm test",
+    "passed": 4,
+    "failed": 0,
+    "durationSeconds": 36.8,
+    "reportedBy": "parent agent"
+  }
+}

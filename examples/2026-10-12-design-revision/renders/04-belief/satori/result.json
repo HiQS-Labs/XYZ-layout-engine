@@ -1,0 +1,109 @@
+{
+  "normalized": {
+    "inputPath": "~/Documents/GH Repos/XYZ-layout-engine/examples/2026-10-12-design-revision/04-belief.fixture.json",
+    "width": 1600,
+    "height": 1340,
+    "format": "png,svg,html,html-inline",
+    "formats": [
+      "png",
+      "svg",
+      "html",
+      "html-inline"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "recursive-process"
+  },
+  "catalog": {
+    "slug": "recursive-process",
+    "version": "2.0.0",
+    "contentSha256": "68353e330955d94ac4c5a0d59faaea92d8cb5e924d4b5cecfd142d2bd8094803",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "2.0.0",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "0aa486583df467c0665da17c514cb90efafa00a7350fac394d52dc81c6601bf5",
+    "svg": "f98ae9a0b15de60da0c717bedd9e64dc11bf05cfdb6de7c2278bf545d1f25210",
+    "html": "ea267778e2ad1a1f39d23fafec274a2f834b6d64bbeec5db9dd993fa17a5af66",
+    "html-inline": "2ccf9340c29b11a461ed6e0eec5628765db83ce423608766ab5f127bd433f10e"
+  },
+  "provenance": {
+    "inputPath": "~/Documents/GH Repos/XYZ-layout-engine/examples/2026-10-12-design-revision/04-belief.fixture.json",
+    "inputSha256": "f65ed6633cd8a4e0120d9bc7a8aaea3f0297b5254cbb2792e5195db05a968c35",
+    "fixtureSha256": "648734b5f3144fbdbcd90d96ba74de79b917f78fbb3fe88d5d43da9015b2f92b",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "title": 72,
+          "subtitle": 28,
+          "stage_1_num": 20,
+          "stage_2_num": 20,
+          "stage_3_num": 20,
+          "stage_4_num": 20,
+          "event_1_label": 34,
+          "event_1_caption": 25,
+          "event_2_label": 34,
+          "event_2_caption": 25,
+          "state_1_label": 34,
+          "state_1_caption": 25,
+          "state_2_label": 34,
+          "state_2_caption": 25,
+          "consequence_1_label": 34,
+          "consequence_1_caption": 25,
+          "consequence_2_label": 34,
+          "consequence_2_caption": 25,
+          "examination_label": 34,
+          "examination_caption": 25,
+          "outcome_label": 34,
+          "outcome_caption": 25,
+          "trail_label": 28,
+          "footer_note": 22,
+          "footer_source": 20
+        }
+      }
+    ],
+    "finalSizes": {
+      "title": 72,
+      "subtitle": 28,
+      "stage_1_num": 20,
+      "stage_2_num": 20,
+      "stage_3_num": 20,
+      "stage_4_num": 20,
+      "event_1_label": 34,
+      "event_1_caption": 25,
+      "event_2_label": 34,
+      "event_2_caption": 25,
+      "state_1_label": 34,
+      "state_1_caption": 25,
+      "state_2_label": 34,
+      "state_2_caption": 25,
+      "consequence_1_label": 34,
+      "consequence_1_caption": 25,
+      "consequence_2_label": 34,
+      "consequence_2_caption": 25,
+      "examination_label": 34,
+      "examination_caption": 25,
+      "outcome_label": 34,
+      "outcome_caption": 25,
+      "trail_label": 28,
+      "footer_note": 22,
+      "footer_source": 20
+    }
+  }
+}

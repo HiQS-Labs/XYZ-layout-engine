@@ -1,0 +1,25 @@
+{
+  "current": "runs/83b88af4-4912-4b2e-82db-9c1c80cd5397",
+  "files": [
+    "assets/0cb1bc1335372d9e3a0cf6f5311c7cce87af90d2a777fdeec18be605a2a70bc1.ttf",
+    "assets/64f8be6e55c37e32ef03da99714bf3aa58b8f2099bfe4f759a7578e3b8291123.ttf",
+    "assets/92749cb765f161a52adda6d40fead54b9d0664d8cd0a91a97468f93bf9485acf.png",
+    "assets/93c6a829b65281fece6b2846d40ce3ce1bd9eb1631d1b0b80c296ec93a58d02d.png",
+    "render-inline.html",
+    "render.html",
+    "render.png",
+    "render.svg",
+    "result.json"
+  ],
+  "digests": {
+    "assets/0cb1bc1335372d9e3a0cf6f5311c7cce87af90d2a777fdeec18be605a2a70bc1.ttf": "0cb1bc1335372d9e3a0cf6f5311c7cce87af90d2a777fdeec18be605a2a70bc1",
+    "assets/64f8be6e55c37e32ef03da99714bf3aa58b8f2099bfe4f759a7578e3b8291123.ttf": "64f8be6e55c37e32ef03da99714bf3aa58b8f2099bfe4f759a7578e3b8291123",
+    "assets/92749cb765f161a52adda6d40fead54b9d0664d8cd0a91a97468f93bf9485acf.png": "92749cb765f161a52adda6d40fead54b9d0664d8cd0a91a97468f93bf9485acf",
+    "assets/93c6a829b65281fece6b2846d40ce3ce1bd9eb1631d1b0b80c296ec93a58d02d.png": "93c6a829b65281fece6b2846d40ce3ce1bd9eb1631d1b0b80c296ec93a58d02d",
+    "render-inline.html": "f82951d4bbc5163c649af7ac8b53db52c25cfd18b1d610dbe64f19216e8e0431",
+    "render.html": "c4cd27d465af327c091032b2c8004e8da5738a39e019659d6c38aa531e2eb235",
+    "render.png": "94f9a6b42b9a9bec367b758f7a065f4bd585d62471da5760af3abe5611fa74de",
+    "render.svg": "20cb4e26a03a5ff9a3d81211f46af8c5df43a45dc3ff2b133243f66306ab3f65",
+    "result.json": "200b98b1a0acb5b2d8d8a4559a161b329dc757716b24e1ceb7a52dcf9989cfff"
+  }
+}
