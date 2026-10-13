@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-12 — Accepted design merge verification
+
+- Operator approved landing the combined MangaJDM and belief-diagram revisions. Preserve separate replay commits using a merge commit. Refreshed two documentation hashes after the earlier replay/historical-brief notes; rendered evidence is unchanged.
+- Final canaries pass4/4in38.9s; catalog verify/canonical export and all100 retained-file hashes pass. Full PDDA reports zero errors and the same three unrelated warnings. Human artwork review is accepted for this revision; other GH-38 carry-overs remain separate.
+
 ## 2026-10-12 — C2 connector bend refinement
 
 - Replaced the cramped C2 connector turn with a 20px rounded elbow and 16px horizontal lead into its arrowhead. Removed the isolated divider fragment immediately below it. The recipe/design contract own this geometry; Barlow Condensed, artwork and other placements are unchanged.
