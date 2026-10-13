@@ -1,6 +1,6 @@
 ---
 title: DESIGN.md intake through the standard renderer
-status: Verified — preparing ready PR
+status: PR ready — awaiting merge
 created: 2026-10-12
 updated: 2026-10-12
 owner: Codex
@@ -18,7 +18,7 @@ phases: 1
 
 | What was just completed | What's next |
 |---|---|
-| Plan/final Codex QA Approved; full canaries and required gates passed. | Open ready PR; retain task clone until merge. |
+| Plan/final Codex QA Approved; full canaries and required gates passed. | Await merge of PR #43; retain task clone for handoff. |
 
 ## Request
 
@@ -82,7 +82,7 @@ Verification on Node 22.22.3 / darwin-arm64 / pinned dependencies:
 
 Final Codex QA Approved in round 2 (driver exit 0), attested to cc5665349dc3. Full four-canary run passed in 41.0s in the disposable full gate clone at 90d76d90400b5a4b2c08880b410fedce994df1f5; HEAD and tracked tree unchanged before/after. Full PDDA: no errors. Its 19 initial issue-state warnings were resolved by the supported gh-refresh and narrow issue-doc-sync rerun with GH_REPO explicitly set for the local-origin gate clone; issue sync now reports zero warnings. Two pre-existing governance warnings remain (ROUTER pdda skill reference and PDDA_SYNC_TMP reference). Catalog verification/canonical dump and skill validation pass. No test-budget raise or new suite/workflow/dependency.
 
-Evidence: TESTS-RESULTS/2026-10-12-GH-42/{C1.log,full-canaries.log,pdda.log,issue-sync.log,palette-control.log,prior-artifact-digests.json}. The full gate includes the planned-budget and palette-array red controls. Roadmap doc_path was reconciled through roadmap repoint and read back; rated 65/40/50/55 retained. Private project files untouched. Ready PR being created; merge remains unauthorized.
+Evidence: TESTS-RESULTS/2026-10-12-GH-42/{C1.log,full-canaries.log,pdda.log,issue-sync.log,palette-control.log,prior-artifact-digests.json}. The full gate includes the planned-budget and palette-array red controls. Roadmap doc_path was reconciled through roadmap repoint and read back; rated 65/40/50/55 retained. Private project files untouched. Ready PR: https://github.com/HiQS-Labs/XYZ-layout-engine/pull/43 (base main). Merge remains unauthorized. Retain task clone XYZ-layout-engine-gh42-design-intake-2026-10-12; retire through /merge-cleanup only after verified landing. The disposable gate clone can be removed after its evidence is copied and ancestry/clean-state checks pass.
 
 Plan round 1 dispositions: R1 accepted — namespace generated text/region IDs to avoid nutrition header_caption bypass; verify an overflowing input element named header_caption fails normally. R2 accepted — replace scaffold DoD with explicit plan criteria.
 
