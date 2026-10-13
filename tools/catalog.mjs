@@ -148,7 +148,7 @@ async function declaredFiles(root, slug) {
     ['tools/recipes/recursive-process.design.md','content'], ['tools/recipes/recursive-process.artwork.json','content'],
     ['examples/2026-10-12-belief-reference/provenance.json','content'], ['examples/2026-10-12-belief-reference/fixture.json','content'],
     ...['activating-event','person-profile','negative-consequence','positive-consequence','examination','revised-philosophy'].map(id => [`examples/2026-10-12-belief-reference/assets/web/${id}.png`,'content']),
-    ['tools/spike/assets/font.ttf','content'], ['tools/spike/assets/font-bold.ttf','content']
+    ['tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content'], ['tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content']
   ];
   throw invalid('slug', 'no trusted declared file set');
 }

@@ -21,8 +21,8 @@ schematic, not evidence of a guaranteed psychological outcome.
 Use the reference's 1320 x 1294 coordinate space; fit it uniformly inside the
 supported 1600 x 1340 output, centred horizontally. Do not stretch the diagram.
 Warm ivory background, charcoal text, light grey rules, muted blue-grey fills,
-very restrained bevel/shadow treatment. Use pinned Inter for the reference's
-regular-width sans-serif typography. Text, subscripts and arrows stay crisp
+very restrained bevel/shadow treatment. Use the bundled Barlow Condensed regular and bold faces, as selected by the
+operator for the corrected render. Text, subscripts and arrows stay crisp
 engine-rendered geometry; never ask the image model to paint the complete chart.
 
 Reference anchors (x, y in that design coordinate space):
@@ -31,7 +31,7 @@ Reference anchors (x, y in that design coordinate space):
 |---|---|
 | Rounded title panel | x75 y67 w1170 h80 |
 | Four stage markers | centres (300,238), (540,238), (805,238), (1095,238) |
-| Vertical stage rules | x180,418,660,955; approximately y215 to1208, interrupted where paths cross |
+| Vertical stage rules | x180,418,660,955; y215 to1178, individually interrupted around labels and causal paths |
 | Formulas | A1 -> B1 -> C1 above stage1; A2 -> B2 -> C2 above stage2; D and E above their artwork |
 | Activating event | circular node centred (105,648), label above |
 | Initial belief | large hexagon centred (310,648); B1 engine-rendered inside |
@@ -83,3 +83,21 @@ fidelity, correct connections, labels, clipping and PNG style consistency.
 Report generated-asset variability separately from deterministic layout.
 Save inputs, receipts and exact commands; do not claim pixel identity for fresh
 image generation, or clinical validity from the schematic.
+
+## Divider and connector clearance
+
+Stage dividers are background guides, never causal edges. Give each divider its
+own path segments rather than repeating one y-range. Leave at least 12 reference
+pixels around the fixture's label/caption regions and a clear gap wherever a
+causal connector would coincide with a rule. In particular, break x180 around
+the activating-event text, x418 around the C1 caption, and x660 around both the
+C2 caption/profile connector and the upward B2 examination route. Break x955
+above the revised-philosophy text. End every divider by y1178, before the y1194
+footer. Recheck these gaps if copy, type sizes or anchors change.
+
+Connector endpoints must approach the visible PNG subject, accounting for its
+transparent padding, rather than stopping at the image node's box edge. The B2
+examination elbow reaches x699 at y430, giving a distinct horizontal arrowhead
+near the accepted gear silhouette. Keep its upward leg visually separate from
+the x660 divider. Formula arrows are engine-rendered SVG geometry because the
+bundled Barlow Condensed font does not cover the arrow glyph; no font fallback.

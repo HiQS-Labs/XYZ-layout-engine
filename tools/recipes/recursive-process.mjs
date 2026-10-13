@@ -2,13 +2,13 @@ import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } fr
 
 // Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned PNG assets.
 // Fixed semantic structure; bounded copy and palette remain fixture-owned.
-export const version = '3.0.0';
+export const version = '4.0.0';
 export const name = 'recursive-process';
 
 export const FONT = {
-  family: 'Inter',
-  regular: new URL('../spike/assets/font.ttf', import.meta.url),
-  bold: new URL('../spike/assets/font-bold.ttf', import.meta.url)
+  family: 'Barlow Condensed',
+  regular: new URL('../fonts/barlow-condensed/BarlowCondensed-Regular.ttf', import.meta.url),
+  bold: new URL('../fonts/barlow-condensed/BarlowCondensed-Bold.ttf', import.meta.url)
 };
 
 const NODES = ['event_1', 'event_2', 'state_1', 'state_2', 'consequence_1', 'consequence_2', 'examination', 'outcome'];
@@ -81,7 +81,14 @@ export async function buildScene(fixture, sizes = {}) {
   const shapes = [];
   // Reference-specific title panel, stage rules, hexagons and consequence cards (AS exceptions).
   shapes.push(`<rect x="75" y="71" width="1170" height="80" rx="18" fill="${p.rule}" opacity=".28"/><rect x="75" y="67" width="1170" height="80" rx="18" fill="${p.surface}" stroke="${p.rule}"/>`);
-  for (const x of [180,418,660,955]) shapes.push(path(`M${x} 215V570M${x} 842V1208`, p.rule, 1));
+  // Each rule yields to occupied labels and causal paths; all stop before the footer.
+  const dividers = [
+    'M180 215V448M180 842V1178',
+    'M418 215V570M418 842V996M418 1098V1178',
+    'M660 215V406M660 944V992M660 1102V1178',
+    'M955 215V484M955 842V1178'
+  ];
+  for (const d of dividers) shapes.push(path(d, p.rule, 1));
   for (const x of [300,540,805,1095]) shapes.push(`<circle cx="${x}" cy="238" r="21" fill="${p.background}" stroke="${p.rule}"/>`);
   shapes.push(`<circle cx="105" cy="648" r="62" fill="${p.surface}" stroke="${p.rule}" stroke-width="2"/>`);
   for (const [x,w,h] of [[310,180,190],[662,180,190]]) {
@@ -96,7 +103,7 @@ export async function buildScene(fixture, sizes = {}) {
   shapes.push(path('M465 850C465 803 546 759 598 716'),path('M588 717L598 716L595 726'));
   shapes.push(path('M662 868Q662 928 674 928'),head(674,928));
   shapes.push(path('M789 928H824V690'),head(824,690,'u'));
-  shapes.push(path('M662 546V430H670'),head(670,430));
+  shapes.push(path('M662 546V430H699'),head(699,430));
   shapes.push(path('M793 430H817'),head(817,430));
   for (const [a,b] of [[939,981],[1075,1118]]) shapes.push(path(`M${a} 744H${b-5}`),head(b-5,744));
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><g transform="translate(${OFFSET} 0) scale(${SCALE})">${shapes.join('')}</g></svg>`;
@@ -106,7 +113,7 @@ export async function buildScene(fixture, sizes = {}) {
   // Formula tokens remain fixture-driven; arrows and subscripts are engine geometry.
   for (const [i,x] of [[0,224],[1,478]]) {
     const parts = [];
-    fixture.stages[i].formula.split(' ').forEach((t,k) => { if(k)parts.push(node('span',null,{fontSize:20*SCALE,color:p.muted,lineHeight:1.3},'→'));parts.push(notation(t,28,p.ink)); });
+    fixture.stages[i].formula.split(' ').forEach((t,k) => { if(k)parts.push(node('img',null,{width:20*SCALE,height:14*SCALE,flexShrink:0},undefined,{src:svgData(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14"><path d="M1 7H18M12 2L18 7L12 12" fill="none" stroke="${p.muted}" stroke-width="1.5"/></svg>`)}));parts.push(notation(t,28,p.ink)); });
     children.push(box(null,at(x,320,230,48,{alignItems:'center',gap:8*SCALE}),parts));
   }
   children.push(artwork('activating_event_art','activating-event',47,590,116),artwork('examination_art','examination',675,360,120),artwork('revised_philosophy_art','revised-philosophy',824,367,112,126));
