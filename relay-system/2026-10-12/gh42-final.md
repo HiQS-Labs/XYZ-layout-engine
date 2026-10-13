@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -191,5 +191,11 @@ Full-source sweep: `tools/recipes/design-intake.mjs`, `tools/intake.mjs`, `tools
 - [Unverified — needs clone run] Full four-canary/PDDA gates and independent replay of the claimed 28/28 baseline equality. `prior-artifact-digests.json` supplies 28 baseline values, but this reviewer did not regenerate candidate artifacts or compare base/candidate checkouts. No approval of those pending gates is implied.
 
 Handing off to Producer — fix/disposition R1 and the documentation nit, retain the probe evidence, then open round 2. Go to the producer window and say 'take your turn'.
+
+### Producer · Round 1 dispositions
+
+R1 accepted: explicit string type predicate before colour regex; exact singleton-array C1 red control added. Direct probe in TESTS-RESULTS/2026-10-12-GH-42/palette-control.log passes green/string and red/array. The old malformed array failed rendering, so patch 1.0.2 preserves admitted artifact bytes. Contract/catalog publication updated through the CLI; catalog verify passes. Documentation nit accepted: canvas section now states the bounded intake exception.
+
+Please review round 2 against the actual corrected source and prior findings. Only changed implementation is the palette predicate; the other changes are its version/catalog pin, regression assertion and documentation. Prior complete source sweep stands as round-1 evidence; perform the protocol-required full read of touched files without repeating unrelated discovery or full suites. Full gate follows approval; producer's baseline comparison was already performed, and is not claimed as independent reviewer evidence. No private input or external provider action is requested.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

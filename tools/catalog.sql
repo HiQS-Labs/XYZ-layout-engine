@@ -25,6 +25,7 @@ INSERT INTO recipes VALUES ('rcp-1c41702a-7291-4c2a-8b4e-d8a58c55b7dc','recursiv
 INSERT INTO recipes VALUES ('rcp-68eafc13-c914-4506-b349-c135fcb42ee5','solar-system','Solar System','active','');
 INSERT INTO recipe_versions VALUES ('rcv-fb932333-69fe-477d-b96a-d25695990cc5','rcp-e8eb832c-d2f8-405e-9782-24db78f8470b','1.0.0','1c68c48c2568a424e0c081820f69a8931c15c4fb6f431842888daffed73f063c','530f98a82716b2c86f62923d2c2c1f6ad675f82aa24037af3c4e9bd40a36585e');
 INSERT INTO recipe_versions VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','rcp-e8eb832c-d2f8-405e-9782-24db78f8470b','1.0.1','303ba84e81ddf8106b18d11edd053d0adab14f605da3051cd032762f1aef20fd','7b2a23a17b7d6ab4799fb8ae22116382356db3c7c3797c8799febf721400ec65');
+INSERT INTO recipe_versions VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','rcp-e8eb832c-d2f8-405e-9782-24db78f8470b','1.0.2','63e8729fe3de2a504888a8fcf52f2d1909eeeaefa7b6b2204f01f2fedde70627','319a3417bc5ba05763202f443c749f173a1f24038cb463b073e1d14fda4419ea');
 INSERT INTO recipe_versions VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','rcp-5b2cc48f-0484-4850-95b2-17628446e3fd','1.0.0','567cba8527914dd1b483c5c3c4a6e349201d5046609960bce96e6399bb2c8204','ad913bade2ae8de1bd553d9fb65578fd1a28b77222d267a46071aae1bad318c0');
 INSERT INTO recipe_versions VALUES ('rcv-3536d864-3e2d-41bb-9747-aa527068c6df','rcp-5b2cc48f-0484-4850-95b2-17628446e3fd','1.0.1','4ff3e04a094f51ab78404a245e46dc85e819389c9b8555d2987a2c6191788c7c','ad913bade2ae8de1bd553d9fb65578fd1a28b77222d267a46071aae1bad318c0');
 INSERT INTO recipe_versions VALUES ('rcv-0241c267-1863-4b29-8c84-074a28873bb2','rcp-5b2cc48f-0484-4850-95b2-17628446e3fd','2.0.0','c8c46c4f696bdca4bfdc14e18a76185a8a9ec9bde4813f655437513dad90a69f','ad913bade2ae8de1bd553d9fb65578fd1a28b77222d267a46071aae1bad318c0');
@@ -52,6 +53,13 @@ INSERT INTO recipe_version_files VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60
 INSERT INTO recipe_version_files VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','tools/render.mjs','module','f898117cebc104c07306b7d5027af3f78b5ba965622dfda8a987e5fd07fad359');
 INSERT INTO recipe_version_files VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','tools/request.mjs','module','c1373f0aea99b80460beff562d98aec5c6796cd1620b3227d1e6f0ab4efa2368');
 INSERT INTO recipe_version_files VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','tools/spike/assets.mjs','module','b688386866d9ea0d491d8100b2aef14a4cdb76e8fbae9e6b7615c32743f4a582');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content','e476562ec9c1e16cf16475895b511f08c804f438cc9a9f80a44ea50a0eeb5b65');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content','583cec5da3b84bc4dc7c9c72e2a565c94d34e431518b19d7e250b7830ad5f996');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/recipes/design-intake.contract.md','schema','319a3417bc5ba05763202f443c749f173a1f24038cb463b073e1d14fda4419ea');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/recipes/design-intake.mjs','module','82f1e441210fd8ac1d0bc3b24848b9bff821d81e5597a601c25b70c1c3a36f55');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/render.mjs','module','f898117cebc104c07306b7d5027af3f78b5ba965622dfda8a987e5fd07fad359');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/request.mjs','module','c1373f0aea99b80460beff562d98aec5c6796cd1620b3227d1e6f0ab4efa2368');
+INSERT INTO recipe_version_files VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','tools/spike/assets.mjs','module','b688386866d9ea0d491d8100b2aef14a4cdb76e8fbae9e6b7615c32743f4a582');
 INSERT INTO recipe_version_files VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','examples/2026-10-11-mangajdm-promos/01-icon.fixture.json','schema','ad913bade2ae8de1bd553d9fb65578fd1a28b77222d267a46071aae1bad318c0');
 INSERT INTO recipe_version_files VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','examples/2026-10-11-mangajdm-promos/02-eras.fixture.json','content','6f35f8206ec99d706405946b9af0430270b268dfc0acfbe3b5e366fc7ac8ac25');
 INSERT INTO recipe_version_files VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','examples/2026-10-11-mangajdm-promos/03-wear.fixture.json','content','810b10a2d26ea1e3e21f0ef5d4f5c8b9c0b28b5574bcd1d831bb00ca172d5475');
@@ -222,6 +230,10 @@ INSERT INTO recipe_outputs VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','h
 INSERT INTO recipe_outputs VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','html-inline');
 INSERT INTO recipe_outputs VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','png');
 INSERT INTO recipe_outputs VALUES ('rcv-f067992e-8142-4cde-81be-759b5f9e60bd','svg');
+INSERT INTO recipe_outputs VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','html');
+INSERT INTO recipe_outputs VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','html-inline');
+INSERT INTO recipe_outputs VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','png');
+INSERT INTO recipe_outputs VALUES ('rcv-71fa628c-e0a9-4d2e-831a-0f5f00da9e93','svg');
 INSERT INTO recipe_outputs VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','html');
 INSERT INTO recipe_outputs VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','html-inline');
 INSERT INTO recipe_outputs VALUES ('rcv-5761ea2e-f36d-4ec5-9428-522042640162','png');

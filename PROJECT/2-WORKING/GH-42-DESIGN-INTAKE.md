@@ -83,3 +83,5 @@ Verification on Node 22.22.3 / darwin-arm64 / pinned dependencies:
 Final QA/full PDDA/full canaries and PR pending. Private project files untouched.
 
 Plan round 1 dispositions: R1 accepted — namespace generated text/region IDs to avoid nutrition header_caption bypass; verify an overflowing input element named header_caption fails normally. R2 accepted — replace scaffold DoD with explicit plan criteria.
+
+Final review round 1 dispositions: R1 accepted — explicit string predicate rejects palette arrays at settings.palette.ink before rendering; C1 now covers the exact input. The prior version's Satori render failed on that malformed array, so the fix changes admission diagnostics, not accepted artifact bytes; published patch 1.0.2. Documentation nit accepted — README canvas restrictions now include the intake exception. Direct green/red probe passed. No speculative reviewer scope accepted.

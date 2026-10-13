@@ -152,7 +152,7 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
   - Adaptive text fitting searches for a valid shrink down to 12px within a maximum of 10 iteration bounds. Non-fit exhaustion cleanly halts.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
-  - The delivered recipe-owned canvases are nutrition 1000×1000, Solar System 2400×1700, MangaJDM promo 1080×1920 and recursive process 1600×1340, scale 1. Other dimensions and scale are explicitly rejected.
+  - The delivered recipe-owned canvases are nutrition 1000×1000, Solar System 2400×1700, MangaJDM promo 1080×1920 and recursive process 1600×1340, scale 1. The design-intake recipe also supports its declared canvas up to 8192 pixels per side and 16,777,216 pixels total. Other recipe dimensions and any scale other than 1 are explicitly rejected.
   - A recipe may declare its own vendored font (`FONT` export); recursive process uses Barlow Condensed (`tools/fonts/barlow-condensed/`). Recipes that declare none keep Inter. Example: `examples/2026-10-11-belief-updating/`.
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 

@@ -1,6 +1,6 @@
 # DESIGN.md intake contract v1
 
-`design-intake@1.0.1` is a trusted adapter for **data-only** recipes authored by an LLM using `skills/design-intake/SKILL.md`. The adapter is the validation authority; `node tools/intake.mjs capabilities` reports the current capability envelope. There is no Markdown parser or LLM API call inside the engine. A source hash and quoted requirements establish traceability, not proof that all instructions were faithfully translated.
+`design-intake@1.0.2` is a trusted adapter for **data-only** recipes authored by an LLM using `skills/design-intake/SKILL.md`. The adapter is the validation authority; `node tools/intake.mjs capabilities` reports the current capability envelope. There is no Markdown parser or LLM API call inside the engine. A source hash and quoted requirements establish traceability, not proof that all instructions were faithfully translated.
 
 See `examples/2026-10-12-design-intake/fixture.json` for a complete accepted package. JSON objects below require exactly the stated keys. Unknown keys, executable code and arbitrary CSS are refused.
 

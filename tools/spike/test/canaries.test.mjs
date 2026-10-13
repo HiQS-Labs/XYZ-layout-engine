@@ -312,6 +312,7 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
     assert.deepEqual(readFileSync(path.join(FRESH, 'intake-satori/manifest.json')), intakeManifest, 'failed intake changed publication');
   };
   await intakeReject(f => { f.source.sha256 = '0'.repeat(64); }, /source.sha256.*digest mismatch/);
+  await intakeReject(f => { f.settings.palette.ink = ['#343b3a']; }, /settings.palette.ink.*requires #rrggbb/);
   await intakeReject(f => { f.settings.fontFamily = 'Anton, Noto Sans JP'; }, /no substitution/);
   await intakeReject(f => { f.artwork.items[0].file = null; }, /not pinned/);
   await intakeReject(f => { f.artwork.items[0].file.sha256 = '0'.repeat(64); }, /digest mismatch/);

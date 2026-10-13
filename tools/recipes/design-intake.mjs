@@ -6,7 +6,7 @@ import { invalid, readBounded, within, LIMITS } from '../request.mjs';
 import { inspectPng } from '../spike/assets.mjs';
 
 export const name = 'design-intake';
-export const version = '1.0.1';
+export const version = '1.0.2';
 export const FONT = {
   family: 'Barlow Condensed',
   regular: new URL('../fonts/barlow-condensed/BarlowCondensed-Regular.ttf', import.meta.url),
@@ -66,7 +66,7 @@ export async function preflight(f, options = {}) {
   check(s.palette && typeof s.palette === 'object' && !Array.isArray(s.palette), 'settings.palette', 'requires palette roles');
   const roles = Object.keys(s.palette);
   check(roles.length >= 2 && roles.length <= 12 && roles.includes('paper') && roles.includes('ink'), 'settings.palette', 'requires paper and ink roles, at most 12');
-  for (const [k,v] of Object.entries(s.palette)) { id(k, 'settings.palette'); check(/^#[0-9a-f]{6}$/i.test(v), `settings.palette.${k}`, 'requires #rrggbb'); }
+  for (const [k,v] of Object.entries(s.palette)) { id(k, 'settings.palette'); check(typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v), `settings.palette.${k}`, 'requires #rrggbb'); }
   text(s.fontFamily, 'settings.fontFamily');
   if (s.fontFamily !== FONT.family) unsupported.push({ field: 'settings.fontFamily', message: `only ${FONT.family} is supported; no substitution` });
   number(s.spacing, 'settings.spacing', 1, 128);
