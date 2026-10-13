@@ -166,3 +166,61 @@ The REST route returned no alpha (PR #15). The installed Higgsfield CLI (`higgsf
 | Cap | 1.5 of 20 credits used |
 
 Deviations: (1) the smoke call was run by hand before the runner existed (recorded in the ledger by `init-ledger` from the saved output). (2) The raster display size is 176 px (the SVG icon box), not the 112 or 144 px first suggested, because the wide cytokinesis image looked undersized.
+
+## Close-out: the Higgsfield CLI skill (added 2026-10-12)
+
+Branch `feat/XYZ-layout-engine-gh8-higgsfield-spike-2026-10-12`, base `9f5aa79`. Refs #8.
+
+### Why
+
+The operator's decision (2026-10-12): the Higgsfield **CLI** is the default route for local transparent images. Phases 1 to 4 (provider contract, `ingest`, a built-in Higgsfield provider, provider docs) are dropped. What is missing is a reusable way for an agent to run that route. Today the steps live only in `SOP.md` prose and in `examples/2026-10-09-cell-division/higgsfield-cli-spike.py`, a runner hard-wired to that example's five-job matrix, prompts and baseline balance. #8 closes once the skill lands.
+
+### Recon (2026-10-12, read-only, nothing generated)
+
+- `SOP.md` already holds the rule and a 9-step CLI procedure (sign-in, written cap, `generate cost`, `generate create ... --background transparent --wait --json`, download without the query string, `inspect-alpha.mjs`, look, record, final balance).
+- `examples/2026-10-09-cell-division/inspect-alpha.mjs` is the alpha check the SOP names; it needs the pinned Playwright runtime (`pnpm install --frozen-lockfile`). `assets/provenance.json` in the same folder is the provenance shape already used for Higgsfield assets (provider, model, variant, params, job id, created_at, credits, original sha256/bytes/alpha, web copy).
+- `skills/design-diagram/SKILL.md` is the only repo skill; it is the format and install pattern to copy. It routes paid art to the HiQS `resolve-image` skill only.
+- Live CLI: `higgsfield` 1.1.26, signed in. `higgsfield model get gpt_image_2_5` lists `background: auto|opaque|transparent`, `quality: low..max`, `resolution: 1k|2k|4k`, `variant: flare|sunburst`, and `image_references` (the CLI auto-uploads local file paths).
+- The globally installed `higgsfield-generate` skill (Higgsfield's own) tells agents not to pre-estimate cost and never mentions alpha verification. That conflicts with this repo's SOP, so this repo needs its own skill.
+- HiQS resolver side: only catalog records (`gateway:higgsfield/api`, `service:higgsfield/mcp`, `harness:higgsfield/cli` r2); no Higgsfield recipe or skill. `resolve-image` is OpenAI-only.
+- MCP: never tested. The only contact in any Claude session log is an unauthenticated `initialize` probe on 2026-10-12 that returned 401.
+
+### Requirements
+
+1. `skills/higgsfield-cli/SKILL.md` lets an agent produce a verified transparent PNG through the Higgsfield CLI in this repo without reading the spike runner: preconditions, one numbered procedure, provenance shape, known traps, install note, done-means.
+2. The skill enforces the SOP's spend rules: a written operator credit cap, `generate cost` with the same flags before every create, stop on a missing or non-finite price or a total past the cap, one job at a time, no automatic retry, balance read before and after.
+3. Transparency is proven, not assumed: `inspect-alpha.mjs` must report `real_alpha: true`, plus a visual check on the target background.
+4. No secrets and no silent upload: never record the account email, tokens or the signed URL's query string; raw downloads stay outside the repo; no `image_references` / local files unless the operator asks.
+5. `SOP.md` points at the skill as the entry point and records that Phases 1 to 4 are dropped. One CHANGELOG entry.
+
+### Non-goals
+
+- No new script, runner or dependency; the CLI already exposes cost, create, wait and JSON. The spike runner stays as evidence.
+- No MCP or REST work; no provider contract or `ingest`.
+- No move of `inspect-alpha.mjs` out of the example folder (the SOP already points there).
+- No test or workflow (`test-budget.json`); no paid call in this task.
+
+### Bet and rejected alternatives
+
+- Bet: a procedure an agent follows, with the CLI and the existing inspector, is enough for occasional asset generation. It fails if agents skip steps under pressure; the trigger to revisit is a second recurring Higgsfield consumer or a skipped-step incident, at which point a small generic runner earns its place.
+- Rejected: generalising `higgsfield-cli-spike.py` (≈900 lines, matrix and baseline baked in) into a tool. It doubles the code to maintain for a once-a-week use.
+- Rejected: relying on the global `higgsfield-generate` skill. It skips price checks and alpha verification.
+- Rollback: delete `skills/higgsfield-cli/` and revert the SOP lines. Easy.
+
+### Verification
+
+- `utils/pdda/pdda.sh run`: no new errors.
+- Every command and flag in the skill is checked against `higgsfield <cmd> --help` / `model get` (free; no create).
+- The inspector the skill names is run once on a known transparent and a known opaque file (`examples/2026-10-08-solar-system/assets/web/earth.png` -> `real_alpha: true`; `examples/2026-10-08-solar-system/solar-system.png` -> `false`). This is the red control for requirement 3.
+- Every repo path in the skill exists (`git ls-files`).
+
+### Ordered implementation
+
+1. Write `skills/higgsfield-cli/SKILL.md`.
+2. Update `SOP.md` (entry point, Phases 1 to 4 dropped, "when to change").
+3. CHANGELOG entry; this doc's status.
+4. Run the verification above; final Codex QA; PR against `main` with `Refs #8`. #8 closes after the merge, with the comment the operator approved.
+
+### Rating rationale (2026-10-12)
+
+`rated 40/10/50/85` (was 40/10/50/30). Severity 10: nothing is broken; the gap is a missing reusable entry point. Priority 40 kept; the operator asked for it now, which the ordering already reflects. Appeal 50 (neutral; no operator score). Effort 85: a docs-only skill plus two doc edits, re-scored because the scope narrowed from a provider architecture. Recurrence: not applicable (not a defect).
