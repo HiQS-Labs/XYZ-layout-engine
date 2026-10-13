@@ -1,0 +1,75 @@
+{
+  "normalized": {
+    "inputPath": "~/Documents/GH Repos/XYZ-layout-engine/examples/2026-10-12-design-revision/03-wear.fixture.json",
+    "width": 1080,
+    "height": 1920,
+    "format": "png,svg,html,html-inline",
+    "formats": [
+      "png",
+      "svg",
+      "html",
+      "html-inline"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "mangajdm-promo"
+  },
+  "catalog": {
+    "slug": "mangajdm-promo",
+    "version": "3.0.0",
+    "contentSha256": "ccfc55b81145cb13d871f39c0ec8be5dd0a2754c8116165fb9d1992d91f60118",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "3.0.0",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "fab1c354a65786977d0d05b211ed4f2f5c46ed0adb58dce8492ac42d51fd1959",
+    "svg": "b2ba2b3e024ecd8f72481563d5518c0a491cf4b577aff0d95f8208a35f958fdb",
+    "html": "74ad506b70c31daab3e2f31bd13055de2770e6500e96e0fd3b1f2ff5cd6e6faa",
+    "html-inline": "d1d8f2cc146f2fdb6982ef9a16c0a532b98672909481b99ab33037cf1274fa27"
+  },
+  "provenance": {
+    "inputPath": "~/Documents/GH Repos/XYZ-layout-engine/examples/2026-10-12-design-revision/03-wear.fixture.json",
+    "inputSha256": "3a181b73efbde841913c38d2bc5d2de4657e831f21415a02a2cca7a1e131c24d",
+    "fixtureSha256": "c3dca39f975dce03c26ed78bf073febb4cdb64ba8a4047036a75b647792afc0a",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "eyebrow": 24,
+          "issue": 24,
+          "line1": 156,
+          "line2": 88,
+          "art_note": 24,
+          "deck": 32,
+          "cta": 32,
+          "website": 36
+        }
+      }
+    ],
+    "finalSizes": {
+      "eyebrow": 24,
+      "issue": 24,
+      "line1": 156,
+      "line2": 88,
+      "art_note": 24,
+      "deck": 32,
+      "cta": 32,
+      "website": 36
+    }
+  }
+}

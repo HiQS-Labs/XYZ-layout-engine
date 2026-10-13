@@ -1,0 +1,99 @@
+{
+  "id": "recursive-process-diagram",
+  "width": 1600,
+  "height": 1340,
+  "title": "HUMAN DEVELOPMENT: A RECURSIVE BELIEF UPDATING PROCESS",
+  "subtitle": "An illustrative model of events, interpretations, consequences and continued revision.",
+  "theme": {
+    "palette": {
+      "background": "#f5f3ec",
+      "ink": "#30373a",
+      "muted": "#657075",
+      "rule": "#cbd0d0",
+      "surface": "#eff2f1",
+      "accent": "#9cb8c5",
+      "negative": "#657075",
+      "positive": "#657075"
+    }
+  },
+  "stages": [
+    {
+      "number": 1,
+      "formula": "A1 B1 C1"
+    },
+    {
+      "number": 2,
+      "formula": "A2 B2 C2"
+    },
+    {
+      "number": 3,
+      "formula": "B2 D E"
+    },
+    {
+      "number": 4,
+      "formula": "B3 B4 \u2026"
+    }
+  ],
+  "events": [
+    {
+      "token": "A1",
+      "label": "Activating event",
+      "caption": "An interpersonal event."
+    },
+    {
+      "token": "A2",
+      "label": "Next activating event",
+      "caption": "The consequence feeds the next belief."
+    }
+  ],
+  "states": [
+    {
+      "token": "B1",
+      "label": "Belief / Interpretation",
+      "caption": "An interpretation of the event."
+    },
+    {
+      "token": "B2",
+      "label": "Updated belief",
+      "caption": "Reshaped by experience."
+    }
+  ],
+  "consequences": [
+    {
+      "token": "C1",
+      "label": "Consequence",
+      "caption": "Relationship strained.",
+      "polarity": "negative"
+    },
+    {
+      "token": "C2",
+      "label": "Consequence",
+      "caption": "Relationship repaired.",
+      "polarity": "positive"
+    }
+  ],
+  "branch": {
+    "examination": {
+      "token": "D",
+      "label": "Examination",
+      "caption": "Question the belief."
+    },
+    "outcome": {
+      "token": "E",
+      "label": "Revised philosophy",
+      "caption": "A revised way of interpreting events."
+    }
+  },
+  "trail": {
+    "label": "Continuous belief revision",
+    "tokens": [
+      "B3",
+      "B4",
+      "\u2026"
+    ]
+  },
+  "footer": {
+    "note": "Schematic: outcomes are illustrative, not measured. Individual illustrations are AI-generated.",
+    "source": "After the ABC model of cognitive-behavioural therapy (A activating event, B belief, C consequence), with D and E shown as examination and revised outlook."
+  }
+}

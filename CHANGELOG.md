@@ -1,4 +1,43 @@
 # Changelog
+## 2026-10-12 — Accepted design merge verification
+
+- Operator approved landing the combined MangaJDM and belief-diagram revisions. Preserve separate replay commits using a merge commit. Refreshed two documentation hashes after the earlier replay/historical-brief notes; rendered evidence is unchanged.
+- Final canaries pass4/4in38.9s; catalog verify/canonical export and all100 retained-file hashes pass. Full PDDA reports zero errors and the same three unrelated warnings. Human artwork review is accepted for this revision; other GH-38 carry-overs remain separate.
+
+## 2026-10-12 — C2 connector bend refinement
+
+- Replaced the cramped C2 connector turn with a 20px rounded elbow and 16px horizontal lead into its arrowhead. Removed the isolated divider fragment immediately below it. The recipe/design contract own this geometry; Barlow Condensed, artwork and other placements are unchanged.
+- Published `recursive-process@5.0.0` in source commit `b5c6700`; Astra light regenerated both backends under `examples/2026-10-12-belief-reference/renders-v5/`. Earlier outputs remain intact; no hand-edited HTML or image-generation calls. Easy reversal using separate source and artifact commits.
+
+- Verification: both full exports pass publication/catalog and first-attempt fitting; both final PNGs inspected. Catalog canonical check and targeted PDDA changelog check pass. Render evidence is committed separately as `caaf248`; this two-path geometry correction uses focused render checks rather than rerunning the unchanged general suite.
+
+## 2026-10-12 — Diagram divider clearance and bundled condensed typography
+
+- Corrected the reusable `recursive-process` recipe's stage rules at the marked activating-event, consequence and examination locations. Individual divider gaps also clear the revised-philosophy caption and footer. Extended the examination connector's horizontal leg from 8 to 37 reference pixels so its arrowhead approaches the visible gears.
+- Switched to the repository's pinned Barlow Condensed regular/bold faces at the operator's request. Formula arrows are SVG geometry because that font lacks the arrow glyph. Published `recursive-process@4.0.0`; source checkpoint `36a2f7c`. The design contract now records divider clearance and visible-artwork endpoint rules.
+- Astra light regenerated both backends into `examples/2026-10-12-belief-reference/renders-v4/`. Old gallery, HTML and published PNGs remain intact; new HTML is engine-generated. Six accepted artwork PNGs are reused with no image-generation calls.
+- Verification: both exports pass publication/catalog checks and first-attempt fit, including legacy-fixture preflight; both final PNGs inspected at full and thumbnail sizes. Existing four canaries pass in42.9s under the unchanged60s budget. Full PDDA: zero errors, three unchanged warnings (GH-8 ledger state and two governance references).
+- Root cause: identical divider segments ignored occupied text/connector regions and the examination arrow stopped at the padded asset box. Fix site is recipe-owned geometry; no shared renderer or validation changes. Easy reversal through separate source and generated-artifact commits.
+
+## 2026-10-12 — GH-38 reference-directed diagram and generated artwork
+
+- Published `recursive-process@3.0.0` with the supplied reference's four stages, belief hexagons, consequence cards and continuation arrow. Astra at low reasoning effort implemented and rendered the recipe in both backends. Six individual PNG illustrations are pinned with prompts, settings, receipts and source/display hashes; seven successful image calls include one examination refinement.
+- The reusable design/artwork contracts live under `tools/recipes/recursive-process.*`. The new gallery, AS review and replay instructions live in `examples/2026-10-12-belief-reference/`. Fresh artwork generation is probabilistic; retained assets and deterministic geometry preserve the accepted composition. Provider PNG metadata requires the existing display converter; no engine guards were weakened.
+- Saved the accepted earlier gallery and all linked imagery under gitignored `temp/2026-10-12-accepted-design-gallery/`; retained its Git checkpoint with tag `archive/gh38-editorial-2026-10-12`. Kept one combined design branch, synchronized local main and integrated origin/main, preserving both unrelated parked branches.
+- Replay checkpoints: `fe4d6b2` design contract, `ab9136b` generated assets, `636f476` recipe/catalog publication, `de0c86d` final renders and evidence. Earlier before/after checkpoints remain in history. Nothing pushed or merged on GitHub.
+- Verification: both complete exports pass publication/catalog/fit checks; all 35 retained hashes pass. Existing four canaries pass in 39.5 seconds under the unchanged 60-second budget. The existing unsupported-font assertion now uses CJK because the selected Inter face supports arrows.
+- Preservation checks retain all 160 prior catalog rows and the original example trees. Final PDDA reports zero errors and three warnings: two existing governance references plus the unrelated GH-8 issue/roadmap state mismatch following upstream integration.
+- Bet: explicit reference anchors plus separately generated, pinned illustrations make close visual reproduction reliable while leaving individual artwork variable. Easy reversal through the recorded commits; exact new image pixels are not promised.
+
+## 2026-10-12 — GH-38 expressive design revision of PR #32 and PR #37
+
+- Revised the taste brief and had an Astra sub-agent at low reasoning effort implement and render three artwork-led MangaJDM posters and a belief-updating diagram with a sweeping feedback path. Larger subject imagery and concrete copy replace the uniform framed promo layout; plain-language labels and a distinct examination branch lead the diagram.
+- Published `mangajdm-promo@3.0.0` and `recursive-process@2.0.0` through the catalog CLI. MangaJDM's intermediate `2.0.0` remains in history: its all-bold Integra layout exposed Chromium's unused regular-font check, resolved with regular supporting copy in a separate version and commit. Original examples and design records remain intact.
+- Separate commits retain the baseline checkpoint, taste direction, source/fixtures, font correction, and rendered evidence. The comparison gallery and replay instructions live in `examples/2026-10-12-design-revision/`. No new imagery was generated; the posters reuse supplied brand assets.
+- Verification: all eight recipe/backend receipts report valid output and verified catalog identity; existing canaries pass 4/4 in 36.8 seconds under the unchanged 60-second budget. Visual inspection covers both backends at full and thumbnail sizes. Human preference remains for the operator to judge.
+- Final catalog verification and canonical export pass; all 40 retained-file hashes match. All 113 baseline catalog rows, the old design-log prefix and original example trees are preserved. Full PDDA reports zero errors and the same two pre-existing governance warnings.
+- Bet: expressive composition and clearer process flow improve these examples without changing the shared renderer. Easy reversal through the recorded Git checkpoints; revisit the direction if the artwork still misses the intended taste.
+
 ## 2026-10-12 — GH-8 close-out: the Higgsfield CLI skill
 
 - New `skills/higgsfield-cli/SKILL.md`: an agent makes a transparent PNG through the installed Higgsfield CLI (`gpt_image_2_5 --background transparent`) with a written credit cap, a `generate cost` quote before each single create, no automatic retry, a full signed download whose query is never stored, the existing `inspect-alpha.mjs` check (`format: "png"` and `real_alpha: true`), and provenance in the shape of the cell-division example. No reference images or local files go to Higgsfield unless the operator asks. Refs #8.

@@ -1,0 +1,45 @@
+{
+  "id": "recursive-process-reference-artwork",
+  "version": "1.0.0",
+  "sharedStyle": "One isolated educational diagram illustration, straight-on orthographic view. Fine charcoal outlines of uniform weight, pale blue-grey and ivory fills, muted teal accents, restrained soft upper-left shading. Quiet technical textbook illustration matching a belief-updating process diagram. Center the complete subject with 12 percent empty padding on every side. Transparent background with clean alpha outside the subject. No background scene, no frame, no arrows, no caption, no letters, no digits, no watermark, no logo. No photorealism, no bright saturated colours, no thick comic outlines, no glow.",
+  "generation": {
+    "model": "gpt-image-2.5-flare",
+    "size": "1024x1024",
+    "quality": "medium",
+    "background": "transparent"
+  },
+  "assets": [
+    {
+      "id": "activating-event",
+      "subject": "Two hands meeting in a handshake, pale blue-grey shirt cuffs. A small speech bubble with three dots above the hands conveys an interpersonal activating event. No enclosing circle; the layout adds it."
+    },
+    {
+      "id": "person-profile",
+      "subject": "A neutral adult human head and short neck in right-facing side profile, short swept hair, simple outlined nose and ear. Ivory face, muted grey-blue hair. No shoulders or clothes. This exact accepted asset will be reused below each belief, rather than generating different people."
+    },
+    {
+      "id": "negative-consequence",
+      "subject": "A small outlined person bust beside a broken chain link, with a small circled minus symbol. Represents a strained relationship as an illustrative consequence. Keep all three elements clearly separated and readable at small size."
+    },
+    {
+      "id": "positive-consequence",
+      "subject": "Two hands meeting in a handshake with pale blue-grey cuffs and one small muted teal plus symbol at lower right. Represents a repaired relationship as an illustrative consequence. No enclosing panel; the layout adds it."
+    },
+    {
+      "id": "examination",
+      "subject": "Two interlocking gears with a large question mark above them. Pale blue-grey gear faces, thin charcoal outlines. Represents examining a belief; keep gear teeth simple and readable.",
+      "refinementPrompt": "Create one small diagram icon as a transparent PNG cutout. ONLY two simple interlocking gears and a question mark above them. Thin charcoal outlines, solid pale grey-blue gear faces, muted teal hubs. Flat orthographic front view. The area outside the three shapes and the holes inside the gears must have alpha zero. No background colour, no haze, no glow, no vignette, no cast shadow, no gradients, no texture. Entire icon centered with 15 percent empty transparent margin. No words, digits, frame or surrounding diagram."
+    },
+    {
+      "id": "revised-philosophy",
+      "subject": "An upright outlined shield containing a pale warm sunrise above a calm horizon, three short horizon lines and restrained rays. Muted teal-grey lower half and pale ivory upper half. Represents a revised philosophy, not a security badge. No checkmark."
+    }
+  ],
+  "acceptance": {
+    "format": "PNG",
+    "alpha": "transparent exterior; no opaque rectangular background",
+    "reuse": "Reuse the same accepted person-profile PNG at every size. Never independently regenerate repeated elements.",
+    "layout": "Typography, B/C notation, hexagons, cards, stage rules and connecting arrows are deterministic engine elements, never generated inside these PNGs.",
+    "provenance": "Record exact prompt, model, settings, provider recipe receipt, SHA-256 and alpha checks; preserve accepted assets for deterministic replay. Fresh generation gives similar style, not identical pixels."
+  }
+}

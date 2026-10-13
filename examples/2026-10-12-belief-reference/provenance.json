@@ -1,0 +1,173 @@
+{
+  "generated": true,
+  "assets": {
+    "activating-event": {
+      "prompt": "One isolated educational diagram illustration, straight-on orthographic view. Fine charcoal outlines of uniform weight, pale blue-grey and ivory fills, muted teal accents, restrained soft upper-left shading. Quiet technical textbook illustration matching a belief-updating process diagram. Center the complete subject with 12 percent empty padding on every side. Transparent background with clean alpha outside the subject. No background scene, no frame, no arrows, no caption, no letters, no digits, no watermark, no logo. No photorealism, no bright saturated colours, no thick comic outlines, no glow. Two hands meeting in a handshake, pale blue-grey shirt cuffs. A small speech bubble with three dots above the hands conveys an interpersonal activating event. No enclosing circle; the layout adds it.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.6497859954833984,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "assets/source/activating-event.png",
+        "bytes": 984855,
+        "sha256": "c50379c7ba6a22142408698053d03bf6726918c819e4f194174ba328c59e5006"
+      },
+      "display": {
+        "path": "assets/web/activating-event.png",
+        "width": 256,
+        "height": 256,
+        "bytes": 47556,
+        "sha256": "3601608fd70df509b3f9b2656d43f9a24d1209ac4b1001b8cbaf67dd14bc2427"
+      }
+    },
+    "person-profile": {
+      "prompt": "One isolated educational diagram illustration, straight-on orthographic view. Fine charcoal outlines of uniform weight, pale blue-grey and ivory fills, muted teal accents, restrained soft upper-left shading. Quiet technical textbook illustration matching a belief-updating process diagram. Center the complete subject with 12 percent empty padding on every side. Transparent background with clean alpha outside the subject. No background scene, no frame, no arrows, no caption, no letters, no digits, no watermark, no logo. No photorealism, no bright saturated colours, no thick comic outlines, no glow. A neutral adult human head and short neck in right-facing side profile, short swept hair, simple outlined nose and ear. Ivory face, muted grey-blue hair. No shoulders or clothes. This exact accepted asset will be reused below each belief, rather than generating different people.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.7113265991210938,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "assets/source/person-profile.png",
+        "bytes": 988073,
+        "sha256": "1ac8f7989c0a55a264b2e2eef6e683d33120b2defa0140f4db4f6d9e9f619519"
+      },
+      "display": {
+        "path": "assets/web/person-profile.png",
+        "width": 256,
+        "height": 256,
+        "bytes": 42308,
+        "sha256": "08302ab16f6286b27f793239b8dea4987c36037838182e2c4b2e617fe78ba69b"
+      }
+    },
+    "negative-consequence": {
+      "prompt": "One isolated educational diagram illustration, straight-on orthographic view. Fine charcoal outlines of uniform weight, pale blue-grey and ivory fills, muted teal accents, restrained soft upper-left shading. Quiet technical textbook illustration matching a belief-updating process diagram. Center the complete subject with 12 percent empty padding on every side. Transparent background with clean alpha outside the subject. No background scene, no frame, no arrows, no caption, no letters, no digits, no watermark, no logo. No photorealism, no bright saturated colours, no thick comic outlines, no glow. A small outlined person bust beside a broken chain link, with a small circled minus symbol. Represents a strained relationship as an illustrative consequence. Keep all three elements clearly separated and readable at small size.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.8141889572143555,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "assets/source/negative-consequence.png",
+        "bytes": 780434,
+        "sha256": "bce53c49c7500405d1d953bedba5b70d6394e2392242541b844a0626864829f7"
+      },
+      "display": {
+        "path": "assets/web/negative-consequence.png",
+        "width": 256,
+        "height": 256,
+        "bytes": 30735,
+        "sha256": "b2d593a480c5a304be082e4d71d0ee06a08a37450a1b0cff5670883f7da4fba0"
+      }
+    },
+    "positive-consequence": {
+      "prompt": "One isolated educational diagram illustration, straight-on orthographic view. Fine charcoal outlines of uniform weight, pale blue-grey and ivory fills, muted teal accents, restrained soft upper-left shading. Quiet technical textbook illustration matching a belief-updating process diagram. Center the complete subject with 12 percent empty padding on every side. Transparent background with clean alpha outside the subject. No background scene, no frame, no arrows, no caption, no letters, no digits, no watermark, no logo. No photorealism, no bright saturated colours, no thick comic outlines, no glow. Two hands meeting in a handshake with pale blue-grey cuffs and one small muted teal plus symbol at lower right. Represents a repaired relationship as an illustrative consequence. No enclosing panel; the layout adds it.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.7419538497924805,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "assets/source/positive-consequence.png",
+        "bytes": 890450,
+        "sha256": "9d661f613904ce75826d57fe7a14ab156f11dd1fc47fdbd5f2d826a8147ebe83"
+      },
+      "display": {
+        "path": "assets/web/positive-consequence.png",
+        "width": 256,
+        "height": 256,
+        "bytes": 37063,
+        "sha256": "c8182546f285d46cb10a0bb03b3e87e7226b76579b1220e448713a48fbf56b49"
+      }
+    },
+    "revised-philosophy": {
+      "prompt": "One isolated educational diagram illustration, straight-on orthographic view. Fine charcoal outlines of uniform weight, pale blue-grey and ivory fills, muted teal accents, restrained soft upper-left shading. Quiet technical textbook illustration matching a belief-updating process diagram. Center the complete subject with 12 percent empty padding on every side. Transparent background with clean alpha outside the subject. No background scene, no frame, no arrows, no caption, no letters, no digits, no watermark, no logo. No photorealism, no bright saturated colours, no thick comic outlines, no glow. An upright outlined shield containing a pale warm sunrise above a calm horizon, three short horizon lines and restrained rays. Muted teal-grey lower half and pale ivory upper half. Represents a revised philosophy, not a security badge. No checkmark.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.6583728790283203,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "assets/source/revised-philosophy.png",
+        "bytes": 823763,
+        "sha256": "25b9fd99b3e41cd14db7c3c28ac841c5691b2297c3d76a7525803886becca3b8"
+      },
+      "display": {
+        "path": "assets/web/revised-philosophy.png",
+        "width": 256,
+        "height": 256,
+        "bytes": 39700,
+        "sha256": "783dc2363e38dcd6f6bd5b717c02a1e5da4311069e1d766cfba399671ddf50d2"
+      }
+    },
+    "examination": {
+      "prompt": "Create one small diagram icon as a transparent PNG cutout. ONLY two simple interlocking gears and a question mark above them. Thin charcoal outlines, solid pale grey-blue gear faces, muted teal hubs. Flat orthographic front view. The area outside the three shapes and the holes inside the gears must have alpha zero. No background colour, no haze, no glow, no vignette, no cast shadow, no gradients, no texture. Entire icon centered with 15 percent empty transparent margin. No words, digits, frame or surrounding diagram.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.8565387725830078,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "assets/source/examination.png",
+        "bytes": 749904,
+        "sha256": "6e171d00c2c7d582e0a41689c0079f4bb70ba77118268c30c5a2fd914691ed5f"
+      },
+      "display": {
+        "path": "assets/web/examination.png",
+        "width": 256,
+        "height": 256,
+        "bytes": 24010,
+        "sha256": "c9b9a3bff33f1d43d23a192ac3ee38ca4d72a2ee75c23202367245e5a0d9ee47"
+      }
+    }
+  },
+  "sourceValidation": "Provider PNGs include caBX provenance metadata; original bytes retained. Raw generator validation refused that chunk. Display derivatives use existing make-web-asset.mjs and pass bounded inspectPng.",
+  "generationCalls": 7,
+  "acceptedAssets": 6,
+  "refinements": {
+    "examination": "Initial image had only2.56%transparent pixels and extensive exterior shading. New independent prompt produced85.65%transparent pixels; original receipt preserved locally."
+  }
+}
