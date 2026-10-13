@@ -177,20 +177,20 @@ The operator's decision (2026-10-12): the Higgsfield **CLI** is the default rout
 
 ### Recon (2026-10-12, read-only, nothing generated)
 
-- `SOP.md` already holds the rule and a 9-step CLI procedure (sign-in, written cap, `generate cost`, `generate create ... --background transparent --wait --json`, download without the query string, `inspect-alpha.mjs`, look, record, final balance).
+- `SOP.md` already holds the rule and a 9-step CLI procedure (sign-in, written cap, `generate cost`, `generate create ... --background transparent --wait --json`, download the signed `result_url` but never store its query string, `inspect-alpha.mjs`, look, record, final balance).
 - `examples/2026-10-09-cell-division/inspect-alpha.mjs` is the alpha check the SOP names; it needs the pinned Playwright runtime (`pnpm install --frozen-lockfile`). `assets/provenance.json` in the same folder is the provenance shape already used for Higgsfield assets (provider, model, variant, params, job id, created_at, credits, original sha256/bytes/alpha, web copy).
 - `skills/design-diagram/SKILL.md` is the only repo skill; it is the format and install pattern to copy. It routes paid art to the HiQS `resolve-image` skill only.
-- Live CLI: `higgsfield` 1.1.26, signed in. `higgsfield model get gpt_image_2_5` lists `background: auto|opaque|transparent`, `quality: low..max`, `resolution: 1k|2k|4k`, `variant: flare|sunburst`, and `image_references` (the CLI auto-uploads local file paths).
-- The globally installed `higgsfield-generate` skill (Higgsfield's own) tells agents not to pre-estimate cost and never mentions alpha verification. That conflicts with this repo's SOP, so this repo needs its own skill.
-- HiQS resolver side: only catalog records (`gateway:higgsfield/api`, `service:higgsfield/mcp`, `harness:higgsfield/cli` r2); no Higgsfield recipe or skill. `resolve-image` is OpenAI-only.
-- MCP: never tested. The only contact in any Claude session log is an unauthenticated `initialize` probe on 2026-10-12 that returned 401.
+- Live CLI (probes 2026-10-12: `higgsfield --version`, `higgsfield account status --json` read for the credits field only, `higgsfield model get gpt_image_2_5 --json`, `higgsfield generate create --help`): `higgsfield` 1.1.26, signed in. `model get` lists `background: auto|opaque|transparent`, `quality: low..max`, `resolution: 1k|2k|4k`, `variant: flare|sunburst`, and `image_references`; the media flag is `--image-references` (alias `--image`), and both `generate create --help` and `generate cost --help` say local file paths are auto-uploaded, so a cost estimate uploads too.
+- The globally installed `higgsfield-generate` skill (Higgsfield's own, `~/.claude/skills/higgsfield-generate/SKILL.md` rule 5) tells agents not to pre-estimate cost and never mentions alpha verification. That conflicts with this repo's SOP, so this repo needs its own skill.
+- HiQS resolver side (search of the `hiqs-ai-resolve` working tree and all remote branches for "higgsfield", plus the 2026-10-12 resolver session transcript): only catalog records (`gateway:higgsfield/api`, `service:higgsfield/mcp`, `harness:higgsfield/cli` r2); no Higgsfield recipe or skill. `resolve-image` is OpenAI-only.
+- MCP: never tested. A search of every Claude Code session transcript on this Mac for Higgsfield MCP tool calls or `mcp.higgsfield.ai` found no tool call; the only contact is an unauthenticated `initialize` probe on 2026-10-12 that returned 401.
 
 ### Requirements
 
 1. `skills/higgsfield-cli/SKILL.md` lets an agent produce a verified transparent PNG through the Higgsfield CLI in this repo without reading the spike runner: preconditions, one numbered procedure, provenance shape, known traps, install note, done-means.
 2. The skill enforces the SOP's spend rules: a written operator credit cap, `generate cost` with the same flags before every create, stop on a missing or non-finite price or a total past the cap, one job at a time, no automatic retry, balance read before and after.
-3. Transparency is proven, not assumed: `inspect-alpha.mjs` must report `real_alpha: true`, plus a visual check on the target background.
-4. No secrets and no silent upload: never record the account email, tokens or the signed URL's query string; raw downloads stay outside the repo; no `image_references` / local files unless the operator asks.
+3. Transparency is proven, not assumed: `inspect-alpha.mjs` must report `format: "png"` and `real_alpha: true` (compare the JSON values; the inspector exits 0 for an opaque file too), plus a visual check on the target background.
+4. No secrets and no silent upload: download with the complete signed `result_url`, but never record its query string (or the account email or tokens) in files, logs, chat or provenance; raw downloads stay outside the repo; no `--image-references` / `--image` / local files on cost or create unless the operator asks.
 5. `SOP.md` points at the skill as the entry point and records that Phases 1 to 4 are dropped. One CHANGELOG entry.
 
 ### Non-goals

@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-12.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -100,5 +100,15 @@ Read the entire GH-8 document, SOP, design-diagram skill, inspector, provenance 
 - [Unverified — no citation] Current sign-in/model schema, global Higgsfield skill behavior, resolver catalog contents and the exhaustive Claude-log assertion at plan lines 183–186 were not independently established here. Cite the Producer's concrete source/probe for these peripheral Recon claims or narrow them to the evidence actually inspected; they do not justify additional implementation scope.
 
 Handing off to Producer (claude-a): correct the download wording, disposition these findings, and return the plan for review.
+
+### Producer · Round 1
+
+- [Should] signed download → Accepted. Recon line now says "download the signed `result_url` but never store its query string"; Requirement 4 now says download with the complete signed URL and keep the query out of files, logs, chat and provenance.
+- [Nit] PNG format → Accepted. Requirement 3 now requires `format: "png"` and `real_alpha: true`, compared as JSON values, and notes the inspector exits 0 for opaque files.
+- [Pass] cost also uploads → Folded in. Recon and Requirement 4 now cover `generate cost` as well as `create`, with the real flag names `--image-references` / `--image`.
+- [Unverified — no citation] → Accepted, citations added to Recon: the CLI probes run (credits field only from `account status`), the global skill's path and rule number, the resolver search (working tree, all remote branches, the 2026-10-12 session transcript), and the MCP evidence (search of every Claude Code session transcript for Higgsfield MCP tool calls or `mcp.higgsfield.ai`; none found apart from the 401 probe). No change in scope.
+- [Unverified — needs clone run] → Agreed. The inspector controls and PDDA gate run at implementation time; historical results are not counted as a fresh pass.
+
+Back to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
