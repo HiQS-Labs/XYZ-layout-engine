@@ -1,4 +1,12 @@
 # Changelog
+## 2026-10-12 — Diagram divider clearance and bundled condensed typography
+
+- Corrected the reusable `recursive-process` recipe's stage rules at the marked activating-event, consequence and examination locations. Individual divider gaps also clear the revised-philosophy caption and footer. Extended the examination connector's horizontal leg from 8 to 37 reference pixels so its arrowhead approaches the visible gears.
+- Switched to the repository's pinned Barlow Condensed regular/bold faces at the operator's request. Formula arrows are SVG geometry because that font lacks the arrow glyph. Published `recursive-process@4.0.0`; source checkpoint `36a2f7c`. The design contract now records divider clearance and visible-artwork endpoint rules.
+- Astra light regenerated both backends into `examples/2026-10-12-belief-reference/renders-v4/`. Old gallery, HTML and published PNGs remain intact; new HTML is engine-generated. Six accepted artwork PNGs are reused with no image-generation calls.
+- Verification: both exports pass publication/catalog checks and first-attempt fit, including legacy-fixture preflight; both final PNGs inspected at full and thumbnail sizes. Existing four canaries pass in42.9s under the unchanged60s budget. Full PDDA: zero errors, three unchanged warnings (GH-8 ledger state and two governance references).
+- Root cause: identical divider segments ignored occupied text/connector regions and the examination arrow stopped at the padded asset box. Fix site is recipe-owned geometry; no shared renderer or validation changes. Easy reversal through separate source and generated-artifact commits.
+
 ## 2026-10-12 — GH-38 reference-directed diagram and generated artwork
 
 - Published `recursive-process@3.0.0` with the supplied reference's four stages, belief hexagons, consequence cards and continuation arrow. Astra at low reasoning effort implemented and rendered the recipe in both backends. Six individual PNG illustrations are pinned with prompts, settings, receipts and source/display hashes; seven successful image calls include one examination refinement.
