@@ -105,4 +105,12 @@ Read the complete skill, SOP, GH-8 capture and CHANGELOG, plus the approved plan
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the completed review; the harness performs the file-scoped commit and deferred gate.
 
+
+### Attestation · relay-drive — 2026-10-13T03:10:35Z
+task: GH8-CLI-SKILL-FINAL-20261012
+reviewer: codex
+status: Approved
+reviewed-head: b6c26b8010c952c525ea5b46fcf3f420c56ac7d1
+added-range: 8276+6121
+added-sha256: 22bf612d9b5aac3a144ab9a7b975210c55d11c384a10651e30f4c41cf293f4d8
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
