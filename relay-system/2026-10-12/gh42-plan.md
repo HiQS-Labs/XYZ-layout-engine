@@ -183,4 +183,12 @@ Evidence limits: Read the entire relay and embedded artifact, not only the amend
 
 Reversibility: Easy — approval changes the relay header and appends this review only. The bet is that the explicit contract and negative controls are sufficient to begin implementation; a failing fitting, asset-boundary, compatibility or publication control at implementation QA would overturn readiness to ship. Relay closed (Approved), no further review turn needed. Producer proceeds with implementation and final QA; token completed with done.
 
+
+### Attestation · relay-drive — 2026-10-13T04:55:12Z
+task: GH42-PLAN
+reviewer: codex
+status: Approved
+reviewed-head: 2d581cd07f686d0082a16d085c83abc1aa7a76ed
+added-range: 19509+3463
+added-sha256: c2e28d5e23c4c89451ad820499beb48958d5229872b88a84bde6ba16da366e77
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
