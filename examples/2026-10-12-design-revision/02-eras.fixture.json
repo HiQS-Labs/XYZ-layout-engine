@@ -1,0 +1,23 @@
+{
+  "id": "mangajdm-promo",
+  "width": 1080,
+  "height": 1920,
+  "art": "integra",
+  "issue": "02",
+  "eyebrow": "HONDA INTEGRA",
+  "headline": {
+    "line1": "INTEGRA",
+    "line2": "GENERATIONS"
+  },
+  "deck": "A lineup across generations.",
+  "cta": "Find your era.",
+  "artNote": "FOUR CARS / ONE LINEAGE",
+  "website": "MangaJDM.com",
+  "theme": {
+    "palette": {
+      "paper": "#ffffff",
+      "ink": "#101010",
+      "accent": "#e63227"
+    }
+  }
+}
