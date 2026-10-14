@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -207,5 +207,44 @@ Revised plan committed (re-seeded as the artifact).
 - Note on PR #43 / issue refresh: verified locally on 2026-10-14 from this session (PR #43 base `main`, touches `catalog.sql`, `catalog.mjs`, `recursive-process.mjs`, `render.mjs`, `request.mjs`); the rebase note stands.
 
 This is round 3 of 3. Requesting final plan review.
+
+### Reviewer · Round 3
+
+VERDICT: PASS
+Basis: Approve the plan for implementation within the supplied local, trusted-artwork MVP contract. B1, B2 and S1–S3 are addressed at plan level; no open Blocker remains. Implementation correctness and runtime gates are not claimed.
+swept file: yes
+
+Read the entire 199-line seeded plan, including unchanged sections, and the relay history; traced the reader, scene, backend, HTML, publication, catalog and existing C1 paths. No additional pre-existing defect in the seeded plan was found in this sweep. Graph tools are unavailable, so project/generation and coverage could not be established; direct source reads and literal searches supplied the evidence. Live issue #50 and PR #43 refreshes returned web cache misses; requirements use the supplied relay contract, and current remote PR state remains unverified. Both startup roadmap entry paths are absent in this isolated tree (Python exit 2); no lifecycle write was attempted. No Git command, suite, executable fixture, validate.sh or artifact edit was performed. Relay-only edit reversibility: **Easy**; the bet is that source-grounded design approval can precede the explicitly required disposable-clone gates.
+
+- **[Pass] Prior end-to-end boundary findings are closed in the design.** R3 now includes `toHtml`, extraction and all three publisher/verifier checks (`.relay-artifacts/GH-50-WEBP-ARTWORK.md:90–101`; `tools/render.mjs:111,352–355,443,477,495`). Step 5 names independent removal controls and the acceptance map requires CLI publication plus `verifyPublication` (plan lines 157–172). The corrected README split is explicit at plan lines 120–126 and fits `tools/request.mjs:89–94`. This closes B1/B2/S3 without adding another serializer or publisher.
+  Narrow admission probe (exit **0**, `$TMPDIR/r3-boundaries.log`):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module > "$TMPDIR/r3-boundaries.log" <<'JS'
+  import { readFileSync } from "node:fs";
+  const lines = readFileSync("tools/render.mjs", "utf8").split("\n");
+  const d = "a".repeat(64);
+  for (const line of [111, 443, 477, 495]) {
+    const pattern = lines[line - 1].match(/!\/(.*)\/\.test/)[1];
+    const current = new RegExp(pattern);
+    const proposed = new RegExp(pattern.replaceAll("png|svg", "png|webp|svg"));
+    const inputs = line === 111 ? [`data:image/webp;base64,AAAA`, `assets/${d}.webp`] : [line === 443 ? `${d}.webp` : `assets/${d}.webp`];
+    for (const input of inputs) console.log(`line=${line} current=${current.test(input)} proposed=${proposed.test(input)} input=${input}`);
+    const invalid = line === 111 ? ["https://example.test/a.webp", `assets/../${d}.webp`] : [`../${d}.webp`, `assets/${d}.exe`];
+    console.log(`line=${line} invalidRejected=${invalid.every(x => !proposed.test(x))}`);
+  }
+  JS
+  ```
+  Decisive output: both line-111 WebP forms and the WebP names at lines 443/477/495 reported `current=false proposed=true`; each boundary reported `invalidRejected=true`. This evaluates the proposed regex expansion in memory only; it does not prove image decode or complete publication.
+
+- **[Pass] Existing ownership and backend boundaries remain coherent.** R1/R2 retain `readPinnedPngs` and its shared bounded/contained read path (plan lines 73–88; `tools/request.mjs:12–46`). Keeping the inspector outside `assets.mjs` avoids changing the other recipes’ declared modules (`tools/catalog.mjs:125–146`). R4 is restricted to the Satori raster branch (plan lines 103–107; `tools/render.mjs:211,241–249`), so SVG/HTML-only operations and Playwright’s non-raster coverage pass remain allowed by design. S1 is explicitly handled by switching `rpReject` to SVG while retaining its original assertions (plan lines 150–156; `tools/spike/test/canaries.test.mjs:277–287`).
+
+- **[Pass] Header validation is proportionate to the committed-asset envelope.** R2 plus the bounded-read qualification (plan lines 81–88,182–185) specifies RIFF length, VP8X/VP8L alpha and dimension checks; those fields agree with the [container specification](https://developers.google.com/speed/webp/docs/riff_container) and [lossless specification](https://developers.google.com/speed/webp/docs/webp_lossless_bitstream_specification). It correctly separates header admission from decoded transparency. Step 3 requires `real_alpha: true`; the existing inspector derives that from decoded pixels at `examples/2026-10-09-cell-division/inspect-alpha.mjs:67–72`. No decoder dependency or wider parser is justified by this scope.
+
+- **[Pass] Catalog history, semver and evidence scope are accounted for.** The selective rollback retains history and publishes restored source under a fresh identity (plan lines 61–69), consistent with `tools/catalog.mjs:209–222,237–249,333–342`. Major 6.0.0 is appropriate for changed artifacts and the lost Satori PNG capability (`README.md:103–106`; plan lines 109–115). Extending C1 without a new block/file fits `test-budget.json`’s four-test/one-file rule; its 60-second limit remains a measured implementation gate. R6 and step 6 require the supported Playwright PNG visual review and updated evidence (plan lines 117–126,163–175). The 55/20/50/60 rationale is defensible prioritization judgment with neutral appeal and effort interpreted as cheapness (plan lines 187–192), not an empirical score.
+
+**[Unverified — needs clone run]** PNG digest preservation for nutrition/solar-system, six real WebP conversions and alpha inspections, actual Satori refusal, both complete CLI exports and offline loads, removal/tamper controls, retained-file hashes, visual review, catalog checks, `pnpm test` runtime and PDDA gates. These are implementation acceptance obligations already specified by the plan, not evidence obtained in this turn.
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) owns implementation and the disposable-clone verification; completing the coordination token with `done`.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
