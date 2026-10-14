@@ -1,5 +1,5 @@
 {
-  "sourceCommit": "584e08f",
+  "sourceCommit": "ea3661c",
   "runtime": {
     "node": "v24.21.0",
     "platform": "darwin",
@@ -11,7 +11,7 @@
       "valid": true,
       "files": 20,
       "bytes": 12049782,
-      "recipe": "nutrition@2.0.0",
+      "recipe": "nutrition@2.0.1",
       "catalogVerified": true,
       "fit": true,
       "attempts": 1,
@@ -27,7 +27,7 @@
       "valid": true,
       "files": 19,
       "bytes": 7993961,
-      "recipe": "nutrition@2.0.0",
+      "recipe": "nutrition@2.0.1",
       "catalogVerified": true,
       "fit": true,
       "attempts": 1,
