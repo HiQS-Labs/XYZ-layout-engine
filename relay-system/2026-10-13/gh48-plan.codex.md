@@ -116,4 +116,64 @@ artifacts. These concrete gaps prevent approval of the submitted sequence:
 - No Git commands, runtime edits, catalog writes, full suite, or visual rendering were run.
   Reported v4 geometry remains producer evidence, not independently reproduced evidence.
 
+---
+
+## Round 2 — Producer Response (`author`)
+
+All three Round 1 findings (`R1`, `R2`, `R3`) have been resolved in `PROJECT/2-WORKING/GH-48-TYPE-SCALE-RULES.md`:
+
+1. **`R1` Resolved (Publication precedes final `renders-v4/` exports):**
+   - Phase 2 now renders exploratory candidates exclusively under `.relay-scratch/v4-preview/{satori,playwright}/` and iterates until native `333×333` (`1/3` scale) and `400×400` (phone width) legibility and squint hierarchy pass on both backends.
+   - Once visual iteration finishes, all catalog-declared inputs for `nutrition@4.0.0` (`tools/recipes/nutrition.mjs` and `examples/2026-10-13-nutrition-infographic/DESIGN.md`) are frozen, `node tools/catalog.mjs publish nutrition 4.0.0` and `node tools/catalog.mjs verify` run **first** in Phase 3 Step 1, and only **then** does Phase 3 Step 2 generate the final `examples/2026-10-13-nutrition-infographic/renders-v4/{satori,playwright}/` exports and assert `catalog.version === "4.0.0"`, `catalog.verified === true`, and `catalog.contentSha256` matching the published `content_sha256` in both `result.json` receipts before registering `2026-10-13-nutrition-type-scale` and writing `SHA256SUMS`.
+2. **`R2` Resolved (`--friction` <= 200 characters):**
+   - Updated Phase 3 Step 3 to use Codex's 118-character `--friction` string (`<= 200` limit in `tools/catalog.mjs:315`):
+     `"Four proportional type tiers on a 1000px canvas; mobile legibility and illustration balance reviewed on both backends."`
+3. **`R3` Resolved (Native `333px` & `400px` legibility gate, `92/31/25/21px` candidate, and reproducible `OS/2` `sCapHeight` + largest-graphic verification):**
+   - Bumped the exploratory candidate scale to `92px / 31px / 25px / 21px` (`TYPE_SCALE_PCT = { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 }` on `S = 1000px`, ratio `92 / 21 = 4.38 : 1 >= 4.0 : 1`), raising body captions from `20px` to `21px` (`7.0px` at `333px` `1/3` scale and `8.4px` at `400px` phone width) while still fitting on 2 lines in all 4 item captions (`165px` width) and both callout captions (`260px` maxWidth) with `overflowing: []` (`attempts: 1, iterations: 0`) in both Satori and Chromium.
+   - Added the reproducible TrueType `head` (`unitsPerEm = 1000`) + `OS/2` (`sCapHeight = 700`, ratio `0.70`) binary parser command for `tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf` to `PROJECT/2-WORKING/GH-48-TYPE-SCALE-RULES.md`. At `headline = 92px`, `capHeight = 64.4px` and `3.0 × capHeight = 193.2px`, so **every** cutout's visible alpha height (`a > 24`) across all 7 assets — including `skip_spike` at `190.0px` (`2.950× <= 3.00×`) and `leaf_glow` at `184.5px` (`2.865× <= 3.00×`) — satisfies `<= 3.0 × capHeight` strictly (with `<= 3.05×` documented as the explicit tolerance for `"~3×"`).
+   - Explicitly separated `333 × 333` (`33.3%`, exact `1/3` scale), `400 × 400` (`40.0%`, phone width), and `480 × 480` (`48.0%`, gallery thumbnail), and made native `333px` and `400px` readability without zoom an explicit iteration gate before publication.
+
+Please review the updated `PROJECT/2-WORKING/GH-48-TYPE-SCALE-RULES.md` and record your Round 2 `VERDICT:`.
+
+## Round 2 — Codex Plan Review
+
+VERDICT: Approved
+STATUS: Approved
+
+**Ship the plan for implementation.** R1 now freezes declared inputs and publishes before final
+exports; R2's friction text is independently confirmed at 118 characters. R3 now requires native
+333px and 400px readability and squint inspection before publication, with iteration on failure.
+This approves the implementation sequence, not the unimplemented v4 geometry or visual result.
+
+### Corrections made in the allowed plan
+
+- Corrected Phase 3 receipt reads and design registration to resolve the manifest-selected run
+  using existing `selectedRun` (`tools/render.mjs:394–401,432–462`). The CLI writes
+  `runs/<id>/result.json` and `render.png`; direct export-root paths would fail.
+  Gallery/checksum/thumbnail consumers must use those selected paths too.
+- Added successful-fit and empty-unresolved assertions alongside attempt/iteration counts.
+- Marked producer candidate measurements provisional. The submission supplies the font parser
+  but does not actually retain an executable alpha scan or candidate reconstruction command.
+  Phase 2 must preserve candidate hashes, exact render/alpha commands and backend results, then
+  carry reproducible evidence into verification-v4.json before deleting scratch previews.
+  Specified inclusive alpha pixel span and corrected "exact 1/3" to approximate at 333px.
+- Updated plan status and next action. Reversibility: Easy, documentation only. The bet is that
+  existing recipe geometry and publication APIs suffice; failed native-size readability requires
+  another layout/type iteration before the immutable version is published.
+
+### Verification and limits
+
+- Independently ran the documented font-table probe: unitsPerEm=1000, sCapHeight=700.
+  This confirms 64.4px cap height at 92px; it does not verify visible cutout heights.
+- Focused plan checks before and after edits: frontmatter, status-table, hardcoded-paths,
+  each exit 0 with errors=0, warns=0, info=0. PDDA_ONLY_FILE scoped all checks to the plan;
+  PDDA_ACTIVITY_LOG was redirected to .relay-scratch/gh48-r2-pdda.jsonl.
+- Read-only assertions passed for 118-character friction, publication ordering,
+  selected-run paths, successful-fit assertions, and no personal absolute paths.
+- Current recipe source is still nutrition@3.0.0. No runtime changes, visual renders, Git commands,
+  catalog mutations, or full project gates were performed.
+- Startup roadmap entry points remain absent at both local paths named by ROUTER.md;
+  no roadmap state is attested. The relay still contains no embedded TAKE YOUR TURN block;
+  followed its Round 2 review request and the operator's explicit token/edit/handoff instructions.
+
 NEXT: author
