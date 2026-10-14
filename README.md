@@ -1,10 +1,23 @@
 # XYZ Layout Engine
 
-XYZ Layout Engine is a deterministic layout and rendering engine. The current local MVP uses ESM JavaScript and a Python image-generation script; TypeScript remains a product target. It converts structured data (JSON) into raster (PNG) or vector (SVG, HTML) images using versioned layout recipes.
+XYZ Layout Engine is an **AI-native, deterministic layout and rendering engine**. The current local MVP uses ESM JavaScript and a Python image-generation script; TypeScript remains a product target. It converts structured data (JSON) into raster (PNG) or vector (SVG, HTML) images using versioned layout recipes.
+
+### AI-First Authoring + Deterministic Offline Rendering
+
+Pure generative image models struggle with exact typography, data binding, alignment, and repeatable edits ("AI slop"). XYZ Layout Engine solves this by separating **AI-driven authoring and isolated asset generation** from **deterministic layout and rendering**:
+
+- **AI handles taste, art direction, and isolated cutouts:** An AI agent translates a reference image or `DESIGN.md` style guide into a versioned recipe (`tools/recipes/*.mjs`), a schema-validated `fixture.json`, and isolated transparent PNG illustrations (`SOP.md` + `inspect-alpha.mjs`) or inline vector SVGs—governed by the anti-slop rules in [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md).
+- **The engine handles exact geometry, typography, and repeatable exports:** [`tools/render.mjs`](tools/render.mjs) and [`tools/catalog.mjs`](tools/catalog.mjs) resolve bundled local fonts (`Inter`, `IBM Plex Sans`, `Barlow Condensed`, `JetBrains Mono`), apply CSS/SVG styling and per-asset drop shadows across Satori + resvg and headless Chromium, verify zero text/element collisions (`tools/spike/measure-chromium.mjs`), and export byte-reproducible artifacts.
+
+Because every interface is plain local files (`fixture.json`, `DESIGN.md`, `tools/recipes/*.mjs`) and local CLIs, you can drive XYZ Layout Engine in three ways:
+
+1. **Cloud AI Agent + Generative Cutouts:** An agent authors recipes and `DESIGN.md` contracts and calls `gpt-image-2.5-flare` or Higgsfield (`SOP.md`) to generate true-alpha PNG cutouts (`verdict: "true-alpha"`), then locks them into the example bundle.
+2. **100% Local LLM / Offline AI Workflow:** A local coding or vision LLM (via Ollama, LM Studio, MLX, or vLLM) reads [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) and `DESIGN.md`, edits `fixture.json` or writes `tools/recipes/*.mjs`, and self-corrects layout bounds using the structured geometry output from `measure-chromium.mjs` (`overlaps`, `clippings`). For visuals, it can emit inline vector SVGs or pair with a local diffusion + matte-extraction pipeline validated by [`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs).
+3. **Developer or Backend Pipeline (No AI Needed at Runtime):** Once a recipe and its local assets exist, a developer, CI job, or backend service can render, validate, and durably edit (`--set` / `--save`) copy, themes, and coordinates offline in milliseconds to seconds—without an AI agent, network access, or paid API calls.
 
 ## Install and Offline Workflow
 
-XYZ Layout Engine supports a fully offline, self-contained workflow. Once the repository and dependencies are installed, you can render, edit, and export without any remote network calls or paid API usage.
+Once the repository, dependencies, and pinned local assets are on disk, rendering, editing, and exporting require zero remote network calls or paid API usage.
 
 Run these commands from the repository root. Dependency installation may use the network; the rendering workflows below use pinned local assets.
 
