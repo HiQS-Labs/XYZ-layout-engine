@@ -1,0 +1,49 @@
+{
+  "id": "nutrition-infographic",
+  "width": 1000,
+  "height": 1000,
+  "theme": {
+    "background": "#fbfaf3",
+    "palette": {
+      "primary": "#2f5d27",
+      "secondary": "#7fb04a",
+      "text": "#1f2a1c",
+      "muted": "#3d4639",
+      "panelBorder": "#b9d79b",
+      "panelFill": "#f4f8ea",
+      "background": "#fbfaf3"
+    }
+  },
+  "sections": {
+    "header": {
+      "headline": "FUEL WELL. LIVE WELL.",
+      "subtitle": "Optimized Nutrition. Sustained Energy.",
+      "ornamentId": "leaf_small"
+    },
+    "hero": {
+      "illustrationId": "leaf_glow",
+      "callouts": [
+        { "id": "callout_1", "illustrationId": "balance_scale", "title": "BALANCED NUTRITION", "text": "The right fuel for your body and mind." },
+        { "id": "callout_2", "illustrationId": "skip_spike", "title": "SKIP THE SPIKE", "text": "Avoid sugary drinks and processed snacks." }
+      ]
+    },
+    "items": [
+      { "id": "item_1", "illustrationId": "parfait_jar", "title": "NUTRITIOUS", "caption": "Real, whole foods that nourish." },
+      { "id": "item_2", "illustrationId": "snack_container", "title": "PORTABLE", "caption": "Easy to take wherever you go." },
+      { "id": "item_3", "illustrationId": "chicken_wrap", "title": "CONVENIENT", "caption": "Simple choices for your busy day." },
+      { "id": "item_4", "illustrationId": "water_bottle", "title": "HYDRATED", "caption": "Water fuels your cells and keeps you going." }
+    ],
+    "benefitsPanel": [
+      { "id": "benefit_1", "iconId": "icon_energy", "text": "SUSTAINED ENERGY" },
+      { "id": "benefit_2", "iconId": "icon_focus", "text": "SHARP FOCUS" },
+      { "id": "benefit_3", "iconId": "icon_immunity", "text": "STRONG IMMUNITY" },
+      { "id": "benefit_4", "iconId": "icon_wellbeing", "text": "BETTER WELL-BEING" }
+    ],
+    "footer": {
+      "bannerText": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
+      "tagline": "Small choices. Big impact.",
+      "ornamentId": "leaf_small",
+      "endIconId": "heart"
+    }
+  }
+}

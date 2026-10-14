@@ -26,12 +26,21 @@ export async function renderSatori(scene, font, width, height, fontFamily = 'Int
   const missingSegments = [];
   const t0 = performance.now();
   await loadSatori();
-  const svg = await satori(scene, {
+  let svg = await satori(scene, {
     width, height,
     fonts: [{ name: fontFamily, data: font.regular, weight: 400, style: 'normal' }, { name: fontFamily, data: font.bold, weight: 700, style: 'normal' }],
     onNodeDetected: n => nodes.push(n),
     loadAdditionalAsset: async (languageCode, segment) => { missingSegments.push({ languageCode, segment }); return []; }
   });
+  if (svg.includes('style="filter:drop-shadow(')) {
+    const defs = []; let idx = 0;
+    const body = svg.replace(/<image\b([^>]*?)\sstyle="filter:drop-shadow\(([-0-9.]+)px\s+([-0-9.]+)px\s+([-0-9.]+)px\s+([^"]+)\)"([^>]*)\/>/g, (_, pre, dx, dy, blur, color, post) => {
+      const id = `satori_ds_${++idx}`;
+      defs.push(`<filter id="${id}" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="${dx}" dy="${dy}" stdDeviation="${blur}" flood-color="${color}"/></filter>`);
+      return `<g filter="url(#${id})"><image${pre}${post}/></g>`;
+    });
+    if (defs.length) svg = body.replace(/<svg\b([^>]*)>/, `<svg$1><defs>${defs.join('')}</defs>`);
+  }
   const tLayout = performance.now();
   let png;
   if (raster) {
@@ -184,8 +193,6 @@ export async function processRequest(reqObj, options = {}) {
     recipe = await import('./recipes/nutrition.mjs');
   } else if (normalized.recipe === 'solar-system') {
     recipe = await import('./recipes/solar-system.mjs');
-  } else if (normalized.recipe === 'mangajdm-promo') {
-    recipe = await import('./recipes/mangajdm-promo.mjs');
   } else if (normalized.recipe === 'recursive-process') {
     recipe = await import('./recipes/recursive-process.mjs');
   } else {

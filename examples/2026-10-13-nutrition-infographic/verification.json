@@ -1,0 +1,42 @@
+{
+  "sourceCommit": "01c9185",
+  "runtime": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "renders": [
+    {
+      "backend": "satori",
+      "valid": true,
+      "files": 20,
+      "bytes": 12049782,
+      "recipe": "nutrition@2.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "43cb863870cee409acdf394e5adacc0c48b1db7d2d4d1f663d666642a46a3329",
+        "svg": "594ee541fa38c8510300019b294f3d4a57ecb7d95c3cd0ba5430c65e16694881",
+        "html": "38e2768e2cf16e5d4e60c2824bf210452d9516d248d97a8575f26b06b4c82b9c",
+        "html-inline": "b7dbe3375328929706c96ae60239ed8b566c132f4ba01e11d63b93a328e078eb"
+      }
+    },
+    {
+      "backend": "playwright",
+      "valid": true,
+      "files": 19,
+      "bytes": 7993961,
+      "recipe": "nutrition@2.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "48af8f48d38815b03828a5dbe7032f06b94bae2e308e17d30268d0b5c0192681",
+        "html": "38e2768e2cf16e5d4e60c2824bf210452d9516d248d97a8575f26b06b4c82b9c",
+        "html-inline": "b7dbe3375328929706c96ae60239ed8b566c132f4ba01e11d63b93a328e078eb"
+      }
+    }
+  ],
+  "receiptSanitization": "Only home-directory prefix replaced by ~; raw export result digest retained in export-manifest.json. Retained file hashes in SHA256SUMS."
+}

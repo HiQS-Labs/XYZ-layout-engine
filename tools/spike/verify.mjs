@@ -297,5 +297,5 @@ async function verify() {
 verify().catch(err => {
   console.error('\nVERDICT: FAIL');
   console.error('Basis:', err.message);
-  process.exit(1);
+  process.exitCode = 1;
 });
