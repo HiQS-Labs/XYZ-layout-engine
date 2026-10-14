@@ -42,6 +42,9 @@ Image-generation prompts name the subject, the view, the lighting, the backgroun
 **AS-10 Review as a separate pass, not another styling pass.**
 After rendering, look at both backend PNGs at full size and at thumbnail size. Audit them for template patterns, flat hierarchy, needless decoration, and copy that fails AS-7. The engine already enforces text fit and containment; this pass covers what it cannot. Fix the named problems; "make it more premium" is not a fix.
 
+**AS-11 Ground 3D cutouts with directional base/contact cast shadows, not whole-shape silhouette drop-shadows.**
+When a 3D object or cutout rests on a surface, anchor its base footprint with a two-layer ground shadow (a tight contact occlusion ellipse directly under the resting base plus a softer directional cast ellipse offset away from one consistent scene corner light source). Do not apply a whole-shape CSS `drop-shadow(...)` filter to resting 3D cutouts — tracing the alpha silhouette places a sticker halo around upper lids, caps, crossbars and floating edges, making objects look pasted onto the wall rather than grounded on a table. Reserve silhouette `drop-shadow` or glow filters for flat badges, floating UI elements or stated emissive icons, and align sibling cutouts in the same row onto a shared ground baseline.
+
 ## Report
 
 Before composing, state the intended visual direction and the three most important hierarchy decisions.

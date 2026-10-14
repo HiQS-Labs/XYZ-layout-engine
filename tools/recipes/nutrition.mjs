@@ -3,7 +3,7 @@ import { NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT, DEFAULT_SIZES as SPIKE_DEFAU
 import { resolveIllustration } from '../spike/assets.mjs';
 import { invalid, LIMITS, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
-export const version = '2.0.2';
+export const version = '3.0.0';
 export const name = 'nutrition';
 export const FONT = {
   family: 'Barlow Condensed',
@@ -40,8 +40,44 @@ const PNG_IDS = [
   'chicken_wrap',
   'water_bottle',
 ];
-const PNG_SHADOW = 'drop-shadow(0px 8px 6px rgba(31,42,28,0.22))';
 const HERO_SHADOW = 'drop-shadow(0px 6px 8px rgba(242,228,150,0.45))';
+
+// Two-layer directional ground/contact cast shadows (AS-11) from an upper-right corner light source.
+const GROUND_SHADOW_SPECS = {
+  balance_scale:   { boxW: 280, boxH: 210, contact: { cx: 139, cy: 184, rx: 46, ry: 6.5 }, cast: { cx: 122, cy: 187, rx: 68, ry: 12.5, rot: -4 } },
+  skip_spike:      { boxW: 280, boxH: 210, contact: { cx: 142, cy: 194, rx: 62, ry: 7.5 }, cast: { cx: 124, cy: 197, rx: 84, ry: 13.5, rot: -4 } },
+  parfait_jar:     { boxW: 160, boxH: 170, contact: { cx: 79,  cy: 155, rx: 41, ry: 6.5 }, cast: { cx: 63,  cy: 158, rx: 58, ry: 12,   rot: -5 } },
+  snack_container: { boxW: 160, boxH: 170, contact: { cx: 75,  cy: 152, rx: 45, ry: 7   }, cast: { cx: 58,  cy: 156, rx: 62, ry: 13,   rot: -6 } },
+  chicken_wrap:    { boxW: 160, boxH: 170, imgTop: 60, imgHeight: 107, contact: { cx: 72, cy: 153, rx: 44, ry: 6.5 }, cast: { cx: 56, cy: 156, rx: 60, ry: 12, rot: -5 } },
+  water_bottle:    { boxW: 160, boxH: 170, contact: { cx: 79,  cy: 162, rx: 25, ry: 5.5 }, cast: { cx: 61,  cy: 164, rx: 46, ry: 10.5, rot: -4 } },
+};
+
+function groundShadowUri(id) {
+  const s = GROUND_SHADOW_SPECS[id];
+  if (!s) return null;
+  const { boxW, boxH, contact, cast } = s;
+  const svg = [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxW} ${boxH}" width="${boxW}" height="${boxH}">`,
+    '<defs>',
+    `<radialGradient id="cast_${id}" cx="50%" cy="50%" r="50%">`,
+    '<stop offset="0%" stop-color="#1f2a1c" stop-opacity="0.30"/>',
+    '<stop offset="38%" stop-color="#1f2a1c" stop-opacity="0.21"/>',
+    '<stop offset="72%" stop-color="#1f2a1c" stop-opacity="0.09"/>',
+    '<stop offset="100%" stop-color="#1f2a1c" stop-opacity="0"/>',
+    '</radialGradient>',
+    `<radialGradient id="contact_${id}" cx="50%" cy="50%" r="50%">`,
+    '<stop offset="0%" stop-color="#162014" stop-opacity="0.50"/>',
+    '<stop offset="45%" stop-color="#162014" stop-opacity="0.32"/>',
+    '<stop offset="78%" stop-color="#162014" stop-opacity="0.10"/>',
+    '<stop offset="100%" stop-color="#162014" stop-opacity="0"/>',
+    '</radialGradient>',
+    '</defs>',
+    `<ellipse cx="${cast.cx}" cy="${cast.cy}" rx="${cast.rx}" ry="${cast.ry}" transform="rotate(${cast.rot} ${cast.cx} ${cast.cy})" fill="url(#cast_${id})"/>`,
+    `<ellipse cx="${contact.cx}" cy="${contact.cy}" rx="${contact.rx}" ry="${contact.ry}" fill="url(#contact_${id})"/>`,
+    '</svg>',
+  ].join('');
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+}
 
 export async function validate(fixture) {
   const shape = JSON.parse(await fs.readFile(new URL('../spike/fixture.json', import.meta.url), 'utf8'));
@@ -70,6 +106,28 @@ const img = (id, src, style) => ({
     style: { objectFit: 'contain', ...style },
   },
 });
+
+function groundedImg(slotId, assetId, src, { width, height }) {
+  const spec = GROUND_SHADOW_SPECS[assetId];
+  const shadowUri = groundShadowUri(assetId);
+  if (!spec || !shadowUri) return img(slotId, src, { width, height });
+  return {
+    type: 'div',
+    props: {
+      style: { position: 'relative', display: 'flex', width, height },
+      children: [
+        img(null, shadowUri, { position: 'absolute', left: 0, top: 0, width, height }),
+        img(slotId, src, {
+          position: 'absolute',
+          left: 0,
+          top: spec.imgTop ?? 0,
+          width,
+          height: spec.imgHeight ?? height,
+        }),
+      ],
+    },
+  };
+}
 
 export async function buildScene(fixture, sizes = {}) {
   const s = { ...DEFAULT_SIZES, ...sizes };
@@ -104,7 +162,7 @@ export async function buildScene(fixture, sizes = {}) {
       id: c.id,
       style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 300, gap: 8 },
       children: [
-        img(`${c.id}_img`, calloutImages[i], { width: 280, height: 210, filter: PNG_SHADOW }),
+        groundedImg(`${c.id}_img`, c.illustrationId, calloutImages[i], { width: 280, height: 210 }),
         text('span', `${c.id}_title`, c.title, { ...headline, letterSpacing: 0.6, maxWidth: 300 }, s),
         text('span', `${c.id}_text`, c.text, { ...body, maxWidth: 240 }, s),
       ],
@@ -181,7 +239,7 @@ export async function buildScene(fixture, sizes = {}) {
                       id: item.id,
                       style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 167, gap: 5 },
                       children: [
-                        img(`${item.id}_img`, itemImages[i], { width: 160, height: 170, filter: PNG_SHADOW }),
+                        groundedImg(`${item.id}_img`, item.illustrationId, itemImages[i], { width: 160, height: 170 }),
                         text('span', `${item.id}_title`, item.title, { ...headline, letterSpacing: 0.5, maxWidth: 167 }, s),
                         text('span', `${item.id}_caption`, item.caption, { ...body, lineHeight: 1.25, maxWidth: 167 }, s),
                       ],

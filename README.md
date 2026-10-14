@@ -53,8 +53,8 @@ Run these commands from the repository root. Dependency installation may use the
 
 ### Delivered Examples and Design Contracts
 
-- **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.2`)**:
-  [Example bundle](examples/2026-10-13-nutrition-infographic/README.md), [preview gallery](examples/2026-10-13-nutrition-infographic/index.html), and [DESIGN.md style guide](examples/2026-10-13-nutrition-infographic/DESIGN.md). Renders a `1000×1000` infographic with bundled `Barlow Condensed` ALL CAPS headlines, a radial-gradient cream canvas (`#fffef8` → `#f7f3e3` → `#ede6cf`), seven `gpt-image-2.5-flare` transparent PNG illustrations with engine-applied per-PNG drop shadows across both Satori + resvg and Chromium, and crisp vector SVG benefit badges.
+- **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@3.0.0`)**:
+  [Example bundle](examples/2026-10-13-nutrition-infographic/README.md), [preview gallery](examples/2026-10-13-nutrition-infographic/index.html), and [DESIGN.md style guide](examples/2026-10-13-nutrition-infographic/DESIGN.md). Renders a `1000×1000` infographic with bundled `Barlow Condensed` ALL CAPS headlines, a radial-gradient cream canvas (`#fffef8` → `#f7f3e3` → `#ede6cf`), seven `gpt-image-2.5-flare` transparent PNG illustrations with directional corner-lit ground/contact cast shadows (`AS-11`) across both Satori + resvg and Chromium, and crisp vector SVG benefit badges.
   ```sh
   node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json --recipe nutrition --format png,svg,html,html-inline --out .relay-scratch/nutrition-infographic
   ```
@@ -68,15 +68,15 @@ Run these commands from the repository root. Dependency installation may use the
 - **Hand-Built Visual Studies (Pre-Recipe)**:
   [RAG System Architecture](examples/2026-10-09-rag-system/README.md) and [Mitosis Cell Division](examples/2026-10-09-cell-division/README.md), recorded in the design catalog with `use_case = NULL`.
 - **Visual Design Governance & Transparent PNG SOP**:
-  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-10`), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-11`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
 
 ## Local Recipe Catalog
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@2.0.2`,
+in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@3.0.0`,
 `solar-system@1.0.1`, and `recursive-process@5.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
-Older versions (`nutrition@1.0.0`, `nutrition@2.0.0`, `nutrition@2.0.1`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`4.0.0`) remain ledger history; their content is retained in git.
+Older versions (`nutrition@1.0.0`..`2.0.2`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`4.0.0`) remain ledger history; their content is retained in git.
 
 Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
 
@@ -85,7 +85,7 @@ Run from the repository root on Node with built-in `node:sqlite` available (veri
 | `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
 | `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
 | `node tools/catalog.mjs show solar-system` | Look up Solar System by slug | 0 |
-| `node tools/catalog.mjs publish nutrition 2.0.2` | Unchanged publication succeeds as a no-op | 0 |
+| `node tools/catalog.mjs publish nutrition 3.0.0` | Unchanged publication succeeds as a no-op | 0 |
 | `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
 | `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
 
@@ -115,7 +115,7 @@ aliases/renames and semver range resolution are deferred.
 Designs are insert-only records in the same catalog, identified by `YYYY-MM-DD-slug`.
 An edit forks a new design ID; there is no design update or delete command. Each record hashes
 the fixture JSON and PNG artifact and optionally pins a published use case as `slug@semver`.
-Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic (`2026-10-13-nutrition-infographic`) is pinned to `nutrition@2.0.0` (with `nutrition@2.0.2` as the current documentation-aligned patch version), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`5.0.0`; RAG and cell-division have a null use case
+Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`) and `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`5.0.0`; RAG and cell-division have a null use case
 because they are hand-built scripts with no recipe.
 
 | Command | Successful result | Exit |
@@ -168,7 +168,7 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
   - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. Other dimensions and scale are explicitly rejected.
-  - A recipe may declare its own vendored font (`FONT` export); `nutrition@2.0.2` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
+  - A recipe may declare its own vendored font (`FONT` export); `nutrition@3.0.0` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the pinned Latin fonts (`Inter` and `Barlow Condensed`) and are rejected during preflight unless a covering fallback font is explicitly pinned.
