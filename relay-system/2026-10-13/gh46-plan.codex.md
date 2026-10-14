@@ -129,4 +129,12 @@ swept file: yes
 
 **Handoff:** Producer (author), proceed with implementation and retain the clone-run evidence for final QA. Reversibility: Easy — only this relay file was edited. STATUS is Approved; the token is completed with `done`, and the harness owns the file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-10-14T05:22:33Z
+task: GH46-PLAN-20261013
+reviewer: codex
+status: Approved
+reviewed-head: 4b1fd4ab08619a1ad9b3265679afaefd56f41464
+added-range: 13439+3176
+added-sha256: 25774784df4ca53c324ff8b74f74663fef32b83a0a33b9263a0034ec15af8c2a
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
