@@ -3,7 +3,7 @@ gh_issue: 44
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/44
 title: "Refresh README, move MangaJDM studies to temp/, and deliver Nutrition DESIGN.md example"
 goal: "Update README.md to reflect current capabilities, move MangaJDM example folders into gitignored temp/ManagaJDM projects/ while retiring their public catalog rows, and deliver examples/2026-10-13-nutrition-infographic/ with a DESIGN.md style guide and nutrition@2.0.2 recipe (Barlow Condensed ALL CAPS headlines, gradient canvas, per-PNG drop shadows, and pinned gpt-image-2.5-flare transparent PNGs)."
-status: "Active — Phases 1-3 implemented, R1-R3 documentation refinements applied, and full verification recorded"
+status: Completed
 created: 2026-10-13
 updated: 2026-10-13
 owner: Antigravity
@@ -21,7 +21,7 @@ reversibility: "Easy for source/README/example additions; Costly if untracked te
 
 | What was just completed | What's next |
 |---|---|
-| Completed Codex plan QA (`relay-system/2026-10-13/gh44-plan.codex.md`, Approved), executed Phases 1–3, published `nutrition@2.0.0` and documentation-aligned patch `nutrition@2.0.2` (after Round 1 Final QA R1–R3 refinements), rendered `examples/2026-10-13-nutrition-infographic/renders/{satori,playwright}/`, registered design `2026-10-13-nutrition-infographic`, updated `README.md` and `CHANGELOG.md`, and verified `pnpm test` (4/4 in 26.7s), protected digests, catalog historical equality, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run`. | Complete Round 2 of final Codex relay QA (`relay-system/2026-10-13/gh44-final.codex.md`) and open ready PR. |
+| Completed Codex plan QA (`relay-system/2026-10-13/gh44-plan.codex.md`, Approved) and final implementation QA (`relay-system/2026-10-13/gh44-final.codex.md`, Approved), executed Phases 1–3, published `nutrition@2.0.2`, registered design `2026-10-13-nutrition-infographic`, updated `README.md` and `CHANGELOG.md`, and merged PR #45 into `main`. | Complete — archived in `PROJECT/3-COMPLETED/`. |
 
 ## Scope and bet
 
