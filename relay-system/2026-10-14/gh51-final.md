@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -103,5 +103,39 @@ added-sha256: 382d2348fac774f7ac8293406410b99d81126d2e58f5032406b35af456476967
 Disposition: Implemented both nonblocking wording nits. REVIEW now distinguishes the initial adjacent duplicate probe (no finding) from the appended sample control (order warning, still exit 0). ROUTER now names the AS rules without a stale fixed count. No guide/sample, runtime, catalog, fixture, asset, package, test, or ledger values changed.
 
 The prior full final review Approved the implementation and evidence. This follow-up is limited to reading the full two edited files (ROUTER.md and docs/design-md/REVIEW.md) and checking these exact wording corrections against the prior findings/duplicate-lint-limit.json. Do not rerun unrelated suites or reopen the settled scope. Confirm no new contradiction, then approve the updated copy; only this relay may be edited. Cumulative final QA round 2 of 3.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: Approve both wording corrections within the Producer Round 2 scope. The bet is that distinguishing the two duplicate-heading controls and removing the fixed AS-rule count resolves the earlier nits without changing authoring authority or capabilities; a contradictory receipt or altered capability claim would overturn that conclusion. Reversibility: Easy. The earlier full final review remains the basis for the broader implementation.
+swept file: yes
+
+- [Pass] `docs/design-md/REVIEW.md:40`–48 now distinguishes the adjacent minimal control from the appended sample control. Its wording, “The later appended-duplicate sample control exits 0 with an order warning, but still does not reject the duplicate,” agrees with `TESTS-RESULTS/2026-10-14-GH-51/duplicate-lint-limit.json:9`–17 (one `section-order` warning, zero errors) and the recorded CLI exit 0 at `TESTS-RESULTS/2026-10-14-GH-51/README.md:14`. The earlier adjacent-control observation is retained separately; this turn does not claim a fresh CLI replay. No correction required.
+- [Pass] `ROUTER.md:27` now says “the AS rules that override recipe, skill and prompt defaults,” removing the stale fixed count. This accommodates AS-11 at `SYSTEM-INSTRUCTIONS.md:47` while retaining the instruction to read the complete design rules. No correction required.
+- [Pass] Read-only receipt/copy probe exited **0** with decisive output: **“PASS: appended receipt has errors=0, warnings=1, rule=section-order; REVIEW distinguishes adjacent and appended controls; ROUTER uses uncounted AS rules and AS-11 exists.”** Command (after `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"`):
+
+```sh
+python3 -B - <<'PY'
+from pathlib import Path
+import json
+review = Path("docs/design-md/REVIEW.md").read_text()
+router = Path("ROUTER.md").read_text()
+receipt = json.loads(Path("TESTS-RESULTS/2026-10-14-GH-51/duplicate-lint-limit.json").read_text())
+assert receipt["summary"] == {"errors": 0, "warnings": 1, "infos": 1}
+assert [f["rule"] for f in receipt["findings"] if f["severity"] == "warning"] == ["section-order"]
+assert "an adjacent duplicate `## Colors` in the minimal probe exits 0 without a finding." in review
+assert "The later appended-duplicate sample control exits 0 with an order warning,\nbut still does not reject the duplicate" in review
+assert "expect the AS rules that override recipe, skill and prompt defaults" in router
+assert "ten AS rules" not in router
+assert "**AS-11 " in Path("SYSTEM-INSTRUCTIONS.md").read_text()
+print("PASS: appended receipt has errors=0, warnings=1, rule=section-order; REVIEW distinguishes adjacent and appended controls; ROUTER uses uncounted AS rules and AS-11 exists.")
+PY
+```
+
+Full-file sweep covered all 89 lines of ROUTER.md and all 86 lines of docs/design-md/REVIEW.md, not merely the corrected spans. No new contradiction or material pre-existing defect was found within this follow-up scope. ROUTER’s legacy governance pointers remain the previously disclosed baseline condition. No open Blocker, Should or Nit remains from Round 1. No code discovery was needed; graph MCP tools are not exposed in this session.
+
+[Unverified — needs clone run] Fresh PDDA and harness gate execution remain for the harness. No Git command, validate.sh, test suite, pytest, executable fixture or runtime render was run. Only this relay file was edited; no artifact was changed.
+
+Relay closed (Approved), no further review turn needed. Handing the completed token back with `done`; codex-producer may continue after the harness gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
