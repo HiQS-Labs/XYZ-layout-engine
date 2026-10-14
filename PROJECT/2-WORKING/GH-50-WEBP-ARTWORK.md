@@ -3,7 +3,7 @@ gh_issue: 50
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/50
 title: "Optional transparent WebP artwork; switch the belief-reference diagram to WebP"
 goal: "Let a trusted recipe opt into pinned transparent WebP artwork, and render the belief-reference diagram from WebP, without silently dropping artwork on the Satori PNG path."
-status: "Plan QA round 2"
+status: "Plan QA round 3"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Claude
@@ -26,7 +26,7 @@ non_goals:
 
 | What was just completed | What's next |
 |---|---|
-| Plan QA round 1 (Codex FAIL): B1 serializer allowlist, S1 negative controls, S2 rollback wording all accepted and folded in. | Plan QA round 2; then implement steps 1–7 below. |
+| Plan QA rounds 1-2 (Codex FAIL): B1 serializer allowlist, S1 negative controls, S2 rollback, B2 publication allowlists, S3 README commands accepted; full PNG-literal sweep done. | Plan QA round 3 (final); then implement steps 1–7 below. |
 
 ## Observed problem
 
@@ -91,7 +91,14 @@ R3. **HTML boundaries (two owners, extended together).** (a) The `toHtml` source
 `tools/render.mjs:111` accepts `data:image/webp;base64,…` and `assets/<sha256>.webp` in its existing
 anchored regex; this is the path `renderPlaywright` (`toDocument`, line 143) and both HTML exports use.
 (b) The compact-export extractor regex and extension map at `tools/render.mjs:352-355` gain
-`image/webp → webp`, so compact HTML writes `assets/<sha256>.webp`. External or other sources stay rejected.
+`image/webp → webp`, so compact HTML writes `assets/<sha256>.webp`. (c) The three existing publication
+asset-name checks admit `webp` in their extension alternatives, keeping every anchor, digest, file and
+containment check: `publishStaged` staged-asset check (`render.mjs:443`), `verifyPublication` manifest
+path check (`render.mjs:477`) and `publishArtifacts` artifact identity check (`render.mjs:495`).
+External or other sources stay rejected. A full sweep of PNG/SVG-only literals in `tools/render.mjs`,
+`tools/request.mjs` and `tools/profile.mjs` found these six render sites plus `profile.mjs:14`, whose
+asset-timing category also gains `webp` (profiling label only). The remaining `png` literals are the
+render output format itself (`render.png`, resvg/screenshot raster), which this issue does not change.
 
 R4. **Satori PNG refusal.** In `processRequest`'s Satori branch, when `raster` is true and the built
 scene contains a `data:image/webp` source, throw
@@ -110,8 +117,13 @@ Publish 6.0.0 through `node tools/catalog.mjs publish`; earlier versions' rows s
 R6. **Evidence and docs.** Render v6 into `renders-v6/` (Playwright `png,html,html-inline`; Satori
 `svg,html,html-inline`), write `verification-v6.json` in the v5 shape, add a "Version 6" section to the
 example README, update `SHA256SUMS`, and record a new catalog design pinned to `recursive-process@6.0.0`
-and `renders-v6/playwright/render.png`. Root README "Capabilities and Limits" gains one line on
-optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
+and `renders-v6/playwright/render.png`. Root README: the current recursive-process example
+(`README.md:61-64`) becomes `recursive-process@6.0.0` with WebP artwork and two commands, Playwright
+`png,html,html-inline` and Satori `svg,html,html-inline` (no single command can do both: Satori
+refuses WebP PNG and Playwright rejects SVG at `request.mjs:94`); the current-identity list at
+`README.md:77` names 6.0.0 and moves 5.0.0 to history; "Capabilities and Limits" gains one line on
+optional WebP artwork and the Satori PNG limit. Historical v3-v5 replay instructions in the example
+README stay tied to their source commits. `CHANGELOG.md` entry.
 
 ## Blast radius
 
@@ -130,7 +142,7 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
 
 1. R2 + R1 in `tools/request.mjs`. Verify: render nutrition and solar-system (Satori, `png,svg`) and
    compare digests against the same command on `ed56529`; they must match.
-2. R3 + R4 in `tools/render.mjs`.
+2. R3 (a)-(c) + R4 in `tools/render.mjs`; `webp` in the `tools/profile.mjs:14` asset category.
 3. R5 assets + provenance: convert six PNGs, record hashes, confirm each `.webp` passes `inspectWebp`
    and `node examples/2026-10-09-cell-division/inspect-alpha.mjs` reports `real_alpha: true`.
 4. R5 recipe + catalog declaration, bump to 6.0.0, `node tools/catalog.mjs publish recursive-process 6.0.0`,
@@ -144,7 +156,9 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
    assertions stay unchanged. No new `test()` block, file, dependency or budget change.
    Red controls (manual, recorded): (a) with R4 removed, the Satori PNG assertion fails; (b) with
    R3(a) removed, Playwright PNG fails `only embedded trusted images`; with R3(b) removed, compact
-   HTML fails `unsupported offline asset`; (c) a tampered `.webp` byte fails `webp digest mismatch`;
+   HTML fails `unsupported offline asset`; with each R3(c) allowance removed in turn, compact export
+   fails at that boundary (`invalid artifact identity/digest`, `unexpected staged asset`,
+   `invalid artifact path`); (c) a tampered `.webp` byte fails `webp digest mismatch`;
    (d) a plain lossy-no-alpha `VP8` file fails `requires transparent WebP`.
 6. R6 renders, evidence, docs, design record. Inspect the Playwright PNG at full size and a 420px
    thumbnail (AS-10): all six illustrations present, transparent edges, no halo against `#f5f3ec`.
@@ -155,7 +169,7 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
 | Requirement | Check |
 |---|---|
 | R1/R2 | Step 1 digests unchanged; step 5 controls (c) and (d); step 4 verify |
-| R3 | Playwright PNG renders; C1 `assertOfflineExport` on Satori and Playwright compact and inline HTML; control (b) |
+| R3 | Playwright PNG renders; both complete exports publish through the CLI and pass `verifyPublication`; C1 `assertOfflineExport` on Satori and Playwright compact and inline HTML; control (b) |
 | R4 | C1 Satori PNG rejection; control (a) |
 | R5 | catalog verify/show 6.0.0 lists six `.webp`; inspect-alpha `real_alpha: true` |
 | R6 | `verification-v6.json`, `shasum -a 256 -c SHA256SUMS`, AS-10 visual inspection |

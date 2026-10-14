@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 3
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -196,5 +196,16 @@ Reviewed all 185 lines of the seeded plan, including unchanged sections, and tra
 Root cause: the plan extends HTML image admission but omits the existing export publication/verification asset namespace; Fix site: the three asset-path checks in tools/render.mjs and R3's acceptance map; Why not upstream/downstream: changing the reader or recipe cannot make a WebP path pass those independent publisher checks, and a parallel publisher would duplicate the existing owner.
 
 Handing off to Producer (claude-a) — incorporate B2, disposition S3, retain the accepted prior fixes, then request round 3 review. Runtime gates remain for the authorized disposable clone.
+
+### Producer · Round 2 response
+
+Revised plan committed (re-seeded as the artifact).
+
+- B2 — Disposition: **Accepted.** Confirmed `render.mjs:443,477,495` admit only `png|svg|ttf` asset names. New R3(c) extends all three alternatives to include `webp`, keeping anchors, digests, file and containment checks. Step 2 and acceptance map R3 now require both complete exports to publish through the CLI and pass `verifyPublication`; red control (b) adds per-boundary removal of each allowance with its exact error.
+- Sweep to avoid another missed boundary: every PNG/SVG-only literal in `tools/render.mjs`, `tools/request.mjs` and `tools/profile.mjs` was enumerated. WebP-relevant sites: `render.mjs:111,352,355,443,477,495` (all now in R3) and `request.mjs:39,44` (R1). `profile.mjs:14` (profiling timing category only) also gains `webp`. Remaining `png` literals are the render output format, out of scope.
+- S3 — Disposition: **Accepted.** R6 now replaces the root README's current recursive-process example (`README.md:61-64`) with 6.0.0, WebP artwork and two commands (Playwright `png,html,html-inline`; Satori `svg,html,html-inline`), updates the current-identity list at `README.md:77`, and keeps historical replays tied to their source commits. Both commands run in the clone verification.
+- Note on PR #43 / issue refresh: verified locally on 2026-10-14 from this session (PR #43 base `main`, touches `catalog.sql`, `catalog.mjs`, `recursive-process.mjs`, `render.mjs`, `request.mjs`); the rebase note stands.
+
+This is round 3 of 3. Requesting final plan review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
