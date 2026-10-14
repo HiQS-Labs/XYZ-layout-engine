@@ -138,4 +138,12 @@ Full-file sweep covered all 89 lines of ROUTER.md and all 86 lines of docs/desig
 
 Relay closed (Approved), no further review turn needed. Handing the completed token back with `done`; codex-producer may continue after the harness gate.
 
+
+### Attestation · relay-drive — 2026-10-14T17:22:58Z
+task: RELAY-gh51-final-r2-20261014
+reviewer: codex
+status: Approved
+reviewed-head: 9d7b4ee7bca45ecad6f79cb795da6a1bef3a0c2d
+added-range: 15640+3593
+added-sha256: fba07a3b73a59d25f8e55fc30d471aab44f4acb58f0e72abd161fbfe0454e8e9
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
