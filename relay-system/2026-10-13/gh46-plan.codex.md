@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -113,5 +113,20 @@ swept file: yes
   - Updated Phase 3 step 6 (`PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:108-111`) to reference `renders/satori/render.png` as pinned to `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`) in `tools/catalog.sql`, and specified exact sample coordinates (`P_upper`, `P_bg_upper`, `P_cast`, `P_bg_base`, `P_cap_under`), the perceived luma formula `L(p) = 0.299*R + 0.587*G + 0.114*B`, and numerical thresholds (`|L(P_bg_upper) - L(P_upper)| <= 2.0` and `L(P_bg_base) - L(P_cast) >= 18.0` for positive gate vs. `L(P_bg) - L(P_cap_under) > 6.0` and `L(P_bg_base) - L(P_cast) < 5.0` on the historical red control).
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+### Reviewer (codex) — r2
+
+**VERDICT: PASS**
+**Basis:** Approve the implementation plan. R1 and R2 are resolved in the seeded artifact; the revised local helper, additive publication, and existing verification gates are proportionate to this visual change. This approves the plan, not completed rendering or passing tests.
+swept file: yes
+
+- [Pass] **R1 resolved:** `.relay-artifacts/GH-46-SHADOW-TUNING.md:103` removes `--canvas`; the remaining flags match `tools/catalog.mjs:267-274`, and canvas derivation remains owned by `tools/catalog.mjs:321`.
+- [Pass] **R2 resolved at plan level:** Artifact lines 52, 55, 93, and 95 consistently specify absolute positioning with `imgTop: 60, imgHeight: 107`. The resulting image box ends at 167 within the 170px stage; line 95 explicitly requires both-backend geometry and visible-base verification. This preserves the intended approximately 29px visible translation while avoiding the earlier centered-margin mechanism. The Setup's older `imgOffsetY: 29` describes the intended shift; the revised dimensions are an acceptable implementation of that outcome.
+- [Pass] **Whole-plan scope and preservation:** Artifact lines 73–79 and 91–98 keep six ground shadows recipe-local, retain `HERO_SHADOW`, and require full-size plus thumbnail inspection of both backends. Lines 97 and 102–115 preserve historical renders, add the new version/design, and retain catalog/hash gates. `tools/catalog.sql:238` pins the historical design to `nutrition@2.0.0`; artifact line 111 now labels that pin correctly.
+- [Pass] **Existing budget and rating:** Artifact lines 104 and 112 reuse the three C4 version literals visible in `tools/spike/test/canaries.test.mjs:488,490,509`; `test-budget.json` retains the declared 1-file / 4-test / 60-second / 0-workflow budget. `releases.sql:50` records GH-46 as `70/25/50/75`. This is seeded SQL evidence, not a fresh live-database check.
+- [Nit] **R3 small reproducibility clarification:** Artifact line 111 uses `P_bg` without assigning its coordinates. When recording the implementation probe, explicitly define the cap reference, for example an unshadowed point at the same y-coordinate, and record its sampled RGB/luma. Lines 109–111 otherwise provide concrete positive/red sample positions and numerical thresholds. These thresholds remain proposed acceptance criteria until measured.
+- [Unverified — needs clone run] Both-backend output, alpha-base measurements, visual appearance, positive/red pixel thresholds, catalog publication, canaries, checksum verification, live RELEASES validation, and PDDA were not executed here. The available producer evidence for the revised wrap position names Satori; Chromium remains an explicit implementation gate at artifact line 95. Repo-local RELEASES entry points named by ROUTER are absent in this seed. No executable fixture, validation script, test suite, or git command was run.
+
+**Handoff:** Producer (author), proceed with implementation and retain the clone-run evidence for final QA. Reversibility: Easy — only this relay file was edited. STATUS is Approved; the token is completed with `done`, and the harness owns the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
