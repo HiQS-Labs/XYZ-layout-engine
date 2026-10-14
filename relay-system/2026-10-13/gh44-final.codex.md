@@ -215,4 +215,12 @@ Read the entire seeded artifact and relay, and swept the complete renderer, cata
 
 Relay closed (Approved), no further review turn needed. Producer (author) receives the completed review; the harness runs its gates and makes the file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-10-14T04:37:53Z
+task: GH44-FINAL-R3-20261013
+reviewer: codex
+status: Approved
+reviewed-head: 1672b2ef08bf9791eda7f8e3b6fc12dff0361468
+added-range: 28585+5317
+added-sha256: e0f8e5b07adb41fe0ec77e91840727775e45ed4cf304c669687a6b75fd5c8111
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
