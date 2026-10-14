@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 3
 
@@ -154,5 +154,47 @@ Revised plan committed at `PROJECT/2-WORKING/GH-50-WEBP-ARTWORK.md` (re-seeded a
 - Nit — Disposition: **Accepted.** Malformed-body evidence attributed to committed-asset inspection (step 3) and C1's helper, not ordinary rendering; extractor line refs corrected to 352-355; PR #43 rebase note now lists canaries, README and CHANGELOG. Header-read bounding stated explicitly for `inspectWebp`.
 
 Requesting round 2 review.
+
+### Reviewer · Round 2
+
+VERDICT: FAIL
+Basis: Block implementation until the plan extends the existing publication allowlists as well as HTML serialization/extraction. Prior B1, S1 and S2 are addressed in the revised design; one additional end-to-end boundary remains missing.
+swept file: yes
+
+Reviewed all 185 lines of the seeded plan, including unchanged sections, and traced the named reader, recipe, HTML, catalog, publication and canary paths. The additional findings below are the remaining defects found in this sweep. Graph tools are unavailable in this session, so project/generation and index coverage could not be established; used direct source reads and targeted literal searches. Live issue #50 and PR #43 could not be refreshed: web fetch returned cache misses, and both `gh ... view ... --json ...` queries failed with `error connecting to api.github.com`. Requirement review uses this relay's supplied operator/issue contract; the current PR state is unverified. No Git command, test suite, executable fixture or validate.sh was run. Probe logs are scratch-only and decisive output is preserved below. Review-file edit reversibility: **Easy**.
+
+- **[Blocker] B2 — R3 stops before the three publication allowlists.** `.relay-artifacts/GH-50-WEBP-ARTWORK.md:90–94` admits and extracts WebP, but `runCLI` then calls `publishArtifacts` (`tools/render.mjs:528`), whose path check at line 495 refuses `assets/<sha256>.webp` with `invalid artifact identity/digest`. Adding WebP there alone still fails `publishStaged` at line 443 (`unexpected staged asset`), and publication verification independently refuses it at line 477 (`invalid artifact path`). Thus the planned compact exports in R6 and C1 cannot be delivered. Extend those three existing asset-extension alternatives to `png|svg|webp|ttf`, preserving the anchored paths, file checks, hashes, containment and budgets. Name these existing owners in R3/step 2; make the acceptance map require successful CLI publication and `verifyPublication` for both complete exports. Add a manual red control in the existing evidence location showing removal of each allowance fails at its own boundary; no new test block or publisher is needed.
+  Observed input: `assets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.webp` (the basename alone for staging) is a valid digest-shaped WebP name emitted by the planned extractor. A read-only probe evaluated the exact existing regexes extracted from `tools/render.mjs:443,477,495`; all rejected that input while accepting the otherwise identical PNG name. Command (exit **0**, output saved under `$TMPDIR/publication-allowlists.log`):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module > "$TMPDIR/publication-allowlists.log" <<'JS'
+  import { readFileSync } from "node:fs";
+  const source = readFileSync("tools/render.mjs", "utf8").split("\n");
+  const digest = "a".repeat(64);
+  for (const line of [443, 477, 495]) {
+    const pattern = source[line-1].match(/!\/(.*)\/\.test/)[1];
+    const re = new RegExp(pattern);
+    const png = line === 443 ? `${digest}.png` : `assets/${digest}.png`;
+    const webp = line === 443 ? `${digest}.webp` : `assets/${digest}.webp`;
+    console.log(`tools/render.mjs:${line} PNG=${re.test(png)} WebP=${re.test(webp)} input=${webp}`);
+  }
+  JS
+  ```
+  Decisive output: `tools/render.mjs:443 PNG=true WebP=false`, `tools/render.mjs:477 PNG=true WebP=false`, `tools/render.mjs:495 PNG=true WebP=false` (each line also printed the input above). This measures admission, independently of image decoding; complete export execution remains **[Unverified — needs clone run]**.
+  Affected scope: digest-named WebP assets in compact offline HTML exports, through artifact publication, staging and manifest verification; inline-only exports do not carry separate WebP asset names.
+  Falsifier: in the disposable clone, both backends' planned compact/inline exports publish and pass `verifyPublication`, existing PNG/SVG/font exports still pass, and wrong-digest or escaping paths remain rejected. If the unchanged three regexes already admit the exact WebP paths, this finding is unnecessary; the measured result is the opposite.
+
+- **[Should] S3 — R6 must update the current example command, not only add a limits sentence.** `.relay-artifacts/GH-50-WEBP-ARTWORK.md:113–114` specifies only a new root README capabilities line. `README.md:61–64` still presents the current diagram as v5/PNG and recommends `--format png,svg,html,html-inline` without a backend. Under R4 this whole command refuses. Replace the current example with explicit Playwright `png,html,html-inline` and Satori `svg,html,html-inline` commands and update its current artwork/version references (including the current identity at `README.md:77`). Keep historical replay instructions tied to their historical source commits.
+  Observed input: `node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --format png,svg,html,html-inline --out .relay-scratch/belief-reference` (`README.md:64`). A narrow normalization probe (exit **0**, `$TMPDIR/readme-request.log`) used `node --input-type=module` with `import { normalizeRequest } from "./tools/request.mjs"; const { normalized } = await normalizeRequest({ inputPath: "examples/2026-10-12-belief-reference/fixture.json", recipe: "recursive-process", format: "png,svg,html,html-inline" }); console.log(JSON.stringify({backend: normalized.backend, formats: normalized.formats, raster: normalized.formats.includes("png")}));`. Decisive output: `{"backend":"satori","formats":["png","svg","html","html-inline"],"raster":true}`. Its eventual R4 rejection is source-derived, **[Unverified — needs clone run]**.
+  Affected scope: the README's current recursive-process v6 rendering example; historical v3–v5 commands remain valid on their documented source commits.
+  Falsifier: run both replacement commands in the disposable clone and require successful exports. A single command that includes SVG and PNG cannot cover this split: Satori refuses WebP PNG by R4, and Playwright rejects SVG at `tools/request.mjs:94`.
+
+- **[Pass] Prior findings are addressed at plan level.** R3 now explicitly extends `toHtml` and the extractor together (`.relay-artifacts/GH-50-WEBP-ARTWORK.md:90–94`); step 5 preserves `rpReject`'s non-fit/glyph assertions by selecting SVG and separates the valid-fixture PNG refusal (lines 138–148). Rollback now keeps history and publishes restored PNG source under a fresh version (lines 61–69), matching `tools/catalog.mjs:237–249` and its retained-design verification at lines 219–222. These are design dispositions, not executed implementation passes.
+
+- **[Pass] The bounded MVP design remains appropriate.** R1/R2 retain the existing reader and budget/containment path, with no unrelated pinned-module rename (plan lines 73–88; `tools/request.mjs:31–46`, `tools/catalog.mjs:125–146`). The specified bounded RIFF/VP8X/VP8L header reads and separate decoded-alpha evidence fit the trusted committed-asset envelope; the header fields match the [container specification](https://developers.google.com/speed/webp/docs/riff_container) and [lossless specification](https://developers.google.com/speed/webp/docs/webp_lossless_bitstream_specification). The existing alpha inspector already recognizes both WebP header forms and decodes through Chromium (`examples/2026-10-09-cell-division/inspect-alpha.mjs`, `header`/`pixelStats`). R4's backend/raster condition (plan lines 96–100) avoids SVG/HTML-only refusal and the Playwright `raster:false` coverage call (`tools/render.mjs:211,241–249`). Major 6.0.0 follows the changed-artifact rule (`README.md:103–106`); the unchanged four-test/one-file budget and neutral-appeal/cheapness rationale remain coherent (plan lines 144,175–177; `test-budget.json`). Decode, digest parity, visual inspection, actual runtime ≤60s and all clone gates remain **[Unverified — needs clone run]**.
+
+Root cause: the plan extends HTML image admission but omits the existing export publication/verification asset namespace; Fix site: the three asset-path checks in tools/render.mjs and R3's acceptance map; Why not upstream/downstream: changing the reader or recipe cannot make a WebP path pass those independent publisher checks, and a parallel publisher would duplicate the existing owner.
+
+Handing off to Producer (claude-a) — incorporate B2, disposition S3, retain the accepted prior fixes, then request round 3 review. Runtime gates remain for the authorized disposable clone.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
