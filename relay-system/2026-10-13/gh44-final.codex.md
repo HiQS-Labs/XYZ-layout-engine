@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -184,5 +184,35 @@ Dispositions for Round 2 findings (`9bc6683`, `790a8cc`):
   - Updated `README.md:126-129` so `design-log rollback failed: ...; recovery required` is attributed specifically to when the log rollback attempt throws an error (`tools/catalog.mjs:364-367`), and separately noted that if a process crash or power loss interrupts between the two file renames (without a caught exception), the operator runs `node tools/catalog.mjs verify` and restores the affected file before retrying.
 
 Handing off to Reviewer (codex) — go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 3
+
+VERDICT: PASS
+Basis: R1's remaining benefit-label mismatches and the R2 recovery wording nit are resolved; R3's explicit reference-study exceptions remain documented. Current catalog and retained bundle integrity checks pass. No additional concrete pre-existing defect was established in the whole-file sweep. Approval closes this review; it does not substitute for the harness's subsequent executable gates.
+swept file: yes
+
+Read the entire seeded artifact and relay, and swept the complete renderer, catalog module, nutrition recipe, spike verifier and canary file, including their pre-existing code. Also reviewed the root README, current changelog entry, example guide/README, fixture, artwork specification, provenance, catalog/log identities, receipts and retained render evidence. Reversibility: Easy (relay-only verdict). Assumption: the accepted fixture remains the copy owner; tradeoff: accept the bounded read-only evidence while leaving runtime execution to the harness; failure mode: a clone-only regression remains undetected until that gate.
+
+- **[Pass] R1 resolved.** `examples/2026-10-13-nutrition-infographic/DESIGN.md:28` now lists `SUSTAINED ENERGY`, `SHARP FOCUS`, `STRONG IMMUNITY`, and `BETTER WELL-BEING`, matching `fixture.json:37`–`40`. The following read-only probe ran within the broader data inspection (exit 0):
+  ```sh
+  node --input-type=module <<'JS'
+  import fs from 'node:fs';
+  const p='examples/2026-10-13-nutrition-infographic/';
+  const f=JSON.parse(fs.readFileSync(p+'fixture.json'));
+  const d=fs.readFileSync(p+'DESIGN.md','utf8');
+  for(const b of f.sections.benefitsPanel) console.log(b.id,JSON.stringify(b.text),'documented='+d.includes('`'+b.text+'`'));
+  JS
+  ```
+  Decisive output: `benefit_1 "SUSTAINED ENERGY" documented=true`, `benefit_2 "SHARP FOCUS" documented=true`, `benefit_3 "STRONG IMMUNITY" documented=true`, `benefit_4 "BETTER WELL-BEING" documented=true`. All six named palette rows also match. `tools/recipes/nutrition.mjs:6` declares `2.0.2`; both retained `renders/{satori,playwright}/result.json` report `version: "2.0.2"`, `verified: true`, `fit: true`, `attempts: 1`, and content digest `5fed5caab914b46f7c06fcb362a0c8f954e096f8dff37d4482492766239b7070`. These are retained receipts, not fresh-render results.
+
+- **[Pass] R2 and R3 resolved.** `README.md:126`–`133` now distinguishes caught rollback failure from interruption between renames, consistent with `tools/catalog.mjs:356`–`367`. Inspection command `nl -ba README.md | sed -n '122,135p'` exited 0; decisive wording: `If that log rollback itself throws an error` and `without a caught exception`. No crash injection was run. The example `README.md:77`–`90` and DESIGN.md's `Deliberate taste exceptions` section explicitly retain ornaments, glowing-leaf metaphor and slogan copy as an `illustrative reference-reproduction study`.
+
+- **[Pass] Current publication integrity.** `node tools/catalog.mjs verify --json` returned `{"valid":true,"errors":[]}`; `node tools/catalog.mjs export --check` returned `{"canonical":true}` (both exit 0). `(cd examples/2026-10-13-nutrition-infographic && shasum -a 256 -c SHA256SUMS)` exited 0 with all 33 entries `OK`, including `DESIGN.md`, both retained result files and `verification.json`; evidence owner: `examples/2026-10-13-nutrition-infographic/SHA256SUMS`. In-memory catalog inspection found nutrition versions `1.0.0`, `2.0.0`, `2.0.1`, `2.0.2`, with the original design still pinned to `2.0.0`. This establishes present consistency, not historical before/after equality.
+
+- **[Pass] Retained visual review.** Inspected `examples/2026-10-13-nutrition-infographic/renders/satori/{render,thumbnail}.png` and `renders/playwright/{render,thumbnail}.png` at 1000×1000 and 420×420. The corrected benefit copy, uppercase condensed hierarchy, seven illustrations, cream gradient and grounding shadows are visible without obvious clipping. AS-1/AS-4 avoid uniform-card hierarchy; AS-2/AS-3/AS-6/AS-7 exceptions have explicit reference rationale. Read-only SVG inspection returned `{"shadows":7,"inline":0}` for `<feDropShadow` and `style="filter:drop-shadow(`, consistent with `tools/render.mjs:35`–`42`. No new image generation or rendering was performed.
+
+- **[Unverified — needs clone run]** Full canaries, fresh cross-recipe render equivalence, PDDA and RELEASES gates were not executed here. The seeded artifact's `Verification Evidence Recorded on Task Clone` remains Producer-reported evidence (4/4 canaries, 0 PDDA errors, protected-tree/historical-row equality and private archives). The five individually pinned protected-file hashes match the recorded baselines; full tree equality, historical immutability, private archive completeness and Git tracking were not independently re-established. The three retired filesystem paths are absent. Both local RELEASES startup entrypoints are absent (`ls utils/py/releases_app.py .xyz/utils/py/releases_app.py`, exit 1), so no roadmap query ran. The harness owns subsequent executable verification. No Git command, test suite, executable fixture, source edit or seeded-artifact edit was performed.
+
+Relay closed (Approved), no further review turn needed. Producer (author) receives the completed review; the harness runs its gates and makes the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
