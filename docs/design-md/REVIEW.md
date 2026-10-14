@@ -38,8 +38,10 @@ npx --yes --package=@google/design.md@0.4.0 designmd lint DESIGN.md
 ```
 
 Observed probes on 2026-10-14: prose-only input exits 0 with a no-YAML warning;
-duplicate `## Colors` exits 0 without a finding; a broken component reference
-exits 1. The [parser](https://github.com/google-labs-code/design.md/blob/9bf8eae67128b6cc55ad9bf86665767deb4c11cd/packages/cli/src/linter/parser/handler.ts)
+an adjacent duplicate `## Colors` in the minimal probe exits 0 without a finding.
+The later appended-duplicate sample control exits 0 with an order warning,
+but still does not reject the duplicate; a broken component reference exits 1.
+The [parser](https://github.com/google-labs-code/design.md/blob/9bf8eae67128b6cc55ad9bf86665767deb4c11cd/packages/cli/src/linter/parser/handler.ts)
 accepts YAML fences as well as frontmatter, while the document convention
 specifies frontmatter. The [section-order rule](https://github.com/google-labs-code/design.md/blob/9bf8eae67128b6cc55ad9bf86665767deb4c11cd/packages/cli/src/linter/linter/rules/section-order.ts)
 warns about order but does not reject repeated equal headings. Consequently,

@@ -24,7 +24,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 1. Read `ROUTER.md` to understand the repo's operating order and canonical files. -> expect one clear next file, not a repo-wide scavenger hunt.
 2. Read `GUIDING-PRINCIPLES.md` for the repo's north star. -> expect the goals and tradeoff lens that every design choice answers to.
 3. Read `AGENTS.md` before making recommendations or edits. -> expect explicit assumptions, a reversibility read on consequential changes, and verified claims only.
-4. Read `SYSTEM-INSTRUCTIONS.md` before creating or changing anything visual (recipes, diagrams, fixture copy or themes, image prompts). -> expect ten numbered rules (AS-1 to AS-10) that override recipe, skill and prompt defaults, and a required report.
+4. Read `SYSTEM-INSTRUCTIONS.md` before creating or changing anything visual (recipes, diagrams, fixture copy or themes, image prompts). -> expect the AS rules that override recipe, skill and prompt defaults, and a required report.
    Read `DESIGN.md` next when authoring a new design brief; it defines the format and optional lint check, not new renderer capabilities.
 5. Read `README.md` for the repo's purpose and baseline usage. -> expect a short explanation of what is canonical here.
 6. If the task is about the PDDA contract or enforcement model, read `PROJECT/PDDA.md`. -> expect the source of truth for lifecycle, roadmap, changelog, and enforcement rules.

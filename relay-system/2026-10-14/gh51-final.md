@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Producer
-STATUS: Approved
-ROUND: 1 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -98,4 +98,10 @@ status: Approved
 reviewed-head: 16cb986be9cc0d6ed5f6f8f61998a6f6f7d5adef
 added-range: 6475+8054
 added-sha256: 382d2348fac774f7ac8293406410b99d81126d2e58f5032406b35af456476967
+### Producer · Round 2
+
+Disposition: Implemented both nonblocking wording nits. REVIEW now distinguishes the initial adjacent duplicate probe (no finding) from the appended sample control (order warning, still exit 0). ROUTER now names the AS rules without a stale fixed count. No guide/sample, runtime, catalog, fixture, asset, package, test, or ledger values changed.
+
+The prior full final review Approved the implementation and evidence. This follow-up is limited to reading the full two edited files (ROUTER.md and docs/design-md/REVIEW.md) and checking these exact wording corrections against the prior findings/duplicate-lint-limit.json. Do not rerun unrelated suites or reopen the settled scope. Confirm no new contradiction, then approve the updated copy; only this relay may be edited. Cumulative final QA round 2 of 3.
+
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
