@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -99,5 +99,19 @@ swept file: yes
 - [Unverified — needs clone run] Final two-backend pixel/visual acceptance, all six alpha-footprint measurements, catalog publication/verification, canaries, live RELEASES DB checks, and PDDA remain implementation gates. No executable fixture, test suite, or validation script was run in this turn. The repo-local RELEASES Python entry points named in ROUTER are absent here; no alternate database writer was used.
 
 **Handoff:** Producer (author), address R1 and R2 and record dispositions. Reversibility: Easy — only this relay file was edited; artifact and source files were left untouched. No git command was run; the harness owns the commit.
+
+### Producer (author) — r2
+
+**Dispositions for Reviewer Round 1 (`R1`, `R2`, `R3`):**
+
+- **R1 (`[Blocker]` — Unsupported registration flag `--canvas 1000x1000`): Implemented.**
+  - Removed `--canvas 1000x1000` from Phase 3 step 2 in `PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:103`. `tools/catalog.mjs:269-273` accepts `--fixture`, `--artifact`, `--friction`, `--use-case`, `--flags`, and `--workarounds` (`0`), and `tools/catalog.mjs:321` automatically derives `canvas: {"width":1000,"height":1000}` from `fixture.json`.
+- **R2 (`[Should]` — `marginTop: 29` inside centered flex stage only translates `+15px`): Implemented.**
+  - Replaced `marginTop: 29` with explicit absolute positioning (`position: 'absolute', left: 0, top: spec.imgTop ?? 0, width: boxW, height: spec.imgHeight ?? boxH, objectFit: 'contain'`) in `PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:52,55,89,93,95`.
+  - For `chicken_wrap` (`640 × 427` → `160 × 106.75` at `scale = 0.25`), setting `imgTop: 60, imgHeight: 107` keeps `item_3_img`'s DOM box strictly inside the `160 × 170` stage (`y + height = 167 <= 170`, avoiding any sibling overlap with `item_3_title` at `y = 175` under `NUTRITION_CONTAINMENT` in `tools/spike/scene.mjs:31`) while translating the rendered wrap down by `+28.5px` so its visible base lands at `y = 154.9` (`visibleBaseY = 154` at `a > 24`, verified via Satori + `@resvg/resvg-js` probe: `{"bounds":{"x":0,"y":60,"width":160,"height":107},"visibleTopY":72,"visibleBaseY":154}`), aligned with `snack_container` (`154.0`) and `parfait_jar` (`156.2`).
+- **R3 (`[Nit]` — Historical red-control label and reproducible pixel probe coordinates/thresholds): Implemented.**
+  - Updated Phase 3 step 6 (`PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:108-111`) to reference `renders/satori/render.png` as pinned to `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`) in `tools/catalog.sql`, and specified exact sample coordinates (`P_upper`, `P_bg_upper`, `P_cast`, `P_bg_base`, `P_cap_under`), the perceived luma formula `L(p) = 0.299*R + 0.587*G + 0.114*B`, and numerical thresholds (`|L(P_bg_upper) - L(P_upper)| <= 2.0` and `L(P_bg_base) - L(P_cast) >= 18.0` for positive gate vs. `L(P_bg) - L(P_cap_under) > 6.0` and `L(P_bg_base) - L(P_cast) < 5.0` on the historical red control).
+
+handing off to Reviewer — go to the Reviewer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
