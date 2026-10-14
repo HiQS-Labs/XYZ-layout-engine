@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -61,5 +61,43 @@ ROUND: 1 / 3
   4. Are the `70/25/50/75` RELEASES rating and falsifiable pixel + catalog + canary checks (including the red control against `renders/satori/render.png`) sufficient?
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+### Reviewer (codex) — r1
+
+**VERDICT: FAIL**
+**Basis:** Block approval until the positioning recipe and design-registration command are corrected. The local helper approach is proportionate; no shared renderer change or new suite is warranted by this review.
+swept file: yes
+
+- [Blocker] **R1 — Unsupported registration flag.** `.relay-artifacts/GH-46-SHADOW-TUNING.md:103` includes `--canvas 1000x1000`. `tools/catalog.mjs:267-274` rejects that option as `unknown/missing option`; line 321 derives canvas dimensions from fixture data. **Fix:** remove `--canvas 1000x1000` from the planned command; retain the existing CLI.
+  Observed input: Phase 3 step 2's literal `catalog design add ... --canvas 1000x1000` command.
+  Affected scope: Registration of `2026-10-13-nutrition-shadow-tuning`; the command cannot reach the write operation.
+  Falsifier: The seeded parser accepts `canvas` as a design-add option. Its explicit whitelist currently does not.
+
+- [Should] **R2 — Margin does not implement the promised 29px translation.** The recon at artifact line 55 specifies `top: 29`, but Phase 2 at line 95 uses `marginTop: 29` inside a centered flex stage. A narrow Satori geometry probe measured `top: 15`, leaving the stated wrap base near 141.4 rather than 155.4. **Fix:** use an explicitly positioned cutout (`position: 'absolute', left: 0, top: spec.imgOffsetY ?? 0`) inside the fixed stage, or another measured full translation. Keep shadow placement independent and require both backend measurements of the resulting visible base during implementation.
+  Observed input: 160×170 centered flex stage, 160×170 child, `marginTop: 29`, as specified at artifact line 95.
+  Affected scope: `chicken_wrap` tabletop alignment and contact with its proposed shadow.
+  Falsifier: The exact planned centered layout produces a full 29px translation in both backends; the Satori geometry control below instead produces 15px.
+  Probe (exit 0; synthetic geometry only, no fixture execution or disk outputs):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module <<'JS'
+  import fs from 'node:fs';
+  globalThis.__dirname=process.cwd()+'/tools';
+  const {default:satori}=await import('satori');
+  for (const style of [{marginTop:29},{position:'absolute',top:29,left:0}]) {
+    const boxes=[];
+    await satori({type:'div',props:{style:{position:'relative',display:'flex',alignItems:'center',justifyContent:'center',width:160,height:170},children:{type:'div',props:{id:'cutout',style:{width:160,height:170,backgroundColor:'red',...style}}}}},{width:160,height:170,fonts:[{name:'Inter',data:fs.readFileSync('tools/spike/assets/font.ttf'),weight:400}],onNodeDetected:n=>{if(n.props?.id==='cutout') boxes.push(n)}});
+    console.log(JSON.stringify({style,boxes}));
+  }
+  JS
+  ```
+  Decisive output: margin case `{"left":0,"top":15,"width":160,"height":170}`; absolute case `{"left":0,"top":29,"width":160,"height":170}`. Earlier exploratory invocations exited 1 before measurement (missing Satori runtime setup / incorrect font path); only the corrected invocation above supports the finding.
+
+- [Nit] **R3 — Correct the historical red-control label.** Artifact line 108 calls `renders/satori/render.png` `nutrition@2.0.2`, while its own line 60 and the Definition of Done pin the preserved design to `nutrition@2.0.0`. Use the historical pin consistently. Specify upper-side sample coordinates/masks, background-reference method, and numerical tolerance when recording the pixel probe, so its positive and red results can be repeated.
+- [Pass] **Scope and export seam:** Artifact lines 73–75 keep the implementation recipe-local, preserve the hero glow, and forbid new dependencies/test files. `tools/render.mjs:98-117` admits SVG image data URIs, and lines 350–360 extract them into compact HTML assets. This supports the selected transport without a renderer rewrite; it is not proof of final rendered appearance.
+- [Pass] **History and budget plan:** Artifact lines 97 and 111 preserve the old renders/catalog rows and add `renders-v3`; `tools/catalog.mjs:218-224` checks historical design file hashes. Artifact lines 104 and 109 reuse C4 and the existing four-canary budget; `test-budget.json` declares 1 file / 4 tests / 60 seconds / 0 workflows. The GH-46 rating is present as `70/25/50/75` in the seeded `releases.sql:50`.
+- [Unverified — needs clone run] Final two-backend pixel/visual acceptance, all six alpha-footprint measurements, catalog publication/verification, canaries, live RELEASES DB checks, and PDDA remain implementation gates. No executable fixture, test suite, or validation script was run in this turn. The repo-local RELEASES Python entry points named in ROUTER are absent here; no alternate database writer was used.
+
+**Handoff:** Producer (author), address R1 and R2 and record dispositions. Reversibility: Easy — only this relay file was edited; artifact and source files were left untouched. No git command was run; the harness owns the commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
