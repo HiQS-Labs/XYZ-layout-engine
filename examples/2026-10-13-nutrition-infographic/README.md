@@ -1,6 +1,6 @@
-# Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.0`)
+# Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.1`)
 
-Current recipe: `nutrition@2.0.0`, governed by [DESIGN.md](DESIGN.md).
+Current recipe: `nutrition@2.0.1` (patch-updated from `nutrition@2.0.0` with identical rendered outputs), governed by [DESIGN.md](DESIGN.md).
 Open the [backend comparison gallery](index.html), [Satori HTML](renders/satori/render-inline.html),
 [Chromium HTML](renders/playwright/render-inline.html), [Satori PNG](renders/satori/render.png),
 [Chromium PNG](renders/playwright/render.png), or [Satori SVG](renders/satori/render.svg).
@@ -10,7 +10,7 @@ Open the [backend comparison gallery](index.html), [Satori HTML](renders/satori/
 This example converts the reference poster (`PROJECT/2-WORKING/layout-engine-reference.png`)
 into a self-contained example bundle under `examples/2026-10-13-nutrition-infographic/`
 paired with a dedicated [DESIGN.md](DESIGN.md) style guide and art direction contract
-implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs) (`nutrition@2.0.0`):
+implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs) (`nutrition@2.0.1`):
 
 1. **Bundled `Barlow Condensed` with ALL CAPS headlines:**
    - Loads `BarlowCondensed-Regular.ttf` (`400`) and `BarlowCondensed-Bold.ttf` (`700`)
@@ -23,7 +23,7 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
 2. **Radial-gradient cream canvas:**
    - The `1000 × 1000` `#canvas` root uses
      `backgroundImage: 'radial-gradient(circle at 50% 44%, #fffef8 0%, #f7f3e3 58%, #ede6cf 100%)'`
-     with fallback `backgroundColor: '#f7f3e3'`, creating a warm luminous center
+     with fallback `backgroundColor: '#fbfaf3'` (`theme.background`), creating a warm luminous center
      behind the glowing leaf hero that deepens softly toward the outer edges.
 3. **Seven `gpt-image-2.5-flare` transparent PNG illustrations with per-PNG drop shadows:**
    - Pinned via `readPinnedPngs` from `examples/2026-10-13-nutrition-infographic/provenance.json`
@@ -61,17 +61,35 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
 - **AS-1, AS-4 (Reference-governed composition):** Preserves the 3-tier asymmetric
   poster grid (`1000 × 1000`) from the reference diagram rather than flattening into
   uniform cards.
-- **AS-2, AS-3 (Recorded operator exceptions):** The radial canvas gradient,
-  rounded sage benefits card (`borderRadius: 16`), pill footer (`borderRadius: 999`),
-  and per-PNG drop shadows (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))` and
+- **AS-2 (Gradients, glow & drop shadows — recorded exception):** The radial canvas
+  gradient (`#fffef8` → `#f7f3e3` → `#ede6cf`), the luminous halo/sparkles inside
+  `leaf_glow.png`, and the engine-applied per-PNG drop shadows
+  (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))` and
   `drop-shadow(0px 6px 8px rgba(242,228,150,0.45))`) are explicitly requested by
-  the operator and recorded in [DESIGN.md](DESIGN.md).
-- **AS-5 (Single owner for layout & styling):** `fixture.json` owns copy and palette
-  tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.0`) owns the fixed geometry,
-  `Barlow Condensed` uppercase typography, gradient, and drop-shadow contract.
-- **AS-6, AS-7 (Honest framing & vector vs. raster split):** Monochrome badges and
-  ornaments stay crisp SVG vectors; only the 7 complex food/botanical subjects use
-  `gpt-image-2.5-flare` transparent PNGs.
+  the operator and reference poster and recorded in [DESIGN.md](DESIGN.md).
+- **AS-3 (Containers & borders — recorded exception):** The bordered sage
+  `benefitsPanel` (`borderRadius: 16`, `2px solid #b9d79b`) and full-width pill
+  `footer` (`borderRadius: 999`) are retained to reproduce the reference poster's
+  lower-right benefits summary card and closing banner.
+- **AS-5 (Single owner for layout & styling):** `fixture.json` owns copy, asset IDs,
+  and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.1`) owns the
+  fixed geometry, `Barlow Condensed` uppercase typography, gradient, and drop-shadow
+  contract.
+- **AS-6 (Ornament & visual metaphor — recorded reference exception):** The flanking
+  header/footer leaf (`ornamentId: "leaf_small"`) and heart (`endIconId: "heart"`)
+  SVG ornaments and the central glowing leaf metaphor (`leaf_glow`) are retained
+  as a reference-reproduction exception to match
+  `PROJECT/2-WORKING/layout-engine-reference.png`. Small monochrome benefit badges
+  (`icon_energy`, `icon_focus`, `icon_immunity`, `icon_wellbeing`) and ornaments
+  stay crisp SVG vectors rather than raster PNGs.
+- **AS-7 (Reference slogan copy & illustrative study framing — recorded exception):**
+  `SYSTEM-INSTRUCTIONS.md` AS-7 cites `"Fuel well. Live well."` as an example of
+  slogan copy that should normally be rewritten into specific claims. Here,
+  `"FUEL WELL. LIVE WELL."` and the closing banner (`"GOOD FUEL. EVERY DAY. EVERY WHERE."`
+  / `"Small choices. Big impact."`) are retained verbatim because `fixture.json`
+  reproduces the canonical spike reference poster (`PROJECT/2-WORKING/layout-engine-reference.png`
+  / `tools/spike/fixture.json`). This bundle is an illustrative reference-reproduction
+  study, not a clinical nutrition claim.
 - **AS-8, AS-9 (Cohesive illustration family):** All 7 PNG assets share warm natural
   food-illustration lighting and transparent backgrounds recorded in [ASSETS.md](ASSETS.md)
   and [provenance.json](provenance.json).
@@ -85,7 +103,7 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
 
 ## Verification & Replay
 
-Both complete backend exports passed validation, catalog verification (`nutrition@2.0.0`),
+Both complete backend exports passed validation, catalog verification (`nutrition@2.0.1`),
 first-attempt text fitting (`attempts: 1`, `iterations: 0`), and publication digest
 checks; see [verification.json](verification.json) and [SHA256SUMS](SHA256SUMS).
 

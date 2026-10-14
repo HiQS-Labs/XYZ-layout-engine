@@ -40,7 +40,7 @@ Run these commands from the repository root. Dependency installation may use the
 
 ### Delivered Examples and Design Contracts
 
-- **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.0`)**:
+- **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.1`)**:
   [Example bundle](examples/2026-10-13-nutrition-infographic/README.md), [preview gallery](examples/2026-10-13-nutrition-infographic/index.html), and [DESIGN.md style guide](examples/2026-10-13-nutrition-infographic/DESIGN.md). Renders a `1000×1000` infographic with bundled `Barlow Condensed` ALL CAPS headlines, a radial-gradient cream canvas (`#fffef8` → `#f7f3e3` → `#ede6cf`), seven `gpt-image-2.5-flare` transparent PNG illustrations with engine-applied per-PNG drop shadows across both Satori + resvg and Chromium, and crisp vector SVG benefit badges.
   ```sh
   node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json --recipe nutrition --format png,svg,html,html-inline --out .relay-scratch/nutrition-infographic
@@ -60,10 +60,10 @@ Run these commands from the repository root. Dependency installation may use the
 ## Local Recipe Catalog
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@2.0.0`,
+in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@2.0.1`,
 `solar-system@1.0.1`, and `recursive-process@5.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
-Older versions (`nutrition@1.0.0`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`4.0.0`) remain ledger history; their content is retained in git.
+Older versions (`nutrition@1.0.0`, `nutrition@2.0.0`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`4.0.0`) remain ledger history; their content is retained in git.
 
 Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
 
@@ -72,7 +72,7 @@ Run from the repository root on Node with built-in `node:sqlite` available (veri
 | `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
 | `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
 | `node tools/catalog.mjs show solar-system` | Look up Solar System by slug | 0 |
-| `node tools/catalog.mjs publish nutrition 2.0.0` | Unchanged publication succeeds as a no-op | 0 |
+| `node tools/catalog.mjs publish nutrition 2.0.1` | Unchanged publication succeeds as a no-op | 0 |
 | `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
 | `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
 
@@ -102,7 +102,7 @@ aliases/renames and semver range resolution are deferred.
 Designs are insert-only records in the same catalog, identified by `YYYY-MM-DD-slug`.
 An edit forks a new design ID; there is no design update or delete command. Each record hashes
 the fixture JSON and PNG artifact and optionally pins a published use case as `slug@semver`.
-Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned to `nutrition@2.0.0`, and Belief Updating designs are pinned across `recursive-process@1.0.0`..`5.0.0`; RAG and cell-division have a null use case
+Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic (`2026-10-13-nutrition-infographic`) is pinned to `nutrition@2.0.0` (with `nutrition@2.0.1` as the current documentation-aligned patch version), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`5.0.0`; RAG and cell-division have a null use case
 because they are hand-built scripts with no recipe.
 
 | Command | Successful result | Exit |
@@ -123,9 +123,13 @@ and `--flags` with a comma-separated list from `needed_row_span,non_grid_family,
 per design added through the CLI. Review it after every 10 designs or the first
 `needed_row_span`, `non_grid_family` or `needed_span_over_9` flag.
 
-The dump and the log are two separate file writes (dump first, then the log line), not one
-transaction. If the log append fails, run `node tools/catalog.mjs verify`, restore the affected dump or
-log from version control, and retry; a repeated `design add` refuses an ID the dump already holds.
+`design add` writes `tools/design-log.jsonl` first via an atomic temp-file rename and then
+atomically replaces `tools/catalog.sql`. On an ordinary `catalog.sql` write failure, `catalog.mjs`
+automatically restores the prior `design-log.jsonl` bytes (or unlinks the file if it did not
+previously exist) so the failed `design add` leaves both files unchanged and can be retried
+directly. If that log rollback itself fails (or a process crash / power loss interrupts between
+the two renames), `catalog.mjs` reports `design-log rollback failed: ...; recovery required`; run
+`node tools/catalog.mjs verify` and restore the affected file before retrying.
 A malformed design row (for example an invalid ID or an unpublished pin) makes the whole catalog fail
 to load, so recipe receipts then report `verified: false`; only design errors that `verify` returns
 for a structurally loadable catalog are isolated from recipe verification.
@@ -150,7 +154,7 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
   - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. Other dimensions and scale are explicitly rejected.
-  - A recipe may declare its own vendored font (`FONT` export); `nutrition@2.0.0` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
+  - A recipe may declare its own vendored font (`FONT` export); `nutrition@2.0.1` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the pinned Latin fonts (`Inter` and `Barlow Condensed`) and are rejected during preflight unless a covering fallback font is explicitly pinned.

@@ -1,11 +1,12 @@
-# Nutrition for Energy & Focus — DESIGN.md Style Guide & Art Direction
+# Fuel Well. Live Well. — DESIGN.md Style Guide & Art Direction
 
 This document is the canonical art-direction and layout style guide for the
-`nutrition@2.0.0` recipe (`tools/recipes/nutrition.mjs`) and the
+`nutrition@2.0.1` recipe (`tools/recipes/nutrition.mjs`, patch-updated from
+`nutrition@2.0.0` with identical rendered outputs) and the
 `examples/2026-10-13-nutrition-infographic/` example bundle. It governs how the
 engine reproduces the operator's supplied nutrition reference composition
 (`PROJECT/2-WORKING/layout-engine-reference.png`) while preserving `nutrition@1.0.0`
-(`tools/spike/**`) as immutable historical spike evidence.
+(`tools/spike/**`) and `nutrition@2.0.0` as immutable catalog history.
 
 ## 1. Reader and visual hierarchy
 
@@ -13,17 +14,21 @@ Reader: an everyday reader scanning a single-page poster on how balanced meals,
 steady blood sugar, and hydration support daily energy and focus.
 
 1. **Primary focal point (Hero + Header):** The central radiant green leaf
-   (`leaf_glow`) and the bold condensed all-caps headline (`NUTRITION FOR ENERGY & FOCUS`)
-   anchor the upper half of the 1000 × 1000 canvas.
+   (`leaf_glow`) and the bold condensed all-caps headline (`FUEL WELL. LIVE WELL.`)
+   with subtitle (`Optimized Nutrition. Sustained Energy.`) anchor the upper half
+   of the 1000 × 1000 canvas.
 2. **Secondary callouts (Flanking columns):** Two illustrated callouts
-   (`balance_scale` — *Power of Balanced Meals*; `skip_spike` — *Skip the Sugar Spike*)
+   (`balance_scale` — `BALANCED NUTRITION`: *The right fuel for your body and mind.*;
+   `skip_spike` — `SKIP THE SPIKE`: *Avoid sugary drinks and processed snacks.*)
    flank the central leaf with symmetric 300 px column budgets.
 3. **Tertiary actionable row (Lower deck):** Four captioned meal/hydration items
-   (`parfait_jar`, `snack_container`, `chicken_wrap`, `water_bottle`) sit on the
-   lower-left alongside a bordered vertical benefits card (`benefitsPanel`) on
-   the lower-right.
+   (`parfait_jar` — `NUTRITIOUS`, `snack_container` — `PORTABLE`,
+   `chicken_wrap` — `CONVENIENT`, `water_bottle` — `HYDRATED`) sit on the
+   lower-left alongside a bordered vertical benefits card (`benefitsPanel`:
+   `INCREASED ENERGY`, `SHARPER FOCUS`, `STRONGER IMMUNITY`, `BETTER WELL-BEING`)
+   on the lower-right.
 4. **Closing anchor (Footer banner):** A full-width rounded pill banner summarizes
-   the takeaway (*NOURISH TO FLOURISH* | *Eat Well, Live Vibrantly!*).
+   the takeaway (`GOOD FUEL. EVERY DAY. EVERY WHERE.` | `Small choices. Big impact.`).
 
 ## 2. Typography contract (`Barlow Condensed` + ALL CAPS headlines)
 
@@ -51,17 +56,19 @@ bundled starter typeface (`tools/fonts/barlow-condensed/`, SIL Open Font License
 ## 3. Canvas gradient & palette
 
 The 1000 × 1000 canvas uses a warm botanical cream-to-sage radial gradient that
-illuminates the central leaf and grounds the surrounding food illustrations:
+illuminates the central leaf and grounds the surrounding food illustrations. The
+delivered `fixture.json` theme and recipe canvas tokens are:
 
 | Token | Value | Role |
 |---|---|---|
-| `canvas.backgroundColor` | `#f7f3e3` | Solid fallback color |
+| `canvas.backgroundColor` (`theme.background`) | `#fbfaf3` | Solid fallback color from `fixture.json` |
 | `canvas.backgroundImage` | `radial-gradient(circle at 50% 44%, #fffef8 0%, #f7f3e3 58%, #ede6cf 100%)` | Warm ivory highlight behind the central leaf transitioning to soft sage-cream edges |
-| `palette.primary` | `#2e5a27` | Deep forest green for all-caps headlines, titles, and benefit labels |
+| `palette.primary` | `#2f5d27` | Deep forest green for all-caps headlines, titles, and benefit labels |
+| `palette.secondary` | `#7fb04a` | Botanical leaf green secondary token |
 | `palette.text` | `#1f2a1c` | Charcoal-forest body copy |
-| `palette.muted` | `#4a5d43` | Muted botanical olive for captions and supporting descriptions |
-| `palette.panelFill` | `#eef2e2` | Soft sage card fill for `benefitsPanel` and `footer` |
-| `palette.panelBorder` | `#6d9f58` | Crisp leaf-green border (`2px solid`) for `benefitsPanel` and `footer` |
+| `palette.muted` | `#3d4639` | Muted botanical olive for captions and supporting descriptions |
+| `palette.panelFill` | `#f4f8ea` | Soft sage card fill for `benefitsPanel` and `footer` |
+| `palette.panelBorder` | `#b9d79b` | Crisp leaf-green border (`2px solid`) for `benefitsPanel` and `footer` |
 
 ## 4. Per-PNG drop shadow & illustration architecture
 
@@ -114,17 +121,39 @@ from `tools/spike/assets/illustrations.svg` without raster drop shadows.
 
 ## 5. Deliberate taste exceptions (`SYSTEM-INSTRUCTIONS.md` AS-1..AS-10)
 
-Per `SYSTEM-INSTRUCTIONS.md`, the following operator-directed exceptions are
-recorded for this reference-driven infographic:
+Per `SYSTEM-INSTRUCTIONS.md`, this bundle is an illustrative reference-reproduction
+study of `PROJECT/2-WORKING/layout-engine-reference.png` (`tools/spike/fixture.json`),
+and the following reference-driven and operator-directed exceptions are explicitly
+recorded:
 
-- **AS-2 (Gradients & rounded containers):** The radial canvas gradient
-  (`#fffef8` → `#f7f3e3` → `#ede6cf`), rounded benefits card (`borderRadius: 16`),
-  and pill footer (`borderRadius: 999`) are explicitly requested by the operator
-  and reference poster.
-- **AS-3 (Drop shadows):** The per-PNG `drop-shadow(0px 8px 6px rgba(31,42,28,0.22))`
-  on each of the 7 transparent PNG illustrations is explicitly requested by the
-  operator to ground the cutout illustrations against the gradient background.
-- **AS-5 (Separation of content, layout, and styling):** `fixture.json` owns copy
-  and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.0`) owns the
-  fixed 1000 × 1000 layout geometry, gradient, `Barlow Condensed` uppercase
-  typography, and per-PNG drop shadow contract defined in this `DESIGN.md`.
+- **AS-2 (Gradients, glow & drop shadows):** `SYSTEM-INSTRUCTIONS.md` AS-2 prohibits
+  decorative gradients, glows, and drop shadows by default. Here, the radial canvas
+  gradient (`#fffef8` → `#f7f3e3` → `#ede6cf`), the luminous halo/sparkles inside
+  `leaf_glow.png`, and the engine-applied per-PNG drop shadows
+  (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))` on the six grounded illustrations
+  and `drop-shadow(0px 6px 8px rgba(242,228,150,0.45))` on `leaf_glow`) are explicitly
+  directed by the operator and reference poster.
+- **AS-3 (Containers & borders):** `SYSTEM-INSTRUCTIONS.md` AS-3 avoids default
+  rounded cards unless grouping adds meaning. The bordered sage `benefitsPanel` card
+  (`borderRadius: 16`, `2px solid #b9d79b`) and full-width pill `footer`
+  (`borderRadius: 999`) are retained to reproduce the reference poster's lower-right
+  benefits group and closing banner.
+- **AS-5 (Separation of content, layout, and styling):** `fixture.json` owns copy,
+  asset IDs, and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.1`)
+  owns the fixed 1000 × 1000 layout geometry, gradient, `Barlow Condensed` uppercase
+  typography, and per-PNG drop-shadow contract defined in this `DESIGN.md`.
+- **AS-6 (Ornament & visual metaphor):** `SYSTEM-INSTRUCTIONS.md` AS-6 prohibits
+  unrequested decorative clip-art and sparkles. The flanking header/footer leaf
+  (`ornamentId: "leaf_small"`) and heart (`endIconId: "heart"`) SVG ornaments and the
+  central glowing leaf metaphor (`leaf_glow`) are retained as a reference-reproduction
+  exception to match `PROJECT/2-WORKING/layout-engine-reference.png`. Small monochrome
+  benefit badges (`icon_energy`, `icon_focus`, `icon_immunity`, `icon_wellbeing`) and
+  ornaments remain crisp vector SVGs rather than raster images.
+- **AS-7 (Reference slogan copy & illustrative study framing):** `SYSTEM-INSTRUCTIONS.md`
+  AS-7 explicitly flags `"Fuel well. Live well."` as an example of slogan copy that
+  should normally be rewritten into concrete claims. This bundle retains
+  `"FUEL WELL. LIVE WELL."` and the closing banner (`"GOOD FUEL. EVERY DAY. EVERY WHERE."`
+  / `"Small choices. Big impact."`) verbatim as a reference-reproduction exception
+  because `fixture.json` is the canonical reproduction of the supplied reference
+  poster (`PROJECT/2-WORKING/layout-engine-reference.png` / `tools/spike/fixture.json`).
+  The infographic is an illustrative design and layout study, not a clinical nutrition claim.

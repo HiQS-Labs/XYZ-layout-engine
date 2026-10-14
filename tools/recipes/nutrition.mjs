@@ -3,7 +3,7 @@ import { NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT, DEFAULT_SIZES as SPIKE_DEFAU
 import { resolveIllustration } from '../spike/assets.mjs';
 import { invalid, LIMITS, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
-export const version = '2.0.0';
+export const version = '2.0.1';
 export const name = 'nutrition';
 export const FONT = {
   family: 'Barlow Condensed',
