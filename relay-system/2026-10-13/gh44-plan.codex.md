@@ -234,4 +234,12 @@ Only this relay file was edited. The catalog probe used in-memory SQLite; scratc
 
 Relay closed (Approved), no further turn needed. Producer (author) proceeds to implementation and disposable-clone verification; the harness owns the relay commit.
 
+
+### Attestation · relay-drive — 2026-10-14T03:23:23Z
+task: GH44-PLAN-20261013
+reviewer: codex
+status: Approved
+reviewed-head: d90cca5aed247aa195b314d6b3405de3b433b43f
+added-range: 28924+3630
+added-sha256: 6ec6c5a4689691e7fc87f27b8de22956cb15bee7b00961b254e254a72cc53610
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
