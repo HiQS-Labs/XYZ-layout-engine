@@ -3,7 +3,7 @@ gh_issue: 48
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/48
 title: "Global default proportional type scale rules (% of S) and nutrition@4.0.0 typography overhaul"
 goal: "Codify the 10 proportional type scale rules (% of S, where S = min(width, height)) in SYSTEM-INSTRUCTIONS.md (AS-5 and AS-12) as the repository-wide default for all sessions, and upgrade tools/recipes/nutrition.mjs to nutrition@4.0.0 and examples/2026-10-13-nutrition-infographic/ (DESIGN.md, renders-v4/, verification-v4.json) so the 1000x1000 Fuel Well. Live Well. infographic satisfies every proportional type scale, 4-size ceiling, >=4:1 hierarchy, hero-vs-headline cap-height balance, 50-85% headline width, >=70% icon-label ratio, and 1/3-scale mobile legibility invariant across Satori+resvg and Chromium."
-status: "In Progress — Final QA Changes Requested"
+status: "In Progress — Final QA Approved; Harness Gate Pending"
 created: 2026-10-13
 updated: 2026-10-14
 owner: Antigravity
@@ -21,7 +21,7 @@ reversibility: "Easy — nutrition@1.0.0..3.0.0 and designs 2026-10-13-nutrition
 
 | What was just completed | What's next |
 |---|---|
-| Implementation submitted; Codex final QA verified retained artifact/catalog hashes and receipt assertions, then requested evidence and export-retention corrections. | Resolve final-review R1/R2 in relay-system/2026-10-13/gh48-final.codex.md; reconcile final evidence and return for review. |
+| Codex Final QA Round 2 approved: R1/R2 closed after focused alpha-scan, receipt, checksum, preview-hash and visual checks. | Author/harness runs the gate and creates its scoped commit, then continues branch/PR preparation. |
 
 ## Task Rating & Recurrence Rationale
 
@@ -165,29 +165,113 @@ reversibility: "Easy — nutrition@1.0.0..3.0.0 and designs 2026-10-13-nutrition
   - `use_case`: `"nutrition"`, `use_case_version`: `"4.0.0"`
   - `fixture_path`: `"examples/2026-10-13-nutrition-infographic/fixture.json"` (`81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95`)
   - `artifact_path`: `"examples/2026-10-13-nutrition-infographic/renders-v4/playwright/render.png"` (`8de9c4b63999f103147decb6219774a89606e2e0b0d1ce42cca0216b5cb25ded`)
-- **Final Export Digests (`examples/2026-10-13-nutrition-infographic/verification-v4.json`):**
+- **Export Retention Contract & Final Digests (`examples/2026-10-13-nutrition-infographic/verification-v4.json`, `SHA256SUMS`):**
+  - `renders-v4/satori/` and `renders-v4/playwright/` retain **selected standalone display artifacts** (`render.png`, `render.svg` for Satori, `render-inline.html`, `result.json`, and `500 × 500` `thumbnail.png`) plus `export-manifest.json` as **publication provenance** from `runs/<id>/manifest.json`. Compact `render.html` and its 21 copied `assets/*` files were generated and verified during publication (`digests.html`) but are not retained in the flattened example directory (`renders-v4/<backend>/` is not a reusable `verifyPublication` export root).
   - **Satori (`renders-v4/satori/`, `backend: "0.36.0"`, `catalog.verified: true`, `fit: true`, `attempts: 1`, `iterations: 0`, `unresolved: []`):**
-    - `render.png`: `170ce11d1ef7e52dd9b2071eb998a4a69065a0b3c1b027b1941278bf75e2e0b9`
-    - `render.svg`: `0ba7d8fd9598d736e61deef2fd99f776c218d54c8559cf974c25e6f4bd2815d2`
-    - `render.html`: `109234fd2158d274c31288db85499a0ff07a8559a971e12fc754695c1db88504`
-    - `render-inline.html`: `8cc0b636044abdb773a3519eb111a9cb515a83709c2b21ca160f376b0dd3de28`
+    - `render.png` (retained): `588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504`
+    - `render.svg` (retained): `ec2a3a243c32044bd0c954cc769aee4fcf7b6cc8ece29ca860b3c8f13e4c66c0`
+    - `render.html` (generated during publication, not retained): `e26333d2902d9f2709240963db6ecd2e3ec7d668d8cf9d82dc7be19fc6e142b1`
+    - `render-inline.html` (retained): `cbce7f4090975e68bbfd71ac3a7878d480d6dfd6339409945e047879cabe2b2c`
+    - `thumbnail.png` (`500 × 500`, retained): `a2f7a716ab229f44747875cae390ec56fd97fcf19732524c4d73b1744677266e`
   - **Chromium / Playwright (`renders-v4/playwright/`, `backend: "1.64.0"`, `catalog.verified: true`, `fit: true`, `attempts: 1`, `iterations: 0`, `unresolved: []`):**
-    - `render.png`: `8de9c4b63999f103147decb6219774a89606e2e0b0d1ce42cca0216b5cb25ded`
-    - `render.html`: `109234fd2158d274c31288db85499a0ff07a8559a971e12fc754695c1db88504`
-    - `render-inline.html`: `8cc0b636044abdb773a3519eb111a9cb515a83709c2b21ca160f376b0dd3de28`
+    - `render.png` (retained): `8de9c4b63999f103147decb6219774a89606e2e0b0d1ce42cca0216b5cb25ded`
+    - `render.html` (generated during publication, not retained): `e26333d2902d9f2709240963db6ecd2e3ec7d668d8cf9d82dc7be19fc6e142b1`
+    - `render-inline.html` (retained): `cbce7f4090975e68bbfd71ac3a7878d480d6dfd6339409945e047879cabe2b2c`
+    - `thumbnail.png` (`500 × 500`, retained): `4d42ccd3127d62c17d15e5ca9b5a41555691328593395a3dd7e47da9f5494fac`
 - **All 10 `AS-12` Rules Verified on `S = 1000px` (`verification-v4.json`):**
-  1. **Rule 1 (`1/3` scale legibility):** Visually inspected native `333 × 333` (`33.3%`) and `400 × 400` (`40%` phone width) renders for both Satori and Chromium alongside `500 × 500` thumbnails and full `1000 × 1000` PNGs; every caption is legible without zooming and free of single-word orphan lines (`callout_1..2_text` `maxWidth: 185`).
+  1. **Rule 1 (`1/3` scale legibility):** Generated and visually inspected native `333 × 333` (`33.3%`, `.relay-scratch/v4-preview/satori-333.png` `b679115230f4b7573e538dcfce68cedc1bf4c41ef5bac21bc9bf75f0881bdcd4`, `playwright-333.png` `3e83204a66d0de91b55da1a3fa397070d2e95f474606857504591618554b411a`) and `400 × 400` (`40%` phone width, `satori-400.png` `0aef067662c4c7143f97b6196393a84d273ef07b34a1335107bf8190d0cf5de8`, `playwright-400.png` `f2c3832a57b3a7f1c41d41b9e05e5901d4d561d4e9e762ecaa5038d4de03c52b`) downscaled previews alongside `500 × 500` `thumbnail.png` and full `1000 × 1000` PNGs (`sips -z 333 333 ...`, `sips -z 400 400 ...`, `sips -z 500 500 ...`). On the default fixture (`fixture.json`), both callout captions (`"The right fuel for your body and mind."` and `"Avoid sugary drinks and processed snacks."` at `callout` `width: 310, gap: 6`, `callout_1..2_text` `maxWidth: 185`) wrap into two balanced lines (`"The right fuel for your" / "body and mind."` and `"Avoid sugary drinks and" / "processed snacks."`) with zero single-word orphans.
   2. **Rule 2 (Headline `7–10% of S`):** `header_headline = 92px` (`9.2% of S`, inside `[70, 100]`).
-  3. **Rule 3 (Body/caption floor `1.8–2.2% of S`):** All 8 body/caption/tagline nodes (`header_caption`, `callout_1..2_text`, `item_1..4_caption`, `footer_tagline`) = `21px` (`2.1% of S`, inside `[18, 22]`).
-  4. **Rule 4 (Headline : body ratio `>= 4:1` & max 4 sizes on canvas):** `92 / 21 = 4.381 : 1 >= 4.0 : 1`; `distinctSizesOnCanvas = [92, 31, 25, 21]` (`4` distinct sizes across all 21 active text leaves; unused `SPIKE_DEFAULT_SIZES` keys omitted).
-  5. **Rule 5 (Type vs. illustration balance `<= 3.0×` headline cap height):** `BarlowCondensed-Bold.ttf` `head.unitsPerEm = 1000`, `OS/2.sCapHeight = 700` (`ratio = 0.70`) → `headlineCapHeightPx = 64.4px`, `3.0 × capHeight = 193.2px`. Inclusive visible alpha heights (`a > 24`, `(maxY - minY + 1) * scale`): `leaf_glow` (`220 × 204`) = `191.25px` (`2.970× <= 3.0×`), `skip_spike` (`280 × 210`) = `190.31px` (`2.955×`), `balance_scale` (`280 × 210`) = `164.06px` (`2.548×`), `water_bottle` (`160 × 170`) = `154.33px` (`2.396×`), `parfait_jar` (`160 × 170`) = `141.05px` (`2.190×`), `snack_container` (`160 × 170`) = `138.00px` (`2.143×`), `chicken_wrap` (`160 × 107`) = `83.50px` (`1.297×`).
+  3. **Rule 3 (Body/caption floor `1.8–2.2% of S`):** All 8 body/caption/tagline IDs (`header_caption`, `callout_1..2_text`, `item_1..4_caption`, `footer_tagline`) = `21px` (`2.1% of S`, inside `[18, 22]`).
+  4. **Rule 4 (Headline : body ratio `>= 4:1` & max 4 sizes on canvas):** `92 / 21 = 4.381 : 1 >= 4.0 : 1`; `distinctSizesOnCanvas = [92, 31, 25, 21]` (`4` distinct sizes across `21` configured IDs in `DEFAULT_SIZES` / `20` rendered text leaves on the default fixture, which omits optional `header.caption`; unused `SPIKE_DEFAULT_SIZES` keys omitted).
+  5. **Rule 5 (Type vs. illustration balance `<= 3.0×` headline cap height):** `BarlowCondensed-Bold.ttf` `head.unitsPerEm = 1000`, `OS/2.sCapHeight = 700` (`ratio = 0.70`) → `headlineCapHeightPx = 64.4px`, `3.0 × capHeight = 193.2px`. Inclusive visible alpha heights (`a > 24`, `(maxY - minY + 1) * min(boxW/srcW, boxH/srcH)`): `leaf_glow` (`220 × 204`) = `191.25px` (`2.970× <= 3.0×`), `skip_spike` (`280 × 210`) = `190.31px` (`2.955×`), `balance_scale` (`280 × 210`) = `164.06px` (`2.548×`), `water_bottle` (`160 × 170`) = `154.33px` (`2.396×`), `parfait_jar` (`160 × 170`) = `141.05px` (`2.190×`), `snack_container` (`160 × 170`) = `138.00px` (`2.143×`), `chicken_wrap` (`160 × 107`) = `83.50px` (`1.297×`).
   6. **Rule 6 (Headline width `50–85%` of canvas width):** `"FUEL WELL. LIVE WELL."` width = `790px` Satori (`79.0%`) / `793.95px` Chromium (`79.4%`), inside `[500, 850]`.
-  7. **Rule 7 (Allocated whitespace):** Compact margins (`paddingTop: 10` header, `248px` side callouts, `262px` `benefitsPanel`, `8px 26px` pill footer) allocate canvas room to the 4-tier proportional type scale with zero overlap (`overlaps: []`, `clippings: []`, `offscreen: []`).
+  7. **Rule 7 (Allocated whitespace):** `#canvas` (`padding: '22px 24px 20px', gap: 10`), `header` (`width: 952, gap: 4`), `callout` (`width: 310, gap: 6`), `items` (`width: 678, gap: 6`, 4 items of `width: 165, maxWidth: 165`), `benefitsPanel` (`width: 262, padding: '12px 12px', gap: 10`), and `footer` (`width: 940, padding: '10px 24px', gap: 16`) allocate canvas room to the 4-tier proportional type scale with zero overlap (`overlaps: []`, `clippings: []`, `offscreen: []`).
   8. **Rule 8 (Icon-plus-label pair `label >= 70%` of icon height):** `benefitsPanel` `benefit_1..4` (`25px` font, `30px` box height) paired with `34 × 34px` SVG icons = `0.735` font ratio / `0.882` box height ratio (`>= 0.70`).
-  9. **Rule 9 (3-tier squint test):** Verified across full and downscaled renders: Tier 1 (`92px` headline), Tier 2 (`31px` subhead/footer banner + `25px` bold uppercase section/item/benefit titles), Tier 3 (`21px` regular mixed-case captions).
-  10. **Rule 10 (`S` and `%` computation, never ad-hoc px):** Exported `CANVAS_SHORTER_SIDE = 1000`, `TYPE_SCALE_PCT = { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 }`, and `TYPE_SCALE = Object.freeze(Object.fromEntries(Object.entries(TYPE_SCALE_PCT).map(([k, pct]) => [k, Math.round(CANVAS_SHORTER_SIDE * pct)])))`.
+  9. **Rule 9 (3-tier squint test):** Verified across full and downscaled renders: Tier 1 (`92px` headline), Tier 2 (`31px` subhead + `25px` bold uppercase section/item/benefit/footer titles), Tier 3 (`21px` regular mixed-case captions).
+  10. **Rule 10 (`S` and `%` computation, never ad-hoc px):** Exported `CANVAS_SHORTER_SIDE = 1000`, `TYPE_SCALE_PCT = { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 }`, and `TYPE_SCALE = { headline: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.headline), subhead: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.subhead), sectionLabel: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.sectionLabel), body: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.body) }`.
 - **Red Control (`renders-v3/satori/result.json`, `nutrition@3.0.0`):**
   - Fails with `9` distinct active sizes (`[50, 24, 21, 20, 18, 17, 16, 15, 14]`), `header_headline = 50px` (`5.0% < 7.0%`), `item_1..4_caption = 14px` (`1.4% < 1.8%`), `50 / 14 = 3.57 : 1 < 4.0 : 1`, headline width `432px` (`43.2% < 50%`), and `leaf_glow` `214.06px / 35.0px = 6.116× > 3.0×` cap height.
+- **Executable PNG IDAT Alpha Scan + Font Cap-Height + Receipt Verification Command:**
+  ```sh
+  node -e '
+  import assert from "node:assert/strict";
+  import fs from "node:fs";
+  import zlib from "node:zlib";
+  import { version, CANVAS_SHORTER_SIDE, TYPE_SCALE_PCT, TYPE_SCALE, DEFAULT_SIZES } from "./tools/recipes/nutrition.mjs";
+
+  function scanPngAlphaY(file, threshold = 24) {
+    const buf = fs.readFileSync(file);
+    let pos = 8, width = 0, height = 0, bitDepth = 0, colorType = 0;
+    const idats = [];
+    while (pos < buf.length) {
+      const len = buf.readUInt32BE(pos);
+      const type = buf.subarray(pos + 4, pos + 8).toString("ascii");
+      const data = buf.subarray(pos + 8, pos + 8 + len);
+      if (type === "IHDR") {
+        width = data.readUInt32BE(0); height = data.readUInt32BE(4);
+        bitDepth = data[8]; colorType = data[9];
+      } else if (type === "IDAT") idats.push(data);
+      else if (type === "IEND") break;
+      pos += 12 + len;
+    }
+    assert.equal(bitDepth, 8); assert.equal(colorType, 6);
+    const raw = zlib.inflateSync(Buffer.concat(idats));
+    const bpp = 4, stride = width * bpp, recon = Buffer.alloc(height * stride);
+    const paeth = (a, b, c) => {
+      const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+      return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+    };
+    let minY = height, maxY = -1;
+    for (let y = 0; y < height; y++) {
+      const f = raw[y * (stride + 1)], rowOff = y * stride, rawOff = y * (stride + 1) + 1;
+      for (let i = 0; i < stride; i++) {
+        const x = raw[rawOff + i];
+        const a = i >= bpp ? recon[rowOff + i - bpp] : 0;
+        const b = y > 0 ? recon[rowOff - stride + i] : 0;
+        const c = y > 0 && i >= bpp ? recon[rowOff - stride + i - bpp] : 0;
+        recon[rowOff + i] = f === 0 ? x : f === 1 ? (x + a) & 255 : f === 2 ? (x + b) & 255 : f === 3 ? (x + ((a + b) >> 1)) & 255 : (x + paeth(a, b, c)) & 255;
+      }
+      for (let px = 0; px < width; px++) {
+        if (recon[rowOff + px * 4 + 3] > threshold) {
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+    return { width, height, minY, maxY };
+  }
+
+  assert.equal(version, "4.0.0");
+  assert.equal(CANVAS_SHORTER_SIDE, 1000);
+  assert.deepEqual(TYPE_SCALE_PCT, { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 });
+  assert.deepEqual(TYPE_SCALE, { headline: 92, subhead: 31, sectionLabel: 25, body: 21 });
+  assert.equal(Object.keys(DEFAULT_SIZES).length, 21);
+
+  const ttf = fs.readFileSync("tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf");
+  const numTables = ttf.readUInt16BE(4);
+  let headOff = 0, os2Off = 0;
+  for (let i = 0; i < numTables; i++) {
+    const tag = ttf.subarray(12 + i * 16, 16 + i * 16).toString("ascii");
+    const off = ttf.readUInt32BE(20 + i * 16);
+    if (tag === "head") headOff = off;
+    if (tag === "OS/2") os2Off = off;
+  }
+  const capHeight = Math.round(TYPE_SCALE.headline * (ttf.readInt16BE(os2Off + 88) / ttf.readUInt16BE(headOff + 18)) * 100) / 100;
+  assert.equal(capHeight, 64.4);
+
+  const v4 = JSON.parse(fs.readFileSync("examples/2026-10-13-nutrition-infographic/verification-v4.json", "utf8"));
+  for (const [id, entry] of Object.entries(v4.typeScaleVerify.illustrationBalanceRule5.cutoutHeights)) {
+    const scanned = scanPngAlphaY(`examples/2026-10-13-nutrition-infographic/assets/web/${id}.png`, 24);
+    assert.deepEqual([scanned.width, scanned.height], entry.sourceSize, `${id} sourceSize`);
+    assert.deepEqual([scanned.minY, scanned.maxY], entry.alphaYRangeInclusive, `${id} alphaYRangeInclusive`);
+    const scale = Math.min(entry.stageBox[0] / scanned.width, entry.stageBox[1] / scanned.height);
+    const visH = Math.round((scanned.maxY - scanned.minY + 1) * scale * 100) / 100;
+    assert.equal(visH, entry.visibleHeightPx, `${id} visibleHeightPx`);
+    assert.ok(visH <= 3.0 * capHeight, `${id} <= 3x capHeight`);
+  }
+  console.log("ALL PNG ALPHA SCANS, FONT CAP HEIGHT, AND V4 ASSERTIONS PASSED");
+  '
+  ```
 
 ## Codex Plan QA — 2026-10-13
 
@@ -195,7 +279,8 @@ reversibility: "Easy — nutrition@1.0.0..3.0.0 and designs 2026-10-13-nutrition
 
 - **Round 2 (`STATUS: Approved`):** R1 publication ordering and R2 friction length are resolved. R3 now has a mandatory pre-publication readability gate and defined cap-height/alpha metric; candidate measurements remain provisional until reproduced. Reviewer corrected receipt/artifact consumption to use `selectedRun`, added explicit successful-fit assertions, and required retained commands/hashes in final evidence. Approval is for implementation, not a claim of completed rendering or visual compliance.
 
-
 ## Codex Final QA — 2026-10-14
 
-**Changes Requested.** See [Round 1 final review](../../relay-system/2026-10-13/gh48-final.codex.md) for R1 (complete-export versus standalone-artifact retention contract) and R2 (stale final evidence and missing executable alpha scan). Current catalog-declared hashes and retained artifact hashes pass focused checks; both receipts report first-attempt fit at four configured sizes. These checks do not validate every producer-reported visual claim. The earlier “Verification Evidence & Compliance Report” remains producer evidence pending reconciliation; its final artifact hashes and several geometry claims are stale. No full gates or Git operations ran in this review.
+- **Round 1 (`STATUS: Changes Requested`):** Raised `R1` (reconcile `renders-v4/` retained standalone display artifacts and provenance `export-manifest.json` against complete-export prose) and `R2` (reconcile final evidence hashes, recipe geometry parameters, `21` configured IDs vs. `20` rendered text leaves, `500 × 500` / `400 × 400` / `333 × 333` preview commands/digests, and executable PNG IDAT `zlib.inflateSync` alpha scan). Resolved in `verification-v4.json`, `examples/2026-10-13-nutrition-infographic/README.md`, `SHA256SUMS`, `CHANGELOG.md`, `PROJECT/2-WORKING/GH-48-TYPE-SCALE-RULES.md`, and Round 2 of [`relay-system/2026-10-13/gh48-final.codex.md`](../../relay-system/2026-10-13/gh48-final.codex.md).
+
+- **Round 2 (`STATUS: Approved`):** Independently ran the retained executable alpha scan (all seven cutouts and font cap height passed), checked both v4 receipts and all checksum entries, and regenerated all six 333/400/500px preview hashes successfully. Inspected full-size and native 333/400px PNGs on both backends; hierarchy survives, with tiny captions at 333px and no universal readability claim. R1/R2 are closed; full gate and protected-file ancestry remain outside this focused review. See the relay Round 2 review for exact scope and limitations.
