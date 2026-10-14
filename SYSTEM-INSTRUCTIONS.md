@@ -6,6 +6,8 @@
 
 **Published recipes are pinned.** Their files are hashed in the catalog, so a rule never justifies editing a published version in place. Apply the rule in the next version.
 
+**Design brief format.** For new briefs, read [DESIGN.md](DESIGN.md) and follow its lightweight Google alpha authoring profile. It standardizes documentation; fixture and recipe ownership, supported renderer capabilities, and the AS rules below retain their authority. Existing pinned briefs migrate only with a deliberate future recipe version.
+
 **Public repo.** Do not put personal data or credentials here.
 
 The rules are defaults, not absolute bans. A card, a gradient or a common font is not bad in itself; an unexplained default is. Any exception must serve the content, the reader's task or an established brand, and must be stated (see "Report").

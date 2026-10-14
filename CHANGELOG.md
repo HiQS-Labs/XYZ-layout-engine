@@ -1,4 +1,11 @@
 # Changelog
+## 2026-10-14 — GH-51 lightweight Google DESIGN.md authoring profile
+
+- Adopted Google's alpha document convention for new briefs through root `DESIGN.md`, a token-bearing sample, and ROUTER/SYSTEM-INSTRUCTIONS/README pointers. The documented claim is low-to-medium authoring compatibility; the engine still consumes JSON fixtures and trusted recipes.
+- Recorded an official-source review after the operator-requested resolve-research chain returned `contract_rejected` in both search stages; the operator authorized the separately labelled review. Preserved compact attempt/recipe/digest provenance.
+- Bet: portable briefs can improve authoring without a second styling owner. **Easy** to revert; existing published briefs, fixtures, renderer, assets and catalog remain byte-identical. Revisit direct import only for a concrete caller requirement. Removed a pre-existing README Solar System gallery link whose target does not exist; its working example-bundle link remains.
+- Verification: Google CLI 0.4.0 reports zero errors/warnings on guide and sample; separate section checks pass and reject duplicates/empty bodies/documents. Broken token reference exits 1; the CLI's duplicate-H2 blind spot is recorded. Catalog verify/canonical export and local document links pass. Detailed gate/review evidence is tracked in GH-51 and `TESTS-RESULTS/2026-10-14-GH-51/`.
+
 ## 2026-10-13 — GH-46 diagram object shadow tuning round (`AS-11` & `nutrition@3.0.0`)
 
 - Codified rule **`AS-11`** in `SYSTEM-INSTRUCTIONS.md`: when 3D objects or cutouts rest on a surface, ground their base footprint with a two-layer contact occlusion + directional cast shadow from one consistent scene corner light source rather than a whole-shape CSS `drop-shadow(...)` filter that traces upper lids, loop caps, and crossbars with a sticker halo. Reserve silhouette `drop-shadow` or glow filters for flat badges, floating UI elements, or stated emissive icons, and align sibling cutouts in the same row onto a shared tabletop ground baseline. Refs #46.

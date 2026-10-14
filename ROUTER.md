@@ -8,6 +8,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 - `GUIDING-PRINCIPLES.md` = the north star; what the repo's goals and design tradeoffs answer to
 - `AGENTS.md` = behavioral rules, decision quality, reversibility, blast radius, proof
 - `SYSTEM-INSTRUCTIONS.md` = design and taste rules (anti-slop) that override recipe, skill and prompt defaults for visual work
+- `DESIGN.md` = lightweight Google alpha format profile for new design briefs; authoring guidance with existing fixture/recipe authority
 - `README.md` = human-facing repo/product overview
 - `tools/catalog.mjs` + `tools/catalog.sql` = the recipe and design catalog (CLI and its canonical dump)
 - `ROADMAP.md` = LEGACY pointer ledger, frozen since the `ROADMAP_SOURCE=releases` flip — the RELEASES DB (`releases.db` via `releases.sql`) is the source of truth; write via `releases roadmap add`, never by editing this file
@@ -24,6 +25,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 2. Read `GUIDING-PRINCIPLES.md` for the repo's north star. -> expect the goals and tradeoff lens that every design choice answers to.
 3. Read `AGENTS.md` before making recommendations or edits. -> expect explicit assumptions, a reversibility read on consequential changes, and verified claims only.
 4. Read `SYSTEM-INSTRUCTIONS.md` before creating or changing anything visual (recipes, diagrams, fixture copy or themes, image prompts). -> expect ten numbered rules (AS-1 to AS-10) that override recipe, skill and prompt defaults, and a required report.
+   Read `DESIGN.md` next when authoring a new design brief; it defines the format and optional lint check, not new renderer capabilities.
 5. Read `README.md` for the repo's purpose and baseline usage. -> expect a short explanation of what is canonical here.
 6. If the task is about the PDDA contract or enforcement model, read `PROJECT/PDDA.md`. -> expect the source of truth for lifecycle, roadmap, changelog, and enforcement rules.
 7. Run `python3 utils/py/releases_app.py roadmap list` (or `.xyz/utils/py/releases_app.py roadmap list`) to find the active effort or parked intake. -> expect links outward to the canonical `PROJECT/**` docs; the roadmap is a pointer ledger, not a plan body. (`ROADMAP.md` is the frozen legacy file — do not read it for current state or edit it.)

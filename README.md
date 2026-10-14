@@ -15,6 +15,30 @@ Because every interface is plain local files (`fixture.json`, `DESIGN.md`, `tool
 2. **100% Local LLM / Offline AI Workflow:** A local coding or vision LLM (via Ollama, LM Studio, MLX, or vLLM) reads [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) and `DESIGN.md`, edits `fixture.json` or writes `tools/recipes/*.mjs`, and self-corrects layout bounds using the structured geometry output from `measure-chromium.mjs` (`overlaps`, `clippings`). For visuals, it can emit inline vector SVGs or pair with a local diffusion + matte-extraction pipeline validated by [`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs).
 3. **Developer or Backend Pipeline (No AI Needed at Runtime):** Once a recipe and its local assets exist, a developer, CI job, or backend service can render, validate, and durably edit (`--set` / `--save`) copy, themes, and coordinates offline in milliseconds to seconds—without an AI agent, network access, or paid API calls.
 
+## Google DESIGN.md authoring format
+
+New briefs follow a **low-to-medium authoring profile** of
+[Google Labs' alpha DESIGN.md format](https://github.com/google-labs-code/design.md):
+ordered Markdown design rationale, optional YAML tokens, and explicit interpretation
+gaps. Start with the [repository guide](DESIGN.md) and
+[token-bearing sample](docs/design-md/DESIGN.md); the
+[dated review](docs/design-md/REVIEW.md) explains the adoption and tooling limits.
+
+An agent translates supported choices into the existing JSON fixture and trusted
+recipe. The engine does not directly parse DESIGN.md or automatically apply its
+tokens. Existing published custom briefs remain usable and migrate only with a
+future recipe version.
+
+Optional authoring validation (first use may download the CLI from npm):
+
+```sh
+npx --yes --package=@google/design.md@0.4.0 designmd lint docs/design-md/DESIGN.md
+```
+
+Also inspect section order/uniqueness and actual renders: CLI 0.4.0 does not reject
+duplicate H2 headings, and lint success is not rendered accessibility or Google
+certification. This optional tool adds no rendering dependency or network call.
+
 ## Install and Offline Workflow
 
 Once the repository, dependencies, and pinned local assets are on disk, rendering, editing, and exporting require zero remote network calls or paid API usage.
@@ -64,7 +88,7 @@ Run these commands from the repository root. Dependency installation may use the
   node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --format png,svg,html,html-inline --out .relay-scratch/belief-reference
   ```
 - **Solar System Overview (`solar-system@1.0.1`)**:
-  [Example bundle](examples/2026-10-08-solar-system/README.md) and [preview gallery](examples/2026-10-08-solar-system/index.html). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
+  [Example bundle](examples/2026-10-08-solar-system/README.md). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
 - **Hand-Built Visual Studies (Pre-Recipe)**:
   [RAG System Architecture](examples/2026-10-09-rag-system/README.md) and [Mitosis Cell Division](examples/2026-10-09-cell-division/README.md), recorded in the design catalog with `use_case = NULL`.
 - **Visual Design Governance & Transparent PNG SOP**:
