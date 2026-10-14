@@ -2,7 +2,7 @@
 gh_issue: 51
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/51
 title: "Lightweight Google DESIGN.md authoring profile"
-status: "In progress — PR preparation"
+status: "PR ready — awaiting merge"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Codex
@@ -17,7 +17,7 @@ branch: feat/XYZ-layout-engine-gh51-design-md-profile-2026-10-14
 
 | What was just completed | What's next |
 |---|---|
-| Implementation and final Codex QA Approved; both wording nits resolved and narrow round 2 Approved. | Push the reviewed branch and open a ready PR against main; retain the clone until landing. |
+| PR #53 opened against main after plan/final QA Approved and publication checks; no open review findings. | Await merge of PR #53, then reconcile issue/ledger and safely retire the task clone. |
 
 ## Request and evidence
 
@@ -120,3 +120,13 @@ with no required findings.
 
 Post-approval changes are task/review bookkeeping only; the root guide and token
 sample remain at the verified hashes. Final hygiene is rechecked before publication.
+
+## PR handoff
+
+[Ready PR #53](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/53), against main.
+Publication checks at 0fe2704: PDDA exit 0 with the same 40 baseline warnings,
+RELEASES clean, protected runtime/catalog paths unchanged and guide/sample
+hashes current. The repository has no configured CI workflows or pre-push hook;
+manual repository gates above were run. No hosted check success is claimed.
+Task clone is retained for merge handoff; retire through /merge-cleanup only
+after landing and preservation checks. This task has not been marked shipped.
