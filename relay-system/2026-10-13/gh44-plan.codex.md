@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Escalated
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -168,5 +168,35 @@ Handing off to Producer (author) — resolve R3a/R3b, disposition the findings, 
 - **Unverified shadow execution note — Acknowledged:** Kept implementation acceptance at `PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:69`; full Satori+resvg and Chromium render commands, exit codes, and visual/digest evidence will be recorded during clone execution.
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+### Reviewer · Round 3
+
+VERDICT: FAIL
+Basis: The migration ownership conflict is explicitly dispositioned, but the new exact deletion-set assertion expects 52 file rows where the seeded catalog contains 48. Correct that count before execution. The round limit is reached, so STATUS is Escalated.
+swept file: yes
+
+Reviewed the entire seeded artifact, including frontmatter, scope/bet, all phases, acceptance and rating. No additional pre-existing plan defects were identified beyond the finding below and the retained execution limits. Applied the SWE review rubric. This is plan QA, not implementation approval. Reversibility: Easy for this plan correction; archive loss remains Costly.
+
+- [Pass] R3b planning disposition: `.relay-artifacts/GH-44-NUTRITION-DESIGN-README.md:42` explicitly records the one-off offline governance exception, locking, original-versus-candidate unrelated-row comparison across all six tables and the log, backup restoration, and ordinary import protection. The misleading self-import validation is removed. This passes the plan's explicit disposition requirement; it does not independently authenticate the referenced A1 conversation or prove execution.
+- [Should] R3a — Correct the exact file-row assertion from 52 to 48, or derive and retain the baseline count from the actual loaded catalog. The recipe identity and four version IDs now match, but the count at artifact:42 would abort the planned migration against this baseline.
+  Observed input: `.relay-artifacts/GH-44-NUTRITION-DESIGN-README.md:42` says “their 52 `recipe_version_files` and 16 `recipe_outputs` rows”; the current `tools/catalog.sql` contains 12 file rows for each of the four MangaJDM versions, totaling 48. The output-row count is 16.
+  Affected scope: Only the asserted deletion set for `mangajdm-promo`; preserve the seven-design boundary and every unrelated row.
+  Falsifier: The same in-memory query against the execution baseline returns 52; otherwise the corrected assertion must accept the measured 48 rows and still reject an unexpected identity/version set.
+  Read-only probe command:
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PROBE'
+  import sqlite3,pathlib
+  c=sqlite3.connect(':memory:'); c.executescript(pathlib.Path('tools/catalog.sql').read_text())
+  print(c.execute("SELECT v.version, count(f.path) FROM recipes r JOIN recipe_versions v ON v.recipe_gid=r.gid JOIN recipe_version_files f ON f.version_gid=v.gid WHERE r.slug='mangajdm-promo' GROUP BY v.version ORDER BY v.version").fetchall())
+  PROBE
+  ```
+  Exit: 0. Decisive output: `[('1.0.0', 12), ('1.0.1', 12), ('2.0.0', 12), ('3.0.0', 12)]`.
+- [Pass] Remaining planning coverage is retained: archive and seven design IDs (artifact:40–42), new example/style guide and seven transparent PNG assets (48–55), manifest-based export retrieval and required friction (56), existing C1/C4 adaptation (33,57), README/CHANGELOG refresh (61–63), protected-byte and unchanged-test-budget acceptance (70), and `70/20/75/70`, `calc=235` (76). These are plan-level findings only.
+- [Unverified — needs clone run] Both-backend visible shadows, no double shadow, no-filter identity, deterministic output preservation, migration rollback/import rejection, canaries and PDDA remain execution obligations (artifact:63,69–72). Producer-reported shadow hashes at :29 do not establish those results. No renderer, executable fixture, test suite, validate.sh or PDDA rail was run here.
+
+Only this relay file was edited; SQLite probes stayed in memory and scratch setup stayed under `.relay-scratch/`. No git command was run. Startup roadmap lookup (`python3 utils/py/releases_app.py roadmap list`) exited 2 because the local entry point is absent; no ledger mutation was attempted. The seeded artifact remains untouched.
+
+Handing off to Producer (author) — correct the measured count and resolve the round-limit escalation before resuming review. Go to the Producer window and say 'take your turn'.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
