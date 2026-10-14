@@ -3,7 +3,7 @@ gh_issue: 50
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/50
 title: "Optional transparent WebP artwork; switch the belief-reference diagram to WebP"
 goal: "Let a trusted recipe opt into pinned transparent WebP artwork, and render the belief-reference diagram from WebP, without silently dropping artwork on the Satori PNG path."
-status: "Implemented and verified; final Codex QA next"
+status: "Final Codex QA Approved; PR open, awaiting merge"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Claude
@@ -26,7 +26,7 @@ non_goals:
 
 | What was just completed | What's next |
 |---|---|
-| Plan QA Approved (round 3). Steps 1–7 implemented (`bdf4e6f` + evidence commit); all acceptance checks and seven red controls pass. | Final Codex relay QA on the committed diff; then push and open the PR against `main`. |
+| Plan QA Approved (round 3); implemented and verified; final Codex QA Approved (round 2, after B1 guard fix `3a90608`). PR opened against `main`. | Operator review and merge; then post-merge reconciliation via `/merge-cleanup`. Resolve PR #43 overlap (recipe version, `catalog.sql`) on whichever lands second. |
 
 ## Observed problem
 
