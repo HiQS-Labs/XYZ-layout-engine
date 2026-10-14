@@ -14,7 +14,7 @@ roadmap_exempt: true
 
 | What was just completed | What's next |
 |---|---|
-| Traced current authoring instructions, JSON/render boundary and catalog pins at base ed565292d280fec565c30e9612ca31240e84fbf6. | Use GH-51's plan and independent QA to implement the bounded authoring profile. |
+| Traced current authoring instructions, JSON/render boundary and catalog pins at base ed565292d280fec565c30e9612ca31240e84fbf6. | GH-51 is implemented and independently Approved; follow its plan for PR/merge handoff. |
 
 ## Subject and change class
 

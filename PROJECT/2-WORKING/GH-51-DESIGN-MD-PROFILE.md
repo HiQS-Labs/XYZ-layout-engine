@@ -2,7 +2,7 @@
 gh_issue: 51
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/51
 title: "Lightweight Google DESIGN.md authoring profile"
-status: "In progress — final QA"
+status: "In progress — PR preparation"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Codex
@@ -17,7 +17,7 @@ branch: feat/XYZ-layout-engine-gh51-design-md-profile-2026-10-14
 
 | What was just completed | What's next |
 |---|---|
-| Implemented guide/sample/pointers; zero-error/warning lint, red controls, links, catalog, RELEASES and PDDA verified. | Obtain independent Codex final QA approval, then open a ready PR against main. |
+| Implementation and final Codex QA Approved; both wording nits resolved and narrow round 2 Approved. | Push the reviewed branch and open a ready PR against main; retain the clone until landing. |
 
 ## Request and evidence
 
@@ -98,7 +98,7 @@ base; this is a preservation claim, not a fresh cross-backend render claim.
 ## QA receipts
 
 - Plan: Approved round 1, `relay-system/2026-10-14/gh51-plan.md`; reviewed input 30f2bb0ecb6b. No required findings.
-- Final: pending `relay-system/2026-10-14/gh51-final.md`.
+- Final: Approved full round 1 (reviewed 16cb986be9cc) and wording follow-up round 2 (reviewed 9d7b4ee7bca4), `relay-system/2026-10-14/gh51-final.md`. Both driver calls exit 0 with attested Approved. No open findings remain.
 - Red/green authoring evidence: `TESTS-RESULTS/2026-10-14-GH-51/README.md`; zero-error/warning lint on both docs, duplicate/empty controls rejected, broken reference exit 1, 32 local links pass. Catalog verify/export and RELEASES check exit 0. PDDA exit 0, 0 errors and 40 identical pre-existing warning findings (ignoring shifted line numbers).
 
 ## Review envelope
@@ -117,3 +117,6 @@ link at base. Removed that single broken pointer while preserving its working
 bundle link; no additional system changes. No production logic or permanent
 validator was added. The independent plan reviewer returned Approved round 1
 with no required findings.
+
+Post-approval changes are task/review bookkeeping only; the root guide and token
+sample remain at the verified hashes. Final hygiene is rechecked before publication.
