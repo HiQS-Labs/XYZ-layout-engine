@@ -58,10 +58,11 @@ Run these commands from the repository root. Dependency installation may use the
   ```sh
   node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json --recipe nutrition --format png,svg,html,html-inline --out .relay-scratch/nutrition-infographic
   ```
-- **Reference-Directed Recursive Belief Updating (`recursive-process@5.0.0`)**:
-  [Reference-directed bundle](examples/2026-10-12-belief-reference/README.md), [original study](examples/2026-10-11-belief-updating/README.md), and [recipe design contract](tools/recipes/recursive-process.design.md). Renders a `1600×1340` feedback-loop diagram with six generated transparent PNGs, point-up SVG hexagons, rounded elbow connectors, per-divider label clearances, and bundled `Barlow Condensed` typography.
+- **Reference-Directed Recursive Belief Updating (`recursive-process@6.0.0`)**:
+  [Reference-directed bundle](examples/2026-10-12-belief-reference/README.md), [original study](examples/2026-10-11-belief-updating/README.md), and [recipe design contract](tools/recipes/recursive-process.design.md). Renders a `1600×1340` feedback-loop diagram with six generated transparent WebP illustrations, point-up SVG hexagons, rounded elbow connectors, per-divider label clearances, and bundled `Barlow Condensed` typography. Its PNG comes from Chromium (Satori/resvg cannot rasterize WebP); Satori produces the SVG.
   ```sh
-  node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --format png,svg,html,html-inline --out .relay-scratch/belief-reference
+  node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend playwright --format png,html,html-inline --out .relay-scratch/belief-reference-playwright
+  node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend satori --format svg,html,html-inline --out .relay-scratch/belief-reference-satori
   ```
 - **Solar System Overview (`solar-system@1.0.1`)**:
   [Example bundle](examples/2026-10-08-solar-system/README.md) and [preview gallery](examples/2026-10-08-solar-system/index.html). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
@@ -74,9 +75,9 @@ Run these commands from the repository root. Dependency installation may use the
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
 in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@3.0.0`,
-`solar-system@1.0.1`, and `recursive-process@5.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
+`solar-system@1.0.1`, and `recursive-process@6.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
-Older versions (`nutrition@1.0.0`..`2.0.2`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`4.0.0`) remain ledger history; their content is retained in git.
+Older versions (`nutrition@1.0.0`..`2.0.2`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`5.0.0`) remain ledger history; their content is retained in git.
 
 Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
 
@@ -156,11 +157,11 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
 
 - **Inputs and Area**: 
   - Fixture JSON size is strictly bounded to a maximum of 256 KiB.
-  - Per-image limits: maximum of 5 MiB and 16,777,216 pixels.
+  - Per-image limits: maximum of 5 MiB and 16,777,216 pixels. Pinned recipe artwork is transparent PNG by default; a recipe may opt into transparent WebP (VP8X with alpha or lossless VP8L with alpha), pinned by SHA-256 like PNG.
   - Aggregate scene limits: maximum of 35 MiB encoded, 16,777,216 pixels, and a total render area of 16,777,216 pixels.
   - Total published bytes across an export cannot exceed 64 MiB.
 - **Artifact Exports**: 
-  - **PNG**: Rasterized via Satori + resvg, or explicitly selected Playwright/Chromium (`--backend playwright`); there is no automatic backend switch.
+  - **PNG**: Rasterized via Satori + resvg, or explicitly selected Playwright/Chromium (`--backend playwright`); there is no automatic backend switch. Satori + resvg cannot rasterize WebP artwork, so a Satori PNG of a recipe with WebP artwork is refused with a message naming `--backend playwright`.
   - **SVG**: Accurate vector layout via Satori, retaining embedded raster artwork inside `image` nodes and translating per-image CSS `filter: drop-shadow(...)` styles into SVG `<feDropShadow>` filter definitions.
   - **HTML**: Compact offline export containing `render.html` and locally copied `assets/` keyed by SHA-256. `html-inline` embeds assets directly into the HTML document.
 - **Fitting and Diagnostics**: 
@@ -168,7 +169,7 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
   - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. Other dimensions and scale are explicitly rejected.
-  - A recipe may declare its own vendored font (`FONT` export); `nutrition@3.0.0` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
+  - A recipe may declare its own vendored font (`FONT` export); `nutrition@3.0.0` and `recursive-process@6.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the pinned Latin fonts (`Inter` and `Barlow Condensed`) and are rejected during preflight unless a covering fallback font is explicitly pinned.

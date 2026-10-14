@@ -3,7 +3,7 @@ gh_issue: 50
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/50
 title: "Optional transparent WebP artwork; switch the belief-reference diagram to WebP"
 goal: "Let a trusted recipe opt into pinned transparent WebP artwork, and render the belief-reference diagram from WebP, without silently dropping artwork on the Satori PNG path."
-status: "Plan QA round 3"
+status: "Implemented and verified; final Codex QA next"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Claude
@@ -26,7 +26,7 @@ non_goals:
 
 | What was just completed | What's next |
 |---|---|
-| Plan QA rounds 1-2 (Codex FAIL): B1 serializer allowlist, S1 negative controls, S2 rollback, B2 publication allowlists, S3 README commands accepted; full PNG-literal sweep done. | Plan QA round 3 (final); then implement steps 1–7 below. |
+| Plan QA Approved (round 3). Steps 1–7 implemented (`bdf4e6f` + evidence commit); all acceptance checks and seven red controls pass. | Final Codex relay QA on the committed diff; then push and open the PR against `main`. |
 
 ## Observed problem
 
@@ -197,3 +197,16 @@ Recurrence: not applicable (feature); no prior WebP issues or PRs (`gh` search 2
   refusal names the fix; v5 remains reproducible from its source commit.
 - Chromium's WebP decode is assumed stable across Playwright versions; the C1 offline check would catch
   a regression.
+
+## Implementation results (2026-10-14)
+
+| Requirement | Result |
+|---|---|
+| R1/R2 | `inspectWebp` + opt-in `readPinnedPngs(..., 'webp')` in `tools/request.mjs`. Nutrition and solar-system Satori PNG/SVG digests identical to `ed56529`. Controls (c) tamper → `webp digest mismatch`, (d) plain VP8 → `requires transparent WebP`. |
+| R3 | Six render.mjs sites plus `profile.mjs:14`. Both v6 exports publish through the CLI and pass `verifyPublication` (14 files each); removing each allowance fails at its own boundary. |
+| R4 | Satori PNG refuses with `use --backend playwright for PNG`; removing the guard renders silently (the defect). |
+| R5 | Six lossless WebP files (128,652 vs 221,372 bytes), all `real_alpha: true`; `recursive-process@6.0.0` published; catalog `verify` valid, `export --check` canonical. |
+| R6 | `renders-v6/`, `verification-v6.json`, example and root README, `SHA256SUMS` (75 entries OK), design `2026-10-14-belief-reference-webp`, CHANGELOG. AS-10: full-size and 420px Chromium PNG inspected, artwork present, no halo; 13,142 / 2,144,000 pixels differ from v5 by ≤ 1/255. |
+| Tests | Existing C1 GH-36 block edited; `pnpm test` 4/4 in 41 s; budget unchanged; no dependency change. |
+
+Evidence: `relay-system/2026-10-14/gh50-verification/controls.md`.

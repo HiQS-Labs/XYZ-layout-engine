@@ -268,16 +268,18 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const rpCoverage = await renderSatori(await rpRecipe.buildScene({ ...rpSource }), rpFonts, rpSource.width, rpSource.height, rpRecipe.FONT.family, { raster: false });
   assert.deepEqual(rpCoverage.missingSegments, [], 'recipe text needs glyphs the declared font lacks');
   const rpPath = path.join(FRESH, 'recursive.json'); writeFileSync(rpPath, JSON.stringify(rpSource));
-  for (const backend of ['satori', 'playwright']) {
+  // GH-50: its artwork is transparent WebP; Satori exports SVG/HTML and Chromium owns the PNG.
+  for (const [backend, formats] of [['satori', 'svg,html,html-inline'], ['playwright', 'png,html,html-inline']]) {
     const out = `rp-${backend}`;
-    const receipt = await runCLI([rpPath, '--recipe', 'recursive-process', '--backend', backend, '--format', 'png,html,html-inline', '--out', out], { root: FRESH });
+    const receipt = await runCLI([rpPath, '--recipe', 'recursive-process', '--backend', backend, '--format', formats, '--out', out], { root: FRESH });
     assert.equal(receipt.catalog.slug, 'recursive-process');
     await assertOfflineExport(selectedRun(path.join(FRESH, out)), path.join(FRESH, `${out}-standalone.html`), rpRecipe.FONT.family);
   }
+  await assert.rejects(processRequest({ inputPath: rpPath, format: 'png', recipe: 'recursive-process' }, { root: FRESH }), /use --backend playwright for PNG/);
   const rpReject = async (edit, pattern) => {
     const fixture = structuredClone(rpSource); edit(fixture);
     const file = path.join(FRESH, 'recursive-bad.json'); writeFileSync(file, JSON.stringify(fixture));
-    await assert.rejects(processRequest({ inputPath: file, format: 'png', recipe: 'recursive-process' }, { root: FRESH }), pattern);
+    await assert.rejects(processRequest({ inputPath: file, format: 'svg', recipe: 'recursive-process' }, { root: FRESH }), pattern);
   };
   await rpReject(f => { f.states[0].caption = 'W'.repeat(2000); }, /non-fit/);
   await rpReject(f => { f.stages.push({ number: 5, formula: 'B5' }); }, /requires 4 entries/);

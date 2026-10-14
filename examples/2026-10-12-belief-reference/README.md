@@ -1,8 +1,44 @@
 # Reference-directed recursive belief updating
 
+## Version 6 — transparent WebP artwork
+
+Current recipe: `recursive-process@6.0.0`, source commit `bdf4e6f` (issue #50).
+Open the [Chromium PNG](renders-v6/playwright/render.png),
+[Chromium HTML](renders-v6/playwright/render-inline.html),
+[Satori HTML](renders-v6/satori/render-inline.html) or [SVG](renders-v6/satori/render.svg).
+
+The six illustrations now load from `assets/web/<id>.webp`: lossless, transparent conversions of
+the existing display PNGs (`cwebp 1.6.0 -lossless -exact`), pinned by `webp.sha256` in
+[provenance.json](provenance.json). Together they are 128,652 bytes against 221,372 bytes of PNG
+(42% smaller); the standalone HTML drops from 809 KB to 606 KB and the SVG from 1.0 MB to 840 KB.
+The PNG files stay in place for versions 3 to 5. No new imagery or composition changes were made.
+
+The default Satori PNG path cannot be used for this version: `@resvg/resvg-js` 2.6.2 silently drops
+WebP images, so the renderer refuses a Satori PNG of WebP artwork and names
+`--backend playwright`. Satori still produces the SVG and HTML exports. There is no Satori PNG in
+`renders-v6/`.
+
+Both complete exports passed validation, catalog verification, first-attempt fitting and
+`verifyPublication` (14 files each); see [verification-v6.json](verification-v6.json). All six WebP
+files pass the header check and report `real_alpha: true` from `inspect-alpha.mjs`. Compared with
+the version 5 Chromium PNG, 13,142 of 2,144,000 pixels differ, each by at most 1/255 per channel.
+Inspected the Chromium PNG at full size and as a 420px thumbnail (AS-10): every illustration is
+present, edges are transparent, and there is no halo against the page colour.
+New catalog design: `2026-10-14-belief-reference-webp`, pinned to version 6.0.0 and
+`renders-v6/playwright/render.png`.
+
+```sh
+node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json \
+  --recipe recursive-process --backend playwright --format png,html,html-inline \
+  --out .relay-scratch/belief-reference-playwright
+node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json \
+  --recipe recursive-process --backend satori --format svg,html,html-inline \
+  --out .relay-scratch/belief-reference-satori
+```
+
 ## Version 5 — C2 arrow correction
 
-Current recipe: `recursive-process@5.0.0`, source commit `b5c6700`.
+Historical recipe: `recursive-process@5.0.0`, source commit `b5c6700`.
 Open the corrected [Satori HTML](renders-v5/satori/render-inline.html),
 [Chromium HTML](renders-v5/playwright/render-inline.html),
 [Satori PNG](renders-v5/satori/render.png), [Chromium PNG](renders-v5/playwright/render.png),
