@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -105,5 +105,43 @@ Output graded findings with file:line citations per the protocol.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: Block implementation until the HTML serializer accepts WebP. The plan otherwise follows issue #50's operator-selected backend split, but its canary adaptation and rollback instructions also need correction.
+swept file: yes
+
+Reviewed the entire seeded plan, including pre-existing sections, against the named sources and the live issue. Graph tools were unavailable; used direct source reads and narrow probes. No test suite, executable fixture, validate.sh or Git command was run. Review-file edit reversibility: **Easy**.
+
+- **[Blocker] B1 — R3 omits the HTML serializer's independent allowlist.** `.relay-artifacts/GH-50-WEBP-ARTWORK.md:85` changes only extraction. `tools/render.mjs:111` rejects both `data:image/webp` and `assets/<digest>.webp`; `renderPlaywright` calls `toDocument` at line 143, and both HTML export paths also reach it (lines 348–359). Therefore the planned Playwright PNG and both backends' HTML exports still throw after implementing R3 as written. Extend both branches of the existing `toHtml` source allowlist to WebP, retaining its anchored trusted-source restriction; include that owner in R3 and its acceptance map.
+  Observed input: a real conversion of `examples/2026-10-12-belief-reference/assets/web/examination.png` using `cwebp -quiet -lossless -exact ... -o "$TMPDIR/examination.webp"` produced a 13,718-byte VP8L file, 256×256, alpha bit 1, matching RIFF length. Passing its base64 data URL to `toHtml({type:"img",props:{src}})` threw `Validation failed: [{"field":"src","message":"only embedded trusted images are supported"}]`. Conversion plus Node probe exited 0 (the exception was caught and printed). Independent exact probe command: `node --input-type=module <<'JS'` with the following body, then `JS` (exit 0):
+  ```js
+  import { toHtml } from "./tools/render.mjs";
+  for (const src of ["data:image/png;base64,AAAA", "data:image/webp;base64,AAAA", "assets/" + "a".repeat(64) + ".webp"]) {
+    try { console.log(src + " => " + toHtml({type:"img",props:{src}})); }
+    catch (error) { console.log(src + " => " + error.message); }
+  }
+  ```
+  Decisive output: PNG serialized to `<img src="data:image/png;base64,AAAA" style="">`; both WebP inputs printed the validation error above. This measures the allowlist, independently of decoding.
+  Affected scope: trusted embedded WebP images and hashed local WebP assets passing through `toHtml`/`toDocument`.
+  Falsifier: after the targeted allowlist edit, both WebP forms serialize; PNG/SVG still serialize and an external HTTP image remains rejected. The existing offline C1 then loads the converted artwork in compact and inline exports.
+
+- **[Should] S1 — preserve existing non-fit and unsupported-font controls when adding R4.** Step 5 names only `canaries.test.mjs:263–276`, but `rpReject` at `tools/spike/test/canaries.test.mjs:277–287` still requests default Satori PNG. R4 will intercept the valid-shape long-caption and CJK cases before fitting/glyph checks, producing the backend refusal instead of their expected errors. Change this helper to request Satori SVG (or another supported path), retaining the original assertions; keep the WebP PNG rejection as its own assertion in the existing C1.
+  Observed input: line 282 sets `states[0].caption = 'W'.repeat(2000)` and expects `/non-fit/`; line 287 sets `events[0].caption = 'Belief 漢'` and expects `/unsupported text\/font/`; line 280 sends both with `format: 'png'`. R4 explicitly refuses before rendering (`.relay-artifacts/GH-50-WEBP-ARTWORK.md:88–92`).
+  Affected scope: the existing recursive-process render-level negative controls; schema-domain controls should remain intact.
+  Falsifier: in a disposable clone, both edited controls reach their original errors while the separate valid-fixture Satori PNG request receives the Playwright guidance. **[Unverified — needs clone run]**: interception is a source-derived consequence of the proposed change, not a measured suite failure.
+
+- **[Should] S2 — distinguish source rollback from catalog-history deletion.** The instruction “revert the PR” at `.relay-artifacts/GH-50-WEBP-ARTWORK.md:61–64` also reverses the new `catalog.sql`/design-log rows, contradicting the adjacent promise that v6 and its design remain. Describe a selective source rollback retaining the published rows, design log and referenced v6 artifact; restore the v5 module, reader, provenance and declaration set consistently, then verify the current v5 pins and retained designs. No new rollback mechanism is needed. `tools/catalog.mjs:237–249` prohibits historical row removal on import, and `tools/catalog.mjs:219–222` still checks every retained design artifact.
+
+- **[Pass] Ownership, version and test size:** keeping `readPinnedPngs` and placing the opt-in inspector in request.mjs avoids unrelated pinned-module edits: `tools/catalog.mjs:125–146` pins assets.mjs for all three recipes and request.mjs only for recursive-process; existing callers are `nutrition.mjs:136`, `solar-system.mjs:87`, `recursive-process.mjs:71`. Major 6.0.0 fits `README.md:103–106` because previously admitted output bytes change as well as PNG capability. Extending the existing C1 fits `test-budget.json`'s “Only plain node:test test()” rule and its 4-test/1-file budget; actual ≤60s remains a clone gate.
+
+- **[Pass] MVP envelope and refusal condition:** R4's “Satori branch” plus `raster` condition (`.relay-artifacts/GH-50-WEBP-ARTWORK.md:88–92`) correctly excludes SVG/HTML-only calls and the Playwright `raster:false` coverage pass (`tools/render.mjs:211,241–249`). The RIFF/VP8L header proposal matches the measured converter output above and the [WebP container](https://developers.google.com/speed/webp/docs/riff_container) and [lossless header specification](https://developers.google.com/speed/webp/docs/webp_lossless_bitstream_specification); it is reasonable for trusted committed derivatives. Header flags are not a pixel-decoding guarantee. At implementation, bound header reads/chunk payloads before accessing dimension fields; retain the planned real-alpha inspection rather than adding a decoder dependency.
+
+- **[Nit] Evidence precision:** lines 154–155 overstate runtime malformed-body detection: `renderPlaywright` checks geometry/fonts and screenshots at `tools/render.mjs:143–174`; `naturalWidth` is checked by the C1 helper (`canaries.test.mjs:39–46`), not ordinary rendering. State that committed-asset validation/C1 supplies this evidence. Several extractor references are stale: the actual regex/map are `tools/render.mjs:352–355`. PR #43's live file list also overlaps canaries, README and CHANGELOG, so include these in the rebase note. The 55/20/50/60 rationale at plan lines 159–161 is reasonable judgment with appeal neutral and effort interpreted as cheapness; it is not an objective measurement.
+
+Root cause: WebP is refused by two existing HTML boundaries, while the plan changes only extraction; Fix site: extend the existing serializer allowlist and extractor together; Why not upstream/downstream: recipe-specific workarounds would duplicate the transport rule, and Chromium never receives the currently rejected source.
+
+Handing off to Producer (claude-a) — address B1, S1 and S2, disposition the remaining notes, then request the next review. Implementation and runtime gates remain unverified until the authorized disposable-clone run.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
