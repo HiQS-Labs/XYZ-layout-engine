@@ -3,7 +3,7 @@ gh_issue: 46
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/46
 title: "Diagram object shadow tuning round: directional ground/contact cast shadows vs whole-shape drop-shadow"
 goal: "Replace flat whole-shape silhouette drop-shadows on grounded 3D illustration cutouts in nutrition@3.0.0 with deterministic two-layer corner-lit ground/contact cast shadows anchored at each object's base footprint across Satori+resvg and Chromium, update examples/2026-10-13-nutrition-infographic/DESIGN.md and renders-v3/, and codify AS-11 in SYSTEM-INSTRUCTIONS.md."
-status: "Active — Intake registered, recon completed, and surgical plan ready for Codex plan QA"
+status: "Active — Plan QA approved (GH46-PLAN-20261013); Phases 1–3 implemented, nutrition@3.0.0 published, and local verification gates passed; in Final Codex Relay QA (GH46-FINAL-20261013)"
 created: 2026-10-13
 updated: 2026-10-13
 owner: Antigravity
@@ -21,7 +21,7 @@ reversibility: "Easy — nutrition@1.0.0..2.0.2 and design 2026-10-13-nutrition-
 
 | What was just completed | What's next |
 |---|---|
-| Provisioned fresh full clone `XYZ-layout-engine-gh46-shadow-tuning-2026-10-13` on branch `feat/XYZ-layout-engine-gh46-shadow-tuning-2026-10-13` off `origin/main` (`6dda308`), registered and rated GH-46 (`70/25/50/75`) in `releases.db`, measured exact alpha base footprints for all six grounded PNGs via `@resvg/resvg-js`, and drafted the surgical 3-phase plan. | Run Codex Plan QA (`relay-system/2026-10-13/gh46-plan.codex.md`) via `relay-drive.sh`, execute Phases 1–3, run Final Codex Relay QA, and open ready PR against `main`. |
+| Approved surgical plan via Codex Plan QA (`GH46-PLAN-20261013`), implemented Phases 1–3 (`AS-11` in `SYSTEM-INSTRUCTIONS.md`, `DESIGN.md`, `tools/recipes/nutrition.mjs` `nutrition@3.0.0`, `renders-v3/{satori,playwright}/`, `verification-v3.json`, `2026-10-13-nutrition-shadow-tuning`, C4 version update in `canaries.test.mjs`, and `README.md` / `CHANGELOG.md` / `SHA256SUMS`), and verified all local suites (`pnpm test` 4/4 in 25.7s, `catalog.mjs verify`, `catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS` 45/45, positive/red-control pixel luma probes, `releases_app.py check`, and `pdda.sh run` with 0 errors). | Complete Final Codex Relay QA Round 2 (`relay-system/2026-10-13/gh46-final.codex.md`), record attestation, push branch, and open ready PR against `main`. |
 
 ## Task Rating & Recurrence Rationale
 

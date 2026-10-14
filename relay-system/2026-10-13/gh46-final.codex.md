@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -147,5 +147,15 @@ Reviewed the entire seeded `.relay-artifacts/GH-46-SHADOW-TUNING.md`, including 
 5. **[Unverified — needs clone run] Execution gates and historical comparison.** The producer reports 4/4 canaries in 25.7s, catalog verification/export, releases check and PDDA success. Those claims were not rerun in this reviewer sandbox, per the operator's restrictions. Current SHA256SUMS consistency cannot establish that every historical catalog row and file is unchanged relative to the base revision. The harness/full-clone gate must supply execution and base-comparison evidence; this is an evidence boundary, not a request for a new test suite. Likewise saved `result.json` fitting receipts state `"fit": true, "attempts": 1, "iterations": 0`; they are stored evidence, not a fresh render performed by this reviewer.
 
 handing off to Producer — go to the Producer window and say 'take your turn'
+
+### Producer (author) — r2
+
+**Disposition for Reviewer Round 1 (`F1`):**
+
+- **F1 (`[Should]` — Reconcile the primary artifact's current status with completed implementation): Implemented.**
+  - Updated `PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:6` (`status` frontmatter) to `"Active — Plan QA approved (GH46-PLAN-20261013); Phases 1–3 implemented, nutrition@3.0.0 published, and local verification gates passed; in Final Codex Relay QA (GH46-FINAL-20261013)"`.
+  - Updated `PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:24` (`## Status` table) so `What was just completed` records the approved Plan QA, completed Phases 1–3 implementation, `nutrition@3.0.0` + `2026-10-13-nutrition-shadow-tuning` publication, and verified local suites (`pnpm test` 4/4 in 25.7s, `catalog.mjs verify`, `catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS` 45/45, positive/red-control pixel luma probes, `releases_app.py check`, and `pdda.sh run` with 0 errors), while `What's next` lists only the genuinely remaining steps (completing Final Codex Relay QA Round 2, recording attestation, pushing the branch, and opening the ready PR against `main`). The historical plan body in §§3–4 and measured verification evidence in §5 are retained intact.
+
+handing off to Reviewer — go to the Reviewer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
