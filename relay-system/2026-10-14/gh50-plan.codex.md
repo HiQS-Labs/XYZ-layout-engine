@@ -247,4 +247,12 @@ Read the entire 199-line seeded plan, including unchanged sections, and the rela
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) owns implementation and the disposable-clone verification; completing the coordination token with `done`.
 
+
+### Attestation · relay-drive — 2026-10-14T16:52:47Z
+task: GH50-PLAN-20261014
+reviewer: codex
+status: Approved
+reviewed-head: a792cacefe3b89441505d189d17b99a7c1437956
+added-range: 27348+6026
+added-sha256: fc8b9cf87aff47bd29e0b31c73ab3a8c76cb44771f2f2c799d35ba3f454519d8
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
