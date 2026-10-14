@@ -182,4 +182,12 @@ Only this relay file was edited; scratch-directory setup stayed under `.relay-sc
 
 relay complete — Approved
 
+
+### Attestation · relay-drive — 2026-10-14T05:45:20Z
+task: GH46-FINAL-20261013
+reviewer: codex
+status: Approved
+reviewed-head: fc5482dc4319b1541a4a662f84e92b663365dfad
+added-range: 17763+3294
+added-sha256: 226edf2ac63a8a203089373ecb91c03c1de7a063b6325ccc3b6007895f13ed3b
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
