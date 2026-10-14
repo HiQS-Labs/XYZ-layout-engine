@@ -3,7 +3,7 @@ gh_issue: 46
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/46
 title: "Diagram object shadow tuning round: directional ground/contact cast shadows vs whole-shape drop-shadow"
 goal: "Replace flat whole-shape silhouette drop-shadows on grounded 3D illustration cutouts in nutrition@3.0.0 with deterministic two-layer corner-lit ground/contact cast shadows anchored at each object's base footprint across Satori+resvg and Chromium, update examples/2026-10-13-nutrition-infographic/DESIGN.md and renders-v3/, and codify AS-11 in SYSTEM-INSTRUCTIONS.md."
-status: "Active — Plan QA approved (GH46-PLAN-20261013); Phases 1–3 implemented, nutrition@3.0.0 published, and local verification gates passed; in Final Codex Relay QA (GH46-FINAL-20261013)"
+status: "Completed — Merged in PR #47"
 created: 2026-10-13
 updated: 2026-10-13
 owner: Antigravity
