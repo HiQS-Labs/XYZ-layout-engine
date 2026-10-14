@@ -3,7 +3,7 @@ gh_issue: 48
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/48
 title: "Global default proportional type scale rules (% of S) and nutrition@4.0.0 typography overhaul"
 goal: "Codify the 10 proportional type scale rules (% of S, where S = min(width, height)) in SYSTEM-INSTRUCTIONS.md (AS-5 and AS-12) as the repository-wide default for all sessions, and upgrade tools/recipes/nutrition.mjs to nutrition@4.0.0 and examples/2026-10-13-nutrition-infographic/ (DESIGN.md, renders-v4/, verification-v4.json) so the 1000x1000 Fuel Well. Live Well. infographic satisfies every proportional type scale, 4-size ceiling, >=4:1 hierarchy, hero-vs-headline cap-height balance, 50-85% headline width, >=70% icon-label ratio, and 1/3-scale mobile legibility invariant across Satori+resvg and Chromium."
-status: "In Progress — Final QA Approved; Harness Gate Pending"
+status: "In Progress — Final QA Approved; PR Ready"
 created: 2026-10-13
 updated: 2026-10-14
 owner: Antigravity
@@ -21,7 +21,7 @@ reversibility: "Easy — nutrition@1.0.0..3.0.0 and designs 2026-10-13-nutrition
 
 | What was just completed | What's next |
 |---|---|
-| Codex Final QA Round 2 approved: R1/R2 closed after focused alpha-scan, receipt, checksum, preview-hash and visual checks. | Author/harness runs the gate and creates its scoped commit, then continues branch/PR preparation. |
+| Codex Final QA Round 2 approved (`Ship — Approved` in `relay-system/2026-10-13/gh48-final.codex.md`); harness gate passed (`pnpm test` 4/4 canaries in 25.1s, `catalog verify`, `SHA256SUMS`, `releases check`, `pdda.sh run` 0 errors). | Push `feat/XYZ-layout-engine-gh48-type-scale-rules-2026-10-13` and open ready PR against `main` closing #48. |
 
 ## Task Rating & Recurrence Rationale
 

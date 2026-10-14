@@ -485,9 +485,9 @@ test('guards: the verifier stops detecting tampering', async () => {
     const catalog = (...args) => spawnSync(process.execPath, [path.join(root,'tools/catalog.mjs'), ...args], { cwd:root, encoding:'utf8', timeout:10000 });
     const succeeds = (...args) => { const r=catalog(...args); assert.equal(r.status,0,r.stdout+r.stderr); return r; };
     succeeds('add','nutrition','--title',"Nutrition's recipe");
-    succeeds('publish','nutrition','3.0.0');
+    succeeds('publish','nutrition','4.0.0');
     const published = readFileSync(catalogFile), stat = (await import('node:fs')).statSync(catalogFile);
-    succeeds('publish','nutrition','3.0.0');
+    succeeds('publish','nutrition','4.0.0');
     assert.deepEqual(readFileSync(catalogFile),published,'same publication rewrote bytes');
     assert.equal((await import('node:fs')).statSync(catalogFile).mtimeMs,stat.mtimeMs,'same publication rewrote dump');
     for (const args of [['list','--json'],['show','nutrition','--json'],['verify','--json'],['export','--check']]) succeeds(...args);
@@ -506,7 +506,7 @@ test('guards: the verifier stops detecting tampering', async () => {
     } finally { db.close(); }
     const sceneFile = path.join(root,'tools/spike/scene.mjs'), originalScene=readFileSync(sceneFile);
     appendFileSync(sceneFile,'\n// changed content\n');
-    let rejected=catalog('publish','nutrition','3.0.0');
+    let rejected=catalog('publish','nutrition','4.0.0');
     assert.equal(rejected.status,1); assert.match(rejected.stderr,/already published with different content/);
     assert.deepEqual(readFileSync(catalogFile),published,'rejected publication changed dump');
     rejected=catalog('verify','--json'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/modified declared file/);
