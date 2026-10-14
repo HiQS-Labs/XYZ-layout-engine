@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 3
 
@@ -123,5 +123,42 @@ Handing off to Producer (author) — address R1–R4, disposition every finding,
 - **Nit (`releases_app.py` entry point) — Implemented:** Updated Phase 3 step 3 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:63`) to use `eval "$("$HOME/.gemini/config/skills/relay-xyz/find-harness.sh" --env)" && python3 "$HARNESS/utils/py/releases_app.py" --root . check`.
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+
+### Reviewer · Round 2
+
+VERDICT: FAIL
+Basis: R1, R2 and the preservation-check planning in R4 are addressed, but R3 still specifies nonexistent IDs and bypasses the catalog mutation owner. Correct the migration before implementation.
+swept file: yes
+
+Reviewed the entire seeded artifact (frontmatter through rating), not only the revised paragraphs, against the current catalog and renderer contracts. No additional pre-existing plan defects were identified beyond the findings below and the retained verification limit. This is plan QA, not execution approval. Reversibility: Easy for plan corrections; archive loss remains Costly. Applied the SWE skill's grounded, minimal-change review rubric.
+
+- [Pass] R1 planning correction: artifact:56 now resolves `manifest.current` before copying the selected run and supplies the required `--friction` and `--workarounds 0`. R2: artifact:33,57 explicitly relocates the extra-PNG control into the new namespace and retains reject/restore behavior. These are plan-level passes, not executed render/canary results.
+- [Pass] R4 planning correction: artifact:32,63,70 explicitly includes `test-budget.json`, the protected paths, and before/after deterministic output comparisons. Artifact:76 retains `70/20/75/70` and `calc=235`. All three scoped objectives and AS-10 review remain in artifact:38–72.
+- [Should] R3a — Derive deletion identities from the loaded catalog by slug, including every version and its dependent file/output rows; assert the selected set before mutation. Artifact:42's two hard-coded IDs are absent from the current dump. The actual recipe has four versions, not the single version named in the migration. Filtering by those IDs cannot remove its history.
+  Observed input: Artifact:42 names `rcp-89e64f2f-166c-4a62-842d-5e431fc2f86b` and `rcv-76161472-c6db-48c5-85b9-5fb064e4ddbb`; both have zero occurrences in the current dump. Actual recipe identity is `rcp-5b2cc48f-0484-4850-95b2-17628446e3fd` (`tools/catalog.sql:21`), with versions 1.0.0, 1.0.1, 2.0.0 and 3.0.0.
+  Affected scope: Only the MangaJDM recipe, all its version/file/output rows, and the seven already enumerated design/log IDs; preserve every unrelated row.
+  Falsifier: An in-memory before/after comparison of the actual base dump shows precisely that deletion set absent, all other rows identical, and a valid canonical candidate.
+  Read-only probe command:
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PROBE'
+  import sqlite3, pathlib
+  s = pathlib.Path('tools/catalog.sql').read_text()
+  db = sqlite3.connect(':memory:'); db.executescript(s)
+  print(db.execute("SELECT r.gid, v.gid, v.version FROM recipes r JOIN recipe_versions v ON v.recipe_gid=r.gid WHERE r.slug='mangajdm-promo'").fetchall())
+  print([x in s for x in ['rcp-89e64f2f-166c-4a62-842d-5e431fc2f86b', 'rcv-76161472-c6db-48c5-85b9-5fb064e4ddbb']])
+  PROBE
+  ```
+  Exit: 0. Decisive output: `[False, False]`; actual version IDs are `rcv-5761ea2e-f36d-4ec5-9428-522042640162` (1.0.0), `rcv-3536d864-3e2d-41bb-9747-aa527068c6df` (1.0.1), `rcv-0241c267-1863-4b29-8c84-074a28873bb2` (2.0.0), and `rcv-f96f24aa-a7d6-412e-a230-d7d129ec909e` (3.0.0).
+- [Should] R3b — Resolve the migration ownership conflict explicitly. Artifact:42 writes the replacement dump directly, then runs `import tools/catalog.sql`. That import compares the replacement to itself, not to the original ledger: `runCLI` reads the current dump at `tools/catalog.mjs:291` and calls `preserveHistory(db,incoming)` at :331. Keeping the function's source unchanged does not preserve its protection when the baseline is overwritten first. ROUTER.md requires catalog changes through the CLI, and `tools/catalog.mjs:283` states “Only this module owns catalog I/O.” Specify a narrowly bounded migration through that owner, or an explicit project-governance exception for this one-off offline migration; do not describe self-import as validating the authorized deletion. Preserve ordinary import protections and record the original-versus-candidate unrelated-row comparison.
+  Observed input: Artifact:42's sequence “write both files atomically ... and verify via ... import tools/catalog.sql”; ordinary import explicitly rejects removed identities at `tools/catalog.mjs:245`.
+  Affected scope: This authorized seven-design/MangaJDM cleanup only; ordinary publication/import and unrelated history remain unchanged.
+  Falsifier: A documented migration obeys the canonical mutation rule, validates the candidate against the original with exactly the authorized deletion set, and restores both files on failure; ordinary import still rejects unauthorized deletion. Execution is [Unverified — needs clone run].
+- [Unverified — needs clone run] The shadow result at artifact:29 remains producer-reported output, without its executable probe command, runtime or a Chromium pixel result. Hash inequality establishes changed pixels, not correct visible shadow geometry or cross-backend agreement. Keep the implementation acceptance at :69; retain the actual command, exit status and decisive both-backend evidence in clone verification, plus no-filter identity and no double shadow. No renderer, executable fixture or suite was run in this reviewer worktree.
+
+Only the relay file was edited; the probe used an in-memory SQLite database. No git command or prohibited test/validation command was run. The seeded artifact remains untouched.
+
+Handing off to Producer (author) — resolve R3a/R3b, disposition the findings, and open Round 3.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
