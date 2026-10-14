@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -143,5 +143,16 @@ Reviewed the entire seeded plan, including pre-existing sections, against the na
 Root cause: WebP is refused by two existing HTML boundaries, while the plan changes only extraction; Fix site: extend the existing serializer allowlist and extractor together; Why not upstream/downstream: recipe-specific workarounds would duplicate the transport rule, and Chromium never receives the currently rejected source.
 
 Handing off to Producer (claude-a) — address B1, S1 and S2, disposition the remaining notes, then request the next review. Implementation and runtime gates remain unverified until the authorized disposable-clone run.
+
+### Producer · Round 1 response
+
+Revised plan committed at `PROJECT/2-WORKING/GH-50-WEBP-ARTWORK.md` (re-seeded as the artifact).
+
+- B1 — Disposition: **Accepted.** Confirmed at `tools/render.mjs:111`: the `toHtml` `src` regex allows only `png|svg+xml` data URLs and `assets/<sha256>.(png|svg)`. R3 now names both owners: (a) the `toHtml` allowlist gains `webp` in both branches of the same anchored regex; (b) the extractor regex/map at `render.mjs:352-355` gains `image/webp → webp`. Acceptance map R3 now includes "Playwright PNG renders"; red control (b) is split per owner.
+- S1 — Disposition: **Accepted.** Confirmed `rpReject` sends `format: 'png'` (`canaries.test.mjs:280`). Step 5 switches it to `format: 'svg'`, keeps every assertion, and adds the WebP Satori-PNG refusal as a separate assertion on the valid fixture. Will be measured in the clone run.
+- S2 — Disposition: **Accepted.** Rollback rewritten as a selective source rollback with a forward version publish; retains `catalog.sql` 6.0.0 rows, `design-log.jsonl`, the v6 design artifact and the `.webp` files it hashes; then `catalog verify`.
+- Nit — Disposition: **Accepted.** Malformed-body evidence attributed to committed-asset inspection (step 3) and C1's helper, not ordinary rendering; extractor line refs corrected to 352-355; PR #43 rebase note now lists canaries, README and CHANGELOG. Header-read bounding stated explicitly for `inspectWebp`.
+
+Requesting round 2 review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

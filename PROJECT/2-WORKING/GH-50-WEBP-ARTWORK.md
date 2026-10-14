@@ -3,7 +3,7 @@ gh_issue: 50
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/50
 title: "Optional transparent WebP artwork; switch the belief-reference diagram to WebP"
 goal: "Let a trusted recipe opt into pinned transparent WebP artwork, and render the belief-reference diagram from WebP, without silently dropping artwork on the Satori PNG path."
-status: "Plan written; awaiting Codex plan QA"
+status: "Plan QA round 2"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Claude
@@ -26,7 +26,7 @@ non_goals:
 
 | What was just completed | What's next |
 |---|---|
-| Intake (issue #50, roadmap row `rmi-01M4XMC2A970P1EC89MVDXMCYJ`, rated 55/20/50/60), recon and two probes on base `ed56529`. Plan written. | Codex plan QA via relay-xyz; then implement steps 1–7 below. |
+| Plan QA round 1 (Codex FAIL): B1 serializer allowlist, S1 negative controls, S2 rollback wording all accepted and folded in. | Plan QA round 2; then implement steps 1–7 below. |
 
 ## Observed problem
 
@@ -58,10 +58,15 @@ Operator decision (2026-10-14): WebP + Chromium PNG. Satori PNG must refuse, not
 - **Alternatives rejected:** PNG twins for the Satori raster (operator declined: two formats to pin
   and keep in sync); upgrading resvg (no stable release supports WebP); a decoder dependency (sharp)
   violates the no-dependency rule; WebP as an output format answers a different question.
-- **Rollback / containment:** revert the PR. Catalog history is append-only, so `recursive-process@6.0.0`
-  and its design record stay as history; v5 artifacts and PNG artwork are untouched, so a revert
-  restores v5 rendering exactly. Reversibility: **Easy** for source; the catalog publication is
-  durable history (as for every prior version).
+- **Rollback / containment:** a selective source rollback, not a whole-PR revert. Restore the v5
+  `recursive-process.mjs`, the `readPinnedPngs` call, and the PNG declaration set in `catalog.mjs`
+  together, and publish the restored module as a new version through the CLI (the module version must
+  move forward; 5.0.0 is not reusable). Keep `catalog.sql`'s 6.0.0 rows, `design-log.jsonl`, the v6
+  design's artifact `renders-v6/playwright/render.png` and the `.webp` files it hashes, because
+  `catalog.mjs:219-222` checks every retained design artifact and import refuses removing history
+  (`catalog.mjs:237-249`). Then run `node tools/catalog.mjs verify`. The engine-level WebP support
+  (R1-R4) can stay; it is inert without a WebP recipe. Reversibility: **Easy** for source; the
+  catalog publication is durable history (as for every prior version).
 
 ## Requirements and design
 
@@ -82,8 +87,11 @@ with signature `0x2f` and the alpha-is-used bit set (14-bit dims + 1). Plain `VP
 refused as `requires transparent WebP`. Dimensions obey the existing 8192 / `LIMITS.assetPixels`
 limits and feed the same aggregate budget. It does not decode pixels; Chromium is the decoder.
 
-R3. **Offline HTML export.** Add `image/webp → webp` to the extractor regex and extension map in
-`tools/render.mjs:346-348`, so compact HTML writes `assets/<sha256>.webp`.
+R3. **HTML boundaries (two owners, extended together).** (a) The `toHtml` source allowlist at
+`tools/render.mjs:111` accepts `data:image/webp;base64,…` and `assets/<sha256>.webp` in its existing
+anchored regex; this is the path `renderPlaywright` (`toDocument`, line 143) and both HTML exports use.
+(b) The compact-export extractor regex and extension map at `tools/render.mjs:352-355` gain
+`image/webp → webp`, so compact HTML writes `assets/<sha256>.webp`. External or other sources stay rejected.
 
 R4. **Satori PNG refusal.** In `processRequest`'s Satori branch, when `raster` is true and the built
 scene contains a `data:image/webp` source, throw
@@ -114,7 +122,9 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
 - `tools/catalog.mjs`, `tools/catalog.sql`, `tools/design-log.jsonl`: through the CLI only.
 - Open PR #43 also bumps `recursive-process` (to 5.0.1) and edits `catalog.sql`, `render.mjs` and
   `request.mjs`. Whichever lands second rebases and re-publishes; no overlap in the edited lines of
-  `request.mjs` (its recipe list vs our reader) or `render.mjs` (its recipe dispatch vs our extractor).
+  `request.mjs` (its recipe list vs our reader) or `render.mjs` (its recipe dispatch vs our allowlist
+  and extractor). It also touches `canaries.test.mjs`, `README.md` and `CHANGELOG.md`; include those
+  in the rebase.
 
 ## Ordered implementation with inline verification
 
@@ -125,13 +135,17 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
    and `node examples/2026-10-09-cell-division/inspect-alpha.mjs` reports `real_alpha: true`.
 4. R5 recipe + catalog declaration, bump to 6.0.0, `node tools/catalog.mjs publish recursive-process 6.0.0`,
    then `node tools/catalog.mjs verify` and `export --check` (exit 0).
-5. Update the existing GH-36 block of canary C1 (`tools/spike/test/canaries.test.mjs:263-276`): Satori
-   renders `svg,html,html-inline` and must reject `png` with `/use --backend playwright/`; Playwright
-   keeps `png,html,html-inline`; both keep `assertOfflineExport`, which proves WebP images load
-   offline in compact and inline HTML. No new `test()` block, file, dependency or budget change.
-   Red controls (manual, recorded): (a) with R4 removed, the Satori PNG assertion fails; (b) with R3
-   removed, compact HTML fails `unsupported offline asset`; (c) a tampered `.webp` byte fails
-   `webp digest mismatch`; (d) a plain lossy-no-alpha `VP8` file fails `requires transparent WebP`.
+5. Update the existing GH-36 block of canary C1 (`tools/spike/test/canaries.test.mjs:263-287`): Satori
+   renders `svg,html,html-inline` and a separate assertion requires the valid fixture's Satori `png`
+   to reject with `/use --backend playwright/`; Playwright keeps `png,html,html-inline`; both keep
+   `assertOfflineExport`, which proves WebP images load offline in compact and inline HTML. The
+   `rpReject` helper (line 280) switches from `format: 'png'` to `format: 'svg'` so its non-fit and
+   unsupported-font controls still reach their original errors instead of the new refusal; all its
+   assertions stay unchanged. No new `test()` block, file, dependency or budget change.
+   Red controls (manual, recorded): (a) with R4 removed, the Satori PNG assertion fails; (b) with
+   R3(a) removed, Playwright PNG fails `only embedded trusted images`; with R3(b) removed, compact
+   HTML fails `unsupported offline asset`; (c) a tampered `.webp` byte fails `webp digest mismatch`;
+   (d) a plain lossy-no-alpha `VP8` file fails `requires transparent WebP`.
 6. R6 renders, evidence, docs, design record. Inspect the Playwright PNG at full size and a 420px
    thumbnail (AS-10): all six illustrations present, transparent edges, no halo against `#f5f3ec`.
 7. Gates: `pnpm test` (4 tests, 1 file, ≤ 60 s), `node tools/catalog.mjs verify`, `utils/pdda/pdda.sh run`.
@@ -141,7 +155,7 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
 | Requirement | Check |
 |---|---|
 | R1/R2 | Step 1 digests unchanged; step 5 controls (c) and (d); step 4 verify |
-| R3 | C1 `assertOfflineExport` on Satori and Playwright compact HTML; control (b) |
+| R3 | Playwright PNG renders; C1 `assertOfflineExport` on Satori and Playwright compact and inline HTML; control (b) |
 | R4 | C1 Satori PNG rejection; control (a) |
 | R5 | catalog verify/show 6.0.0 lists six `.webp`; inspect-alpha `real_alpha: true` |
 | R6 | `verification-v6.json`, `shasum -a 256 -c SHA256SUMS`, AS-10 visual inspection |
@@ -151,8 +165,10 @@ optional WebP artwork and the Satori PNG limit. `CHANGELOG.md` entry.
 
 In scope: one edit to the existing C1 block plus manual red controls recorded in this doc. Not in
 scope: a WebP fuzzer, a decoder-based pixel validator, cross-browser checks, a new test file or CI.
-`inspectWebp` is a header validator only; a malformed body is Chromium's to refuse, and the render
-fails visibly (the offline check asserts every image has `naturalWidth > 0`).
+`inspectWebp` is a header validator only, and it bounds every header read before touching dimension
+fields. Ordinary rendering does not prove a WebP body decodes; that evidence comes from committed-asset
+validation (inspect-alpha `real_alpha: true`, step 3) and C1's offline check (`naturalWidth > 0`,
+`canaries.test.mjs:39-46`).
 
 ## Rating rationale (2026-10-14)
 
