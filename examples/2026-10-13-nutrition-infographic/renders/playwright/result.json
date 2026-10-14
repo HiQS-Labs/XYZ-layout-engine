@@ -15,12 +15,12 @@
   },
   "catalog": {
     "slug": "nutrition",
-    "version": "2.0.1",
-    "contentSha256": "8be57550ecdc65e636560409285e7196074346bfc64796e33daade30911c1a21",
+    "version": "2.0.2",
+    "contentSha256": "5fed5caab914b46f7c06fcb362a0c8f954e096f8dff37d4482492766239b7070",
     "verified": true
   },
   "versions": {
-    "recipe": "2.0.1",
+    "recipe": "2.0.2",
     "backend": "1.64.0"
   },
   "validation": {

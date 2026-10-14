@@ -1,12 +1,12 @@
 # Fuel Well. Live Well. — DESIGN.md Style Guide & Art Direction
 
 This document is the canonical art-direction and layout style guide for the
-`nutrition@2.0.1` recipe (`tools/recipes/nutrition.mjs`, patch-updated from
-`nutrition@2.0.0` with identical rendered outputs) and the
+`nutrition@2.0.2` recipe (`tools/recipes/nutrition.mjs`, patch-updated from
+`nutrition@2.0.0` / `2.0.1` with identical rendered outputs) and the
 `examples/2026-10-13-nutrition-infographic/` example bundle. It governs how the
 engine reproduces the operator's supplied nutrition reference composition
 (`PROJECT/2-WORKING/layout-engine-reference.png`) while preserving `nutrition@1.0.0`
-(`tools/spike/**`) and `nutrition@2.0.0` as immutable catalog history.
+(`tools/spike/**`), `nutrition@2.0.0`, and `nutrition@2.0.1` as immutable catalog history.
 
 ## 1. Reader and visual hierarchy
 
@@ -25,7 +25,7 @@ steady blood sugar, and hydration support daily energy and focus.
    (`parfait_jar` — `NUTRITIOUS`, `snack_container` — `PORTABLE`,
    `chicken_wrap` — `CONVENIENT`, `water_bottle` — `HYDRATED`) sit on the
    lower-left alongside a bordered vertical benefits card (`benefitsPanel`:
-   `INCREASED ENERGY`, `SHARPER FOCUS`, `STRONGER IMMUNITY`, `BETTER WELL-BEING`)
+   `SUSTAINED ENERGY`, `SHARP FOCUS`, `STRONG IMMUNITY`, `BETTER WELL-BEING`)
    on the lower-right.
 4. **Closing anchor (Footer banner):** A full-width rounded pill banner summarizes
    the takeaway (`GOOD FUEL. EVERY DAY. EVERY WHERE.` | `Small choices. Big impact.`).
@@ -139,7 +139,7 @@ recorded:
   (`borderRadius: 999`) are retained to reproduce the reference poster's lower-right
   benefits group and closing banner.
 - **AS-5 (Separation of content, layout, and styling):** `fixture.json` owns copy,
-  asset IDs, and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.1`)
+  asset IDs, and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.2`)
   owns the fixed 1000 × 1000 layout geometry, gradient, `Barlow Condensed` uppercase
   typography, and per-PNG drop-shadow contract defined in this `DESIGN.md`.
 - **AS-6 (Ornament & visual metaphor):** `SYSTEM-INSTRUCTIONS.md` AS-6 prohibits

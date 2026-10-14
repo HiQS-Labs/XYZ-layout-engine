@@ -1,6 +1,6 @@
-# Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.1`)
+# Fuel Well. Live Well. — Nutrition Infographic (`nutrition@2.0.2`)
 
-Current recipe: `nutrition@2.0.1` (patch-updated from `nutrition@2.0.0` with identical rendered outputs), governed by [DESIGN.md](DESIGN.md).
+Current recipe: `nutrition@2.0.2` (patch-updated from `nutrition@2.0.0` with identical rendered outputs), governed by [DESIGN.md](DESIGN.md).
 Open the [backend comparison gallery](index.html), [Satori HTML](renders/satori/render-inline.html),
 [Chromium HTML](renders/playwright/render-inline.html), [Satori PNG](renders/satori/render.png),
 [Chromium PNG](renders/playwright/render.png), or [Satori SVG](renders/satori/render.svg).
@@ -10,7 +10,7 @@ Open the [backend comparison gallery](index.html), [Satori HTML](renders/satori/
 This example converts the reference poster (`PROJECT/2-WORKING/layout-engine-reference.png`)
 into a self-contained example bundle under `examples/2026-10-13-nutrition-infographic/`
 paired with a dedicated [DESIGN.md](DESIGN.md) style guide and art direction contract
-implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs) (`nutrition@2.0.1`):
+implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs) (`nutrition@2.0.2`):
 
 1. **Bundled `Barlow Condensed` with ALL CAPS headlines:**
    - Loads `BarlowCondensed-Regular.ttf` (`400`) and `BarlowCondensed-Bold.ttf` (`700`)
@@ -72,7 +72,7 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
   `footer` (`borderRadius: 999`) are retained to reproduce the reference poster's
   lower-right benefits summary card and closing banner.
 - **AS-5 (Single owner for layout & styling):** `fixture.json` owns copy, asset IDs,
-  and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.1`) owns the
+  and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.2`) owns the
   fixed geometry, `Barlow Condensed` uppercase typography, gradient, and drop-shadow
   contract.
 - **AS-6 (Ornament & visual metaphor — recorded reference exception):** The flanking
@@ -103,7 +103,7 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
 
 ## Verification & Replay
 
-Both complete backend exports passed validation, catalog verification (`nutrition@2.0.1`),
+Both complete backend exports passed validation, catalog verification (`nutrition@2.0.2`),
 first-attempt text fitting (`attempts: 1`, `iterations: 0`), and publication digest
 checks; see [verification.json](verification.json) and [SHA256SUMS](SHA256SUMS).
 
