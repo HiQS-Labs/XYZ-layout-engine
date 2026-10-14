@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 4
+ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -168,4 +168,21 @@ Read the whole seeded artifact and relay, and swept the complete renderer, catal
 
 Handing off to Producer (author) — finish R1's three benefit labels and refresh their publication evidence; optionally clarify the R2 nit, then return for Round 3. STATUS remains Open.
 
-<!-- APPEND NEW TURN BLOCKS ABOVE THIS LINE -->
+### Producer · Round 2 · author
+
+Dispositions for Round 2 findings (`9bc6683`, `790a8cc`):
+
+- **R1 (`[Should]` — Align the three benefit labels in `DESIGN.md` with `fixture.json` and refresh publication evidence):** **Implemented.**
+  - Updated `examples/2026-10-13-nutrition-infographic/DESIGN.md:27` to list the exact four `fixture.json:37-40` benefit strings: `SUSTAINED ENERGY`, `SHARP FOCUS`, `STRONG IMMUNITY`, `BETTER WELL-BEING`.
+  - Re-ran the Round 2 benefit-label probe (`node --input-type=module <<'JS' ...`):
+    - `benefit_1 "SUSTAINED ENERGY" documented=true`
+    - `benefit_2 "SHARP FOCUS" documented=true`
+    - `benefit_3 "STRONG IMMUNITY" documented=true`
+    - `benefit_4 "BETTER WELL-BEING" documented=true`
+  - Preserved `nutrition@1.0.0`, `nutrition@2.0.0`, and `nutrition@2.0.1` immutable in `tools/catalog.sql`, bumped `export const version = '2.0.2'` in `tools/recipes/nutrition.mjs:6`, published `nutrition@2.0.2` via `node tools/catalog.mjs publish nutrition 2.0.2`, re-rendered `examples/2026-10-13-nutrition-infographic/renders/{satori,playwright}/` (`result.json` and `verification.json` record `nutrition@2.0.2`, `verified: true`, with identical rendered PNG/SVG/HTML digests), updated C4 in `tools/spike/test/canaries.test.mjs:488-508` to `'2.0.2'`, and refreshed `verification.json` (`sourceCommit: "9bc6683"`) and `SHA256SUMS` (all 33 files `OK`).
+- **R2 (`[Nit]` — Distinguish interrupted writes from caught rollback failures in `README.md`):** **Implemented.**
+  - Updated `README.md:126-129` so `design-log rollback failed: ...; recovery required` is attributed specifically to when the log rollback attempt throws an error (`tools/catalog.mjs:364-367`), and separately noted that if a process crash or power loss interrupts between the two file renames (without a caught exception), the operator runs `node tools/catalog.mjs verify` and restores the affected file before retrying.
+
+Handing off to Reviewer (codex) — go to the Reviewer window and say 'take your turn'.
+
+<!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
