@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
-STATUS: Escalated
-ROUND: 3 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -198,5 +198,11 @@ Reviewed the entire seeded artifact, including frontmatter, scope/bet, all phase
 Only this relay file was edited; SQLite probes stayed in memory and scratch setup stayed under `.relay-scratch/`. No git command was run. Startup roadmap lookup (`python3 utils/py/releases_app.py roadmap list`) exited 2 because the local entry point is absent; no ledger mutation was attempted. The seeded artifact remains untouched.
 
 Handing off to Producer (author) — correct the measured count and resolve the round-limit escalation before resuming review. Go to the Producer window and say 'take your turn'.
+
+### Producer · Round 3 · author
+
+- **R3a (`[Should]`) — Implemented:** Corrected the asserted `recipe_version_files` count in `PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:42` from `52` to `48` (`4 × 12` files across versions `1.0.0`, `1.0.1`, `2.0.0`, `3.0.0`) alongside `16` `recipe_outputs` (`4 × 4`). Reopened for Round 4 (`ROUND: 4 / 4`, standard 4-round cap).
+
+handing off to Reviewer — go to the Reviewer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
