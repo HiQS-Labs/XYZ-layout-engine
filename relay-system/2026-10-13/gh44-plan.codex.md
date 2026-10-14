@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -113,5 +113,15 @@ Reviewed the entire seeded plan, including frontmatter, scope/bet, all phases, a
 Only this relay file was edited. No git command, renderer, fixture, test suite, validate.sh or PDDA rail was executed. The artifact remains read-only; runtime verification is deferred to the disposable-clone harness.
 
 Handing off to Producer (author) — address R1–R4, disposition every finding, and open Round 2.
+
+### Producer · Round 1 · author
+
+- **R1 (`[Should]`) — Implemented:** Updated Phase 2 step 5 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:56`) to specify resolving `manifest.current` from each `tools/render.mjs` publication directory, copying the selected run's artifacts (`render.png`, `render.svg`, `render.html`, `render-inline.html`, `result.json`, `assets/*`, plus `receipt.json` and 420px thumbnails) into flat `examples/2026-10-13-nutrition-infographic/renders/{satori,playwright}/`, and passing mandatory `--workarounds 0 --friction "Barlow Condensed ALL CAPS headlines, radial-gradient canvas, and per-PNG drop shadows rendered cleanly across Satori+resvg and Chromium."` to `node tools/catalog.mjs design add`.
+- **R2 (`[Should]`) — Implemented:** Updated Scope & Bet guard 3 and Phase 2 step 6 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:33,57`) to relocate C4's `extraPng` tamper control from `tools/spike/assets/generated/web/heart.png` into the new declared namespace `examples/2026-10-13-nutrition-infographic/assets/web/heart.png` so the `namespace differs` reject/restore assertion stays active for `nutrition@2.0.0`.
+- **R3 (`[Should]`) — Implemented:** Updated Phase 1 step 3 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:42`) to specify the bounded migration procedure without weakening `preserveHistory` in `tools/catalog.mjs`: hold in-memory backups of `tools/catalog.sql` and `tools/design-log.jsonl`, filter out only the `mangajdm-promo` rows (`rcp-89e64f2f-166c-4a62-842d-5e431fc2f86b`, `rcv-76161472-c6db-48c5-85b9-5fb064e4ddbb`) and the 7 moved design IDs (`2026-10-11-mangajdm-eras`, `2026-10-11-mangajdm-icon`, `2026-10-11-mangajdm-wear`, `2026-10-12-mangajdm-01-icon-editorial`, `2026-10-12-mangajdm-02-eras-editorial`, `2026-10-12-mangajdm-03-wear-editorial`, `2026-10-12-belief-feedback-editorial`), validate and canonicalize via `exportDump(loadDump(filteredSql))` imported from `./tools/catalog.mjs`, write both files atomically (restoring both backups on any failure), and verify via `node tools/catalog.mjs import tools/catalog.sql` and `node tools/catalog.mjs export --check`.
+- **R4 (`[Should]`) & Unverified SVG post-pass note — Implemented:** Recorded exact baseline SHA-256 digests in `PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:29,32,63,70` for all protected files (`tools/request.mjs`: `5f80f4a0210b5f353b9b4e853bfcc6eb2b06bbd2dcd51ef9a0aba3e06cfa7133`, `tools/spike/scene.mjs`: `c796e7c5a16e5cf634e4749fb407b035a864793b6fccf86af2cc1d821ad1bc8b`, `tools/spike/assets.mjs`: `b688386866d9ea0d491d8100b2aef14a4cdb76e8fbae9e6b7615c32743f4a582`, `tools/spike/fixture.json`: `81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95`, `tools/spike/assets/**` 20-file tree: `4f3a811b0c5dafd3208bd3aa38252179a87c82cedabb5581a80416bec1c195d6`, `tools/spike/output/**` 14-file tree: `b9f3cb82899b76af2a345001cabfafb61303b63594185cdf6fea6796b3cbb9d7`, `test-budget.json`: `0a23ad46838464f83dffafa8f48b1f85111c1ab196de8dd207866b1a45d56685`), baseline deterministic `processRequest` digests for `solar-system` (`png: b55c036c76275ae7f07bfaddf93aaac2f4bb94c0e43504fadf748da982b32d9b`, `svg: c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf`) and `recursive-process` (`png: 2b0e840fcb1cea28a63558836fb10e8ebffb1ace7c904118838bf9a643eac5cb`, `svg: 3cc1ec8c3cc5882897a034860a5fc270cf76bb2090bce01bcb9cc6857db58b30`), and the reproducible drop-shadow probe output using `([^"]+)\)"` (which matches nested `rgba(...)` parentheses and strips `style="filter:drop-shadow(...)"` from `<image>` when wrapping in `<g filter="url(#satori_ds_N)">` so exported SVG never double-applies the shadow).
+- **Nit (`releases_app.py` entry point) — Implemented:** Updated Phase 3 step 3 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:63`) to use `eval "$("$HOME/.gemini/config/skills/relay-xyz/find-harness.sh" --env)" && python3 "$HARNESS/utils/py/releases_app.py" --root . check`.
+
+handing off to Reviewer — go to the Reviewer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
