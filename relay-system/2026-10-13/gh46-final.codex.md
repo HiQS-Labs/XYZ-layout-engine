@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -96,5 +96,56 @@ ROUND: 1 / 3
   - `utils/pdda/pdda.sh run`: `no errors`.
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+### Reviewer (codex) — r1
+
+**Call:** Block final sign-off on one stale handoff-state finding; the inspected recipe and saved visual outputs meet the shadow-tuning requirements.
+
+VERDICT: FAIL
+Basis: The implementation evidence is consistent with the requested visual change, but the primary artifact still directs a cold agent to repeat plan QA and implementation. Correct its current-state header before approval. Full execution gates remain assigned to the disposable-clone harness.
+swept file: yes
+
+Reviewed the entire seeded `.relay-artifacts/GH-46-SHADOW-TUNING.md`, including recon, plan, gates and measured evidence, plus the recipe, AS-11, design contract, bundle documentation/gallery, verification receipts, catalog/design registration and canary version references. Used the SWE review rubric. Only this relay file was edited; no git command, executable fixture, suite or PDDA gate was run.
+
+**Bet / reversibility:** Updating the handoff state should prevent duplicate execution without changing the delivered visuals. Leaving it stale can restart completed phases. `Easy`: a document-only correction; preserve the historical plan and evidence.
+
+1. **[Should] F1 — Reconcile the primary artifact's current status with completed implementation.** `.relay-artifacts/GH-46-SHADOW-TUNING.md:6` says `"surgical plan ready for Codex plan QA"`; line 24 still lists `"execute Phases 1–3"` as next, despite section 5 recording final `nutrition@3.0.0` outputs and this relay reviewing them. This violates the repository's cold-agent resumability contract in `GUIDING-PRINCIPLES.md` ("the current PROJECT/** docs are the project's state"). Fix the canonical task document's frontmatter status and Status table to record completed implementation/publication/verification evidence and the actual remaining final-QA/harness/PR steps. Retain the plan body as historical intent and do not claim final QA approved until it is.
+   Observed input: Full seeded final-review artifact, whose current status at lines 6 and 24 still describes pre-implementation work while section 5 reports completed renders.
+   Affected scope: Task handoff and resumption; no runtime or image change is requested.
+   Falsifier: The next seeded artifact's frontmatter and Status table agree with section 5 and point only to genuinely outstanding work.
+
+2. **[Pass] Recipe-local implementation and design contract.** `tools/recipes/nutrition.mjs:45` defines six ground-shadow specs; the `chicken_wrap` entry uses `imgTop: 60, imgHeight: 107`. `groundedImg` stacks an SVG image behind the cutout in a relative stage, with no cutout filter; `hero_img` retains `filter: HERO_SHADOW`. `SYSTEM-INSTRUCTIONS.md` explicitly states `"AS-11 Ground 3D cutouts with directional base/contact cast shadows"`; `DESIGN.md` section 4.2 documents the matching gradient stops, geometry and emissive-hero exception. No correction requested.
+
+3. **[Pass] Saved positive and red-control pixels satisfy the stated gates.** Independently sampled the PNGs named in artifact section 5 using the following read-only probe (exit **0**). No recipe/fixture execution occurred; resvg decoded the saved PNG at its native size.
+
+   ```sh
+   export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+   node --input-type=module <<'JS'
+   import fs from 'node:fs';
+   import { Resvg } from '@resvg/resvg-js';
+   const root='examples/2026-10-13-nutrition-infographic';
+   for (const p of ['renders-v3/satori','renders-v3/playwright','renders/satori']) {
+     const png=fs.readFileSync(`${root}/${p}/render.png`).toString('base64');
+     const r=new Resvg(`<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000"><image width="1000" height="1000" href="data:image/png;base64,${png}"/></svg>`).render();
+     const px=r.pixels;
+     const L=(x,y)=>{const i=(y*1000+x)*4;return .299*px[i]+.587*px[i+1]+.114*px[i+2]};
+     console.log(p,JSON.stringify([L(590,728)-L(619,728),L(600,690)-L(649,690),L(577,836)-L(617,836),L(577,836)-L(613,836)].map(x=>+x.toFixed(2))));
+   }
+   JS
+   ```
+
+   Decisive output (signed upper, cap, cast52, cast48 luma differences):
+   ```text
+   renders-v3/satori [0,0.11,51.61,47.31]
+   renders-v3/playwright [-0.89,0.11,44.9,40.01]
+   renders/satori [6.89,13,5.3,2.41]
+   ```
+   Absolute upper differences pass; the old render fails the positive gate and passes the specified red-control conditions. The 0.01 differences from the author's rounded values do not affect any threshold. An earlier Python probe could not sample pixels because PIL was unavailable; this completed probe supplies the independent measurement. No correction requested.
+
+4. **[Pass] Retained bundle hashes and visual inspection.** Ran `shasum -a 256 -c SHA256SUMS` from `examples/2026-10-13-nutrition-infographic/`, exit **0**, **45/45 OK**, including `renders-v3/satori/render.png: OK`, `renders-v3/playwright/render.png: OK`, both historical PNGs and `verification-v3.json: OK`. Inspected `renders-v3/{satori,playwright}/{render.png,thumbnail.png}` at their native 1000px/420px sizes. Both show base shadows rather than upper-body halos, and the wrap aligns with its neighboring food cutouts. AS-10/AS-11 visual scope passes; the retained gradient, glow, ornaments, card, pill and slogan exceptions are explicitly documented in `DESIGN.md` section 5 (AS-2/3/6/7). No correction requested.
+
+5. **[Unverified — needs clone run] Execution gates and historical comparison.** The producer reports 4/4 canaries in 25.7s, catalog verification/export, releases check and PDDA success. Those claims were not rerun in this reviewer sandbox, per the operator's restrictions. Current SHA256SUMS consistency cannot establish that every historical catalog row and file is unchanged relative to the base revision. The harness/full-clone gate must supply execution and base-comparison evidence; this is an evidence boundary, not a request for a new test suite. Likewise saved `result.json` fitting receipts state `"fit": true, "attempts": 1, "iterations": 0`; they are stored evidence, not a fresh render performed by this reviewer.
+
+handing off to Producer — go to the Producer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
