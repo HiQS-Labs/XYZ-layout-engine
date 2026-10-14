@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -105,5 +105,32 @@ Reviewed the entire seeded artifact, not only a diff, and swept the implementati
 - **[Unverified — needs clone run]** `pnpm test`, fresh render/digest equivalence for solar/recursive-process, full PDDA and RELEASES gates were not executed in this reviewer worktree. The harness owns those checks. Filesystem inspection found the three retired paths absent and no retired identities in current catalog/log, but removal from Git tracking, both private archive copies, every unrelated historical row, and complete protected-tree before/after equality were not independently proven without the baseline/host evidence. The five individually pinned protected-file hashes read here match the seeded artifact's recorded values. Local startup RELEASES entrypoints were absent, so roadmap query was not run. No Git command, fixture execution, or artifact/source edit was performed.
 
 Handing off to Producer (author) — disposition R1–R3, update the documentation/publication evidence as needed, and return for Round 2. STATUS remains Open.
+
+### Producer · Round 1 · author
+
+Dispositions for Round 1 findings (`ea3661c`, `3ee9e1b`):
+
+- **R1 (`[Should]` — Reconcile canonical `DESIGN.md` and example `README.md` with `fixture.json` and preserve published-version immutability):** **Implemented.**
+  - Updated `examples/2026-10-13-nutrition-infographic/DESIGN.md:1-69` to match the exact copy and palette tokens in `examples/2026-10-13-nutrition-infographic/fixture.json:5-49`:
+    - Headline/subtitle (`DESIGN.md:15-17`): `FUEL WELL. LIVE WELL.` / `Optimized Nutrition. Sustained Energy.`.
+    - Flanking callouts (`DESIGN.md:18-21`): `BALANCED NUTRITION` (*The right fuel for your body and mind.*) and `SKIP THE SPIKE` (*Avoid sugary drinks and processed snacks.*).
+    - Lower row & benefits (`DESIGN.md:22-27`): `NUTRITIOUS`, `PORTABLE`, `CONVENIENT`, `HYDRATED` + `INCREASED ENERGY`, `SHARPER FOCUS`, `STRONGER IMMUNITY`, `BETTER WELL-BEING`.
+    - Footer banner (`DESIGN.md:28-29`): `GOOD FUEL. EVERY DAY. EVERY WHERE.` | `Small choices. Big impact.`.
+    - Palette table (`DESIGN.md:62-69`): `canvas.backgroundColor` (`theme.background`) = `#fbfaf3`, `palette.primary` = `#2f5d27`, `palette.secondary` = `#7fb04a`, `palette.text` = `#1f2a1c`, `palette.muted` = `#3d4639`, `palette.panelFill` = `#f4f8ea`, `palette.panelBorder` = `#b9d79b`.
+  - Updated `examples/2026-10-13-nutrition-infographic/README.md:24` (`backgroundColor: '#fbfaf3'`) and `examples/2026-10-13-nutrition-infographic/index.html:1`.
+  - Re-ran the R1 probe (`node --input-type=module -e '...'`): all 6 palette keys (`primary`, `secondary`, `text`, `muted`, `panelFill`, `panelBorder`) and `theme.background` (`#fbfaf3`) report `matches=true`.
+  - Preserved `nutrition@2.0.0` (`rcv-7c80d0b8-d12f-4e43-8789-e5e7c9510c9c`) and design `2026-10-13-nutrition-infographic` untouched in `tools/catalog.sql`, bumped `export const version = '2.0.1'` in `tools/recipes/nutrition.mjs:6` (a patch bump per `README.md:91-93` because all rendered outputs are byte-identical), ran `node tools/catalog.mjs publish nutrition 2.0.1` (`rcv-f93e431f-ce10-4d37-a5f1-d032ecbbd401`, `content_sha256: 8be57550ecdc65e636560409285e7196074346bfc64796e33daade30911c1a21`), re-rendered `examples/2026-10-13-nutrition-infographic/renders/{satori,playwright}/` (`result.json` and `verification.json` now record `nutrition@2.0.1` with `verified: true` while `render.png`, `render.svg`, and `render-inline.html` digests remain identical), updated C4 in `tools/spike/test/canaries.test.mjs:488-508` to `'2.0.1'`, and refreshed `verification.json` (`sourceCommit: "ea3661c"`) and `SHA256SUMS` (all 33 files `OK`).
+- **R2 (`[Should]` — Correct the pre-existing catalog recovery paragraph in `README.md`):** **Implemented.**
+  - Replaced `README.md:122-128` to accurately document `tools/catalog.mjs:356-367`: `design add` atomically stages `tools/design-log.jsonl` first (`atomicDump(logFile, ...)`), then atomically replaces `tools/catalog.sql` (`atomicDump(file, canonical)`), and on an ordinary `catalog.sql` write failure automatically restores the prior `design-log.jsonl` bytes (or unlinks the file if previously absent) so the command can be retried directly; if that rollback itself fails (or a process crash / power loss occurs between the two renames), `catalog.mjs` reports `design-log rollback failed: ...; recovery required`, at which point the operator runs `node tools/catalog.mjs verify` and restores the affected file.
+- **R3 (`[Should]` — Report the actual AS-2, AS-3, AS-6, and AS-7 exceptions):** **Implemented.**
+  - Updated `examples/2026-10-13-nutrition-infographic/DESIGN.md:112-151` and `examples/2026-10-13-nutrition-infographic/README.md:61-90` with accurate rule numbers and explicit reference-reproduction disclosures:
+    - **AS-2:** Radial canvas gradient (`#fffef8` → `#f7f3e3` → `#ede6cf`), luminous halo/sparkles in `leaf_glow.png`, and engine-applied per-PNG drop shadows (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))` and `drop-shadow(0px 6px 8px rgba(242,228,150,0.45))`).
+    - **AS-3:** Bordered rounded `benefitsPanel` card (`borderRadius: 16`) and pill `footer` (`borderRadius: 999`).
+    - **AS-6:** Flanking header/footer leaf (`leaf_small`) and heart (`heart`) SVG ornaments and the central glowing leaf metaphor (`leaf_glow`), retained to reproduce `PROJECT/2-WORKING/layout-engine-reference.png` while keeping monochrome benefit badges and ornaments as crisp vector SVGs.
+    - **AS-7:** Slogan headline `"FUEL WELL. LIVE WELL."` (explicitly cited in `SYSTEM-INSTRUCTIONS.md` AS-7) and footer banner (`"GOOD FUEL. EVERY DAY. EVERY WHERE."` / `"Small choices. Big impact."`) retained verbatim because `fixture.json` reproduces the canonical spike reference poster (`PROJECT/2-WORKING/layout-engine-reference.png` / `tools/spike/fixture.json`), framed explicitly as an illustrative reference-reproduction study rather than a clinical nutrition claim.
+- **Clone verification evidence recorded in `.relay-artifacts/GH-44-NUTRITION-DESIGN-README.md:66-120`:**
+  - Recorded the full command outputs for `pnpm test` (`4/4` canaries in `26.7s`, budget `60s`), protected file & tree SHA-256 checks (`tools/request.mjs`, `tools/spike/scene.mjs`, `tools/spike/assets.mjs`, `tools/spike/fixture.json`, `test-budget.json`, `tools/spike/assets/**` 20 files, `tools/spike/output/**` 14 files), unaffected recipe deterministic render digests (`solar-system@1.0.1`, `recursive-process@5.0.0`), pre-migration catalog row equality across all 6 tables against base commit `01c9185`, private archive file counts/digests on both hosts, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run` (0 errors).
+
+Handing off to Reviewer (codex) — go to the Reviewer window and say 'take your turn'.
 
 <!-- APPEND NEW TURN BLOCKS ABOVE THIS LINE -->
