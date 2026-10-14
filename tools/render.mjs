@@ -108,7 +108,7 @@ export function toHtml(node) {
     .filter(([k]) => k !== 'children' && k !== 'style')
     .map(([k, v]) => {
       if (!['id', 'src', 'alt', 'width', 'height'].includes(k)) throw new Error('Unsupported HTML attribute');
-      if (k === 'src' && !/^(data:image\/(png|svg\+xml);base64,[A-Za-z0-9+/=]+|assets\/[a-f0-9]{64}\.(png|svg))$/.test(String(v))) throw invalid('src', 'only embedded trusted images are supported');
+      if (k === 'src' && !/^(data:image\/(png|webp|svg\+xml);base64,[A-Za-z0-9+/=]+|assets\/[a-f0-9]{64}\.(png|webp|svg))$/.test(String(v))) throw invalid('src', 'only embedded trusted images are supported');
       return `${k}="${escapeHtml(v)}"`;
     })
     .join(' ');
@@ -246,6 +246,8 @@ export async function processRequest(reqObj, options = {}) {
         }
         result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height, family, { raster });
       } else {
+        // resvg-js 2.6.2 silently drops WebP images, so refuse rather than publish a PNG missing its artwork.
+        if (raster && attempt === 0 && JSON.stringify(scene).includes('data:image/webp')) throw invalid('backend', 'WebP artwork is not rasterized by Satori/resvg; use --backend playwright for PNG');
         result = await renderSatori(scene, fonts, normalized.width, normalized.height, family, { raster, measureWords: true });
       }
 
@@ -349,10 +351,10 @@ export async function processRequest(reqObj, options = {}) {
       if (format === 'html') {
         // Extract only image/font attributes, never label text containing a data URL.
         html = toDocument(scene, fonts, normalized.width, normalized.height, family, source => {
-          const match = /^data:(image\/png|image\/svg\+xml|font\/ttf);base64,([A-Za-z0-9+/=]+)$/.exec(source);
+          const match = /^data:(image\/png|image\/webp|image\/svg\+xml|font\/ttf);base64,([A-Za-z0-9+/=]+)$/.exec(source);
           if (!match) throw invalid('asset', 'unsupported offline asset');
           const [, mime, encoded] = match, bytes = Buffer.from(encoded, 'base64');
-          const extension = { 'image/png': 'png', 'image/svg+xml': 'svg', 'font/ttf': 'ttf' }[mime];
+          const extension = { 'image/png': 'png', 'image/webp': 'webp', 'image/svg+xml': 'svg', 'font/ttf': 'ttf' }[mime];
           const name = `assets/${sha256(bytes)}.${extension}`;
           if (!artifacts.some(a => a.name === name)) add(name, mime, bytes);
           return name;
@@ -440,7 +442,7 @@ export async function publishStaged(stage, destination, options = {}) {
       if (entry.isFile() && entry.name !== 'manifest.json') files.push(entry.name);
       else if (entry.isDirectory() && entry.name === 'assets') {
         for (const asset of await fs.readdir(path.join(stage, 'assets'), { withFileTypes: true })) {
-          if (!asset.isFile() || !/^[a-f0-9]{64}\.(png|svg|ttf)$/.test(asset.name)) throw invalid('artifact', 'unexpected staged asset');
+          if (!asset.isFile() || !/^[a-f0-9]{64}\.(png|webp|svg|ttf)$/.test(asset.name)) throw invalid('artifact', 'unexpected staged asset');
           files.push(`assets/${asset.name}`);
         }
       } else throw invalid('artifact', 'unexpected staged entry');
@@ -474,7 +476,7 @@ export async function verifyPublication(root) {
   if (!Array.isArray(manifest.files) || !manifest.files.length || !manifest.files.includes('result.json') || manifest.files.length > 512 || new Set(manifest.files).size !== manifest.files.length) throw invalid('manifest', 'invalid file list');
   let total = 0;
   for (const name of manifest.files) {
-    if (typeof name !== 'string' || !/^(result\.json|render\.(png|svg|html)|render-inline\.html|assets\/[a-f0-9]{64}\.(png|svg|ttf))$/.test(name)) throw invalid('manifest', 'invalid artifact path');
+    if (typeof name !== 'string' || !/^(result\.json|render\.(png|svg|html)|render-inline\.html|assets\/[a-f0-9]{64}\.(png|webp|svg|ttf))$/.test(name)) throw invalid('manifest', 'invalid artifact path');
     const target = await fs.realpath(path.join(directory, name));
     if (!within(directory, target)) throw invalid('manifest', 'symlink escape');
     const bytes = await readBounded(target, LIMITS.outputBytes, 'artifact');
@@ -492,7 +494,7 @@ export async function publishArtifacts(operation, destination, options = {}) {
   const stage = await fs.mkdtemp(path.join(out, '.staging-'));
   try {
     for (const artifact of operation.artifacts) {
-      if (!/^(render\.(png|svg|html)|render-inline\.html|assets\/[a-f0-9]{64}\.(png|svg|ttf))$/.test(artifact.name) || sha256(artifact.bytes) !== artifact.sha256) throw invalid('artifact', 'invalid artifact identity/digest');
+      if (!/^(render\.(png|svg|html)|render-inline\.html|assets\/[a-f0-9]{64}\.(png|webp|svg|ttf))$/.test(artifact.name) || sha256(artifact.bytes) !== artifact.sha256) throw invalid('artifact', 'invalid artifact identity/digest');
       if (artifact.name.startsWith('assets/')) await fs.mkdir(path.join(stage, 'assets'), { recursive: true });
       await fs.writeFile(path.join(stage, artifact.name), artifact.bytes, { flag: 'wx' });
     }

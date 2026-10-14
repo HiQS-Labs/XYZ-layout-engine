@@ -27,8 +27,30 @@ export async function readBounded(file, limit, field = 'inputPath') {
   } finally { await handle.close(); }
 }
 
-// Shared local PNG reader; recipe modules own the provenance filename and selected asset IDs.
-export async function readPinnedPngs(example, provenance, ids) {
+// Header-only check for committed transparent WebP (VP8X with alpha, or VP8L with alpha); Chromium decodes.
+// Lives here, not in spike/assets.mjs, because that module is pinned by recipes that never use WebP.
+export function inspectWebp(webp, budget) {
+  if (webp.length < 30 || webp.toString('latin1', 0, 4) !== 'RIFF' || webp.toString('latin1', 8, 12) !== 'WEBP' || webp.readUInt32LE(4) !== webp.length - 8) throw new Error('Invalid WebP container');
+  const chunk = webp.toString('latin1', 12, 16);
+  let width, height;
+  if (chunk === 'VP8X' && webp[20] & 0x10) {
+    width = webp.readUIntLE(24, 3) + 1; height = webp.readUIntLE(27, 3) + 1;
+  } else if (chunk === 'VP8L' && webp[20] === 0x2f && (webp.readUInt32LE(21) >>> 28) & 1) {
+    const bits = webp.readUInt32LE(21);
+    width = (bits & 0x3fff) + 1; height = ((bits >>> 14) & 0x3fff) + 1;
+  } else throw new Error('Unsupported WebP; requires transparent WebP');
+  if (width > 8192 || height > 8192 || width * height > LIMITS.assetPixels) throw new Error('WebP dimensions exceed budget');
+  if (budget) {
+    budget.bytes += webp.length; budget.pixels += width * height;
+    if (budget.bytes > 35 * 1024 * 1024 || budget.pixels > LIMITS.assetPixels) throw new Error('Aggregate asset budget exceeded');
+  }
+  return { width, height };
+}
+
+// Shared local artwork reader; recipe modules own the provenance filename, selected asset IDs and format.
+// PNG is the default and pins `display.sha256`; a recipe may opt into transparent WebP, pinned as `webp.sha256`.
+export async function readPinnedPngs(example, provenance, ids, format = 'png') {
+  if (!['png', 'webp'].includes(format)) throw invalid('asset', 'unsupported artwork format');
   const { inspectPng } = await import('./spike/assets.mjs');
   const proof = JSON.parse(await readBounded(new URL(provenance, example), LIMITS.inputBytes));
   const base = await fs.realpath(fileURLToPath(example));
@@ -36,12 +58,13 @@ export async function readPinnedPngs(example, provenance, ids) {
   if (!within(base, root)) throw invalid('asset', 'asset namespace symlink escape rejection');
   const assets = {}, budget = { bytes: 0, pixels: 0 };
   for (const id of ids) {
-    const target = await fs.realpath(path.join(root, `${id}.png`));
+    const target = await fs.realpath(path.join(root, `${id}.${format}`));
     if (!within(root, target)) throw invalid(`asset.${id}`, 'symlink escape rejection');
     const bytes = await readBounded(target, LIMITS.assetBytes, `asset.${id}`);
-    inspectPng(bytes, budget);
-    if (crypto.createHash('sha256').update(bytes).digest('hex') !== proof.assets[id]?.display?.sha256) throw invalid(`asset.${id}`, 'display digest mismatch');
-    assets[id] = `data:image/png;base64,${bytes.toString('base64')}`;
+    (format === 'webp' ? inspectWebp : inspectPng)(bytes, budget);
+    const pin = format === 'webp' ? proof.assets[id]?.webp : proof.assets[id]?.display;
+    if (crypto.createHash('sha256').update(bytes).digest('hex') !== pin?.sha256) throw invalid(`asset.${id}`, `${format === 'webp' ? 'webp' : 'display'} digest mismatch`);
+    assets[id] = `data:image/${format};base64,${bytes.toString('base64')}`;
   }
   return assets;
 }

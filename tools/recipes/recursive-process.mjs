@@ -1,8 +1,9 @@
 import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
-// Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned PNG assets.
+// Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned transparent WebP assets
+// (Satori/resvg cannot rasterize WebP, so PNG output needs --backend playwright).
 // Fixed semantic structure; bounded copy and palette remain fixture-owned.
-export const version = '5.0.0';
+export const version = '6.0.0';
 export const name = 'recursive-process';
 
 export const FONT = {
@@ -68,7 +69,7 @@ function notation(value, size, color) {
 }
 export async function buildScene(fixture, sizes = {}) {
   const s = { ...DEFAULT_SIZES, ...sizes }, p = fixture.theme.palette;
-  const assets = await readPinnedPngs(ART_ROOT, 'provenance.json', ART_IDS);
+  const assets = await readPinnedPngs(ART_ROOT, 'provenance.json', ART_IDS, 'webp');
   const text = (id, content, style = {}) => node('span', id, { flexShrink: 0, fontSize: s[id] * SCALE, lineHeight: 1.3, color: p.ink, ...style }, content);
   const artwork = (id, asset, x, y, w, h = w) => node('img', id, at(x, y, w, h, { objectFit: 'contain' }), undefined, { src: assets[asset], alt: asset.replaceAll('-', ' ') });
   const group = (id, data, x, y, w, h) => box(id, at(x, y, w, h, { flexDirection: 'column', alignItems: 'center', gap: 4 * SCALE, paddingLeft: 3 * SCALE, paddingRight: 3 * SCALE }), [

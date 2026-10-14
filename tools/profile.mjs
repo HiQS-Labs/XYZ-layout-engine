@@ -11,7 +11,7 @@ const io = { assetReadMs: 0, fontReadMs: 0, inputSchemaReadMs: 0, base64EncodeMs
 const category = file => {
   const name = file instanceof URL ? fileURLToPath(file) : String(file);
   if (name.endsWith('.ttf')) return 'fontReadMs';
-  if (/\/assets\//.test(name) && /\.(png|svg)$/.test(name)) return 'assetReadMs';
+  if (/\/assets\//.test(name) && /\.(png|webp|svg)$/.test(name)) return 'assetReadMs';
   if (name.endsWith('.json') && !name.includes('.relay-scratch')) return 'inputSchemaReadMs';
 };
 // Profiling-only observation of actual filesystem calls; restored when this process exits.
