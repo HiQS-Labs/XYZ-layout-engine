@@ -230,4 +230,12 @@ Read the whole seeded artifact and approved plan, the complete request/render/pr
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the approved review for the harness gate and next workflow step; completing GH50-FINAL-20261014 with `done`. The harness owns the relay-only commit.
 
+
+### Attestation · relay-drive — 2026-10-14T17:18:28Z
+task: GH50-FINAL-20261014
+reviewer: codex
+status: Approved
+reviewed-head: c2bda51e2d216bcf73dc3b427c387ab9dd7e38fc
+added-range: 20015+8790
+added-sha256: 3c24c095b1130fda3f93706a15319d4b558ce595b43a25011d7a261df25aa351
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
