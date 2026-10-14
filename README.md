@@ -116,7 +116,7 @@ aliases/renames and semver range resolution are deferred.
 Designs are insert-only records in the same catalog, identified by `YYYY-MM-DD-slug`.
 An edit forks a new design ID; there is no design update or delete command. Each record hashes
 the fixture JSON and PNG artifact and optionally pins a published use case as `slug@semver`.
-Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`) and `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`5.0.0`; RAG and cell-division have a null use case
+Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`) and `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`6.0.0`; RAG and cell-division have a null use case
 because they are hand-built scripts with no recipe.
 
 | Command | Successful result | Exit |

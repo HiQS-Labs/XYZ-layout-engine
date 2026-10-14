@@ -450,6 +450,8 @@ test('guards: the verifier stops detecting tampering', async () => {
     const literal = 'data:image/png;base64,Zg==';
     const op = await processRequest({ inputPath: fixture, format: 'html,html-inline', edits: [{ path: 'sections.header.subtitle', value: literal }] }, { root });
     assert.ok(op.artifacts.find(a => a.name === 'render.html').bytes.toString().includes(literal), 'data URL text rewritten as an asset');
+    // GH-50: WebP-looking copy is text, not artwork, so a PNG-only scene still rasterizes in Satori.
+    await processRequest({ inputPath: fixture, format: 'png', edits: [{ path: 'sections.header.subtitle', value: 'data:image/webp;base64,Zg==' }] }, { root });
     const publication = await publishArtifacts(op, 'offline', { root });
     assert.equal((await verifyPublication(publication.root)).valid, true);
     const assetName = publication.manifest.files.find(name => name.startsWith('assets/'));

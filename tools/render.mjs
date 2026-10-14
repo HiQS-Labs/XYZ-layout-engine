@@ -247,7 +247,9 @@ export async function processRequest(reqObj, options = {}) {
         result = await renderPlaywright(context, scene, fonts, normalized.width, normalized.height, family, { raster });
       } else {
         // resvg-js 2.6.2 silently drops WebP images, so refuse rather than publish a PNG missing its artwork.
-        if (raster && attempt === 0 && JSON.stringify(scene).includes('data:image/webp')) throw invalid('backend', 'WebP artwork is not rasterized by Satori/resvg; use --backend playwright for PNG');
+        // Only image sources count; label text that merely looks like a WebP data URL is ordinary copy.
+        const webpImage = n => Array.isArray(n) ? n.some(webpImage) : !!n && typeof n === 'object' && ((n.type === 'img' && /^data:image\/webp;/.test(String(n.props?.src))) || webpImage(n.props?.children));
+        if (raster && attempt === 0 && webpImage(scene)) throw invalid('backend', 'WebP artwork is not rasterized by Satori/resvg; use --backend playwright for PNG');
         result = await renderSatori(scene, fonts, normalized.width, normalized.height, family, { raster, measureWords: true });
       }
 
