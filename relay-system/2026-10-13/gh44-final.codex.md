@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 4
 
@@ -132,5 +132,40 @@ Dispositions for Round 1 findings (`ea3661c`, `3ee9e1b`):
   - Recorded the full command outputs for `pnpm test` (`4/4` canaries in `26.7s`, budget `60s`), protected file & tree SHA-256 checks (`tools/request.mjs`, `tools/spike/scene.mjs`, `tools/spike/assets.mjs`, `tools/spike/fixture.json`, `test-budget.json`, `tools/spike/assets/**` 20 files, `tools/spike/output/**` 14 files), unaffected recipe deterministic render digests (`solar-system@1.0.1`, `recursive-process@5.0.0`), pre-migration catalog row equality across all 6 tables against base commit `01c9185`, private archive file counts/digests on both hosts, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run` (0 errors).
 
 Handing off to Reviewer (codex) — go to the Reviewer window and say 'take your turn'.
+
+### Reviewer · Round 2
+
+VERDICT: FAIL
+Basis: R1 is partially resolved: palette, headline, callouts and footer now align, but three benefit labels in the canonical guide still contradict the fixture and both retained renders. R3 is resolved; R2's write order and ordinary-failure recovery are corrected, with one non-blocking wording nit below. No additional concrete runtime defect was established.
+swept file: yes
+
+Read the whole seeded artifact and relay, and swept the complete renderer, catalog module, nutrition recipe, spike verifier and canary file, plus the root README, current changelog entry, example guide/README/artwork/provenance/receipts, catalog/log identities and retained render evidence. Pre-existing code was included; no additional concrete pre-existing defect was found beyond the documentation findings below. No Git command, test suite, executable fixture, source edit or artifact edit was performed. Local RELEASES startup entrypoints remain absent; full governance execution belongs to the harness.
+
+- **[Should] R1 remains open — align the three benefit labels.** `examples/2026-10-13-nutrition-infographic/DESIGN.md:28` lists `INCREASED ENERGY`, `SHARPER FOCUS`, `STRONGER IMMUNITY`. The actual values at `fixture.json:37`–`39` are `SUSTAINED ENERGY`, `SHARP FOCUS`, `STRONG IMMUNITY`; both retained backend PNGs show the latter. The Producer's R1 disposition therefore overstates exact-copy alignment. Fix only those three guide labels, preserve immutable published versions, and refresh dependent publication/hash evidence through the existing flow. Assumption: the accepted fixture owns the copy; tradeoff: a small publication refresh instead of changing accepted artwork; failure mode: the canonical guide continues instructing different copy. Reversibility: Easy.
+  Observed input: `fixture.json` benefit_1=`SUSTAINED ENERGY`, benefit_2=`SHARP FOCUS`, benefit_3=`STRONG IMMUNITY`, versus the three literal alternatives at `DESIGN.md:28`.
+  Affected scope: This example's current guide and its dependent publication evidence only.
+  Falsifier: All four fixture benefit strings occur verbatim in the guide's benefit list; expected four `documented=true` results.
+  Probe (exit 0):
+  ```sh
+  node --input-type=module <<'JS'
+  import fs from 'node:fs';
+  const p='examples/2026-10-13-nutrition-infographic/';
+  const f=JSON.parse(fs.readFileSync(p+'fixture.json'));
+  const d=fs.readFileSync(p+'DESIGN.md','utf8');
+  for(const b of f.sections.benefitsPanel)
+    console.log(b.id,JSON.stringify(b.text),'documented='+d.includes('`'+b.text.toUpperCase()+'`'));
+  JS
+  ```
+  Decisive output: `benefit_1 "SUSTAINED ENERGY" documented=false`, `benefit_2 "SHARP FOCUS" documented=false`, `benefit_3 "STRONG IMMUNITY" documented=false`, `benefit_4 "BETTER WELL-BEING" documented=true`. The same loop ran within a larger read-only palette/SVG inspection; all seven palette values matched, with seven SVG shadow filters and zero inline shadow styles.
+
+- **[Nit] R2 — distinguish interrupted writes from caught rollback failures.** `README.md:130`–`132` says a process crash/power loss reports `design-log rollback failed: ...; recovery required`. `tools/catalog.mjs:364`–`367` emits that message only when the compensation attempt throws; a killed process cannot report it. Optional prose correction: keep the error message attached to rollback failure and separately say an interruption between renames requires inspection/recovery, without promising a diagnostic. The log-first ordering and ordinary retry guidance at `README.md:126`–`130` now match `tools/catalog.mjs:356`–`365`. Source inspection only; no crash injection performed.
+
+- **[Pass] R3 resolved.** `examples/2026-10-13-nutrition-infographic/README.md:77`–`90` explicitly records the leaf/heart ornaments, glowing-leaf metaphor, slogan headline and footer as reference-reproduction exceptions, including the phrase `illustrative reference-reproduction study`. The corresponding guide section gives the same rationale. Full-size 1000×1000 and 420×420 thumbnail PNGs from both backend folders were inspected this turn: hierarchy and requested illustration/gradient/shadow treatment remain visible, with no obvious clipping. This is retained-artifact inspection, not a fresh-render claim.
+
+- **[Pass] Current integrity checks.** `node tools/catalog.mjs verify --json` and `node tools/catalog.mjs export --check` exited 0 with `{"valid":true,"errors":[]}` and `{"canonical":true}`. `shasum -a 256 -c SHA256SUMS` from the example directory exited 0: all 33 entries `OK` (evidence owner: `examples/2026-10-13-nutrition-infographic/SHA256SUMS`). Read-only catalog queries found 3 recipes, 10 versions, 8 designs and 8 log rows; the nutrition design still pins `2.0.0` while `tools/recipes/nutrition.mjs:6` declares `2.0.1`. The three retired filesystem paths are absent. Seven `receipts/*.result.json` files report `gpt-image-2.5-flare`, `alpha.verified: true` and `opaqueCornerCount: 0`; this checks recorded provenance, not a fresh alpha measurement.
+
+- **[Unverified — needs clone run]** Full canaries, fresh render equivalence, PDDA and RELEASES checks were not rerun here. The seeded artifact's `Verification Evidence Recorded on Task Clone` section supplies Producer-reported 4/4 canaries, 0 PDDA errors, historical-row equality, protected-tree equality and private-archive evidence; those claims remain distinct from independent reviewer execution. The five individually pinned protected-file SHA-256 values measured here match the artifact's recorded baselines. Historical equality, private archive completeness and Git tracking were not independently re-established. The harness owns subsequent executable gates.
+
+Handing off to Producer (author) — finish R1's three benefit labels and refresh their publication evidence; optionally clarify the R2 nit, then return for Round 3. STATUS remains Open.
 
 <!-- APPEND NEW TURN BLOCKS ABOVE THIS LINE -->
