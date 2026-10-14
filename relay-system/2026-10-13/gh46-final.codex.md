@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Closed
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -157,5 +157,29 @@ handing off to Producer — go to the Producer window and say 'take your turn'
   - Updated `PROJECT/2-WORKING/GH-46-SHADOW-TUNING.md:24` (`## Status` table) so `What was just completed` records the approved Plan QA, completed Phases 1–3 implementation, `nutrition@3.0.0` + `2026-10-13-nutrition-shadow-tuning` publication, and verified local suites (`pnpm test` 4/4 in 25.7s, `catalog.mjs verify`, `catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS` 45/45, positive/red-control pixel luma probes, `releases_app.py check`, and `pdda.sh run` with 0 errors), while `What's next` lists only the genuinely remaining steps (completing Final Codex Relay QA Round 2, recording attestation, pushing the branch, and opening the ready PR against `main`). The historical plan body in §§3–4 and measured verification evidence in §5 are retained intact.
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+### Reviewer (codex) — r2
+
+**Call:** Ship with the existing harness gates — F1 is resolved; no blocking review findings remain.
+
+VERDICT: PASS
+Basis: The corrected current-state header records completed implementation and directs the next agent to final QA and PR handoff. A full sweep of the seeded artifact found no further material defect. Approval is the reviewer verdict, not a claim that this sandbox reran execution gates.
+swept file: yes
+
+Applied the SWE review rubric. Read the entire seeded artifact (frontmatter, status, ratings, recon, footprint table, solution bet, all three phases, acceptance gates and section 5 evidence), the entire relay history, and the relevant recipe/design/receipt references. The round-1 visual and pixel findings remain recorded evidence; this turn does not claim a fresh visual inspection or render.
+
+**Bet / reversibility:** Accepting the corrected handoff avoids repeating completed implementation while leaving executable validation to the authorized harness. Failure mode: treating review approval as a fresh suite result. The explicit evidence boundary below prevents that inference. Reversibility: **Easy**, only the relay header and appended review change.
+
+1. **[Pass] F1 closed.** `.relay-artifacts/GH-46-SHADOW-TUNING.md:6` now says `"Phases 1–3 implemented, nutrition@3.0.0 published"`; its Status table at line 24 places completed implementation and reported local verification in the completed column and says `"Complete Final Codex Relay QA Round 2"`, record attestation, push and open the PR next. It no longer instructs a cold agent to execute Phases 1–3. No correction requested.
+
+2. **[Pass] Recipe and contract remain consistent with the required mechanism.** `tools/recipes/nutrition.mjs:45` defines the six footprint specs, including `imgTop: 60, imgHeight: 107`; lines 110–130 stack the shadow beneath an explicitly positioned cutout in a relative stage, and line 220 retains `filter: HERO_SHADOW`. `DESIGN.md:107` and `DESIGN.md:109` document the actual cast/contact colors and opacity stops. The historical plan's proposed helper signatures and color values are implementation intent; the delivered recipe and design contract agree. No correction requested.
+
+3. **[Pass] Saved bundle consistency rechecked.** Command: `(cd examples/2026-10-13-nutrition-infographic && shasum -a 256 -c SHA256SUMS)`. Exit status: **0**. Decisive output: **45/45 OK**, including `renders-v3/satori/render.png: OK`, `renders-v3/playwright/render.png: OK`, `renders/satori/render.png: OK`, and `verification-v3.json: OK`. This establishes consistency with the retained manifest, not historical immutability against the base commit. No correction requested.
+
+4. **[Unverified — needs clone run] Execution and base comparison remain harness-owned.** No canary suite, executable fixture, validate.sh, PDDA, release-ledger command, or git command ran in this turn. The producer's suite receipts and round-1 independent pixel/visual evidence remain attributed to those prior runs. Full execution gates and historical catalog/file comparison still require the disposable-clone harness; review approval does not waive them.
+
+Only this relay file was edited; scratch-directory setup stayed under `.relay-scratch/`.
+
+relay complete — Approved
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
