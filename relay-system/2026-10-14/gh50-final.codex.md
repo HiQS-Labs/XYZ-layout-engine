@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -169,5 +169,65 @@ Handing off to Producer (claude-a) — address B1, disposition N1, run the exist
 - CHANGELOG and the plan's R4 result row updated to say the refusal applies to WebP image sources, not label text.
 
 Requesting round 2 review of HEAD.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: Approve the implementation within the supplied local single-operator, trusted catalog-pinned artwork contract. B1 and N1 are resolved; R1–R6 have source and retained evidence support, with no open Blocker.
+swept file: yes
+
+Read the whole seeded artifact and approved plan, the complete request/render/profile/catalog/recursive-process runtime files and canary file, plus the provenance, versioned evidence, current documentation and prior turns. No additional pre-existing defect identified in this sweep within the stated envelope. Graph tools are unavailable; direct source reads supplied the evidence. No git, renderer execution, suite, executable fixture, validate.sh or PDDA gate was run. Only this relay file is edited. Reversibility: **Easy**. Bet: the image-source predicate addresses B1 while preserving the established backend placement; retained clone execution receipts support the integration claims, and the harness remains responsible for fresh gates.
+
+- **[Pass] B1 closed — the refusal now tests image sources rather than copy.** `tools/render.mjs:249–253` walks arrays and scene children, requires `type === 'img'` and a WebP data source, and keeps the Satori/raster/attempt-zero condition. Ordinary text and metadata cannot trigger it. `render.mjs:211,241–247` still permits SVG/HTML-only requests and Playwright's non-raster Satori coverage pass. The current recipe's asset selection remains independent of fitting sizes (`tools/recipes/recursive-process.mjs:70–74`). No additional mechanism is needed.
+  Narrow probe of the exact current predicate, Node v22.22.3, exit **0**, output in `$TMPDIR/r2-guard.log`:
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module > "$TMPDIR/r2-guard.log" <<'JS'
+  import assert from "node:assert/strict";
+  import {readFileSync} from "node:fs";
+  import {invalid} from "./tools/request.mjs";
+  const source=readFileSync("tools/render.mjs","utf8").split("\n");
+  const guard=new Function("scene","raster","attempt","invalid",source.filter(l=>l.includes("const webpImage =")||l.includes("if (raster && attempt === 0 && webpImage")).join("\n"));
+  const img=src=>({type:"img",props:{src}});
+  const wrap=n=>({type:"div",props:{children:[null,false,[{type:"h2",props:{children:"data:image/webp;base64,Zg=="}},n]]}});
+  for(const [label,scene,raster,attempt,reject] of [
+   ["png-and-webp-copy",wrap(img("data:image/png;base64,Zg==")),true,0,false],
+   ["nested-webp",wrap(img("data:image/webp;base64,Zg==")),true,0,true],
+   ["root-webp",img("data:image/webp;base64,Zg=="),true,0,true],
+   ["svg-html-only",wrap(img("data:image/webp;base64,Zg==")),false,0,false],
+   ["later-attempt",wrap(img("data:image/webp;base64,Zg==")),true,1,false]
+  ]){let e;try{guard(scene,raster,attempt,invalid);}catch(error){e=error;}
+  assert.equal(!!e,reject);if(e)assert.match(e.message,/use --backend playwright for PNG/);
+  console.log(label+"="+(e?"refused":"allowed"));}
+  JS
+  ```
+  Decisive output: `png-and-webp-copy=allowed`, `nested-webp=refused`, `root-webp=refused`, `svg-html-only=allowed`, `later-attempt=allowed`. This measures the actual guard in isolation, not full CLI rendering.
+
+- **[Pass] The existing canaries cover the correction without enlarging the suite.** `tools/spike/test/canaries.test.mjs:450–456` retains the PNG-data-URL copy/export assertion and adds Satori PNG execution with WebP-looking subtitle copy. The original GH-36 non-fit and unsupported-font controls remain at `canaries.test.mjs:279–289`, selecting SVG to reach their intended failures; actual WebP Satori PNG still has its own refusal assertion at line 278. Four existing declarations at lines 54/406/431/439 fit `test-budget.json` (1 file, 4 tests, 60s). Retained producer receipts at `relay-system/2026-10-14/gh50-verification/controls.md:58–64` report CLI falsifiers, 4/4 in 44.1s, and 3 pass/1 fail when the old predicate is restored. These are clone receipts, not a suite independently rerun here.
+
+- **[Pass] R1/R2 remain the bounded opt-in extension reviewed in round 1.** `tools/request.mjs:32–47` bounds field reads with a minimum length, checks RIFF length/form, extracts VP8X/VP8L alpha/dimensions, and uses the same dimensional and aggregate budgets as `tools/spike/assets.mjs:22–26`. The reader preserves PNG default, bounded reads, containment and digest checking (`request.mjs:52–69`). This is the stated header contract, not compressed-body validation.
+  Read-only reader probe (exit **0**, `$TMPDIR/r2-reader.log`):
+  ```sh
+  node --input-type=module > "$TMPDIR/r2-reader.log" <<'JS'
+  import {readFileSync} from "node:fs";
+  import {readPinnedPngs,inspectWebp} from "./tools/request.mjs";
+  const root=new URL("./examples/2026-10-12-belief-reference/",import.meta.url);
+  const ids=Object.keys(JSON.parse(readFileSync(new URL("provenance.json",root))).assets);
+  const assets=await readPinnedPngs(root,"provenance.json",ids,"webp"), budget={bytes:0,pixels:0};
+  for(const id of ids)console.log(id+"="+JSON.stringify(inspectWebp(Buffer.from(assets[id].split(",")[1],"base64"),budget)));
+  console.log("assets="+ids.length+" aggregate="+JSON.stringify(budget));
+  JS
+  ```
+  Decisive output: all six named assets report `{"width":256,"height":256}`; `assets=6 aggregate={"bytes":128652,"pixels":393216}`.
+
+- **[Pass] R3/R5 retain one loader and publisher, with valid current catalog pins.** The WebP additions are in the existing HTML source/extractor and staged/manifest/artifact checks (`tools/render.mjs:111,356–360,447,481,499`), preserving anchors, digests, containment and budgets; publication still delegates `publishArtifacts → publishStaged` at lines 493–505. Profiling categorizes WebP at `tools/profile.mjs:14`. Recipe 6.0.0 opts in at `tools/recipes/recursive-process.mjs:6,72`; six WebP files are declared at `tools/catalog.mjs:140–146`. New version/design/log entries are `tools/catalog.sql:34,284` and `tools/design-log.jsonl:10`. Read-only commands `node tools/catalog.mjs verify --json` and `node tools/catalog.mjs export --check` each exited **0**, output `{"valid":true,"errors":[]}` and `{"canonical":true}` (scratch logs `r2-catalog-verify.log`, `r2-catalog-export.log`). No catalog write was performed in this turn.
+
+- **[Pass] R6/N1 and retained visual evidence are coherent.** N1 is corrected to `recursive-process@1.0.0..6.0.0` at `README.md:119`; current commands split backend capabilities at `README.md:61–68` and `examples/2026-10-12-belief-reference/README.md:30–36`. The R4 results row in the seeded artifact and `CHANGELOG.md:6` now describe image sources. Command `(cd examples/2026-10-12-belief-reference && shasum -a 256 -c SHA256SUMS)` exited **0**, **75/75 OK**, including all WebP assets and retained v3–v6 outputs (`$TMPDIR/r2-shasums.log`). Viewed `renders-v6/playwright/render.png` at original 1600×1340 and `thumbnail.png` at 420px: all illustration subjects are present, no new exterior halo is apparent, reference-specific hierarchy remains, and fine captions need full-size viewing (AS-1/4/10; example README:25–26). Round 1's decoded-alpha/conversion and v5 pixel-comparison evidence remains applicable to these checksum-passing files; no new Satori PNG visual claim is made.
+
+- **[Pass] Scope and rating remain proportionate.** The 55/20/50/60 rationale at `.relay-artifacts/GH-50-WEBP-ARTWORK.md:187–192` is prioritization judgment, consistent with a small opt-in feature and no new decoder dependency (`package.json`'s three existing renderer dependencies). The stale .DS_Store checksum removal (`CHANGELOG.md:7`) is bounded evidence hygiene; retained outputs still pass their checksum list. No parallel reader, publisher or new framework was found in the runtime files swept.
+
+**[Unverified — needs clone run]** Fresh CLI rendering, offline browser loads, C1/C4 execution and red mutations, fresh baseline PNG/SVG parity, and PDDA gates were not run here. The retained execution evidence is at `controls.md:8–13,42–64`; its two corrections qualify the misleading raw `ok (no error)` lines. Git was prohibited, so historical-row preservation, CLI-only publication provenance and unchanged dependency/unrelated pinned-file bytes were not independently compared with base. Current declared pins and canonical catalog integrity pass; this does not substitute for a historical diff. Startup roadmap command could not run because `utils/py/releases_app.py` is absent (Python exit 2); no lifecycle write attempted.
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) receives the approved review for the harness gate and next workflow step; completing GH50-FINAL-20261014 with `done`. The harness owns the relay-only commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
