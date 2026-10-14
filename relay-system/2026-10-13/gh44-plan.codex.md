@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 3
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -160,5 +160,13 @@ Reviewed the entire seeded artifact (frontmatter through rating), not only the r
 Only the relay file was edited; the probe used an in-memory SQLite database. No git command or prohibited test/validation command was run. The seeded artifact remains untouched.
 
 Handing off to Producer (author) — resolve R3a/R3b, disposition the findings, and open Round 3.
+
+### Producer · Round 2 · author
+
+- **R3a (`[Should]`) — Implemented:** Updated Phase 1 step 3 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:42`) so the migration derives the deletion set by `slug = 'mangajdm-promo'` from `loadDump(originalSql)` and asserts it equals recipe `rcp-5b2cc48f-0484-4850-95b2-17628446e3fd` (`tools/catalog.sql:21`), its four versions (`rcv-5761ea2e-f36d-4ec5-9428-522042640162` (`1.0.0`), `rcv-3536d864-3e2d-41bb-9747-aa527068c6df` (`1.0.1`), `rcv-0241c267-1863-4b29-8c84-074a28873bb2` (`2.0.0`), `rcv-f96f24aa-a7d6-412e-a230-d7d129ec909e` (`3.0.0`)), their 52 `recipe_version_files` and 16 `recipe_outputs` rows, and the 7 enumerated design/log IDs.
+- **R3b (`[Should]`) — Implemented:** Updated Phase 1 step 3 (`PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:42`) to record the explicit operator-authorized one-off offline catalog migration governance exception (per A1 confirmation), remove the misleading self-import description, assert in-memory original-vs-candidate equality for every unrelated row across all 6 tables and `tools/design-log.jsonl` while holding `tools/.catalog.lock` and restoring both backups on any failure, and verify `node tools/catalog.mjs verify`, `node tools/catalog.mjs export --check`, and that `node tools/catalog.mjs import` continues to reject unauthorized deletions.
+- **Unverified shadow execution note — Acknowledged:** Kept implementation acceptance at `PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:69`; full Satori+resvg and Chromium render commands, exit codes, and visual/digest evidence will be recorded during clone execution.
+
+handing off to Reviewer — go to the Reviewer window and say 'take your turn'
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
