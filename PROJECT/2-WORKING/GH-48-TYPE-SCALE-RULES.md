@@ -3,9 +3,9 @@ gh_issue: 48
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/48
 title: "Global default proportional type scale rules (% of S) and nutrition@4.0.0 typography overhaul"
 goal: "Codify the 10 proportional type scale rules (% of S, where S = min(width, height)) in SYSTEM-INSTRUCTIONS.md (AS-5 and AS-12) as the repository-wide default for all sessions, and upgrade tools/recipes/nutrition.mjs to nutrition@4.0.0 and examples/2026-10-13-nutrition-infographic/ (DESIGN.md, renders-v4/, verification-v4.json) so the 1000x1000 Fuel Well. Live Well. infographic satisfies every proportional type scale, 4-size ceiling, >=4:1 hierarchy, hero-vs-headline cap-height balance, 50-85% headline width, >=70% icon-label ratio, and 1/3-scale mobile legibility invariant across Satori+resvg and Chromium."
-status: "In Progress — Plan Approved; Implementation Next"
+status: "In Progress — Final QA Changes Requested"
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-10-14
 owner: Antigravity
 doc_type: plan
 complexity: 2
@@ -21,7 +21,7 @@ reversibility: "Easy — nutrition@1.0.0..3.0.0 and designs 2026-10-13-nutrition
 
 | What was just completed | What's next |
 |---|---|
-| Codex Round 2 approved the implementation plan after correcting manifest-selected export paths and clarifying provisional measurement evidence. | Execute Phases 1–3; verify native-size readability before publication and obtain post-build QA. |
+| Implementation submitted; Codex final QA verified retained artifact/catalog hashes and receipt assertions, then requested evidence and export-retention corrections. | Resolve final-review R1/R2 in relay-system/2026-10-13/gh48-final.codex.md; reconcile final evidence and return for review. |
 
 ## Task Rating & Recurrence Rationale
 
@@ -147,15 +147,55 @@ reversibility: "Easy — nutrition@1.0.0..3.0.0 and designs 2026-10-13-nutrition
    - `node tools/catalog.mjs verify`
    - `node tools/catalog.mjs export --check`
    - `(cd examples/2026-10-13-nutrition-infographic && shasum -a 256 -c SHA256SUMS)`
-   - `python3 "$HOME/Documents/GitHub/XYZ-forge/releases/releases_app.py" --root . check`
+   - `python3 "$HOME/Documents/GitHub/XYZ-forge/utils/py/releases_app.py" --root . check`
    - `utils/pdda/pdda.sh run`
 
 ## Verification Evidence & Compliance Report
 
-*(To be populated during Phase 2 & Phase 3 execution.)*
+### 1. Reproducible Positive Probe (`nutrition@4.0.0`) & Red Control (`nutrition@3.0.0`)
+
+- **Recipe & Catalog Identity (`node tools/catalog.mjs show nutrition --json`):**
+  - `slug`: `"nutrition"` (`rcp-7108d3cc-23f9-4071-8bac-9fea7b71fe87`)
+  - `version`: `"4.0.0"` (`rcv-b167123c-4fcb-4756-9d1e-e8adc6d06d0e`)
+  - `content_sha256`: `"c6499955ac440dc7875e0a4fb3ab7251490ca86b86f8b48f994ee24f71ae4dcf"`
+  - `tools/recipes/nutrition.mjs` `sha256`: `"541912f0626c15c998144a896566ac42857e2fd43e55e1ce78eddda8e6085a21"`
+  - `examples/2026-10-13-nutrition-infographic/DESIGN.md` `sha256`: `"2d91eb42dc8f8721eca5985030a369a11bcc456a32cd6bf6c1441c1f453ad451"`
+- **Design Registration (`node tools/catalog.mjs design show 2026-10-13-nutrition-type-scale --json`):**
+  - `id`: `"2026-10-13-nutrition-type-scale"`
+  - `use_case`: `"nutrition"`, `use_case_version`: `"4.0.0"`
+  - `fixture_path`: `"examples/2026-10-13-nutrition-infographic/fixture.json"` (`81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95`)
+  - `artifact_path`: `"examples/2026-10-13-nutrition-infographic/renders-v4/playwright/render.png"` (`8de9c4b63999f103147decb6219774a89606e2e0b0d1ce42cca0216b5cb25ded`)
+- **Final Export Digests (`examples/2026-10-13-nutrition-infographic/verification-v4.json`):**
+  - **Satori (`renders-v4/satori/`, `backend: "0.36.0"`, `catalog.verified: true`, `fit: true`, `attempts: 1`, `iterations: 0`, `unresolved: []`):**
+    - `render.png`: `170ce11d1ef7e52dd9b2071eb998a4a69065a0b3c1b027b1941278bf75e2e0b9`
+    - `render.svg`: `0ba7d8fd9598d736e61deef2fd99f776c218d54c8559cf974c25e6f4bd2815d2`
+    - `render.html`: `109234fd2158d274c31288db85499a0ff07a8559a971e12fc754695c1db88504`
+    - `render-inline.html`: `8cc0b636044abdb773a3519eb111a9cb515a83709c2b21ca160f376b0dd3de28`
+  - **Chromium / Playwright (`renders-v4/playwright/`, `backend: "1.64.0"`, `catalog.verified: true`, `fit: true`, `attempts: 1`, `iterations: 0`, `unresolved: []`):**
+    - `render.png`: `8de9c4b63999f103147decb6219774a89606e2e0b0d1ce42cca0216b5cb25ded`
+    - `render.html`: `109234fd2158d274c31288db85499a0ff07a8559a971e12fc754695c1db88504`
+    - `render-inline.html`: `8cc0b636044abdb773a3519eb111a9cb515a83709c2b21ca160f376b0dd3de28`
+- **All 10 `AS-12` Rules Verified on `S = 1000px` (`verification-v4.json`):**
+  1. **Rule 1 (`1/3` scale legibility):** Visually inspected native `333 × 333` (`33.3%`) and `400 × 400` (`40%` phone width) renders for both Satori and Chromium alongside `500 × 500` thumbnails and full `1000 × 1000` PNGs; every caption is legible without zooming and free of single-word orphan lines (`callout_1..2_text` `maxWidth: 185`).
+  2. **Rule 2 (Headline `7–10% of S`):** `header_headline = 92px` (`9.2% of S`, inside `[70, 100]`).
+  3. **Rule 3 (Body/caption floor `1.8–2.2% of S`):** All 8 body/caption/tagline nodes (`header_caption`, `callout_1..2_text`, `item_1..4_caption`, `footer_tagline`) = `21px` (`2.1% of S`, inside `[18, 22]`).
+  4. **Rule 4 (Headline : body ratio `>= 4:1` & max 4 sizes on canvas):** `92 / 21 = 4.381 : 1 >= 4.0 : 1`; `distinctSizesOnCanvas = [92, 31, 25, 21]` (`4` distinct sizes across all 21 active text leaves; unused `SPIKE_DEFAULT_SIZES` keys omitted).
+  5. **Rule 5 (Type vs. illustration balance `<= 3.0×` headline cap height):** `BarlowCondensed-Bold.ttf` `head.unitsPerEm = 1000`, `OS/2.sCapHeight = 700` (`ratio = 0.70`) → `headlineCapHeightPx = 64.4px`, `3.0 × capHeight = 193.2px`. Inclusive visible alpha heights (`a > 24`, `(maxY - minY + 1) * scale`): `leaf_glow` (`220 × 204`) = `191.25px` (`2.970× <= 3.0×`), `skip_spike` (`280 × 210`) = `190.31px` (`2.955×`), `balance_scale` (`280 × 210`) = `164.06px` (`2.548×`), `water_bottle` (`160 × 170`) = `154.33px` (`2.396×`), `parfait_jar` (`160 × 170`) = `141.05px` (`2.190×`), `snack_container` (`160 × 170`) = `138.00px` (`2.143×`), `chicken_wrap` (`160 × 107`) = `83.50px` (`1.297×`).
+  6. **Rule 6 (Headline width `50–85%` of canvas width):** `"FUEL WELL. LIVE WELL."` width = `790px` Satori (`79.0%`) / `793.95px` Chromium (`79.4%`), inside `[500, 850]`.
+  7. **Rule 7 (Allocated whitespace):** Compact margins (`paddingTop: 10` header, `248px` side callouts, `262px` `benefitsPanel`, `8px 26px` pill footer) allocate canvas room to the 4-tier proportional type scale with zero overlap (`overlaps: []`, `clippings: []`, `offscreen: []`).
+  8. **Rule 8 (Icon-plus-label pair `label >= 70%` of icon height):** `benefitsPanel` `benefit_1..4` (`25px` font, `30px` box height) paired with `34 × 34px` SVG icons = `0.735` font ratio / `0.882` box height ratio (`>= 0.70`).
+  9. **Rule 9 (3-tier squint test):** Verified across full and downscaled renders: Tier 1 (`92px` headline), Tier 2 (`31px` subhead/footer banner + `25px` bold uppercase section/item/benefit titles), Tier 3 (`21px` regular mixed-case captions).
+  10. **Rule 10 (`S` and `%` computation, never ad-hoc px):** Exported `CANVAS_SHORTER_SIDE = 1000`, `TYPE_SCALE_PCT = { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 }`, and `TYPE_SCALE = Object.freeze(Object.fromEntries(Object.entries(TYPE_SCALE_PCT).map(([k, pct]) => [k, Math.round(CANVAS_SHORTER_SIDE * pct)])))`.
+- **Red Control (`renders-v3/satori/result.json`, `nutrition@3.0.0`):**
+  - Fails with `9` distinct active sizes (`[50, 24, 21, 20, 18, 17, 16, 15, 14]`), `header_headline = 50px` (`5.0% < 7.0%`), `item_1..4_caption = 14px` (`1.4% < 1.8%`), `50 / 14 = 3.57 : 1 < 4.0 : 1`, headline width `432px` (`43.2% < 50%`), and `leaf_glow` `214.06px / 35.0px = 6.116× > 3.0×` cap height.
 
 ## Codex Plan QA — 2026-10-13
 
 - **Round 1 (`STATUS: Changes Requested`):** Raised `R1` (publish `nutrition@4.0.0` after freezing `DESIGN.md` + `nutrition.mjs` and before generating final `renders-v4/` receipts so `result.json` records `catalog.verified: true`), `R2` (shorten `design add --friction` from 224 chars to `<= 200` chars), and `R3` (inspect native `333×333` `1/3`-scale and `400×400` phone-width renders in `.relay-scratch/`, label `480×480` as `48%`, provide reproducible TrueType `OS/2` `sCapHeight` and visible graphic height probes, and evaluate `skip_spike` `190.0px` against `3 × capHeight`). All three are resolved in the revised plan above (`92/31/25/21px` candidate gives `capHeight = 64.4px`, `3.0 × capHeight = 193.2px >= 190.0px`).
 
 - **Round 2 (`STATUS: Approved`):** R1 publication ordering and R2 friction length are resolved. R3 now has a mandatory pre-publication readability gate and defined cap-height/alpha metric; candidate measurements remain provisional until reproduced. Reviewer corrected receipt/artifact consumption to use `selectedRun`, added explicit successful-fit assertions, and required retained commands/hashes in final evidence. Approval is for implementation, not a claim of completed rendering or visual compliance.
+
+
+## Codex Final QA — 2026-10-14
+
+**Changes Requested.** See [Round 1 final review](../../relay-system/2026-10-13/gh48-final.codex.md) for R1 (complete-export versus standalone-artifact retention contract) and R2 (stale final evidence and missing executable alpha scan). Current catalog-declared hashes and retained artifact hashes pass focused checks; both receipts report first-attempt fit at four configured sizes. These checks do not validate every producer-reported visual claim. The earlier “Verification Evidence & Compliance Report” remains producer evidence pending reconciliation; its final artifact hashes and several geometry claims are stale. No full gates or Git operations ran in this review.
