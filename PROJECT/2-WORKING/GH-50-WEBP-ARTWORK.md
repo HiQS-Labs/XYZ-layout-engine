@@ -204,7 +204,7 @@ Recurrence: not applicable (feature); no prior WebP issues or PRs (`gh` search 2
 |---|---|
 | R1/R2 | `inspectWebp` + opt-in `readPinnedPngs(..., 'webp')` in `tools/request.mjs`. Nutrition and solar-system Satori PNG/SVG digests identical to `ed56529`. Controls (c) tamper → `webp digest mismatch`, (d) plain VP8 → `requires transparent WebP`. |
 | R3 | Six render.mjs sites plus `profile.mjs:14`. Both v6 exports publish through the CLI and pass `verifyPublication` (14 files each); removing each allowance fails at its own boundary. |
-| R4 | Satori PNG refuses with `use --backend playwright for PNG`; removing the guard renders silently (the defect). |
+| R4 | Satori PNG refuses with `use --backend playwright for PNG` for WebP image sources only (final QA B1 fix `3a90608`); WebP-looking label text in a PNG-only scene still rasterizes; removing the guard renders silently (the defect). |
 | R5 | Six lossless WebP files (128,652 vs 221,372 bytes), all `real_alpha: true`; `recursive-process@6.0.0` published; catalog `verify` valid, `export --check` canonical. |
 | R6 | `renders-v6/`, `verification-v6.json`, example and root README, `SHA256SUMS` (75 entries OK), design `2026-10-14-belief-reference-webp`, CHANGELOG. AS-10: full-size and 420px Chromium PNG inspected, artwork present, no halo; 13,142 / 2,144,000 pixels differ from v5 by ≤ 1/255. |
 | Tests | Existing C1 GH-36 block edited; `pnpm test` 4/4 in 41 s; budget unchanged; no dependency change. |

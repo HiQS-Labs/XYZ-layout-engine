@@ -52,3 +52,13 @@ Corrections to the raw output above, checked separately:
 ## Suite
 
 `pnpm test`: 4/4 pass, `test-budget: PASS — 4 canaries in 41.0s (budget 60s)`.
+
+## Final QA round 1 — B1 guard fix (`3a90608`)
+
+- Falsifiers (task clone, CLI): nutrition `--format png` with `sections.header.subtitle=data:image/webp;base64,Zg==`
+  → `"valid": true`; `recursive-process` Satori `png` → `use --backend playwright for PNG`; Satori `svg` → `"valid": true`.
+- `pnpm test`: 4/4, `4 canaries in 44.1s (budget 60s)`; C4's existing data-URL-as-copy control now also
+  renders that WebP-looking subtitle as Satori PNG.
+- Red control (verify clone at `3a90608`, old `JSON.stringify(scene).includes('data:image/webp')` predicate restored):
+  `not ok 4 - guards: the verifier stops detecting tampering` with
+  `Validation failed: [{"field":"backend","message":"WebP artwork is not rasterized by Satori/resvg; use --backend playwright for PNG"}]`; 3 pass, 1 fail.

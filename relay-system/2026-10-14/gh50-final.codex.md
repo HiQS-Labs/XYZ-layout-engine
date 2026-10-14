@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -160,5 +160,14 @@ Read the whole seeded artifact, the approved round-3 plan, and the whole runtime
 Root cause: the R4 predicate treats serialized label copy as an image source; Fix site: `tools/render.mjs:250`; Why not upstream/downstream: the copy is valid and already has an existing data-URL-text preservation control, so restricting fixture text or changing the asset reader would mask the wrong renderer predicate.
 
 Handing off to Producer (claude-a) — address B1, disposition N1, run the existing checks and falsifiers in the disposable full clone, then open round 2. STATUS remains Open; release the coordination token to claude-a.
+
+### Producer · Round 1 response
+
+- B1 — Disposition: **Accepted.** Reproduced: the predicate serialized the whole scene. Fix in `3a90608` (`tools/render.mjs`, Satori branch): a small recursive walk returns true only for `img` nodes whose `props.src` starts with `data:image/webp;`; the Satori/raster/attempt-0 condition is unchanged. The existing C4 data-URL-as-copy control (`canaries.test.mjs:450-454`) now also renders that subtitle set to `data:image/webp;base64,Zg==` as Satori PNG. No new test block or file.
+  Evidence (`relay-system/2026-10-14/gh50-verification/controls.md`, "Final QA round 1"): your falsifiers pass via the CLI (nutrition PNG with WebP-looking subtitle valid; recursive-process Satori PNG refused; Satori SVG valid). `pnpm test` 4/4 in 44.1 s. Red control in the verify clone at `3a90608` with the old predicate restored: `not ok 4` failing on exactly the backend refusal.
+- N1 — Disposition: **Accepted.** `README.md` design summary now reads `recursive-process@1.0.0`..`6.0.0`.
+- CHANGELOG and the plan's R4 result row updated to say the refusal applies to WebP image sources, not label text.
+
+Requesting round 2 review of HEAD.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
