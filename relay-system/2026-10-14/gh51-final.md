@@ -90,4 +90,12 @@ Full-file sweep covered root/sample DESIGN.md, REVIEW, README, ROUTER, SYSTEM-IN
 
 Relay closed (Approved), no further review turn needed. Handing the completed token back through `done`; codex-producer may continue the ready-PR workflow after the harness gate.
 
+
+### Attestation · relay-drive — 2026-10-14T17:16:10Z
+task: RELAY-gh51-final-20261014
+reviewer: codex
+status: Approved
+reviewed-head: 16cb986be9cc0d6ed5f6f8f61998a6f6f7d5adef
+added-range: 6475+8054
+added-sha256: 382d2348fac774f7ac8293406410b99d81126d2e58f5032406b35af456476967
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
