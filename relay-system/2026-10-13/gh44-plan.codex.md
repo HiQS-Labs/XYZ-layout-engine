@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-13.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -204,5 +204,34 @@ Handing off to Producer (author) — correct the measured count and resolve the 
 - **R3a (`[Should]`) — Implemented:** Corrected the asserted `recipe_version_files` count in `PROJECT/2-WORKING/GH-44-NUTRITION-DESIGN-README.md:42` from `52` to `48` (`4 × 12` files across versions `1.0.0`, `1.0.1`, `2.0.0`, `3.0.0`) alongside `16` `recipe_outputs` (`4 × 4`). Reopened for Round 4 (`ROUND: 4 / 4`, standard 4-round cap).
 
 handing off to Reviewer — go to the Reviewer window and say 'take your turn'
+
+### Reviewer · Round 4
+
+VERDICT: PASS
+Basis: The last open finding, R3a's file-row count, is corrected and matches a fresh in-memory catalog query. All three objectives and their execution acceptance remain covered. Approved for implementation; this is not implementation or visual QA approval.
+swept file: yes
+
+Reviewed the entire seeded artifact, from frontmatter through rating, using the SWE review rubric. No additional pre-existing plan defects were identified. Reversibility: Easy for this relay decision; archive loss remains Costly and requires the planned verified copies before removal.
+
+- [Pass] R3a closed: `.relay-artifacts/GH-44-NUTRITION-DESIGN-README.md:42` now specifies “48 `recipe_version_files` (`4 × 12`) and 16 `recipe_outputs` (`4 × 4`) rows.” The fresh read-only probe below matches that assertion.
+  Command:
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  python3 - <<'PROBE'
+  import sqlite3,pathlib
+  c=sqlite3.connect(":memory:"); c.executescript(pathlib.Path("tools/catalog.sql").read_text())
+  print(c.execute("SELECT v.version, count(f.path) FROM recipes r JOIN recipe_versions v ON v.recipe_gid=r.gid JOIN recipe_version_files f ON f.version_gid=v.gid WHERE r.slug='mangajdm-promo' GROUP BY v.version ORDER BY v.version").fetchall())
+  print("outputs:",c.execute("SELECT count(*) FROM recipe_outputs o JOIN recipe_versions v ON o.version_gid=v.gid JOIN recipes r ON v.recipe_gid=r.gid WHERE r.slug='mangajdm-promo'").fetchone()[0])
+  PROBE
+  ```
+  Exit: 0. Decisive output: `[('1.0.0', 12), ('1.0.1', 12), ('2.0.0', 12), ('3.0.0', 12)]` and `outputs: 16`.
+- [Pass] Archive/migration planning remains bounded: artifact:40 requires verified copies on both hosts before removal; artifact:42 names the seven design IDs, explicit one-off governance exception, lock, original-versus-candidate comparison of unrelated rows/log entries, restoration on failure, and ordinary import protection. This reviews the documented disposition, not independent authentication of the referenced A1 conversation or migration execution.
+- [Pass] Nutrition delivery and existing-check adaptation remain specified at artifact:48–57: DESIGN.md and taste exceptions, seven pinned transparent PNGs, Barlow Condensed ALL CAPS, gradient and per-image shadows, nutrition@2.0.0, manifest-based retrieval, registration friction, both-backend full-size/thumbnail review, and C1/C4 namespace controls.
+- [Pass] README/CHANGELOG refresh is explicit at artifact:61–63; protected-byte and unchanged-test-budget acceptance is at artifact:70–72; the required `70/20/75/70` and `calc=235` are retained at artifact:76.
+- [Unverified — needs clone run] Visible shadows on both backends, no double shadow, no-filter identity, deterministic output preservation, archive copies, migration rollback/import rejection, canaries and PDDA remain implementation obligations (artifact:29,40–42,63,69–72). Producer-reported hashes do not establish these results. Retain actual commands, exit statuses and decisive evidence during clone execution.
+
+Only this relay file was edited. The catalog probe used in-memory SQLite; scratch setup stayed under `.relay-scratch/`. No git, renderer, executable fixture, test suite, validate.sh or PDDA command was run. Startup `python3 utils/py/releases_app.py roadmap list` exited 2 because the local entry point is absent; no ledger mutation was attempted. The seeded artifact remains untouched.
+
+Relay closed (Approved), no further turn needed. Producer (author) proceeds to implementation and disposable-clone verification; the harness owns the relay commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
