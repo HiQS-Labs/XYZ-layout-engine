@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -108,5 +108,57 @@ Output graded findings with file:line citations per the protocol.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: Block on B1: the new Satori refusal rejects admitted PNG-only copy. R1–R3/R5–R6 otherwise have coherent source and retained evidence; R4 needs its predicate narrowed before approval.
+swept file: yes
+
+Read the whole seeded artifact, the approved round-3 plan, and the whole runtime files named in Setup, including existing paths outside the WebP edits; read the C1/C4 controls and retained evidence. No additional pre-existing runtime defect identified within the trusted local CLI envelope. Graph tools were unavailable; direct source reads used. No git, renderer execution, suite, executable fixture, or PDDA gate was run; only the relay file is edited.
+
+- **[Blocker] B1 — label text misfires the WebP refusal (`tools/render.mjs:250`).** The predicate searches every serialized scene property, including ordinary text. Nutrition accepts bounded subtitle copy (`tools/request.mjs:139`, `tools/recipes/nutrition.mjs:82–87`) and places it directly in a text node (`nutrition.mjs:208`), while its artwork reader still defaults to PNG (`nutrition.mjs:136`). Thus a PNG-only scene can get the backend error. This violates the non-misfiring R4 condition and preservation of PNG callers; the normal-fixture parity claim at `.relay-artifacts/GH-50-WEBP-ARTWORK.md:205` does not cover this input. Fix: inspect actual `img` source fields through scene children, retaining the Satori/raster condition. Extend an existing canary, such as the data-URL-as-copy control at `tools/spike/test/canaries.test.mjs:450–452`, to include PNG and WebP-looking label text; no new test block/file is needed. Reversibility: Easy.
+  Observed input: nutrition `tools/spike/fixture.json`, `format:'png'`, `sections.header.subtitle='data:image/webp'`; the narrow probe below passes request normalization and fixture shape validation, reads a real pinned PNG, then executes the exact current refusal statement on the corresponding text/image scene. It throws despite `imageSourcePng=true`. This is an observed guard failure; full CLI execution remains **[Unverified — needs clone run]**.
+  Affected scope: Satori PNG requests whose scene contains `data:image/webp` in copy or metadata but has no WebP image source. Keep rejecting actual WebP image sources.
+  Falsifier: in the disposable clone, the same nutrition PNG request must succeed; `recursive-process@6.0.0` Satori PNG must still reject, Satori SVG/HTML must succeed, and Playwright PNG must succeed. If this admitted copy never reaches the guard in the actual recipe, B1 is disproven.
+  Probe command (Node v22.22.3; exit **0**; output captured in `$TMPDIR/b1-minimal.log`):
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  node --input-type=module > "$TMPDIR/b1-minimal.log" <<'JS'
+  import { readFileSync } from 'node:fs';
+  import { normalizeRequest, validateFixtureShape, readPinnedPngs, invalid } from './tools/request.mjs';
+  const { fixture } = await normalizeRequest({inputPath:'tools/spike/fixture.json',format:'png',edits:[{path:'sections.header.subtitle',value:'data:image/webp'}]});
+  validateFixtureShape(fixture, JSON.parse(readFileSync('tools/spike/fixture.json')));
+  const art = await readPinnedPngs(new URL('./examples/2026-10-13-nutrition-infographic/',import.meta.url),'provenance.json',['leaf_glow']);
+  const scene = {type:'div',props:{children:[{type:'h2',props:{children:fixture.sections.header.subtitle}},{type:'img',props:{src:art.leaf_glow}}]}};
+  const line = readFileSync('tools/render.mjs','utf8').split('\n').find(s=>s.includes('if (raster && attempt === 0 && JSON.stringify(scene)'));
+  const guard = new Function('raster','attempt','scene','invalid',line);
+  console.log('schema=accepted imageSourcePng='+art.leaf_glow.startsWith('data:image/png;'));
+  for(const text of ['data:image/webp','data:image/png']) {
+    scene.props.children[0].props.children=text;
+    try { guard(true,0,scene,invalid); console.log(text+': allowed'); }
+    catch(e) { console.log(text+': '+e.message); }
+  }
+  JS
+  ```
+  Decisive output: `schema=accepted imageSourcePng=true`; `data:image/webp: Validation failed: [{"field":"backend","message":"WebP artwork is not rasterized by Satori/resvg; use --backend playwright for PNG"}]`; the `data:image/png` label control reports `allowed`.
+
+- **[Pass] R1/R2 preserve the existing reader and implement the stated header-only contract.** `tools/request.mjs:32–47,52–69` bounds reads before field access, checks RIFF length, decodes VP8X alpha/canvas fields and VP8L signature/alpha/14-bit dimensions, and shares the same limits and aggregate accounting as `tools/spike/assets.mjs:22–26`. PNG pin selection and returned MIME remain the defaults; no second loader is introduced. Narrow `node --input-type=module` header probes (exit **0**, `$TMPDIR/header-probe.log`) reported all six assets `256×256`, `aggregate={"bytes":128652,"pixels":393216}`, `truncatedRejected=30 RangeErrors=0`, opaque VP8/VP8X/VP8L rejected, dimension/area/aggregate limits rejected, and `wrongRIFF: Invalid WebP container`. These checks do not claim to validate the compressed body.
+
+- **[Pass] R3 and the backend placement use the existing owners.** WebP is admitted at `tools/render.mjs:111,354–357,445,479,497` and categorized at `tools/profile.mjs:14`; anchors, digest checks and containment remain. The one publisher remains `publishArtifacts → publishStaged` (`render.mjs:491–503,434–469`). Satori SVG/HTML requests have `raster=false` (`render.mjs:211`); Playwright's first-attempt Satori coverage call also has `raster:false` (`render.mjs:241–247`) and bypasses the refusal branch. Checking artwork on attempt zero is adequate for the current recipes, whose selected artwork does not depend on fitting sizes (`tools/recipes/recursive-process.mjs:70–74`); B1 concerns what is inspected, not that placement.
+
+- **[Pass] R5/R6 retained evidence supports the delivered diagram.** Recipe 6.0.0 selects WebP (`tools/recipes/recursive-process.mjs:6,72`), declares six WebP files (`tools/catalog.mjs:140–146`), and has the new version/design rows (`tools/catalog.sql:34,284`; `tools/design-log.jsonl:10`). Read-only commands `node tools/catalog.mjs verify --json` and `node tools/catalog.mjs export --check` both exited **0**, with `{"valid":true,"errors":[]}` and `{"canonical":true}`. `(cd examples/2026-10-12-belief-reference && shasum -a 256 -c SHA256SUMS)` exited **0**: **75/75 OK**. Per-asset probes used `dwebp <asset.webp> -pam -o <scratch.pam>` and `cwebp -quiet -lossless -exact <display.png> -o <scratch.webp>` (all exit **0**, outputs only under `$TMPDIR`); Python PAM/hash queries (exit **0**) found all six `alphaMinMax=(0,255)`, corners `[0,0,0,0]`, and `conversionByteEqual=True`, totaling PNG **221372** / WebP **128652** bytes, matching `provenance.json:23–36` and the other five entries. Retained-export queries (`python3 -B -`, exit **0**) found both manifests list **14** files, both inline documents and the Satori SVG contain **10** WebP images covering exactly the six provenance pins, and retained output digests agree with `verification-v6.json:18–36`. Lossless decode/comparison of the two retained Chromium PNGs reported **13142 / 2144000** changed pixels, maximum channel delta **1**, supporting `CHANGELOG.md:7`. Viewed `renders-v6/playwright/render.png` at original resolution and `thumbnail.png` at 420px: artwork is present with no new exterior halo, hierarchy remains reference-directed (AS-1/4), and fine captions still need full-size viewing (AS-10). No unsupported Satori PNG visual claim is made.
+
+- **[Pass] The C1 edit stays within the existing budget and preserves its negative-control targets.** `tools/spike/test/canaries.test.mjs:272–289` separates Satori SVG/HTML from Playwright PNG, asserts actual WebP Satori-PNG refusal, and selects SVG for non-fit/CJK controls. The original assertions remain. Offline image-load checks still require nonzero decoded width (`canaries.test.mjs:39–46`). There are four existing `test()` declarations at lines **54,406,431,439**, matching `test-budget.json`; `package.json` still lists only the existing three renderer dependencies. The recorded 4/4 in 41s is producer evidence (`relay-system/2026-10-14/gh50-verification/controls.md:54`), not an independently rerun suite.
+
+- **[Nit] N1 — current design summary still stops at 5.0.0.** `README.md:119` says Belief Updating designs are pinned through `5.0.0`, although the new design is pinned to `6.0.0` (`tools/catalog.sql:284`). Update that range to include 6.0.0. The current rendering commands and capability explanation are already correct (`README.md:61–68,160–164`).
+
+- **[Pass] The MVP scope and 55/20/50/60 prioritization remain proportionate.** The rating rationale at `.relay-artifacts/GH-50-WEBP-ARTWORK.md:187–192` is a prioritization judgment, not a measured performance score. The small reader/allowlist/guard extension avoids a decoder dependency and parallel publishing machinery. Removing the `.DS_Store` checksum line is reasonable evidence hygiene: the remaining manifest passes 75/75 and retains v3–v5 output hashes (`examples/2026-10-12-belief-reference/SHA256SUMS:44–62`; `CHANGELOG.md:7`). No additional runtime mechanism is warranted by B1.
+
+**[Unverified — needs clone run]** Fresh rendering/offline browser loads, C1 runtime and red mutations, PDDA gates, and B1's full CLI falsifiers. The two corrections at `gh50-verification/controls.md:44–50` explicitly qualify misleading raw control lines; do not treat the uncorrected `ok (no error)` lines as passes. **Not independently compared with base:** historical rows, unrelated pinned-file/dependency bytes, and baseline PNG/SVG digests; git was prohibited. Current declared files and catalog integrity pass, and the producer records baseline parity at `controls.md:8–13`.
+
+Root cause: the R4 predicate treats serialized label copy as an image source; Fix site: `tools/render.mjs:250`; Why not upstream/downstream: the copy is valid and already has an existing data-URL-text preservation control, so restricting fixture text or changing the asset reader would mask the wrong renderer predicate.
+
+Handing off to Producer (claude-a) — address B1, disposition N1, run the existing checks and falsifiers in the disposable full clone, then open round 2. STATUS remains Open; release the coordination token to claude-a.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
