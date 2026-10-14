@@ -1,12 +1,11 @@
 # Fuel Well. Live Well. — DESIGN.md Style Guide & Art Direction
 
 This document is the canonical art-direction and layout style guide for the
-`nutrition@2.0.2` recipe (`tools/recipes/nutrition.mjs`, patch-updated from
-`nutrition@2.0.0` / `2.0.1` with identical rendered outputs) and the
-`examples/2026-10-13-nutrition-infographic/` example bundle. It governs how the
+`nutrition@3.0.0` recipe (`tools/recipes/nutrition.mjs`) and the
+`examples/2026-10-13-nutrition-infographic/` example bundle (`renders-v3/`). It governs how the
 engine reproduces the operator's supplied nutrition reference composition
 (`PROJECT/2-WORKING/layout-engine-reference.png`) while preserving `nutrition@1.0.0`
-(`tools/spike/**`), `nutrition@2.0.0`, and `nutrition@2.0.1` as immutable catalog history.
+(`tools/spike/**`) and `nutrition@2.0.0`..`2.0.2` (`renders/`) as immutable catalog history.
 
 ## 1. Reader and visual hierarchy
 
@@ -70,7 +69,7 @@ delivered `fixture.json` theme and recipe canvas tokens are:
 | `palette.panelFill` | `#f4f8ea` | Soft sage card fill for `benefitsPanel` and `footer` |
 | `palette.panelBorder` | `#b9d79b` | Crisp leaf-green border (`2px solid`) for `benefitsPanel` and `footer` |
 
-## 4. Per-PNG drop shadow & illustration architecture
+## 4. Directional ground/contact cast shadows & illustration architecture
 
 ### 4.1 Seven `gpt-image-2.5-flare` transparent PNG illustrations
 
@@ -79,39 +78,53 @@ via `gpt-image-2.5-flare` (`recipe:hiqs/openai-image-generation@r2`, `quality: "
 `background: "transparent"`) and downscaled to a 640 px maximum side in `assets/web/`
 with verified alpha (`alpha.verified: true`, `opaqueCornerCount: 0`):
 
-| Asset ID | Placement | Rendered box | Subject summary |
-|---|---|---|---|
-| `leaf_glow` | `hero_img` | `320 × 100%` | Central upright glowing green leaf with soft yellow-green aura and light veins |
-| `balance_scale` | `callout_1_img` | `280 × 210` | Dark green balance scale weighing leafy greens/avocado/berries with chickpeas/salmon/nuts |
-| `skip_spike` | `callout_2_img` | `280 × 210` | Soda cup, chips, and frosted donut in front of a pale red prohibition symbol |
-| `parfait_jar` | `item_1_img` | `160 × 170` | Layered mason jar yogurt parfait with oats, strawberries, and blueberries |
-| `snack_container` | `item_2_img` | `160 × 170` | Open meal-prep container with green grapes and mixed nuts |
-| `chicken_wrap` | `item_3_img` | `160 × 170` | Halved toasted tortilla wrap with grilled chicken, lettuce, and tomato |
-| `water_bottle` | `item_4_img` | `160 × 170` | Sage-green insulated steel water bottle with loop cap and water-drop emblem |
+| Asset ID | Placement | Rendered box | Ground baseline (`a > 24`) | Subject summary |
+|---|---|---|---|---|
+| `leaf_glow` | `hero_img` | `320 × 100%` | Floating emissive focal emblem | Central upright glowing green leaf with soft yellow-green aura and light veins |
+| `balance_scale` | `callout_1_img` | `280 × 210` | `baseY = 184.4`, `baseWidth = 83.1` | Dark green balance scale weighing leafy greens/avocado/berries with chickpeas/salmon/nuts |
+| `skip_spike` | `callout_2_img` | `280 × 210` | `baseY = 196.5`, `baseWidth = 115.8` | Soda cup, chips, and frosted donut in front of a pale red prohibition symbol |
+| `parfait_jar` | `item_1_img` | `160 × 170` | `baseY = 156.2`, `baseWidth = 73.8` | Layered mason jar yogurt parfait with oats, strawberries, and blueberries |
+| `snack_container` | `item_2_img` | `160 × 170` | `baseY = 154.0`, `baseWidth = 81.0` | Open meal-prep container with green grapes and mixed nuts |
+| `chicken_wrap` | `item_3_img` | `160 × 170` (`top: 60, height: 107`) | `baseY = 154.9` (`visibleBaseY = 154`), `baseWidth = 65.0` | Halved toasted tortilla wrap with grilled chicken, lettuce, and tomato aligned to row baseline |
+| `water_bottle` | `item_4_img` | `160 × 170` | `baseY = 163.1`, `baseWidth = 42.0` | Sage-green insulated steel water bottle with loop cap and water-drop emblem |
 
-### 4.2 Engine-applied drop shadow per transparent PNG
+### 4.2 Engine-rendered directional ground/contact cast shadows (`AS-11`)
 
 Never ask the image model to bake floor shadows into the transparent PNGs (baked
-shadows clip at the image bounding box and vary wildly across generations). Instead,
-the recipe applies an engine-rendered drop shadow to every transparent PNG node
-(`callout_1_img`, `callout_2_img`, and `item_1_img` .. `item_4_img` use a grounding
-charcoal-olive shadow, while `hero_img` (`leaf_glow`) uses a warm botanical glow
-shadow so its translucent aura stays luminous without a grey edge):
+shadows clip at the image bounding box and vary across generations), and per
+`SYSTEM-INSTRUCTIONS.md` **AS-11**, never apply a whole-shape CSS `drop-shadow(...)`
+filter to resting 3D cutouts (which traces the entire alpha silhouette and places a
+sticker halo around upper lids, bottle loop caps, and scale crossbars).
 
-```css
-/* callout_1_img, callout_2_img, item_1_img .. item_4_img */
-filter: drop-shadow(0px 8px 6px rgba(31,42,28,0.22));
-/* hero_img (leaf_glow) */
-filter: drop-shadow(0px 6px 8px rgba(242,228,150,0.45));
-```
+Instead, `nutrition@3.0.0` grounds the six resting 3D cutouts (`balance_scale`,
+`skip_spike`, `parfait_jar`, `snack_container`, `chicken_wrap`, `water_bottle`) with a
+two-layer SVG `<radialGradient>` ground shadow placed inside a `position: 'relative'`
+stage behind each cutout `<img>`, cast from an **upper-right corner light source** onto
+the lower-left ground plane:
 
-- **Chromium (`playwright`) backend:** Renders CSS `filter: drop-shadow(...)` natively
-  against the PNG alpha channel.
-- **Satori + resvg (`satori`) backend:** Satori emits `style="filter:drop-shadow(...)"`
-  on `<image>` elements, and `renderSatori` (`tools/render.mjs`) rewrites each
-  filtered `<image>` into a standard SVG `<defs><filter id="satori_ds_N"><feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="rgba(31,42,28,0.22)"/></filter></defs>`
-  wrapper (`<g filter="url(#satori_ds_N)"><image .../></g>`) while stripping the
-  inline CSS filter so exported SVGs never double-apply the shadow.
+1. **Directional cast shadow ellipse (`cast`):** Offset to the lower-left (`dx: -16..-18`,
+   `dy: +2..+4` from the resting base center, rotated `-4°..-6°`) with a soft multi-stop
+   radial gradient (`#1f2a1c` alpha `0.30` at core → `0.21` at `38%` → `0.09` at `72%` → `0` at `100%`).
+2. **Tight contact occlusion ellipse (`contact`):** Centered directly beneath the
+   measured resting base footprint with a dense short-falloff radial gradient (`#162014`
+   alpha `0.50` at core → `0.32` at `45%` → `0.10` at `78%` → `0` at `100%`).
+
+| Asset ID (`slot`) | Stage (`W × H`) | Contact `(cx, cy, rx, ry)` | Directional Cast `(cx, cy, rx, ry, rot)` | Cutout `<img>` box |
+|---|---|---|---|---|
+| `balance_scale` (`callout_1_img`) | `280 × 210` | `(139, 184, 46, 6.5)` | `(122, 187, 68, 12.5, -4°)` | `top: 0, height: 210` |
+| `skip_spike` (`callout_2_img`) | `280 × 210` | `(142, 194, 62, 7.5)` | `(124, 197, 84, 13.5, -4°)` | `top: 0, height: 210` |
+| `parfait_jar` (`item_1_img`) | `160 × 170` | `(79, 155, 41, 6.5)` | `(63, 158, 58, 12, -5°)` | `top: 0, height: 170` |
+| `snack_container` (`item_2_img`) | `160 × 170` | `(75, 152, 45, 7)` | `(58, 156, 62, 13, -6°)` | `top: 0, height: 170` |
+| `chicken_wrap` (`item_3_img`) | `160 × 170` | `(72, 153, 44, 6.5)` | `(56, 156, 60, 12, -5°)` | `top: 60, height: 107` |
+| `water_bottle` (`item_4_img`) | `160 × 170` | `(79, 162, 25, 5.5)` | `(61, 164, 46, 10.5, -4°)` | `top: 0, height: 170` |
+
+- **Floating emissive hero exception (`leaf_glow` / `hero_img`):** Because the central
+  botanical leaf is an upright floating emissive emblem rather than a tabletop object, it
+  retains its warm botanical aura filter (`filter: drop-shadow(0px 6px 8px rgba(242,228,150,0.45))`).
+- **Dual-backend parity (`satori` + `playwright`):** Both Satori + `@resvg/resvg-js` and
+  headless Chromium render `<radialGradient>` ellipses inside `<img src="data:image/svg+xml;base64,...">`
+  natively with zero upper-silhouette halos, and `publishArtifacts` extracts each shadow
+  SVG into `assets/<sha256>.svg` automatically.
 
 ### 4.3 Crisp vector SVG ornaments & monochrome benefit badges
 
@@ -119,29 +132,28 @@ Small monochrome icons (`icon_energy`, `icon_focus`, `icon_immunity`, `icon_well
 and header/footer ornaments (`leaf_small`, `heart`) remain crisp vector SVGs loaded
 from `tools/spike/assets/illustrations.svg` without raster drop shadows.
 
-## 5. Deliberate taste exceptions (`SYSTEM-INSTRUCTIONS.md` AS-1..AS-10)
+## 5. Deliberate taste & compliance record (`SYSTEM-INSTRUCTIONS.md` AS-1..AS-11)
 
 Per `SYSTEM-INSTRUCTIONS.md`, this bundle is an illustrative reference-reproduction
 study of `PROJECT/2-WORKING/layout-engine-reference.png` (`tools/spike/fixture.json`),
-and the following reference-driven and operator-directed exceptions are explicitly
+and the following reference-driven exceptions and compliance checks are explicitly
 recorded:
 
-- **AS-2 (Gradients, glow & drop shadows):** `SYSTEM-INSTRUCTIONS.md` AS-2 prohibits
+- **AS-2 (Gradients, glow & grounding shadows):** `SYSTEM-INSTRUCTIONS.md` AS-2 prohibits
   decorative gradients, glows, and drop shadows by default. Here, the radial canvas
   gradient (`#fffef8` → `#f7f3e3` → `#ede6cf`), the luminous halo/sparkles inside
-  `leaf_glow.png`, and the engine-applied per-PNG drop shadows
-  (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))` on the six grounded illustrations
-  and `drop-shadow(0px 6px 8px rgba(242,228,150,0.45))` on `leaf_glow`) are explicitly
-  directed by the operator and reference poster.
+  `leaf_glow.png` (`drop-shadow(0px 6px 8px rgba(242,228,150,0.45))`), and the six
+  tabletop ground/contact cast shadows are explicitly directed by the operator and
+  reference poster.
 - **AS-3 (Containers & borders):** `SYSTEM-INSTRUCTIONS.md` AS-3 avoids default
   rounded cards unless grouping adds meaning. The bordered sage `benefitsPanel` card
   (`borderRadius: 16`, `2px solid #b9d79b`) and full-width pill `footer`
   (`borderRadius: 999`) are retained to reproduce the reference poster's lower-right
   benefits group and closing banner.
 - **AS-5 (Separation of content, layout, and styling):** `fixture.json` owns copy,
-  asset IDs, and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@2.0.2`)
+  asset IDs, and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@3.0.0`)
   owns the fixed 1000 × 1000 layout geometry, gradient, `Barlow Condensed` uppercase
-  typography, and per-PNG drop-shadow contract defined in this `DESIGN.md`.
+  typography, and directional ground/contact shadow contract defined in this `DESIGN.md`.
 - **AS-6 (Ornament & visual metaphor):** `SYSTEM-INSTRUCTIONS.md` AS-6 prohibits
   unrequested decorative clip-art and sparkles. The flanking header/footer leaf
   (`ornamentId: "leaf_small"`) and heart (`endIconId: "heart"`) SVG ornaments and the
@@ -157,3 +169,11 @@ recorded:
   because `fixture.json` is the canonical reproduction of the supplied reference
   poster (`PROJECT/2-WORKING/layout-engine-reference.png` / `tools/spike/fixture.json`).
   The infographic is an illustrative design and layout study, not a clinical nutrition claim.
+- **AS-11 (Directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows):**
+  Complies with `AS-11`. All six tabletop 3D cutouts (`balance_scale`, `skip_spike`,
+  `parfait_jar`, `snack_container`, `chicken_wrap`, `water_bottle`) replace whole-shape
+  CSS `drop-shadow` filters (`nutrition@2.0.0..2.0.2`) with two-layer SVG `<radialGradient>`
+  ground/contact shadows cast from an upper-right corner light source onto their resting
+  base footprints, and `chicken_wrap` is aligned (`top: 60, height: 107`) onto the bottom-row
+  tabletop ground plane (`visibleBaseY = 154`).
+
