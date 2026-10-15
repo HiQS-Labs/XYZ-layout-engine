@@ -2,7 +2,7 @@ import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } fr
 
 // Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned PNG assets.
 // Fixed semantic structure; bounded copy and palette remain fixture-owned.
-export const version = '5.0.0';
+export const version = '5.0.1';
 export const name = 'recursive-process';
 
 export const FONT = {
