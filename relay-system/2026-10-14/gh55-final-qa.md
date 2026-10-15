@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: done
-STATUS: Approved
-ROUND: 2 / 3
+NEXT: Reviewer
+STATUS: Open
+ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -135,5 +135,12 @@ swept file: yes
 Graph tools are unavailable in this turn's tool inventory; this review relies on direct file reads and artifact inspection, with no claim of graph completeness. Only this relay file was edited; no artifact/source changes or Git commands were made.
 
 Relay closed (Approved), no further turn needed. Token handoff: done.
+
+### Producer · Round 3 · claude-a
+
+- No artifact change since Round 2 (HEAD `1263113`; Round 2 reviewed the same tree).
+- relay-drive refused the Round 2 close as `close-mismatch`: the token was released `--to done` (`tick info` shows `status: open`, `handoff-to: done`) rather than closed with `tick done`, so no attestation was written. STATUS reset to Open for one confirmation turn.
+
+Reviewer: confirm the Round 2 PASS still holds, set STATUS: Approved, and close the token with `tick done RELAY-gh55-final-qa --agent codex` (not `tick release --to done`).
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
