@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -90,5 +90,26 @@ Cite file:line for disagreements. Set STATUS: Approved if it passes.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: One undisclosed source-edge omission prevents content-parity acceptance. The visual treatment and bounded implementation otherwise fit the brief. Correction is Easy: explicitly disclose this omission in the existing simplifications paragraph, or restore the read relationship and regenerate through the existing renderer.
+swept file: yes
+
+- [Should] **F1 — disclose the missing PDDA → execution-harness read relationship.** In `.relay-artifacts/xyz-forge-source.png`, the dashed route labelled “reads” rises from PDDA Project Documents (near source x537, y1020), turns at about y540, and points into Execution Harness. The redraw has only a records → Plan read route; `examples/2026-10-14-xyz-forge-system/render-diagram.mjs:103`–106 enumerates the four shelf routes, with none to Execute. `examples/2026-10-14-xyz-forge-system/README.md:41` discloses the omitted harness evidence-write and harness/tick edges, but not this read. Cheapest fix: extend that paragraph to explicitly state that harness reads of PDDA plans/status/handoff context are omitted for readability; alternatively restore the labelled edge. No new test needed.
+  Observed input: The seeded source PNG’s concrete PDDA Project Documents → Execution Harness dashed “reads” route, absent from the rendered PNG and the disclosed omissions at README:41.
+  Affected scope: This example’s depiction/disclosure of that one source record-read relationship; no engine behavior or other examples.
+  Falsifier: A labelled PDDA/shelf → Execute read relationship in the current redraw, or an explicit existing README disclosure of its omission, would invalidate F1. Neither appears in the supplied artifacts.
+- [Pass] **Style and remaining main routes:** inspected source, belief-reference v5 PNG, both redraw PNGs and 420px thumbnails. Ivory/slate palette, Barlow Condensed, title panel, stage markers/formulas, point-up hexagons, single accent shelf and subordinate runtime cards follow the reference (`fixture.json:7`–16; `render-diagram.mjs:73`–108, 122–129). Operator → intake, gate → operator, operator → land, gate → execute retry, execute ↔ adapters, adapters → workspaces, adapters ↔ tick and land ↔ GitHub preserve direction (`render-diagram.mjs:86`–100). The four mode alternatives and schematic/no-generated-imagery footer remain explicit (`fixture.json:76`–98, 155–157). No additional content or AS-7 defect found in the bounded sweep.
+- [Pass] **One owner and checks:** the complete example script keeps geometry locally and calls the shared renderers (`render-diagram.mjs:9`, 25–33, 190–198); its finite-geometry, containment, Chromium-overflow and pairwise text-overlap checks retain the relevant RAG precedent checks (`render-diagram.mjs:200`–227). No material dead code found; fixture `id` and empty intake `token` are inert metadata, not a required redesign.
+- [Pass] **Retained receipt matches the artifacts.** Read-only probe command (exit 0): `python3 - <<'PY'` with `p=Path("examples/2026-10-14-xyz-forge-system"); v=json.loads((p/"verification.json").read_text())`, then for `(key,name)` in `[("png","xyz-forge-system.png"),("chromiumPng","xyz-forge-system-chromium.png"),("html","xyz-forge-system.html")]` compare `hashlib.sha256((p/name).read_bytes()).hexdigest()` to `v["artifactDigests"][key]` and unpack each PNG header using `struct.unpack(">II",b[16:24])`. Decisive output: `xyz-forge-system.png True (2000, 1570)`; `xyz-forge-system-chromium.png True (2000, 1570)`; `xyz-forge-system.html True HTML`; text-id count/unique count/icon count/findings: `77 77 5 []`. Receipt is consistent with `verification.json`’s quoted `"findings": []`; this does not independently rerun layout validation.
+- [Pass] **Thumbnail inspection:** command `sips --resampleWidth 420 examples/2026-10-14-xyz-forge-system/xyz-forge-system.png --out "$TMPDIR/satori-thumb.png"` and the corresponding Chromium command, exit 0, wrote both scratch thumbnails. Main reading line/hierarchy survives; fine captions require full size, as disclosed at README:43. Initial Python thumbnail attempt exited 1 (`ModuleNotFoundError: No module named 'PIL'`); native `sips` supplied the previews without installing anything.
+- [Unverified — needs clone run] **Executable acceptance:** plan Evidence at `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:122`–127 reports the expected PASS line, red-control ids/container and exit 1, restored exit 0, PDDA and four budgeted canaries. Those reports substantiate the intended checks on paper; I did not execute render fixtures, PDDA, or test suites in this reviewer worktree. Harness gate owns fresh verification. The red-control row states the mutation but omits the exact mutation command requested by the plan; retaining that command in the next evidence update would improve replayability.
+- [Unverified — needs harness audit] **Branch-wide accidental-file check:** Git is prohibited this turn, so no diff/changed-path claim is made. Directory inspection lists exactly the eight named example files, with no SVG present, and `.gitignore` excludes the regenerated SVG. `CHANGELOG.md:2`–5 accurately describes the bounded example and its reported verification. Harness must confirm the whole branch adds no accidental `.xyz/`, `.tick/`, or other files.
+
+Review scope: read the complete fixture, script, example README, verification receipt, HTML, plan and RAG precedent script; inspected both PNGs and the seeded source. No further pre-existing defect found in those reviewed files. Graph lookup used Verify intent against nearest indexed project `XYZ-layout-engine`, generation `2026-10-13T02:52:30Z`; current relay worktree is not indexed, examples are excluded and plan freshness is missing, so all material review evidence above comes from direct source/artifact reads, not graph completeness.
+
+Handing off to Producer (claude-a) — address F1, record its disposition, and return for Round 2 review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
