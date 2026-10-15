@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -92,5 +92,40 @@ Flag anything wrong, missing or over/under-engineered, citing file:line. Set STA
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: the example approach is proportionate, but the plan currently violates its own PDDA acceptance gate and leaves the containment red control underspecified. Correct these two bounded documentation issues before approval. Reversibility: Easy. Bet: a named, container-mapped caption makes the promised negative control reproducible without expanding the example or test suite; the failure mode is an unrelated overflow assertion being mistaken for evidence of container containment.
+swept file: yes
+
+Read the entire plan and all three seeded example files, plus the named rendering/style precedents. No additional pre-existing defect found in those seeded files beyond the issues/limits below. Verify-tier source fallback: graph tools were not exposed, so no graph project/generation or coverage assertion is possible.
+
+- [Should] **S1 — make the active plan satisfy the document contract.** `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:1` lacks `updated`, `owner`, and `goal`; its full body has no required near-top status table. These are explicit requirements in `PROJECT/PDDA.md:51`–59 and error conditions in `utils/pdda/pdda.sh:40`–59 and `:114`–151. They conflict with the plan's “no new errors” gate at `:81`. Add the three populated fields and the canonical two-column status table; no runtime changes.
+  Observed input: the seeded GH-55 active plan, frontmatter lines 1–17 and body lines 19–102.
+  Affected scope: this new active plan only.
+  Falsifier: the same plan containing all six required populated fields and the canonical status table should yield no findings for this path in the disposable-clone frontmatter/status checks.
+  Probe: `python3 - <<'PY'` with `from pathlib import Path; import re; p=Path('PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md').read_text(); f=p.split('---',2)[1]; print([k for k in ['updated','owner','goal'] if not re.search(r'^'+k+r':',f,re.M)]); print("| What was just completed | What's next |" in p)` then `PY`. Exit 0; decisive output from the equivalent expanded read-only probe: `missing required frontmatter: updated, owner, goal` and `required status table present: False`. No PDDA suite was executed here.
+
+- [Should] **S2 — pin the red control and preserve its evidence.** The instruction “lengthen one caption” (`GH-55-XYZ-FORGE-DIAGRAM.md:77`) does not identify which caption, mutation, expected diagnostic, or durable result location. The ordinary stage/runtime captions built by `render-diagram.mjs:43`–46 do not register a container; only the title and records texts are mapped (`:124`, `:179`). Lengthening `stages[0].caption` therefore cannot exercise its own container check at `:213`–214, although sufficiently long text can trip another guard. Specify, for example, `records.entries[0].caption` → a concrete repeated string, expected id `rec0_caption` with `text escapes its container`, non-zero exit, and restored green rerun. Retain command, mutation, exit status and decisive output in the plan's eventual evidence section (or another existing evidence destination), because the red run overwrites `verification.json` and restoring green overwrites it again (`:235`). No new test or broader containment feature is requested.
+  Observed input: plan line 77's unnamed caption; the current `stages[0].caption` is “Captures specified work, scores the backlog and selects the target repository.” and has no `container.intake_caption` assignment.
+  Affected scope: the single planned containment red control and its evidence, not arbitrary fixture validation.
+  Falsifier: a named records-caption mutation that produces the specified container-escape diagnostic by id and then passes after restoration, recorded durably, resolves this finding without changing the renderer.
+  Probe: `python3 - <<'PY'` with `from pathlib import Path; s=Path('examples/2026-10-14-xyz-forge-system/render-diagram.mjs').read_text(); print('label helper registers within:', 'within' in s[s.index('const label='):s.index('const edgeText=')]); print(*[l.strip() for l in s.splitlines() if 'container[' in l or 'container.title=' in l], sep='\n')` then `PY`; exit 0, `label helper registers within: False`. The same probe printed all container assignments: `if(within)container[id]=within`, `container.title='title_panel'`, and the records `_token/_label/_caption` assignments to `recbox`. This is static evidence of mapping, not a rendered negative-control result.
+
+- [Nit] **N1 — distinguish renderer signatures.** Plan `:35`–36 gives both functions the Satori signature. `tools/render.mjs:139` requires `(context, scene, font, width, height, fontFamily, options)` for Playwright. The actual draft correctly passes the context at `render-diagram.mjs:196`; correct the recon prose only.
+
+- [Pass] **Reuse and one geometry owner are sound at source level.** The draft imports the shared operations and root Playwright/fonts (`render-diagram.mjs:9`–14), owns scene construction locally, and calls those operations at `:190`–198; its postprocessing/viewer/assertions follow `examples/2026-10-09-rag-system/render-diagram.mjs`. It does not copy a render backend. `tools/render.mjs:24`–33 initializes Satori internally and `:60` really returns `missingSegments`. The existing recipe's fixed node ids, four numbered stages, and constrained A–E tokens (`tools/recipes/recursive-process.mjs:14`–58) substantiate rejecting it for the five-stage Forge subject.
+
+- [Pass] **Style and scope are specified proportionately.** Requirements 2–4 (`GH-55-XYZ-FORGE-DIAGRAM.md:60`–66) name the content, palette/type/hierarchy and disclaimer. Palette/font roles match `examples/2026-10-12-belief-reference/fixture.json:7` and `tools/recipes/recursive-process.design.md` (“Warm ivory background, charcoal text…” and bundled Barlow Condensed). No generated artwork or new recipe is needed. Mode alternatives and folded record/runtime routes are disclosed in the draft README `:29`–41; their visual legibility remains a render-review question.
+
+- [Pass] **Rating, change boundary and planned gates are reasonable.** The neutral appeal and low severity are explained rather than inferred from preference (`GH-55-XYZ-FORGE-DIAGRAM.md:99`–102). Easy rollback accurately describes the listed additive files/entry/ledger row (`:16`, `:53`); remove only this effort's changes and use the releases CLI for ledger rollback, per `ROUTER.md`. CHANGELOG, both-backend AS-10, PDDA and `pnpm test` are present at `:79`–89; leaving `test-budget.json` unchanged agrees with its current 1-file/4-test budget. No additional test is requested.
+
+- [Unverified — needs clone run] No renderer, executable fixture, test suite or PDDA gate was run here. The seeded example contains only its three source documents; PNGs and `verification.json` are not present. README `:43` and `:53` report visual inspection/runtime outcomes, but this turn cannot corroborate them. During implementation, substantiate them with the disposable-clone render, exact red/green evidence, both PNG inspections and gates; do not treat this plan review as final artifact QA.
+- [Unverified — source unavailable] Exact content parity and whether the folded harness↔tick/evidence routes preserve the supplied source's meaning cannot be independently established from the seeded files alone. Read-only command `gh api repos/HiQS-Labs/XYZ-layout-engine/issues/55 --jq .body` exited 1: `error connecting to api.github.com`. At final QA make the original operator diagram (or its accessible canonical location) available and explicitly compare its edges; the README's stated simplifications are not independent proof of parity. No observed semantic failure is asserted.
+
+Operational note: roadmap lookup `python3 .xyz/utils/py/releases_app.py roadmap list` exited 2 because this relay worktree has no vendored `.xyz/` entry; no ledger or tree mutation was attempted. All review execution was read-only apart from the authorized relay file and scratch directory. No Git command was run.
+
+Handing off to Producer (claude-a) — address S1 and S2, disposition N1 and the verification limits, then open round 2 for Reviewer.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
