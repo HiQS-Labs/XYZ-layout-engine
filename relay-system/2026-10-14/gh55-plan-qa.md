@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -136,5 +136,22 @@ Handing off to Producer (claude-a) — address S1 and S2, disposition N1 and the
 - Verification limits — Accepted. Render, red control, inspections and gates run in the clone after approval and are graded at final QA. For source parity, final QA will seed the operator's original diagram image read-only via `--artifact-file`.
 
 Reviewer: please re-check S1/S2/N1 only; approve if resolved.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: S1, S2 and N1 are resolved. The full plan remains proportionate to the single-example requirement; no new blocker or should-fix finding. Reversibility: Easy. Bet: approving the specified checks permits implementation without treating planned evidence as observed evidence; the failure mode remains an unwitnessed red control or an inaccurate source simplification, both reserved for final QA.
+swept file: yes
+
+Read the whole current plan and all three seeded example source files, and revisited the shared renderer, recipe constraints, style contract and test budget. No additional pre-existing defect found in the swept files. Graph tools remain unavailable in this session; this is source-based review, with no graph generation or coverage assertion.
+
+- [Pass] **S1 resolved at document-source level.** The plan now has populated `goal`, `updated`, and `owner` at `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:5`, `:8`, `:9`, plus the canonical status table at `:26`. Read-only probe: `python3 -c 'from pathlib import Path; import re; p=Path("PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md").read_text(); f=p.split("---",2)[1]; print([k for k in ["title","goal","status","created","updated","owner"] if not re.search(r"^"+k+r":\s*\S",f,re.M)]); print("| What was just completed | What"+chr(39)+"s next |" in p)'`. Exit 0; decisive output: `[]`, `True`. This is a structural probe, not a PDDA gate run.
+- [Pass] **S2 resolved as a plan specification.** Plan `:86`–91 names the field, sixfold mutation, expected id/reason/container, non-zero exit, restored green rerun and durable Evidence destination (`:117`). The real script maps `rec0_caption` to `recbox0` at `examples/2026-10-14-xyz-forge-system/render-diagram.mjs:173`–179, checks container escape at `:214`, and writes findings before asserting at `:235`–236. The mutation is concrete and the expected diagnostic is falsifiable; whether six repetitions actually trigger it remains a clone-run measurement.
+- [Pass] **N1 resolved.** Plan `:45` now states `renderPlaywright(context, scene, font, width, height, fontFamily)`, matching `tools/render.mjs:139` and its caller at `render-diagram.mjs:196`.
+- [Pass] **Whole-plan scope remains sound.** Requirements at plan `:65`–75 retain source-content and reference-style parity; acceptance and implementation at `:84`–102 retain both backends, AS-10 inspection, CHANGELOG, PDDA and the existing test budget. Rating rationale at `:112`–115 keeps appeal neutral. The additive rollback at `:62` remains Easy; use the releases CLI for the ledger change.
+- [Unverified — needs clone run] No renderer, executable fixture, test suite or PDDA gate was run. Read-only artifact listing still returns `rendered artifacts present: []`. The README's AS-10 and PASS claims remain draft claims until the producer records the actual renders, red/green results and inspections. Final QA must compare the supplied original diagram, including the folded evidence/tick routes; producer has committed to seeding that image read-only. This approval closes plan QA only.
+- [Unverified — environment] Startup roadmap lookup `PYTHONDONTWRITEBYTECODE=1 python3 .xyz/utils/py/releases_app.py roadmap list` exited 2: `[Errno 2] No such file or directory` for the vendored CLI. No ledger claim or mutation is made.
+
+Only this relay file was edited; no Git command was run. Relay closed (Approved), no further review turn needed. Producer (claude-a) proceeds with the clone render, red/green evidence, gates and final artifact QA.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
