@@ -123,4 +123,6 @@ not a defect); trend unknown.
 | Red control: `records.entries[0].caption` repeated six times | exit 1; findings `rec0_caption` and `rec0_label`, `text escapes its container`, container `recbox0`, in satori and chromium |
 | Restore fixture, rerun | exit 0, same `PASS` line |
 | AS-10 | Both PNGs viewed at full size; Satori PNG viewed at 420px wide. Reading line and harness hold at thumbnail size; captions need full size. |
+| `utils/pdda/pdda.sh run` (task clone, `51eeaa6`) | exit 0, no errors; 2 governance warnings in untouched files (`ROUTER.md:82`, `utils/pdda/PDDA-INSTALL.md:347`) |
+| `pnpm test` (disposable `--no-local` verify clone of `51eeaa6`, then removed) | 4 canaries pass, `test-budget: PASS — 4 canaries in 55.5s (budget 60s)`; `test-budget.json` unchanged; verify tree clean afterwards |
 | Environment | Chromium does not launch inside the Claude Code macOS sandbox (`bootstrap_check_in ... Permission denied (1100)`); renders ran un-sandboxed. |
