@@ -134,7 +134,8 @@ Operator asked for a version focused on the factory skills (`/daily`, `/start-ta
 
 | Check | Result |
 |---|---|
-| `node examples/2026-10-15-xyz-forge-software-factory/render-diagram.mjs` | exit 0, `PASS: 82 text ids and 2 icons; 2200x1740 in both backends; no unsupported glyphs, escapes, overflow or overlap.` |
+| `node examples/2026-10-15-xyz-forge-software-factory/render-diagram.mjs` | exit 0, `PASS: 86 text ids and 2 icons; 2200x1740 in both backends; no unsupported glyphs, escapes, overflow or overlap.` |
 | Overlap check, observed during layout | exit 1, `overlapping text` `starttask_caption` / `marathon_label` in both backends; fixed by moving lower rows down 20px |
 | AS-10 | Both PNGs at full size, a 440px thumbnail and crops of the /marathon area in both backends |
+| `/ate` added on operator request | ATE grounded in `skills/4-occasional/ate/SKILL.md` and `utils/py/{adaptive_ate,fuzz_engine,domain_oracles,differential_oracle}.py`; rerender passes (86 text ids) |
 | Independent review | Independent review did not run for version 2. |

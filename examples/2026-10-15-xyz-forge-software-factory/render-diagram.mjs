@@ -32,6 +32,7 @@ const RULES=[330,640,1150,1510,1830];
 const DAILY_R=80,GH_R=58,OP={x:190,y:520,r:38};
 const SMALL=[120,124],IDEA_Y=770,TRIAGE_Y=900;
 const WH={y:560,w:170,h:180},ST={w:250,h:280},MAR={y:1200,w:170,h:170},REV={w:200,h:220},MRG={w:200,h:220};
+const ATE={x:190,y:1190,w:150,h:160};
 const RAIL_X=[760,900,1040,1180,1320],RAIL_Y=1390,RAIL=[120,112];
 const SHELF={x:140,y:1526,w:1920,h:104},DIV=[340,920,1490];
 const hexPts=(cx,cy,w,h)=>[[cx,cy-h/2],[cx+w/2,cy-h/4],[cx+w/2,cy+h/4],[cx,cy+h/2],[cx-w/2,cy+h/4],[cx-w/2,cy-h/4]];
@@ -87,6 +88,7 @@ hex(COL.intake,IDEA_Y,...SMALL,{edge:P.rule});hex(COL.intake,TRIAGE_Y,...SMALL,{
 hex(COL.build,WH.y,WH.w,WH.h);hex(COL.build,MY,ST.w,ST.h);hex(COL.build,MAR.y,MAR.w,MAR.h);
 hex(COL.review,MY,REV.w,REV.h);hex(COL.land,MY,MRG.w,MRG.h);
 svg.push(`<circle cx="${COL.github}" cy="${MY}" r="${GH_R}" fill="none" stroke="${S}" stroke-width="${STROKE}" stroke-dasharray="6 6"/>`);
+hex(ATE.x,ATE.y,ATE.w,ATE.h);
 for(const x of RAIL_X)hex(x,RAIL_Y,...RAIL,{edge:P.rule});
 svg.push(`<rect x="${SHELF.x}" y="${SHELF.y}" width="${SHELF.w}" height="${SHELF.h}" rx="16" fill="${P.accent}" stroke="${P.accentEdge}" stroke-width="2"/>`);
 for(const x of DIV.slice(1))svg.push(`<line x1="${x}" y1="${SHELF.y+18}" x2="${x}" y2="${SHELF.y+SHELF.h-18}" stroke="${P.accentEdge}" stroke-width="1.5"/>`);
@@ -106,6 +108,8 @@ svg.push(`<path d="M 1262 900 C 1222 992, 1062 992, 1003 930" fill="none" stroke
 // Batch lane: intake to /marathon, whose lane PRs also go to review.
 route([[COL.intake+SMALL[0]/2,TRIAGE_Y+SMALL[1]/4],[600,TRIAGE_Y+SMALL[1]/4],[600,MAR.y],[COL.build-MAR.w/2-6,MAR.y]]);
 route([[COL.build+MAR.w/2+6,MAR.y],[COL.review,MAR.y],[COL.review,MY+REV.h/2+6]]);
+// ATE runs end in one GitHub issue, which enters the factory through /triage.
+route([[ATE.x+ATE.w/2+6,ATE.y],[330,ATE.y],[330,TRIAGE_Y+SMALL[1]/4],[COL.intake-SMALL[0]/2-6,TRIAGE_Y+SMALL[1]/4]]);
 // Record connectors.
 const DASH='7 7';
 route([[COL.intake,1070],[COL.intake,SHELF.y-4]],{dash:DASH});
@@ -141,6 +145,7 @@ children.push(centred('marathon',N.marathon.token,COL.build,MAR.y,MAR.w-12,{font
 children.push(centred('review',N.review.token,COL.review,MY,REV.w-16,{fontSize:32,fontWeight:700},N.review.alias));
 children.push(centred('merge',N.merge.token,COL.land,MY,MRG.w-12,{fontSize:30,fontWeight:700}));
 children.push(centred('github',N.github.token,COL.github,MY,GH_R*2-12,{fontSize:24}));
+children.push(centred('ate',N.ate.token,ATE.x,ATE.y,ATE.w-12,{fontSize:30,fontWeight:700}));
 for(let i=0;i<RAIL_X.length;i++)children.push(centred('rail'+i,fixture.rails.skills[i].token,RAIL_X[i],RAIL_Y,RAIL[0]-8,{fontSize:17,fontWeight:700}));
 // Labels.
 children.push(label('daily',COL.daily-115,MY+DAILY_R+14,230,N.daily.label,N.daily.caption));
@@ -151,6 +156,7 @@ children.push(label('starttask',COL.build-120,MY+ST.h/2+14,240,N.startTask.label
 children.push(label('marathon',612,MAR.y-118,COL.build-MAR.w/2-620,N.marathon.label,N.marathon.caption,'right'));
 children.push(label('review',COL.review-110,MY-REV.h/2-118,220,N.review.label,N.review.caption));
 children.push(label('merge',COL.land-115,MY+MRG.h/2+14,230,N.merge.label,N.merge.caption));
+children.push(label('ate',ATE.x-120,ATE.y+ATE.h/2+14,240,N.ate.label,N.ate.caption));
 children.push(label('github',COL.github-90,MY+GH_R+14,180,N.github.label,N.github.caption));
 fixture.rails.skills.forEach((r,i)=>children.push(box('railcap'+i,{position:'absolute',left:RAIL_X[i]-66,top:RAIL_Y+RAIL[1]/2+8,width:132,justifyContent:'center'},[T('rail'+i+'_caption',r.caption,{fontSize:16,color:P.muted,textAlign:'center'})])));
 children.push(box('rails_head',{position:'absolute',left:RAIL_X[0]-60,top:1296,width:400},[T('rails_label',fixture.rails.label,{fontSize:17,fontWeight:700,letterSpacing:2,color:P.muted})]));
@@ -165,6 +171,7 @@ children.push(edgeText('github',E.github,COL.land+MRG.w/2+6,MY-64,COL.github-GH_
 children.push(edgeText('revise',E.revise,1040,994,200,'center'));
 children.push(edgeText('batch',E.batch,612,MAR.y+10,180));
 children.push(edgeText('laneprs',E.lanePrs,COL.review+12,1070,100));
+children.push(edgeText('ateissue',E.ateIssue,342,1086,120));
 children.push(edgeText('intakerec',E.intakeRec,COL.intake+12,1300,150));
 children.push(edgeText('mergerec',E.mergeRec,COL.land+12,1240,170));
 // Durable records shelf.

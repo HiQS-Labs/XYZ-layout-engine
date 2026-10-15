@@ -21,6 +21,7 @@ The diagram is schematic. Skill roles are summarized from each skill's `SKILL.md
 
 - **Operator loop (top left).** `/daily` synthesizes prompts, next actions, calendar and git state every 15 minutes and coaches the operator, who directs work into intake and authorizes merges.
 - **Intake.** `/idea` (operator idea) and `/triage` (outside report) file the issue, capture doc and rating. They are drawn smaller because the operator did not name them; they show where work enters.
+- **Automated testing (bottom left).** `/ate` runs unattended variation and fuzz suites (pairwise grids, a mutational fuzz engine and parity oracles across the agent CLI adapters, from `utils/ate/` and the GH-299 engines) and ends each run by filing one severity-ranked GitHub issue, which enters through `/triage`.
 - **Build (centre column).** `/start-task` is the largest node: one task from fresh clone to ready PR. `/workhorse` sits above it for tangled problems and hands it a plan. `/marathon` sits below as the batch alternative whose lanes also produce PRs.
 - **Review and land.** `/review-code` reviews against ground truth and sends findings back to the builder; `/merge-cleanup` merges in dependency order, reconciles PDDA and the ledger, and retires clones.
 - **Method skills (bottom trail).** `/recon`, `/debug-mantra`, `/ponytail`, `/relay-xyz` and `/consult` are called inside the lanes rather than invoked as stages, so they sit under the line without arrows.
@@ -42,4 +43,4 @@ From the repository root, with `pnpm install --frozen-lockfile` done and the rep
 node examples/2026-10-15-xyz-forge-software-factory/render-diagram.mjs
 ```
 
-A pass prints `PASS: 82 text ids and 2 icons; 2200x1740 in both backends; no unsupported glyphs, escapes, overflow or overlap.`
+A pass prints `PASS: 86 text ids and 2 icons; 2200x1740 in both backends; no unsupported glyphs, escapes, overflow or overlap.`

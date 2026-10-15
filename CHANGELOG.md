@@ -1,7 +1,7 @@
 # Changelog
 ## 2026-10-15 — GH-55 version 2: XYZ Forge software factory skills
 
-- Added `examples/2026-10-15-xyz-forge-software-factory/`, version 2 of the XYZ Forge diagram, focused on the operator commands that drive the software factory: `/daily`, `/workhorse`, `/start-task`, `/marathon` (`/start-marathon` + `/pre-marathon`), `/review-code` (`/review-pr`) and `/merge-cleanup`, with `/idea` and `/triage` as intake and five method skills underneath. Same shared renderer, Barlow Condensed and belief-reference vocabulary; version 1 unchanged. Refs #55.
+- Added `examples/2026-10-15-xyz-forge-software-factory/`, version 2 of the XYZ Forge diagram, focused on the operator commands that drive the software factory: `/daily`, `/workhorse`, `/start-task`, `/marathon` (`/start-marathon` + `/pre-marathon`), `/review-code` (`/review-pr`) and `/merge-cleanup`, with `/idea` and `/triage` as intake, `/ate` (automated variation and fuzz testing that files one ranked issue per run) feeding `/triage`, and five method skills underneath. Same shared renderer, Barlow Condensed and belief-reference vocabulary; version 1 unchanged. Refs #55.
 - Verification: script passes in both backends (2200×1740). Its overlap check caught a /marathon label colliding with the /start-task caption during layout; fixed by moving the lower rows. Both PNGs inspected at full size and thumbnail. Independent review did not run for version 2.
 
 ## 2026-10-14 — GH-55 XYZ Forge system diagram example

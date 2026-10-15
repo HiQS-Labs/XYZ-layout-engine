@@ -106,6 +106,11 @@
       "token": "GitHub",
       "label": "GitHub",
       "caption": "Issues, pull requests and hosted CI."
+    },
+    "ate": {
+      "token": "/ate",
+      "label": "Automated testing",
+      "caption": "Unattended variation and fuzz runs: pairwise grids, mutational fuzzing, parity oracles. Files one ranked issue per run."
     }
   },
   "edges": {
@@ -120,7 +125,8 @@
     "lanePrs": "lane PRs",
     "github": "merges, verifies landing",
     "intakeRec": "issue, capture doc, rating",
-    "mergeRec": "reconciles ledger and PDDA; retires clones"
+    "mergeRec": "reconciles ledger and PDDA; retires clones",
+    "ateIssue": "one ranked issue per run"
   },
   "rails": {
     "label": "METHOD SKILLS EVERY LANE CALLS",
@@ -173,6 +179,6 @@
   },
   "footer": {
     "note": "Schematic: shows how the skills hand work to each other, not timing or every flag. /marathon stands for /start-marathon plus /pre-marathon. Icons are hand-drawn vectors; no images were generated.",
-    "source": "Skill roles summarized from their SKILL.md descriptions in HiQS-Labs/XYZ-forge (skills/) and the deployed /daily skill. Version 2 of the October 14 XYZ Forge system example."
+    "source": "Skill roles summarized from their SKILL.md descriptions in HiQS-Labs/XYZ-forge (skills/, utils/ate/, GH-299 engines) and the deployed /daily skill. Version 2 of the October 14 XYZ Forge system example."
   }
 }

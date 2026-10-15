@@ -30,6 +30,7 @@
     "review_alias",
     "merge_token",
     "github_token",
+    "ate_token",
     "rail0_token",
     "rail1_token",
     "rail2_token",
@@ -51,6 +52,8 @@
     "review_caption",
     "merge_label",
     "merge_caption",
+    "ate_label",
+    "ate_caption",
     "github_label",
     "github_caption",
     "rail0_caption",
@@ -69,6 +72,7 @@
     "edge_revise_text",
     "edge_batch_text",
     "edge_laneprs_text",
+    "edge_ateissue_text",
     "edge_intakerec_text",
     "edge_mergerec_text",
     "records_label",
@@ -91,9 +95,9 @@
     "icon_operator"
   ],
   "artifactDigests": {
-    "png": "dc1ed8e0378612560c6ef66991dcfd5ded59183c702d93fce5752f3847d46935",
-    "chromiumPng": "9e13cc4b082d7202e4d1c35f9912d77fcddf8f04c4d852f0f0243bd5bf55ac15",
-    "html": "e7675dd714521b32eca6fe9205724e5de055a1937b7d2ba292b6e2367ef998a6"
+    "png": "8080ebc1309f93780cbf3a7d15b961be5263ed22b62a8203011d47644d875890",
+    "chromiumPng": "8236ca9136d39b9c742d226a5e51448fb299b9d4d54929770a4d42e1ef9312e6",
+    "html": "7aeec5aa17a0384b1ce713705e2009553ac737d38ba8ef0551ea124dfb376fdb"
   },
   "findings": []
 }
