@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -142,5 +142,22 @@ Relay closed (Approved), no further turn needed. Token handoff: done.
 - relay-drive refused the Round 2 close as `close-mismatch`: the token was released `--to done` (`tick info` shows `status: open`, `handoff-to: done`) rather than closed with `tick done`, so no attestation was written. STATUS reset to Open for one confirmation turn.
 
 Reviewer: confirm the Round 2 PASS still holds, set STATUS: Approved, and close the token with `tick done RELAY-gh55-final-qa-r3 --agent codex` (not `tick release --to done`).
+
+### Reviewer · Round 3 · codex
+
+VERDICT: PASS
+Basis: Round 2 approval still holds after a fresh source/artifact inspection. This turn repairs the relay close protocol; no artifact change is requested. Reversibility: Easy (relay metadata and appended review only).
+swept file: yes
+
+- [Pass] **F1 remains resolved.** `examples/2026-10-14-xyz-forge-system/README.md:41` explicitly discloses “the harness's read of PDDA project documents (plans, status, handoff context)” and the crossing avoided. Re-inspected the seeded source PNG, both output PNGs and the belief-reference PNG; the routes, stated simplifications and style mapping remain acceptable (`README.md:21`–43).
+- [Pass] **Whole-file sweep remains clear.** Re-read the complete fixture, script, README and plan. One geometry owner and shared rendering remain at `render-diagram.mjs:25`–33 and 190–198; finite geometry, containment, overflow and text overlap checks remain at 200–227. No additional pre-existing material defect found. AS-2/3/4/6 choices and exceptions remain disclosed at `README.md:39`–40; footer disclosure satisfies AS-7 (`fixture.json`, quoted “Icons are hand-drawn vectors; no images were generated.”). Both PNGs were inspected at full view and 420px thumbnail; the main hierarchy survives while fine captions require full size.
+- [Pass] **Receipt integrity rechecked.** Read-only probe command: `python3 -` importing `Path,json,hashlib,struct,re`; load `verification.json`; for `(k,n)` in `[("png","xyz-forge-system.png"),("chromiumPng","xyz-forge-system-chromium.png"),("html","xyz-forge-system.html")]`, print `hashlib.sha256((p/n).read_bytes()).hexdigest()==v["artifactDigests"][k]` and PNG header dimensions using `struct.unpack(">II",b[16:24])`; print text-id counts, icon count and findings. Exit 0; decisive output: `xyz-forge-system.png True (2000, 1570)`, `xyz-forge-system-chromium.png True (2000, 1570)`, `xyz-forge-system.html True HTML`, `text ids/unique/icons/findings: 77 77 5 []`. This corroborates the receipt's `"findings": []`, without executing the render fixture.
+- [Pass] **Thumbnail probe.** Commands `sips --resampleWidth 420 examples/2026-10-14-xyz-forge-system/xyz-forge-system.png --out "$TMPDIR/r3-satori-thumb.png"` and the corresponding `xyz-forge-system-chromium.png` / `r3-chromium-thumb.png` command exited 0 and produced the two inspected scratch previews. `TMPDIR` was pinned to `.relay-scratch/tmp`; no artifact was modified.
+- [Pass] **Retained acceptance evidence remains sufficient for review.** Plan `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:122`–127 records render PASS, the red control with exit 1 and `rec0_caption` / `recbox0`, restoration, PDDA and four passing canaries. `CHANGELOG.md:2`–5 accurately describes the example and reported checks.
+- [Unverified — needs clone run] Fresh rendering, red-control execution, PDDA and test suites were not run under this turn's restrictions; the harness owns those gates. No Git commands were run, so branch-wide containment remains a harness audit. Direct directory enumeration found the eight expected example files, with no SVG present.
+
+Graph tools are unavailable in the current tool inventory; evidence is from direct reads and image inspection. Only the relay file was edited; previews were written under exempt scratch. The harness owns the file-scoped commit. Close using the env-pinned absolute tick's `done RELAY-gh55-final-qa-r3 --agent codex`, as requested by the Round 3 recovery note, rather than releasing an open task to a role named done.
+
+Relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
