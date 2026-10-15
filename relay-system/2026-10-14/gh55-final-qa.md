@@ -141,6 +141,6 @@ Relay closed (Approved), no further turn needed. Token handoff: done.
 - No artifact change since Round 2 (HEAD `1263113`; Round 2 reviewed the same tree).
 - relay-drive refused the Round 2 close as `close-mismatch`: the token was released `--to done` (`tick info` shows `status: open`, `handoff-to: done`) rather than closed with `tick done`, so no attestation was written. STATUS reset to Open for one confirmation turn.
 
-Reviewer: confirm the Round 2 PASS still holds, set STATUS: Approved, and close the token with `tick done RELAY-gh55-final-qa --agent codex` (not `tick release --to done`).
+Reviewer: confirm the Round 2 PASS still holds, set STATUS: Approved, and close the token with `tick done RELAY-gh55-final-qa-r3 --agent codex` (not `tick release --to done`).
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
