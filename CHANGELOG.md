@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-14 — GH-55 XYZ Forge system diagram example
+
+- Added `examples/2026-10-14-xyz-forge-system/`: the operator-supplied XYZ Forge system diagram redrawn in the belief-reference visual language (ivory ground, Barlow Condensed, rounded title panel, numbered stage markers, point-up hexagons on one reading line, thin slate connectors, one pale accent shape for durable records). Follows the RAG example pattern: one fixture and one render script over the shared `renderSatori`/`renderPlaywright`; no engine, recipe, catalog or font change; hand-drawn SVG icons, no image generation. Refs #55.
+- Verification: the script passes in both backends (no unsupported glyphs, container escapes, Chromium overflow or text overlap; 2000×1570). Red control (sixfold `records.entries[0].caption`) exits 1 with `rec0_caption` escaping `recbox0` in both backends; restored run passes. Both PNGs inspected at full size and thumbnail. Easy reversal: one additive folder.
+
 ## 2026-10-13 — GH-46 diagram object shadow tuning round (`AS-11` & `nutrition@3.0.0`)
 
 - Codified rule **`AS-11`** in `SYSTEM-INSTRUCTIONS.md`: when 3D objects or cutouts rest on a surface, ground their base footprint with a two-layer contact occlusion + directional cast shadow from one consistent scene corner light source rather than a whole-shape CSS `drop-shadow(...)` filter that traces upper lids, loop caps, and crossbars with a sticker halo. Reserve silhouette `drop-shadow` or glow filters for flat badges, floating UI elements, or stated emissive icons, and align sibling cutouts in the same row onto a shared tabletop ground baseline. Refs #46.

@@ -3,7 +3,7 @@ gh_issue: 55
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55
 title: "Example: XYZ Forge system diagram in the belief-reference style"
 goal: "Redraw the operator-supplied XYZ Forge system diagram in the belief-reference visual language as a one-folder example."
-status: "In progress — plan QA round 2"
+status: "In progress — implemented; final QA next"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Claude
@@ -25,7 +25,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Plan written; Codex plan QA round 1 (FAIL: S1 doc contract, S2 red control) addressed | Plan QA round 2, then render in the clone, red control, gates, final QA, PR |
+| Plan QA Approved (Codex, 2 rounds); rendered in the clone; red control witnessed; CHANGELOG | Gates, final Codex QA, PR to `main` |
 
 ## Why
 
@@ -105,7 +105,7 @@ catalog design registration (operator may request it after review).
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#55](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55) | 1–4 above | `XYZ-layout-engine-gh55-xyz-forge-diagram-2026-10-14` / `feat/…` | Plan written; plan QA next |
+| [#55](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55) | 1–4 above | `XYZ-layout-engine-gh55-xyz-forge-diagram-2026-10-14` / `feat/…` | Implemented; final QA next |
 
 ## Rating rationale (2026-10-14)
 
@@ -116,4 +116,11 @@ not a defect); trend unknown.
 
 ## Evidence
 
-Recorded at implementation time (render, red control, gates, final QA).
+| Check | Result |
+|---|---|
+| Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-14/gh55-plan-qa.md`, reviewed `9cea394`) |
+| `node examples/2026-10-14-xyz-forge-system/render-diagram.mjs` (task clone, un-sandboxed) | exit 0, `PASS: 77 text ids and 5 icons; 2000x1570 in both backends; no unsupported glyphs, escapes, overflow or overlap.` Satori PNG byte-identical to the primary-checkout draft. |
+| Red control: `records.entries[0].caption` repeated six times | exit 1; findings `rec0_caption` and `rec0_label`, `text escapes its container`, container `recbox0`, in satori and chromium |
+| Restore fixture, rerun | exit 0, same `PASS` line |
+| AS-10 | Both PNGs viewed at full size; Satori PNG viewed at 420px wide. Reading line and harness hold at thumbnail size; captions need full size. |
+| Environment | Chromium does not launch inside the Claude Code macOS sandbox (`bootstrap_check_in ... Permission denied (1100)`); renders ran un-sandboxed. |
