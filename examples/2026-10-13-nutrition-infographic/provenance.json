@@ -1,0 +1,208 @@
+{
+  "generated": true,
+  "assets": {
+    "leaf_glow": {
+      "prompt": "Recreate only the large central glowing green leaf from the reference image, upright, with its soft yellow-green radiant glow, light veins and a few faint sparkles. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1024x1536",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.16415977478027344,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/leaf_glow.png",
+        "bytes": 2047966,
+        "sha256": "4bc48d2d150df119fdd47bc0212228d23729a432afdefc814264fab145e53583"
+      },
+      "display": {
+        "path": "assets/web/leaf_glow.png",
+        "width": 427,
+        "height": 640,
+        "bytes": 473386,
+        "sha256": "7305cfe1fdebefa35942fbed62c6a3cd90202ae312884efb131239f73bc8de57"
+      }
+    },
+    "balance_scale": {
+      "prompt": "Recreate only the dark green balance scale from the upper-left of the reference image: the left pan holds spinach leaves, half an avocado, almonds and blueberries; the right pan holds a bowl of chickpeas, a salmon fillet and nuts. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1536x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.7239042917887369,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/balance_scale.png",
+        "bytes": 1726971,
+        "sha256": "5953b2aa672e62306a7df078eb3855936408f15b5e062f9a66b5cb24a9df9bfb"
+      },
+      "display": {
+        "path": "assets/web/balance_scale.png",
+        "width": 640,
+        "height": 427,
+        "bytes": 216405,
+        "sha256": "e707666408606ae31f397e96fc3dc1eabf9d33a288b2cbcfb205258819d9a82d"
+      }
+    },
+    "skip_spike": {
+      "prompt": "Recreate only the upper-right group from the reference image: a red soda cup with a straw, a bag of chips and a chocolate donut with sprinkles, behind a large faded pale-red circle-and-slash prohibition symbol. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.12277984619140625,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/skip_spike.png",
+        "bytes": 1444866,
+        "sha256": "9c82c9617c5f498995278338f638ce3e24e256e00506aaf476ca680bf54b51c1"
+      },
+      "display": {
+        "path": "assets/web/skip_spike.png",
+        "width": 640,
+        "height": 640,
+        "bytes": 632395,
+        "sha256": "4d475abd1839800d68982827b3680deab0962c6707fe904c3d8c485ae815e7df"
+      }
+    },
+    "parfait_jar": {
+      "prompt": "Recreate only the glass mason jar of layered yogurt parfait from the lower-left of the reference image, with oats, strawberries and blueberries, silver lid. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1024x1536",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.4635353088378906,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/parfait_jar.png",
+        "bytes": 2233788,
+        "sha256": "b90ea75c047c7229d2155ea02bd30d501f0f3f3e00702f3eae319a4c9aeb3ffa"
+      },
+      "display": {
+        "path": "assets/web/parfait_jar.png",
+        "width": 427,
+        "height": 640,
+        "bytes": 402087,
+        "sha256": "5a78cc66838999e34652751b10d9a43b8c5d87ea7a655ea84c9a678deea19c64"
+      }
+    },
+    "snack_container": {
+      "prompt": "Recreate only the clear plastic food container of green grapes and mixed nuts from the bottom row of the reference image, lid off, three-quarter view. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.30178165435791016,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/snack_container.png",
+        "bytes": 1616410,
+        "sha256": "6a02102dc8a68eeab6057635ea8fe5db1df86f0a25e7abc479a12672944e692d"
+      },
+      "display": {
+        "path": "assets/web/snack_container.png",
+        "width": 640,
+        "height": 640,
+        "bytes": 644529,
+        "sha256": "8f444d1e21507783138fdde383ec0e610ea95c8630ec744b2df16d4d9f206585"
+      }
+    },
+    "chicken_wrap": {
+      "prompt": "Recreate only the halved chicken wrap from the bottom row of the reference image, showing grilled chicken, lettuce and tomatoes inside a toasted tortilla. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1536x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.5980377197265625,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/chicken_wrap.png",
+        "bytes": 2150454,
+        "sha256": "951fdbfc3a8d6abe69c4fe1a6826daa06e6c168dd91f5a9dab6bb02e80a17c69"
+      },
+      "display": {
+        "path": "assets/web/chicken_wrap.png",
+        "width": 640,
+        "height": 427,
+        "bytes": 324944,
+        "sha256": "8e513dcb605064cb40e6dd670edb8e55c230106438df10c6dd6e19c4c5b4542c"
+      }
+    },
+    "water_bottle": {
+      "prompt": "Recreate only the sage-green insulated steel water bottle with a dark loop cap and a white water-drop emblem from the bottom row of the reference image, upright. Same painterly semi-realistic illustration style, lighting and palette as the reference image. Single subject, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "edit",
+      "size": "1024x1536",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 1,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.6868521372477213,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "tools/spike/assets/generated/water_bottle.png",
+        "bytes": 1316377,
+        "sha256": "c08d8a842fc48c2e3d8e0c96fac87e167c91f2de528ad7cc6303a5bc50218cbb"
+      },
+      "display": {
+        "path": "assets/web/water_bottle.png",
+        "width": 427,
+        "height": 640,
+        "bytes": 177924,
+        "sha256": "34b26bd6acd1540a0986686f853c383cbe6d653451c5db50cf8e75c79f652f1a"
+      }
+    }
+  }
+}

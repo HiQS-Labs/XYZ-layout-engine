@@ -59,6 +59,7 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const space = path.join(FRESH, 'space path');
   mkdirSync(space);
   cpSync(path.join(root, 'tools'), path.join(space, 'tools'), { recursive: true });
+  cpSync(path.join(root, 'examples/2026-10-13-nutrition-infographic'), path.join(space, 'examples/2026-10-13-nutrition-infographic'), { recursive: true });
   cpSync(path.join(root, 'package.json'), path.join(space, 'package.json'));
   symlinkSync(path.join(root, 'node_modules'), path.join(space, 'node_modules'), 'dir');
   const cli = (args, env = {}) => spawnSync(process.execPath, [path.join(space, 'tools/render.mjs'), 'tools/spike/fixture.json', '--out', 'local-output', ...args], { cwd: space, env: { ...process.env, ...env }, encoding: 'utf8', timeout: 15_000 });
@@ -133,7 +134,7 @@ test('guards: render pipeline breaks on a clean checkout', async () => {
   const beforeRender = readdirSync(space).sort();
   await processRequest({ inputPath: editedPath, format: 'svg' }, { root: space });
   assert.deepEqual(readdirSync(space).sort(), beforeRender, 'redraw created derivative cache');
-  await assertOfflineExport(distribution, path.join(space, 'standalone.html'), 'Inter');
+  await assertOfflineExport(distribution, path.join(space, 'standalone.html'), 'Barlow Condensed');
 
   const fixturePath = path.join(SPIKE, 'fixture.json');
   await assert.rejects(normalizeRequest({ inputPath: fixturePath, surprise: 1 }), /surprise/);
@@ -469,12 +470,12 @@ test('guards: unintended visual or layout drift', () => {
   }
   assert.ok(compared > 0, 'compared zero boxes');
   console.log(`# C2 geometry: ${compared} boxes compared within 0.5 px`);
-  const host = r => { const j = JSON.parse(readFileSync(path.join(r, 'runtime.json'))); return `${j.environment.platform}/${j.environment.arch}/${j.dependencies.chromium?.version}`; };
-  if (host(fresh) !== host(golden)) { console.log(`# C2 digests: skipped (host differs: ${host(fresh)} vs ${host(golden)})`); return; }
+  const host = r => { const j = JSON.parse(readFileSync(path.join(r, 'runtime.json'))); return `${j.environment.platform}/${j.environment.arch}/${j.environment.osRelease}/${j.dependencies.chromium?.version}`; };
   const files = readdirSync(golden).filter(f => /\.(png|svg|html)$/.test(f)).sort();
   assert.ok(files.length > 0, 'no golden artifacts to compare');
-  for (const f of files) assert.equal(sha256(readFileSync(path.join(fresh, f))), sha256(readFileSync(path.join(golden, f))), `${f} differs from golden`);
-  console.log(`# C2 digests: ${files.length} artifacts byte-identical`);
+  const deterministicFiles = host(fresh) === host(golden) ? files : files.filter(f => !f.endsWith('playwright.png'));
+  for (const f of deterministicFiles) assert.equal(sha256(readFileSync(path.join(fresh, f))), sha256(readFileSync(path.join(golden, f))), `${f} differs from golden`);
+  console.log(`# C2 digests: ${deterministicFiles.length}/${files.length} artifacts byte-identical (${host(fresh)} vs ${host(golden)})`);
 });
 
 test('guards: committed evidence no longer satisfies the gate', () => {
@@ -525,6 +526,8 @@ test('guards: the verifier stops detecting tampering', async () => {
     // Existing canaries do not exercise catalog transactions or declared recipe bytes.
     for (const name of ['catalog.mjs', 'catalog.sql']) cpSync(path.join(SPIKE, '..', name), path.join(root, 'tools', name));
     cpSync(path.join(SPIKE, '../recipes/nutrition.mjs'), path.join(root, 'tools/recipes/nutrition.mjs'));
+    cpSync(path.join(SPIKE, '../fonts/barlow-condensed'), path.join(root, 'tools/fonts/barlow-condensed'), { recursive: true });
+    cpSync(path.join(SPIKE, '../../examples/2026-10-13-nutrition-infographic'), path.join(root, 'examples/2026-10-13-nutrition-infographic'), { recursive: true });
     for (const name of ['scene.mjs','fixture.json']) cpSync(path.join(SPIKE, name), path.join(root, 'tools/spike', name));
     cpSync(path.join(SPIKE, 'assets'), path.join(root, 'tools/spike/assets'), { recursive:true });
     const { SCHEMA, loadDump, exportDump } = await import('../../catalog.mjs');
@@ -534,9 +537,9 @@ test('guards: the verifier stops detecting tampering', async () => {
     const catalog = (...args) => spawnSync(process.execPath, [path.join(root,'tools/catalog.mjs'), ...args], { cwd:root, encoding:'utf8', timeout:10000 });
     const succeeds = (...args) => { const r=catalog(...args); assert.equal(r.status,0,r.stdout+r.stderr); return r; };
     succeeds('add','nutrition','--title',"Nutrition's recipe");
-    succeeds('publish','nutrition','1.0.0');
+    succeeds('publish','nutrition','3.0.0');
     const published = readFileSync(catalogFile), stat = (await import('node:fs')).statSync(catalogFile);
-    succeeds('publish','nutrition','1.0.0');
+    succeeds('publish','nutrition','3.0.0');
     assert.deepEqual(readFileSync(catalogFile),published,'same publication rewrote bytes');
     assert.equal((await import('node:fs')).statSync(catalogFile).mtimeMs,stat.mtimeMs,'same publication rewrote dump');
     for (const args of [['list','--json'],['show','nutrition','--json'],['verify','--json'],['export','--check']]) succeeds(...args);
@@ -555,14 +558,14 @@ test('guards: the verifier stops detecting tampering', async () => {
     } finally { db.close(); }
     const sceneFile = path.join(root,'tools/spike/scene.mjs'), originalScene=readFileSync(sceneFile);
     appendFileSync(sceneFile,'\n// changed content\n');
-    let rejected=catalog('publish','nutrition','1.0.0');
+    let rejected=catalog('publish','nutrition','3.0.0');
     assert.equal(rejected.status,1); assert.match(rejected.stderr,/already published with different content/);
     assert.deepEqual(readFileSync(catalogFile),published,'rejected publication changed dump');
     rejected=catalog('verify','--json'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/modified declared file/);
     rmSync(sceneFile); rejected=catalog('verify'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/missing\/unreadable declared file/);
     writeFileSync(sceneFile,originalScene); succeeds('verify');
-    const extraPng = path.join(root,'tools/spike/assets/generated/web/heart.png');
-    writeFileSync(extraPng,readFileSync(path.join(root,'tools/spike/assets/generated/web/balance_scale.png')));
+    const extraPng = path.join(root,'examples/2026-10-13-nutrition-infographic/assets/web/heart.png');
+    writeFileSync(extraPng,readFileSync(path.join(root,'examples/2026-10-13-nutrition-infographic/assets/web/balance_scale.png')));
     rejected=catalog('verify'); assert.equal(rejected.status,1); assert.match(rejected.stdout,/namespace differs/); rmSync(extraPng);
     const id='2026-10-08-solar-system', logFile=path.join(root,'tools/design-log.jsonl'), designArgs=['design','add',id,'--fixture','examples/2026-10-08-solar-system/fixture.json','--artifact','examples/2026-10-08-solar-system/solar-system.png','--friction','C4 control'];
     succeeds(...designArgs); succeeds('export','--check');

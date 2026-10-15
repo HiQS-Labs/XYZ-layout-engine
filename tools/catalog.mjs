@@ -118,13 +118,18 @@ export function loadDump(text) {
     validateLedger(db); return db;
   } catch (error) { db.close(); throw error; }
 }
-const PNG_ROOT = 'tools/spike/assets/generated/web/';
+const NUTRITION_ROOT = 'examples/2026-10-13-nutrition-infographic/';
+const PNG_ROOT = NUTRITION_ROOT + 'assets/web/';
 const SOLAR_ROOT = 'examples/2026-10-08-solar-system/';
 async function declaredFiles(root, slug) {
   if (slug === 'nutrition') return [
     ['tools/recipes/nutrition.mjs','module'], ['tools/spike/fixture.json','schema'],
     ['tools/spike/scene.mjs','module'], ['tools/spike/assets.mjs','module'],
     ['tools/spike/assets/illustrations.svg','content'],
+    ['tools/fonts/barlow-condensed/BarlowCondensed-Regular.ttf','content'],
+    ['tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf','content'],
+    [NUTRITION_ROOT + 'DESIGN.md','content'], [NUTRITION_ROOT + 'artwork.json','content'],
+    [NUTRITION_ROOT + 'fixture.json','content'], [NUTRITION_ROOT + 'provenance.json','content'],
     ...(await fs.readdir(path.join(root, PNG_ROOT))).filter(n => n.endsWith('.png')).sort().map(n => [PNG_ROOT + n,'content'])
   ];
   if (slug === 'solar-system') return [
@@ -132,16 +137,6 @@ async function declaredFiles(root, slug) {
     [SOLAR_ROOT + 'fixture.json','schema'], [SOLAR_ROOT + 'verification.json','content'],
     ...['asteroid-belt-diagram','earth','jupiter','mars','mercury','milky-way','neptune','saturn-clean','sun','uranus','venus'].map(n => [SOLAR_ROOT + `assets/web/${n}.png`,'content'])
   ];
-  if (slug === 'mangajdm-promo') {
-    const example = 'examples/2026-10-11-mangajdm-promos/';
-    return [
-      ['tools/recipes/mangajdm-promo.mjs','module'], ['tools/spike/assets.mjs','module'],
-      [example + '01-icon.fixture.json','schema'],
-      ...['02-eras.fixture.json','03-wear.fixture.json','provenance.json'].map(n => [example + n,'content']),
-      ...['r34','integra','silvia-shirt','logo'].map(n => [example + `assets/web/${n}.png`,'content']),
-      ...['font.ttf','font-bold.ttf'].map(n => ['tools/spike/assets/' + n,'content'])
-    ];
-  }
   if (slug === 'design-intake') return [
     ['tools/recipes/design-intake.mjs','module'], ['tools/recipes/design-intake.contract.md','schema'],
     ['tools/request.mjs','module'], ['tools/render.mjs','module'], ['tools/spike/assets.mjs','module'],
