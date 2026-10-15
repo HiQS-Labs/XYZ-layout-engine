@@ -1,0 +1,178 @@
+{
+  "id": "xyz-forge-software-factory",
+  "width": 2200,
+  "height": 1740,
+  "title": "XYZ FORGE SOFTWARE FACTORY: THE SKILLS THAT TURN ISSUES INTO MERGED WORK",
+  "subtitle": "Seven operator commands carry work from a daily read of what matters to reviewed, merged and reconciled changes. Method skills and durable records sit underneath.",
+  "theme": {
+    "palette": {
+      "background": "#f5f3ec",
+      "ink": "#30373a",
+      "muted": "#657075",
+      "rule": "#cbd0d0",
+      "surface": "#eff2f1",
+      "accent": "#dbe5e8",
+      "accentEdge": "#9cb8c5"
+    }
+  },
+  "stages": [
+    {
+      "id": "daily",
+      "number": 1,
+      "formula": [
+        "Orient"
+      ]
+    },
+    {
+      "id": "intake",
+      "number": 2,
+      "formula": [
+        "Capture",
+        "Rate"
+      ]
+    },
+    {
+      "id": "build",
+      "number": 3,
+      "formula": [
+        "Diagnose",
+        "Build",
+        "QA"
+      ]
+    },
+    {
+      "id": "review",
+      "number": 4,
+      "formula": [
+        "Review"
+      ]
+    },
+    {
+      "id": "land",
+      "number": 5,
+      "formula": [
+        "Merge",
+        "Reconcile"
+      ]
+    }
+  ],
+  "nodes": {
+    "daily": {
+      "token": "/daily",
+      "label": "Orient",
+      "caption": "Every 15 minutes, fuses prompts, next actions, calendar and git state into a daily log with coaching."
+    },
+    "operator": {
+      "label": "Human operator",
+      "caption": "Chooses the work; authorizes merges."
+    },
+    "idea": {
+      "token": "/idea"
+    },
+    "triage": {
+      "token": "/triage"
+    },
+    "intake": {
+      "label": "Intake front doors",
+      "caption": "/idea files an operator idea. /triage files an outside report."
+    },
+    "workhorse": {
+      "token": "/workhorse",
+      "label": "Diagnose & design",
+      "caption": "Ground truth, leanest safe fix and a cross-model stress test, for tangled or ambiguous problems."
+    },
+    "startTask": {
+      "token": "/start-task",
+      "label": "Build one task to a ready PR",
+      "caption": "Fresh clone, recon, plan, Codex plan QA, build, gates, final QA."
+    },
+    "marathon": {
+      "token": "/marathon",
+      "label": "Run a phased queue",
+      "caption": "/start-marathon prepares lanes; /pre-marathon fires them."
+    },
+    "review": {
+      "token": "/review-code",
+      "alias": "/review-pr",
+      "label": "Review against ground truth",
+      "caption": "Recon and debug-mantra on the diff or PR; fixes reversible issues."
+    },
+    "merge": {
+      "token": "/merge-cleanup",
+      "label": "Land & reconcile",
+      "caption": "Merges PRs in dependency order, reconciles PDDA and the ledger, retires clones."
+    },
+    "github": {
+      "token": "GitHub",
+      "label": "GitHub",
+      "caption": "Issues, pull requests and hosted CI."
+    }
+  },
+  "edges": {
+    "coaching": "coaching, next actions",
+    "directs": "directs work",
+    "authorizes": "authorizes merges",
+    "plan": "hands over a plan",
+    "readyPr": "ready PR",
+    "approved": "approved",
+    "revise": "findings back to the builder",
+    "batch": "batches of issues",
+    "lanePrs": "lane PRs",
+    "github": "merges, verifies landing",
+    "intakeRec": "issue, capture doc, rating",
+    "mergeRec": "reconciles ledger and PDDA; retires clones"
+  },
+  "rails": {
+    "label": "METHOD SKILLS EVERY LANE CALLS",
+    "skills": [
+      {
+        "token": "/recon",
+        "caption": "trace before planning"
+      },
+      {
+        "token": "/debug-mantra",
+        "caption": "prove the fault"
+      },
+      {
+        "token": "/ponytail",
+        "caption": "smallest change that works"
+      },
+      {
+        "token": "/relay-xyz",
+        "caption": "Codex plan and final QA"
+      },
+      {
+        "token": "/consult",
+        "caption": "panel second opinion"
+      }
+    ]
+  },
+  "records": {
+    "label": "DURABLE RECORDS",
+    "entries": [
+      {
+        "token": "A",
+        "label": "Roadmap & release ledger",
+        "caption": "releases.db: backlog, ratings, waves, shipped work."
+      },
+      {
+        "token": "B",
+        "label": "PDDA project documents",
+        "caption": "Capture docs, plans, status, handoff context."
+      },
+      {
+        "token": "C",
+        "label": "Review & run evidence",
+        "caption": "Relay threads, test receipts, telemetry."
+      }
+    ]
+  },
+  "legend": {
+    "control": "control flow",
+    "records": "reads and writes records"
+  },
+  "footer": {
+    "note": "Schematic: shows how the skills hand work to each other, not timing or every flag. /marathon stands for /start-marathon plus /pre-marathon. Icons are hand-drawn vectors; no images were generated.",
+    "source": "Skill roles summarized from their SKILL.md descriptions in HiQS-Labs/XYZ-forge (skills/) and the deployed /daily skill. Version 2 of the October 14 XYZ Forge system example."
+  }
+}

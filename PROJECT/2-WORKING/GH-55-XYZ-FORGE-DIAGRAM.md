@@ -5,7 +5,7 @@ title: "Example: XYZ Forge system diagram in the belief-reference style"
 goal: "Redraw the operator-supplied XYZ Forge system diagram in the belief-reference visual language as a one-folder example."
 status: "PR ready; awaiting merge"
 created: 2026-10-14
-updated: 2026-10-14
+updated: 2026-10-15
 owner: Claude
 doc_type: feedback
 effort: 1
@@ -25,7 +25,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Final QA Approved (Codex, 3 rounds, attested); PR opened to `main` | Operator review and merge; then archive via merge-cleanup |
+| Version 2 (software-factory skills) added on operator request; renders pass | Operator review of both versions and merge; then archive via merge-cleanup |
 
 ## Why
 
@@ -127,3 +127,14 @@ not a defect); trend unknown.
 | `pnpm test` (disposable `--no-local` verify clone of `51eeaa6`, then removed) | 4 canaries pass, `test-budget: PASS — 4 canaries in 55.5s (budget 60s)`; `test-budget.json` unchanged; verify tree clean afterwards |
 | Final QA | Codex, `relay-system/2026-10-14/gh55-final-qa.md`: R1 FAIL (F1 undisclosed harness read of PDDA docs → disclosed in README); R2 PASS but token closed with `release --to done` (driver refused, close-mismatch); R3 confirmation Approved and attested, reviewed head `42a2ded` |
 | Environment | Chromium does not launch inside the Claude Code macOS sandbox (`bootstrap_check_in ... Permission denied (1100)`); renders ran un-sandboxed. |
+
+### Version 2 (2026-10-15)
+
+Operator asked for a version focused on the factory skills (`/daily`, `/start-task`, `/workhorse`, `/marathon`, `/merge-cleanup`, `/review-code`, `/review-pr`). Added `examples/2026-10-15-xyz-forge-software-factory/` with the same pattern. Skill roles grounded in `skills/*/SKILL.md` descriptions in HiQS-Labs/XYZ-forge and the deployed `/daily` skill; `/marathon` is drawn as shorthand for `/start-marathon` + `/pre-marathon` (no `/marathon` skill exists).
+
+| Check | Result |
+|---|---|
+| `node examples/2026-10-15-xyz-forge-software-factory/render-diagram.mjs` | exit 0, `PASS: 82 text ids and 2 icons; 2200x1740 in both backends; no unsupported glyphs, escapes, overflow or overlap.` |
+| Overlap check, observed during layout | exit 1, `overlapping text` `starttask_caption` / `marathon_label` in both backends; fixed by moving lower rows down 20px |
+| AS-10 | Both PNGs at full size, a 440px thumbnail and crops of the /marathon area in both backends |
+| Independent review | Independent review did not run for version 2. |
