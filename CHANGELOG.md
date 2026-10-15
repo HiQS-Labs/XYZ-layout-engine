@@ -2,8 +2,8 @@
 
 ## 2026-10-14 — PR #43 landing reconciliation
 
-- Preserved current delivered examples and intentional MangaJDM catalog retirement while adding DESIGN.md intake. Replayed only PR-added catalog records through the canonical importer and reconciled the disjoint RELEASES ledger changes. Existing published rows and source artifact bytes remain intact. Easy reversal.
-- Verification is recorded in merge-batch issue #54; required catalog, ledger and existing canaries run before the repair is pushed.
+- Preserved current delivered examples and intentional MangaJDM catalog retirement while adding DESIGN.md intake. Replayed only PR-added catalog records through the canonical importer and reconciled the disjoint RELEASES ledger changes. Existing published rows and source artifact bytes remain intact. Published dependency-only design-intake@1.0.3 because current main removed the retired MangaJDM renderer dispatch from its pinned render module. Easy reversal.
+- Verification: all four existing canaries pass in 44.1s; catalog verification/canonical export and RELEASES checks pass. PDDA reports no errors and 33 governance warnings. Merge-batch issue #54 records the landing and review.
 
 ## 2026-10-13 — GH-46 diagram object shadow tuning round (`AS-11` & `nutrition@3.0.0`)
 
