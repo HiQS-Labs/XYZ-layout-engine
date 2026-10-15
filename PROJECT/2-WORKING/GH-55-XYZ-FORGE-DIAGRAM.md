@@ -3,7 +3,7 @@ gh_issue: 55
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55
 title: "Example: XYZ Forge system diagram in the belief-reference style"
 goal: "Redraw the operator-supplied XYZ Forge system diagram in the belief-reference visual language as a one-folder example."
-status: "In progress — implemented; final QA next"
+status: "PR ready; awaiting merge"
 created: 2026-10-14
 updated: 2026-10-14
 owner: Claude
@@ -25,7 +25,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Implemented and gated; final QA round 1 F1 (undisclosed harness read of PDDA docs) disclosed in README | Final QA round 2, then PR to `main` |
+| Final QA Approved (Codex, 3 rounds, attested); PR opened to `main` | Operator review and merge; then archive via merge-cleanup |
 
 ## Why
 
@@ -105,7 +105,7 @@ catalog design registration (operator may request it after review).
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#55](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55) | 1–4 above | `XYZ-layout-engine-gh55-xyz-forge-diagram-2026-10-14` / `feat/…` | Implemented; final QA next |
+| [#55](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55) | 1–4 above | `XYZ-layout-engine-gh55-xyz-forge-diagram-2026-10-14` / `feat/…` | PR ready; awaiting merge |
 
 ## Rating rationale (2026-10-14)
 
@@ -125,4 +125,5 @@ not a defect); trend unknown.
 | AS-10 | Both PNGs viewed at full size; Satori PNG viewed at 420px wide. Reading line and harness hold at thumbnail size; captions need full size. |
 | `utils/pdda/pdda.sh run` (task clone, `51eeaa6`) | exit 0, no errors; 2 governance warnings in untouched files (`ROUTER.md:82`, `utils/pdda/PDDA-INSTALL.md:347`) |
 | `pnpm test` (disposable `--no-local` verify clone of `51eeaa6`, then removed) | 4 canaries pass, `test-budget: PASS — 4 canaries in 55.5s (budget 60s)`; `test-budget.json` unchanged; verify tree clean afterwards |
+| Final QA | Codex, `relay-system/2026-10-14/gh55-final-qa.md`: R1 FAIL (F1 undisclosed harness read of PDDA docs → disclosed in README); R2 PASS but token closed with `release --to done` (driver refused, close-mismatch); R3 confirmation Approved and attested, reviewed head `42a2ded` |
 | Environment | Chromium does not launch inside the Claude Code macOS sandbox (`bootstrap_check_in ... Permission denied (1100)`); renders ran un-sandboxed. |
