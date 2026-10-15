@@ -154,4 +154,12 @@ Read the whole current plan and all three seeded example source files, and revis
 
 Only this relay file was edited; no Git command was run. Relay closed (Approved), no further review turn needed. Producer (claude-a) proceeds with the clone render, red/green evidence, gates and final artifact QA.
 
+
+### Attestation · relay-drive — 2026-10-15T06:11:42Z
+task: RELAY-gh55-plan-qa
+reviewer: codex
+status: Approved
+reviewed-head: 9cea3945e3c93c82cbe12533be15230c926bb46c
+added-range: 16639+3574
+added-sha256: 56e5cdec5850ddf9938e7c0f66bf0ee5a08d98cccd7cdcd9747ed6695d09d77c
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
