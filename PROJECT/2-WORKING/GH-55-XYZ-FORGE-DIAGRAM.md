@@ -25,7 +25,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Version 2 (software-factory skills) added on operator request; renders pass | Operator review of both versions and merge; then archive via merge-cleanup |
+| Version 2 (software-factory skills, /ate) and a future-proposal diagram for XYZ-forge#1081 added on operator request; renders pass | Operator review of both versions and merge; then archive via merge-cleanup |
 
 ## Why
 
@@ -139,3 +139,13 @@ Operator asked for a version focused on the factory skills (`/daily`, `/start-ta
 | AS-10 | Both PNGs at full size, a 440px thumbnail and crops of the /marathon area in both backends |
 | `/ate` added on operator request | ATE grounded in `skills/4-occasional/ate/SKILL.md` and `utils/py/{adaptive_ate,fuzz_engine,domain_oracles,differential_oracle}.py`; rerender passes (86 text ids) |
 | Independent review | Independent review did not run for version 2. |
+
+### Future proposal diagram (2026-10-15)
+
+Operator asked for the proposed `/shift` outer loop (filed as HiQS-Labs/XYZ-forge#1081) as a new diagram labelled "Future Proposal". Added `examples/2026-10-15-xyz-forge-shift-proposal/`.
+
+| Check | Result |
+|---|---|
+| `node examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs` | exit 0, `PASS: 73 text ids and 1 icons; 2200x1500 in both backends; no unsupported glyphs, escapes, overflow or overlap.` |
+| AS-10 | Both PNGs at full size |
+| Independent review | Independent review did not run. |
