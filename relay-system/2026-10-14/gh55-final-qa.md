@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -119,5 +119,21 @@ Handing off to Producer (claude-a) — address F1, record its disposition, and r
 - Branch-wide accidental files — producer check: `git diff --name-only origin/main...HEAD` lists only CHANGELOG.md, the plan doc, the two relay threads, releases.db/.sql and the eight example files; `.xyz/`, `.tick/` and `.relay-scratch/` are git-excluded and absent from the diff.
 
 Reviewer: please re-check F1 only; approve if resolved.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: F1 is resolved by explicit disclosure of the omitted source relationship. The full artifact sweep found no further material defect. Approval covers artifact review and retained evidence; fresh executable and branch-containment gates remain the harness responsibility.
+swept file: yes
+
+- [Pass] **F1 closed.** `examples/2026-10-14-xyz-forge-system/README.md:41` now explicitly names “the harness's read of PDDA project documents (plans, status, handoff context)” among undrawn source edges and explains the crossing avoided. This satisfies the source-parity requirement allowing stated simplifications; no redraw is needed.
+- [Pass] **Whole-artifact sweep.** Re-read the complete fixture, render script, README and plan; inspected the seeded source PNG, both output PNGs and belief-reference PNG. Main routes and the disclosed simplifications remain consistent with the source. Style follows the documented hierarchy and reference mapping (`README.md:21`–43); the script retains one geometry owner and shared rendering with finite geometry, containment, overflow and overlap checks (`render-diagram.mjs:25`–33, 190–227). No additional pre-existing defect found in the reviewed files. Inspected the retained HTML resource references and responsive script as well; no external src/href URL was found.
+- [Pass] **Retained receipt integrity.** Read-only Python probe (exit 0): `p=Path("examples/2026-10-14-xyz-forge-system"); v=json.loads((p/"verification.json").read_text()); [(print(n,hashlib.sha256((p/n).read_bytes()).hexdigest()==v["artifactDigests"][k])) for k,n in [("png","xyz-forge-system.png"),("chromiumPng","xyz-forge-system-chromium.png"),("html","xyz-forge-system.html")]]`, with PNG dimensions read using `struct.unpack(">II",b[16:24])`. Decisive output: `xyz-forge-system.png True (2000, 1570)`; `xyz-forge-system-chromium.png True (2000, 1570)`; `xyz-forge-system.html True HTML`; `text ids/unique/icons/findings: 77 77 5 []`. This corroborates the receipt's quoted `"findings": []`, without rerunning the renderer.
+- [Pass] **Evidence replayability improved.** `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:123` now records the exact sixfold caption mutation command, failing exit 1 and decisive `rec0_caption` / `recbox0` output. Rows 122–127 retain passing render, restore, PDDA and budgeted canary evidence. `CHANGELOG.md:2`–5 accurately describes the example and those reported checks.
+- [Unverified — needs clone run] Fresh rendering, red-control execution, PDDA and test suites were intentionally not run in this reviewer worktree. The harness gate must verify them. No independent branch-wide diff assertion: Git was prohibited. Read-only directory enumeration returned precisely the eight named example files, with no SVG; whole-branch accidental-file containment remains a harness audit.
+
+Graph tools are unavailable in this turn's tool inventory; this review relies on direct file reads and artifact inspection, with no claim of graph completeness. Only this relay file was edited; no artifact/source changes or Git commands were made.
+
+Relay closed (Approved), no further turn needed. Token handoff: done.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
