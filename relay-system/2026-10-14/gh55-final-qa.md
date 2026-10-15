@@ -160,4 +160,12 @@ Graph tools are unavailable in the current tool inventory; evidence is from dire
 
 Relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-10-15T06:20:37Z
+task: RELAY-gh55-final-qa-r3
+reviewer: codex
+status: Approved
+reviewed-head: 42a2ded6fa8571e4cb34ee69bd895a020316fa68
+added-range: 17877+3604
+added-sha256: 85c55dc688099ea819442ef7ab052384cca7dc471a382e5ac145be39199c5035
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
