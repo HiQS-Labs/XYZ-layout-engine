@@ -180,3 +180,21 @@ const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlay
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${found.length} separate icon nodes; ${texts.length} text ids present and unique; ${W}x${H} in both backends; text and icons inside canvas and cards in Satori and Chromium; no text overflow or overlap.`);
+
+// Accessible PDF (tools/pdf.mjs): headings, alt text and reading order, verified by reading the tagged PDF back.
+const {renderAccessiblePdf,writeAll,summarize}=await import(new URL('tools/pdf.mjs',RT).href);
+const st=Object.fromEntries(stages.map(s=>[s.id,s.title.toLowerCase()]));
+const pdfSpec={
+ title:fixture.title,lang:'en',
+ headings:{title:'h1',lane_ingest:'h2',lane_query:'h2',...Object.fromEntries(stages.map(s=>[s.id+'_title','h3'])),...Object.fromEntries(Object.keys(fixture.panels).map(k=>['panel_'+k+'_title','h2']))},
+ images:{backdrop:'',...Object.fromEntries(stages.map(s=>['asset_'+s.id,''])),
+  arrows:`Flow diagram in two lanes that share a vector store. Lane A, done ahead of time: ${st.docs} are split into chunks, each chunk is embedded, and the ${st.embed_index} step writes ${fixture.edges.write} into the ${st.store}. Lane B, every time someone asks: the ${st.question} is embedded with the same model; the ${fixture.edges.queryVector} is sent to the ${st.store}, which returns the ${fixture.edges.chunks} to the ${st.retrieve} step; then ${st.augment}, ${st.llm} and ${st.answer} follow in order, and a dashed line shows that ${fixture.edges.question}.`},
+ order:['header','arrows','lane_ingest','card_docs','card_chunk','card_embed_index','edgebox_edge_write','card_store','panel_stored','lane_query','card_question','card_embed_query','edgebox_edge_query_vector','edgebox_edge_chunks','card_retrieve','card_augment','edgebox_edge_question','card_llm','card_answer','panel_why','panel_how','footer','*']
+};
+const pdfBrowser=await chromium.launch({headless:true});
+try{
+ const pdfResult=await renderAccessiblePdf(pdfBrowser,scene,fonts,W,H,'Inter',pdfSpec);
+ await writeAll(path.join(ROOT,'rag-system.pdf'),pdfResult);
+ console.log(`PDF ${pdfResult.verdict.pass?'PASS':'FAIL'}: rag-system.pdf\n${summarize(pdfResult)}`);
+ assert.ok(pdfResult.verdict.pass,'accessible PDF checks failed');
+}finally{await pdfBrowser.close()}

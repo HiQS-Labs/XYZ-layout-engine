@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-15 — Accessible PDF export (`PDF` branch)
+
+- Added `tools/pdf.mjs`: scenes print as tagged single-page PDFs with headings, alt text, a set reading order, language and title, plus a reader that walks the PDF tag tree and decodes tagged text through the embedded ToUnicode maps. Each export fails unless structure, alt text, reading order, AA text contrast (measured against the painted pixels) and visual equality with the plain export all pass. Recipe specs in `tools/a11y/`; cell-division and RAG examples export from their scripts. Seven repository PDFs added. Easy reversal: new files plus appended export blocks; no catalog-declared file changed.
+- Bet: Chromium's tagged output plus explicit specs meets WCAG 2.2 AA for these single-page diagrams. Failure modes found and handled: filtered images and painted-only swatches lose tags (transparent alt overlay); contextual-alternate parentheses and `ﬁ` ligatures lose Unicode (features off in PDF); Venus's Solar System label fails contrast over the asteroid belt (`pdf-fixture.json`, pending a version decision on the published fixture).
+- Verification: all seven PDFs pass their export checks; macOS PDFKit independently reads one page each, the titles and the text (including `(RGB)` and `first`, no U+FB01); Quartz rasterizations match the diagrams; `node tools/catalog.mjs verify` stays valid. Not validated with veraPDF/PAC; non-text contrast and alt-text quality are human-reviewed. Canary tests not run in this iteration.
+
 ## 2026-10-14 — PR #43 landing reconciliation
 
 - Preserved current delivered examples and intentional MangaJDM catalog retirement while adding DESIGN.md intake. Replayed only PR-added catalog records through the canonical importer and reconciled the disjoint RELEASES ledger changes. Existing published rows and source artifact bytes remain intact. Published dependency-only design-intake@1.0.3 because current main removed the retired MangaJDM renderer dispatch from its pinned render module. Easy reversal.
