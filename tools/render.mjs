@@ -195,11 +195,13 @@ export async function processRequest(reqObj, options = {}) {
     recipe = await import('./recipes/solar-system.mjs');
   } else if (normalized.recipe === 'recursive-process') {
     recipe = await import('./recipes/recursive-process.mjs');
+  } else if (normalized.recipe === 'design-intake') {
+    recipe = await import('./recipes/design-intake.mjs');
   } else {
     throw new Error('Validation failed: ' + JSON.stringify([{ field: 'fixture.id', message: 'unsupported recipe identity' }]));
   }
 
-  await recipe.validate(fixture);
+  await recipe.validate(fixture, options);
   fixture.width = normalized.width; fixture.height = normalized.height;
   // A recipe may declare its own vendored font; recipes without FONT keep the pinned Inter pair.
   const family = recipe.FONT?.family ?? 'Inter';
@@ -209,8 +211,9 @@ export async function processRequest(reqObj, options = {}) {
 
   timings.validationFontMs = round(performance.now() - validationStart);
   const raster = normalized.formats.includes('png');
-  const TEXT_IDS = recipe.TEXT_IDS;
-  const CONTAINMENT = recipe.CONTAINMENT;
+  const contract = recipe.textContract?.(fixture) ?? recipe;
+  const TEXT_IDS = contract.TEXT_IDS;
+  const CONTAINMENT = contract.CONTAINMENT;
   const parents = Object.fromEntries(Object.entries(CONTAINMENT).flatMap(([parent, kids]) => kids.map(kid => [kid, parent])));
 
   let browser, context;
@@ -225,7 +228,7 @@ export async function processRequest(reqObj, options = {}) {
     const MIN_SIZE = 12; // readable minimum font size
     const SHRINK_FACTOR = 0.9;
 
-    let sizes = { ...recipe.DEFAULT_SIZES };
+    let sizes = { ...contract.DEFAULT_SIZES };
     let result;
     let errors = [];
     let steps = [];
@@ -235,7 +238,7 @@ export async function processRequest(reqObj, options = {}) {
     for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
       errors = [];
       const sceneStart = performance.now();
-      scene = await recipe.buildScene(fixture, sizes);
+      scene = await recipe.buildScene(fixture, sizes, options);
       timings.sceneAssetMs += performance.now() - sceneStart;
 
       if (normalized.backend === 'playwright') {

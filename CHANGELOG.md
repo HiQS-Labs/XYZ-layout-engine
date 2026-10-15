@@ -1,4 +1,10 @@
 # Changelog
+
+## 2026-10-14 — PR #43 landing reconciliation
+
+- Preserved current delivered examples and intentional MangaJDM catalog retirement while adding DESIGN.md intake. Replayed only PR-added catalog records through the canonical importer and reconciled the disjoint RELEASES ledger changes. Existing published rows and source artifact bytes remain intact. Published dependency-only design-intake@1.0.3 because current main removed the retired MangaJDM renderer dispatch from its pinned render module. Easy reversal.
+- Verification: all four existing canaries pass in 44.5s; catalog verification/canonical export and RELEASES checks pass. PDDA reports no errors and 33 governance warnings. Merge-batch issue #54 records the landing and review.
+
 ## 2026-10-13 — GH-46 diagram object shadow tuning round (`AS-11` & `nutrition@3.0.0`)
 
 - Codified rule **`AS-11`** in `SYSTEM-INSTRUCTIONS.md`: when 3D objects or cutouts rest on a surface, ground their base footprint with a two-layer contact occlusion + directional cast shadow from one consistent scene corner light source rather than a whole-shape CSS `drop-shadow(...)` filter that traces upper lids, loop caps, and crossbars with a sticker halo. Reserve silhouette `drop-shadow` or glow filters for flat badges, floating UI elements, or stated emissive icons, and align sibling cutouts in the same row onto a shared tabletop ground baseline. Refs #46.
@@ -14,6 +20,13 @@
 - Archived `examples/2026-10-11-mangajdm-promos/`, `examples/2026-10-12-design-revision/`, and `tools/recipes/mangajdm-promo.mjs` into gitignored `temp/ManagaJDM projects/` on `Noels-Mac-Studio.local` and local checkouts, and removed `mangajdm-promo` and its 7 design rows from `tools/render.mjs`, `tools/catalog.mjs`, `tools/catalog.sql`, and `tools/design-log.jsonl` while preserving all unrelated catalog rows byte-for-byte.
 - Updated `README.md` to reflect current delivered recipes (`nutrition@2.0.2`, `solar-system@1.0.1`, `recursive-process@5.0.0`), examples, `DESIGN.md` style guides, bundled `Barlow Condensed` font, per-PNG drop shadows, `SYSTEM-INSTRUCTIONS.md` / `SOP.md` governance, and the log-first compensated `design add` write/rollback order.
 - Verification: `pnpm test` passes 4/4 canaries within the 60s budget (`tools/spike/verify.mjs` uses `process.exitCode = 1` to avoid a Node v24 `atexit` hang on macOS 27, and C2 checks `osRelease` for OS-dependent Chromium PNG rasterization while always verifying Satori and HTML golden digests). `node tools/catalog.mjs verify`, `node tools/catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS`, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run` pass. Protected spike and baseline recipe digests (`solar-system`, `recursive-process`) remain byte-identical.
+
+## 2026-10-12 — GH-42 DESIGN.md intake
+
+- Added the agent-assisted `design-intake` skill, a strict data-only recipe adapter, and capability preflight. Pinned Markdown, quoted requirement mappings, settings and separate PNG prompts now feed the existing validation, fitting and atomic export operations; no new LLM API/provider dependency or custom HTML renderer.
+- Bet: explicit capabilities preserve art direction better than silent substitutions. Unsupported fonts/effects and unpinned assets block rendering; source/asset hashes, geometry and planned pixel budgets fail by field. Easy reversal; existing recipes retain their artifact bytes.
+- Published `design-intake@1.0.2` and dependency-only `recursive-process@5.0.1`. Neutral synthetic-PNG example is public; private project inputs remain untouched. Multiple font families, arbitrary CSS and semantic-fidelity proof are outside this first version.
+- Verification: Codex plan and final QA Approved; all four canaries passed in 41.0s in an isolated clone; both new backend exports/visual inspections passed; 28/28 prior artifact digests unchanged. Catalog and canonical checks pass. PDDA has no errors, issue-state warnings cleared by refresh, and two pre-existing governance warnings remain. See the GH-42 working plan and TESTS-RESULTS evidence.
 
 ## 2026-10-12 — GH-8 close-out landed (PR #40)
 

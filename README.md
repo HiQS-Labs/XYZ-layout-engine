@@ -51,6 +51,18 @@ Run these commands from the repository root. Dependency installation may use the
 4. **Export Retrieval and Distribution:**
    Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
+## DESIGN.md intake
+
+Use the repository-local [design-intake skill](skills/design-intake/SKILL.md) to have an active agent translate an art-direction document into settings, separate artwork prompts and a data-only recipe. There is no new LLM API dependency. [The contract](tools/recipes/design-intake.contract.md) and [neutral worked example](examples/2026-10-12-design-intake/README.md) describe the supported subset.
+
+```sh
+node tools/intake.mjs capabilities
+node tools/intake.mjs check examples/2026-10-12-design-intake/fixture.json
+node tools/render.mjs examples/2026-10-12-design-intake/fixture.json --format png,svg,html,html-inline --out temp/intake-export
+```
+
+The intake checker reports unsupported requirements and pending artwork before rendering or spending. Accepted recipes use the standard offline validation, fitting and export pipeline. Keep private inputs in ignored `temp/`. V1 supports one bundled font family and absolute text/PNG/rectangle layouts; it explicitly refuses unsupported typography or effects. Structural checks do not prove an LLM captured the art direction faithfully: inspect the rendered result against the source.
+
 ### Delivered Examples and Design Contracts
 
 - **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@3.0.0`)**:
@@ -167,7 +179,7 @@ stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
   - Adaptive text fitting searches for a valid shrink down to 12px within a maximum of 10 iteration bounds. Non-fit exhaustion cleanly halts.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
-  - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. Other dimensions and scale are explicitly rejected.
+  - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. The design-intake recipe also supports its declared canvas up to 8192 pixels per side and 16,777,216 pixels total. Other recipe dimensions and any scale other than 1 are explicitly rejected.
   - A recipe may declare its own vendored font (`FONT` export); `nutrition@3.0.0` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
