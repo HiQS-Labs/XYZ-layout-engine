@@ -25,7 +25,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Plan QA Approved (Codex, 2 rounds); rendered in the clone; red control witnessed; CHANGELOG | Gates, final Codex QA, PR to `main` |
+| Implemented and gated; final QA round 1 F1 (undisclosed harness read of PDDA docs) disclosed in README | Final QA round 2, then PR to `main` |
 
 ## Why
 
@@ -120,7 +120,7 @@ not a defect); trend unknown.
 |---|---|
 | Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-14/gh55-plan-qa.md`, reviewed `9cea394`) |
 | `node examples/2026-10-14-xyz-forge-system/render-diagram.mjs` (task clone, un-sandboxed) | exit 0, `PASS: 77 text ids and 5 icons; 2000x1570 in both backends; no unsupported glyphs, escapes, overflow or overlap.` Satori PNG byte-identical to the primary-checkout draft. |
-| Red control: `records.entries[0].caption` repeated six times | exit 1; findings `rec0_caption` and `rec0_label`, `text escapes its container`, container `recbox0`, in satori and chromium |
+| Red control: `records.entries[0].caption` repeated six times, via `python3 -c "import json;f=json.load(open('fixture.json'));c=f['records']['entries'][0]['caption'];f['records']['entries'][0]['caption']=' '.join([c]*6);open('fixture.json','w').write(json.dumps(f,indent=2,ensure_ascii=False)+'\\n')"` in the example folder, then `node render-diagram.mjs` | exit 1; findings `rec0_caption` and `rec0_label`, `text escapes its container`, container `recbox0`, in satori and chromium |
 | Restore fixture, rerun | exit 0, same `PASS` line |
 | AS-10 | Both PNGs viewed at full size; Satori PNG viewed at 420px wide. Reading line and harness hold at thumbnail size; captions need full size. |
 | `utils/pdda/pdda.sh run` (task clone, `51eeaa6`) | exit 0, no errors; 2 governance warnings in untouched files (`ROUTER.md:82`, `utils/pdda/PDDA-INSTALL.md:347`) |

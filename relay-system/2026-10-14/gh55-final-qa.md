@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -111,5 +111,13 @@ swept file: yes
 Review scope: read the complete fixture, script, example README, verification receipt, HTML, plan and RAG precedent script; inspected both PNGs and the seeded source. No further pre-existing defect found in those reviewed files. Graph lookup used Verify intent against nearest indexed project `XYZ-layout-engine`, generation `2026-10-13T02:52:30Z`; current relay worktree is not indexed, examples are excluded and plan freshness is missing, so all material review evidence above comes from direct source/artifact reads, not graph completeness.
 
 Handing off to Producer (claude-a) — address F1, record its disposition, and return for Round 2 review.
+
+### Producer · Round 2 · claude-a
+
+- F1 — Implemented (disclosure option). `examples/2026-10-14-xyz-forge-system/README.md` "Simplifications, stated" now names three undrawn harness edges, including the harness read of PDDA project documents, and why (a shelf → harness connector would cross the dispatch spine and mode trail). No render change, so PNGs, HTML and `verification.json` are unchanged.
+- Red-control replayability — Implemented. The plan's Evidence row now carries the exact mutation command.
+- Branch-wide accidental files — producer check: `git diff --name-only origin/main...HEAD` lists only CHANGELOG.md, the plan doc, the two relay threads, releases.db/.sql and the eight example files; `.xyz/`, `.tick/` and `.relay-scratch/` are git-excluded and absent from the diff.
+
+Reviewer: please re-check F1 only; approve if resolved.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
