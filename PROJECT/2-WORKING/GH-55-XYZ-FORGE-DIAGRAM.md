@@ -2,8 +2,11 @@
 gh_issue: 55
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55
 title: "Example: XYZ Forge system diagram in the belief-reference style"
-status: "In progress — plan written; plan QA next"
+goal: "Redraw the operator-supplied XYZ Forge system diagram in the belief-reference visual language as a one-folder example."
+status: "In progress — plan QA round 2"
 created: 2026-10-14
+updated: 2026-10-14
+owner: Claude
 doc_type: feedback
 effort: 1
 complexity: 2
@@ -17,6 +20,12 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 ---
 
 # GH-55 — XYZ Forge system diagram in the belief-reference style
+
+## Status
+
+| What was just completed | What's next |
+|---|---|
+| Plan written; Codex plan QA round 1 (FAIL: S1 doc contract, S2 red control) addressed | Plan QA round 2, then render in the clone, red control, gates, final QA, PR |
 
 ## Why
 
@@ -32,8 +41,8 @@ that style carrying a system-architecture subject, not only a process model.
   `recursive-process.design.md`). It cannot carry a five-stage pipeline with side branches without a new
   recipe version, so reusing the recipe is not viable.
 - `examples/2026-10-09-rag-system/render-diagram.mjs` is the precedent for a one-off example: it builds a
-  Satori scene, calls the shared `renderSatori` / `renderPlaywright` from `tools/render.mjs` (signature
-  `(scene, font, width, height, fontFamily)`), writes both PNGs, a responsive HTML viewer and
+  Satori scene, calls the shared `renderSatori(scene, font, width, height, fontFamily)` and
+  `renderPlaywright(context, scene, font, width, height, fontFamily)` from `tools/render.mjs`, writes both PNGs, a responsive HTML viewer and
   `verification.json`, and asserts containment, overflow and overlap. GH-11 landed it with no engine change.
 - Belief-reference style tokens (from its fixture and design contract): background `#f5f3ec`, ink `#30373a`,
   muted `#657075`, rule `#cbd0d0`, surface `#eff2f1`, accent `#9cb8c5`; bundled Barlow Condensed
@@ -74,8 +83,12 @@ catalog design registration (operator may request it after review).
 
 - `node examples/2026-10-14-xyz-forge-system/render-diagram.mjs` prints `PASS` (no unsupported glyphs,
   container escapes, Chromium overflow or text overlap in either backend; both PNGs 2000×1570).
-- Red control: lengthen one caption so it must escape its container; the script exits non-zero naming it.
-  Restore afterwards.
+- Red control: set `records.entries[0].caption` in `fixture.json` to the original caption repeated six
+  times (it sits in the fixed-height `recbox0`, so it must overflow). Expected: non-zero exit with
+  `rec0_caption` / `text escapes its container` (container `recbox0`). Restore the fixture and rerun to
+  `PASS`. The command, mutation, exit status and decisive output go in the Evidence section below, since
+  both runs overwrite `verification.json`. (Stage and runtime captions register no container, so they
+  cannot exercise this check.)
 - AS-10: both PNGs inspected at full size and a 420px thumbnail; README reports avoided patterns,
   exceptions and simplifications.
 - `utils/pdda/pdda.sh run`: no new errors. `pnpm test` budget file unchanged (run in a space-free
@@ -100,3 +113,7 @@ catalog design registration (operator may request it after review).
 blocked work; operator asked for it now. Appeal 50: neutral default, no preference stated. Effort 85: one
 fixture and script patterned on an existing example, already drafted. Recurrence: not applicable (feature,
 not a defect); trend unknown.
+
+## Evidence
+
+Recorded at implementation time (render, red control, gates, final QA).

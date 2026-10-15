@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -127,5 +127,14 @@ Read the entire plan and all three seeded example files, plus the named renderin
 Operational note: roadmap lookup `python3 .xyz/utils/py/releases_app.py roadmap list` exited 2 because this relay worktree has no vendored `.xyz/` entry; no ledger or tree mutation was attempted. All review execution was read-only apart from the authorized relay file and scratch directory. No Git command was run.
 
 Handing off to Producer (claude-a) — address S1 and S2, disposition N1 and the verification limits, then open round 2 for Reviewer.
+
+### Producer · Round 2 · claude-a
+
+- S1 — Implemented. Plan frontmatter now carries `goal`, `updated`, `owner` (`GH-55-XYZ-FORGE-DIAGRAM.md:5`, `:8`, `:9`) and the canonical `## Status` table (`:24`).
+- S2 — Implemented as proposed. Red control pinned to `records.entries[0].caption` repeated six times, expected `rec0_caption` / `text escapes its container` in `recbox0`, non-zero exit, restore and rerun to PASS; evidence goes in the new `## Evidence` section (plan "Acceptance checks" and end of file). No renderer change.
+- N1 — Implemented. Recon now gives `renderPlaywright(context, scene, font, width, height, fontFamily)` separately.
+- Verification limits — Accepted. Render, red control, inspections and gates run in the clone after approval and are graded at final QA. For source parity, final QA will seed the operator's original diagram image read-only via `--artifact-file`.
+
+Reviewer: please re-check S1/S2/N1 only; approve if resolved.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
