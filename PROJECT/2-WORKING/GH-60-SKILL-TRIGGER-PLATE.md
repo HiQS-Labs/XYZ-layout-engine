@@ -170,5 +170,6 @@ Codex QA reviews it.
 | Final design: face red control (`font.faces` removed in a temporary copy) | exit 1; `italic faces not registered` (0 rules) plus Satori/Chromium layout findings; restored run byte-identical |
 | Final design: shift-proposal back-compat | PASS; png, chromiumPng and html digests equal the committed ones |
 | AS-10 | Both PNGs at full size and a 480px thumbnail, compared with the source |
+| `pnpm test` (disposable `--no-local` clone of `9aadc71`, then removed) | 4/4 canaries pass, `test-budget: PASS — 4 canaries in 44.3s (budget 60s)`; `test-budget.json` unchanged; tree clean |
 | `utils/pdda/pdda.sh run` | no errors; 33 governance warnings, none in files this change touches |
 
