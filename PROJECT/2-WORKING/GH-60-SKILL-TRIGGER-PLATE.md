@@ -3,7 +3,7 @@ gh_issue: 60
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60
 title: "Example: \"Why your skill never runs\" Claude Skills plate in a parchment style"
 goal: "Recreate the operator-supplied Claude Skills trigger plate as a one-folder example rendered through the shared renderer."
-status: "Captured — plan written, awaiting plan QA"
+status: "In progress — plan QA Approved (Codex, round 1)"
 created: 2026-10-16
 updated: 2026-10-16
 owner: Claude
@@ -25,7 +25,7 @@ reversibility: "Easy — one example folder, one vendored font folder, an option
 
 | What was just completed | What's next |
 |---|---|
-| Issue filed, clone provisioned, plan written | Codex plan QA |
+| Plan QA Approved by Codex in round 1 (`relay-system/2026-10-16/gh60-plan-qa.md`) | Implement steps 1–4 |
 
 ## Why
 
