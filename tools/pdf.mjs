@@ -103,7 +103,7 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
 // render.mjs's toHtml with h3 added. Kept here rather than widening toHtml because render.mjs is a catalog-declared
 // file of every published recipe: changing it would change their content digests. Same element, attribute and
 // image-source rules otherwise.
-const SAFE_SRC = /^data:image\/(png|svg\+xml);base64,[A-Za-z0-9+/=]+$/;
+const SAFE_SRC = /^data:image\/(png|webp|svg\+xml);base64,[A-Za-z0-9+/=]+$/;
 function toSemanticHtml(node) {
   if (node == null || node === false) return '';
   if (typeof node === 'string') return esc(node);

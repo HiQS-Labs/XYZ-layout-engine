@@ -6,7 +6,7 @@ import { invalid, readBounded, within, LIMITS } from '../request.mjs';
 import { inspectPng } from '../spike/assets.mjs';
 
 export const name = 'design-intake';
-export const version = '1.0.4';
+export const version = '1.0.5';
 export const FONT = {
   family: 'Barlow Condensed',
   regular: new URL('../fonts/barlow-condensed/BarlowCondensed-Regular.ttf', import.meta.url),

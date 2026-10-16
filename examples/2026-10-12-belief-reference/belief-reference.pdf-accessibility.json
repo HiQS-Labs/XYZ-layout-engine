@@ -565,8 +565,8 @@
   },
   "provenance": {
     "recipe": "recursive-process",
-    "version": "5.0.1",
+    "version": "6.0.0",
     "inputPath": "examples/2026-10-12-belief-reference/fixture.json",
-    "svgSha256": "3cc1ec8c3cc5882897a034860a5fc270cf76bb2090bce01bcb9cc6857db58b30"
+    "svgSha256": "d452225dd3e51620355c125c13aa25a29e4c5cd256e82bb5caa2bfa1f0a30406"
   }
 }

@@ -94,10 +94,11 @@ The intake checker reports unsupported requirements and pending artwork before r
   ```sh
   node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json --recipe nutrition --format png,svg,html,html-inline --out .relay-scratch/nutrition-infographic
   ```
-- **Reference-Directed Recursive Belief Updating (`recursive-process@5.0.0`)**:
-  [Reference-directed bundle](examples/2026-10-12-belief-reference/README.md), [original study](examples/2026-10-11-belief-updating/README.md), and [recipe design contract](tools/recipes/recursive-process.design.md). Renders a `1600×1340` feedback-loop diagram with six generated transparent PNGs, point-up SVG hexagons, rounded elbow connectors, per-divider label clearances, and bundled `Barlow Condensed` typography.
+- **Reference-Directed Recursive Belief Updating (`recursive-process@6.0.0`)**:
+  [Reference-directed bundle](examples/2026-10-12-belief-reference/README.md), [original study](examples/2026-10-11-belief-updating/README.md), and [recipe design contract](tools/recipes/recursive-process.design.md). Renders a `1600×1340` feedback-loop diagram with six generated transparent WebP illustrations, point-up SVG hexagons, rounded elbow connectors, per-divider label clearances, and bundled `Barlow Condensed` typography. Its PNG comes from Chromium (Satori/resvg cannot rasterize WebP); Satori produces the SVG.
   ```sh
-  node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --format png,svg,html,html-inline --out .relay-scratch/belief-reference
+  node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend playwright --format png,html,html-inline --out .relay-scratch/belief-reference-playwright
+  node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend satori --format svg,html,html-inline --out .relay-scratch/belief-reference-satori
   ```
 - **Solar System Overview (`solar-system@1.0.1`)**:
   [Example bundle](examples/2026-10-08-solar-system/README.md). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
@@ -110,9 +111,9 @@ The intake checker reports unsupported requirements and pending artwork before r
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
 in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@4.0.0`,
-`solar-system@1.0.1`, and `recursive-process@5.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
+`solar-system@1.0.1`, and `recursive-process@6.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
-Older versions (`nutrition@1.0.0`..`3.0.0`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`4.0.0`) remain ledger history; their content is retained in git.
+Older versions (`nutrition@1.0.0`..`3.0.0`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`5.0.1`) remain ledger history; their content is retained in git.
 
 Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
 
@@ -151,7 +152,7 @@ aliases/renames and semver range resolution are deferred.
 Designs are insert-only records in the same catalog, identified by `YYYY-MM-DD-slug`.
 An edit forks a new design ID; there is no design update or delete command. Each record hashes
 the fixture JSON and PNG artifact and optionally pins a published use case as `slug@semver`.
-Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`), `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and `2026-10-13-nutrition-type-scale` (`nutrition@4.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`5.0.0`; RAG and cell-division have a null use case
+Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`), `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and `2026-10-13-nutrition-type-scale` (`nutrition@4.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`6.0.0`; RAG and cell-division have a null use case
 because they are hand-built scripts with no recipe.
 
 | Command | Successful result | Exit |
@@ -248,7 +249,7 @@ Limits and decisions:
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
   - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. The design-intake recipe also supports its declared canvas up to 8192 pixels per side and 16,777,216 pixels total. Other recipe dimensions and any scale other than 1 are explicitly rejected.
-  - A recipe may declare its own vendored font (`FONT` export); `nutrition@4.0.0` and `recursive-process@5.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
+  - A recipe may declare its own vendored font (`FONT` export); `nutrition@4.0.0` and `recursive-process@6.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the pinned Latin fonts (`Inter` and `Barlow Condensed`) and are rejected during preflight unless a covering fallback font is explicitly pinned.

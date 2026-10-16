@@ -26,6 +26,14 @@
         "height": 256,
         "bytes": 47556,
         "sha256": "3601608fd70df509b3f9b2656d43f9a24d1209ac4b1001b8cbaf67dd14bc2427"
+      },
+      "webp": {
+        "path": "assets/web/activating-event.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 29016,
+        "sha256": "9f89110e04ee15db9f7e97809891d8e7ccb0584d055f91f7535ff9d7ea5f57db",
+        "converter": "cwebp 1.6.0 -lossless -exact from display PNG"
       }
     },
     "person-profile": {
@@ -53,6 +61,14 @@
         "height": 256,
         "bytes": 42308,
         "sha256": "08302ab16f6286b27f793239b8dea4987c36037838182e2c4b2e617fe78ba69b"
+      },
+      "webp": {
+        "path": "assets/web/person-profile.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 23698,
+        "sha256": "7a8ca764c08ed1e8f266e6bd9b212e51f1a43b1ee755a4008580851c4a030822",
+        "converter": "cwebp 1.6.0 -lossless -exact from display PNG"
       }
     },
     "negative-consequence": {
@@ -80,6 +96,14 @@
         "height": 256,
         "bytes": 30735,
         "sha256": "b2d593a480c5a304be082e4d71d0ee06a08a37450a1b0cff5670883f7da4fba0"
+      },
+      "webp": {
+        "path": "assets/web/negative-consequence.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 18596,
+        "sha256": "a5154878fb37f2edd219cf550a63de3c4e37644af108cc382655e3388187062c",
+        "converter": "cwebp 1.6.0 -lossless -exact from display PNG"
       }
     },
     "positive-consequence": {
@@ -107,6 +131,14 @@
         "height": 256,
         "bytes": 37063,
         "sha256": "c8182546f285d46cb10a0bb03b3e87e7226b76579b1220e448713a48fbf56b49"
+      },
+      "webp": {
+        "path": "assets/web/positive-consequence.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 21886,
+        "sha256": "89403bfcc4f3adb46c8f4c0aedf020639931701b731aa4a5484f155467def5c3",
+        "converter": "cwebp 1.6.0 -lossless -exact from display PNG"
       }
     },
     "revised-philosophy": {
@@ -134,6 +166,14 @@
         "height": 256,
         "bytes": 39700,
         "sha256": "783dc2363e38dcd6f6bd5b717c02a1e5da4311069e1d766cfba399671ddf50d2"
+      },
+      "webp": {
+        "path": "assets/web/revised-philosophy.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 21738,
+        "sha256": "dce11ac77d5e04f6b89bdab672591eeb6e5ec22135831d6c12f99a871e56eb2d",
+        "converter": "cwebp 1.6.0 -lossless -exact from display PNG"
       }
     },
     "examination": {
@@ -161,6 +201,14 @@
         "height": 256,
         "bytes": 24010,
         "sha256": "c9b9a3bff33f1d43d23a192ac3ee38ca4d72a2ee75c23202367245e5a0d9ee47"
+      },
+      "webp": {
+        "path": "assets/web/examination.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 13718,
+        "sha256": "3f7854d7aceba8d5663ff396ea8408ef87fd8b820a1337f1cb0c7a3b4a790053",
+        "converter": "cwebp 1.6.0 -lossless -exact from display PNG"
       }
     }
   },
