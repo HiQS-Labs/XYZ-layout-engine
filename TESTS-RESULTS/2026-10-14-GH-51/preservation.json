@@ -1,0 +1,5 @@
+{
+  "base": "ed565292d280fec565c30e9612ca31240e84fbf6",
+  "changedProtectedPaths": [],
+  "result": "PASS: tracked runtime, fixtures, assets, published briefs/catalog, exports, skills, packages and test budget unchanged; no fresh render claim"
+}

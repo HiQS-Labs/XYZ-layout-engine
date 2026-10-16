@@ -1,4 +1,13 @@
 # Changelog
+## 2026-10-14 — GH-51 lightweight Google DESIGN.md authoring profile
+
+- Adopted Google's alpha document convention for new briefs through root `DESIGN.md`, a token-bearing sample, and ROUTER/SYSTEM-INSTRUCTIONS/README pointers. The documented claim is low-to-medium authoring compatibility; the engine still consumes JSON fixtures and trusted recipes.
+- Recorded an official-source review after the operator-requested resolve-research chain returned `contract_rejected` in both search stages; the operator authorized the separately labelled review. Preserved compact attempt/recipe/digest provenance.
+- Bet: portable briefs can improve authoring without a second styling owner. **Easy** to revert; existing published briefs, fixtures, renderer, assets and catalog remain byte-identical. Revisit direct import only for a concrete caller requirement. Removed a pre-existing README Solar System gallery link whose target does not exist; its working example-bundle link remains.
+- Verification: Google CLI 0.4.0 reports zero errors/warnings on guide and sample; separate section checks pass and reject duplicates/empty bodies/documents. Broken token reference exits 1; the CLI's duplicate-H2 blind spot is recorded. Catalog verify/canonical export and local document links pass. Detailed gate/review evidence is tracked in GH-51 and `TESTS-RESULTS/2026-10-14-GH-51/`.
+
+- Codex plan QA Approved in round 1; final full QA Approved in round 1 and two wording nits resolved with Approved narrow round 2. PDDA reports 0 errors and the same 40 pre-existing governance warnings as the baseline.
+
 ## 2026-10-14 — GH-48 global proportional `% of S` type scale rules (`AS-12` & `nutrition@4.0.0`)
 
 - Codified rule **`AS-12`** and updated **`AS-5`** and **`## Report`** in `SYSTEM-INSTRUCTIONS.md` so all sessions derive infographic font sizes proportionally as a percentage of `S = Math.min(width, height)` (the canvas's shorter side) rather than ad-hoc Web/document pixel sizes: design for `1/3` scale (`~400px` phone width), headline `7–10% of S` (never below `6%`), subhead/tagline `2.5–3.5% of S`, section labels `2.2–2.8% of S`, body/caption floor `1.8–2.2% of S` (never below `1.5%`, footer/source `1.5%`), headline-to-body ratio `>= 4:1`, max `4` distinct sizes on the canvas, largest visible graphic height `<= ~3×` headline cap height, headline width `50–85%` of canvas width, allocated whitespace, icon-plus-label pair label height `>= 70%` of icon height, 3-tier squint hierarchy, and `S × pct` computation. Refs #48.
