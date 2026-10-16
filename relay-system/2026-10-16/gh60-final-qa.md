@@ -153,4 +153,12 @@ canonical: true
 
 Relay closed (Approved), no further turn needed. Producer/harness owns the subsequent clone gate and any optional documentation cleanup. Only this relay file was edited; no git commands were run.
 
+
+### Attestation · relay-drive — 2026-10-16T21:27:16Z
+task: RELAY-gh60-final-qa
+reviewer: codex
+status: Approved
+reviewed-head: af5f9ec41117cc2fe590feb94b407d7eb197620c
+added-range: 8044+6576
+added-sha256: 622db3b1566a66b3c5b160444f75abf14a471a9f97db72fd5d3c4e4dd551e1a6
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
