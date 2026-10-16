@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';
-import { NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT, DEFAULT_SIZES as SPIKE_DEFAULT_SIZES } from '../spike/scene.mjs';
+import { NUTRITION_TEXT_IDS, NUTRITION_CONTAINMENT } from '../spike/scene.mjs';
 import { resolveIllustration } from '../spike/assets.mjs';
 import { invalid, LIMITS, readPinnedPngs, validateFixtureShape } from '../request.mjs';
 
-export const version = '3.0.0';
+export const version = '4.0.0';
 export const name = 'nutrition';
 export const FONT = {
   family: 'Barlow Condensed',
@@ -15,19 +15,34 @@ export const CONTAINMENT = NUTRITION_CONTAINMENT;
 
 const ITEM_IDS = ['item_1', 'item_2', 'item_3', 'item_4'];
 const BENEFIT_IDS = ['benefit_1', 'benefit_2', 'benefit_3', 'benefit_4'];
+
+// Proportional type scale (% of S = min(width, height) = 1000px) per SYSTEM-INSTRUCTIONS.md AS-12.
+// Strictly 4 distinct sizes on the canvas: headline (92px), subhead (31px), sectionLabel (25px), body (21px).
+export const CANVAS_SHORTER_SIDE = 1000;
+export const TYPE_SCALE_PCT = {
+  headline: 0.092,     // 9.2% of S (7–10% range)
+  subhead: 0.031,      // 3.1% of S (2.5–3.5% range, ~1/3 of headline)
+  sectionLabel: 0.025, // 2.5% of S (2.2–2.8% range, bold uppercase)
+  body: 0.021,         // 2.1% of S (1.8–2.2% range, >= 1.8% floor; 92:21 = 4.38:1 >= 4:1)
+};
+export const TYPE_SCALE = {
+  headline: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.headline),
+  subhead: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.subhead),
+  sectionLabel: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.sectionLabel),
+  body: Math.round(CANVAS_SHORTER_SIDE * TYPE_SCALE_PCT.body),
+};
 export const DEFAULT_SIZES = {
-  ...SPIKE_DEFAULT_SIZES,
-  header_headline: 50,
-  header_subtitle: 24,
-  header_caption: 18,
-  callout_1_title: 20,
-  callout_1_text: 16,
-  callout_2_title: 20,
-  callout_2_text: 16,
-  ...Object.fromEntries(ITEM_IDS.flatMap(i => [[`${i}_title`, 18], [`${i}_caption`, 14]])),
-  ...Object.fromEntries(BENEFIT_IDS.map(b => [b, 15])),
-  footer_text: 21,
-  footer_tagline: 17,
+  header_headline: TYPE_SCALE.headline,
+  header_subtitle: TYPE_SCALE.subhead,
+  header_caption: TYPE_SCALE.body,
+  callout_1_title: TYPE_SCALE.sectionLabel,
+  callout_1_text: TYPE_SCALE.body,
+  callout_2_title: TYPE_SCALE.sectionLabel,
+  callout_2_text: TYPE_SCALE.body,
+  ...Object.fromEntries(ITEM_IDS.flatMap(i => [[`${i}_title`, TYPE_SCALE.sectionLabel], [`${i}_caption`, TYPE_SCALE.body]])),
+  ...Object.fromEntries(BENEFIT_IDS.map(b => [b, TYPE_SCALE.sectionLabel])),
+  footer_text: TYPE_SCALE.sectionLabel,
+  footer_tagline: TYPE_SCALE.body,
 };
 
 const EXAMPLE = new URL('../../examples/2026-10-13-nutrition-infographic/', import.meta.url);
@@ -160,11 +175,11 @@ export async function buildScene(fixture, sizes = {}) {
     type: 'div',
     props: {
       id: c.id,
-      style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 300, gap: 8 },
+      style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 310, gap: 6 },
       children: [
         groundedImg(`${c.id}_img`, c.illustrationId, calloutImages[i], { width: 280, height: 210 }),
-        text('span', `${c.id}_title`, c.title, { ...headline, letterSpacing: 0.6, maxWidth: 300 }, s),
-        text('span', `${c.id}_text`, c.text, { ...body, maxWidth: 240 }, s),
+        text('span', `${c.id}_title`, c.title, { ...headline, letterSpacing: 0.6, maxWidth: 310 }, s),
+        text('span', `${c.id}_text`, c.text, { ...body, maxWidth: 185 }, s),
       ],
     },
   });
@@ -183,30 +198,30 @@ export async function buildScene(fixture, sizes = {}) {
         backgroundImage: 'radial-gradient(circle at 50% 44%, #fffef8 0%, #f7f3e3 58%, #ede6cf 100%)',
         fontFamily: FONT.family,
         color: palette.text,
-        padding: '28px 30px 24px',
-        gap: 12,
+        padding: '22px 24px 20px',
+        gap: 10,
       },
       children: [
         {
           type: 'div',
           props: {
             id: 'header',
-            style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 940, gap: 6 },
+            style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 952, gap: 4 },
             children: [
               {
                 type: 'div',
                 props: {
                   id: 'header_row',
-                  style: { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, width: 940 },
+                  style: { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 16, width: 952 },
                   children: [
-                    img(null, ornament, { width: 40, height: 40 }),
-                    text('h1', 'header_headline', header.headline, { ...headline, letterSpacing: 1.2, maxWidth: 780 }, s),
-                    img(null, ornament, { width: 40, height: 40, transform: 'scaleX(-1)' }),
+                    img(null, ornament, { width: 42, height: 42 }),
+                    text('h1', 'header_headline', header.headline, { ...headline, letterSpacing: 1.2, maxWidth: 830 }, s),
+                    img(null, ornament, { width: 42, height: 42, transform: 'scaleX(-1)' }),
                   ],
                 },
               },
-              text('h2', 'header_subtitle', header.subtitle, { color: palette.primary, fontWeight: 400, textAlign: 'center', lineHeight: 1.2, maxWidth: 820 }, s),
-              header.caption ? text('p', 'header_caption', header.caption, { ...body, maxWidth: 600 }, s) : null,
+              text('h2', 'header_subtitle', header.subtitle, { color: palette.primary, fontWeight: 400, textAlign: 'center', lineHeight: 1.2, maxWidth: 860 }, s),
+              header.caption ? text('p', 'header_caption', header.caption, { ...body, maxWidth: 640 }, s) : null,
             ],
           },
         },
@@ -214,10 +229,10 @@ export async function buildScene(fixture, sizes = {}) {
           type: 'div',
           props: {
             id: 'hero',
-            style: { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 940, flex: 1, minHeight: 0 },
+            style: { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 952, flex: 1, minHeight: 0 },
             children: [
               callout(hero.callouts[0], 0),
-              img('hero_img', heroImage, { width: 320, height: '100%', filter: HERO_SHADOW }),
+              img('hero_img', heroImage, { width: 220, height: 204, filter: HERO_SHADOW }),
               callout(hero.callouts[1], 1),
             ],
           },
@@ -226,22 +241,22 @@ export async function buildScene(fixture, sizes = {}) {
           type: 'div',
           props: {
             id: 'lower',
-            style: { display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', width: 940 },
+            style: { display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', width: 952 },
             children: [
               {
                 type: 'div',
                 props: {
                   id: 'items',
-                  style: { display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 10, width: 700 },
+                  style: { display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 6, width: 678 },
                   children: items.map((item, i) => ({
                     type: 'div',
                     props: {
                       id: item.id,
-                      style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 167, gap: 5 },
+                      style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 165, gap: 4 },
                       children: [
                         groundedImg(`${item.id}_img`, item.illustrationId, itemImages[i], { width: 160, height: 170 }),
-                        text('span', `${item.id}_title`, item.title, { ...headline, letterSpacing: 0.5, maxWidth: 167 }, s),
-                        text('span', `${item.id}_caption`, item.caption, { ...body, lineHeight: 1.25, maxWidth: 167 }, s),
+                        text('span', `${item.id}_title`, item.title, { ...headline, letterSpacing: 0.5, maxWidth: 165 }, s),
+                        text('span', `${item.id}_caption`, item.caption, { ...body, lineHeight: 1.25, maxWidth: 165 }, s),
                       ],
                     },
                   })),
@@ -255,9 +270,9 @@ export async function buildScene(fixture, sizes = {}) {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    gap: 12,
-                    width: 220,
-                    padding: '14px 16px',
+                    gap: 10,
+                    width: 262,
+                    padding: '12px 12px',
                     border: `2px solid ${palette.panelBorder}`,
                     borderRadius: 16,
                     backgroundColor: palette.panelFill,
@@ -266,10 +281,10 @@ export async function buildScene(fixture, sizes = {}) {
                     type: 'div',
                     props: {
                       id: `${b.id}_row`,
-                      style: { display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 12 },
+                      style: { display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 },
                       children: [
-                        img(`${b.id}_icon`, iconImages[i], { width: 44, height: 44 }),
-                        text('span', b.id, b.text, { color: palette.primary, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.4, lineHeight: 1.2, maxWidth: 120 }, s),
+                        img(`${b.id}_icon`, iconImages[i], { width: 34, height: 34 }),
+                        text('span', b.id, b.text, { color: palette.primary, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.3, lineHeight: 1.2, maxWidth: 196 }, s),
                       ],
                     },
                   })),
@@ -288,7 +303,7 @@ export async function buildScene(fixture, sizes = {}) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: 16,
-              width: 880,
+              width: 940,
               padding: '10px 24px',
               border: `2px solid ${palette.panelBorder}`,
               borderRadius: 999,
@@ -297,9 +312,9 @@ export async function buildScene(fixture, sizes = {}) {
             children: [
               img(null, footerOrnament, { width: 28, height: 28 }),
               text('span', 'footer_text', footer.bannerText, { color: palette.primary, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, lineHeight: 1.2 }, s),
-              { type: 'div', props: { style: { width: 2, height: 26, backgroundColor: palette.panelBorder } } },
+              { type: 'div', props: { style: { width: 2, height: 28, backgroundColor: palette.panelBorder } } },
               text('span', 'footer_tagline', footer.tagline, { color: palette.muted, lineHeight: 1.2 }, s),
-              img(null, footerEnd, { width: 22, height: 22 }),
+              img(null, footerEnd, { width: 24, height: 24 }),
             ],
           },
         },
