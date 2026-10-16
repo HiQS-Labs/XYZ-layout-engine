@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-16.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -95,5 +95,62 @@ Cite `file:line` for disagreements.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: Ship. No blocking implementation defect found in the bounded source sweep. The additive font option and dependency-only patch publication fit this example's scope; one documentation nit below is non-blocking. Reversibility: Easy. Bet: the existing producer evidence plus source inspection and read-only integrity queries are sufficient for review; execution regressions remain for the disposable-clone harness gate.
+
+swept file: yes
+
+- [Pass] Swept all of `tools/render.mjs` (1–541), `tools/recipes/design-intake.mjs` (1–176), and the example script (1–185), including unchanged code; no observed pre-existing defect requiring a fix in this scope. Graph tools were unavailable, so this is direct-source verification, without a graph completeness claim. The two Satori call sites share the same font-list owner (`tools/render.mjs:24`, `:34`, `:85`). With faces absent, that owner returns the original normal 400/700 pair; the empty HTML interpolation emits no bytes between the original second font rule and universal selector (`:130`–`:132`). A direct `toDocument` probe also returned `absent faces equals empty faces: true` (exit 0). This establishes the fallback by inspection, not a newly executed baseline render. Extra-face style supports normal/italic, not arbitrary CSS oblique; the declared use is italic WOFF Buffers (`render-diagram.mjs:17`). WOFF is sniffed, other data retains the legacy TTF MIME (`tools/render.mjs:132`); this does not establish additional font-format support.
+- [Pass] Only `design-intake` currently declares the render module (`tools/catalog.mjs:124`–`:152`); verify checks current literal module versions rather than requiring historical files to match today's tree (`:209`–`:219`). A patch publish is appropriate, consistent with the dependency-only precedent recorded in `CHANGELOG.md:54`. Read-only command `node tools/catalog.mjs verify` exited 0 with `{"valid":true,"errors":[]}`. The integrity query below also returned `canonical: true`. Canonical bytes and current pins are measured; CLI authorship is producer-reported, not inferable from canonical bytes alone.
+- [Pass] Geometry and scene construction remain in the example, and actual rendering delegates to shared operations (`render-diagram.mjs:129`, `:135`); there is no local Satori/Chromium rendering implementation. The description is centered before a -90-degree rotation (`:115`–`:117`), so the centered width/height swap (`:140`) is appropriate for this label. The overlap exemption names only `title_1|title_2` (`:153`, `:165`). Both committed PNGs were visually inspected: the title glyphs are separated and the label follows its banner. The italic assertion checks registration text, exactly as the README says, not successful loading of every face (`:146`–`:147`; `README.md:41`). No broader exemption or new check requested.
+- [Pass] AS-5 requires closest-reference font matching, static vendoring, license/source/hashes and Barlow Condensed as the dense-diagram default (`SYSTEM-INSTRUCTIONS.md:28`); it does not add a new numbered rule or conflict with the file's change policy (`:60`). Alegreya's rationale, package version and license are recorded (`tools/fonts/alegreya/SOURCE.md:3`–`:17`). The query below measured matching font/license hashes and committed PNG/HTML digests. The stated decorative exceptions and footer disclosure are explicit (`README.md:33`–`:35`).
+- [Nit] `examples/2026-10-16-skill-trigger/README.md:20` says 1.0.4 differs from 1.0.3 only in the renderer hash. The query below shows **two** changed pins: `tools/recipes/design-intake.mjs` and `tools/render.mjs`; the recipe's version literal necessarily changes its own hash (`tools/recipes/design-intake.mjs:9`). Optional wording fix: “updates the renderer pin and the recipe module's version/hash, without changing recipe behavior.” The plan's `renderBoth` discussion is explicitly historical and followed by the final reversal, so it is not a claim about the current implementation.
+- [Unverified — needs clone run] Did not run either executable example, red controls, `pnpm test`, or the PDDA suite here. Their results remain producer evidence in the plan's Evidence table and await the harness gate. Full byte-for-byte legacy rendering and live italic loading were not independently rerun. Source-reference fidelity and the producer's 480px comparison were not independently checked; inspection here covers the two committed PNGs only.
+
+Fallback HTML probe (exit 0; output `absent faces equals empty faces: true`). Command:
+
+```sh
+node --input-type=module <<'JS'
+import {toDocument} from './tools/render.mjs';
+const scene={type:'div',props:{id:'canvas',style:{},children:'hello'}};
+const font={regular:Buffer.from('regular'),bold:Buffer.from('bold')};
+console.log('absent faces equals empty faces:',toDocument(scene,font,100,100)===toDocument(scene,{...font,faces:[]},100,100));
+JS
+```
+
+Integrity probe (exit 0; no filesystem output). Command:
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+node --input-type=module <<'JS'
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import {runCLI} from './tools/catalog.mjs';
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const dir='examples/2026-10-16-skill-trigger/';
+const v=JSON.parse(fs.readFileSync(dir+'verification.json'));
+console.log('artifacts match:',Object.entries({png:'skill-trigger.png',chromiumPng:'skill-trigger-chromium.png',html:'skill-trigger.html'}).every(([k,f])=>hash(fs.readFileSync(dir+f))===v.artifactDigests[k]));
+const fontDir='tools/fonts/alegreya/',s=fs.readFileSync(fontDir+'SOURCE.md','utf8');
+console.log('font/license hashes match:',fs.readdirSync(fontDir).filter(f=>f.endsWith('.woff')||f==='OFL.txt').every(f=>s.includes(hash(fs.readFileSync(fontDir+f)))));
+const {value:r}=await runCLI(['show','design-intake']);
+const a=r.versions.find(v=>v.version==='1.0.3'),b=r.versions.find(v=>v.version==='1.0.4');
+console.log('changed pins:',b.files.filter(f=>a.files.find(p=>p.path===f.path)?.sha256!==f.sha256).map(f=>f.path));
+console.log('canonical:',(await runCLI(['export','--check'])).value.canonical);
+JS
+```
+
+Decisive output:
+
+```text
+artifacts match: true
+font/license hashes match: true
+changed pins: [ 'tools/recipes/design-intake.mjs', 'tools/render.mjs' ]
+canonical: true
+```
+
+Relay closed (Approved), no further turn needed. Producer/harness owns the subsequent clone gate and any optional documentation cleanup. Only this relay file was edited; no git commands were run.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
