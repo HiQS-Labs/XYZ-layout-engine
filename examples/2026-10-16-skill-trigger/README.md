@@ -17,7 +17,7 @@ The paper texture, stains, ink line work and splatter are procedural SVG built b
 | `render-diagram.mjs` | Owns the geometry, builds the paper and ink layers and the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Text ids, artifact digests, findings (empty on a pass) |
 
-The type is Alegreya (`tools/fonts/alegreya/`, OFL) in four faces: regular, bold, italic and bold italic. The italics go to the shared renderer through the optional `font.faces` list in `tools/render.mjs`, added for this example. That file is pinned by the `design-intake` recipe, so this change also publishes `design-intake@1.0.4`, which differs from 1.0.3 only in that file's hash.
+The type is Alegreya (`tools/fonts/alegreya/`, OFL) in four faces: regular, bold, italic and bold italic. The italics go to the shared renderer through the optional `font.faces` list in `tools/render.mjs`, added for this example. That file is pinned by the `design-intake` recipe, so this change also publishes `design-intake@1.0.4`, which updates the renderer pin and the recipe module's own version line without changing recipe behaviour.
 
 ## How the diagram reads
 

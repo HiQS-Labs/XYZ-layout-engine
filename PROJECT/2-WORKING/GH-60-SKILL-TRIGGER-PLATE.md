@@ -3,7 +3,7 @@ gh_issue: 60
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60
 title: "Example: \"Why your skill never runs\" Claude Skills plate in a parchment style"
 goal: "Recreate the operator-supplied Claude Skills trigger plate as a one-folder example rendered through the shared renderer."
-status: "In progress — plan QA Approved (Codex, round 1)"
+status: "PR ready; awaiting merge"
 created: 2026-10-16
 updated: 2026-10-16
 owner: Claude
@@ -25,7 +25,7 @@ reversibility: "Easy — one example folder, one vendored font folder, an option
 
 | What was just completed | What's next |
 |---|---|
-| Example built and verified on the shared renderer with `font.faces`; `design-intake@1.0.4` published (operator decisions below) | Final Codex QA, then PR to `main` |
+| Final QA Approved by Codex in round 1; PR opened against `main` | Merge, then archive to 3-COMPLETED and reconcile the ledger |
 
 ## Why
 
@@ -124,7 +124,7 @@ no image generation.
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#60](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60) | 1–7 | `XYZ-layout-engine-gh60-skill-trigger-plate-2026-10-16` / `feat/…` | Built and verified; final QA pending |
+| [#60](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60) | 1–7 | `XYZ-layout-engine-gh60-skill-trigger-plate-2026-10-16` / `feat/…` | PR ready; awaiting merge |
 
 ## Rating rationale (2026-10-16)
 
@@ -172,4 +172,4 @@ Codex QA reviews it.
 | AS-10 | Both PNGs at full size and a 480px thumbnail, compared with the source |
 | `pnpm test` (disposable `--no-local` clone of `9aadc71`, then removed) | 4/4 canaries pass, `test-budget: PASS — 4 canaries in 44.3s (budget 60s)`; `test-budget.json` unchanged; tree clean |
 | `utils/pdda/pdda.sh run` | no errors; 33 governance warnings, none in files this change touches |
-
+| Final QA | Codex, 1 round, Approved (`relay-system/2026-10-16/gh60-final-qa.md`, reviewed `af5f9ec`); one README wording nit (1.0.4 changes two pins) fixed after approval |
