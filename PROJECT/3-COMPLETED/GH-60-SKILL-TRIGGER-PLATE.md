@@ -3,7 +3,7 @@ gh_issue: 60
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60
 title: "Example: \"Why your skill never runs\" Claude Skills plate in a parchment style"
 goal: "Recreate the operator-supplied Claude Skills trigger plate as a one-folder example rendered through the shared renderer."
-status: "PR ready; awaiting merge"
+status: "Completed — landed in PR #61 (45c662f) on 2026-10-16"
 created: 2026-10-16
 updated: 2026-10-16
 owner: Claude

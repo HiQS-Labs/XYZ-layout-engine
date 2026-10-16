@@ -3,9 +3,9 @@ gh_issue: 48
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/48
 title: "Global default proportional type scale rules (% of S) and nutrition@4.0.0 typography overhaul"
 goal: "Codify the 10 proportional type scale rules (% of S, where S = min(width, height)) in SYSTEM-INSTRUCTIONS.md (AS-5 and AS-12) as the repository-wide default for all sessions, and upgrade tools/recipes/nutrition.mjs to nutrition@4.0.0 and examples/2026-10-13-nutrition-infographic/ (DESIGN.md, renders-v4/, verification-v4.json) so the 1000x1000 Fuel Well. Live Well. infographic satisfies every proportional type scale, 4-size ceiling, >=4:1 hierarchy, hero-vs-headline cap-height balance, 50-85% headline width, >=70% icon-label ratio, and 1/3-scale mobile legibility invariant across Satori+resvg and Chromium."
-status: "In Progress — Final QA Approved; PR Ready"
+status: "Completed — landed in PR #49 (550ae1b) on 2026-10-16"
 created: 2026-10-13
-updated: 2026-10-14
+updated: 2026-10-16
 owner: Antigravity
 doc_type: plan
 complexity: 2

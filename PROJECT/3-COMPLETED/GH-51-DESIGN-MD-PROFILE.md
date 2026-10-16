@@ -2,9 +2,9 @@
 gh_issue: 51
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/51
 title: "Lightweight Google DESIGN.md authoring profile"
-status: "PR ready — awaiting merge"
+status: "Completed — landed in PR #53 (c93606c) on 2026-10-16"
 created: 2026-10-14
-updated: 2026-10-14
+updated: 2026-10-16
 owner: Codex
 goal: "Adopt low-to-medium Google DESIGN.md authoring compatibility without changing existing renders."
 doc_type: project
