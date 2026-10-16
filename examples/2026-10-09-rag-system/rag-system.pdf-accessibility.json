@@ -1,0 +1,1052 @@
+{
+  "sequence": [
+    {
+      "type": "P",
+      "id": "eyebrow",
+      "text": "HOW IT WORKS"
+    },
+    {
+      "type": "H1",
+      "id": "title",
+      "text": "Retrieval-Augmented Generation"
+    },
+    {
+      "type": "P",
+      "id": "subtitle",
+      "text": "A language model that looks things up in your documents before it answers."
+    },
+    {
+      "type": "Figure",
+      "id": "arrows",
+      "alt": "Flow diagram in two lanes that share a vector store. Lane A, done ahead of time: documents are split into chunks, each chunk is embedded, and the embed step writes vector + text + source ID into the vector store. Lane B, every time someone asks: the question is embedded with the same model; the query vector is sent to the vector store, which returns the top-k chunks + source IDs to the retrieve step; then augment, generate and answer follow in order, and a dashed line shows that the original question travels with the retrieved context."
+    },
+    {
+      "type": "H2",
+      "id": "lane_ingest",
+      "text": "A  /  INDEX YOUR KNOWLEDGE  /  DONE AHEAD OF TIME"
+    },
+    {
+      "type": "P",
+      "id": "docs_step",
+      "text": "01"
+    },
+    {
+      "type": "H3",
+      "id": "docs_title",
+      "text": "Documents"
+    },
+    {
+      "type": "P",
+      "id": "docs_desc",
+      "text": "PDFs, wikis, tickets and notes"
+    },
+    {
+      "type": "P",
+      "id": "chunk_step",
+      "text": "02"
+    },
+    {
+      "type": "H3",
+      "id": "chunk_title",
+      "text": "Chunk"
+    },
+    {
+      "type": "P",
+      "id": "chunk_desc",
+      "text": "Split into passages; keep each source ID"
+    },
+    {
+      "type": "P",
+      "id": "embed_index_step",
+      "text": "03"
+    },
+    {
+      "type": "H3",
+      "id": "embed_index_title",
+      "text": "Embed"
+    },
+    {
+      "type": "P",
+      "id": "embed_index_desc",
+      "text": "A model turns each chunk into a vector"
+    },
+    {
+      "type": "P",
+      "id": "edge_write",
+      "text": "vector + text + source ID"
+    },
+    {
+      "type": "P",
+      "id": "store_step",
+      "text": "04"
+    },
+    {
+      "type": "H3",
+      "id": "store_title",
+      "text": "Vector store"
+    },
+    {
+      "type": "P",
+      "id": "store_desc",
+      "text": "Vectors, chunk text and source IDs"
+    },
+    {
+      "type": "H2",
+      "id": "panel_stored_title",
+      "text": "WHAT GETS STORED"
+    },
+    {
+      "type": "P",
+      "id": "panel_stored_body",
+      "text": "Each chunk is saved three ways: its text, its embedding vector, and the ID of the source it came from."
+    },
+    {
+      "type": "H2",
+      "id": "lane_query",
+      "text": "B  /  ANSWER A QUESTION  /  EVERY TIME SOMEONE ASKS"
+    },
+    {
+      "type": "P",
+      "id": "question_step",
+      "text": "05"
+    },
+    {
+      "type": "H3",
+      "id": "question_title",
+      "text": "Question"
+    },
+    {
+      "type": "P",
+      "id": "question_desc",
+      "text": "\"What is our refund window?\""
+    },
+    {
+      "type": "P",
+      "id": "embed_query_step",
+      "text": "06"
+    },
+    {
+      "type": "H3",
+      "id": "embed_query_title",
+      "text": "Embed"
+    },
+    {
+      "type": "P",
+      "id": "embed_query_desc",
+      "text": "Same model, same vector space"
+    },
+    {
+      "type": "P",
+      "id": "edge_query_vector",
+      "text": "query vector"
+    },
+    {
+      "type": "P",
+      "id": "edge_chunks",
+      "text": "top-k chunks + source IDs"
+    },
+    {
+      "type": "P",
+      "id": "retrieve_step",
+      "text": "07"
+    },
+    {
+      "type": "H3",
+      "id": "retrieve_title",
+      "text": "Retrieve"
+    },
+    {
+      "type": "P",
+      "id": "retrieve_desc",
+      "text": "Nearest chunks to the question"
+    },
+    {
+      "type": "P",
+      "id": "augment_step",
+      "text": "08"
+    },
+    {
+      "type": "H3",
+      "id": "augment_title",
+      "text": "Augment"
+    },
+    {
+      "type": "P",
+      "id": "augment_desc",
+      "text": "Question plus retrieved chunks and IDs"
+    },
+    {
+      "type": "P",
+      "id": "edge_question",
+      "text": "the original question travels with the retrieved context"
+    },
+    {
+      "type": "P",
+      "id": "llm_step",
+      "text": "09"
+    },
+    {
+      "type": "H3",
+      "id": "llm_title",
+      "text": "Generate"
+    },
+    {
+      "type": "P",
+      "id": "llm_desc",
+      "text": "Answers using only the given context"
+    },
+    {
+      "type": "P",
+      "id": "answer_step",
+      "text": "10"
+    },
+    {
+      "type": "H3",
+      "id": "answer_title",
+      "text": "Answer"
+    },
+    {
+      "type": "P",
+      "id": "answer_desc",
+      "text": "Cites its sources: [1] [2]"
+    },
+    {
+      "type": "H2",
+      "id": "panel_why_title",
+      "text": "WHY RETRIEVE FIRST"
+    },
+    {
+      "type": "P",
+      "id": "panel_why_body",
+      "text": "The model answers from your documents, not only from its training, and can point to where each fact came from."
+    },
+    {
+      "type": "H2",
+      "id": "panel_how_title",
+      "text": "HOW RETRIEVAL WORKS"
+    },
+    {
+      "type": "P",
+      "id": "panel_how_body",
+      "text": "The question becomes a vector. The store returns the k chunks whose vectors sit nearest to it; k is a setting you choose."
+    },
+    {
+      "type": "P",
+      "id": "footer_message",
+      "text": "INDEX ONCE  /  RETRIEVE  /  AUGMENT  /  GENERATE"
+    },
+    {
+      "type": "P",
+      "id": "footer_credit",
+      "text": "XYZ LAYOUT ENGINE"
+    },
+    {
+      "type": "P",
+      "id": "scale_note",
+      "text": "Conceptual diagram: real systems differ in chunk size, embedding model, store and ranking. Icons are hand-drawn vector art; no images were generated."
+    },
+    {
+      "type": "P",
+      "id": "source_note",
+      "text": "Pattern: Lewis et al., \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\" (2020), arXiv:2005.11401"
+    }
+  ],
+  "contrast": [
+    {
+      "id": "eyebrow",
+      "tag": "p",
+      "text": "HOW IT WORKS",
+      "fontSize": 23,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.99,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "title",
+      "tag": "h1",
+      "text": "Retrieval-Augmented Generation",
+      "fontSize": 108,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.16,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "subtitle",
+      "tag": "p",
+      "text": "A language model that looks things up in your documents befo",
+      "fontSize": 32,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 8.76,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "lane_ingest",
+      "tag": "h2",
+      "text": "A  /  INDEX YOUR KNOWLEDGE  /  DONE AHEAD OF TIME",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.76,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "docs_step",
+      "tag": "p",
+      "text": "01",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.16,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "docs_title",
+      "tag": "h3",
+      "text": "Documents",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "docs_desc",
+      "tag": "p",
+      "text": "PDFs, wikis, tickets and notes",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "chunk_step",
+      "tag": "p",
+      "text": "02",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.16,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "chunk_title",
+      "tag": "h3",
+      "text": "Chunk",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "chunk_desc",
+      "tag": "p",
+      "text": "Split into passages; keep each source ID",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "embed_index_step",
+      "tag": "p",
+      "text": "03",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.16,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "embed_index_title",
+      "tag": "h3",
+      "text": "Embed",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "embed_index_desc",
+      "tag": "p",
+      "text": "A model turns each chunk into a vector",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "edge_write",
+      "tag": "p",
+      "text": "vector + text + source ID",
+      "fontSize": 20,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.12,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "store_step",
+      "tag": "p",
+      "text": "04",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.97,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "store_title",
+      "tag": "h3",
+      "text": "Vector store",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "store_desc",
+      "tag": "p",
+      "text": "Vectors, chunk text and source IDs",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "panel_stored_title",
+      "tag": "h2",
+      "text": "WHAT GETS STORED",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.48,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_stored_body",
+      "tag": "p",
+      "text": "Each chunk is saved three ways: its text, its embedding vect",
+      "fontSize": 26,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.5,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "lane_query",
+      "tag": "h2",
+      "text": "B  /  ANSWER A QUESTION  /  EVERY TIME SOMEONE ASKS",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.1,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "question_step",
+      "tag": "p",
+      "text": "05",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "question_title",
+      "tag": "h3",
+      "text": "Question",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "question_desc",
+      "tag": "p",
+      "text": "\"What is our refund window?\"",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "embed_query_step",
+      "tag": "p",
+      "text": "06",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "embed_query_title",
+      "tag": "h3",
+      "text": "Embed",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "embed_query_desc",
+      "tag": "p",
+      "text": "Same model, same vector space",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "edge_query_vector",
+      "tag": "p",
+      "text": "query vector",
+      "fontSize": 20,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.97,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "edge_chunks",
+      "tag": "p",
+      "text": "top-k chunks + source IDs",
+      "fontSize": 20,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.84,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "retrieve_step",
+      "tag": "p",
+      "text": "07",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "retrieve_title",
+      "tag": "h3",
+      "text": "Retrieve",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "retrieve_desc",
+      "tag": "p",
+      "text": "Nearest chunks to the question",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "augment_step",
+      "tag": "p",
+      "text": "08",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "augment_title",
+      "tag": "h3",
+      "text": "Augment",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "augment_desc",
+      "tag": "p",
+      "text": "Question plus retrieved chunks and IDs",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "edge_question",
+      "tag": "p",
+      "text": "the original question travels with the retrieved context",
+      "fontSize": 20,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.57,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "llm_step",
+      "tag": "p",
+      "text": "09",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "llm_title",
+      "tag": "h3",
+      "text": "Generate",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "llm_desc",
+      "tag": "p",
+      "text": "Answers using only the given context",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "answer_step",
+      "tag": "p",
+      "text": "10",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "answer_title",
+      "tag": "h3",
+      "text": "Answer",
+      "fontSize": 32,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "answer_desc",
+      "tag": "p",
+      "text": "Cites its sources: [1] [2]",
+      "fontSize": 21,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.99,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "panel_why_title",
+      "tag": "h2",
+      "text": "WHY RETRIEVE FIRST",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.48,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_why_body",
+      "tag": "p",
+      "text": "The model answers from your documents, not only from its tra",
+      "fontSize": 26,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.5,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_how_title",
+      "tag": "h2",
+      "text": "HOW RETRIEVAL WORKS",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.48,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_how_body",
+      "tag": "p",
+      "text": "The question becomes a vector. The store returns the k chunk",
+      "fontSize": 26,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.5,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "footer_message",
+      "tag": "p",
+      "text": "INDEX ONCE  /  RETRIEVE  /  AUGMENT  /  GENERATE",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.98,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "footer_credit",
+      "tag": "p",
+      "text": "XYZ LAYOUT ENGINE",
+      "fontSize": 17,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.44,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "scale_note",
+      "tag": "p",
+      "text": "Conceptual diagram: real systems differ in chunk size, embed",
+      "fontSize": 19,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 6.69,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "source_note",
+      "tag": "p",
+      "text": "Pattern: Lewis et al., \"Retrieval-Augmented Generation for K",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.11,
+      "required": 4.5,
+      "pass": true
+    }
+  ],
+  "visual": {
+    "changedPixels": 166,
+    "totalPixels": 3984000
+  },
+  "report": {
+    "pages": 1,
+    "pageSize": [
+      0,
+      0,
+      1800,
+      1245.12
+    ],
+    "marked": true,
+    "hasStructTree": true,
+    "lang": "en",
+    "title": "Retrieval-Augmented Generation",
+    "displayDocTitle": true,
+    "tabsStructure": true,
+    "structureTypes": [
+      "Document",
+      "Figure",
+      "H1",
+      "H2",
+      "H3",
+      "NonStruct",
+      "P"
+    ],
+    "order": [
+      {
+        "type": "P",
+        "text": "HOW IT WORKS"
+      },
+      {
+        "type": "H1",
+        "text": "Retrieval-Augmented Generation"
+      },
+      {
+        "type": "P",
+        "text": "A language model that looks things up in your documents before it answers."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Flow diagram in two lanes that share a vector store. Lane A, done ahead of time: documents are split into chunks, each chunk is embedded, and the embed step writes vector + text + source ID into the vector store. Lane B, every time someone asks: the question is embedded with the same model; the query vector is sent to the vector store, which returns the top-k chunks + source IDs to the retrieve step; then augment, generate and answer follow in order, and a dashed line shows that the original question travels with the retrieved context."
+      },
+      {
+        "type": "H2",
+        "text": "A / INDEX YOUR KNOWLEDGE / DONE AHEAD OF TIME"
+      },
+      {
+        "type": "P",
+        "text": "01"
+      },
+      {
+        "type": "H3",
+        "text": "Documents"
+      },
+      {
+        "type": "P",
+        "text": "PDFs, wikis, tickets andnotes"
+      },
+      {
+        "type": "P",
+        "text": "02"
+      },
+      {
+        "type": "H3",
+        "text": "Chunk"
+      },
+      {
+        "type": "P",
+        "text": "Split into passages; keepeach source ID"
+      },
+      {
+        "type": "P",
+        "text": "03"
+      },
+      {
+        "type": "H3",
+        "text": "Embed"
+      },
+      {
+        "type": "P",
+        "text": "A model turns eachchunk into a vector"
+      },
+      {
+        "type": "P",
+        "text": "vector + text + source ID"
+      },
+      {
+        "type": "P",
+        "text": "04"
+      },
+      {
+        "type": "H3",
+        "text": "Vector store"
+      },
+      {
+        "type": "P",
+        "text": "Vectors, chunk text andsource IDs"
+      },
+      {
+        "type": "H2",
+        "text": "WHAT GETS STORED"
+      },
+      {
+        "type": "P",
+        "text": "Each chunk is saved three ways: its text, its embedding vector, and the ID of thesource it came from."
+      },
+      {
+        "type": "H2",
+        "text": "B / ANSWER A QUESTION / EVERY TIME SOMEONE ASKS"
+      },
+      {
+        "type": "P",
+        "text": "05"
+      },
+      {
+        "type": "H3",
+        "text": "Question"
+      },
+      {
+        "type": "P",
+        "text": "\"What is our refundwindow?\""
+      },
+      {
+        "type": "P",
+        "text": "06"
+      },
+      {
+        "type": "H3",
+        "text": "Embed"
+      },
+      {
+        "type": "P",
+        "text": "Same model, samevector space"
+      },
+      {
+        "type": "P",
+        "text": "query vector"
+      },
+      {
+        "type": "P",
+        "text": "top-k chunks + source IDs"
+      },
+      {
+        "type": "P",
+        "text": "07"
+      },
+      {
+        "type": "H3",
+        "text": "Retrieve"
+      },
+      {
+        "type": "P",
+        "text": "Nearest chunks to thequestion"
+      },
+      {
+        "type": "P",
+        "text": "08"
+      },
+      {
+        "type": "H3",
+        "text": "Augment"
+      },
+      {
+        "type": "P",
+        "text": "Question plus retrievedchunks and IDs"
+      },
+      {
+        "type": "P",
+        "text": "the original question travels with the retrieved context"
+      },
+      {
+        "type": "P",
+        "text": "09"
+      },
+      {
+        "type": "H3",
+        "text": "Generate"
+      },
+      {
+        "type": "P",
+        "text": "Answers using only thegiven context"
+      },
+      {
+        "type": "P",
+        "text": "10"
+      },
+      {
+        "type": "H3",
+        "text": "Answer"
+      },
+      {
+        "type": "P",
+        "text": "Cites its sources: [1] [2]"
+      },
+      {
+        "type": "H2",
+        "text": "WHY RETRIEVE FIRST"
+      },
+      {
+        "type": "P",
+        "text": "The model answers from your documents, notonly from its training, and can point to where eachfact came from."
+      },
+      {
+        "type": "H2",
+        "text": "HOW RETRIEVAL WORKS"
+      },
+      {
+        "type": "P",
+        "text": "The question becomes a vector. The store returns the k chunks whose vectorssit nearest to it; k is a setting you choose."
+      },
+      {
+        "type": "P",
+        "text": "INDEX ONCE / RETRIEVE / AUGMENT / GENERATE"
+      },
+      {
+        "type": "P",
+        "text": "XYZ LAYOUT ENGINE"
+      },
+      {
+        "type": "P",
+        "text": "Conceptual diagram: real systems differ in chunk size, embedding model, store and ranking. Icons are hand-drawn vector art; no images were generated."
+      },
+      {
+        "type": "P",
+        "text": "Pattern: Lewis et al., \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\" (2020), arXiv:2005.11401"
+      }
+    ],
+    "figures": [
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Flow diagram in two lanes that share a vector store. Lane A, done ahead of time: documents are split into chunks, each chunk is embedded, and the embed step writes vector + text + source ID into the vector store. Lane B, every time someone asks: the question is embedded with the same model; the query vector is sent to the vector store, which returns the top-k chunks + source IDs to the retrieve step; then augment, generate and answer follow in order, and a dashed line shows that the original question travels with the retrieved context."
+      }
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": {
+      "single page at the canvas size": true,
+      "tagged (MarkInfo /Marked true, StructTreeRoot)": true,
+      "document language set": true,
+      "title set and shown in the title bar": true,
+      "tab order follows structure": true,
+      "exactly one H1": true,
+      "headings do not skip levels": true,
+      "every figure has alt text": true,
+      "all non-decorative images are tagged figures": true,
+      "tag order matches the reading order (text decoded from the PDF)": true,
+      "all text meets WCAG AA contrast": true,
+      "semantic page paints like the plain export": true
+    },
+    "firstMismatch": null,
+    "contrastFailures": []
+  }
+}

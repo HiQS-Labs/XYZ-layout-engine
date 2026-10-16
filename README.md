@@ -15,6 +15,30 @@ Because every interface is plain local files (`fixture.json`, `DESIGN.md`, `tool
 2. **100% Local LLM / Offline AI Workflow:** A local coding or vision LLM (via Ollama, LM Studio, MLX, or vLLM) reads [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) and `DESIGN.md`, edits `fixture.json` or writes `tools/recipes/*.mjs`, and self-corrects layout bounds using the structured geometry output from `measure-chromium.mjs` (`overlaps`, `clippings`). For visuals, it can emit inline vector SVGs or pair with a local diffusion + matte-extraction pipeline validated by [`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs).
 3. **Developer or Backend Pipeline (No AI Needed at Runtime):** Once a recipe and its local assets exist, a developer, CI job, or backend service can render, validate, and durably edit (`--set` / `--save`) copy, themes, and coordinates offline in milliseconds to seconds—without an AI agent, network access, or paid API calls.
 
+## Google DESIGN.md authoring format
+
+New briefs follow a **low-to-medium authoring profile** of
+[Google Labs' alpha DESIGN.md format](https://github.com/google-labs-code/design.md):
+ordered Markdown design rationale, optional YAML tokens, and explicit interpretation
+gaps. Start with the [repository guide](DESIGN.md) and
+[token-bearing sample](docs/design-md/DESIGN.md); the
+[dated review](docs/design-md/REVIEW.md) explains the adoption and tooling limits.
+
+An agent translates supported choices into the existing JSON fixture and trusted
+recipe. The engine does not directly parse DESIGN.md or automatically apply its
+tokens. Existing published custom briefs remain usable and migrate only with a
+future recipe version.
+
+Optional authoring validation (first use may download the CLI from npm):
+
+```sh
+npx --yes --package=@google/design.md@0.4.0 designmd lint docs/design-md/DESIGN.md
+```
+
+Also inspect section order/uniqueness and actual renders: CLI 0.4.0 does not reject
+duplicate H2 headings, and lint success is not rendered accessibility or Google
+certification. This optional tool adds no rendering dependency or network call.
+
 ## Install and Offline Workflow
 
 Once the repository, dependencies, and pinned local assets are on disk, rendering, editing, and exporting require zero remote network calls or paid API usage.
@@ -51,10 +75,22 @@ Run these commands from the repository root. Dependency installation may use the
 4. **Export Retrieval and Distribution:**
    Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
+## DESIGN.md intake
+
+Use the repository-local [design-intake skill](skills/design-intake/SKILL.md) to have an active agent translate an art-direction document into settings, separate artwork prompts and a data-only recipe. There is no new LLM API dependency. [The contract](tools/recipes/design-intake.contract.md) and [neutral worked example](examples/2026-10-12-design-intake/README.md) describe the supported subset.
+
+```sh
+node tools/intake.mjs capabilities
+node tools/intake.mjs check examples/2026-10-12-design-intake/fixture.json
+node tools/render.mjs examples/2026-10-12-design-intake/fixture.json --format png,svg,html,html-inline --out temp/intake-export
+```
+
+The intake checker reports unsupported requirements and pending artwork before rendering or spending. Accepted recipes use the standard offline validation, fitting and export pipeline. Keep private inputs in ignored `temp/`. V1 supports one bundled font family and absolute text/PNG/rectangle layouts; it explicitly refuses unsupported typography or effects. Structural checks do not prove an LLM captured the art direction faithfully: inspect the rendered result against the source.
+
 ### Delivered Examples and Design Contracts
 
-- **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@3.0.0`)**:
-  [Example bundle](examples/2026-10-13-nutrition-infographic/README.md), [preview gallery](examples/2026-10-13-nutrition-infographic/index.html), and [DESIGN.md style guide](examples/2026-10-13-nutrition-infographic/DESIGN.md). Renders a `1000×1000` infographic with bundled `Barlow Condensed` ALL CAPS headlines, a radial-gradient cream canvas (`#fffef8` → `#f7f3e3` → `#ede6cf`), seven `gpt-image-2.5-flare` transparent PNG illustrations with directional corner-lit ground/contact cast shadows (`AS-11`) across both Satori + resvg and Chromium, and crisp vector SVG benefit badges.
+- **Fuel Well. Live Well. — Nutrition Infographic (`nutrition@4.0.0`)**:
+  [Example bundle](examples/2026-10-13-nutrition-infographic/README.md), [preview gallery](examples/2026-10-13-nutrition-infographic/index.html), and [DESIGN.md style guide](examples/2026-10-13-nutrition-infographic/DESIGN.md). Renders a `1000×1000` infographic (`S = 1000px`) with bundled `Barlow Condensed` ALL CAPS headlines, proportional `% of S` type scale (`AS-12`: `92/31/25/21px`), a radial-gradient cream canvas (`#fffef8` → `#f7f3e3` → `#ede6cf`), seven `gpt-image-2.5-flare` transparent PNG illustrations with directional corner-lit ground/contact cast shadows (`AS-11`) across both Satori + resvg and Chromium, and crisp vector SVG benefit badges.
   ```sh
   node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json --recipe nutrition --format png,svg,html,html-inline --out .relay-scratch/nutrition-infographic
   ```
@@ -65,19 +101,19 @@ Run these commands from the repository root. Dependency installation may use the
   node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend satori --format svg,html,html-inline --out .relay-scratch/belief-reference-satori
   ```
 - **Solar System Overview (`solar-system@1.0.1`)**:
-  [Example bundle](examples/2026-10-08-solar-system/README.md) and [preview gallery](examples/2026-10-08-solar-system/index.html). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
+  [Example bundle](examples/2026-10-08-solar-system/README.md). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
 - **Hand-Built Visual Studies (Pre-Recipe)**:
   [RAG System Architecture](examples/2026-10-09-rag-system/README.md) and [Mitosis Cell Division](examples/2026-10-09-cell-division/README.md), recorded in the design catalog with `use_case = NULL`.
 - **Visual Design Governance & Transparent PNG SOP**:
-  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-11`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-12`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows and the 10-rule proportional `% of S` type scale), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
 
 ## Local Recipe Catalog
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@3.0.0`,
+in-memory SQLite by `tools/catalog.mjs`. The current delivered identities are `nutrition@4.0.0`,
 `solar-system@1.0.1`, and `recursive-process@6.0.0`: an immutable slug and an exact `MAJOR.MINOR.PATCH` version bound to SHA-256
 digests of declared files. There is no serial number; a recipe is identified by `slug@semver`.
-Older versions (`nutrition@1.0.0`..`2.0.2`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`5.0.0`) remain ledger history; their content is retained in git.
+Older versions (`nutrition@1.0.0`..`3.0.0`, `solar-system@1.0.0`, `recursive-process@1.0.0`..`5.0.1`) remain ledger history; their content is retained in git.
 
 Run from the repository root on Node with built-in `node:sqlite` available (verified on v22.22.3):
 
@@ -86,7 +122,7 @@ Run from the repository root on Node with built-in `node:sqlite` available (veri
 | `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
 | `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
 | `node tools/catalog.mjs show solar-system` | Look up Solar System by slug | 0 |
-| `node tools/catalog.mjs publish nutrition 3.0.0` | Unchanged publication succeeds as a no-op | 0 |
+| `node tools/catalog.mjs publish nutrition 4.0.0` | Unchanged publication succeeds as a no-op | 0 |
 | `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
 | `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
 
@@ -116,7 +152,7 @@ aliases/renames and semver range resolution are deferred.
 Designs are insert-only records in the same catalog, identified by `YYYY-MM-DD-slug`.
 An edit forks a new design ID; there is no design update or delete command. Each record hashes
 the fixture JSON and PNG artifact and optionally pins a published use case as `slug@semver`.
-Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`) and `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`6.0.0`; RAG and cell-division have a null use case
+Solar System is seeded with `solar-system@1.0.0`, Nutrition Infographic is pinned at `2026-10-13-nutrition-infographic` (`nutrition@2.0.0`), `2026-10-13-nutrition-shadow-tuning` (`nutrition@3.0.0`), and `2026-10-13-nutrition-type-scale` (`nutrition@4.0.0`), and Belief Updating designs are pinned across `recursive-process@1.0.0`..`6.0.0`; RAG and cell-division have a null use case
 because they are hand-built scripts with no recipe.
 
 | Command | Successful result | Exit |
@@ -153,23 +189,67 @@ Phase B is deferred: the grid parser and canonical form, pixel geometry, `layout
 `use_case_layouts`, filling `layout_id`, deriving grid counts/span histograms, responsive
 stacking and SPECS-PRD §6.6; layout IDs and derived grid fields remain null.
 
+## Accessible PDF export
+
+`tools/pdf.mjs` prints any scene as a tagged, single-page PDF for screen readers (WCAG 2.2 AA). A scene says how a
+diagram looks; an accessibility spec says what it means: which text is a heading, alt text for every image (`''`
+marks it decorative), descriptions for swatch groups, and the reading order. Recipe specs live in `tools/a11y/`.
+
+```sh
+node tools/pdf.mjs render examples/2026-10-13-nutrition-infographic/fixture.json --out temp/nutrition.pdf
+node tools/pdf.mjs check temp/nutrition.pdf    # what the PDF exposes: tags, alt text, language, title, reading order
+```
+
+The export fails unless every check passes, all read back from the finished PDF: tagged with a structure tree,
+language and title set (title shown in the window bar), one H1 and no skipped heading levels, every non-decorative
+image a Figure with alt text, the tag order's decoded text equal to the intended reading order, every text run at
+least 4.5:1 (3:1 for large text) against the pixels painted behind it, and the page painting like the plain export.
+Each PDF gets a `*.pdf-accessibility.json` record of those results.
+
+| Diagram | PDF | Source |
+|---|---|---|
+| Nutrition infographic | `examples/2026-10-13-nutrition-infographic/nutrition-infographic.pdf` | `nutrition` recipe |
+| Solar System | `examples/2026-10-08-solar-system/solar-system.pdf` | `solar-system` recipe, `pdf-fixture.json` (see below) |
+| Belief updating | `examples/2026-10-11-belief-updating/belief-updating.pdf` | `recursive-process` recipe |
+| Belief reference | `examples/2026-10-12-belief-reference/belief-reference.pdf` | `recursive-process` recipe |
+| Design intake | `examples/2026-10-12-design-intake/design-intake.pdf` | `design-intake` recipe |
+| Cell division | `examples/2026-10-09-cell-division/cell-division.pdf` | `render-diagram.mjs` |
+| RAG system | `examples/2026-10-09-rag-system/rag-system.pdf` | `render-diagram.mjs` |
+
+Limits and decisions:
+
+- The published Solar System fixture puts Venus's planet-type label over the asteroid belt at 4.45:1. The PDF uses
+  `pdf-fixture.json`, identical except `planets[venus].labelY` 1060 → 1125. The published fixture is a catalog-declared
+  file, so changing it needs a version decision; the PNG/SVG exports keep the original position until then.
+- `render.mjs` is a catalog-declared file of every recipe, so `pdf.mjs` keeps its own copy of `toHtml` with `h3` added
+  and rebuilds a recipe's scene from the fixture and its final fitted sizes; the rebuilt scene's Satori SVG must match
+  the published render byte for byte.
+- The PDF turns off Inter/Barlow contextual alternates and ligatures: the alternate parentheses and `ﬁ` glyphs have no
+  usable Unicode mapping, so screen readers would drop or misread them.
+- Swatch groups and CSS-filtered images are tagged through a transparent overlay image carrying the alt text, because
+  Chromium tags only painted content and drops filtered images' tags.
+- Label fragments inside a diagram (subscript letters, column numbers) may be hidden from assistive technology only
+  when the diagram's alt text describes them (`artifacts`, `unnamedText: 'artifact'`).
+- Checked here: structure, alt text, reading order, text contrast. Not automated: non-text contrast of arrows and
+  graphics, and the quality of alt text, which is reviewed by a person. Not yet validated with veraPDF or PAC.
+
 ## Capabilities and Limits
 
 - **Inputs and Area**: 
   - Fixture JSON size is strictly bounded to a maximum of 256 KiB.
-  - Per-image limits: maximum of 5 MiB and 16,777,216 pixels. Pinned recipe artwork is transparent PNG by default; a recipe may opt into transparent WebP (VP8X with alpha or lossless VP8L with alpha), pinned by SHA-256 like PNG.
+  - Per-image limits: maximum of 5 MiB and 16,777,216 pixels.
   - Aggregate scene limits: maximum of 35 MiB encoded, 16,777,216 pixels, and a total render area of 16,777,216 pixels.
   - Total published bytes across an export cannot exceed 64 MiB.
 - **Artifact Exports**: 
-  - **PNG**: Rasterized via Satori + resvg, or explicitly selected Playwright/Chromium (`--backend playwright`); there is no automatic backend switch. Satori + resvg cannot rasterize WebP artwork, so a Satori PNG of a recipe with WebP artwork is refused with a message naming `--backend playwright`.
+  - **PNG**: Rasterized via Satori + resvg, or explicitly selected Playwright/Chromium (`--backend playwright`); there is no automatic backend switch.
   - **SVG**: Accurate vector layout via Satori, retaining embedded raster artwork inside `image` nodes and translating per-image CSS `filter: drop-shadow(...)` styles into SVG `<feDropShadow>` filter definitions.
   - **HTML**: Compact offline export containing `render.html` and locally copied `assets/` keyed by SHA-256. `html-inline` embeds assets directly into the HTML document.
 - **Fitting and Diagnostics**: 
   - Adaptive text fitting searches for a valid shrink down to 12px within a maximum of 10 iteration bounds. Non-fit exhaustion cleanly halts.
   - Hard stage timeouts are not implemented yet. Subprocesses/workers are conditional on strict hard interruption demands (e.g., hanging rasterization bounds). An event-loop timer cannot enforce synchronous rasterization limits. Hard timeouts and worker execution limits remain unsupported.
 - **Geometry and Backend Restrictions**:
-  - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. Other dimensions and scale are explicitly rejected.
-  - A recipe may declare its own vendored font (`FONT` export); `nutrition@3.0.0` and `recursive-process@6.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
+  - The delivered recipe-owned canvases are `nutrition` (`1000×1000`), `solar-system` (`2400×1700`), and `recursive-process` (`1600×1340`), scale `1`. The design-intake recipe also supports its declared canvas up to 8192 pixels per side and 16,777,216 pixels total. Other recipe dimensions and any scale other than 1 are explicitly rejected.
+  - A recipe may declare its own vendored font (`FONT` export); `nutrition@4.0.0` and `recursive-process@6.0.0` use `Barlow Condensed` (`tools/fonts/barlow-condensed/`). Recipes that declare none (`solar-system`) keep `Inter` (`tools/spike/assets/`).
   - Playwright supports PNG and HTML but explicitly rejects SVG format generation.
 - **Unsupported Workloads**: 
   - CJK (Chinese, Japanese, Korean) and Emoji characters are not covered by the pinned Latin fonts (`Inter` and `Barlow Condensed`) and are rejected during preflight unless a covering fallback font is explicitly pinned.

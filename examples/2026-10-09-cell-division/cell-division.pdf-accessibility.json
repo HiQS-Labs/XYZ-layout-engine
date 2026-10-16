@@ -1,0 +1,807 @@
+{
+  "sequence": [
+    {
+      "type": "P",
+      "id": "eyebrow",
+      "text": "CELL BIOLOGY  /  THE CELL CYCLE"
+    },
+    {
+      "type": "H1",
+      "id": "title",
+      "text": "How cells reproduce (mitosis)"
+    },
+    {
+      "type": "P",
+      "id": "subtitle",
+      "text": "One cell copies its DNA, then splits into two daughter cells that carry the same chromosomes."
+    },
+    {
+      "type": "H2",
+      "id": "group_growth",
+      "text": "GROW + COPY DNA"
+    },
+    {
+      "type": "P",
+      "id": "interphase_step",
+      "text": "01"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_interphase",
+      "alt": "A round cell with a large purple nucleus, before it divides."
+    },
+    {
+      "type": "H3",
+      "id": "interphase_title",
+      "text": "Interphase"
+    },
+    {
+      "type": "P",
+      "id": "interphase_desc",
+      "text": "The cell grows and copies its DNA: each chromosome becomes two sister chromatids."
+    },
+    {
+      "type": "H2",
+      "id": "group_mitosis",
+      "text": "MITOSIS  /  THE NUCLEUS DIVIDES"
+    },
+    {
+      "type": "P",
+      "id": "prophase_step",
+      "text": "02"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_prophase",
+      "alt": "A cell whose chromosomes have coiled into X shapes inside a dissolving, dashed nuclear envelope."
+    },
+    {
+      "type": "H3",
+      "id": "prophase_title",
+      "text": "Prophase"
+    },
+    {
+      "type": "P",
+      "id": "prophase_desc",
+      "text": "Chromosomes coil up into visible X shapes and the spindle begins to form."
+    },
+    {
+      "type": "P",
+      "id": "metaphase_step",
+      "text": "03"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_metaphase",
+      "alt": "A cell with three X-shaped chromosomes lined up across the middle, held by spindle fibers from a pole on each side."
+    },
+    {
+      "type": "H3",
+      "id": "metaphase_title",
+      "text": "Metaphase"
+    },
+    {
+      "type": "P",
+      "id": "metaphase_desc",
+      "text": "Spindle fibers line the chromosomes up across the middle of the cell."
+    },
+    {
+      "type": "P",
+      "id": "anaphase_step",
+      "text": "04"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_anaphase",
+      "alt": "An oval cell with the sister chromatids being pulled apart toward opposite poles."
+    },
+    {
+      "type": "H3",
+      "id": "anaphase_title",
+      "text": "Anaphase"
+    },
+    {
+      "type": "P",
+      "id": "anaphase_desc",
+      "text": "The sister chromatids are pulled apart toward opposite ends of the cell."
+    },
+    {
+      "type": "P",
+      "id": "telophase_step",
+      "text": "05"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_telophase",
+      "alt": "A cell pinched in at the middle, with a new nucleus forming at each end."
+    },
+    {
+      "type": "H3",
+      "id": "telophase_title",
+      "text": "Telophase"
+    },
+    {
+      "type": "P",
+      "id": "telophase_desc",
+      "text": "A new nuclear envelope forms around each of the two sets of chromosomes."
+    },
+    {
+      "type": "H2",
+      "id": "group_split",
+      "text": "THE CELL SPLITS"
+    },
+    {
+      "type": "P",
+      "id": "cytokinesis_step",
+      "text": "06"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_cytokinesis",
+      "alt": "Two separate daughter cells, each with its own nucleus."
+    },
+    {
+      "type": "H3",
+      "id": "cytokinesis_title",
+      "text": "Cytokinesis"
+    },
+    {
+      "type": "P",
+      "id": "cytokinesis_desc",
+      "text": "The cytoplasm pinches in two, leaving two identical daughter cells."
+    },
+    {
+      "type": "P",
+      "id": "edge_cycle",
+      "text": "each daughter cell can begin the cycle again at interphase"
+    },
+    {
+      "type": "H2",
+      "id": "panel_why_title",
+      "text": "WHY IT MATTERS"
+    },
+    {
+      "type": "P",
+      "id": "panel_why_body",
+      "text": "Mitosis is how a body grows, replaces worn-out cells and heals wounds. When its checks fail, cells can divide out of control, as in cancer."
+    },
+    {
+      "type": "H2",
+      "id": "panel_same_title",
+      "text": "WHAT STAYS THE SAME"
+    },
+    {
+      "type": "P",
+      "id": "panel_same_body",
+      "text": "Each daughter cell gets a full copy of the DNA: the same chromosomes, in the same number, as the parent cell."
+    },
+    {
+      "type": "P",
+      "id": "footer_message",
+      "text": "GROW  /  COPY  /  CONDENSE  /  ALIGN  /  SEPARATE  /  SPLIT"
+    },
+    {
+      "type": "P",
+      "id": "footer_credit",
+      "text": "XYZ LAYOUT ENGINE"
+    },
+    {
+      "type": "P",
+      "id": "scale_note",
+      "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase and cytokinesis cells are AI-generated (GPT Image 2.5 via Higgsfield)."
+    },
+    {
+      "type": "P",
+      "id": "source_note",
+      "text": "Reference: OpenStax, Biology 2e (2018), section 10.2 \"The Cell Cycle\", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle"
+    }
+  ],
+  "contrast": [
+    {
+      "id": "eyebrow",
+      "tag": "p",
+      "text": "CELL BIOLOGY  /  THE CELL CYCLE",
+      "fontSize": 23,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.42,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "title",
+      "tag": "h1",
+      "text": "How cells reproduce (mitosis)",
+      "fontSize": 108,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.13,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "subtitle",
+      "tag": "p",
+      "text": "One cell copies its DNA, then splits into two daughter cells",
+      "fontSize": 32,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 8.68,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "group_growth",
+      "tag": "h2",
+      "text": "GROW + COPY DNA",
+      "fontSize": 21,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.98,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "interphase_step",
+      "tag": "p",
+      "text": "01",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.64,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "interphase_title",
+      "tag": "h3",
+      "text": "Interphase",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.75,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "interphase_desc",
+      "tag": "p",
+      "text": "The cell grows and copies its DNA: each chromosome becomes t",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "group_mitosis",
+      "tag": "h2",
+      "text": "MITOSIS  /  THE NUCLEUS DIVIDES",
+      "fontSize": 21,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.17,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "prophase_step",
+      "tag": "p",
+      "text": "02",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "prophase_title",
+      "tag": "h3",
+      "text": "Prophase",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.75,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "prophase_desc",
+      "tag": "p",
+      "text": "Chromosomes coil up into visible X shapes and the spindle be",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "metaphase_step",
+      "tag": "p",
+      "text": "03",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "metaphase_title",
+      "tag": "h3",
+      "text": "Metaphase",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.75,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "metaphase_desc",
+      "tag": "p",
+      "text": "Spindle fibers line the chromosomes up across the middle of ",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "anaphase_step",
+      "tag": "p",
+      "text": "04",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "anaphase_title",
+      "tag": "h3",
+      "text": "Anaphase",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.75,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "anaphase_desc",
+      "tag": "p",
+      "text": "The sister chromatids are pulled apart toward opposite ends ",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "telophase_step",
+      "tag": "p",
+      "text": "05",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "telophase_title",
+      "tag": "h3",
+      "text": "Telophase",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.75,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "telophase_desc",
+      "tag": "p",
+      "text": "A new nuclear envelope forms around each of the two sets of ",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "group_split",
+      "tag": "h2",
+      "text": "THE CELL SPLITS",
+      "fontSize": 21,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 9.89,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "cytokinesis_step",
+      "tag": "p",
+      "text": "06",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 9.74,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "cytokinesis_title",
+      "tag": "h3",
+      "text": "Cytokinesis",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 16.75,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "cytokinesis_desc",
+      "tag": "p",
+      "text": "The cytoplasm pinches in two, leaving two identical daughter",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "edge_cycle",
+      "tag": "p",
+      "text": "each daughter cell can begin the cycle again at interphase",
+      "fontSize": 22,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.73,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "panel_why_title",
+      "tag": "h2",
+      "text": "WHY IT MATTERS",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 9,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_why_body",
+      "tag": "p",
+      "text": "Mitosis is how a body grows, replaces worn-out cells and hea",
+      "fontSize": 27,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 10.29,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_same_title",
+      "tag": "h2",
+      "text": "WHAT STAYS THE SAME",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.84,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "panel_same_body",
+      "tag": "p",
+      "text": "Each daughter cell gets a full copy of the DNA: the same chr",
+      "fontSize": 27,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 10.29,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "footer_message",
+      "tag": "p",
+      "text": "GROW  /  COPY  /  CONDENSE  /  ALIGN  /  SEPARATE  /  SPLIT",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 14.05,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "footer_credit",
+      "tag": "p",
+      "text": "XYZ LAYOUT ENGINE",
+      "fontSize": 17,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.47,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "scale_note",
+      "tag": "p",
+      "text": "Simplified diagram: human body cells carry 46 chromosomes, n",
+      "fontSize": 19,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 6.72,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "source_note",
+      "tag": "p",
+      "text": "Reference: OpenStax, Biology 2e (2018), section 10.2 \"The Ce",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.13,
+      "required": 4.5,
+      "pass": true
+    }
+  ],
+  "visual": {
+    "changedPixels": 223,
+    "totalPixels": 3552000
+  },
+  "report": {
+    "pages": 1,
+    "pageSize": [
+      0,
+      0,
+      1800,
+      1110
+    ],
+    "marked": true,
+    "hasStructTree": true,
+    "lang": "en",
+    "title": "How cells reproduce (mitosis)",
+    "displayDocTitle": true,
+    "tabsStructure": true,
+    "structureTypes": [
+      "Document",
+      "Figure",
+      "H1",
+      "H2",
+      "H3",
+      "NonStruct",
+      "P"
+    ],
+    "order": [
+      {
+        "type": "P",
+        "text": "CELL BIOLOGY / THE CELL CYCLE"
+      },
+      {
+        "type": "H1",
+        "text": "How cells reproduce (mitosis)"
+      },
+      {
+        "type": "P",
+        "text": "One cell copies its DNA, then splits into two daughter cells that carry the same chromosomes."
+      },
+      {
+        "type": "H2",
+        "text": "GROW + COPY DNA"
+      },
+      {
+        "type": "P",
+        "text": "01"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A round cell with a large purple nucleus, before it divides."
+      },
+      {
+        "type": "H3",
+        "text": "Interphase"
+      },
+      {
+        "type": "P",
+        "text": "The cell grows andcopies its DNA: eachchromosome becomestwo sister chromatids."
+      },
+      {
+        "type": "H2",
+        "text": "MITOSIS / THE NUCLEUS DIVIDES"
+      },
+      {
+        "type": "P",
+        "text": "02"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A cell whose chromosomes have coiled into X shapes inside a dissolving, dashed nuclear envelope."
+      },
+      {
+        "type": "H3",
+        "text": "Prophase"
+      },
+      {
+        "type": "P",
+        "text": "Chromosomes coil upinto visible X shapes andthe spindle begins toform."
+      },
+      {
+        "type": "P",
+        "text": "03"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A cell with three X-shaped chromosomes lined up across the middle, held by spindle fibers from a pole on each side."
+      },
+      {
+        "type": "H3",
+        "text": "Metaphase"
+      },
+      {
+        "type": "P",
+        "text": "Spindle fibers line thechromosomes up acrossthe middle of the cell."
+      },
+      {
+        "type": "P",
+        "text": "04"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "An oval cell with the sister chromatids being pulled apart toward opposite poles."
+      },
+      {
+        "type": "H3",
+        "text": "Anaphase"
+      },
+      {
+        "type": "P",
+        "text": "The sister chromatidsare pulled apart towardopposite ends of the cell."
+      },
+      {
+        "type": "P",
+        "text": "05"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A cell pinched in at the middle, with a new nucleus forming at each end."
+      },
+      {
+        "type": "H3",
+        "text": "Telophase"
+      },
+      {
+        "type": "P",
+        "text": "A new nuclear envelopeforms around each of thetwo sets ofchromosomes."
+      },
+      {
+        "type": "H2",
+        "text": "THE CELL SPLITS"
+      },
+      {
+        "type": "P",
+        "text": "06"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two separate daughter cells, each with its own nucleus."
+      },
+      {
+        "type": "H3",
+        "text": "Cytokinesis"
+      },
+      {
+        "type": "P",
+        "text": "The cytoplasm pinchesin two, leaving twoidentical daughter cells."
+      },
+      {
+        "type": "P",
+        "text": "each daughter cell can begin the cycle again at interphase"
+      },
+      {
+        "type": "H2",
+        "text": "WHY IT MATTERS"
+      },
+      {
+        "type": "P",
+        "text": "Mitosis is how a body grows, replaces worn-out cells and heals wounds. Whenits checks fail, cells can divide out of control, as in cancer."
+      },
+      {
+        "type": "H2",
+        "text": "WHAT STAYS THE SAME"
+      },
+      {
+        "type": "P",
+        "text": "Each daughter cell gets a full copy of the DNA: the same chromosomes, in thesame number, as the parent cell."
+      },
+      {
+        "type": "P",
+        "text": "GROW / COPY / CONDENSE / ALIGN / SEPARATE / SPLIT"
+      },
+      {
+        "type": "P",
+        "text": "XYZ LAYOUT ENGINE"
+      },
+      {
+        "type": "P",
+        "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase and cytokinesis cells are AI-generated (GPT Image 2.5 via Higgsfield)."
+      },
+      {
+        "type": "P",
+        "text": "Reference: OpenStax, Biology 2e (2018), section 10.2 \"The Cell Cycle\", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle"
+      }
+    ],
+    "figures": [
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A round cell with a large purple nucleus, before it divides."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A cell whose chromosomes have coiled into X shapes inside a dissolving, dashed nuclear envelope."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A cell with three X-shaped chromosomes lined up across the middle, held by spindle fibers from a pole on each side."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "An oval cell with the sister chromatids being pulled apart toward opposite poles."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A cell pinched in at the middle, with a new nucleus forming at each end."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two separate daughter cells, each with its own nucleus."
+      }
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": {
+      "single page at the canvas size": true,
+      "tagged (MarkInfo /Marked true, StructTreeRoot)": true,
+      "document language set": true,
+      "title set and shown in the title bar": true,
+      "tab order follows structure": true,
+      "exactly one H1": true,
+      "headings do not skip levels": true,
+      "every figure has alt text": true,
+      "all non-decorative images are tagged figures": true,
+      "tag order matches the reading order (text decoded from the PDF)": true,
+      "all text meets WCAG AA contrast": true,
+      "semantic page paints like the plain export": true
+    },
+    "firstMismatch": null,
+    "contrastFailures": []
+  }
+}

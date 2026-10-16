@@ -207,3 +207,27 @@ const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlay
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${found.length} separate icon nodes; ${texts.length} text ids present and unique; ${W}x${H} in both backends; text and icons inside canvas and cards in Satori and Chromium; no text overflow or overlap.`);
+
+// Accessible PDF (tools/pdf.mjs): headings, alt text and reading order, verified by reading the tagged PDF back.
+const {renderAccessiblePdf,writeAll,summarize}=await import(new URL('tools/pdf.mjs',RT).href);
+const STAGE_ALT={
+ interphase:'A round cell with a large purple nucleus, before it divides.',
+ prophase:'A cell whose chromosomes have coiled into X shapes inside a dissolving, dashed nuclear envelope.',
+ metaphase:'A cell with three X-shaped chromosomes lined up across the middle, held by spindle fibers from a pole on each side.',
+ anaphase:'An oval cell with the sister chromatids being pulled apart toward opposite poles.',
+ telophase:'A cell pinched in at the middle, with a new nucleus forming at each end.',
+ cytokinesis:'Two separate daughter cells, each with its own nucleus.'
+};
+const pdfSpec={
+ title:fixture.title,lang:'en',
+ headings:{title:'h1',...Object.fromEntries(Object.keys(groups).map(g=>['group_'+g,'h2'])),...Object.fromEntries(stages.map(s=>[s.id+'_title','h3'])),...Object.fromEntries(Object.keys(fixture.panels).map(k=>['panel_'+k+'_title','h2']))},
+ images:{backdrop:'',arrows:'',...Object.fromEntries(stages.map(s=>['asset_'+s.id,STAGE_ALT[s.id]]))},
+ order:['header',...Object.keys(groups).flatMap(g=>['group_'+g,...stages.filter(s=>s.group===g).map(s=>'card_'+s.id)]),'edgebox_edge_cycle','panel_why','panel_same','footer','*']
+};
+const pdfBrowser=await chromium.launch({headless:true});
+try{
+ const pdfResult=await renderAccessiblePdf(pdfBrowser,scene,fonts,W,H,'Inter',pdfSpec);
+ await writeAll(path.join(ROOT,'cell-division.pdf'),pdfResult);
+ console.log(`PDF ${pdfResult.verdict.pass?'PASS':'FAIL'}: cell-division.pdf\n${summarize(pdfResult)}`);
+ assert.ok(pdfResult.verdict.pass,'accessible PDF checks failed');
+}finally{await pdfBrowser.close()}

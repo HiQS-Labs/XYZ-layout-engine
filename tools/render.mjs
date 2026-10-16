@@ -20,6 +20,9 @@ export async function loadSatori() {
 
 const round = n => Math.round(n * 100) / 100;
 const rect = r => ({ x: round(r.x ?? r.left), y: round(r.y ?? r.top), width: round(r.width), height: round(r.height) });
+// One family: regular and bold, plus optional extra faces ({ data, weight, style }, e.g. italics) in font.faces.
+const satoriFonts = (font, name) => [{ name, data: font.regular, weight: 400, style: 'normal' }, { name, data: font.bold, weight: 700, style: 'normal' },
+  ...(font.faces ?? []).map(({ data, weight, style }) => ({ name, data, weight, style }))];
 
 export async function renderSatori(scene, font, width, height, fontFamily = 'Inter', { raster = true, measureWords = false } = {}) {
   const nodes = [];
@@ -28,7 +31,7 @@ export async function renderSatori(scene, font, width, height, fontFamily = 'Int
   await loadSatori();
   let svg = await satori(scene, {
     width, height,
-    fonts: [{ name: fontFamily, data: font.regular, weight: 400, style: 'normal' }, { name: fontFamily, data: font.bold, weight: 700, style: 'normal' }],
+    fonts: satoriFonts(font, fontFamily),
     onNodeDetected: n => nodes.push(n),
     loadAdditionalAsset: async (languageCode, segment) => { missingSegments.push({ languageCode, segment }); return []; }
   });
@@ -79,7 +82,7 @@ async function measureLongestWords(textBoxes, font, fontFamily) {
   const nodes = [];
   await satori(scene, {
     width: 20000, height: Math.ceil(probes.reduce((h, p) => h + Number(p.style.fontSize) * 2, 16)),
-    fonts: [{ name: fontFamily, data: font.regular, weight: 400, style: 'normal' }, { name: fontFamily, data: font.bold, weight: 700, style: 'normal' }],
+    fonts: satoriFonts(font, fontFamily),
     onNodeDetected: n => nodes.push(n), loadAdditionalAsset: async () => []
   });
   for (const n of nodes) {
@@ -126,7 +129,7 @@ export function toDocument(scene, font, width, height, fontFamily = 'Inter', ass
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:'${fontFamily}';font-weight:400;src:url(${assetURL(`data:font/ttf;base64,${font.regular.toString('base64')}`)})}
 @font-face{font-family:'${fontFamily}';font-weight:700;src:url(${assetURL(`data:font/ttf;base64,${font.bold.toString('base64')}`)})}
-*{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}
+${(font.faces ?? []).map(({ data, weight, style }) => `@font-face{font-family:'${fontFamily}';font-weight:${Number(weight)};font-style:${style === 'italic' ? 'italic' : 'normal'};src:url(${assetURL(`data:font/${data.subarray(0, 4).toString('latin1') === 'wOFF' ? 'woff' : 'ttf'};base64,${data.toString('base64')}`)})}\n`).join('')}*{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}
 h1,h2,p{margin:0}span,div,p,h1,h2{display:flex}
 </style></head><body>${toHtml(mapImages(scene))}</body></html>`;
 }
@@ -195,11 +198,13 @@ export async function processRequest(reqObj, options = {}) {
     recipe = await import('./recipes/solar-system.mjs');
   } else if (normalized.recipe === 'recursive-process') {
     recipe = await import('./recipes/recursive-process.mjs');
+  } else if (normalized.recipe === 'design-intake') {
+    recipe = await import('./recipes/design-intake.mjs');
   } else {
     throw new Error('Validation failed: ' + JSON.stringify([{ field: 'fixture.id', message: 'unsupported recipe identity' }]));
   }
 
-  await recipe.validate(fixture);
+  await recipe.validate(fixture, options);
   fixture.width = normalized.width; fixture.height = normalized.height;
   // A recipe may declare its own vendored font; recipes without FONT keep the pinned Inter pair.
   const family = recipe.FONT?.family ?? 'Inter';
@@ -209,8 +214,9 @@ export async function processRequest(reqObj, options = {}) {
 
   timings.validationFontMs = round(performance.now() - validationStart);
   const raster = normalized.formats.includes('png');
-  const TEXT_IDS = recipe.TEXT_IDS;
-  const CONTAINMENT = recipe.CONTAINMENT;
+  const contract = recipe.textContract?.(fixture) ?? recipe;
+  const TEXT_IDS = contract.TEXT_IDS;
+  const CONTAINMENT = contract.CONTAINMENT;
   const parents = Object.fromEntries(Object.entries(CONTAINMENT).flatMap(([parent, kids]) => kids.map(kid => [kid, parent])));
 
   let browser, context;
@@ -225,7 +231,7 @@ export async function processRequest(reqObj, options = {}) {
     const MIN_SIZE = 12; // readable minimum font size
     const SHRINK_FACTOR = 0.9;
 
-    let sizes = { ...recipe.DEFAULT_SIZES };
+    let sizes = { ...contract.DEFAULT_SIZES };
     let result;
     let errors = [];
     let steps = [];
@@ -235,7 +241,7 @@ export async function processRequest(reqObj, options = {}) {
     for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
       errors = [];
       const sceneStart = performance.now();
-      scene = await recipe.buildScene(fixture, sizes);
+      scene = await recipe.buildScene(fixture, sizes, options);
       timings.sceneAssetMs += performance.now() - sceneStart;
 
       if (normalized.backend === 'playwright') {
