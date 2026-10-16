@@ -1,0 +1,90 @@
+{
+  "id": "skill-trigger",
+  "width": 1920,
+  "height": 1920,
+  "kicker": "CLAUDE SKILLS",
+  "title": [
+    "Why your skill",
+    "never runs"
+  ],
+  "subtitle": "You installed it. It just sits there, because nothing in your prompt reached its description.",
+  "prompt": {
+    "label": "PROMPT",
+    "example": "“build a dossier”"
+  },
+  "description": {
+    "label": "DESCRIPTION",
+    "note": "the trigger"
+  },
+  "gate": "?",
+  "skill": {
+    "label": "SKILL",
+    "caption": "loads in full",
+    "contents": "instructions · examples · resources"
+  },
+  "miss": [
+    "wrong words,",
+    "skill never seen"
+  ],
+  "closing": "the description is the trigger",
+  "footer": "Recreation of an operator-supplied plate (#60). Paper texture, stains and ink marks are procedural SVG; no generated imagery.",
+  "theme": {
+    "palette": {
+      "paper": "#f1e9d9",
+      "ink": "#2f2b27",
+      "muted": "#6b6156",
+      "accent": "#b4553a",
+      "accentDeep": "#8f3f2a",
+      "tag": "#d9b98c",
+      "tagEdge": "#b8925f",
+      "banner": "#e6cfa6",
+      "bannerShade": "#c9a979",
+      "card": "#f4ecdc",
+      "stain": "#8f7d62"
+    },
+    "type": {
+      "family": "Alegreya",
+      "kicker": {
+        "size": 40,
+        "weight": 400,
+        "tracking": 7
+      },
+      "title": {
+        "size": 196,
+        "weight": 700,
+        "lineHeight": 1.4
+      },
+      "subtitle": {
+        "size": 54,
+        "style": "italic",
+        "lineHeight": 1.36
+      },
+      "label": {
+        "size": 42,
+        "weight": 400
+      },
+      "labelStrong": {
+        "size": 44,
+        "weight": 700
+      },
+      "annotation": {
+        "size": 34,
+        "style": "italic",
+        "lineHeight": 1.4
+      },
+      "caption": {
+        "size": 31,
+        "weight": 400
+      },
+      "closing": {
+        "size": 48,
+        "weight": 700,
+        "style": "italic"
+      },
+      "footer": {
+        "size": 17,
+        "weight": 400
+      }
+    }
+  }
+}

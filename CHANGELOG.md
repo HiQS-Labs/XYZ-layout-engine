@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-16 — GH-60: "Why your skill never runs" Claude Skills plate
+
+- Added `examples/2026-10-16-skill-trigger/`: a recreation of an operator-supplied parchment plate explaining that a skill loads only when the prompt reaches its description. Paper, stains and ink work are seeded procedural SVG; the paper is rasterized once and embedded so both backends share it.
+- AS-5 (operator request): a supplied reference design is matched with the closest Google Fonts family, vendored with license and hashes; with no reference, dense diagrams use Barlow Condensed.
+- Vendored Alegreya (OFL, static WOFF from `@fontsource/alegreya@5.1.0`, hashes in `tools/fonts/alegreya/SOURCE.md`). Added an optional `font.faces` list to `tools/render.mjs` for extra same-family faces such as italics. Without it, output is byte-identical (the shift-proposal example's digests are unchanged). Published `design-intake@1.0.4`, the only recipe that pins `tools/render.mjs`; patch bump, no output change.
+- Verification: script passes in both backends (1920×1920) with repeatable digests; red controls exit 1 (sixfold subtitle escapes `subtitle_box`; withholding `font.faces` fails the italic-registration check); `node tools/catalog.mjs verify` valid; both PNGs inspected at full size and a 480px thumbnail; `pnpm test` passes. Plan QA approved by Codex.
 ## 2026-10-14 — GH-51 lightweight Google DESIGN.md authoring profile
 
 - Adopted Google's alpha document convention for new briefs through root `DESIGN.md`, a token-bearing sample, and ROUTER/SYSTEM-INSTRUCTIONS/README pointers. The documented claim is low-to-medium authoring compatibility; the engine still consumes JSON fixtures and trusted recipes.
