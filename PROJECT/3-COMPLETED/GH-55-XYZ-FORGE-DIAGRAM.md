@@ -3,7 +3,7 @@ gh_issue: 55
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/55
 title: "Example: XYZ Forge system diagram in the belief-reference style"
 goal: "Redraw the operator-supplied XYZ Forge system diagram in the belief-reference visual language as a one-folder example."
-status: "PR ready; awaiting merge"
+status: "Completed — landed in PR #56 (6ada3e5) on 2026-10-15"
 created: 2026-10-14
 updated: 2026-10-15
 owner: Claude
@@ -25,7 +25,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Version 2 (software-factory skills, /ate) and a future-proposal diagram for XYZ-forge#1081 added on operator request; renders pass | Operator review of both versions and merge; then archive via merge-cleanup |
+| Landed in PR #56 (squash `6ada3e5`, 2026-10-15) with all three diagrams; issue #55 closed | None; human visual review remains optional |
 
 ## Why
 

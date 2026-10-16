@@ -1,8 +1,8 @@
 ---
 title: DESIGN.md intake through the standard renderer
-status: PR ready — awaiting merge
+status: "Completed — landed in PR #43 (e808d1d) on 2026-10-15"
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 owner: Codex
 goal: Translate art direction into validated data-only recipes and standard exports.
 gh_issue: 42
