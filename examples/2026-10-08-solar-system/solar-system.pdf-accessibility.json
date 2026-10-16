@@ -1,0 +1,923 @@
+{
+  "sequence": [
+    {
+      "type": "P",
+      "id": "eyebrow",
+      "text": "A COSMIC NEIGHBORHOOD"
+    },
+    {
+      "type": "H1",
+      "id": "title",
+      "text": "Our Solar System"
+    },
+    {
+      "type": "P",
+      "id": "subtitle",
+      "text": "Eight planets, one star — and our place in the Milky Way."
+    },
+    {
+      "type": "H2",
+      "id": "intro_heading",
+      "text": "A journey from our star to the outer planets"
+    },
+    {
+      "type": "P",
+      "id": "intro_note",
+      "text": "Read the numbered planets in order outward from the Sun."
+    },
+    {
+      "type": "Figure",
+      "id": "orbits",
+      "alt": "Schematic map of the Solar System: the Sun at the center and 8 planets on elliptical orbits around it, from the inside out Mercury, Venus, Earth, Mars, the main asteroid belt, Jupiter, Saturn, Uranus and Neptune. Sizes, distances and positions are illustrative, not to scale."
+    },
+    {
+      "type": "Figure",
+      "id": "asset_sun",
+      "alt": "Artist's impression of the Sun, a glowing orange star."
+    },
+    {
+      "type": "H3",
+      "id": "sun_name",
+      "text": "Sun"
+    },
+    {
+      "type": "P",
+      "id": "sun_kind",
+      "text": "OUR STAR"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_mercury",
+      "alt": "Artist's impression of Mercury: closest to the Sun."
+    },
+    {
+      "type": "H3",
+      "id": "mercury_name",
+      "text": "Mercury"
+    },
+    {
+      "type": "P",
+      "id": "mercury_kind",
+      "text": "01  /  ROCKY PLANET"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_venus",
+      "alt": "Artist's impression of Venus: wrapped in thick clouds."
+    },
+    {
+      "type": "H3",
+      "id": "venus_name",
+      "text": "Venus"
+    },
+    {
+      "type": "P",
+      "id": "venus_kind",
+      "text": "02  /  ROCKY PLANET"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_earth",
+      "alt": "Artist's impression of Earth: our ocean-covered home."
+    },
+    {
+      "type": "H3",
+      "id": "earth_name",
+      "text": "Earth"
+    },
+    {
+      "type": "P",
+      "id": "earth_kind",
+      "text": "03  /  ROCKY PLANET"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_mars",
+      "alt": "Artist's impression of Mars: the red planet."
+    },
+    {
+      "type": "H3",
+      "id": "mars_name",
+      "text": "Mars"
+    },
+    {
+      "type": "P",
+      "id": "mars_kind",
+      "text": "04  /  ROCKY PLANET"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_asteroid-belt",
+      "alt": "A ring of scattered asteroids circling between the orbits of Mars and Jupiter."
+    },
+    {
+      "type": "H3",
+      "id": "belt_name",
+      "text": "Main asteroid belt"
+    },
+    {
+      "type": "P",
+      "id": "belt_detail",
+      "text": "Between Mars and Jupiter"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_jupiter",
+      "alt": "Artist's impression of Jupiter: the largest planet."
+    },
+    {
+      "type": "H3",
+      "id": "jupiter_name",
+      "text": "Jupiter"
+    },
+    {
+      "type": "P",
+      "id": "jupiter_kind",
+      "text": "05  /  GAS GIANT"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_saturn",
+      "alt": "Artist's impression of Saturn: a world of icy rings."
+    },
+    {
+      "type": "H3",
+      "id": "saturn_name",
+      "text": "Saturn"
+    },
+    {
+      "type": "P",
+      "id": "saturn_kind",
+      "text": "06  /  GAS GIANT"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_uranus",
+      "alt": "Artist's impression of Uranus: a dramatically tilted world."
+    },
+    {
+      "type": "H3",
+      "id": "uranus_name",
+      "text": "Uranus"
+    },
+    {
+      "type": "P",
+      "id": "uranus_kind",
+      "text": "07  /  ICE GIANT"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_neptune",
+      "alt": "Artist's impression of Neptune: the outermost planet."
+    },
+    {
+      "type": "H3",
+      "id": "neptune_name",
+      "text": "Neptune"
+    },
+    {
+      "type": "P",
+      "id": "neptune_kind",
+      "text": "08  /  ICE GIANT"
+    },
+    {
+      "type": "H2",
+      "id": "galaxy_title",
+      "text": "THE MILKY WAY"
+    },
+    {
+      "type": "P",
+      "id": "galaxy_note",
+      "text": "Artist impression · location is schematic"
+    },
+    {
+      "type": "Figure",
+      "id": "asset_milky-way",
+      "alt": "Artist's impression of The Milky Way, a spiral galaxy seen face-on, with a marker on the Orion Spur showing where the Solar System is."
+    },
+    {
+      "type": "P",
+      "id": "location_title",
+      "text": "YOU ARE HERE"
+    },
+    {
+      "type": "P",
+      "id": "location_name",
+      "text": "Solar System"
+    },
+    {
+      "type": "P",
+      "id": "location_arm",
+      "text": "Orion Spur"
+    },
+    {
+      "type": "P",
+      "id": "footer_message",
+      "text": "ONE STAR  /  EIGHT PLANETS  /  OUR GALACTIC HOME"
+    },
+    {
+      "type": "P",
+      "id": "footer_credit",
+      "text": "XYZ LAYOUT ENGINE"
+    },
+    {
+      "type": "P",
+      "id": "scale_note",
+      "text": "Sizes, spacing and orbital positions are illustrative, not to scale or today's alignment. Asteroid density is exaggerated."
+    },
+    {
+      "type": "P",
+      "id": "source_note",
+      "text": "Astronomy: NASA Science · Artwork: AI-generated artist impressions"
+    }
+  ],
+  "contrast": [
+    {
+      "id": "eyebrow",
+      "tag": "p",
+      "text": "A COSMIC NEIGHBORHOOD",
+      "fontSize": 23,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.13,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "title",
+      "tag": "h1",
+      "text": "Our Solar System",
+      "fontSize": 108,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 17.38,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "subtitle",
+      "tag": "p",
+      "text": "Eight planets, one star — and our place in the Milky Way.",
+      "fontSize": 30,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.48,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "intro_heading",
+      "tag": "h2",
+      "text": "A journey from our star to the outer planets",
+      "fontSize": 28,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 14.5,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "intro_note",
+      "tag": "p",
+      "text": "Read the numbered planets in order outward from the Sun.",
+      "fontSize": 23,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 6.2,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "sun_name",
+      "tag": "h3",
+      "text": "Sun",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 5.07,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "sun_kind",
+      "tag": "p",
+      "text": "OUR STAR",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 6.44,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "mercury_name",
+      "tag": "h3",
+      "text": "Mercury",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 6.26,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "mercury_kind",
+      "tag": "p",
+      "text": "01  /  ROCKY PLANET",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.96,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "venus_name",
+      "tag": "h3",
+      "text": "Venus",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 5.81,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "venus_kind",
+      "tag": "p",
+      "text": "02  /  ROCKY PLANET",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 6,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "earth_name",
+      "tag": "h3",
+      "text": "Earth",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.18,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "earth_kind",
+      "tag": "p",
+      "text": "03  /  ROCKY PLANET",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.18,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "mars_name",
+      "tag": "h3",
+      "text": "Mars",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 8.15,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "mars_kind",
+      "tag": "p",
+      "text": "04  /  ROCKY PLANET",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.97,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "belt_name",
+      "tag": "h3",
+      "text": "Main asteroid belt",
+      "fontSize": 30,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.22,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "belt_detail",
+      "tag": "p",
+      "text": "Between Mars and Jupiter",
+      "fontSize": 20,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.42,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "jupiter_name",
+      "tag": "h3",
+      "text": "Jupiter",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 10.19,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "jupiter_kind",
+      "tag": "p",
+      "text": "05  /  GAS GIANT",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 7.89,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "saturn_name",
+      "tag": "h3",
+      "text": "Saturn",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.01,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "saturn_kind",
+      "tag": "p",
+      "text": "06  /  GAS GIANT",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.26,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "uranus_name",
+      "tag": "h3",
+      "text": "Uranus",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.73,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "uranus_kind",
+      "tag": "p",
+      "text": "07  /  ICE GIANT",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.45,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "neptune_name",
+      "tag": "h3",
+      "text": "Neptune",
+      "fontSize": 34,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.06,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "neptune_kind",
+      "tag": "p",
+      "text": "08  /  ICE GIANT",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.13,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "galaxy_title",
+      "tag": "h2",
+      "text": "THE MILKY WAY",
+      "fontSize": 23,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 11.27,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "galaxy_note",
+      "tag": "p",
+      "text": "Artist impression · location is schematic",
+      "fontSize": 15,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.65,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "location_title",
+      "tag": "p",
+      "text": "YOU ARE HERE",
+      "fontSize": 15,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 13.06,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "location_name",
+      "tag": "p",
+      "text": "Solar System",
+      "fontSize": 24,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 15.76,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "location_arm",
+      "tag": "p",
+      "text": "Orion Spur",
+      "fontSize": 20,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 9.33,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "footer_message",
+      "tag": "p",
+      "text": "ONE STAR  /  EIGHT PLANETS  /  OUR GALACTIC HOME",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.8,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "footer_credit",
+      "tag": "p",
+      "text": "XYZ LAYOUT ENGINE",
+      "fontSize": 17,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.44,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "scale_note",
+      "tag": "p",
+      "text": "Sizes, spacing and orbital positions are illustrative, not t",
+      "fontSize": 19,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 6.6,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "source_note",
+      "tag": "p",
+      "text": "Astronomy: NASA Science · Artwork: AI-generated artist impre",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 5.11,
+      "required": 4.5,
+      "pass": true
+    }
+  ],
+  "visual": {
+    "changedPixels": 0,
+    "totalPixels": 4080000
+  },
+  "report": {
+    "pages": 1,
+    "pageSize": [
+      0,
+      0,
+      1800,
+      1275.12
+    ],
+    "marked": true,
+    "hasStructTree": true,
+    "lang": "en",
+    "title": "Our Solar System",
+    "displayDocTitle": true,
+    "tabsStructure": true,
+    "structureTypes": [
+      "Document",
+      "Figure",
+      "H1",
+      "H2",
+      "H3",
+      "NonStruct",
+      "P"
+    ],
+    "order": [
+      {
+        "type": "P",
+        "text": "A COSMIC NEIGHBORHOOD"
+      },
+      {
+        "type": "H1",
+        "text": "Our Solar System"
+      },
+      {
+        "type": "P",
+        "text": "Eight planets, one star — and our place in the Milky Way."
+      },
+      {
+        "type": "H2",
+        "text": "A journey from our star to the outer planets"
+      },
+      {
+        "type": "P",
+        "text": "Read the numbered planets in order outward from the Sun."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Schematic map of the Solar System: the Sun at the center and 8 planets on elliptical orbits around it, from the inside out Mercury, Venus, Earth, Mars, the main asteroid belt, Jupiter, Saturn, Uranus and Neptune. Sizes, distances and positions are illustrative, not to scale."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of the Sun, a glowing orange star."
+      },
+      {
+        "type": "H3",
+        "text": "Sun"
+      },
+      {
+        "type": "P",
+        "text": "OUR STAR"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Mercury: closest to the Sun."
+      },
+      {
+        "type": "H3",
+        "text": "Mercury"
+      },
+      {
+        "type": "P",
+        "text": "01 / ROCKY PLANET"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Venus: wrapped in thick clouds."
+      },
+      {
+        "type": "H3",
+        "text": "Venus"
+      },
+      {
+        "type": "P",
+        "text": "02 / ROCKY PLANET"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Earth: our ocean-covered home."
+      },
+      {
+        "type": "H3",
+        "text": "Earth"
+      },
+      {
+        "type": "P",
+        "text": "03 / ROCKY PLANET"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Mars: the red planet."
+      },
+      {
+        "type": "H3",
+        "text": "Mars"
+      },
+      {
+        "type": "P",
+        "text": "04 / ROCKY PLANET"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A ring of scattered asteroids circling between the orbits of Mars and Jupiter."
+      },
+      {
+        "type": "H3",
+        "text": "Main asteroid belt"
+      },
+      {
+        "type": "P",
+        "text": "Between Mars and Jupiter"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Jupiter: the largest planet."
+      },
+      {
+        "type": "H3",
+        "text": "Jupiter"
+      },
+      {
+        "type": "P",
+        "text": "05 / GAS GIANT"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Saturn: a world of icy rings."
+      },
+      {
+        "type": "H3",
+        "text": "Saturn"
+      },
+      {
+        "type": "P",
+        "text": "06 / GAS GIANT"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Uranus: a dramatically tilted world."
+      },
+      {
+        "type": "H3",
+        "text": "Uranus"
+      },
+      {
+        "type": "P",
+        "text": "07 / ICE GIANT"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Neptune: the outermost planet."
+      },
+      {
+        "type": "H3",
+        "text": "Neptune"
+      },
+      {
+        "type": "P",
+        "text": "08 / ICE GIANT"
+      },
+      {
+        "type": "H2",
+        "text": "THE MILKY WAY"
+      },
+      {
+        "type": "P",
+        "text": "Artist impression · location is schematic"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of The Milky Way, a spiral galaxy seen face-on, with a marker on the Orion Spur showing where the Solar System is."
+      },
+      {
+        "type": "P",
+        "text": "YOU ARE HERE"
+      },
+      {
+        "type": "P",
+        "text": "Solar System"
+      },
+      {
+        "type": "P",
+        "text": "Orion Spur"
+      },
+      {
+        "type": "P",
+        "text": "ONE STAR / EIGHT PLANETS / OUR GALACTIC HOME"
+      },
+      {
+        "type": "P",
+        "text": "XYZ LAYOUT ENGINE"
+      },
+      {
+        "type": "P",
+        "text": "Sizes, spacing and orbital positions are illustrative, not to scale or today's alignment. Asteroid density is exaggerated."
+      },
+      {
+        "type": "P",
+        "text": "Astronomy: NASA Science · Artwork: AI-generated artist impressions"
+      }
+    ],
+    "figures": [
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Schematic map of the Solar System: the Sun at the center and 8 planets on elliptical orbits around it, from the inside out Mercury, Venus, Earth, Mars, the main asteroid belt, Jupiter, Saturn, Uranus and Neptune. Sizes, distances and positions are illustrative, not to scale."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of the Sun, a glowing orange star."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Mercury: closest to the Sun."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Venus: wrapped in thick clouds."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Earth: our ocean-covered home."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Mars: the red planet."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A ring of scattered asteroids circling between the orbits of Mars and Jupiter."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Jupiter: the largest planet."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Saturn: a world of icy rings."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Uranus: a dramatically tilted world."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of Neptune: the outermost planet."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Artist's impression of The Milky Way, a spiral galaxy seen face-on, with a marker on the Orion Spur showing where the Solar System is."
+      }
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": {
+      "single page at the canvas size": true,
+      "tagged (MarkInfo /Marked true, StructTreeRoot)": true,
+      "document language set": true,
+      "title set and shown in the title bar": true,
+      "tab order follows structure": true,
+      "exactly one H1": true,
+      "headings do not skip levels": true,
+      "every figure has alt text": true,
+      "all non-decorative images are tagged figures": true,
+      "tag order matches the reading order (text decoded from the PDF)": true,
+      "all text meets WCAG AA contrast": true,
+      "semantic page paints like the plain export": true
+    },
+    "firstMismatch": null,
+    "contrastFailures": []
+  },
+  "provenance": {
+    "recipe": "solar-system",
+    "version": "1.0.1",
+    "inputPath": "examples/2026-10-08-solar-system/pdf-fixture.json",
+    "svgSha256": "1662d78567862011d182eb433656e76f76117658d3d8436dc6b47ec1e4b513c6"
+  }
+}

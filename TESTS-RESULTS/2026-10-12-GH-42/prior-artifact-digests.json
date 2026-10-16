@@ -1,0 +1,46 @@
+{
+  "nutrition/satori": {
+    "png": "f4451bfa94dc2657ee68fd061eaacd37c61a17e79a01c8814460c055cde6ba1a",
+    "svg": "f7507d88c4501ddedbc809c1012b165897bb92aaa815e3a217e0772332265b06",
+    "html": "d1a526f05e1ad0e8838f8de14735a7f23607fc8e32378ed62f38eb1a6a6d8f07",
+    "html-inline": "2ea09773b7b2eed47fec6c32e227a5850b1d22c44e295262dfec094c5207d4dc"
+  },
+  "nutrition/playwright": {
+    "png": "4d7050949c22ddf7a831712d5c25828f25f62eb9560bc5e601b62d7f86f2abf2",
+    "html": "d1a526f05e1ad0e8838f8de14735a7f23607fc8e32378ed62f38eb1a6a6d8f07",
+    "html-inline": "2ea09773b7b2eed47fec6c32e227a5850b1d22c44e295262dfec094c5207d4dc"
+  },
+  "solar-system/satori": {
+    "png": "b55c036c76275ae7f07bfaddf93aaac2f4bb94c0e43504fadf748da982b32d9b",
+    "svg": "c5034e8e9f90817abaad1bd059981255ebb4f0922fd18a85751042cd6deceddf",
+    "html": "f64b1887e29b3abe7a0f49dd4ab272a0451380875ea3aa8b57b519e393e0d79c",
+    "html-inline": "06b50d68441584c6c0c19e3f5702243e3dac15248e046e96d15ed552186ef14a"
+  },
+  "solar-system/playwright": {
+    "png": "7b3c09ff696a9dbd0c4aea32812422a7c09c86701b5822807e344e3365752d60",
+    "html": "f64b1887e29b3abe7a0f49dd4ab272a0451380875ea3aa8b57b519e393e0d79c",
+    "html-inline": "06b50d68441584c6c0c19e3f5702243e3dac15248e046e96d15ed552186ef14a"
+  },
+  "mangajdm-promo/satori": {
+    "png": "05792e557d356a7e2a8e185a8ada9d7f5a87224a2c5c4e8c2ed76e475b2f522e",
+    "svg": "8533fbfc955b3e8aaef5d8b220d6b4c3ed5d1db6f24554bafd21e839b26edea8",
+    "html": "87a061b7e666981366931320f73c01951acf6ab2c3f6a20a07c61cceda3796a3",
+    "html-inline": "1a188a63d0987e0c22ec861b69ce7521ed209151ae331ca133abef78652ba135"
+  },
+  "mangajdm-promo/playwright": {
+    "png": "be7c1787e1e6567c836663928771fbe5ec27cd53800b8bc2288165a51464692d",
+    "html": "87a061b7e666981366931320f73c01951acf6ab2c3f6a20a07c61cceda3796a3",
+    "html-inline": "1a188a63d0987e0c22ec861b69ce7521ed209151ae331ca133abef78652ba135"
+  },
+  "recursive-process/satori": {
+    "png": "2b0e840fcb1cea28a63558836fb10e8ebffb1ace7c904118838bf9a643eac5cb",
+    "svg": "3cc1ec8c3cc5882897a034860a5fc270cf76bb2090bce01bcb9cc6857db58b30",
+    "html": "7c9729400ff37bf5d1542960b50d8f1f6a5cd75d5bda2cdb1363d688f061c602",
+    "html-inline": "1d1eeab598975c034794766a25b02064fbe45006018d6a5ae7af411a5b2a94c1"
+  },
+  "recursive-process/playwright": {
+    "png": "46bd7e0d89611416df78d1ac75f67114a8782ed049495d70159b38474e817db2",
+    "html": "7c9729400ff37bf5d1542960b50d8f1f6a5cd75d5bda2cdb1363d688f061c602",
+    "html-inline": "1d1eeab598975c034794766a25b02064fbe45006018d6a5ae7af411a5b2a94c1"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "xyz-forge-shift-proposal",
+  "width": 2200,
+  "height": 1500,
+  "title": "FUTURE PROPOSAL: /SHIFT, AN OUTER LOOP FOR AN 8-TO-5 FACTORY DAY",
+  "subtitle": "Exploratory and not built (HiQS-Labs/XYZ-forge#1081). One thin skill runs the day over the existing skills; the operator approves at three fixed points.",
+  "theme": {
+    "palette": {
+      "background": "#f5f3ec",
+      "ink": "#30373a",
+      "muted": "#657075",
+      "rule": "#cbd0d0",
+      "surface": "#eff2f1",
+      "accent": "#dbe5e8",
+      "accentEdge": "#9cb8c5"
+    }
+  },
+  "stages": [
+    { "id": "open", "number": 1, "formula": ["Plan", "Approve"] },
+    { "id": "dispatch", "number": 2, "formula": ["Route", "Build", "PR ready"] },
+    { "id": "merge", "number": 3, "formula": ["Approve", "Merge", "Refresh"] },
+    { "id": "close", "number": 4, "formula": ["Report"] }
+  ],
+  "nodes": {
+    "open": { "token": "Open", "sub": "08:00", "label": "Morning open", "caption": "Reads /daily, the RELEASES rank, open PRs and CI, and overnight /ate issues; checks the environment; proposes N budgeted items." },
+    "dispatch": { "token": "Dispatch", "sub": "1 to 2 clones", "label": "Dispatch loop", "caption": "Top approved item first. Stops at PR ready, never at merge." },
+    "stall": { "token": "Stall", "sub": "check", "label": "Stall check", "caption": "Over budget or review cap: /unstuck or /sanity-check once, otherwise park with a reason." },
+    "merge": { "token": "Merge", "sub": "/merge-cleanup", "label": "Merge windows", "caption": "12:00 and 16:00: land approved PRs, then refresh open PR branches." },
+    "close": { "token": "Close", "sub": "17:00", "label": "Evening close", "caption": "Stops dispatch, checkpoints in-flight work, writes the end-of-day report." },
+    "operator": { "label": "Human operator", "caption": "Approves at three fixed points: the plan and two merge windows." }
+  },
+  "routes": {
+    "label": "ROUTES TO EXISTING SKILLS",
+    "targets": [
+      { "token": "/workhorse", "caption": "ambiguous problem" },
+      { "token": "/start-task", "caption": "single issue" },
+      { "token": "/marathon", "caption": "disjoint batch" },
+      { "token": "/express", "caption": "critical fix" }
+    ]
+  },
+  "edges": {
+    "approvePlan": "approves the day plan",
+    "approveMerge": "approves merges at 12:00 and 16:00",
+    "plan": "approved plan",
+    "prReady": "PR ready",
+    "endOfDay": "end of day",
+    "refresh": "refreshed PR branches",
+    "stall": "over budget / resumed",
+    "seed": "report seeds tomorrow's plan"
+  },
+  "prerequisites": {
+    "label": "PREREQUISITES SEEN IN THE GH-55 SESSION",
+    "items": [
+      "Structured skill results (PR URL, blocked, parked) instead of prose.",
+      "A morning environment check: Chromium and Codex fail inside the sandbox.",
+      "Branch refresh at each merge window: main moved under an open PR.",
+      "No new state store: the ledger and tick already hold day state."
+    ]
+  },
+  "records": {
+    "label": "DAY STATE (EXISTING STORES)",
+    "entries": [
+      { "token": "A", "label": "RELEASES ledger", "caption": "Day plan, ranks, per-item budget." },
+      { "token": "B", "label": "tick", "caption": "Claims; the per-clone driver lock caps concurrency." },
+      { "token": "C", "label": "End-of-day report", "caption": "Shipped, PRs waiting, parked and why, tomorrow's queue." }
+    ]
+  },
+  "legend": { "control": "control flow", "phase0": "Phase 0 smallest bet: open and close only" },
+  "footer": {
+    "note": "Future proposal, not built. No autonomous merge, deploy or clone teardown; no new daemon, queue or state store. Icons are hand-drawn vectors; no images were generated.",
+    "source": "Composed from exploratory issue HiQS-Labs/XYZ-forge#1081 and the version 2 software factory diagram (examples/2026-10-15-xyz-forge-software-factory/)."
+  }
+}
