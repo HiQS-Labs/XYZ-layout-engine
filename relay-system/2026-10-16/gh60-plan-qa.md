@@ -110,4 +110,12 @@ swept file: yes
 
 Relay closed (Approved), no further turn needed. Producer can proceed with implementation and retain the named evidence for final QA.
 
+
+### Attestation · relay-drive — 2026-10-16T20:14:21Z
+task: RELAY-gh60-plan-qa
+reviewer: codex
+status: Approved
+reviewed-head: 0234445155e7ad968622a1fd02b9319b8e555e7c
+added-range: 7501+4607
+added-sha256: ed7ab89d239031d7589e4cddb495451897a3b969c14b9b40a73d6cdf80cf1f69
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
