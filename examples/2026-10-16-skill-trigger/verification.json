@@ -1,0 +1,30 @@
+{
+  "renderer": "Shared root tools/render.mjs renderSatori / renderPlaywright; vendored Alegreya with italic faces via font.faces",
+  "width": 1920,
+  "height": 1920,
+  "textIds": [
+    "kicker",
+    "title_1",
+    "title_2",
+    "subtitle",
+    "prompt_label",
+    "prompt_example",
+    "trigger_note",
+    "description_label",
+    "gate",
+    "skill_contents",
+    "skill_label",
+    "skill_caption",
+    "miss_0",
+    "miss_1",
+    "closing",
+    "footer"
+  ],
+  "artifactDigests": {
+    "paper": "5045e29fbe24939899e38d62771b8def4ebe69905251dbcac9ed672940a1f45f",
+    "png": "3bef4a19023dd172875f52e3a044efd4024193b401d1e86b1eaa3e1482589d8c",
+    "chromiumPng": "7e6fd9c6f9a19062ac3c5f90d51013a36895ccaf02e8c423dc6a8add0c41e2be",
+    "html": "b9625f68270bc9d32609b18812306e282d4a09d0f610296dccf4dcb5a5842044"
+  },
+  "findings": []
+}

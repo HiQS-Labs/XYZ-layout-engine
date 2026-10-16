@@ -1,4 +1,9 @@
 # Changelog
+## 2026-10-16 — GH-60: "Why your skill never runs" Claude Skills plate
+
+- Added `examples/2026-10-16-skill-trigger/`: a recreation of an operator-supplied parchment plate explaining that a skill loads only when the prompt reaches its description. Paper, stains and ink work are seeded procedural SVG; the paper is rasterized once and embedded so both backends share it.
+- Vendored Alegreya (OFL, static WOFF from `@fontsource/alegreya@5.1.0`, hashes in `tools/fonts/alegreya/SOURCE.md`) and added an optional `font.faces` list to `tools/render.mjs` for same-family italics. Without it, output is byte-identical (the shift-proposal example's PNG, Chromium PNG and HTML digests are unchanged).
+- Verification: script passes in both backends (1920×1920) with repeatable digests; red control (sixfold subtitle) exits 1 with `subtitle` escaping `subtitle_box`; both PNGs inspected at full size and a 480px thumbnail. Plan QA approved by Codex.
 ## 2026-10-15 — GH-55: future proposal diagram for the /shift outer loop
 
 - Added `examples/2026-10-15-xyz-forge-shift-proposal/`, labelled as a future proposal: the 8-to-5 `/shift` outer loop explored in HiQS-Labs/XYZ-forge#1081 (morning open, dispatch to existing skills, approved merge windows, evening close, report seeding the next day), with Phase 0 (open and close only) as the single accent. Not built; non-goals in the footer. Refs #55.
