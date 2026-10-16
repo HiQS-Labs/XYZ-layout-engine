@@ -1,0 +1,27 @@
+[
+  {
+    "input": "DESIGN.md",
+    "sha256": "549a4ae4625facf91407d4bfbb5089f94a146520e6fbfe25c74e464c48cbaa3f",
+    "result": "PASS; 8 ordered unique nonempty sections"
+  },
+  {
+    "input": "docs/design-md/DESIGN.md",
+    "sha256": "4dc0bc8d7cf40487eaddfbc407b3b2f9763f4309509aa31869a0b1a0054610e7",
+    "result": "PASS; 8 ordered unique nonempty sections"
+  },
+  {
+    "control": "duplicate",
+    "result": "REJECTED",
+    "reason": "duplicate H2 heading"
+  },
+  {
+    "control": "empty-body",
+    "result": "REJECTED",
+    "reason": "empty section body"
+  },
+  {
+    "control": "empty-document",
+    "result": "REJECTED",
+    "reason": "missing or out-of-order canonical section"
+  }
+]

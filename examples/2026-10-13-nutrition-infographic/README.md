@@ -1,20 +1,26 @@
-# Fuel Well. Live Well. — Nutrition Infographic (`nutrition@3.0.0`)
+# Fuel Well. Live Well. — Nutrition Infographic (`nutrition@4.0.0`)
 
-Current recipe: `nutrition@3.0.0` (directional ground/contact cast shadows per `AS-11`), governed by [DESIGN.md](DESIGN.md). Historical `nutrition@2.0.0`..`2.0.2` renders are retained in `renders/` and [verification.json](verification.json).
-Open the [backend comparison gallery](index.html), [Satori HTML](renders-v3/satori/render-inline.html),
-[Chromium HTML](renders-v3/playwright/render-inline.html), [Satori PNG](renders-v3/satori/render.png),
-[Chromium PNG](renders-v3/playwright/render.png), or [Satori SVG](renders-v3/satori/render.svg).
+Current recipe: `nutrition@4.0.0` (proportional `% of S` type scale per `AS-12` + directional ground/contact cast shadows per `AS-11`), governed by [DESIGN.md](DESIGN.md). Historical `nutrition@2.0.0`..`2.0.2` renders (`renders/`, [verification.json](verification.json)) and `nutrition@3.0.0` renders (`renders-v3/`, [verification-v3.json](verification-v3.json)) are retained unchanged.
+Open the [backend comparison gallery](index.html), [Satori HTML](renders-v4/satori/render-inline.html),
+[Chromium HTML](renders-v4/playwright/render-inline.html), [Satori PNG](renders-v4/satori/render.png),
+[Chromium PNG](renders-v4/playwright/render.png), or [Satori SVG](renders-v4/satori/render.svg).
 
 ## Overview & Design Direction
 
 This example converts the reference poster (`PROJECT/2-WORKING/layout-engine-reference.png`)
 into a self-contained example bundle under `examples/2026-10-13-nutrition-infographic/`
 paired with a dedicated [DESIGN.md](DESIGN.md) style guide and art direction contract
-implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs) (`nutrition@3.0.0`):
+implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs) (`nutrition@4.0.0`):
 
-1. **Bundled `Barlow Condensed` with ALL CAPS headlines:**
+1. **Bundled `Barlow Condensed` with ALL CAPS headlines and proportional `% of S` type scale (`AS-12`):**
    - Loads `BarlowCondensed-Regular.ttf` (`400`) and `BarlowCondensed-Bold.ttf` (`700`)
      from `tools/fonts/barlow-condensed/`.
+   - Derives all text sizes proportionally from `S = Math.min(width, height) = 1000px`
+     (`CANVAS_SHORTER_SIDE = 1000`, `TYPE_SCALE_PCT = { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 }`
+     → `92px`, `31px`, `25px`, `21px`), enforcing strictly `4` distinct sizes on the canvas,
+     a `4.38:1` (`>= 4:1`) headline-to-body ratio, a `79.0%–79.4%` (`50–85%`) headline width,
+     a `191.25px <= 3.0 × 64.4px = 193.2px` illustration-to-cap-height balance, and a `73.5%` / `88.2%` (`>= 70%`)
+     benefit label-to-icon height ratio.
    - All headline and title nodes (`header_headline`, `callout_1_title`, `callout_2_title`,
      `item_1_title`..`item_4_title`, `benefit_1`..`benefit_4`, and `footer_text`)
      enforce `fontWeight: 700` and `textTransform: 'uppercase'`.
@@ -37,25 +43,25 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
      upper-right corner light source) rendered inside a `position: 'relative'` stage
      behind each cutout `<img>`, and `chicken_wrap` (`item_3_img`) is aligned (`top: 60, height: 107`)
      onto the bottom-row tabletop ground plane (`visibleBaseY = 154`).
-   - The central glowing leaf (`leaf_glow`) retains its warm golden aura drop shadow
+   - The central glowing leaf (`leaf_glow`, `220 × 204`) retains its warm golden aura drop shadow
      `filter: drop-shadow(0px 6px 8px rgba(242,228,150,0.45))` so its translucent
-     white-gold feather blends seamlessly into the cream radial center.
+     white-gold feather blends seamlessly into the cream radial center while remaining
+     within `3.0×` of the `92px` headline cap height (`191.25px <= 193.2px`).
 4. **Crisp vector SVG benefit badges & botanical ornaments:**
    - Small monochrome benefit badges (`icon_energy`, `icon_focus`, `icon_immunity`,
-     `icon_wellbeing`) and header/footer ornaments (`leaf_small`, `heart`) remain
-     crisp vector SVGs loaded from `tools/spike/assets/illustrations.svg`.
+     `icon_wellbeing`, rendered at `34 × 34px` alongside `25px` bold uppercase labels)
+     and header/footer ornaments (`leaf_small`, `heart`) remain crisp vector SVGs loaded
+     from `tools/spike/assets/illustrations.svg`.
 
-## AS-1..AS-11 Review (`SYSTEM-INSTRUCTIONS.md`)
+## AS-1..AS-12 Review (`SYSTEM-INSTRUCTIONS.md`)
 
 - **Audience & takeaway:** General health-conscious reader scanning a 1-page daily
   nutrition guide; primary takeaway is choosing balanced whole-food fuel over
   sugary spikes for sustained energy and focus.
 - **Visual hierarchy (3 levels):**
-  1. Central glowing leaf hero (`leaf_glow`) and `50px` bold uppercase headline
-     (`FUEL WELL. LIVE WELL.`).
-  2. Left/right comparison callouts (`BALANCED NUTRITION` vs. `SKIP THE SPIKE`).
-  3. Bottom row of four actionable food items (`NUTRITIOUS`, `PORTABLE`, `CONVENIENT`,
-     `HYDRATED`), right-hand benefits summary card, and pill footer.
+  1. `92px` (`9.2% of S`) bold uppercase headline (`FUEL WELL. LIVE WELL.`) and central glowing leaf hero (`leaf_glow`).
+  2. `31px` (`3.1% of S`) subtitle/footer banner (`Eat Smart for Energy & Focus`, `GOOD FUEL. EVERY DAY. EVERY WHERE.`) and `25px` (`2.5% of S`) bold uppercase section/item/benefit labels (`BALANCED NUTRITION`, `SKIP THE SPIKE`, `NUTRITIOUS`, `PORTABLE`, `CONVENIENT`, `HYDRATED`, `STEADY ENERGY`..`OVERALL WELL-BEING`).
+  3. `21px` (`2.1% of S`) body captions across the header, callouts, bottom food items, and footer tagline.
 - **AS-1, AS-4 (Reference-governed composition):** Preserves the 3-tier asymmetric
   poster grid (`1000 × 1000`) from the reference diagram rather than flattening into
   uniform cards.
@@ -69,9 +75,9 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
   `footer` (`borderRadius: 999`) are retained to reproduce the reference poster's
   lower-right benefits summary card and closing banner.
 - **AS-5 (Single owner for layout & styling):** `fixture.json` owns copy, asset IDs,
-  and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@3.0.0`) owns the
-  fixed geometry, `Barlow Condensed` uppercase typography, gradient, and directional
-  ground/contact shadow contract.
+  and palette tokens; `tools/recipes/nutrition.mjs` (`nutrition@4.0.0`) owns the
+  fixed geometry, proportional `% of S` `Barlow Condensed` typography, gradient, and
+  directional ground/contact shadow contract.
 - **AS-6 (Ornament & visual metaphor — recorded reference exception):** The flanking
   header/footer leaf (`ornamentId: "leaf_small"`) and heart (`endIconId: "heart"`)
   SVG ornaments and the central glowing leaf metaphor (`leaf_glow`) are retained
@@ -90,31 +96,39 @@ implemented by [`tools/recipes/nutrition.mjs`](../../tools/recipes/nutrition.mjs
 - **AS-8, AS-9 (Cohesive illustration family):** All 7 PNG assets share warm natural
   food-illustration lighting and transparent backgrounds recorded in [ASSETS.md](ASSETS.md)
   and [provenance.json](provenance.json).
-- **AS-10, AS-11 (Full-size & thumbnail visual inspection + directional ground shadows):**
-  Inspected both final PNGs at full `1000 × 1000` resolution and `420 × 420` thumbnails
-  (`renders-v3/satori/thumbnail.png` and `renders-v3/playwright/thumbnail.png`). All six
-  tabletop 3D cutouts anchor cleanly on the surface with lower-left cast + contact
-  occlusion shadows (`L(P_bg_base) - L(P_cast) = 51.61` Satori / `44.90` Chromium at
-  `(617, 836)` vs. `(577, 836)`) and zero upper-silhouette shadow halo (`|L(P_bg_upper) - L(P_upper)| = 0.00`
-  Satori / `0.89` Chromium at `(619, 728)` and `|L(P_bg_cap) - L(P_cap_under)| = 0.11` at `(649, 690)` vs.
-  `13.0` on the historical `nutrition@2.0.0` red control). Both backends fit on attempt 1
-  (`iterations: 0`).
+- **AS-10, AS-11, AS-12 (Full-size & mobile-scale visual inspection + directional ground shadows + proportional `% of S` type scale):**
+  Inspected both final PNGs at full `1000 × 1000` resolution, `500 × 500` thumbnails
+  (`renders-v4/satori/thumbnail.png` and `renders-v4/playwright/thumbnail.png`), `400 × 400`
+  phone width, and `333 × 333` (`~1/3` scale). Complies with all 10 rules of `AS-12`
+  (`92/31/25/21px` = `9.2/3.1/2.5/2.1% of S`, `4.38:1` headline-to-body ratio, `79.0%–79.4%`
+  headline width, `191.25px <= 193.2px` max graphic-to-cap-height ratio `2.97×`, `73.5%` / `88.2%`
+  benefit label-to-icon ratio) while preserving `AS-11` directional ground/contact cast shadows.
+  Both backends fit on attempt 1 (`iterations: 0`).
 
 ## Verification & Replay
 
-Both complete backend exports passed validation, catalog verification (`nutrition@3.0.0`),
-first-attempt text fitting (`attempts: 1`, `iterations: 0`), and publication digest
-checks; see [verification-v3.json](verification-v3.json), historical [verification.json](verification.json), and [SHA256SUMS](SHA256SUMS).
+Both backend publications (`png,svg,html,html-inline` on Satori and `png,html,html-inline` on Chromium)
+passed validation, catalog verification (`nutrition@4.0.0`), first-attempt text fitting
+(`attempts: 1`, `iterations: 0`), and publication digest checks. To avoid duplicating the 21
+asset blobs already tracked in `assets/web/` and `tools/`, `renders-v4/satori/` and
+`renders-v4/playwright/` retain the selected standalone display artifacts (`render.png`,
+`render.svg` for Satori, `render-inline.html`, `result.json`, and `500 × 500` `thumbnail.png`)
+plus `export-manifest.json` as publication provenance from `runs/<id>/manifest.json` (compact
+`render.html` and `assets/*` were generated and verified during publication via `digests.html`
+but are not retained in the flattened example directory; `renders-v4/<backend>/` is a standalone
+artifact selection, not a reusable `verifyPublication` export root). See
+[verification-v4.json](verification-v4.json), historical [verification-v3.json](verification-v3.json),
+[verification.json](verification.json), and [SHA256SUMS](SHA256SUMS).
 
 ```sh
-# Render Satori + resvg bundle (nutrition@3.0.0)
+# Render full Satori + resvg publication root (nutrition@4.0.0)
 node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json \
   --recipe nutrition \
   --out tools/output/nutrition-satori \
   --backend satori \
   --format png,svg,html,html-inline
 
-# Render Chromium (Playwright) bundle (nutrition@3.0.0)
+# Render full Chromium (Playwright) publication root (nutrition@4.0.0)
 node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json \
   --recipe nutrition \
   --out tools/output/nutrition-playwright \

@@ -1,0 +1,280 @@
+{
+  "sourceCommit": "7b22bce",
+  "runtime": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "recipe": "nutrition@4.0.0",
+  "catalogContentSha256": "c6499955ac440dc7875e0a4fb3ab7251490ca86b86f8b48f994ee24f71ae4dcf",
+  "typeScaleVerify": {
+    "canvasShorterSideS": 1000,
+    "percentagesOfS": {
+      "headline": 0.092,
+      "subhead": 0.031,
+      "sectionLabel": 0.025,
+      "body": 0.021
+    },
+    "computedPx": {
+      "headline": 92,
+      "subhead": 31,
+      "sectionLabel": 25,
+      "body": 21
+    },
+    "distinctSizesOnCanvas": [
+      92,
+      31,
+      25,
+      21
+    ],
+    "distinctSizeCount": 4,
+    "configuredSizeIdCount": 21,
+    "renderedTextLeafCount": 20,
+    "headlineToBodyRatio": 4.381,
+    "headlineWidth": {
+      "satoriPx": 790,
+      "satoriPctOfCanvas": 79,
+      "playwrightPx": 793.95,
+      "playwrightPctOfCanvas": 79.4,
+      "ruleRangePct": [
+        50,
+        85
+      ]
+    },
+    "fontCapHeight": {
+      "fontFile": "tools/fonts/barlow-condensed/BarlowCondensed-Bold.ttf",
+      "unitsPerEm": 1000,
+      "sCapHeight": 700,
+      "capHeightRatio": 0.7,
+      "headlineCapHeightPx": 64.4,
+      "threeXCapHeightPx": 193.2
+    },
+    "illustrationBalanceRule5": {
+      "strictMultiplier": 3,
+      "maxVisibleGraphicHeightPx": 191.25,
+      "maxRatioToCapHeight": 2.97,
+      "cutoutHeights": {
+        "leaf_glow": {
+          "stageBox": [
+            220,
+            204
+          ],
+          "sourceSize": [
+            427,
+            640
+          ],
+          "alphaYRangeInclusive": [
+            12,
+            611
+          ],
+          "visibleHeightPx": 191.25,
+          "ratioToCapHeight": 2.97
+        },
+        "balance_scale": {
+          "stageBox": [
+            280,
+            210
+          ],
+          "sourceSize": [
+            640,
+            427
+          ],
+          "alphaYRangeInclusive": [
+            21,
+            395
+          ],
+          "visibleHeightPx": 164.06,
+          "ratioToCapHeight": 2.548
+        },
+        "skip_spike": {
+          "stageBox": [
+            280,
+            210
+          ],
+          "sourceSize": [
+            640,
+            640
+          ],
+          "alphaYRangeInclusive": [
+            20,
+            599
+          ],
+          "visibleHeightPx": 190.31,
+          "ratioToCapHeight": 2.955
+        },
+        "parfait_jar": {
+          "stageBox": [
+            160,
+            170
+          ],
+          "sourceSize": [
+            427,
+            640
+          ],
+          "alphaYRangeInclusive": [
+            58,
+            588
+          ],
+          "visibleHeightPx": 141.05,
+          "ratioToCapHeight": 2.19
+        },
+        "snack_container": {
+          "stageBox": [
+            160,
+            170
+          ],
+          "sourceSize": [
+            640,
+            640
+          ],
+          "alphaYRangeInclusive": [
+            45,
+            596
+          ],
+          "visibleHeightPx": 138,
+          "ratioToCapHeight": 2.143
+        },
+        "chicken_wrap": {
+          "stageBox": [
+            160,
+            107
+          ],
+          "sourceSize": [
+            640,
+            427
+          ],
+          "alphaYRangeInclusive": [
+            46,
+            379
+          ],
+          "visibleHeightPx": 83.5,
+          "ratioToCapHeight": 1.297
+        },
+        "water_bottle": {
+          "stageBox": [
+            160,
+            170
+          ],
+          "sourceSize": [
+            427,
+            640
+          ],
+          "alphaYRangeInclusive": [
+            34,
+            614
+          ],
+          "visibleHeightPx": 154.33,
+          "ratioToCapHeight": 2.396
+        }
+      }
+    },
+    "iconPlusLabelRule8": {
+      "iconHeightPx": 34,
+      "labelFontSizePx": 25,
+      "labelBoxHeightSatoriPx": 30,
+      "labelBoxHeightPlaywrightPx": 30,
+      "fontSizeToIconHeightRatio": 0.735,
+      "boxHeightToIconHeightRatio": 0.882,
+      "minimumRequiredRatio": 0.7
+    },
+    "mobileScaleInspectionRule1And9": {
+      "inspectedScalesPx": [
+        {
+          "width": 333,
+          "height": 333,
+          "scalePct": 33.3,
+          "role": "approximate 1/3 scale"
+        },
+        {
+          "width": 400,
+          "height": 400,
+          "scalePct": 40,
+          "role": "mobile phone width"
+        },
+        {
+          "width": 500,
+          "height": 500,
+          "scalePct": 50,
+          "role": "retained thumbnail.png preview"
+        }
+      ],
+      "previewGenerationCommands": [
+        "sips -z 333 333 examples/2026-10-13-nutrition-infographic/renders-v4/satori/render.png --out .relay-scratch/v4-preview/satori-333.png",
+        "sips -z 400 400 examples/2026-10-13-nutrition-infographic/renders-v4/satori/render.png --out .relay-scratch/v4-preview/satori-400.png",
+        "sips -z 333 333 examples/2026-10-13-nutrition-infographic/renders-v4/playwright/render.png --out .relay-scratch/v4-preview/playwright-333.png",
+        "sips -z 400 400 examples/2026-10-13-nutrition-infographic/renders-v4/playwright/render.png --out .relay-scratch/v4-preview/playwright-400.png",
+        "sips -z 500 500 examples/2026-10-13-nutrition-infographic/renders-v4/satori/render.png --out examples/2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png",
+        "sips -z 500 500 examples/2026-10-13-nutrition-infographic/renders-v4/playwright/render.png --out examples/2026-10-13-nutrition-infographic/renders-v4/playwright/thumbnail.png"
+      ],
+      "previewDigests": {
+        "satori333Png": "b679115230f4b7573e538dcfce68cedc1bf4c41ef5bac21bc9bf75f0881bdcd4",
+        "satori400Png": "0aef067662c4c7143f97b6196393a84d273ef07b34a1335107bf8190d0cf5de8",
+        "playwright333Png": "3e83204a66d0de91b55da1a3fa397070d2e95f474606857504591618554b411a",
+        "playwright400Png": "f2c3832a57b3a7f1c41d41b9e05e5901d4d561d4e9e762ecaa5038d4de03c52b",
+        "satoriThumbnail500Png": "a2f7a716ab229f44747875cae390ec56fd97fcf19732524c4d73b1744677266e",
+        "playwrightThumbnail500Png": "4d42ccd3127d62c17d15e5ca9b5a41555691328593395a3dd7e47da9f5494fac"
+      },
+      "allEssentialCaptionsReadableWithoutZoom": true,
+      "threeSquintHierarchyTiersSurvive": true
+    }
+  },
+  "renders": [
+    {
+      "backend": "satori",
+      "valid": true,
+      "recipe": "nutrition@4.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "iterations": 0,
+      "generatedFormats": [
+        "png",
+        "svg",
+        "html",
+        "html-inline"
+      ],
+      "retainedFiles": [
+        "export-manifest.json",
+        "render-inline.html",
+        "render.png",
+        "render.svg",
+        "result.json",
+        "thumbnail.png"
+      ],
+      "digests": {
+        "png": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504",
+        "svg": "ec2a3a243c32044bd0c954cc769aee4fcf7b6cc8ece29ca860b3c8f13e4c66c0",
+        "html": "e26333d2902d9f2709240963db6ecd2e3ec7d668d8cf9d82dc7be19fc6e142b1",
+        "html-inline": "cbce7f4090975e68bbfd71ac3a7878d480d6dfd6339409945e047879cabe2b2c"
+      }
+    },
+    {
+      "backend": "playwright",
+      "valid": true,
+      "recipe": "nutrition@4.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "iterations": 0,
+      "generatedFormats": [
+        "png",
+        "html",
+        "html-inline"
+      ],
+      "retainedFiles": [
+        "export-manifest.json",
+        "render-inline.html",
+        "render.png",
+        "result.json",
+        "thumbnail.png"
+      ],
+      "digests": {
+        "png": "8de9c4b63999f103147decb6219774a89606e2e0b0d1ce42cca0216b5cb25ded",
+        "html": "e26333d2902d9f2709240963db6ecd2e3ec7d668d8cf9d82dc7be19fc6e142b1",
+        "html-inline": "cbce7f4090975e68bbfd71ac3a7878d480d6dfd6339409945e047879cabe2b2c"
+      }
+    }
+  ],
+  "exportRetentionNote": "renders-v4/<backend>/ retains selected standalone display artifacts (render.png, render.svg for satori, render-inline.html, result.json, thumbnail.png) and export-manifest.json as publication provenance from runs/<id>/manifest.json; compact render.html and its 21 copied assets/* files were generated and verified during publication (digests.html) but are not retained in the flattened example directory.",
+  "receiptSanitization": "Only home-directory prefix replaced by ~ in result.json; raw export result digest retained in export-manifest.json. Retained file hashes in SHA256SUMS."
+}
