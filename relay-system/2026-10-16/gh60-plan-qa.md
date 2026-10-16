@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-16.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -93,5 +93,21 @@ Cite `file:line` for disagreements.
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: Ship the plan. The additive face option fits the existing shared renderer and the one-example scope. Acceptance includes a concrete negative control, a committed back-compat witness and visual comparison. Approval is of the plan, not of unbuilt output.
+swept file: yes
+
+- [Pass] Read the entire plan (`PROJECT/1-INBOX/GH-60-SKILL-TRIGGER-PLATE.md:1-131`), including recon, non-goals and acceptance. No pre-existing defect requiring a plan revision found. The serif/italic requirement and explicit rollback justify the small shared change (plan:65-75); no recipe, catalog, framework or suite expansion is needed (plan:91-94).
+- [Pass] Q1: the three named registration sites are the actual owners: `tools/render.mjs:31`, `:82`, `:127-128`. `renderPlaywright` delegates to `toDocument` at `:143`. Keep the two existing normal registrations and HTML bytes unchanged when faces are absent; append same-family italic registrations only when supplied. `processRequest` constructs only regular/bold at `:206-210`, but this example calls the exported backend operations directly, as the precedent does at `examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs:160-166`; extending the recipe FONT contract is unnecessary for this scope.
+- [Pass] Q2/Q3, design assessment: versioned static font files plus OFL and source note meet AS-5's recorded-license requirement (`SYSTEM-INSTRUCTIONS.md:34-35`; plan:76). Include exact source filenames and hashes when vendoring, following `tools/fonts/barlow-condensed/SOURCE.md:7-16`. One pre-rasterized, embedded texture avoids separate browser/SVG filter interpretations; embedded PNG is already accepted by `tools/render.mjs:109`. Identical embedded texture bytes do not imply byte-identical complete backend renders. Keep procedural seed and native texture dimensions fixed (plan:84-87).
+- [Nit] Q4: make the comparison procedure explicit: snapshot the **committed** expected digest before running the precedent. Its script overwrites the PNG and `verification.json` at `examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs:200-206`; comparing only the two newly written files would be tautological. The plan already correctly specifies the committed value at :103-104. Read-only probe command: `python3 - <<'PY'` with `from pathlib import Path; import hashlib,json; p=Path("examples/2026-10-15-xyz-forge-shift-proposal"); v=json.loads((p/"verification.json").read_text()); print(v["artifactDigests"]["png"]); print(hashlib.sha256((p/"xyz-forge-shift-proposal.png").read_bytes()).hexdigest())`, then `PY`. Exit 0; both seeded values were `871a60362ebce34fb43a307f0e4931c45c69f79f78a48dc1ee2a9af82ff30c7f`. This establishes the seeded witness only, not a post-change result. Since `toDocument` also changes, retain a pre-change HTML witness in clone scratch too when checking the broad byte-identical claim.
+- [Nit] Preserve red-control evidence in the plan's Evidence section: exact subtitle mutation, command, non-zero status and decisive container finding, then restored PASS (plan:101-102, :129-131). The precedent writes evidence before asserting findings (`examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs:206-207`), so a restored run replaces the failed receipt. This is an evidence-recording clarification, not a request for another test.
+- [Unverified — needs clone run] Static Alegreya WOFF parsing, coverage of the actual copy in all four faces, texture rasterization, subtitle red-control sensitivity, absent-faces output equality and render/visual gates are implementation checks, not observed successes. No local `node_modules` exists (read-only `Path("node_modules").exists()` probe: exit 0, `False`). Do not treat Chromium's family-only check (`tools/render.mjs:164`) as proof of italic selection; inspect the actual italic title in both outputs as planned at :105. No fixtures, test suites or validation scripts were executed here.
+- [Unverified — source unavailable] Q5: issue/source-image parity could not be independently checked. `gh issue view 60 --repo HiQS-Labs/XYZ-layout-engine --json title,body` exited 1: `error connecting to api.github.com`; web fallback also could not fetch the issue. The listed content/style requirements at plan:80-89 are internally coherent; implementation must perform the source comparison already required at :105. External font-package contents and current PR #52 state likewise remain unverified.
+
+Relay closed (Approved), no further turn needed. Producer can proceed with implementation and retain the named evidence for final QA.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
