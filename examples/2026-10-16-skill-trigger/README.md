@@ -14,10 +14,10 @@ The paper texture, stains, ink line work and splatter are procedural SVG built b
 | `skill-trigger-chromium.png` | Same scene rendered by Playwright/Chromium |
 | `skill-trigger.html` | Self-contained responsive viewer |
 | `fixture.json` | All copy, palette roles and type settings |
-| `render-diagram.mjs` | Owns the geometry, builds the paper and ink layers and the scene, renders both backends with all four faces, runs the checks, writes `verification.json` |
+| `render-diagram.mjs` | Owns the geometry, builds the paper and ink layers and the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Text ids, artifact digests, findings (empty on a pass) |
 
-The type is Alegreya (`tools/fonts/alegreya/`, OFL) in four faces: regular, bold, italic and bold italic. The shared `renderSatori` / `renderPlaywright` in `tools/render.mjs` register only a regular and a bold face, and that file is pinned by published recipe versions in the catalog, so changing it means republishing those recipes. Instead the script runs the same two backends itself (`renderBoth`): Satori and resvg with all four faces, and Chromium on the shared `toDocument` HTML with the two italic `@font-face` rules added. This is a deliberate, contained second render path, chosen by the operator over republishing three recipes for one example.
+The type is Alegreya (`tools/fonts/alegreya/`, OFL) in four faces: regular, bold, italic and bold italic. The italics go to the shared renderer through the optional `font.faces` list in `tools/render.mjs`, added for this example. That file is pinned by the `design-intake` recipe, so this change also publishes `design-intake@1.0.4`, which differs from 1.0.3 only in that file's hash.
 
 ## How the diagram reads
 
@@ -38,7 +38,7 @@ Hierarchy decisions: (1) the two-line title, at the largest size and the only us
 
 ## Layout checks
 
-The checks are the GH-55 set: glyph coverage, canvas and container containment, Chromium overflow and pairwise text overlap, in both backends. One check is added: Chromium must report all four Alegreya faces loaded. Chromium loads a face only when the page uses it, so this proves the italics are actually set. Two adjustments, both in the script:
+The checks are the GH-55 set: glyph coverage, canvas and container containment, Chromium overflow and pairwise text overlap, in both backends. One check is added: the Chromium document must register both italic `@font-face` rules. Two adjustments, both in the script:
 
 - DESCRIPTION is rotated. Satori reports layout boxes before transforms, so the script turns that label's Satori box to match what is drawn before checking it.
 - The two title lines are set tighter than Alegreya's content area, as in the source, so their text boxes overlap while the glyphs do not. That one pair is exempt from the overlap check; the title is inspected visually instead.

@@ -16,7 +16,7 @@ related:
   - PROJECT/3-COMPLETED/GH-55-XYZ-FORGE-DIAGRAM.md
   - examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs
   - tools/render.mjs
-reversibility: "Easy — one example folder, one vendored font folder, an AS-5 wording change, this doc, a changelog entry and the ledger row; tools/render.mjs unchanged."
+reversibility: "Easy — one example folder, one vendored font folder, an optional renderer parameter (byte-identical when absent), one patch recipe version (design-intake 1.0.4), an AS-5 wording change, this doc, a changelog entry and the ledger row."
 ---
 
 # GH-60 — "Why your skill never runs" Claude Skills plate
@@ -25,7 +25,7 @@ reversibility: "Easy — one example folder, one vendored font folder, an AS-5 w
 
 | What was just completed | What's next |
 |---|---|
-| Example built and verified; renderer change reverted after the catalog-pin finding (operator decision below) | Final Codex QA, then PR to `main` |
+| Example built and verified on the shared renderer with `font.faces`; `design-intake@1.0.4` published (operator decisions below) | Final Codex QA, then PR to `main` |
 
 ## Why
 
@@ -70,9 +70,10 @@ line is italic, charcoal ink drawings and ink splatter.
 
 ## Requirements
 
-1. ~~`tools/render.mjs`: optional `font.faces`~~ — superseded 2026-10-16 (see "Scope change after
-   implementation"): the example runs Satori and Chromium itself with all four faces, reusing the shared
-   `toDocument` HTML; `tools/render.mjs` stays unchanged. Chromium must report all four faces loaded.
+1. `tools/render.mjs`: optional `font.faces` array of `{ data, weight, style }`, appended to the Satori
+   font list in `renderSatori` and `measureLongestWords`, and emitted as extra `@font-face` rules (with
+   `font-style`) in `toDocument`. Absent `faces` produces byte-identical output to today. Because
+   `design-intake` pins that file, publish `design-intake@1.0.4` (patch) through the catalog CLI.
 2. `tools/fonts/alegreya/`: the four WOFF files, `OFL.txt`, `SOURCE.md` (origin URL, version, license).
 3. `examples/2026-10-16-skill-trigger/` with `fixture.json` (all copy, palette roles, type sizes),
    `render-diagram.mjs` (one geometry owner), both PNGs at 1920×1920, responsive HTML, `verification.json`,
@@ -89,12 +90,13 @@ line is italic, charcoal ink drawings and ink splatter.
    texture, no generated imagery.
 7. Operator request (2026-10-16, mid-task): fonts stay flexible. AS-5 now says a supplied reference design
    is matched with the closest Google Fonts family, vendored with license and hashes (as here); with no
-   reference, dense diagrams use Barlow Condensed. Wording only; an engine-level loader for arbitrary
-   families and styles is a follow-up, because `tools/render.mjs` is catalog-pinned.
+   reference, Barlow Condensed is the default (operator answers: vendor at authoring time, agent picks
+   and records why, Barlow everywhere without a reference). The shared renderer takes extra faces through
+   requirement 1.
 
 ## Non-goals
 
-No recipe, catalog, PDF export, or engine change; no new test file or budget change;
+No recipe change beyond the design-intake 1.0.4 republish; no PDF export or other engine change; no new test file or budget change;
 no image generation.
 
 ## Acceptance checks
@@ -104,10 +106,9 @@ no image generation.
   reports the Alegreya family loaded).
 - Red control: repeat `subtitle` in `fixture.json` six times (it sits in a fixed-height container).
   Expected: non-zero exit with `text escapes its container`. Restore and rerun to `PASS`.
-- ~~Renderer back-compat~~ — moot after the scope change; instead `node tools/catalog.mjs verify` is valid
-  and `tools/render.mjs` has no diff against the base.
-- Face red control: withhold the italic `@font-face` rules. Expected: non-zero exit with
-  `Alegreya faces not all loaded`.
+- Renderer back-compat: rerun `node examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs`;
+  its digests equal the committed `verification.json`. `node tools/catalog.mjs verify` is valid.
+- Face red control: withhold `font.faces`. Expected: non-zero exit with `italic faces not registered`.
 - AS-10: both PNGs inspected at full size and a ~480px thumbnail, side by side with the source.
 - `utils/pdda/pdda.sh run`: no new errors. `pnpm test` passes in a disposable space-free clone.
 
@@ -123,7 +124,7 @@ no image generation.
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#60](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60) | 1 (as superseded)–7 | `XYZ-layout-engine-gh60-skill-trigger-plate-2026-10-16` / `feat/…` | Built and verified; final QA pending |
+| [#60](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/60) | 1–7 | `XYZ-layout-engine-gh60-skill-trigger-plate-2026-10-16` / `feat/…` | Built and verified; final QA pending |
 
 ## Rating rationale (2026-10-16)
 
@@ -142,6 +143,14 @@ or dropping italics. The renderer hunk was reverted. The example now runs Satori
 (`renderBoth`) on the shared `toDocument` HTML, plus two italic `@font-face` rules. That is a stated,
 contained second render path. The artifact digests matched the earlier renderer-change output byte for byte.
 
+Second decision (same day): asked for the font policy, the operator chose to put the multi-face support into
+the shared renderer in this PR. Recon showed only `design-intake` pins `tools/render.mjs`
+(`tools/catalog.sql`, versions 1.0.0–1.0.3; `moduleIdentity` checks the current one), so the cost is one
+patch publish, following the recursive-process 5.0.1 precedent (#43). The renderer hunk was re-applied,
+`design-intake` bumped to 1.0.4 and published, and the example went back to `renderSatori` /
+`renderPlaywright`; the local render path was removed. Plan QA did not re-run for this change; the final
+Codex QA reviews it.
+
 ## Evidence
 
 | Check | Result |
@@ -156,6 +165,10 @@ contained second render path. The artifact digests matched the earlier renderer-
 | Red control: subtitle repeated six times via `python3 -c "import json;f=json.load(open('fixture.json'));f['subtitle']=' '.join([f['subtitle']]*6);…"` | exit 1; `subtitle` `text escapes its container` `subtitle_box` and `text overflow` (Chromium; Satori clips the span to its fixed-height box and does not flag it). Restored: exit 0, `verification.json` byte-identical to the pre-control run |
 | Red control: italic `@font-face` injection disabled (temporary copy of the script) | exit 1; `Alegreya faces not all loaded`, loaded `400/normal, 700/normal` |
 | Layout observed during iteration | Chromium flagged the subtitle wrapping to three lines at 900px wide; widened to 960 |
+| Final design: `node tools/catalog.mjs publish design-intake 1.0.4`, then `verify` | publish ok; `valid: true`; `export --check` `canonical: true` |
+| Final design: example render | exit 0, PASS; all four digests identical to the earlier runs (paper `5045e29f…`, png `3bef4a19…`, chromiumPng `7e6fd9c6…`, html `b9625f68…`) |
+| Final design: face red control (`font.faces` removed in a temporary copy) | exit 1; `italic faces not registered` (0 rules) plus Satori/Chromium layout findings; restored run byte-identical |
+| Final design: shift-proposal back-compat | PASS; png, chromiumPng and html digests equal the committed ones |
 | AS-10 | Both PNGs at full size and a 480px thumbnail, compared with the source |
 | `utils/pdda/pdda.sh run` | no errors; 33 governance warnings, none in files this change touches |
 

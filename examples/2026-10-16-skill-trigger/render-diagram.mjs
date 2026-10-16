@@ -3,24 +3,18 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
-// "Why your skill never runs" (#60): a recreation of an operator-supplied parchment plate, with the GH-55
-// layout checks. The plate needs four Alegreya faces (regular, bold and both italics). The shared
-// renderSatori/renderPlaywright register only regular and bold, and tools/render.mjs is pinned by published
-// recipe versions, so this script runs the two backends itself (renderBoth below). It reuses toDocument for
-// the HTML and adds the italic @font-face rules.
+// "Why your skill never runs" (#60): a recreation of an operator-supplied parchment plate. Same shared
+// renderer and layout checks as the GH-55 examples; Alegreya's two italic faces go in through font.faces.
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
 const RT=new URL('../../',import.meta.url);
-const {toDocument,loadSatori}=await import(new URL('tools/render.mjs',RT).href);
-await loadSatori();
-const {default:satori}=await import('satori');
+const {renderSatori,renderPlaywright}=await import(new URL('tools/render.mjs',RT).href);
 const {chromium}=await import(new URL('node_modules/playwright/index.mjs',RT).href);
 const {Resvg}=await import(new URL('node_modules/@resvg/resvg-js/index.js',RT).href);
 const fixture=JSON.parse(await fs.readFile(path.join(ROOT,'fixture.json'),'utf8'));
 const {width:W,height:H,theme:{palette:P,type:TY}}=fixture;
 const FAMILY=TY.family;
 const face=f=>fs.readFile(new URL(`tools/fonts/alegreya/alegreya-latin-${f}.woff`,RT));
-const fonts={regular:await face('400-normal'),bold:await face('700-normal')};
-const italics=[{data:await face('400-italic'),weight:400},{data:await face('700-italic'),weight:700}];
+const fonts={regular:await face('400-normal'),bold:await face('700-normal'),faces:[{data:await face('400-italic'),weight:400,style:'italic'},{data:await face('700-italic'),weight:700,style:'italic'}]};
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const b64=(b,type)=>`data:${type};base64,${Buffer.from(b).toString('base64')}`;
 const node=(type,id,style,children,extra={})=>({type,props:{...(id?{id}:{}),style,children,...extra}});
@@ -132,39 +126,15 @@ children.push(at('closing_box',650,1722,620,{justifyContent:'center'},[T('closin
 children.push(at('footer_box',FRAME.x0,FRAME.y1+10,FRAME.x1-FRAME.x0,{justifyContent:'center'},[T('footer',fixture.footer,ty(TY.footer,{color:P.muted}))]));
 const scene=box('canvas',{position:'relative',width:W,height:H,backgroundColor:P.paper,fontFamily:FAMILY,overflow:'hidden'},children);
 
-// renderBoth: the shared renderer's two backends with all four faces (see the header note).
-async function renderBoth(){
- const nodes=[],missingSegments=[];
- const svg=await satori(scene,{width:W,height:H,
-  fonts:[[fonts.regular,400,'normal'],[fonts.bold,700,'normal'],...italics.map(f=>[f.data,f.weight,'italic'])].map(([data,weight,style])=>({name:FAMILY,data,weight,style})),
-  onNodeDetected:n=>nodes.push(n),
-  loadAdditionalAsset:async(languageCode,segment)=>{missingSegments.push({languageCode,segment});return []}});
- const satoriResult={svg,png:new Resvg(svg,{font:{loadSystemFonts:false}}).render().asPng(),bounds:{},textBoxes:{},missingSegments};
- for(const n of nodes){const id=n.props?.id;if(!id)continue;const b={x:n.left,y:n.top,width:n.width,height:n.height};satoriResult.bounds[id]=b;if(typeof n.textContent==='string')satoriResult.textBoxes[id]={...b,text:n.textContent}}
- const faceCss=italics.map(f=>`@font-face{font-family:'${FAMILY}';font-weight:${f.weight};font-style:italic;src:url(data:font/woff;base64,${f.data.toString('base64')})}\n`).join('');
- const html=toDocument(scene,fonts,W,H,FAMILY).replace('*{box-sizing',faceCss+'*{box-sizing');
- const browser=await chromium.launch({headless:true});
- try{
-  const page=await browser.newPage({viewport:{width:W,height:H},deviceScaleFactor:1});
-  page.setDefaultTimeout(30000);
-  await page.setContent(html,{waitUntil:'load'});
-  await page.evaluate(()=>document.fonts.ready);
-  const evidence=await page.evaluate(family=>{
-   const bounds={},textBoxes={};
-   for(const el of document.querySelectorAll('[id]')){
-    const r=el.getBoundingClientRect();bounds[el.id]={x:r.x,y:r.y,width:r.width,height:r.height};
-    if([...el.childNodes].some(n=>n.nodeType===Node.TEXT_NODE&&n.textContent.trim())){
-     const range=document.createRange();range.selectNodeContents(el);const t=range.getBoundingClientRect();
-     textBoxes[el.id]={x:t.x,y:t.y,width:t.width,height:t.height,text:el.textContent,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,scrollHeight:el.scrollHeight,clientHeight:el.clientHeight};
-    }
-   }
-   const loaded=[...document.fonts].filter(f=>f.family.replace(/['"]/g,'')===family&&f.status==='loaded').map(f=>`${f.weight}/${f.style}`).sort();
-   return {bounds,textBoxes,loadedFaces:loaded};
-  },FAMILY);
-  return {satoriResult,chromiumResult:{...evidence,html,png:await page.screenshot({clip:{x:0,y:0,width:W,height:H}})}};
- }finally{await browser.close()}
-}
-const {satoriResult:result,chromiumResult}=await renderBoth();
+const result=await renderSatori(scene,fonts,W,H,FAMILY);
+const browser=await chromium.launch({headless:true});
+let chromiumResult;
+try{
+ const context=await browser.newContext({viewport:{width:W,height:H},deviceScaleFactor:1});
+ context.setDefaultTimeout(30000);
+ chromiumResult=await renderPlaywright(context,scene,fonts,W,H,FAMILY);
+ await context.close();
+}finally{await browser.close()}
 
 // Satori reports layout boxes before transforms; turn the rotated label's box the way it is drawn.
 for(const [id,{cx,cy}] of Object.entries(rotated)){const b=result.textBoxes[id];if(b)Object.assign(b,{x:cx-b.height/2,y:cy-b.width/2,width:b.height,height:b.width})}
@@ -172,8 +142,9 @@ for(const [id,{cx,cy}] of Object.entries(rotated)){const b=result.textBoxes[id];
 // Layout checks: glyph coverage, canvas and container containment, overflow and text overlap in both backends.
 const findings=[];
 if(result.missingSegments.length)findings.push({backend:'satori',reason:'unsupported glyphs',segments:result.missingSegments});
-// Chromium only loads a face that the page uses, so all four loaded means every face rendered.
-if(chromiumResult.loadedFaces.join()!=='400/italic,400/normal,700/italic,700/normal')findings.push({backend:'chromium',reason:'Alegreya faces not all loaded',loaded:chromiumResult.loadedFaces});
+if(!chromiumResult.fontLoaded)findings.push({backend:'chromium',reason:'Alegreya did not load'});
+const italicRules=(chromiumResult.html.match(/@font-face{[^}]*font-style:italic/g)||[]).length;
+if(italicRules!==2)findings.push({backend:'chromium',reason:'italic faces not registered',italicRules});
 const finite=b=>b&&[b.x,b.y,b.width,b.height].every(Number.isFinite)&&b.width>0&&b.height>0;
 const inside=(b,o,t=1)=>b.x>=o.x-t&&b.y>=o.y-t&&b.x+b.width<=o.x+o.width+t&&b.y+b.height<=o.y+o.height+t;
 const canvas={x:0,y:0,width:W,height:H};
@@ -208,7 +179,7 @@ await fs.writeFile(path.join(ROOT,NAME+'-chromium.png'),chromiumResult.png);
 await fs.writeFile(path.join(ROOT,NAME+'.svg'),result.svg);
 const responsive=chromiumResult.html.replace('</head>',`<style>html,body{width:100%!important;height:100%!important;overflow:auto!important;background:${P.paper}}#canvas{transform-origin:top left}</style></head>`).replace('</body>',`<script>function fit(){const s=Math.min(1,innerWidth/${W});document.getElementById('canvas').style.transform='scale('+s+')';document.body.style.minHeight=(${H}*s)+'px'}addEventListener('resize',fit);fit();</script></body>`);
 await fs.writeFile(path.join(ROOT,NAME+'.html'),responsive);
-const evidence={renderer:'Satori + resvg and Playwright/Chromium run by this script (renderBoth) with four vendored Alegreya faces; HTML from the shared tools/render.mjs toDocument',loadedFaces:chromiumResult.loadedFaces,width:W,height:H,textIds:texts,artifactDigests:{paper:sha(paperPng),png:sha(result.png),chromiumPng:sha(chromiumResult.png),html:sha(responsive)},findings};
+const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlaywright; vendored Alegreya, italics via font.faces',width:W,height:H,textIds:texts,artifactDigests:{paper:sha(paperPng),png:sha(result.png),chromiumPng:sha(chromiumResult.png),html:sha(responsive)},findings};
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${texts.length} text ids; ${W}x${H} in both backends; no unsupported glyphs, escapes, overflow or overlap.`);

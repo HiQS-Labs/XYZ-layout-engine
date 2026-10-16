@@ -1,11 +1,5 @@
 {
-  "renderer": "Satori + resvg and Playwright/Chromium run by this script (renderBoth) with four vendored Alegreya faces; HTML from the shared tools/render.mjs toDocument",
-  "loadedFaces": [
-    "400/italic",
-    "400/normal",
-    "700/italic",
-    "700/normal"
-  ],
+  "renderer": "Shared root tools/render.mjs renderSatori / renderPlaywright; vendored Alegreya, italics via font.faces",
   "width": 1920,
   "height": 1920,
   "textIds": [

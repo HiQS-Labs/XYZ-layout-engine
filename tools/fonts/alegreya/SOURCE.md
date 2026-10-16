@@ -5,7 +5,7 @@ Alegreya is a calligraphic book serif, vendored for the parchment-style "Why you
 - License: SIL Open Font License 1.1 (`OFL.txt` in this folder). Copyright 2011 The Alegreya Project Authors.
 - Upstream design: huertatipografica/Alegreya. `OFL.txt` is byte-identical to that repo's `OFL.txt` at commit `1dd6b28b57c50e3168db1cbbb8086e7978abcfbf`.
 - Font files: the static latin-subset WOFF files from the npm package `@fontsource/alegreya@5.1.0` (`files/`), fetched through cdn.jsdelivr.net. Upstream ships only variable fonts, which Satori does not instance, so the static files come from Fontsource. The latin subset covers Basic Latin, Latin-1 (including `·`) and General Punctuation (including curly quotes).
-- Family name: `Alegreya`. The shared renderer registers only a regular and a bold face, so the italics are registered by the example that uses them (`examples/2026-10-16-skill-trigger/render-diagram.mjs`).
+- Family name: `Alegreya`. Pass regular and bold as `font.regular` / `font.bold`, and the italics through `font.faces` (`tools/render.mjs`).
 
 | File | Weight / style | sha256 |
 |---|---|---|
