@@ -3,7 +3,7 @@ gh_issue: 65
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65
 title: "XYZ Forge examples: one folder with today/future lenses; add the prior-art search to both"
 goal: "Group the three XYZ Forge diagrams under examples/xyz-forge/{today,future}/ and show the prior-art search where the factory runs it."
-status: "In progress — built and verified; final QA next"
+status: "In progress — final QA Approved; PR ready, awaiting merge"
 created: 2026-10-18
 updated: 2026-10-18
 owner: Claude
@@ -26,7 +26,7 @@ reversibility: "Easy — three folder moves (git mv), one relative-path line per
 
 | What was just completed | What's next |
 |---|---|
-| Built and verified (`5fc4c62`, `1c60f97`); gates recorded below | Final Codex relay QA, then PR to `main` |
+| Final QA Approved by Codex in round 1; PR opened against `main` | Merge, then archive to 3-COMPLETED and reconcile the ledger |
 
 ## Why
 
@@ -153,7 +153,7 @@ change.
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#65](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65) | 1–7 | `XYZ-layout-engine-gh65-xyz-forge-lenses-2026-10-18` / `chore/…` | Implementing |
+| [#65](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65) | 1–7 | `XYZ-layout-engine-gh65-xyz-forge-lenses-2026-10-18` / `chore/…` | PR ready; awaiting merge |
 
 ## Rating rationale (2026-10-18)
 
@@ -178,3 +178,5 @@ established pattern with existing layout checks. Recurrence: not applicable; tre
 | `node tools/catalog.mjs verify` | `valid: true` |
 | `utils/pdda/pdda.sh run` | no errors; the same 2 governance warnings as GH-63 (`ROUTER.md:84`, `PDDA-INSTALL.md:347`), untouched files |
 | `pnpm test` (disposable `--no-local` clone of `1c60f97`) | 4/4, `test-budget: PASS — 4 canaries in 43.6s (budget 60s)`; tree clean |
+| Final QA | Codex, 1 round, Approved (`relay-system/2026-10-18/gh65-final-qa.md`); reviewer re-resolved all 9 links, confirmed caption/HTML equality and an empty old-path scan under `examples/`; one pre-existing nit (v2 says "seven" commands but lists six roles, `/review-pr` being an alias) left for a follow-up |
+| Diff hygiene (b38e0d3..HEAD) | v1 outputs are 100% renames; edits limited to the stated files, `.gitignore`, CHANGELOG, plan, relay threads, ledger; no `tools/`, `test-budget.json`, `.xyz`, `.claude`, `node_modules` or `.relay-scratch` paths; no home-directory paths |
