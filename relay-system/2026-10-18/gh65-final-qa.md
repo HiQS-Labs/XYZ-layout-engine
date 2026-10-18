@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-18.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -93,5 +93,46 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: Ship the documentation example changes. Requirements 1–7 are represented in the seeded files; source, link, caption, receipt and visual checks found no blocking defect. Reversibility: Easy. Historical byte identity, exact branch scope and executable gate results below remain producer-reported, pending the harness's clone verification.
+swept file: yes
+
+Read the whole index, all three render scripts, fixtures, READMEs and ignore files, all generated HTML text leaves and verification receipts, the top CHANGELOG entry, the full plan and its approved plan-QA thread. Inspected both backends of the changed diagrams and their one-third previews. No actionable pre-existing implementation defect found; one optional wording nit follows. No git, renderer, executable fixture, validator or test suite was run. Only this relay is changed outside scratch.
+
+- [Pass] **Paths and links:** all three scripts use `new URL('../../../../',import.meta.url)` (system `render-diagram.mjs:8`; factory/shift `:9`) and still own fixture/output paths through `ROOT`. All nine relative README/image links resolve, including v1's `../../../2026-10-12-belief-reference/README.md` (`today/system-v1/README.md:3`). The index explicitly separates Today from “Future — proposals, not built” (`examples/xyz-forge/README.md:7–17`). The Python probe quoted below exited 0: `links 9 broken 0`; each bundle printed `RT True`.
+- [Pass] **Captions and receipts:** factory `fixture.json:87` says “Prior-art check, fresh clone, recon, plan, Codex QA, build, gates, final QA.” Shift `fixture.json:25` places the duplicate check in Morning open before proposing items. Both HTML caption elements equal their fixture values exactly. “Codex QA” retains the plan-review meaning through its position between plan and build; the separate final QA remains explicit, and factory `fixture.json:148` still says “Codex plan and final QA.” This meets plan requirement 4's shortening allowance (`GH-65-XYZ-FORGE-LENSES.md:104–110`). Probe exit 0: all three bundles printed `digests True`, `caption True`, `findings []`; text/icon counts were 73/1, 86/2 and 77/5. These are stored-receipt checks, not fresh geometry runs.
+- [Pass] **Visual / AS-10:** inspected `today/software-factory-v2/xyz-forge-software-factory{,-chromium}.png` and `future/shift-proposal/xyz-forge-shift-proposal{,-chromium}.png`. The new captions read at full size; no visible caption collision. Open ends tightly above “ROUTES TO EXISTING SKILLS,” accurately described in plan Evidence `:177`. One-third previews preserve title/stage/node hierarchy; fine captions do not read. This supports the table's observation, not an AS-12 compliance claim. No new styling mechanism is warranted. Preview commands were `sips -z 580 733 <factory PNG> --out .relay-scratch/<preview>.png` and `sips -z 500 733 <shift PNG> --out .relay-scratch/<preview>.png`, applied to each backend; exit 0 for all four. The initial Pillow preview attempt failed with `ModuleNotFoundError: No module named 'PIL'`; sips supplied the inspected previews without installing anything.
+- [Pass] **Current-tree hygiene:** `rg -n --hidden -g '*.md' -g '*.mjs' -g '*.json' -g '*.html' '2026-10-14-xyz-forge-system|2026-10-15-xyz-forge-software-factory|2026-10-15-xyz-forge-shift-proposal' examples` exited 1 with no output, including generated HTML. Bundle inventory contains exactly the index plus three sets of eight expected files; no accidental dependency/scratch/config directories appear inside it. Root `.gitignore:12–14` contains precisely the requested `# Aider Studio (auto-added)`, `REPO_MAP.md`, `.aider/` entries after a blank separator. CHANGELOG's top entry describes the same moves and captions (`CHANGELOG.md:2–7`). These checks establish present contents; exact added/removed scope requires the base comparison below.
+- [Nit] **Pre-existing count wording:** factory `README.md:3` says “seven skills” but lists six roles, with `/review-pr` an alias of `/review-code`. The fixture subtitle and script comment likewise say seven. Optional follow-up: omit the numeral or explicitly count the alias as a seventh command. This does not affect the prior-art change and does not warrant another render for this task.
+
+Probe command (read-only Python, exit 0; decisive output quoted above):
+
+```sh
+python3 - <<'PYPROBE'
+from pathlib import Path
+import json,re,html,hashlib
+root=Path.cwd(); links=[]
+for p in [Path("examples/xyz-forge/README.md"),*Path("examples/xyz-forge").glob("*/*/README.md")]:
+ links += [(p.parent/t).exists() for t in re.findall(r"!?\[[^\]]*\]\(([^)]+)\)",p.read_text()) if "://" not in t]
+print("links",len(links),"broken",links.count(False))
+for d in sorted(Path("examples/xyz-forge").glob("*/*")):
+ f=json.loads((d/"fixture.json").read_text());v=json.loads((d/"verification.json").read_text());n=f["id"];h=(d/(n+".html")).read_text()
+ ok=all(hashlib.sha256((d/p).read_bytes()).hexdigest()==v["artifactDigests"][k] for k,p in [("png",n+".png"),("chromiumPng",n+"-chromium.png"),("html",n+".html")])
+ caption=True
+ if "nodes" in f:
+  key,id=("startTask","starttask_caption") if "startTask" in f["nodes"] else ("open","open_caption")
+  caption=html.unescape(re.search(r'<span\b[^>]*id="'+id+r'"[^>]*>(.*?)</span>',h,re.S)[1])==f["nodes"][key]["caption"]
+ print(d.name,"RT",(d/"../../../..").resolve()==root,"digests",ok,"caption",caption,"findings",v["findings"],"ids",len(v["textIds"]),len(v["iconIds"]))
+PYPROBE
+```
+
+**[Unverified — needs clone run]** No base-to-HEAD git comparison was performed, as git is prohibited in this turn. Thus pure renames, v1's pre-move blob identity, no pinned/tested path changes, and absence of unrelated branch changes are not independently attested here. Plan Evidence `:168–180` supplies the producer's pre-change witness, v1 identity, two red controls with restore, repeat runs, catalog, PDDA and pnpm receipts; current artifact hashes and caption contents agree with the stored claims, but those executions were not repeated. The harness must retain its normal clone gate; this approval does not replace it.
+
+Graph limitation: both list-project pages were inspected; this seeded worktree has no matching project. Nearest canonical `XYZ-layout-engine` generation is `2026-10-13T02:52:30Z`, a different checkout. Coverage reports examples excluded, CHANGELOG skipped and the new plan missing; exact source reads supplied evidence throughout. No graph completeness claim is made. Startup `python3 .xyz/utils/py/releases_app.py roadmap list` exited 2 (`No such file or directory`); no replacement was created.
+
+Relay closed (Approved), no further turn needed. Producer (claude-a) receives the completed review; the harness owns the file-scoped commit and subsequent clone gate.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
