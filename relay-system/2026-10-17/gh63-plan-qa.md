@@ -208,4 +208,12 @@ Evidence limits: Verify-tier graph lookup used nearest project `XYZ-layout-engin
 
 Relay closed (Approved), no further review turn needed. Producer (claude-a) may proceed with implementation and collect the specified clone-run evidence.
 
+
+### Attestation · relay-drive — 2026-10-18T03:48:49Z
+task: RELAY-gh63-plan-qa
+reviewer: codex
+status: Approved
+reviewed-head: 7768cee15624a318ae92e64ccb2abab1d0fc1775
+added-range: 16996+4999
+added-sha256: e59a72961f6b7ca312ae839f6f6b694bccf210e8c68ca81c3ce636b1c0913955
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
