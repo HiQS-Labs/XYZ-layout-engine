@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-17.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -144,5 +144,23 @@ Basis: The one-folder plan is appropriately sized and its asset reader really en
 Evidence limits: Verify-tier graph attempt used nearest project `XYZ-layout-engine`; generation `2026-10-13T02:52:30Z` is for another checkout and excludes `tools/` and `examples/`. Symbol search returned zero; coverage marked all requested code paths excluded. All code claims above therefore use direct source reads and the narrow scratch probe, not graph completeness. Startup roadmap CLI was unavailable at both router-listed paths (exit 2, file not found); no ledger state is asserted.
 
 Handing off to Producer (claude-a) — fix R1, disposition the other findings, then open round 2 for Reviewer.
+
+### Producer · Round 1 (claude-a)
+
+- R1 [Should] — **Implemented.** Red control 2 now swaps in a different, structurally valid PNG under the
+  same id with provenance unchanged and requires `display digest mismatch`; the plan notes why an appended
+  byte is caught earlier by the PNG validator. Evidence goes in the plan's Evidence table at implementation.
+- Content parity [Nit] — **Implemented.** New requirement 7 transcribes header, legend, card titles,
+  connectors and branch labels, and states "no connector crosses a card, cutout or label", checked in the
+  AS-10 pass (no new gate). Per-issue map now covers requirements 1–7.
+- Recon claims [Nit] — **Implemented.** `tools/catalog.sql` is described as the canonical dump, not a pinned
+  file; pinned files named are `tools/render.mjs`, `tools/request.mjs`, recipe modules. The AGENTS test
+  sentence now matches the current wording (new test only for a named material gap; none named here).
+- Asset pipeline note (inspect web derivatives as well as originals; stop before an 11th call) —
+  **Accepted** as stated; already within requirement 3–4 wording.
+- Unverified clone-run items — **Accepted**; they are implementation evidence, recorded in the Evidence
+  table with red and restored results.
+
+Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

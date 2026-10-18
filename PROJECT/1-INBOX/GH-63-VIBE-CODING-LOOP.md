@@ -61,10 +61,12 @@ generated PNG cutouts; lifecycle is `/start-task`.
   call; transparency is verified on the saved file (`alpha.verified`).
 - Barlow Condensed is vendored (`tools/fonts/barlow-condensed/`, 400 and 700) and is the AS-5 default when
   no reference names a font. All copy here is short (≤ 40 characters per line), so no body face is added.
-- `tools/render.mjs`, recipes and `tools/catalog.sql` are pinned by published recipe versions (GH-60 scope
-  change). This example touches none of them.
+- `tools/render.mjs`, `tools/request.mjs` and the recipe modules are pinned by published recipe versions
+  (GH-60 scope change); `tools/catalog.sql` is the canonical catalog dump, not a pinned file. The example
+  imports pinned modules but edits none of them, and adds no catalog row.
 - Chromium cannot launch inside the Claude Code macOS sandbox; renders run un-sandboxed (GH-55/60 evidence).
-- `AGENTS.md`: no new tests; `test-budget.json` governs `pnpm test`, and examples are outside it.
+- `AGENTS.md` allows a new test only for a named material gap; `test-budget.json` counts test-like files
+  anywhere. This task names no such gap and adds none.
 - Prior art: no open PR, issue or roadmap row for this subject (`prior_art_recon.py`, `gh issue list`).
 
 ## Preflight bet check
@@ -124,7 +126,16 @@ generated PNG cutouts; lifecycle is `/start-task`.
    headline:body ≥ 4, headline width 50–85% W, largest cutout ≤ 3× headline cap height, label ≥ 70% of icon
    height where a label pairs with a legend swatch).
 6. README with the AS-1..AS-12 report (patterns avoided, exceptions, measured AS-12 numbers, inspection
-   sizes) and replay commands.
+   sizes, squint/three-tier and phone-readability observations) and replay commands.
+7. Content parity with the canvas (checked in the AS-10 pass; no new automated gate):
+   - Header: "The Vibe-Coding Loop"; "Building with AI is a conversation, not a download."; "You stay in the
+     loop, steering what the AI produces."; eyebrow "DIAGRAM · 4/7".
+   - Legend: "You — steer and judge", "AI — writes the code".
+   - Cards: 01 · YOU "Describe your idea"; 02 · AI "AI generates code"; 03 · YOU "You see it live";
+     04 · YOU "You refine it"; EXIT "Ship it".
+   - Connectors: 01→02→03 forward; 03→04 labelled "not yet"; 04→01 directed return labelled "repeat until
+     done"; 03→Ship labelled "it works". No connector crosses a card, cutout or label.
+   - Footer: schematic note plus AI-imagery disclosure.
 
 ## Non-goals
 
@@ -137,8 +148,10 @@ No recipe, catalog, renderer, font or test change. No PDF export. No edit to the
 - Repeatability: two consecutive runs give identical PNG, Chromium PNG and HTML digests.
 - Red control 1 (containment): one card caption repeated four times in a temporary fixture → non-zero exit
   naming `text escapes its container`. Restore → `PASS`, byte-identical `verification.json`.
-- Red control 2 (pinning): one byte appended to a copy of an `assets/web/` PNG pointed at by the script →
-  `readPinnedPngs` refuses it. Restore → `PASS`.
+- Red control 2 (pinning): replace one `assets/web/` PNG with a different, structurally valid PNG (another
+  asset's file) under the same id, provenance unchanged → non-zero exit with `display digest mismatch`
+  (an appended byte is rejected earlier by the PNG validator, `tools/spike/assets.mjs:28-33`, and would not
+  exercise the digest check). Restore → `PASS`.
 - Red control 3 (AS-12): body percentage set to 0.014 in a temporary fixture → non-zero exit naming the
   body floor. Restore → `PASS`.
 - Alpha: every asset `alpha.verified: true`, `opaqueCornerCount: 0` in `provenance.json`.
@@ -159,7 +172,7 @@ No recipe, catalog, renderer, font or test change. No PDF export. No edit to the
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–6 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | Plan drafted |
+| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | Plan drafted |
 
 ## Rating rationale (2026-10-17)
 
