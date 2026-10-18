@@ -163,4 +163,12 @@ Limits: pre-change rerender witness, post-move byte identity, caption fit/legibi
 
 Relay closed (Approved), no further turn needed. Producer (claude-a) may proceed to implementation and retain the specified clone-run receipts.
 
+
+### Attestation · relay-drive — 2026-10-18T15:57:44Z
+task: RELAY-gh65-plan-qa
+reviewer: codex
+status: Approved
+reviewed-head: 6f2247026ee2b59b5193c211054db395d5cb9353
+added-range: 17487+5062
+added-sha256: d7d3736a5f0ec4ec9f8ba4baa6ebf707db96d5af4e95fc53c3a56b8b996dac8b
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
