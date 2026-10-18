@@ -3,7 +3,7 @@ gh_issue: 63
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63
 title: "Example: \"The Vibe-Coding Loop\" diagram with small PNG cutouts, in the nutrition-infographic lens"
 goal: "Render the operator-reviewed Vibe-Coding Loop diagram as a one-folder example with generated transparent cutouts, AS-11 ground shadows and an AS-12 type scale."
-status: "In progress — plan QA Approved (Codex, round 2), implementing"
+status: "In progress — example built and verified; final QA next"
 created: 2026-10-17
 updated: 2026-10-17
 owner: Claude
@@ -28,7 +28,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Plan QA Approved by Codex in round 2 (`relay-system/2026-10-17/gh63-plan-qa.md`) | Generate cutouts, build the example |
+| Example built (`8608e6e`); script PASS in both backends; red controls and gates recorded below | Final Codex relay QA, then PR to `main` |
 
 ## Why
 
@@ -96,6 +96,11 @@ generated PNG cutouts; lifecycle is `/start-task`.
   | Body | 1.9% | 23 | card captions, arrow labels, steering line, footer |
 
   Headline : body = 4.17 : 1.
+
+  As built (2026-10-17): headline raised to 9.0% of S (108 px) so the one-line title spans more than half
+  the canvas (measured 55.3%; at 96 px it would fall below 50%); headline : body 4.7 : 1. Card titles use
+  the subhead size in bold caps; actor tags and the legend use body; connector labels and the eyebrow use
+  label. Still four sizes.
 - Hierarchy decisions: (1) the loop of four cards takes the centre and most of the canvas; the exit card is
   smaller and visually secondary (dashed outline); (2) actor colour (You blue, AI orange) carries the
   "you steer" message instead of extra copy; (3) the return arrow and "repeat until done" are the strongest
@@ -186,3 +191,18 @@ applicable (feature); trend unknown.
 | Check | Result |
 |---|---|
 | Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-17/gh63-plan-qa.md`); R1 (pinning red control reached PNG validation, not the digest) fixed; parity and recon nits applied |
+| Image generation | 5 paid calls of the 10 budgeted, every asset accepted on attempt 1; all `alpha.verified: true`, `opaqueCornerCount: 0` on the generated file and on the 512 px display copy (`provenance.json`); receipts scanned for home and scratch paths, none left |
+| `node examples/2026-10-17-vibe-coding-loop/render-diagram.mjs` (un-sandboxed) | exit 0, `PASS: 27 text ids; 1600x1200 in both backends; AS-12 sizes 108/36/29/23 px; no unsupported glyphs, escapes, overflow or overlap.` |
+| Layout iterations caught by the script | Chromium overflow on the title and card titles at line-height 1.0/1.05 (Barlow's line box is 1.2 em) → 1.2; Satori title/subtitle overlap → header rows moved |
+| Repeatability | two consecutive runs: identical `verification.json` (`1ac6235c…`), which holds png `a530c6c2…`, chromiumPng `3cfeb34b…`, html `ec61035e…` |
+| Red control 1: `steps[0].caption` repeated 4× in a temp fixture (`FIXTURE=… OUT_DIR=…`) | exit 1; `caption_describe`, `tag_describe`, `title_describe` `text escapes its container` |
+| Red control 2: `assets/web/code.png` copied over `idea.png`, provenance unchanged | exit 1; `{"field":"asset.idea","message":"display digest mismatch"}`; restored file sha `cb2a06d1…` |
+| Red control 3: `theme.type.pct.body` = 0.014 in a temp fixture | exit 1; first finding `AS-12: body below the 1.8% of S floor` |
+| After all controls | rerun PASS; `verification.json` byte-identical (`1ac6235c…`) |
+| AS-12 measured | headline 9.0% S, 55.3% W; body 1.9% S; ratio 4.7; 4 sizes; largest cutout 170 px vs 75.6 px cap height (2.25×); legend text 23 px vs 22 px swatch |
+| AS-10 | both PNGs at full size side by side; Satori at 533 px (1/3); Chromium at 400 px. Three tiers survive; title, card titles, tags and connector labels read; 23 px captions, legend and footer do not read at phone width without zoom. First render left the top-right diagram cell empty → legend moved there |
+| Content parity (requirement 7) | header, legend, five card titles, five connectors and labels, footer all present (see PNG); no connector crosses a card, cutout or label |
+| `node tools/catalog.mjs verify` | `valid: true`, no errors |
+| `utils/pdda/pdda.sh run` | no errors; 2 governance warnings (`ROUTER.md:84`, `utils/pdda/PDDA-INSTALL.md:347`), neither in a file this change touches |
+| `pnpm test` (disposable `--no-local` clone of `8608e6e`) | 4/4 canaries pass, `test-budget: PASS — 4 canaries in 40.6s (budget 60s)`; `test-budget.json` unchanged; tree clean after the run |
+| Relay side effect | the plan-QA relay turn deleted four tracked `.relay-scratch/pdf/*` files from the working tree; restored with `git checkout`, never committed |
