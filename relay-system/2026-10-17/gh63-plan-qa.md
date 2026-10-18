@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-17.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -162,5 +162,50 @@ Handing off to Producer (claude-a) — fix R1, disposition the other findings, t
   table with red and restored results.
 
 Handing off to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2
+
+swept file: yes
+
+VERDICT: PASS
+Basis: Approve the plan for implementation. R1 is corrected and the revised control reaches the actual digest check; the content-parity and Recon nits are addressed. Re-read the whole 188-line plan, including unchanged requirements and acceptance checks; no additional pre-existing plan defects found. This approves the specification, not unbuilt outputs. Reversibility: Easy (relay verdict only).
+
+- [Pass] **R1 resolved.** `PROJECT/1-INBOX/GH-63-VIBE-CODING-LOOP.md:151–154` now requires a different structurally valid PNG with unchanged provenance, specifically `display digest mismatch`, followed by restored PASS. This reaches the hash comparison after PNG validation at `tools/request.mjs:64–66`. Re-ran the narrow scratch probe below: exit 0; decisive output `original: accepted`; `valid replacement: Validation failed: [{"field":"asset.balance_scale","message":"display digest mismatch"}]`; `restored: accepted`. Exceptions are asserted, not treated as shell failures.
+  Probe command:
+  ```sh
+  export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+  mkdir -p "$TMPDIR"
+  node --input-type=module <<'JS'
+  import fs from 'node:fs/promises';
+  import path from 'node:path';
+  import assert from 'node:assert/strict';
+  import {pathToFileURL} from 'node:url';
+  import {readPinnedPngs} from './tools/request.mjs';
+  const base=await fs.mkdtemp(path.join(process.env.TMPDIR,'r2-pin-'));
+  await fs.mkdir(path.join(base,'assets/web'),{recursive:true});
+  const src='examples/2026-10-13-nutrition-infographic/';
+  await fs.copyFile(src+'provenance.json',path.join(base,'provenance.json'));
+  const target=path.join(base,'assets/web/balance_scale.png');
+  const example=pathToFileURL(base+'/');
+  await fs.copyFile(src+'assets/web/balance_scale.png',target);
+  await readPinnedPngs(example,'provenance.json',['balance_scale']);
+  console.log('original: accepted');
+  await fs.copyFile(src+'assets/web/water_bottle.png',target);
+  await assert.rejects(readPinnedPngs(example,'provenance.json',['balance_scale']),e=>{
+   console.log('valid replacement: '+e.message);
+   return e.message.includes('display digest mismatch');
+  });
+  await fs.copyFile(src+'assets/web/balance_scale.png',target);
+  await readPinnedPngs(example,'provenance.json',['balance_scale']);
+  console.log('restored: accepted');
+  JS
+  ```
+- [Pass] **Issue coverage and scope.** Plan `:110–138` covers the brief, fixture, five generated cutouts, provenance, both backends, verification, report, four-stage cycle, decision branches, return label and collision inspection. Re-read issue #63 with `gh issue view 63 --repo HiQS-Labs/XYZ-layout-engine --json title,body` (exit 0); its “Deliverables” and “Content source” agree. Plan `:64–69,142` corrects the catalog/test-policy claims and retains the one-folder boundary. Shared backend calls remain available at `tools/render.mjs:27,142` and the precedent calls them at `examples/2026-10-16-skill-trigger/render-diagram.mjs:129–135`; no recipe is required.
+- [Pass] **Type and asset specification remains proportionate.** Plan `:88–98` computes 96/36/29/23 px (four sizes; 96/23 = 4.174). Plan `:125–129,157–158` requires measured geometry plus visual inspection, rather than declaring compliance from the table. AS-5 permits the stated Barlow default for short copy. Plan `:114–121` bounds generation, records provenance and alpha, and discloses imagery. Retain round-1 implementation guidance: inspect web derivatives, stop before call 11, and do not carry over nutrition's old silhouette-shadow wording; the planned ground-shadow technique is at `tools/recipes/nutrition.mjs:70–95`.
+- [Unverified — needs clone run] **Implementation evidence remains outstanding as expected.** Plan `:146–160` specifies repeatability, containment/body-floor controls with restoration, actual AS-12 measurements, alpha and dual-backend inspection. Record exact commands, non-zero red exits/messages and restored results in the existing Evidence table (`:184–188`), as accepted by Producer. Neither those unbuilt checks nor PDDA, catalog verification or pnpm test ran here. No executable fixture or suite was run.
+
+Evidence limits: Verify-tier graph lookup used nearest project `XYZ-layout-engine`, generation `2026-10-13T02:52:30Z`, rooted in another checkout. Search returned zero symbols and coverage excluded all five requested paths under tools/examples; material claims use direct source fallback. A read-only in-memory SQLite query over `tools/catalog.sql` (`select count(*) from recipe_version_files where path=?`, Python exit 0) again returned render=6, request=11, nutrition=6, catalog.sql=0, precedent script=0. Both router-listed roadmap CLI paths are absent (Python exit 2); no current ledger or prior-art state is asserted.
+
+Relay closed (Approved), no further review turn needed. Producer (claude-a) may proceed with implementation and collect the specified clone-run evidence.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
