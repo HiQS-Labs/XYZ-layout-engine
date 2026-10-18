@@ -3,7 +3,7 @@ gh_issue: 63
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63
 title: "Example: \"The Vibe-Coding Loop\" diagram with small PNG cutouts, in the nutrition-infographic lens"
 goal: "Render the operator-reviewed Vibe-Coding Loop diagram as a one-folder example with generated transparent cutouts, AS-11 ground shadows and an AS-12 type scale."
-status: "Captured — plan drafted, awaiting plan QA"
+status: "In progress — plan QA Approved (Codex, round 2), implementing"
 created: 2026-10-17
 updated: 2026-10-17
 owner: Claude
@@ -28,7 +28,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Issue filed, clone provisioned off `origin/main` (`6facd4c`), plan drafted | Codex plan QA, then promote to 2-WORKING |
+| Plan QA Approved by Codex in round 2 (`relay-system/2026-10-17/gh63-plan-qa.md`) | Generate cutouts, build the example |
 
 ## Why
 
@@ -172,7 +172,7 @@ No recipe, catalog, renderer, font or test change. No PDF export. No edit to the
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | Plan drafted |
+| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | Implementing |
 
 ## Rating rationale (2026-10-17)
 
@@ -185,4 +185,4 @@ applicable (feature); trend unknown.
 
 | Check | Result |
 |---|---|
-| Plan QA | pending |
+| Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-17/gh63-plan-qa.md`); R1 (pinning red control reached PNG validation, not the digest) fixed; parity and recon nits applied |
