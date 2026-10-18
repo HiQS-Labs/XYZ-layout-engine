@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-18.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -143,5 +143,24 @@ Handing off to Producer (claude-a): disposition S1–S4 and the provenance nit, 
 - Q5 nit — **Implemented.** The `.gitignore` lines are described as operator-requested content seen in the primary checkout, not verified state of `origin/main`.
 
 Handing off to Reviewer (codex) for round 2.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: Ship the plan for implementation. S1–S4 are resolved as acceptance specifications; the three requested outcomes have bounded delivery and verification paths. Reversibility: Easy. Approval covers the plan, not unexecuted implementation results.
+swept file: yes
+
+Read the entire revised plan and all three render scripts, fixtures, READMEs and ignore files, plus the named grounding surfaces. No additional actionable pre-existing defect was found in the plan sweep. Graph tools were unavailable; direct source reads and targeted searches supplied evidence. No git, renderer, executable fixture, validator or test suite was run.
+
+- [Pass] **S1 / move path ownership:** plan `:97–102` permits v1's README fixes and requires every relative documentation link to resolve. Its explicit belief-reference target is correct; the four-parent RT matches all three destination depths. Scripts resolve fixtures and outputs through ROOT (system `:7–14,229–235`, factory `:8–15,232–240`, shift `:8–15,199–206`). Read-only path probe: `python3 -c 'import posixpath; from pathlib import Path; p=posixpath.normpath(posixpath.join("examples/xyz-forge/today/system-v1","../../../2026-10-12-belief-reference/README.md")); print(p,Path(p).is_file())'` is the path calculation used in the combined Python probe; exit 0, decisive output `v1 rewritten link examples/2026-10-12-belief-reference/README.md True`. That combined probe printed RT `.` for each proposed destination. No move was executed.
+- [Pass] **S2 / content and fit checks:** plan `:125–128` now requires exact generated HTML caption equality, both-PNG inspection at full and thumbnail size, empty findings and repeatable digests. The current factory helper/consumer `:47–50,155` emits `starttask_caption`; shift `:42–45,125` emits `open_caption`. These are real text-bearing elements, unlike the receipt schema (factory `:239`, shift `:205`). The stale-HTML rejection is explicit at plan `:126–127`.
+- [Pass] **S3 / falsification:** plan `:72–75,131–137` correctly distinguishes the unregistered Open caption from registered containers and specifies a nonzero geometry failure naming `open_caption`, with mutation, command, exit, finding and restored PASS retained in Evidence. Shift `:182,187–189,200–207` supports the canvas/overlap diagnostic and explains why the failed receipt must be retained before restore. This is sufficient at plan time; actual mutation sensitivity remains **[Unverified — needs clone run]**.
+- [Pass] **S4 / reference scope and history:** plan `:138–141` allows its historical recon/mapping and this task's relay while rejecting live old-path references under examples; promotion updates related pointers. Probe command: `rg -l --hidden -g '!.git' -g '!node_modules/**' -g '!.relay-scratch/**' '2026-10-14-xyz-forge-system|2026-10-15-xyz-forge-software-factory|2026-10-15-xyz-forge-shift-proposal' .`; exit 0. Decisive file set: the three example folders (including shift's generated HTML), CHANGELOG, GH-55/GH-60 completed docs, dated GH-55/GH-60 relays, this plan and this relay. No additional live consumer appeared in that bounded search. Separate `rg -n` over tools/catalog.sql, tools/design-log.jsonl, canaries, root README and test-budget returned exit 1, no matches. Default governance dead-reference scope is the named governance docs (`utils/pdda/pdda.sh:884,1271,1293`); hardcoded-paths checks machine-specific prefixes (`:235–240`). Leaving dated history alone is appropriate.
+- [Pass] **Requirements and proportionality:** plan `:93–112` delivers Today + Future grouping, the prior-art captions at /start-task and proposed morning Open, the index and requested ignore content; `:114–118` excludes unrelated runtime, test and catalog changes. The prior-art description is accepted as the requirement per Setup. The future disclaimer remains in shift fixture `:6–7,70` and README `:3`. No additional node, framework, suite or catalog registration is warranted.
+- [Nit] **Provenance wording remains stronger than the disposition says:** plan `:68–69` still says “seen as an uncommitted hunk ... not present on origin/main”; the seeded root .gitignore ends at `/temp/`. The supplied tree supports absence here, not independent observation of the primary checkout or origin. When updating the plan, prefer “operator-requested content, reported from the primary checkout.” This is nonblocking because the requested three lines and authorization are explicit at `:35–36,68–69,111`.
+
+Limits: pre-change rerender witness, post-move byte identity, caption fit/legibility, negative-control execution, determinism, catalog, PDDA and pnpm results remain **[Unverified — needs clone run]**. Startup `python3 .xyz/utils/py/releases_app.py roadmap list` exited 2 because that file is absent in this seeded worktree; no replacement was created.
+
+Relay closed (Approved), no further turn needed. Producer (claude-a) may proceed to implementation and retain the specified clone-run receipts.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
