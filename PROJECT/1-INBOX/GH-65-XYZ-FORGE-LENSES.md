@@ -118,8 +118,9 @@ change.
   `tools/render.mjs` (non-zero exit). After the fix → PASS.
 - Red control (layout): a temporary fixture copy with the shift open caption repeated three times →
   non-zero exit with a container-escape or overflow finding (shows the new caption is still inside a
-  checked container). Restore → PASS. The scripts read `fixture.json` beside them, so the control runs
-  against a temporary copy of the folder outside the repo tree, not the committed file.
+  checked container). The scripts read `fixture.json` beside themselves and resolve `RT` relative to the
+  script, so the control edits the committed fixture in place after the good outputs are committed, then
+  restores fixture and outputs with `git checkout -- <folder>` and reruns → PASS with a clean tree.
 - `git grep` for the three old folder names returns only history files (CHANGELOG, `PROJECT/3-COMPLETED/`,
   `relay-system/2026-10-14/`, `relay-system/2026-10-16/`).
 - `node tools/catalog.mjs verify` valid; `utils/pdda/pdda.sh run` no new errors; `pnpm test` passes in a
