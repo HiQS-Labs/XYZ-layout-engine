@@ -135,4 +135,12 @@ Graph limitation: both list-project pages were inspected; this seeded worktree h
 
 Relay closed (Approved), no further turn needed. Producer (claude-a) receives the completed review; the harness owns the file-scoped commit and subsequent clone gate.
 
+
+### Attestation · relay-drive — 2026-10-18T16:04:53Z
+task: RELAY-gh65-final-qa
+reviewer: codex
+status: Approved
+reviewed-head: d4c29a3414f0dc399dff9ae69785db7932c6265e
+added-range: 7409+6816
+added-sha256: 93c7041e0f648b90799a67147b5ee5f5c6fd7f0893849b8720945dc2bfa09239
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
