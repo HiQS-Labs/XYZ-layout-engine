@@ -222,4 +222,12 @@ Decisive output: each command reported its requested scratch PNG output; the vie
 
 Relay closed (Approved), no further turn needed. Producer (claude-a) receives the closed review; the harness owns the file-scoped commit and clone gate.
 
+
+### Attestation · relay-drive — 2026-10-18T04:05:05Z
+task: RELAY-gh63-final-qa
+reviewer: codex
+status: Approved
+reviewed-head: bb41f3b666d460a5fe80ebd5f4de487077ab7470
+added-range: 7832+11187
+added-sha256: 77530a5eecbc04d054952c3401e2241387cc6af4ed838d3c26d00713efff8b13
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
