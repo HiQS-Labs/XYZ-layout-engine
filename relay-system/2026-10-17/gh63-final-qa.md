@@ -52,12 +52,13 @@ ROUND: 1 / 3
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: the committed implementation on this branch versus `origin/main` (`6facd4c`):
-  `examples/2026-10-17-vibe-coding-loop/**` (render script, fixture, DESIGN.md, ASSETS.md, README,
+- Artifact under review: `examples/2026-10-17-vibe-coding-loop/README.md` and the rest of the committed
+  implementation on this branch versus main at 6facd4c (diff with git diff 6facd4c..HEAD):
+  examples/2026-10-17-vibe-coding-loop/** (render script, fixture, DESIGN.md, ASSETS.md, README,
   artwork.json, provenance.json, receipts, assets/web PNGs, outputs, verification.json), `CHANGELOG.md`
   (top entry), and the plan + acceptance map + evidence in `PROJECT/2-WORKING/GH-63-VIBE-CODING-LOOP.md`.
   Plan QA thread (approved): `relay-system/2026-10-17/gh63-plan-qa.md`. View the PNGs directly
-  (`vibe-coding-loop.png`, `vibe-coding-loop-chromium.png`) for the visual checks.
+  (`examples/2026-10-17-vibe-coding-loop/vibe-coding-loop.png`, `examples/2026-10-17-vibe-coding-loop/vibe-coding-loop-chromium.png`) for the visual checks.
 - Operational envelope: a documentation example in a public repo, rendered locally by one developer.
   Grade against the plan's requirements 1–7 and acceptance checks and commensurate complexity. Do not ask
   for recipes, catalog entries, new tests or engine machinery the approved plan scoped out.
