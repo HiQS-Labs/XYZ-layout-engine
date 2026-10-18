@@ -1,0 +1,40 @@
+{
+  "id": "vibe-coding-loop-artwork",
+  "version": "1.0.0",
+  "sharedStyle": "Soft matte 3D illustration with rounded, friendly forms and smooth clay-like surfaces. Restrained palette: cobalt blue, warm orange, deep green, off-white and charcoal details. Soft even light from the upper right. Single object standing upright on an invisible flat surface, slight three-quarter front view, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no letters, no numbers, no labels.",
+  "reference": null,
+  "generation": {
+    "model": "gpt-image-2.5-flare",
+    "endpoint": "generate",
+    "size": "1024x1024",
+    "quality": "high",
+    "background": "transparent"
+  },
+  "assets": [
+    {
+      "id": "idea",
+      "step": "01 Describe your idea",
+      "subject": "A cobalt-blue rounded speech bubble standing upright on its tail, with a small off-white light bulb resting on its top edge."
+    },
+    {
+      "id": "code",
+      "step": "02 AI generates code",
+      "subject": "A small warm-orange laptop with its lid open, the screen showing abstract rows of off-white and charcoal bars that suggest code, with no readable characters."
+    },
+    {
+      "id": "live",
+      "step": "03 You see it live",
+      "subject": "A small off-white desktop monitor on a short stand, its screen showing a simple cobalt-blue app layout with a play-button triangle in the middle."
+    },
+    {
+      "id": "refine",
+      "step": "04 You refine it",
+      "subject": "A cobalt-blue pencil leaning against a small upright off-white card that shows a simple app layout, with one box on the card circled in pencil."
+    },
+    {
+      "id": "ship",
+      "step": "Exit: Ship it",
+      "subject": "A small deep-green and off-white rocket standing upright on its three fins, ready to launch, with no flame and no smoke."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "width": 1600,
+  "height": 1200,
+  "eyebrow": "DIAGRAM · 4/7",
+  "title": "The Vibe-Coding Loop",
+  "subtitle": "Building with AI is a conversation, not a download.",
+  "steering": "You stay in the loop, steering what the AI produces.",
+  "legend": [
+    { "actor": "you", "name": "You", "role": "steer and judge" },
+    { "actor": "ai", "name": "AI", "role": "writes the code" }
+  ],
+  "steps": [
+    { "id": "describe", "number": "01", "actor": "you", "asset": "idea", "title": "Describe your idea", "caption": "Say what you want, in plain words." },
+    { "id": "generate", "number": "02", "actor": "ai", "asset": "code", "title": "AI generates code", "caption": "It writes a working first draft." },
+    { "id": "see", "number": "03", "actor": "you", "asset": "live", "title": "You see it live", "caption": "Run it. Does it do what you meant?" },
+    { "id": "refine", "number": "04", "actor": "you", "asset": "refine", "title": "You refine it", "caption": "Point at what's off; ask for changes." }
+  ],
+  "exit": { "tag": "EXIT", "asset": "ship", "title": "Ship it", "caption": "Done when it works." },
+  "connectors": { "notYet": "not yet", "itWorks": "it works", "repeat": "repeat until done" },
+  "footer": "Schematic of the workflow, not measured data. Step illustrations are AI-generated (gpt-image-2.5-flare).",
+  "actors": {
+    "you": { "tag": "YOU" },
+    "ai": { "tag": "AI" }
+  },
+  "assets": {
+    "idea": { "visibleBox": { "x0": 102, "y0": 35, "x1": 414, "y1": 488 } },
+    "code": { "visibleBox": { "x0": 65, "y0": 65, "x1": 491, "y1": 456 } },
+    "live": { "visibleBox": { "x0": 66, "y0": 35, "x1": 454, "y1": 485 } },
+    "refine": { "visibleBox": { "x0": 88, "y0": 50, "x1": 406, "y1": 456 } },
+    "ship": { "visibleBox": { "x0": 127, "y0": 15, "x1": 385, "y1": 496 } }
+  },
+  "theme": {
+    "palette": {
+      "ground": "#FFFFFF",
+      "ink": "#14161A",
+      "muted": "#4A5160",
+      "rule": "#E3E5EA",
+      "connector": "#7A808C",
+      "shadow": "#1B2433",
+      "youFill": "#EAF0FC",
+      "youLine": "#BFD0F5",
+      "youInk": "#1F4FC4",
+      "aiFill": "#FDEFE4",
+      "aiLine": "#F2C7A5",
+      "aiInk": "#A8480B",
+      "exitFill": "#FFFFFF",
+      "exitInk": "#2F7D4F"
+    },
+    "type": {
+      "family": "Barlow Condensed",
+      "pct": { "headline": 0.09, "subhead": 0.03, "label": 0.024, "body": 0.019 }
+    }
+  }
+}

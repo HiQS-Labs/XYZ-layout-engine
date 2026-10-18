@@ -1,0 +1,90 @@
+{
+  "renderer": "Shared root tools/render.mjs renderSatori / renderPlaywright; vendored Barlow Condensed; cutouts via readPinnedPngs",
+  "width": 1600,
+  "height": 1200,
+  "as12": {
+    "S": 1200,
+    "px": {
+      "headline": 108,
+      "subhead": 36,
+      "label": 29,
+      "body": 23
+    },
+    "distinctSizes": [
+      108,
+      36,
+      29,
+      23
+    ],
+    "headlinePctOfS": 0.09,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.7,
+    "headlinePctOfWidth": 0.553,
+    "capHeightPx": 75.6,
+    "maxGraphicHeightPx": 170,
+    "maxGraphicToCap": 2.25,
+    "legendLabelToSwatch": 1.05
+  },
+  "graphics": [
+    {
+      "asset": "idea",
+      "visibleHeight": 170,
+      "visibleWidth": 117
+    },
+    {
+      "asset": "code",
+      "visibleHeight": 147,
+      "visibleWidth": 160
+    },
+    {
+      "asset": "live",
+      "visibleHeight": 170,
+      "visibleWidth": 147
+    },
+    {
+      "asset": "refine",
+      "visibleHeight": 170,
+      "visibleWidth": 133
+    },
+    {
+      "asset": "ship",
+      "visibleHeight": 112,
+      "visibleWidth": 60
+    }
+  ],
+  "textIds": [
+    "tag_describe",
+    "title_describe",
+    "caption_describe",
+    "tag_generate",
+    "title_generate",
+    "caption_generate",
+    "tag_see",
+    "title_see",
+    "caption_see",
+    "tag_refine",
+    "title_refine",
+    "caption_refine",
+    "tag_exit",
+    "title_exit",
+    "caption_exit",
+    "lbl_notyet",
+    "lbl_works",
+    "lbl_repeat",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "steering",
+    "legend_you_name",
+    "legend_you_role",
+    "legend_ai_name",
+    "legend_ai_role",
+    "footer"
+  ],
+  "artifactDigests": {
+    "png": "a530c6c2079f8b8cf0262a87851eeb832999ef9d57d4842593c41ad0ca7cd358",
+    "chromiumPng": "3cfeb34b5f8b5ccb8fb6885335ccbd0e6f90dc4f7f2b0b1d110cd6653297b4ee",
+    "html": "ec61035e1403d0b8595720f1dde12d30ded5f45d3a92c4d8d94537de9530b324"
+  },
+  "findings": []
+}

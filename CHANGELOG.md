@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-17 — GH-63: "The Vibe-Coding Loop" diagram with small PNG cutouts
+
+- Added `examples/2026-10-17-vibe-coding-loop/`: slide 4/7 of an intro deck, redesigned from an operator-supplied slide whose dashed ring collided with its nodes and labels. Four steps in a clockwise 2×2 loop with You/AI actor colouring, a "repeat until done" return arrow, a "not yet" / "it works" decision at step 03 and a dashed "Ship it" exit. Structure first reviewed on a Claude Design canvas.
+- Built through the nutrition example's lens: a `DESIGN.md` brief in the Google alpha profile, a fixture that owns copy and palette, an AS-12 scale computed from `S = 1200` (108/36/29/23 px), and five transparent `gpt-image-2.5-flare` cutouts (5 paid calls, all first-attempt) pinned in `provenance.json` and loaded with `readPinnedPngs`. Each cutout stands on its card's floor line with a two-layer contact/cast ground shadow (AS-11), drawn locally rather than imported from the pinned `nutrition.mjs`.
+- One-off example (GH-55/GH-60 pattern): no recipe, catalog, renderer, font or test change.
+- Verification: script passes in both backends (1600×1200) with repeatable digests; red controls exit 1 (fourfold caption escapes `text_describe`; a different valid PNG under `idea` fails `display digest mismatch`; body at 1.4% of S fails the AS-12 floor), each restored to a byte-identical `verification.json`. Inspected at full size, 533 px and 400 px: the loop reads on a phone, the 23 px captions do not without zoom. Plan QA approved by Codex in round 2.
 ## 2026-10-14 — GH-50 optional transparent WebP artwork (`recursive-process@6.0.0`)
 
 - `readPinnedPngs` (`tools/request.mjs`) takes an optional `format` (`'png'` default, or `'webp'`). WebP artwork is checked by a new header-only `inspectWebp` (RIFF length, VP8X alpha flag or lossless VP8L alpha bit; plain VP8 refused), with the same realpath containment, per-asset and aggregate budgets, and SHA-256 pinning (`webp.sha256` in provenance). It lives in `request.mjs` rather than `tools/spike/assets.mjs` so the nutrition and solar-system declared modules stay byte-identical. Refs #50.
