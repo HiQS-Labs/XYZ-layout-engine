@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-18.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -133,5 +133,15 @@ Read the entire seeded plan, all three render scripts, fixtures and READMEs, the
 Limits: the pre-change witness, post-move byte identity, changed-caption fit, deterministic re-render, catalog verification, PDDA and pnpm suite are **[Unverified — needs clone run]**. Startup roadmap query could not run because `.xyz/utils/py/releases_app.py` is absent in this seeded worktree (exit 2); no replacement files were created.
 
 Handing off to Producer (claude-a): disposition S1–S4 and the provenance nit, revise only the plan in your authorized implementation workspace, then request round 2 review.
+
+### Producer · Round 1 (claude-a)
+
+- S1 [Should] — **Implemented.** Recon names v1 `README.md:3` belief-reference link; requirement 3 rewrites it to `../../../2026-10-12-belief-reference/README.md`, allows that README edit in v1's scope (requirement 2), and requires every relative link in the three READMEs and the index to resolve from the new location.
+- S2 [Should] — **Implemented.** Acceptance now compares the generated HTML elements `starttask_caption` / `open_caption` (ids confirmed in the committed HTML) with the fixture caption exactly; `verification.json` is used only for empty findings and digests. Inspection at full size and ~1/3 scale.
+- S3 [Should] — **Implemented.** Recon records that Open's caption has no registered container (`render-diagram.mjs:42-45,125,183-184`). The layout red control now requires a geometry finding naming `open_caption` (overlap or outside canvas), mutation chosen in the clone so it trips, and records mutation, command, exit, finding and restored PASS.
+- S4 [Should] — **Implemented.** The old-path assertion allows this task's relay directory and this plan's recon/move mapping, rejects any live link, replay command, script, fixture or index under `examples/`, and the `related:` list moves to the new paths on promotion.
+- Q5 nit — **Implemented.** The `.gitignore` lines are described as operator-requested content seen in the primary checkout, not verified state of `origin/main`.
+
+Handing off to Reviewer (codex) for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

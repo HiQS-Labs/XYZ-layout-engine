@@ -49,7 +49,8 @@ side by side, future holds the `/shift` proposal.
   `PROJECT/3-COMPLETED/GH-55-…md`, `PROJECT/3-COMPLETED/GH-60-…md`, `relay-system/2026-10-14/gh55-*`,
   `relay-system/2026-10-16/gh60-*`. Nothing in `tools/`, `tools/catalog.sql`, `tools/design-log.jsonl`,
   `test-budget.json`, the canaries or root `README.md` names these folders, so the move touches no pinned or
-  tested path. Inside the folders: factory `README.md:3` links `../2026-10-14-xyz-forge-system/README.md`;
+  tested path. Inside the folders: v1 `README.md:3` links `../2026-10-12-belief-reference/README.md` (found
+  by plan QA); factory `README.md:3` links `../2026-10-14-xyz-forge-system/README.md`;
   shift `README.md:3` links `../2026-10-15-xyz-forge-software-factory/README.md`; shift `fixture.json:71`
   (footer source) names `examples/2026-10-15-xyz-forge-software-factory/`; factory `render-diagram.mjs:7`
   comment names `examples/2026-10-14-xyz-forge-system/`; each README's replay command names its path.
@@ -64,8 +65,14 @@ side by side, future holds the `/shift` proposal.
   nor does v1.
 - Captions render in fixed-width label boxes; each script fails on container escape, Chromium overflow and
   text overlap, so a longer caption that does not fit is caught.
-- Primary checkout `.gitignore` carries an uncommitted hunk added by Aider Studio:
-  `# Aider Studio (auto-added)`, `REPO_MAP.md`, `.aider/`.
+- Operator-requested `.gitignore` content (seen as an uncommitted hunk in the operator's primary checkout,
+  added by Aider Studio; not present on `origin/main`): `# Aider Studio (auto-added)`, `REPO_MAP.md`, `.aider/`.
+- Caption elements in the generated HTML: v2 `id="starttask_caption"`, shift `id="open_caption"`.
+  `verification.json` holds ids, dimensions, digests and findings only, not caption text.
+- Shift `render-diagram.mjs:42-45` builds node labels with `T` but registers no container for them
+  (`:125` Open label; container checks `:183-184` cover registered ids only). Open's caption is auto-height,
+  so a longer caption is caught by the pairwise text-overlap or canvas check (`:189`), not by container
+  escape.
 
 ## Preflight bet check
 
@@ -87,9 +94,12 @@ side by side, future holds the `/shift` proposal.
    `examples/2026-10-14-xyz-forge-system/` → `examples/xyz-forge/today/system-v1/`;
    `examples/2026-10-15-xyz-forge-software-factory/` → `examples/xyz-forge/today/software-factory-v2/`;
    `examples/2026-10-15-xyz-forge-shift-proposal/` → `examples/xyz-forge/future/shift-proposal/`.
-2. Each script's `RT` becomes `new URL('../../../../',import.meta.url)`; nothing else in v1 changes.
-3. In-folder references updated: the two README cross-links, the three README replay commands, the shift
-   footer source path, the factory script comment.
+2. Each script's `RT` becomes `new URL('../../../../',import.meta.url)`. In v1 only that line and the
+   README path edits in requirement 3 change; its rendered outputs stay byte-identical.
+3. In-folder references updated: v1's belief-reference link → `../../../2026-10-12-belief-reference/README.md`,
+   the factory → v1 and shift → factory README cross-links, the three README replay commands, the shift
+   footer source path, the factory script comment. Every relative link in the three READMEs and the index
+   resolves from its new location.
 4. Prior-art search in both lenses:
    - v2 `nodes.startTask.caption`: "Prior-art check, fresh clone, recon, plan, Codex plan QA, build, gates,
      final QA."
@@ -112,17 +122,23 @@ change.
 - v1 after the move: `node examples/xyz-forge/today/system-v1/render-diagram.mjs` passes and its committed
   PNG, Chromium PNG, HTML and `verification.json` are byte-identical to the pre-move files (git shows a pure
   rename, 100% similarity).
-- v2 and shift: each script prints `PASS`; the new caption text appears in its `verification.json` text and
-  in both PNGs (inspected); two consecutive runs give identical digests.
+- v2 and shift: each script prints `PASS` with empty `findings`; the text of the generated HTML element
+  `starttask_caption` (v2) / `open_caption` (shift) equals the new fixture caption exactly (stale HTML with
+  the old caption fails this); the caption is visible in both PNGs, inspected at full size and at a
+  ~1/3-scale thumbnail; two consecutive runs give identical digests.
 - Red control (path): before fixing `RT` in the moved v1 script, running it fails to resolve
   `tools/render.mjs` (non-zero exit). After the fix → PASS.
-- Red control (layout): a temporary fixture copy with the shift open caption repeated three times →
-  non-zero exit with a container-escape or overflow finding (shows the new caption is still inside a
-  checked container). The scripts read `fixture.json` beside themselves and resolve `RT` relative to the
+- Red control (layout): an oversized shift `nodes.open.caption` (mutation chosen in the clone so it actually
+  trips a check, starting from the caption repeated three times) → non-zero exit with a geometry finding
+  that names `open_caption` (overlap or text outside canvas). A failure for any other field or an import
+  error does not count. Record mutation, command, exit code, decisive finding and restored PASS in Evidence.
+  The scripts read `fixture.json` beside themselves and resolve `RT` relative to the
   script, so the control edits the committed fixture in place after the good outputs are committed, then
   restores fixture and outputs with `git checkout -- <folder>` and reruns → PASS with a clean tree.
-- `git grep` for the three old folder names returns only history files (CHANGELOG, `PROJECT/3-COMPLETED/`,
-  `relay-system/2026-10-14/`, `relay-system/2026-10-16/`).
+- `git grep` for the three old folder names returns only history: CHANGELOG entries, `PROJECT/3-COMPLETED/`,
+  `relay-system/2026-10-14/`, `relay-system/2026-10-16/`, `relay-system/2026-10-18/` (this task's threads)
+  and this plan's own recon and move mapping. No live link, replay command, script, fixture or index under
+  `examples/` names an old path. On promotion, this doc's `related:` list points at the new paths.
 - `node tools/catalog.mjs verify` valid; `utils/pdda/pdda.sh run` no new errors; `pnpm test` passes in a
   disposable clone.
 
