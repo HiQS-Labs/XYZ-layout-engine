@@ -3,7 +3,7 @@ gh_issue: 65
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65
 title: "XYZ Forge examples: one folder with today/future lenses; add the prior-art search to both"
 goal: "Group the three XYZ Forge diagrams under examples/xyz-forge/{today,future}/ and show the prior-art search where the factory runs it."
-status: "In progress — final QA Approved; PR ready, awaiting merge"
+status: "Completed — landed in PR #66 (82cf25b) on 2026-10-18"
 created: 2026-10-18
 updated: 2026-10-18
 owner: Claude
@@ -26,7 +26,7 @@ reversibility: "Easy — three folder moves (git mv), one relative-path line per
 
 | What was just completed | What's next |
 |---|---|
-| Final QA Approved by Codex in round 1; PR opened against `main` | Merge, then archive to 3-COMPLETED and reconcile the ledger |
+| Landed in PR #66 (`82cf25b`); archived to 3-COMPLETED, ledger row Completed | None |
 
 ## Why
 
@@ -153,7 +153,7 @@ change.
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#65](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65) | 1–7 | `XYZ-layout-engine-gh65-xyz-forge-lenses-2026-10-18` / `chore/…` | PR ready; awaiting merge |
+| [#65](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65) | 1–7 | `XYZ-layout-engine-gh65-xyz-forge-lenses-2026-10-18` / `chore/…` | Landed in #66 (`82cf25b`) |
 
 ## Rating rationale (2026-10-18)
 
@@ -181,3 +181,4 @@ established pattern with existing layout checks. Recurrence: not applicable; tre
 | Final QA | Codex, 1 round, Approved (`relay-system/2026-10-18/gh65-final-qa.md`); reviewer re-resolved all 9 links, confirmed caption/HTML equality and an empty old-path scan under `examples/`; one pre-existing nit (v2 says "seven" commands but lists six roles, `/review-pr` being an alias) |
 | Diff hygiene (b38e0d3..HEAD) | v1 outputs are 100% renames; edits limited to the stated files, `.gitignore`, CHANGELOG, plan, relay threads, ledger; no `tools/`, `test-budget.json`, `.xyz`, `.claude`, `node_modules` or `.relay-scratch` paths; no home-directory paths |
 | Post-approval copy fix (operator request, 2026-10-18) | dropped the numeral: v2 subtitle "Operator commands carry work…", README "the skills that move work", script comment names six nodes plus the `/review-pr` alias; v2 re-rendered `PASS: 86 text ids and 2 icons`, repeat identical (`e0964bbe…`), header inspected. Independent review did not run for this copy change; deterministic checks only |
+| Archive | `/express --docs-only` requested; refused at pre-flight in this repo (no `origin/development`, `validate.sh`/`test/pdda-repo-contract.sh` or `githooks/install.sh`). Archived by the repo's precedent instead: one bookkeeping commit to `main` (as GH-50, GH-63), PDDA gate run first |
