@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-17.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -95,5 +95,54 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+swept file: yes
+
+VERDICT: FAIL
+Basis: The one-folder plan is appropriately sized and its asset reader really enforces hashes, but red control 2 does not test that enforcement. Fix R1 before implementation. Reviewed the entire plan, including existing Recon/Requirements/Acceptance text; the issues below include those pre-existing sections. No source or artifact was edited. Reversibility: Easy (plan corrections only).
+
+- [Should] **R1 — Make the pinning red control reach the digest check.** Plan `PROJECT/1-INBOX/GH-63-VIBE-CODING-LOOP.md:140–141` appends a byte. `tools/request.mjs:64–66` validates PNG structure **before** comparing the hash; `tools/spike/assets.mjs:28–33` rejects trailing bytes. The proposed control therefore stays red even if the digest comparison is removed. Replace it with a structurally valid, different PNG under the same asset id while retaining the original provenance pin; require the specific `display digest mismatch`, then restore and require PASS. Record the command, exit/message and restored result in the plan's Evidence table at implementation QA.
+  Observed input: copied nutrition `balance_scale.png`, original provenance pin, then one appended zero byte; actual rejection was `Unsupported PNG chunk/order`. A valid `water_bottle.png` copied to the same `balance_scale.png` path instead produced `Validation failed: [{"field":"asset.balance_scale","message":"display digest mismatch"}]`.
+  Affected scope: this plan's red control 2 only; no asset-reader or PNG-validator change.
+  Falsifier: a control using a valid replacement PNG must fail specifically on digest mismatch with unchanged provenance, while the original bytes pass; a structural error instead means the control still does not exercise pinning.
+  Probe command: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; node --input-type=module` with the following stdin (exit 0; the exceptions are deliberately printed):
+  ```js
+  import fs from 'node:fs/promises';
+  import path from 'node:path';
+  import {pathToFileURL} from 'node:url';
+  import {readPinnedPngs} from './tools/request.mjs';
+  const base=path.join(process.env.TMPDIR,'pin-probe');
+  await fs.mkdir(path.join(base,'assets/web'),{recursive:true});
+  const src='examples/2026-10-13-nutrition-infographic/';
+  const proof=JSON.parse(await fs.readFile(src+'provenance.json','utf8'));
+  await fs.writeFile(path.join(base,'provenance.json'),JSON.stringify(proof));
+  const orig=await fs.readFile(src+'assets/web/balance_scale.png');
+  const target=path.join(base,'assets/web/balance_scale.png');
+  const url=pathToFileURL(base+'/');
+  for (const [name,bytes] of [['original',orig],['appended-byte',Buffer.concat([orig,Buffer.from([0])])],['valid-other-png',await fs.readFile(src+'assets/web/water_bottle.png')]]) {
+    await fs.writeFile(target,bytes);
+    try { await readPinnedPngs(url,'provenance.json',['balance_scale']); console.log(name+': accepted'); }
+    catch(e) { console.log(name+': '+e.message); }
+  }
+  ```
+  Decisive output: `original: accepted`; `appended-byte: Unsupported PNG chunk/order`; `valid-other-png: Validation failed: [{"field":"asset.balance_scale","message":"display digest mismatch"}]`.
+
+- [Pass] **Scope and reuse (questions 1–2).** The one-off requirement needs no recipe or catalog entry: the precedent imports shared backends at `examples/2026-10-16-skill-trigger/render-diagram.mjs:10` and calls them at `:129–135`. `groundShadowUri` is unexported at `tools/recipes/nutrition.mjs:70`, with the local caller at `:127`; reproducing its small two-ellipse technique avoids a pinned edit. Importing a pinned module is fine; editing it is the risk. An in-memory SQLite query over `tools/catalog.sql` (`python3`, exit 0; `select count(*) from recipe_version_files where path=?`) returned render=6, request=11, nutrition=6, catalog.sql=0, precedent script=0. The new folder plus doc/changelog/ledger scope at plan `:23,74–80,131` avoids those pinned code files.
+
+- [Pass] **Numeric type proposal and family (questions 3–4), conditional on actual renders.** Plan `:86–96` computes 96/36/29/23 px, four sizes, body above 21.6 px and ratio 96/23 = 4.174. Reusing body for the footer and label for actor tags adds no size. AS-5 in `SYSTEM-INSTRUCTIONS.md` explicitly allows the Barlow Condensed default and requires a wider face for long paragraphs; the proposed short copy does not force another family. Width, visible graphic height, legend ratios, whitespace allocation, three-tier squint hierarchy and phone readability remain measurements/inspection, not established compliance. Plan `:123–127,145` provides their measurement/reporting path; retain the explicit squint/readability observations in that report.
+
+- [Pass] **Asset pipeline (question 5).** Plan `:51–61,112–119,144` calls for one shared style, five subjects, source/display hashes, sanitized receipts, verified alpha/zero opaque corners, and README/footer disclosure. The explicit ten-call maximum is bounded; stop before dispatching an eleventh call. The installed `hiqs-image/SKILL.md` states “each run is exactly one paid OpenAI call”; its saved-file alpha fields match the plan. Inspect the final web derivatives as well as the accepted originals.
+
+- [Nit] **Capture content parity explicitly (question 6).** Plan `:108–109` says “all copy (from the canvas, kept verbatim except where AS-12 forces shortening)” but does not transcribe the stage titles or the two full header lines. [Issue #63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63), read with `gh issue view 63 --repo HiQS-Labs/XYZ-layout-engine --json title,body` (exit 0), supplies “01 Describe your idea (You)”, “02 AI generates code (AI)”, “03 You see it live (You)”, “04 You refine it (You)”, the legend and both header lines. Add a short parity checklist, including directed return, the two step-03 branches and no connector/node/label collisions, to guide the already-planned AS-10 pass. Existing numerical text checks do not inspect arrow intersections. No new automated gate is needed.
+
+- [Nit] **Correct two Recon claims.** Plan `:64` calls `tools/catalog.sql` pinned, but the query above found zero recipe-file pins for it; it is the canonical catalog dump. Plan `:67` says “AGENTS.md: no new tests”; current AGENTS instead permits a test for a named material gap, and `test-budget.json` says “Test-like files anywhere in the repo count against testFiles.” Keeping this task free of new tests is still the appropriate scope decision.
+
+- [Unverified — needs clone run] **Remaining acceptance controls and gates (question 7).** No example exists yet, and this checkout has no `node_modules`. Red controls 1 and 3 are plausible specifications, not witnessed failures: ensure the temporary fixture actually feeds the script, the caption mutation overflows its fixed container, and the body floor is checked before other failures obscure it; retain red and restored evidence in the existing Evidence table. Both backend rendering, actual AS-12 measurements, repeatability, catalog verify, PDDA and pnpm test belong in the disposable full clone. No tests, executable fixtures or validation suites were run here.
+
+Evidence limits: Verify-tier graph attempt used nearest project `XYZ-layout-engine`; generation `2026-10-13T02:52:30Z` is for another checkout and excludes `tools/` and `examples/`. Symbol search returned zero; coverage marked all requested code paths excluded. All code claims above therefore use direct source reads and the narrow scratch probe, not graph completeness. Startup roadmap CLI was unavailable at both router-listed paths (exit 2, file not found); no ledger state is asserted.
+
+Handing off to Producer (claude-a) — fix R1, disposition the other findings, then open round 2 for Reviewer.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
