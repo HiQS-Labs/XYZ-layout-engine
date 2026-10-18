@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-10-18.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -92,5 +92,46 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: The folder/caption approach is proportionate, but the move misses a live README link and two acceptance checks claim evidence the scripts do not produce. Correct the plan before implementation. Reversibility: Easy (plan text only).
+swept file: yes
+
+Read the entire seeded plan, all three render scripts, fixtures and READMEs, their ignore files, GH-55 completion record, and the named reference surfaces. Pre-existing gaps relevant to these edits are reported below; no other actionable defect found in the plan sweep. Graph tools were unavailable; source reads and targeted `rg` were used. No git, render script, executable fixture, validator or test suite was run.
+
+- [Should] **S1 — include v1's belief-reference link in the move.** Plan `:52–55`, `:90–92` lists only two README cross-links, but `examples/2026-10-14-xyz-forge-system/README.md:3` also links `../2026-10-12-belief-reference/README.md`. After relocation it resolves inside `examples/xyz-forge/today/`, breaking navigation. Add its rewrite to `../../../2026-10-12-belief-reference/README.md`, explicitly allow this README edit under the v1 scope, and check all local README targets after moving.
+  Observed input: that exact relative link and destination `examples/xyz-forge/today/system-v1/`.
+  Affected scope: local relative documentation links in the three moved folders.
+  Falsifier: resolve the rewritten target from the destination folder; it must reach the existing belief-reference README while image links still reach sibling PNGs.
+  Probe: `python3 -c 'from pathlib import Path; t="../2026-10-12-belief-reference/README.md"; print((Path("examples/2026-10-14-xyz-forge-system")/t).is_file(), (Path("examples/xyz-forge/today/system-v1")/t).is_file())'`; exit 0, `True False`. This is path arithmetic against the seeded tree, not an executed move.
+
+- [Should] **S2 — assert caption content in HTML, not verification.json.** Plan `:115–116` requires the new caption in `verification.json` text, but factory script `:239` and shift script `:205` serialize only IDs, dimensions, digests and findings. Replace this with exact caption extraction from the generated HTML element (`starttask_caption` / `open_caption`), retain both-PNG inspection, and use JSON for empty findings/digests. No evidence-schema or engine change is needed.
+  Observed input: both seeded JSON objects have keys `renderer,width,height,textIds,iconIds,artifactDigests,findings`; neither contains caption values.
+  Affected scope: the two changed-caption content checks.
+  Falsifier: the generated HTML element contains the final fixture caption; stale HTML with the old caption must fail the check even when JSON findings are empty.
+  Probe: `python3 -c 'import json; from pathlib import Path; ds=["2026-10-15-xyz-forge-software-factory","2026-10-15-xyz-forge-shift-proposal"]; [print(d,list(json.loads((Path("examples")/d/"verification.json").read_text()))) for d in ds]'`; exit 0, both printed the keys above. No caption-text field exists.
+
+- [Should] **S3 — make the layout red control match the real check and preserve its receipt.** Plan `:119–123` says repeating `nodes.open.caption` proves it is inside a checked container. Shift `render-diagram.mjs:42–45` calls `T` without `within`; `:125` uses that helper for Open; `:183–184` only checks containers registered in that map. Its label is auto-height, so wrapping alone need not produce DOM overflow either. Existing pairwise text overlap (`:189`) is a suitable check; allow a specific `open_caption` overlap/canvas failure and select a mutation that actually trips it in the implementation clone. Record mutation, command, exit code, decisive finding and restored PASS in the plan Evidence section before the restoring run overwrites JSON (`:200–207`). Do not introduce a test or containment framework for this caption edit.
+  Observed input: `label('open',...,230,N.open.label,N.open.caption)` with no container registration for `open_caption`.
+  Affected scope: the caption red control and the containment claim at plan `:65–66`.
+  Falsifier: a clone run with an oversized Open caption exits nonzero and names `open_caption` in an actual geometry finding, then the restored fixture passes. A failure for a different field or import does not count.
+  Probe: `python3 -c 'from pathlib import Path; s=Path("examples/2026-10-15-xyz-forge-shift-proposal/render-diagram.mjs").read_text(); print("within" in s[s.index("const label="):s.index("const edgeText=")])'`; exit 0, `False`. **[Unverified — needs clone run]** Whether three repetitions trigger overlap/overflow has not been measured here. The current in-place control plus restore is workable in a disposable implementation clone with a known clean checkpoint; the question's outside-repo copy is no longer what plan `:121–123` specifies.
+
+- [Should] **S4 — scope the old-path reference assertion to allow this plan's historical recon.** Plan `:124–125` allows only CHANGELOG, completed docs and two dated relay directories. This plan itself contains the old paths at `:17–19`, `:41–55`, `:87–89`; this current relay also contains them. Promotion to 2-WORKING does not remove the recon or move mapping. Explicitly allow the plan's historical recon/mapping and this relay, update current `related` pointers when promoted, and distinguish historical mentions from unresolved live links.
+  Observed input: the old path at plan `:87` is intentionally the source side of the move.
+  Affected scope: post-move reference search acceptance, not unrelated history rewrites.
+  Falsifier: the assertion permits recorded move sources but rejects a leftover old replay command or current README link.
+  Probe: `rg -l '2026-10-14-xyz-forge-system|2026-10-15-xyz-forge-software-factory|2026-10-15-xyz-forge-shift-proposal' PROJECT/1-INBOX/GH-65-XYZ-FORGE-LENSES.md relay-system/2026-10-18/gh65-plan-qa.md`; exit 0, both files printed.
+
+- [Pass] **Q2 / scope:** each script derives `ROOT` from its own URL and routes fixture/output paths through `ROOT`, while renderer, Playwright and fonts use `RT` (system `:7–14`, factory/shift `:8–15` and their final write blocks). Four parent traversals fit the specified destinations. Keep the byte-identical v1 artifact check (plan `:112–114`) and snapshot expected bytes before rerunning. No new recipe, catalog registration, test or node is warranted by this request (`:74–81`).
+- [Pass] **Q1 / Q3:** exact old-folder-name search in `tools/catalog.sql`, `tools/design-log.jsonl`, canaries, root README and test-budget returned no matches (`rg -n` over those five paths, exit 1). Source search found the histories described in plan `:48–50`, plus S4's current documents. Default governance dead-reference scope is the named governance documents (`utils/pdda/pdda.sh:884`, `:1271`), not completed plans/relay history; hardcoded-paths checks machine-specific absolute prefixes (`:235–240`), not old relative example names. Leaving dated histories intact is appropriate; actual post-move PDDA results remain clone-run evidence.
+- [Pass] **Q4 / wording:** plan `:58–63`, taken as the agreed prior-art requirement per Setup, supports adding the v2 check to `/start-task` and a duplicate check to proposed morning Open (`:94–98`). Keep the future/not-built disclaimer. Inspection should include full size and thumbnail/mobile scale per SYSTEM-INSTRUCTIONS AS-10/AS-12; do not claim a new legibility win from a geometry PASS.
+- [Nit] **Q5 / provenance:** the three ignore entries are explicitly operator-authorized at plan `:35–36`, so carrying them is reasonable. However, a read of the supplied primary checkout's `.gitignore` this turn found no Aider hunk (exit 0; file ends at `/temp/`); describe the hunk as requested content rather than verified current uncommitted state (`:67–68`). No need to change scope.
+
+Limits: the pre-change witness, post-move byte identity, changed-caption fit, deterministic re-render, catalog verification, PDDA and pnpm suite are **[Unverified — needs clone run]**. Startup roadmap query could not run because `.xyz/utils/py/releases_app.py` is absent in this seeded worktree (exit 2); no replacement files were created.
+
+Handing off to Producer (claude-a): disposition S1–S4 and the provenance nit, revise only the plan in your authorized implementation workspace, then request round 2 review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
