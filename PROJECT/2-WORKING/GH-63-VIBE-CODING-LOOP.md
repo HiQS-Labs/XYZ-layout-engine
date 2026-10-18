@@ -3,7 +3,7 @@ gh_issue: 63
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63
 title: "Example: \"The Vibe-Coding Loop\" diagram with small PNG cutouts, in the nutrition-infographic lens"
 goal: "Render the operator-reviewed Vibe-Coding Loop diagram as a one-folder example with generated transparent cutouts, AS-11 ground shadows and an AS-12 type scale."
-status: "In progress — example built and verified; final QA next"
+status: "In progress — final QA Approved; PR ready, awaiting merge"
 created: 2026-10-17
 updated: 2026-10-17
 owner: Claude
@@ -28,7 +28,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Example built (`8608e6e`); script PASS in both backends; red controls and gates recorded below | Final Codex relay QA, then PR to `main` |
+| Final QA Approved by Codex in round 1; PR opened against `main` | Merge, then archive to 3-COMPLETED and reconcile the ledger |
 
 ## Why
 
@@ -177,7 +177,7 @@ No recipe, catalog, renderer, font or test change. No PDF export. No edit to the
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | Implementing |
+| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | PR ready; awaiting merge |
 
 ## Rating rationale (2026-10-17)
 
@@ -205,4 +205,6 @@ applicable (feature); trend unknown.
 | `node tools/catalog.mjs verify` | `valid: true`, no errors |
 | `utils/pdda/pdda.sh run` | no errors; 2 governance warnings (`ROUTER.md:84`, `utils/pdda/PDDA-INSTALL.md:347`), neither in a file this change touches |
 | `pnpm test` (disposable `--no-local` clone of `8608e6e`) | 4/4 canaries pass, `test-budget: PASS — 4 canaries in 40.6s (budget 60s)`; `test-budget.json` unchanged; tree clean after the run |
-| Relay side effect | the plan-QA relay turn deleted four tracked `.relay-scratch/pdf/*` files from the working tree; restored with `git checkout`, never committed |
+| Final QA | Codex, 1 round, Approved (`relay-system/2026-10-17/gh63-final-qa.md`); no findings; reviewer independently re-measured artifact digests, display hashes, receipts, `visibleBox` values, cap height and a pin probe; replay/gates left to the producer evidence above. First drive attempt exited 2 before review (`artifact path not found in worktree: origin/main`, a non-path in the Setup line); reworded and re-driven |
+| Diff hygiene (6facd4c..HEAD) | 27 files: the example folder, plan doc, two relay threads, CHANGELOG, releases.db/.sql; no `tools/`, `test-budget.json`, `.xyz`, `.claude`, `node_modules` or `.relay-scratch` paths; no home-directory paths in new files |
+| Relay side effect | each relay turn (plan QA and final QA) deleted four tracked `.relay-scratch/pdf/*` files from the working tree; restored with `git checkout` each time, never committed |
