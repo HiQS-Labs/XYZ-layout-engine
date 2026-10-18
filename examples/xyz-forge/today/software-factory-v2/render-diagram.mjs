@@ -4,9 +4,9 @@ import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 // Version 2 of the XYZ Forge example: the skills become the subject. Same shared renderer, bundled
-// Barlow Condensed and belief-reference vocabulary as examples/2026-10-14-xyz-forge-system/.
+// Barlow Condensed and belief-reference vocabulary as examples/xyz-forge/today/system-v1/.
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
-const RT=new URL('../../',import.meta.url);
+const RT=new URL('../../../../',import.meta.url);
 const {renderSatori,renderPlaywright}=await import(new URL('tools/render.mjs',RT).href);
 const {chromium}=await import(new URL('node_modules/playwright/index.mjs',RT).href);
 const fixture=JSON.parse(await fs.readFile(path.join(ROOT,'fixture.json'),'utf8'));
@@ -19,7 +19,7 @@ const node=(type,id,style,children,extra={})=>({type,props:{...(id?{id}:{}),styl
 const box=(id,style,children)=>node('div',id,{display:'flex',...style},children);
 const img=(id,src,x,y,w,h=w)=>node('img',id,{position:'absolute',left:x,top:y,width:w,height:h},undefined,{src});
 
-// The seven operator-named factory commands must all be present; the diagram is about them.
+// The operator-named factory commands (six nodes; /review-pr rides as an alias) must all be present; the diagram is about them.
 const FACTORY=['daily','workhorse','startTask','marathon','review','merge'];
 for(const k of FACTORY)assert.ok(N[k]?.token?.startsWith('/'),`factory node ${k} needs a slash-command token`);
 assert.equal(N.review.alias,'/review-pr','review node must carry the /review-pr alias');

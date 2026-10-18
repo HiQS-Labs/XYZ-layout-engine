@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 // Reuses the import-safe shared renderer, root dependencies and the bundled Barlow Condensed faces.
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
-const RT=new URL('../../',import.meta.url);
+const RT=new URL('../../../../',import.meta.url);
 const {renderSatori,renderPlaywright}=await import(new URL('tools/render.mjs',RT).href);
 const {chromium}=await import(new URL('node_modules/playwright/index.mjs',RT).href);
 const fixture=JSON.parse(await fs.readFile(path.join(ROOT,'fixture.json'),'utf8'));

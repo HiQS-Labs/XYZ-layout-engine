@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 // Future proposal (XYZ-forge#1081): the /shift outer loop over the version 2 factory skills. Same shared
 // renderer, bundled Barlow Condensed and belief-reference vocabulary as the two earlier versions.
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
-const RT=new URL('../../',import.meta.url);
+const RT=new URL('../../../../',import.meta.url);
 const {renderSatori,renderPlaywright}=await import(new URL('tools/render.mjs',RT).href);
 const {chromium}=await import(new URL('node_modules/playwright/index.mjs',RT).href);
 const fixture=JSON.parse(await fs.readFile(path.join(ROOT,'fixture.json'),'utf8'));
