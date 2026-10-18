@@ -3,7 +3,7 @@ gh_issue: 65
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65
 title: "XYZ Forge examples: one folder with today/future lenses; add the prior-art search to both"
 goal: "Group the three XYZ Forge diagrams under examples/xyz-forge/{today,future}/ and show the prior-art search where the factory runs it."
-status: "Captured — plan drafted, awaiting plan QA"
+status: "In progress — plan QA Approved (Codex, round 2), implementing"
 created: 2026-10-18
 updated: 2026-10-18
 owner: Claude
@@ -14,9 +14,9 @@ risk: 1
 phases: 1
 related:
   - PROJECT/3-COMPLETED/GH-55-XYZ-FORGE-DIAGRAM.md
-  - examples/2026-10-14-xyz-forge-system/
-  - examples/2026-10-15-xyz-forge-software-factory/
-  - examples/2026-10-15-xyz-forge-shift-proposal/
+  - examples/xyz-forge/today/system-v1/
+  - examples/xyz-forge/today/software-factory-v2/
+  - examples/xyz-forge/future/shift-proposal/
 reversibility: "Easy — three folder moves (git mv), one relative-path line per script, two caption edits with re-rendered outputs, link fixes, a .gitignore hunk, this doc, a changelog entry and the ledger row."
 ---
 
@@ -26,7 +26,7 @@ reversibility: "Easy — three folder moves (git mv), one relative-path line per
 
 | What was just completed | What's next |
 |---|---|
-| Issue filed, clone provisioned off `origin/main` (`b38e0d3`), pre-change witness run, plan drafted | Codex plan QA, then promote to 2-WORKING |
+| Plan QA Approved by Codex in round 2 (`relay-system/2026-10-18/gh65-plan-qa.md`) | Move folders, edit captions, verify |
 
 ## Why
 
@@ -65,8 +65,8 @@ side by side, future holds the `/shift` proposal.
   nor does v1.
 - Captions render in fixed-width label boxes; each script fails on container escape, Chromium overflow and
   text overlap, so a longer caption that does not fit is caught.
-- Operator-requested `.gitignore` content (seen as an uncommitted hunk in the operator's primary checkout,
-  added by Aider Studio; not present on `origin/main`): `# Aider Studio (auto-added)`, `REPO_MAP.md`, `.aider/`.
+- Operator-requested `.gitignore` content, reported from the operator's primary checkout (added by Aider
+  Studio): `# Aider Studio (auto-added)`, `REPO_MAP.md`, `.aider/`.
 - Caption elements in the generated HTML: v2 `id="starttask_caption"`, shift `id="open_caption"`.
   `verification.json` holds ids, dimensions, digests and findings only, not caption text.
 - Shift `render-diagram.mjs:42-45` builds node labels with `T` but registers no container for them
@@ -153,7 +153,7 @@ change.
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#65](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65) | 1–7 | `XYZ-layout-engine-gh65-xyz-forge-lenses-2026-10-18` / `chore/…` | Plan drafted |
+| [#65](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65) | 1–7 | `XYZ-layout-engine-gh65-xyz-forge-lenses-2026-10-18` / `chore/…` | Implementing |
 
 ## Rating rationale (2026-10-18)
 
@@ -166,4 +166,4 @@ established pattern with existing layout checks. Recurrence: not applicable; tre
 | Check | Result |
 |---|---|
 | Pre-change witness | three scripts rerun in place: `PASS` 77/86/73 text ids; tree clean afterwards |
-| Plan QA | pending |
+| Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-18/gh65-plan-qa.md`); S1 (missed v1 belief-reference link), S2 (caption check moved to HTML), S3 (red control targets `open_caption` geometry), S4 (old-path scan scope) applied; provenance nit applied |
