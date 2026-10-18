@@ -3,9 +3,9 @@ gh_issue: 63
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63
 title: "Example: \"The Vibe-Coding Loop\" diagram with small PNG cutouts, in the nutrition-infographic lens"
 goal: "Render the operator-reviewed Vibe-Coding Loop diagram as a one-folder example with generated transparent cutouts, AS-11 ground shadows and an AS-12 type scale."
-status: "In progress — final QA Approved; PR ready, awaiting merge"
+status: "Completed — landed in PR #64 (291d5b1) on 2026-10-18"
 created: 2026-10-17
-updated: 2026-10-17
+updated: 2026-10-18
 owner: Claude
 doc_type: feedback
 effort: 2
@@ -28,7 +28,7 @@ reversibility: "Easy — one new example folder, this doc, a changelog entry and
 
 | What was just completed | What's next |
 |---|---|
-| Final QA Approved by Codex in round 1; PR opened against `main` | Merge, then archive to 3-COMPLETED and reconcile the ledger |
+| Landed in PR #64 (`291d5b1`); archived to 3-COMPLETED, ledger row Completed | None |
 
 ## Why
 
@@ -177,7 +177,7 @@ No recipe, catalog, renderer, font or test change. No PDF export. No edit to the
 
 | Issue | Requirement | Clone / branch | State |
 |---|---|---|---|
-| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | PR ready; awaiting merge |
+| [#63](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/63) | 1–7 | `XYZ-layout-engine-gh63-vibe-coding-loop-2026-10-17` / `feat/…` | Landed in #64 (`291d5b1`) |
 
 ## Rating rationale (2026-10-17)
 
