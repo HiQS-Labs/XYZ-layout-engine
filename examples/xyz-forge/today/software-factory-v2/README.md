@@ -1,6 +1,6 @@
 # Example: XYZ Forge software factory (version 2)
 
-Version 2 of the [XYZ Forge system diagram](../system-v1/README.md). Version 1 drew the runtime: stages, harness modes, adapters, tick and records. This version makes the operator's commands the subject. It shows the seven skills that move work through the factory and how they hand work to each other: `/daily`, `/workhorse`, `/start-task`, `/marathon`, `/review-code` (alias `/review-pr`) and `/merge-cleanup`. It uses the same visual language as the belief-updating reference and version 1.
+Version 2 of the [XYZ Forge system diagram](../system-v1/README.md). Version 1 drew the runtime: stages, harness modes, adapters, tick and records. This version makes the operator's commands the subject. It shows the skills that move work through the factory and how they hand work to each other: `/daily`, `/workhorse`, `/start-task`, `/marathon`, `/review-code` (alias `/review-pr`) and `/merge-cleanup`. It uses the same visual language as the belief-updating reference and version 1.
 
 ![XYZ Forge software factory](xyz-forge-software-factory.png)
 

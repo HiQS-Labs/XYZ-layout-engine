@@ -4,6 +4,7 @@
 - Moved the three XYZ Forge examples under `examples/xyz-forge/`: `today/system-v1/` (was `2026-10-14-xyz-forge-system/`), `today/software-factory-v2/` (was `2026-10-15-xyz-forge-software-factory/`) and `future/shift-proposal/` (was `2026-10-15-xyz-forge-shift-proposal/`), with an index README. Pure renames; each script's repo-root URL gained two levels and in-folder links and replay commands were updated. v1's outputs are byte-identical after the move. Older changelog entries, completed plans and relay threads keep the old paths as history.
 - Both lenses now show the prior-art check `/start-task` runs before intake: v2's `/start-task` caption reads "Prior-art check, fresh clone, recon, plan, Codex QA, build, gates, final QA." ("Codex plan QA" shortened to fit two lines), and the shift proposal's morning open "runs a prior-art check to drop duplicates" before proposing the day's items.
 - Root `.gitignore`: Aider Studio's `REPO_MAP.md` and `.aider/` (operator request).
+- v2 no longer claims "seven" commands (it draws six nodes; `/review-pr` is an alias): subtitle, README and script comment drop the numeral.
 - Verification: all three scripts pass; v2 and shift captions match their fixtures in the generated HTML; repeat runs identical; red controls exit 1 (moved v1 script before the path fix: `Cannot find module …/examples/xyz-forge/tools/render.mjs`; tripled Open caption overlaps `routes_label` in both backends), each restored to PASS. Plan QA approved by Codex in round 2.
 ## 2026-10-17 — GH-63: "The Vibe-Coding Loop" diagram with small PNG cutouts
 

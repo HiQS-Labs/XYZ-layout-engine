@@ -19,7 +19,7 @@ const node=(type,id,style,children,extra={})=>({type,props:{...(id?{id}:{}),styl
 const box=(id,style,children)=>node('div',id,{display:'flex',...style},children);
 const img=(id,src,x,y,w,h=w)=>node('img',id,{position:'absolute',left:x,top:y,width:w,height:h},undefined,{src});
 
-// The seven operator-named factory commands must all be present; the diagram is about them.
+// The operator-named factory commands (six nodes; /review-pr rides as an alias) must all be present; the diagram is about them.
 const FACTORY=['daily','workhorse','startTask','marathon','review','merge'];
 for(const k of FACTORY)assert.ok(N[k]?.token?.startsWith('/'),`factory node ${k} needs a slash-command token`);
 assert.equal(N.review.alias,'/review-pr','review node must carry the /review-pr alias');
