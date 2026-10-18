@@ -1,0 +1,190 @@
+{
+  "generated": true,
+  "assets": {
+    "idea": {
+      "step": "01 Describe your idea",
+      "prompt": "A cobalt-blue rounded speech bubble standing upright on its tail, with a small off-white light bulb resting on its top edge. Soft matte 3D illustration with rounded, friendly forms and smooth clay-like surfaces. Restrained palette: cobalt blue, warm orange, deep green, off-white and charcoal details. Soft even light from the upper right. Single object standing upright on an invisible flat surface, slight three-quarter front view, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no letters, no numbers, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "attempt": 1,
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.6641387939453125,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "not retained (scratch generation output)",
+        "bytes": 1006154,
+        "sha256": "6f5c6f8911c822f99d10b6e4f9ef652b5a8e7ab4c491fa557f195bb9bf32b7f3"
+      },
+      "display": {
+        "path": "assets/web/idea.png",
+        "width": 512,
+        "height": 512,
+        "bytes": 154309,
+        "sha256": "cb2a06d13c04c75aaa85f4b89c5e31119d964f35f9681a9405201887f2e7dc5e",
+        "alpha": {
+          "hasAlphaChannel": true,
+          "transparentPixelRatio": 0.6650390625,
+          "opaqueCornerCount": 0,
+          "verified": true
+        }
+      }
+    },
+    "code": {
+      "step": "02 AI generates code",
+      "prompt": "A small warm-orange laptop with its lid open, the screen showing abstract rows of off-white and charcoal bars that suggest code, with no readable characters. Soft matte 3D illustration with rounded, friendly forms and smooth clay-like surfaces. Restrained palette: cobalt blue, warm orange, deep green, off-white and charcoal details. Soft even light from the upper right. Single object standing upright on an invisible flat surface, slight three-quarter front view, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no letters, no numbers, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "attempt": 1,
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.4827413558959961,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "not retained (scratch generation output)",
+        "bytes": 1065857,
+        "sha256": "7920a12071252f9b441529f2a5c2fc94e803c88da3b4739e8df6a50f3f2fd02e"
+      },
+      "display": {
+        "path": "assets/web/code.png",
+        "width": 512,
+        "height": 512,
+        "bytes": 235018,
+        "sha256": "eb4b72986d28d5caec83fd455dafe1793921cc7b29edb3f658154bcd24ce301d",
+        "alpha": {
+          "hasAlphaChannel": true,
+          "transparentPixelRatio": 0.4835853576660156,
+          "opaqueCornerCount": 0,
+          "verified": true
+        }
+      }
+    },
+    "live": {
+      "step": "03 You see it live",
+      "prompt": "A small off-white desktop monitor on a short stand, its screen showing a simple cobalt-blue app layout with a play-button triangle in the middle. Soft matte 3D illustration with rounded, friendly forms and smooth clay-like surfaces. Restrained palette: cobalt blue, warm orange, deep green, off-white and charcoal details. Soft even light from the upper right. Single object standing upright on an invisible flat surface, slight three-quarter front view, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no letters, no numbers, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "attempt": 1,
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.3757648468017578,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "not retained (scratch generation output)",
+        "bytes": 1027725,
+        "sha256": "bea44749570423ed38dbbc7f4edd93f8bddeb0f35a709db47d3b056aacb06144"
+      },
+      "display": {
+        "path": "assets/web/live.png",
+        "width": 512,
+        "height": 512,
+        "bytes": 257994,
+        "sha256": "7ac6afa943ccd8af568351489b978ba1d962b2b1ad15c33a1d735549f34782cb",
+        "alpha": {
+          "hasAlphaChannel": true,
+          "transparentPixelRatio": 0.3756561279296875,
+          "opaqueCornerCount": 0,
+          "verified": true
+        }
+      }
+    },
+    "refine": {
+      "step": "04 You refine it",
+      "prompt": "A cobalt-blue pencil leaning against a small upright off-white card that shows a simple app layout, with one box on the card circled in pencil. Soft matte 3D illustration with rounded, friendly forms and smooth clay-like surfaces. Restrained palette: cobalt blue, warm orange, deep green, off-white and charcoal details. Soft even light from the upper right. Single object standing upright on an invisible flat surface, slight three-quarter front view, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no letters, no numbers, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "attempt": 1,
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.5479192733764648,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "not retained (scratch generation output)",
+        "bytes": 1085454,
+        "sha256": "85146fa032330f6cf5a4c6708c3dcf64679c2ccf863204ccbfe6cd4c02da8550"
+      },
+      "display": {
+        "path": "assets/web/refine.png",
+        "width": 512,
+        "height": 512,
+        "bytes": 226237,
+        "sha256": "521e834dd0b5b91672fc6234a356f5fd2cf0721b5dd2b49634f5133e0400a978",
+        "alpha": {
+          "hasAlphaChannel": true,
+          "transparentPixelRatio": 0.5477752685546875,
+          "opaqueCornerCount": 0,
+          "verified": true
+        }
+      }
+    },
+    "ship": {
+      "step": "Exit: Ship it",
+      "prompt": "A small deep-green and off-white rocket standing upright on its three fins, ready to launch, with no flame and no smoke. Soft matte 3D illustration with rounded, friendly forms and smooth clay-like surfaces. Restrained palette: cobalt blue, warm orange, deep green, off-white and charcoal details. Soft even light from the upper right. Single object standing upright on an invisible flat surface, slight three-quarter front view, centered, filling most of the frame. Isolated, transparent background, no backdrop, no ground plane, no shadow on the floor, no checkerboard, no text, no letters, no numbers, no labels.",
+      "model": "gpt-image-2.5-flare",
+      "endpoint": "generate",
+      "size": "1024x1024",
+      "quality": "high",
+      "background": "transparent",
+      "referenceCount": 0,
+      "recipeRef": "recipe:hiqs/openai-image-generation@r2",
+      "publication": "local_candidate",
+      "attempt": 1,
+      "alpha": {
+        "hasAlphaChannel": true,
+        "transparentPixelRatio": 0.7006378173828125,
+        "opaqueCornerCount": 0,
+        "verified": true
+      },
+      "source": {
+        "path": "not retained (scratch generation output)",
+        "bytes": 925473,
+        "sha256": "45295765cea811743b671591ac2757d8b86832169c9ba8d60fb1b9e31bc34d49"
+      },
+      "display": {
+        "path": "assets/web/ship.png",
+        "width": 512,
+        "height": 512,
+        "bytes": 155427,
+        "sha256": "5a98c37774ba8ae81f12d5e528073701eec6692c792437d47ca71be34bbf3274",
+        "alpha": {
+          "hasAlphaChannel": true,
+          "transparentPixelRatio": 0.7015228271484375,
+          "opaqueCornerCount": 0,
+          "verified": true
+        }
+      }
+    }
+  }
+}
