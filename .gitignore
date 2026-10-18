@@ -8,3 +8,7 @@ tools/spike/assets/generated/*.png
 
 # Local design previews and preserved review galleries
 /temp/
+
+# Aider Studio (auto-added)
+REPO_MAP.md
+.aider/

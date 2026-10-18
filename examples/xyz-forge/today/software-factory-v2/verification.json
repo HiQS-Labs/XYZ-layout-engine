@@ -95,9 +95,9 @@
     "icon_operator"
   ],
   "artifactDigests": {
-    "png": "8080ebc1309f93780cbf3a7d15b961be5263ed22b62a8203011d47644d875890",
-    "chromiumPng": "8236ca9136d39b9c742d226a5e51448fb299b9d4d54929770a4d42e1ef9312e6",
-    "html": "7aeec5aa17a0384b1ce713705e2009553ac737d38ba8ef0551ea124dfb376fdb"
+    "png": "04bae2947379d455574b9d538e456c2314e348723d2b6dc0c54ccc46f509296b",
+    "chromiumPng": "b02a4c707f308cfd3a469586d97f63222e5e2c229c71a66f4150c3fa92dd1767",
+    "html": "21e97b9ec05f94eeb611695db8c61e4a833e20b4bf35e0b68698ea33ede7a395"
   },
   "findings": []
 }

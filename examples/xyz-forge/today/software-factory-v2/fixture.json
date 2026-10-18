@@ -84,7 +84,7 @@
     "startTask": {
       "token": "/start-task",
       "label": "Build one task to a ready PR",
-      "caption": "Fresh clone, recon, plan, Codex plan QA, build, gates, final QA."
+      "caption": "Prior-art check, fresh clone, recon, plan, Codex QA, build, gates, final QA."
     },
     "marathon": {
       "token": "/marathon",

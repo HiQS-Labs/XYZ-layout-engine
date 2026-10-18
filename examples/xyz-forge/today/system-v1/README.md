@@ -1,6 +1,6 @@
 # Example: XYZ Forge system, in the belief-reference style
 
-A 2000×1570 redraw of the XYZ Forge system diagram (dark, boxed, neon routes) in the visual language of the [October 12 belief-updating reference](../2026-10-12-belief-reference/README.md): warm ivory ground, charcoal Barlow Condensed type, a rounded title panel, numbered stage markers over short column rules, point-up hexagons on one horizontal reading line, thin slate connectors with rounded elbows, compact cards with labels underneath, and one pale blue-grey accent shape.
+A 2000×1570 redraw of the XYZ Forge system diagram (dark, boxed, neon routes) in the visual language of the [October 12 belief-updating reference](../../../2026-10-12-belief-reference/README.md): warm ivory ground, charcoal Barlow Condensed type, a rounded title panel, numbered stage markers over short column rules, point-up hexagons on one horizontal reading line, thin slate connectors with rounded elbows, compact cards with labels underneath, and one pale blue-grey accent shape.
 
 ![XYZ Forge system diagram](xyz-forge-system.png)
 
@@ -47,7 +47,7 @@ Hierarchy decisions: (1) the five-stage reading line, with Execute as the larges
 From the repository root, with `pnpm install --frozen-lockfile` done and the repository's Playwright Chromium installed:
 
 ```sh
-node examples/2026-10-14-xyz-forge-system/render-diagram.mjs
+node examples/xyz-forge/today/system-v1/render-diagram.mjs
 ```
 
 A pass prints `PASS: 77 text ids and 5 icons; 2000x1570 in both backends; no unsupported glyphs, escapes, overflow or overlap.` The checks are layout checks: glyph coverage, canvas and container containment, Chromium overflow and pairwise text overlap. They do not judge whether the picture is right. Rendered on macOS arm64, Node 22.22.3. Chromium cannot launch inside the Claude Code macOS sandbox (mach-port permission denied); run it outside the sandbox.

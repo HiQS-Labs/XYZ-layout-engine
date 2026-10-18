@@ -22,7 +22,7 @@
     { "id": "close", "number": 4, "formula": ["Report"] }
   ],
   "nodes": {
-    "open": { "token": "Open", "sub": "08:00", "label": "Morning open", "caption": "Reads /daily, the RELEASES rank, open PRs and CI, and overnight /ate issues; checks the environment; proposes N budgeted items." },
+    "open": { "token": "Open", "sub": "08:00", "label": "Morning open", "caption": "Reads /daily, the RELEASES rank, open PRs, CI and overnight /ate issues; runs a prior-art check to drop duplicates; checks the environment; proposes N budgeted items." },
     "dispatch": { "token": "Dispatch", "sub": "1 to 2 clones", "label": "Dispatch loop", "caption": "Top approved item first. Stops at PR ready, never at merge." },
     "stall": { "token": "Stall", "sub": "check", "label": "Stall check", "caption": "Over budget or review cap: /unstuck or /sanity-check once, otherwise park with a reason." },
     "merge": { "token": "Merge", "sub": "/merge-cleanup", "label": "Merge windows", "caption": "12:00 and 16:00: land approved PRs, then refresh open PR branches." },
@@ -68,6 +68,6 @@
   "legend": { "control": "control flow", "phase0": "Phase 0 smallest bet: open and close only" },
   "footer": {
     "note": "Future proposal, not built. No autonomous merge, deploy or clone teardown; no new daemon, queue or state store. Icons are hand-drawn vectors; no images were generated.",
-    "source": "Composed from exploratory issue HiQS-Labs/XYZ-forge#1081 and the version 2 software factory diagram (examples/2026-10-15-xyz-forge-software-factory/)."
+    "source": "Composed from exploratory issue HiQS-Labs/XYZ-forge#1081 and the version 2 software factory diagram (examples/xyz-forge/today/software-factory-v2/)."
   }
 }
