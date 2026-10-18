@@ -3,7 +3,7 @@ gh_issue: 65
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/65
 title: "XYZ Forge examples: one folder with today/future lenses; add the prior-art search to both"
 goal: "Group the three XYZ Forge diagrams under examples/xyz-forge/{today,future}/ and show the prior-art search where the factory runs it."
-status: "In progress — plan QA Approved (Codex, round 2), implementing"
+status: "In progress — built and verified; final QA next"
 created: 2026-10-18
 updated: 2026-10-18
 owner: Claude
@@ -26,7 +26,7 @@ reversibility: "Easy — three folder moves (git mv), one relative-path line per
 
 | What was just completed | What's next |
 |---|---|
-| Plan QA Approved by Codex in round 2 (`relay-system/2026-10-18/gh65-plan-qa.md`) | Move folders, edit captions, verify |
+| Built and verified (`5fc4c62`, `1c60f97`); gates recorded below | Final Codex relay QA, then PR to `main` |
 
 ## Why
 
@@ -167,3 +167,14 @@ established pattern with existing layout checks. Recurrence: not applicable; tre
 |---|---|
 | Pre-change witness | three scripts rerun in place: `PASS` 77/86/73 text ids; tree clean afterwards |
 | Plan QA | Codex, 2 rounds, Approved (`relay-system/2026-10-18/gh65-plan-qa.md`); S1 (missed v1 belief-reference link), S2 (caption check moved to HTML), S3 (red control targets `open_caption` geometry), S4 (old-path scan scope) applied; provenance nit applied |
+| Path red control: v1 moved, `RT` still `../../` | exit 1; `Cannot find module '…/examples/xyz-forge/tools/render.mjs'` (`ERR_MODULE_NOT_FOUND`) |
+| v1 after the `RT` fix | `PASS: 77 text ids and 5 icons`; `shasum -c` of the pre-move PNG, Chromium PNG, HTML and `verification.json` all OK (byte-identical); git records pure renames |
+| v2 caption, first try ("Prior-art check, fresh clone, recon, plan, Codex plan QA, build, gates, final QA.") | exit 1; `starttask_caption` overlaps `marathon_label` (both backends) → shortened to "…plan, Codex QA, build, gates, final QA." (requirement 4 allows shortening) |
+| v2 and shift renders | `PASS: 86 text ids and 2 icons` / `PASS: 73 text ids and 1 icons`; `findings: []`; generated HTML `starttask_caption` / `open_caption` text equals the fixture caption exactly; repeat runs identical (`verification.json` `6e70d4a1…`, `49db03c6…`) |
+| Layout red control: shift `nodes.open.caption` tripled in place, after committing good outputs | exit 1; `overlapping text` `['routes_label','open_caption']` in Satori and Chromium; `git checkout -- examples/xyz-forge/future/shift-proposal` then rerun → PASS, tree clean |
+| README links | every relative link in the index and three READMEs resolves (9 checked, 0 broken) |
+| Old-path scan (`git grep` of the three old folder names) | only CHANGELOG, this plan, `PROJECT/3-COMPLETED/GH-55-…`, `GH-60-…`, `relay-system/2026-10-14/`, `2026-10-16/`, `2026-10-18/`; nothing under `examples/` |
+| AS-10 | both new renders at full size: captions read, layout unchanged except the two captions; shift's five-line Open caption ends close above "ROUTES TO EXISTING SKILLS" (no overlap, tight). At ~1/3 scale node names, title and stage row survive; captions, the new text included, do not read (pre-existing; READMEs say fine captions need full size) |
+| `node tools/catalog.mjs verify` | `valid: true` |
+| `utils/pdda/pdda.sh run` | no errors; the same 2 governance warnings as GH-63 (`ROUTER.md:84`, `PDDA-INSTALL.md:347`), untouched files |
+| `pnpm test` (disposable `--no-local` clone of `1c60f97`) | 4/4, `test-budget: PASS — 4 canaries in 43.6s (budget 60s)`; tree clean |
