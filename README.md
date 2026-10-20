@@ -1,6 +1,6 @@
 # XYZ Layout Engine
 
-XYZ Layout Engine is an **AI-native, deterministic layout and rendering engine**. The current local MVP uses ESM JavaScript and a Python image-generation script; TypeScript remains a product target. It converts structured data (JSON) into raster (PNG) or vector (SVG, HTML) images using versioned layout recipes.
+XYZ Layout Engine is an **agent-assisted design and deterministic rendering system** that turns design briefs and structured content into reproducible visual artifacts. An agent interprets design intent, develops compositions, and reviews visual quality; the runtime validates supported choices and renders pinned recipes, fixtures, fonts, and assets. The current local MVP uses ESM JavaScript and a Python image-generation script; TypeScript remains a product target. Exports include PNG, SVG, offline HTML, and tagged PDF through the dedicated PDF workflow.
 
 ### AI-First Authoring + Deterministic Offline Rendering
 
