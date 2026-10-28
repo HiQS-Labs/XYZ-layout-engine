@@ -1,4 +1,10 @@
 # Changelog
+## 2026-10-27 — GH-68: Tunnel Run anime-style POC stills (round 1)
+
+- Added `examples/2026-10-27-tunnel-run/`: the Tunnel Run art direction guide, its prompts sent verbatim, a single-create `gen.sh`, two 1344×752 `gpt_image_2_5` stills (flare, medium, 16:9, opaque) and `provenance.json` (job ids, credits, sha256; no signed URLs or account details).
+- Higgsfield CLI 1.2.2 is installed on this Mac via Homebrew. Only `higgsfield` and `higgs` are linked, so the existing Hugging Face `hf` command is unchanged.
+- Spend: 1.0 credit (0.5 per image, quoted and measured by balance) against an operator cap of $10 per session, counted as 10 credits.
+- Results against the guide's acceptance check: POC 1 has the painted look but shows a grille badge and tyre spray; POC 2 drifts toward a 3D render on the floor and ceiling. Re-runs are listed in `PROJECT/1-INBOX/GH-68-TUNNEL-RUN-POCS.md`.
 ## 2026-10-18 — GH-65: XYZ Forge diagrams grouped by lens; prior-art check shown
 
 - Moved the three XYZ Forge examples under `examples/xyz-forge/`: `today/system-v1/` (was `2026-10-14-xyz-forge-system/`), `today/software-factory-v2/` (was `2026-10-15-xyz-forge-software-factory/`) and `future/shift-proposal/` (was `2026-10-15-xyz-forge-shift-proposal/`), with an index README. Pure renames; each script's repo-root URL gained two levels and in-folder links and replay commands were updated. v1's outputs are byte-identical after the move. Older changelog entries, completed plans and relay threads keep the old paths as history.

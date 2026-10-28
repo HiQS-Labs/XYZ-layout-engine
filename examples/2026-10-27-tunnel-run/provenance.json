@@ -1,0 +1,81 @@
+{
+  "note": "One entry per committed image. Opaque full-frame stills, so no alpha check applies. Prompt text lives in prompts/; signed result URLs and account details are deliberately not recorded.",
+  "assets": [
+    {
+      "file": "assets/poc1-expressway.png",
+      "provider": "higgsfield-cli",
+      "cli_version": "1.2.2",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "prompt_files": [
+        "prompts/base.txt",
+        "prompts/poc1.txt"
+      ],
+      "params": {
+        "aspect_ratio": "16:9",
+        "background": "opaque",
+        "height": 752,
+        "medias": [],
+        "model": "flare",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1344
+      },
+      "job_id": "654ccd77-6664-48a9-a8fc-9dddfa8041ad",
+      "created_at": "2026-10-26T23:17:54.048208Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 486.75,
+        "balance_after": 486.25
+      },
+      "file_info": {
+        "sha256": "a8233f8c10ff0931416ba6d1fcc15bc117067dad3743776937f799b5519f1273",
+        "bytes": 1713975,
+        "width": 1344,
+        "height": 752,
+        "alpha": false
+      }
+    },
+    {
+      "file": "assets/poc2-parking.png",
+      "provider": "higgsfield-cli",
+      "cli_version": "1.2.2",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "prompt_files": [
+        "prompts/base.txt",
+        "prompts/poc2.txt"
+      ],
+      "params": {
+        "aspect_ratio": "16:9",
+        "background": "opaque",
+        "height": 752,
+        "medias": [],
+        "model": "flare",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1344
+      },
+      "job_id": "8a728494-6c75-4fca-ad70-e8a709b8da53",
+      "created_at": "2026-10-26T23:19:06.63393Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 486.25,
+        "balance_after": 485.75
+      },
+      "file_info": {
+        "sha256": "e19ffa5aac4fa839ca8e09dc4f3802158524df6f22c05abff071ee50940a78e8",
+        "bytes": 1757050,
+        "width": 1344,
+        "height": 752,
+        "alpha": false
+      }
+    }
+  ]
+}
