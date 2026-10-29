@@ -19,6 +19,7 @@ Capture of [#69](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/69). The 
 ## Asks
 
 - A 10-slide deck for the 18-minute talk, rendered by the engine itself (every slide is a JSON fixture; no slide is an image-model output), with a high-level system diagram and a workflow diagram. Done on branch `gh-69-talk-deck`: `examples/2026-10-29-talk-deck/`.
+- A browsable HTML viewer for the deck, as a repeatable repo function rather than a hand-written page (operator ask, 2026-10-29). Done: `tools/deck-viewer.mjs` (`pnpm deck:viewer <dir>`) generates `index.html` for any deck folder; the talk deck's is committed.
 - Pre-render the before and after nutrition images as a fallback for the live demo. Done: the demo commands were rerun verbatim on 2026-10-29 and their renders are embedded on slides 2 and 7 with pinned digests.
 
 ## Open items

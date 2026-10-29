@@ -94,6 +94,12 @@ The intake checker reports unsupported requirements and pending artwork before r
   ```sh
   node tools/render.mjs examples/2026-10-13-nutrition-infographic/fixture.json --recipe nutrition --format png,svg,html,html-inline --out .relay-scratch/nutrition-infographic
   ```
+- **Talk deck: "Stop Re-Rolling the Whole Image" (engine-rendered slides)**:
+  [Example bundle](examples/2026-10-29-talk-deck/README.md), [browsable viewer](examples/2026-10-29-talk-deck/index.html) and [DESIGN.md](examples/2026-10-29-talk-deck/DESIGN.md). Ten `1920×1080` slides for the talk in [#69](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/69), each a JSON fixture rendered through the shared renderer in both backends, with a system diagram and a workflow diagram. Any deck folder (`deck.json` + `renders/`) gets the same viewer from `tools/deck-viewer.mjs` (`pnpm deck:viewer <dir>`).
+  ```sh
+  node examples/2026-10-29-talk-deck/render-deck.mjs
+  node tools/deck-viewer.mjs examples/2026-10-29-talk-deck
+  ```
 - **Reference-Directed Recursive Belief Updating (`recursive-process@6.0.0`)**:
   [Reference-directed bundle](examples/2026-10-12-belief-reference/README.md), [original study](examples/2026-10-11-belief-updating/README.md), and [recipe design contract](tools/recipes/recursive-process.design.md). Renders a `1600×1340` feedback-loop diagram with six generated transparent WebP illustrations, point-up SVG hexagons, rounded elbow connectors, per-divider label clearances, and bundled `Barlow Condensed` typography. Its PNG comes from Chromium (Satori/resvg cannot rasterize WebP); Satori produces the SVG.
   ```sh
