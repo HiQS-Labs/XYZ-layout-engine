@@ -1,0 +1,14 @@
+{
+  "layout": "reroll",
+  "number": "02",
+  "eyebrow": "0:00 – 1:30 · THE HOOK",
+  "title": "THE RE-ROLL TAX ON ONE LABEL",
+  "ask": "Change only the headline.",
+  "image": "demo-before",
+  "as12Exception": "The embedded render is the subject of the slide (AS-8), so it is taller than 3x the headline cap height.",
+  "options": [
+    { "owner": "ai", "label": "WITH AN IMAGE MODEL", "text": "Regenerate the whole image and hope. The leaves, icons, spacing and every other line of copy can drift, and the result is never the same twice." },
+    { "owner": "engine", "label": "WITH XYZ LAYOUT ENGINE", "text": "Edit one field in fixture.json and rerender. Every other element stays where it was, byte for byte, and the same input gives the same output." }
+  ],
+  "disclosure": "Shown: the nutrition infographic (nutrition@4.0.0), rendered by the engine at 1000 × 1000. Its seven illustrations are AI-generated cutouts (gpt-image-2.5-flare); the layout and type are not."
+}

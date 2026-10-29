@@ -1,0 +1,10 @@
+{
+  "layout": "title",
+  "number": "01",
+  "eyebrow": "XYZ LAYOUT ENGINE · AN 18-MINUTE TALK",
+  "title": "STOP RE-ROLLING THE WHOLE IMAGE",
+  "subtitle": "Deterministic infographics with XYZ Layout Engine",
+  "abstract": "Generative image models can make a great-looking infographic. Fixing one label or moving one callout means regenerating the whole thing and hoping nothing else changes.",
+  "split": "XYZ Layout Engine splits the work: AI handles art direction, copy and isolated cutout illustrations; a deterministic renderer owns exact geometry, typography and export.",
+  "dogfood": "Every slide in this deck is a JSON fixture rendered by the engine's own renderer in both backends, Satori + resvg and headless Chromium. No slide is an image-model output."
+}
