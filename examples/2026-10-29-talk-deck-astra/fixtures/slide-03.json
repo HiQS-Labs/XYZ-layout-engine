@@ -1,0 +1,21 @@
+{
+  "slide": 3,
+  "layout": "split",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "02 · THE SPLIT",
+  "title": "AI owns taste. The engine owns exact output.",
+  "subtitle": "Separate creative authoring from deterministic layout and rendering.",
+  "aiTitle": "AI",
+  "aiCaption": "Taste + isolated artwork",
+  "aiItems": ["Art direction", "Copy", "True-alpha cutouts or inline SVG"],
+  "engineTitle": "ENGINE",
+  "engineCaption": "Exact, inspectable output",
+  "engineItems": ["Geometry + typography", "Collision + clipping checks", "PNG / SVG / HTML export"],
+  "handoff": "The handoff: schema-validated data + a trusted recipe — not a flat image.",
+  "footer": "The agent authors the fixture and recipe; the shared renderer owns final geometry and export.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

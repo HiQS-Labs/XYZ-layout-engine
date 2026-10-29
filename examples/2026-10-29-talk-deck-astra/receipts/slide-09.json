@@ -1,0 +1,69 @@
+{
+  "slide": 9,
+  "fixture": "fixtures/slide-09.json",
+  "layout": "designmd",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "design_flow_title_0",
+    "design_flow_caption_0",
+    "design_flow_title_1",
+    "design_flow_caption_1",
+    "design_flow_title_2",
+    "design_flow_caption_2",
+    "design_flow_title_3",
+    "design_flow_caption_3",
+    "blocked_title",
+    "blocked_body",
+    "story_title",
+    "story_stage_title_0",
+    "story_stage_caption_0",
+    "story_stage_title_1",
+    "story_stage_caption_1",
+    "story_stage_title_2",
+    "story_stage_caption_2",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.771,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 0,
+    "maxGraphicToCap": 0,
+    "iconToLabelRatio": null,
+    "exceptions": []
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "33b7f58ac4b6bb57671030256082f6f0fd510a6217bedad1cb9d3a4729e78220",
+    "chromiumPng": "7359f1b88c98234175d1f57f05e7a04fa32c9029b1a5786c08c65da48a84d03b",
+    "svg": "af377a98545b6881954f640b835e67cda289a5a77afeba0ad7e03acb1c12b037"
+  },
+  "findings": []
+}

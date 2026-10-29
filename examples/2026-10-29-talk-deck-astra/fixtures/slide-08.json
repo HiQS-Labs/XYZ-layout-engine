@@ -1,0 +1,24 @@
+{
+  "slide": 8,
+  "layout": "recipes",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "07 · VERSIONED RECIPES",
+  "title": "Published recipe versions stay pinned",
+  "subtitle": "A durable layout contract lets the design evolve without rewriting its past.",
+  "stages": [
+    { "title": "RECIPE MODULE", "code": "tools/recipes/nutrition.mjs", "caption": "version = '4.0.0'" },
+    { "title": "CATALOG", "code": "tools/catalog.mjs", "caption": "SHA-256 per declared file + content digest" },
+    { "title": "PUBLISHED IDENTITY", "code": "nutrition@4.0.0", "caption": "Immutable version; render receipt verifies it" }
+  ],
+  "rules": [
+    "Fixture: data only, validated against the recipe schema.",
+    "Changed content: ship a new version; never edit a published version in place.",
+    "Broken layout: collision, clipping and fitting checks refuse the output."
+  ],
+  "footer": "Verified in tools/catalog.mjs, tools/render.mjs and SYSTEM-INSTRUCTIONS.md line 7.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

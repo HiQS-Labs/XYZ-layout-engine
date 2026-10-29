@@ -1,0 +1,23 @@
+{
+  "slide": 6,
+  "layout": "commands",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "05 · LIVE DEMO SETUP",
+  "title": "Change two fields. Save. Rerender.",
+  "subtitle": "Exact issue #69 commands; run from the repository root with Node ≥ 22.2 (Node 26 verified).",
+  "commands": [
+    "mkdir -p .relay-scratch/talk-demo",
+    "cp tools/spike/fixture.json .relay-scratch/talk-demo/n.json",
+    "node tools/render.mjs .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/before",
+    "node tools/render.mjs .relay-scratch/talk-demo/n.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/after",
+    "node tools/render.mjs .relay-scratch/talk-demo/n.json --format svg --out .relay-scratch/talk-demo/again",
+    "shasum .relay-scratch/talk-demo/{after,again}/runs/*/render.svg"
+  ],
+  "watch": "Watch: headline + primary color change; the saved SVG rerenders to the same hash.",
+  "footer": "Keep scratch input inside the repo. The after command changes two fields in the same fixture.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

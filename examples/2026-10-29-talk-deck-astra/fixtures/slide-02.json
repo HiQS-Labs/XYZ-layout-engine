@@ -1,0 +1,20 @@
+{
+  "slide": 2,
+  "layout": "reroll",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "01 · THE RE-ROLL TAX",
+  "title": "One label change can re-roll the whole image",
+  "subtitle": "The requested edit is small; the regenerated pixels are not.",
+  "panels": [
+    { "label": "YOUR REQUEST", "headline": "FUEL WELL.", "art": "LEAF ART", "items": "ITEMS 1 · 2 · 3 · 4", "note": "Change only the headline." },
+    { "label": "RE-ROLL A", "headline": "FUEL FOR TODAY", "art": "LEAF ART MOVED", "items": "ICONS CHANGED", "note": "Unrequested artwork drift." },
+    { "label": "RE-ROLL B", "headline": "FUEL FOR TODAY", "art": "LEAF ART CHANGED", "items": "SPACING SHIFTED", "note": "Unrequested layout drift." }
+  ],
+  "takeaway": "Requested: one label. Unrequested: artwork · icons · spacing.",
+  "footer": "Schematic of the failure mode — not image-model output, a model comparison or measured drift.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

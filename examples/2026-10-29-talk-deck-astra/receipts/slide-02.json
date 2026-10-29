@@ -1,0 +1,68 @@
+{
+  "slide": 2,
+  "fixture": "fixtures/slide-02.json",
+  "layout": "reroll",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "reroll_label_0",
+    "reroll_headline_0",
+    "reroll_art_0",
+    "reroll_items_0",
+    "reroll_note_0",
+    "reroll_label_1",
+    "reroll_headline_1",
+    "reroll_art_1",
+    "reroll_items_1",
+    "reroll_note_1",
+    "reroll_label_2",
+    "reroll_headline_2",
+    "reroll_art_2",
+    "reroll_items_2",
+    "reroll_note_2",
+    "reroll_takeaway",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.827,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 0,
+    "maxGraphicToCap": 0,
+    "iconToLabelRatio": null,
+    "exceptions": []
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "76f2cadf07a6ce40a33b5e0e4903bbbb579109b8bae5ea128538dc5816d4731d",
+    "chromiumPng": "7129c45e3b5cdf50f00ea23da5201b68f20e9192c7da7fdbb8a5750f27a9afba",
+    "svg": "1f051beec5d309002f288b1e7fd0e0b1a9eea71bb158a3ca4247832efed27b7d"
+  },
+  "findings": []
+}

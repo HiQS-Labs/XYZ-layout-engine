@@ -1,0 +1,19 @@
+{
+  "slide": 1,
+  "layout": "title",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "XYZ LAYOUT ENGINE · TALK DECK",
+  "title": "Stop Re-Rolling the Whole Image",
+  "subtitle": "Deterministic Infographics with XYZ Layout Engine",
+  "statement": ["AI designs once.", "Later edits stay exact."],
+  "commandLabel": "ONE-LINE EDIT",
+  "command": "--set 'sections.header.headline=Fuel for today'",
+  "outputsTitle": "EXPORT, REPEATEDLY",
+  "outputs": ["PNG", "SVG", "HTML"],
+  "footer": "Dogfood deck: every slide is JSON rendered by XYZ Layout Engine; no image-model slide output.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

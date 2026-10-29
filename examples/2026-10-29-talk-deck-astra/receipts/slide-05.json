@@ -1,0 +1,72 @@
+{
+  "slide": 5,
+  "fixture": "fixtures/slide-05.json",
+  "layout": "workflow",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "workflow_actor_0",
+    "workflow_title_0",
+    "workflow_caption_0",
+    "workflow_actor_1",
+    "workflow_title_1",
+    "workflow_caption_1",
+    "workflow_actor_2",
+    "workflow_title_2",
+    "workflow_caption_2",
+    "workflow_actor_3",
+    "workflow_title_3",
+    "workflow_caption_3",
+    "workflow_actor_4",
+    "workflow_title_4",
+    "workflow_caption_4",
+    "workflow_actor_5",
+    "workflow_title_5",
+    "workflow_caption_5",
+    "workflow_loop_label",
+    "workflow_takeaway",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.703,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 0,
+    "maxGraphicToCap": 0,
+    "iconToLabelRatio": null,
+    "exceptions": []
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "de70c8a61e3d32e21a55ad7743013532cd18730ba26860f9d66157ca298d1614",
+    "chromiumPng": "8aca3a50ce266e4724bbeb141102fe4e626ac781629ac7bea00056bd5288b585",
+    "svg": "027978d0219a457f3d473184449abb6a6d50fcc9afb735befff76cd61eb29ff4"
+  },
+  "findings": []
+}
