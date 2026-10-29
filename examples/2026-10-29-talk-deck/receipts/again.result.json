@@ -1,0 +1,95 @@
+{
+  "normalized": {
+    "inputPath": "~/Documents/GitHub Repos/XYZ-layout-engine/.relay-scratch/talk-demo/n.json",
+    "width": 1000,
+    "height": 1000,
+    "format": "svg",
+    "formats": [
+      "svg"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "nutrition"
+  },
+  "catalog": {
+    "slug": "nutrition",
+    "version": "4.0.0",
+    "contentSha256": "c6499955ac440dc7875e0a4fb3ab7251490ca86b86f8b48f994ee24f71ae4dcf",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "4.0.0",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "svg": "fbe0090ad0e992d29788f132820bf9e38ee18f5fb1ee07404d19fbe386f86c19"
+  },
+  "provenance": {
+    "inputPath": "~/Documents/GitHub Repos/XYZ-layout-engine/.relay-scratch/talk-demo/n.json",
+    "inputSha256": "aea277f6a19993b424ab4a108989ce85dda5c04121982b4bf181c8210437ab28",
+    "fixtureSha256": "f83ea323a176bd69ee9b13dd37a38687982e99951aa4236e411bd96e48d77f9a",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "header_headline": 92,
+          "header_subtitle": 31,
+          "header_caption": 21,
+          "callout_1_title": 25,
+          "callout_1_text": 21,
+          "callout_2_title": 25,
+          "callout_2_text": 21,
+          "item_1_title": 25,
+          "item_1_caption": 21,
+          "item_2_title": 25,
+          "item_2_caption": 21,
+          "item_3_title": 25,
+          "item_3_caption": 21,
+          "item_4_title": 25,
+          "item_4_caption": 21,
+          "benefit_1": 25,
+          "benefit_2": 25,
+          "benefit_3": 25,
+          "benefit_4": 25,
+          "footer_text": 25,
+          "footer_tagline": 21
+        }
+      }
+    ],
+    "finalSizes": {
+      "header_headline": 92,
+      "header_subtitle": 31,
+      "header_caption": 21,
+      "callout_1_title": 25,
+      "callout_1_text": 21,
+      "callout_2_title": 25,
+      "callout_2_text": 21,
+      "item_1_title": 25,
+      "item_1_caption": 21,
+      "item_2_title": 25,
+      "item_2_caption": 21,
+      "item_3_title": 25,
+      "item_3_caption": 21,
+      "item_4_title": 25,
+      "item_4_caption": 21,
+      "benefit_1": 25,
+      "benefit_2": 25,
+      "benefit_3": 25,
+      "benefit_4": 25,
+      "footer_text": 25,
+      "footer_tagline": 21
+    }
+  }
+}

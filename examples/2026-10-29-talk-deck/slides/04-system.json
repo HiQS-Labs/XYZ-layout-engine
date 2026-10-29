@@ -1,0 +1,40 @@
+{
+  "layout": "system",
+  "number": "04",
+  "eyebrow": "1:30 – 4:00 · THE SYSTEM, HIGH LEVEL",
+  "title": "SYSTEM: INPUTS, RENDERER, OUTPUTS",
+  "inputs": {
+    "label": "INPUTS · WRITTEN BY THE AGENT",
+    "items": [
+      { "id": "brief", "title": "DESIGN.md or reference image", "text": "read by the agent; never parsed by the engine", "dashed": true },
+      { "id": "fixture", "title": "fixture.json", "text": "data only, schema-validated by the recipe" },
+      { "id": "recipe", "title": "tools/recipes/<slug>.mjs", "text": "versioned layout module: validate + buildScene" },
+      { "id": "cutouts", "title": "Cutouts", "text": "true-alpha PNG or WebP pinned by SHA-256, or inline SVG" }
+    ]
+  },
+  "renderer": {
+    "label": "RENDERER · ONE OWNER OF GEOMETRY",
+    "title": "tools/render.mjs",
+    "stages": [
+      { "id": "validate", "text": "validate the fixture against the recipe schema" },
+      { "id": "scene", "text": "recipe.buildScene(fixture, sizes) builds one scene tree" },
+      { "id": "backends", "left": "Satori + resvg", "right": "headless Chromium" },
+      { "id": "fit", "text": "fit loop: region containment, overflow, glyph coverage; a non-fit is rejected" },
+      { "id": "fonts", "text": "bundled fonts only (Inter, Barlow Condensed, Alegreya); no system fallback" }
+    ]
+  },
+  "outputs": {
+    "label": "OUTPUTS · IMMUTABLE RUN FOLDERS",
+    "items": [
+      { "id": "png", "title": "render.png · render.svg", "text": "same scene, both formats" },
+      { "id": "html", "title": "render.html + assets/", "text": "and standalone render-inline.html" },
+      { "id": "receipt", "title": "result.json", "text": "receipt: digests, fitting steps, catalog verification" },
+      { "id": "manifest", "title": "manifest.json", "text": "current pointer to runs/<uuid>/; files are never rewritten" }
+    ]
+  },
+  "catalog": {
+    "title": "tools/catalog.mjs + tools/catalog.sql",
+    "text": "pins slug@semver to the SHA-256 of every declared file; the receipt records verified: true or false"
+  },
+  "footnote": "Schematic of the local CLI path (node tools/render.mjs). Text-overlap checks run in intake preflight and in each example's script."
+}

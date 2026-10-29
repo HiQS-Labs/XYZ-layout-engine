@@ -1,0 +1,37 @@
+{
+  "layout": "demo",
+  "number": "06",
+  "eyebrow": "4:00 – 8:00 · LIVE DEMO",
+  "title": "LIVE DEMO: EDIT ONE ELEMENT",
+  "steps": [
+    {
+      "label": "1 · PREPARE A SCRATCH COPY INSIDE THE REPO",
+      "text": "a fixture under /tmp is refused as a symlink escape",
+      "lines": ["mkdir -p .relay-scratch/talk-demo", "cp tools/spike/fixture.json .relay-scratch/talk-demo/n.json"]
+    },
+    {
+      "label": "2 · RENDER THE BEFORE",
+      "text": "PNG and SVG into an immutable run folder",
+      "lines": ["node tools/render.mjs .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/before"]
+    },
+    {
+      "label": "3 · EDIT TWO FIELDS, SAVE, RENDER THE AFTER",
+      "text": "--set edits are schema-validated; --save writes the fixture only after the render and export succeed",
+      "lines": [
+        "node tools/render.mjs .relay-scratch/talk-demo/n.json \\",
+        "    --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' \\",
+        "    --save .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/after"
+      ]
+    },
+    {
+      "label": "4 · RERENDER AND COMPARE HASHES",
+      "text": "the saved fixture renders to the same SVG bytes",
+      "lines": [
+        "node tools/render.mjs .relay-scratch/talk-demo/n.json --format svg --out .relay-scratch/talk-demo/again",
+        "shasum .relay-scratch/talk-demo/{after,again}/runs/*/render.svg"
+      ]
+    }
+  ],
+  "watch": "What to watch: only the headline text and the primary color change. Every other element stays byte-identical, and the after and again SVGs hash the same.",
+  "env": "Node 22.2 or newer (verified on v26.0.0; Node 18 fails on node:zlib crc32). Dependencies: pnpm install --frozen-lockfile."
+}

@@ -1,0 +1,25 @@
+{
+  "layout": "workflow",
+  "number": "05",
+  "eyebrow": "4:00 – 8:00 · THE LOOP",
+  "title": "AUTHOR ONCE, EDIT FOREVER",
+  "once": {
+    "label": "ONCE · THE AGENT",
+    "steps": [
+      { "id": "brief", "title": "DESIGN.md or reference", "text": "art direction, copy, palette, type" },
+      { "id": "translate", "title": "Agent translates", "text": "under SYSTEM-INSTRUCTIONS.md and the recipe contract" },
+      { "id": "bundle", "title": "Recipe + fixture + cutouts", "text": "versioned module, data-only JSON, pinned true-alpha PNGs" }
+    ]
+  },
+  "forever": {
+    "label": "FOREVER · THE ENGINE, NO AI AT RUNTIME",
+    "steps": [
+      { "id": "render", "title": "1 · Render", "text": "node tools/render.mjs fixture.json" },
+      { "id": "set", "title": "2 · Edit one element", "text": "--set 'sections.header.headline=Fuel for today'" },
+      { "id": "save", "title": "3 · Save it", "text": "--save fixture.json, after the render succeeds" },
+      { "id": "rerender", "title": "4 · Rerender", "text": "same fixture, identical bytes, same hash" }
+    ],
+    "loop": "next edit: back to step 2, no AI needed",
+    "handoff": "hand-off: files on disk, nothing else"
+  }
+}

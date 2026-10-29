@@ -1,0 +1,16 @@
+{
+  "layout": "compare",
+  "number": "07",
+  "eyebrow": "4:00 – 8:00 · THE RESULT (PRE-RENDERED FALLBACK)",
+  "title": "TWO FIELDS CHANGED. NOTHING ELSE.",
+  "as12Exception": "The two embedded renders are the evidence the slide exists to show (AS-8), so they are taller than 3x the headline cap height.",
+  "before": { "image": "demo-before", "label": "BEFORE", "headline": "FUEL WELL. LIVE WELL.", "primary": "#2f5d27", "swatch": "beforePrimary" },
+  "after": { "image": "demo-after", "label": "AFTER", "headline": "FUEL FOR TODAY", "primary": "#335577", "swatch": "afterPrimary" },
+  "facts": [
+    { "label": "CHANGED", "text": "sections.header.headline and theme.palette.primary" },
+    { "label": "UNCHANGED", "text": "layout, artwork, type scale and every other field" },
+    { "label": "SAME HASH", "text": "after and again render.svg, shasum: ceefd615 f5ca0c4e 2a7c80c1 ce947d7d 3a9dc6c2" },
+    { "label": "TIME", "text": "under a second per command, Node startup included (0.39 to 0.61 s measured on this Mac, Node v26)" }
+  ],
+  "disclosure": "Real renders from the demo commands (nutrition@4.0.0, Satori + resvg, 1000 × 1000). The illustrations inside them are AI-generated cutouts."
+}

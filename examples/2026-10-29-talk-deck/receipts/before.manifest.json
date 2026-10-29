@@ -1,0 +1,13 @@
+{
+  "current": "runs/2aa75c4f-dda7-4aa7-ad3c-c3bd1907d70a",
+  "files": [
+    "render.png",
+    "render.svg",
+    "result.json"
+  ],
+  "digests": {
+    "render.png": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504",
+    "render.svg": "ec2a3a243c32044bd0c954cc769aee4fcf7b6cc8ece29ca860b3c8f13e4c66c0",
+    "result.json": "43be455f24882307db25d9e1b660b1cb929d12780584e8d749fb0fbf6497229c"
+  }
+}
