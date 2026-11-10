@@ -6,6 +6,7 @@
 - Updated `tools/intake.mjs`: Added `--craft` flag to `intake check` to run craft floor validation during intake preflight.
 - Added `tools/impeccable/audit.mjs`: Headless HTML auditing integration discovering local `impeccable` CLI binaries or falling back to `npx impeccable detect` against rendered publication HTML.
 - Added `tools/export-editorial-asset.mjs`: Editorial asset provider compiling isolated, high-DPI transparent SVG and PNG components (infographics, cards, badges) from recipes for embedding into external web applications (React, Next.js, Vite) with responsive `<img>` markup.
+- Added repo-local agent skills: `skills/hallmark/SKILL.md` (chaining macrostructure/theme discovery, recipe translation, craft preflight, and dual rendering) and `skills/impeccable/SKILL.md` (chaining craft linting, headless HTML auditing, steering verbs, and editorial asset exports).
 - Verification: `pnpm test` passes 4/4 canaries in 38.0s (under 60s budget, zero budget drift); craft linter verified against Hallmark bento, stat-led, and skate guide canonical examples.
 
 ## 2026-11-09 — GH-74: Hallmark layouts (Bento, Stat-Led, Skate Guide) and dynamic importer harness
