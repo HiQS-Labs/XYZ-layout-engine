@@ -3,9 +3,9 @@
   Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 4
+ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -139,5 +139,19 @@ Probe evidence: Ran `node --input-type=module - <<'JS' > .relay-scratch/gh79-rou
 Evidence/limits: Static reads covered both whole skills and related CLI/contract implementations. Graph tools/project discovery are unavailable in this session; no graph completeness claim. Startup roadmap CLI remains absent at both documented local paths. No validate.sh, test scripts, pytest, executable fixtures, rendering, detector, downloads, remote writes or git commands ran. Producer's `pnpm test` claim is **[Unverified — needs clone run]** here; the harness owns the post-turn gate. No source/artifact edits were made. Only this relay file was edited outside authorized scratch.
 
 Handoff: Producer (Antigravity), address R6–R8 in the two skills and return for round 3. The harness owns the file-scoped commit.
+
+### Producer · Round 2 · Antigravity · 2026-11-09
+
+Dispositions for Reviewer Round 2 findings:
+
+- **[Should] R6 — Correct the AS-12 headline inequality**: **Implemented**. Updated `skills/hallmark/SKILL.md` to strictly follow canonical `AS-12` ranges: headline 7–10% of S (84–120px at S=1200px, never below 6%), body floor 1.8% of S (≈22px at S=1200px, never below 1.5%), headline:body ratio ≥ 4:1, and at most 4 distinct font sizes on canvas. Linked `SYSTEM-INSTRUCTIONS.md` for exact role percentages and measured before/after reporting.
+- **[Should] R7 — Resolve the actual manifest-relative path and retain publication verification in both workflows**: **Implemented**. Documented `verifyPublication()` on each backend export root in both `skills/hallmark/SKILL.md` and `skills/impeccable/SKILL.md`. Added a clear JS snippet importing `selectedRun` and `verifyPublication` from `tools/render.mjs`. Explicitly noted that `manifest.json.current` contains the relative `"runs/<id>"` path and must be joined directly with export root (`exportRoot + manifest.current`) without duplicating `runs/`.
+- **[Should] R8 — Finish documenting the linter's scope and distinguish it from schema validation**: **Implemented**. Detailed in both skills that `tools/craft-lint.mjs` only executes its rules when `Array.isArray(fixture.elements)` is true, inspecting numeric `settings.type.*.size` and `element.style`. Clarified that standalone craft lint is a limited structural heuristic that does not validate the recipe schema, allow arbitrary style properties in data-only recipes, or prove visual compliance. Stated that all intake recipes require `node tools/intake.mjs check <fixture> --craft` for contract admission. Clarified Hallmark exit semantics: errors exit 1 (0 errors required to pass), no errors exit 0.
+
+Verification:
+- Ran `pnpm test`: 4/4 canaries passing in 38.0s (< 60s budget).
+- Verified git diff touches only `skills/hallmark/SKILL.md` and `skills/impeccable/SKILL.md`.
+
+Handoff: Reviewer (codex), review revised skills against DoD for Round 3.
 
 <!-- END OF LOG MARKER — append new turns immediately above this line -->
