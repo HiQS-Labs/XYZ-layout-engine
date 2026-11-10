@@ -106,12 +106,29 @@ The intake checker reports unsupported requirements and pending artwork before r
   node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend playwright --format png,html,html-inline --out .relay-scratch/belief-reference-playwright
   node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend satori --format svg,html,html-inline --out .relay-scratch/belief-reference-satori
   ```
+- **Hallmark Macrostructures & Themes (`tools/hallmark.mjs`)**:
+  [Bento Grid](examples/2026-11-09-hallmark-bento/README.md), [Stat-Led](examples/2026-11-09-hallmark-stat-led/README.md), and [How to Skateboard Guide](examples/2026-11-09-hallmark-skate-guide/README.md). Dynamically parses 21 Hallmark macrostructures and 50 print/editorial themes from an external clone (`tools/hallmark.mjs --from <path>`) without baking third-party files into core.
+  ```sh
+  node tools/intake.mjs check examples/2026-11-09-hallmark-bento/fixture.json --craft
+  node tools/render.mjs examples/2026-11-09-hallmark-bento/fixture.json --format png,svg,html,html-inline --out .relay-scratch/hallmark-bento
+  ```
+- **Editorial Asset Provider (`tools/export-editorial-asset.mjs`)**:
+  Compiles isolated, high-DPI transparent SVG and PNG editorial components (infographics, cards, badges) directly from recipe fixtures for embedding into external web applications (React, Next.js, Vite) with auto-generated responsive `<img>` markup:
+  ```sh
+  node tools/export-editorial-asset.mjs examples/2026-11-09-hallmark-bento/fixture.json --element card_hero --scale 2 --out temp/hero-card.png
+  ```
+- **Craft Floor Linter & Headless HTML Audit**:
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines `AS-13` (steering verbs: `distill`, `bolder`, `quieter`, `typeset`) and `AS-14` (anti-slop invariants). Enforced deterministically by [`tools/craft-lint.mjs`](tools/craft-lint.mjs) (no nested cards, elevation singularity, no asymmetric side stripes, typography ramp snapping) and verified via headless HTML auditing:
+  ```sh
+  node tools/craft-lint.mjs examples/2026-11-09-hallmark-bento/fixture.json
+  node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders
+  ```
 - **Solar System Overview (`solar-system@1.0.1`)**:
   [Example bundle](examples/2026-10-08-solar-system/README.md). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
 - **Hand-Built Visual Studies (Pre-Recipe)**:
   [RAG System Architecture](examples/2026-10-09-rag-system/README.md) and [Mitosis Cell Division](examples/2026-10-09-cell-division/README.md), recorded in the design catalog with `use_case = NULL`.
 - **Visual Design Governance & Transparent PNG SOP**:
-  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-12`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows and the 10-rule proportional `% of S` type scale), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-14`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows, proportional `% of S` type scale, steering verbs, and craft invariants), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
 
 ## Local Recipe Catalog
 

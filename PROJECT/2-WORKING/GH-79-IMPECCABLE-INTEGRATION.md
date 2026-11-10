@@ -12,6 +12,7 @@ complexity: 2
 risk: 1
 effort: 2
 phases: 2
+roadmap_exempt: true
 ---
 
 # GH-79 — Modernize craft & integrate Impeccable
