@@ -80,6 +80,70 @@
           "path": "examples/2026-11-09-hallmark-skate-guide/assets/board.png",
           "sha256": "d0be76bf41982131a11ad6cda337a9f03ef7e2f50a165a7719d03bd3399be6c0"
         }
+      },
+      {
+        "id": "gear_shoes",
+        "prompt": {
+          "subject": "Flat-soled rubber skate shoes.",
+          "view": "Side isometric view.",
+          "lighting": "Clean studio lighting.",
+          "background": "Transparent background.",
+          "exclusions": "No background."
+        },
+        "width": 512,
+        "height": 512,
+        "file": {
+          "path": "examples/2026-11-09-hallmark-skate-guide/assets/shoes.png",
+          "sha256": "46e1e74d8d32c4aaa8115df4117fde57afb6959a98c8a56da04f0c5291053775"
+        }
+      },
+      {
+        "id": "gear_wrist",
+        "prompt": {
+          "subject": "Skateboard wrist guard with protective plastic palm plate.",
+          "view": "Isometric perspective.",
+          "lighting": "Studio lighting.",
+          "background": "Transparent background.",
+          "exclusions": "No background."
+        },
+        "width": 512,
+        "height": 512,
+        "file": {
+          "path": "examples/2026-11-09-hallmark-skate-guide/assets/wrist.png",
+          "sha256": "ba000c899efb2290415cef44a1bee76a134637da65d6b663f9d7bf1455788057"
+        }
+      },
+      {
+        "id": "gear_pads",
+        "prompt": {
+          "subject": "Hard-shell skateboard knee and elbow pads.",
+          "view": "Isometric perspective.",
+          "lighting": "Studio lighting.",
+          "background": "Transparent background.",
+          "exclusions": "No background."
+        },
+        "width": 512,
+        "height": 512,
+        "file": {
+          "path": "examples/2026-11-09-hallmark-skate-guide/assets/pads.png",
+          "sha256": "4285d18251398d1360e0dee5f79d378dec602304a295c7c29873f30cba7cd969"
+        }
+      },
+      {
+        "id": "gear_helmet",
+        "prompt": {
+          "subject": "Classic matte skate helmet with ear cutouts and nylon chinstrap.",
+          "view": "Three-quarter perspective.",
+          "lighting": "Studio lighting.",
+          "background": "Transparent background.",
+          "exclusions": "No background."
+        },
+        "width": 512,
+        "height": 512,
+        "file": {
+          "path": "examples/2026-11-09-hallmark-skate-guide/assets/helmet.png",
+          "sha256": "1a4cac28da0b391545708209e47bddf66a017f54de49c51cb600148f12308d1b"
+        }
       }
     ]
   },
@@ -201,7 +265,7 @@
       "type": "text",
       "x": 240,
       "y": 672,
-      "width": 888,
+      "width": 720,
       "height": 72,
       "text": "FIND YOUR STANCE",
       "role": "display",
@@ -213,12 +277,22 @@
       "type": "text",
       "x": 240,
       "y": 744,
-      "width": 888,
+      "width": 720,
       "height": 72,
-      "text": "Feet set across the width of the board, each foot resting directly over a set of truck bolts. Keep your knees flexed and center of mass low. Try this stationary on grass or carpet first so the wheels cannot roll out.",
+      "text": "Feet set across the width of the board over the bolts. Bend knees low. Practise stationary on grass first.",
       "role": "body",
       "color": "ink",
       "align": "left"
+    },
+    {
+      "id": "step1_image",
+      "type": "image",
+      "x": 984,
+      "y": 672,
+      "width": 144,
+      "height": 144,
+      "asset": "gear_shoes",
+      "alt": "Flat-soled rubber skate shoes for grip."
     },
     {
       "id": "card_step2",
@@ -247,7 +321,7 @@
       "type": "text",
       "x": 240,
       "y": 888,
-      "width": 888,
+      "width": 720,
       "height": 72,
       "text": "PUSH OFF",
       "role": "display",
@@ -259,12 +333,22 @@
       "type": "text",
       "x": 240,
       "y": 960,
-      "width": 888,
+      "width": 720,
       "height": 72,
-      "text": "Turn your front foot to point straight forward toward the nose over the front bolts. Lower your hips and push steadily against the asphalt with your back foot. Once rolling, bring the back foot onto the tail bolts and pivot sideways.",
+      "text": "Point front foot towards nose over front bolts. Push steadily with back foot. Bring rear foot on deck and pivot.",
       "role": "body",
       "color": "ink",
       "align": "left"
+    },
+    {
+      "id": "step2_image",
+      "type": "image",
+      "x": 984,
+      "y": 888,
+      "width": 144,
+      "height": 144,
+      "asset": "gear_wrist",
+      "alt": "Skate wrist guard."
     },
     {
       "id": "card_step3",
@@ -293,7 +377,7 @@
       "type": "text",
       "x": 240,
       "y": 1104,
-      "width": 888,
+      "width": 720,
       "height": 72,
       "text": "LEAN TO TURN (CARVING)",
       "role": "display",
@@ -305,12 +389,22 @@
       "type": "text",
       "x": 240,
       "y": 1176,
-      "width": 888,
+      "width": 720,
       "height": 72,
-      "text": "Steering does not require lifting the board. Press weight into your toes to carve toe-side; lean gently into your heels to curve heel-side. The rubber bushings inside the metal trucks compress and steer the wheelbase.",
+      "text": "Press toes to carve toe-side; lean heels to carve heel-side. The urethane truck bushings steer smoothly.",
       "role": "body",
       "color": "ink",
       "align": "left"
+    },
+    {
+      "id": "step3_image",
+      "type": "image",
+      "x": 984,
+      "y": 1104,
+      "width": 144,
+      "height": 144,
+      "asset": "gear_pads",
+      "alt": "Knee and elbow pads."
     },
     {
       "id": "card_step4",
@@ -339,7 +433,7 @@
       "type": "text",
       "x": 240,
       "y": 1320,
-      "width": 888,
+      "width": 720,
       "height": 72,
       "text": "FOOT BRAKE TO STOP",
       "role": "display",
@@ -351,12 +445,22 @@
       "type": "text",
       "x": 240,
       "y": 1392,
-      "width": 888,
+      "width": 720,
       "height": 72,
-      "text": "Do not jump off a moving board. Rotate your front foot parallel to the deck, gently take the back foot off, and drag the flat rubber sole along the ground with increasing friction until you come to a smooth, controlled halt.",
+      "text": "Rotate front foot forward. Lower rear foot to asphalt and drag sole with increasing pressure until halted.",
       "role": "body",
       "color": "ink",
       "align": "left"
+    },
+    {
+      "id": "step4_image",
+      "type": "image",
+      "x": 984,
+      "y": 1320,
+      "width": 144,
+      "height": 144,
+      "asset": "gear_helmet",
+      "alt": "Classic skate helmet."
     },
     {
       "id": "footer",

@@ -28,29 +28,25 @@
     "errors": []
   },
   "digests": {
-    "png": "e5c74b904ec887856b418a963291ca58f7890243449c190df90d4fdc16cf46e8",
-    "html": "544768e90fef9be9cf8eb2f54722795771c02609f4228dfa673baf812905bbcc",
-    "html-inline": "a123a03e5bf858df0ac08fcc1617c79460c8a21b6f09f39613affd2ce622547b"
+    "png": "3ab16658aa6847002d61c17d6461cfd769c4d21c4b2e71b0a2a6f914367b3731",
+    "html": "d16d37e220837b30e7b4b69d3a689460d0b0751fa6b522c60f17295fb3a7765f",
+    "html-inline": "59d94459e98c7a4507adbfa3acc0206743a814f993a9fbc16984f219961e206c"
   },
   "provenance": {
     "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
-    "inputSha256": "455b17d20bb9dfdbcf67f96f6f9662e324ead1de6c0968b2d9abad0933f3b828",
-    "fixtureSha256": "85c33736a0d5b6c6db3b8270686b17594ab2ef02331962f791f5d773652fa9a5",
+    "inputSha256": "e01daf4ec4732ff447b613dee736d79c2b57789ed19afbe6d7c500d90e3f9053",
+    "fixtureSha256": "e01093f68234c37967f949759a647904fbc6ec0ed2bdedd791f4e089798fa65c",
     "backend": "playwright"
   },
   "fitting": {
     "fit": true,
-    "attempts": 2,
-    "iterations": 1,
+    "attempts": 1,
+    "iterations": 0,
     "unresolved": [],
     "steps": [
       {
         "iteration": 0,
-        "overflowing": [
-          "intake_text_step2_body",
-          "intake_text_step3_body",
-          "intake_text_step4_body"
-        ],
+        "overflowing": [],
         "sizes": {
           "intake_text_eyebrow": 24,
           "intake_text_title": 54,
@@ -71,30 +67,6 @@
           "intake_text_step4_body": 24,
           "intake_text_footer": 24
         }
-      },
-      {
-        "iteration": 1,
-        "overflowing": [],
-        "sizes": {
-          "intake_text_eyebrow": 24,
-          "intake_text_title": 54,
-          "intake_text_board_title": 54,
-          "intake_text_board_desc": 24,
-          "intake_text_board_safety": 24,
-          "intake_text_step1_num": 54,
-          "intake_text_step1_title": 54,
-          "intake_text_step1_body": 24,
-          "intake_text_step2_num": 54,
-          "intake_text_step2_title": 54,
-          "intake_text_step2_body": 21,
-          "intake_text_step3_num": 54,
-          "intake_text_step3_title": 54,
-          "intake_text_step3_body": 21,
-          "intake_text_step4_num": 54,
-          "intake_text_step4_title": 54,
-          "intake_text_step4_body": 21,
-          "intake_text_footer": 24
-        }
       }
     ],
     "finalSizes": {
@@ -108,13 +80,13 @@
       "intake_text_step1_body": 24,
       "intake_text_step2_num": 54,
       "intake_text_step2_title": 54,
-      "intake_text_step2_body": 21,
+      "intake_text_step2_body": 24,
       "intake_text_step3_num": 54,
       "intake_text_step3_title": 54,
-      "intake_text_step3_body": 21,
+      "intake_text_step3_body": 24,
       "intake_text_step4_num": 54,
       "intake_text_step4_title": 54,
-      "intake_text_step4_body": 21,
+      "intake_text_step4_body": 24,
       "intake_text_footer": 24
     }
   }
