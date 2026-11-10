@@ -56,12 +56,13 @@ node tools/render.mjs <path-to-fixture.json> \
   --format png,html,html-inline \
   --out dist/renders/playwright
 ```
-Before proceeding to auditing or component export, execute publication verification to confirm manifest digests and fitting receipts:
+Before proceeding to auditing or component export, execute publication verification on both backend export roots to confirm manifest digests and fitting receipts:
 ```js
 import path from 'node:path';
 import { selectedRun, verifyPublication } from './tools/render.mjs';
 
-// 1. Verify publication integrity (receipts, digests, text fit)
+// 1. Verify publication integrity for both backend export roots (both must pass)
+await verifyPublication('dist/renders/satori');
 await verifyPublication('dist/renders/playwright');
 
 // 2. Resolve active run directory (joins export root with manifest.current)
