@@ -1,87 +1,140 @@
 // Hallmark (nutlope/hallmark) layout and theme reader for XYZ Layout Engine.
-// Provides preset themes and macrostructure skeletons compatible with design-intake@1.0.5.
+// Requires pointing to a local Hallmark checkout via HALLMARK_PATH or --from <path>.
+// Extracts live theme definitions and macrostructure templates directly from Hallmark source files.
 
-export const THEMES = Object.freeze({
-  riso: {
-    id: 'riso',
-    name: 'Riso',
-    description: 'Tactile Risograph print aesthetic with saturated duotone spot inks and warm unbleached paper surface.',
-    palette: {
-      paper: '#fbf8ee',
-      ink: '#182236',
-      accent: '#ff4e36',
-      secondary: '#2da882',
-      subtle: '#ebe4d0'
-    },
-    settings: {
-      cornerRadius: 12,
-      borderWidth: 2
-    }
-  },
-  distil: {
-    id: 'distil',
-    name: 'Distil',
-    description: 'Swiss technical/editorial minimalism with high-contrast slate ink, precise rules, and electric cobalt focus.',
-    palette: {
-      paper: '#f4f4f4',
-      ink: '#11161d',
-      accent: '#0055ff',
-      muted: '#68707d',
-      surface: '#e8eaed'
-    },
-    settings: {
-      cornerRadius: 4,
-      borderWidth: 1
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+export function resolveHallmarkPath(explicitPath) {
+  const candidate = explicitPath || process.env.HALLMARK_PATH || '../hallmark';
+  const resolved = path.resolve(process.cwd(), candidate);
+  if (!fs.existsSync(resolved)) {
+    throw new Error(
+      `Hallmark repository not found at "${resolved}".\n` +
+      `Please clone https://github.com/nutlope/hallmark and specify its path using:\n` +
+      `  --from /path/to/hallmark  OR  export HALLMARK_PATH=/path/to/hallmark`
+    );
+  }
+  return resolved;
+}
+
+export function loadThemes(hallmarkRoot) {
+  const root = resolveHallmarkPath(hallmarkRoot);
+  // Hallmark keeps themes either under skills/hallmark/references/themes or references/themes
+  const candidates = [
+    path.join(root, 'skills/hallmark/references/themes'),
+    path.join(root, 'references/themes'),
+    path.join(root, 'skills/hallmark/themes')
+  ];
+  let themesDir = candidates.find(dir => fs.existsSync(dir));
+  if (!themesDir) {
+    throw new Error(`Unable to locate themes directory in Hallmark at "${root}". Checked: ${candidates.join(', ')}`);
+  }
+
+  const manifestPath = path.join(themesDir, 'index.json');
+  if (fs.existsSync(manifestPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      if (Array.isArray(data.themes)) return data.themes;
+      if (Array.isArray(data)) return data;
+    } catch (e) {
+      // Fall back to scanning files
     }
   }
-});
 
-export const MACROSTRUCTURES = Object.freeze({
-  bento: {
-    id: 'bento',
-    name: '01 · Bento Grid',
-    description: 'Modular, irregular quadrant layout with deliberate asymmetric weighting and multi-tier density.',
-    aspectRatio: '1:1',
-    defaultCanvas: { width: 1200, height: 1200, spacing: 24 }
-  },
-  'stat-led': {
-    id: 'stat-led',
-    name: '04 · Stat-Led',
-    description: 'Metrics-dominant hierarchy anchored by a high-contrast hero KPI block and structured narrative callouts.',
-    aspectRatio: '1:1',
-    defaultCanvas: { width: 1200, height: 1200, spacing: 24 }
+  // Scan markdown files if manifest is not present or unparseable
+  const files = fs.readdirSync(themesDir).filter(f => f.endsWith('.md') && f !== 'README.md');
+  return files.map(file => {
+    const slug = path.basename(file, '.md');
+    const content = fs.readFileSync(path.join(themesDir, file), 'utf8');
+    return parseThemeMarkdown(slug, content);
+  });
+}
+
+export function parseThemeMarkdown(slug, content) {
+  const theme = { slug, name: slug, palette: {} };
+  // Extract colors from markdown content or frontmatter if present
+  const lines = content.split('\n');
+  for (const line of lines) {
+    const hexMatches = line.match(/(#[0-9a-fA-F]{6})/g);
+    if (!hexMatches) continue;
+    const lower = line.toLowerCase();
+    if (lower.includes('paper') || lower.includes('background') || lower.includes('surface')) {
+      if (!theme.palette.paper) theme.palette.paper = hexMatches[0];
+    } else if (lower.includes('ink') || lower.includes('text') || lower.includes('foreground')) {
+      if (!theme.palette.ink) theme.palette.ink = hexMatches[0];
+    } else if (lower.includes('accent')) {
+      if (!theme.palette.accent) theme.palette.accent = hexMatches[0];
+    } else if (lower.includes('secondary') || lower.includes('muted')) {
+      if (!theme.palette.secondary) theme.palette.secondary = hexMatches[0];
+    }
   }
-});
-
-export function getTheme(id) {
-  const theme = THEMES[id];
-  if (!theme) throw new Error(`Unknown Hallmark theme '${id}'. Available: ${Object.keys(THEMES).join(', ')}`);
   return theme;
 }
 
-export function getMacrostructure(id) {
-  const macro = MACROSTRUCTURES[id];
-  if (!macro) throw new Error(`Unknown Hallmark macrostructure '${id}'. Available: ${Object.keys(MACROSTRUCTURES).join(', ')}`);
-  return macro;
+export function loadMacrostructures(hallmarkRoot) {
+  const root = resolveHallmarkPath(hallmarkRoot);
+  const candidates = [
+    path.join(root, 'skills/hallmark/references/macrostructures'),
+    path.join(root, 'references/macrostructures')
+  ];
+  const macroDir = candidates.find(dir => fs.existsSync(dir));
+  if (!macroDir) {
+    throw new Error(`Unable to locate macrostructures directory in Hallmark at "${root}". Checked: ${candidates.join(', ')}`);
+  }
+
+  const files = fs.readdirSync(macroDir).filter(f => f.endsWith('.md') && f !== 'README.md');
+  return files.map(file => {
+    const slug = path.basename(file, '.md');
+    const content = fs.readFileSync(path.join(macroDir, file), 'utf8');
+    const firstLine = content.split('\n').find(l => l.startsWith('#')) || `# ${slug}`;
+    const name = firstLine.replace(/^#+\s*/, '').trim();
+    return { slug, name, file: path.join(macroDir, file) };
+  });
+}
+
+export function readMacrostructure(hallmarkRoot, slug) {
+  const macros = loadMacrostructures(hallmarkRoot);
+  const target = macros.find(m => m.slug === slug || m.slug.startsWith(slug));
+  if (!target) {
+    throw new Error(`Macrostructure "${slug}" not found in Hallmark. Available: ${macros.map(m => m.slug).join(', ')}`);
+  }
+  return { ...target, content: fs.readFileSync(target.file, 'utf8') };
 }
 
 export function runCLI(args) {
-  const [cmd = 'list', target] = args;
+  let hallmarkPath = null;
+  const filteredArgs = [];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--from' && args[i + 1]) {
+      hallmarkPath = args[++i];
+    } else {
+      filteredArgs.push(args[i]);
+    }
+  }
+
+  const [cmd = 'list', target] = filteredArgs;
   if (cmd === 'list') {
     return {
-      themes: Object.values(THEMES).map(t => ({ id: t.id, name: t.name, description: t.description })),
-      macrostructures: Object.values(MACROSTRUCTURES).map(m => ({ id: m.id, name: m.name, description: m.description }))
+      hallmarkPath: resolveHallmarkPath(hallmarkPath),
+      macrostructures: loadMacrostructures(hallmarkPath).map(m => ({ slug: m.slug, name: m.name })),
+      themes: loadThemes(hallmarkPath).map(t => ({ slug: t.slug || t.name, name: t.name, palette: t.palette }))
     };
   }
-  if (cmd === 'theme' && target) return getTheme(target);
-  if (cmd === 'macro' && target) return getMacrostructure(target);
-  throw new Error(`Usage: node tools/hallmark.mjs [list | theme <id> | macro <id>]`);
+  if (cmd === 'macro' && target) {
+    return readMacrostructure(hallmarkPath, target);
+  }
+  if (cmd === 'theme' && target) {
+    const themes = loadThemes(hallmarkPath);
+    const found = themes.find(t => (t.slug || t.name) === target);
+    if (!found) throw new Error(`Theme "${target}" not found.`);
+    return found;
+  }
+  throw new Error(`Usage: node tools/hallmark.mjs [--from <path>] [list | macro <slug> | theme <slug>]`);
 }
 
-import { existsSync, realpathSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-
-if (process.argv[1] && existsSync(process.argv[1]) && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && fs.existsSync(process.argv[1]) && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     const result = runCLI(process.argv.slice(2));
     console.log(JSON.stringify(result, null, 2));
