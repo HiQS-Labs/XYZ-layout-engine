@@ -3,7 +3,7 @@
   Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 3 / 4
 
@@ -153,5 +153,27 @@ Verification:
 - Verified git diff touches only `skills/hallmark/SKILL.md` and `skills/impeccable/SKILL.md`.
 
 Handoff: Reviewer (codex), review revised skills against DoD for Round 3.
+
+### Reviewer · Round 3 · codex · 2026-11-09
+
+VERDICT: FAIL
+Basis: Block approval on one remaining R7 omission: Impeccable's concrete verification chain covers only one of its two exports. Both entire skill files were reviewed, including pre-existing content; no additional required defects found. Reversibility: Easy (one bounded prose/example correction). SWE review rubric applied.
+swept file: yes
+
+- **[Should] R7 remains partially open — Verify the Satori export in Impeccable too.** `skills/impeccable/SKILL.md:49-57` renders Satori and Playwright, but its entire verification snippet (`:59-70`) calls only `await verifyPublication('dist/renders/playwright');`. The Producer disposition says each backend root is covered; the actual skill does not instruct that explicitly or include the Satori call. `verifyPublication(root)` selects and checks only the supplied root (`tools/render.mjs:481-496`), so checking Playwright cannot establish Satori artifact integrity or receipts. Cheapest fix: add `await verifyPublication('dist/renders/satori');` and say both export roots must pass before audit/export, as Hallmark already does. No new machinery or tests needed.
+  Observed input: Static extraction of every `await verifyPublication(...)` argument in the whole Impeccable skill returned only `['dist/renders/playwright']`; Hallmark returned both backend roots.
+  Affected scope: Impeccable Step 3's dual-backend publication verification, before downstream audit/export.
+  Falsifier: Following Impeccable's concrete instructions verifies both `dist/renders/satori` and `dist/renders/playwright`, with either verifier failure preventing completion.
+
+- **[Pass] R6 resolved.** Hallmark's headline 7–10%, minimum 6%, body floor 1.8%, ratio ≥4:1, and four-size cap (`skills/hallmark/SKILL.md:42-47`) agree with `SYSTEM-INSTRUCTIONS.md:54-58` and link the governing reporting requirements.
+- **[Pass] R7 current-path correction and Hallmark verification resolved.** Both skills use `selectedRun()` and explain that `current` already includes `runs/` (`skills/hallmark/SKILL.md:80-93`, `skills/impeccable/SKILL.md:61-71,83`), matching `tools/render.mjs:404-411`. Hallmark explicitly verifies both backend roots at `:86-87`.
+- **[Pass] R8 resolved for the material admission/scope distinction.** Impeccable explicitly restricts the heuristic to top-level elements, numeric sizes and element styles, and requires intake preflight for all intake recipes (`skills/impeccable/SKILL.md:44`); Hallmark distinguishes schema admission from craft heuristics and corrects error/no-error exits (`skills/hallmark/SKILL.md:56-59`). These align with `tools/craft-lint.mjs:32-110,124-138` and `tools/intake.mjs:25-35`. The earlier broad wording is qualified by these explicit boundaries.
+- **[Pass] Retained operational chain.** Discovery uses supported commands and an explicit external checkout (`skills/hallmark/SKILL.md:12-35`; `tools/hallmark.mjs:172-219`). Detector prerequisites, fallback and timeout evidence limits remain explicit (`skills/impeccable/SKILL.md:82-86`; `tools/impeccable/audit.mjs:10-24,63-100`). Asset commands and scene-cropping qualification remain consistent with the implementation (`skills/impeccable/SKILL.md:91-104`; `tools/export-editorial-asset.mjs:54-73,113-130`).
+
+Probe evidence: Ran `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"` and `python3 - <<'PY' > .relay-scratch/gh79-round3-static.txt` with `Path('skills/<name>/SKILL.md').read_text()` and `re.findall(r"await verifyPublication\('([^']+)'\)", text)` for both names; printed `tools/render.mjs` lines 480–499 as a source cross-check. Exit status 0. Decisive output: `hallmark: verifyPublication arguments = ['<output-dir>/playwright', '<output-dir>/satori']`; `impeccable: verifyPublication arguments = ['dist/renders/playwright']`. This was static inspection, not an executable fixture or runtime verification.
+
+Evidence/limits: Read both complete skills, governing design rules, linked intake skill/contract, and related implementation source. Graph tools/project discovery are unavailable; no graph completeness claim. Startup roadmap CLI is absent at both documented local paths. Producer's suite claim remains **[Unverified — needs clone run]**; no validate.sh, test scripts, pytest, executable fixtures, rendering, detector, downloads, remote writes or git commands ran. Only this relay file changed outside authorized scratch; the harness owns checks and the file-scoped commit.
+
+Handoff: Producer (Antigravity), finish R7 with the Satori verifier call and return for round 4.
 
 <!-- END OF LOG MARKER — append new turns immediately above this line -->
