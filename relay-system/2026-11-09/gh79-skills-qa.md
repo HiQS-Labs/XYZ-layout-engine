@@ -3,7 +3,7 @@
   Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 4
 
@@ -109,5 +109,35 @@ Verification:
 - Verified git diff touches only `skills/hallmark/SKILL.md` and `skills/impeccable/SKILL.md`.
 
 Handoff: Reviewer (codex), review revised skills against DoD for Round 2.
+
+### Reviewer · Round 2 · codex · 2026-11-09
+
+VERDICT: FAIL
+Basis: Block approval pending three bounded prose corrections. Reviewed both entire skill files, including pre-existing content; remaining defects are below. R1 is resolved, R2 is substantially addressed through the linked intake workflow, and R3–R5 are improved but retain the gaps identified below. Reversibility: Easy (skill instructions only).
+swept file: yes
+
+- **[Should] R6 — Correct the AS-12 headline inequality.** `skills/hallmark/SKILL.md:42` says "headline $\le 6\%$", whereas `SYSTEM-INSTRUCTIONS.md:54` requires headline 7–10% of S, never below 6%. Following the skill makes 6% the ceiling instead of the minimum. Fix: remove the conflicting summary or use the canonical ranges, including the body floor and headline:body ratio; refer to the governing Report section for measured before/after evidence.
+  Observed input: The complete Hallmark Step 2 explicitly prescribes a headline at most 6% of S; at S=1200 this caps it at 72px versus the canonical 84–120px target.
+  Affected scope: Every Hallmark fixture authored using this typography guidance.
+  Falsifier: The skill's numeric directions agree with AS-12 and cannot direct a cold agent to treat 6% as the headline maximum.
+
+- **[Should] R7 — Resolve the actual manifest-relative path and retain publication verification in both workflows.** `skills/hallmark/SKILL.md:71,75-76` and `skills/impeccable/SKILL.md:57,63-69` describe `current` as a run ID, but `tools/render.mjs:466` writes `current: "runs/${id}"`; `selectedRun()` joins that entire relative value to the export root (`:404-411`). Substitution into the documented `runs/<current-id>` path can duplicate `runs/`. Impeccable also proceeds straight from rendering to audit with no `verifyPublication()` step. Hallmark's alternative of checking a manifest, hashes and dimensions omits the receipt's required `validation.valid` and `fitting.fit` checks (`tools/render.mjs:481-499`). Fix: give a small read-only example importing `selectedRun` and `verifyPublication` from `tools/render.mjs`, call verification on each backend export root, resolve the directory once and audit its explicit HTML. Join exportRoot + manifest.current directly if resolving manually; do not prepend another `runs/`. Keep both-backend full-size/source comparison and the governing report requirements explicit or linked.
+  Observed input: Probe with the implementation's manifest shape `current="runs/1234-abcd"` yielded documented substitution `dist/renders/playwright/runs/runs/1234-abcd/render-inline.html`; correct join is `dist/renders/playwright/runs/1234-abcd/render-inline.html`. Impeccable Steps 3–4 contain no publication verifier.
+  Affected scope: Both workflows' current-run targeting; Impeccable's render-to-audit/export integrity check.
+  Falsifier: Both workflows verify the backend export roots and derive existing active HTML paths from the full relative `current` value, without treating manifest presence or detector exit 0 as publication verification.
+
+- **[Should] R8 — Finish documenting the linter's scope and distinguish it from schema validation.** `skills/impeccable/SKILL.md:29,37-42` still promises exact/general checks, and presents standalone craft lint as an alternative to intake preflight. The checks execute only inside the top-level `Array.isArray(fixture.elements)` branch (`tools/craft-lint.mjs:32-110`); typography only examines numeric `settings.type.*.size`, while border/shadow/stripe checks read `element.style`. A legacy recipe without `elements` can pass with no inspection; arbitrary style fields are not accepted by the linked data-only intake schema (`tools/recipes/design-intake.contract.md:7,26`). Fix: explicitly state that lint is a limited structural heuristic for that shape, standalone lint does not validate the schema or prove visual compliance, and intake fixtures require intake preflight in addition to any standalone lint. Retain manual AS review for unsupported shapes and rendered styles. Also change Hallmark `:52` from "0 errors (exit 1)" to errors exit 1 / no errors exit 0.
+  Observed input: A narrow `lintFixture({settings:{type:{body:{size:8}}}})` call returned `ok:true, findings:[]`; `lintFixture({elements:[],settings:{type:{body:{size:'8'}}}})` also returned `ok:true, findings:[]`. These are boundary probes, not schema-valid intake fixtures.
+  Affected scope: Impeccable's generic recipe-refinement/lint workflow and interpretation of both skills' craft results.
+  Falsifier: A cold agent cannot mistake a no-elements/unsupported-shape lint pass for schema admission or AS-14/visual certification, and no-errors exit semantics are unambiguous.
+
+- **[Pass] Corrected discovery and export syntax.** Hallmark's `list`, `macro <slug>`, `theme <slug>` examples and explicit checkout selection (`skills/hallmark/SKILL.md:12-35`) match `tools/hallmark.mjs:172-219`. Export flags and the explicit scene-cropping caveat (`skills/impeccable/SKILL.md:78-90`) match `tools/export-editorial-asset.mjs:54-73,113-130`.
+- **[Pass] Detector dependency is now disclosed.** `skills/impeccable/SKILL.md:70-72` names local discovery, the npx fallback, evidence reporting and unverified/blocked handling. This reflects `tools/impeccable/audit.mjs:10-24,63-100`. Keep failure/timeout completion evidence explicit: the wrapper maps a null process status to exit 0, so success alone remains insufficient.
+
+Probe evidence: Ran `node --input-type=module - <<'JS' > .relay-scratch/gh79-round2-probes.json` with `import {lintFixture} from './tools/craft-lint.mjs'`, the two exact calls quoted in R8, and string substitution of `{current:'runs/1234-abcd'}` into the paths quoted in R7. Exit status 0; decisive output: both lint reports `{"ok":true,"findings":[],"errors":[],"warnings":[]}`, duplicated `runs/runs/` for the documented substitution, and the exact conflicting headline line quoted in R6. Scratch evidence is ephemeral; commands/inputs/results are preserved here.
+
+Evidence/limits: Static reads covered both whole skills and related CLI/contract implementations. Graph tools/project discovery are unavailable in this session; no graph completeness claim. Startup roadmap CLI remains absent at both documented local paths. No validate.sh, test scripts, pytest, executable fixtures, rendering, detector, downloads, remote writes or git commands ran. Producer's `pnpm test` claim is **[Unverified — needs clone run]** here; the harness owns the post-turn gate. No source/artifact edits were made. Only this relay file was edited outside authorized scratch.
+
+Handoff: Producer (Antigravity), address R6–R8 in the two skills and return for round 3. The harness owns the file-scoped commit.
 
 <!-- END OF LOG MARKER — append new turns immediately above this line -->
