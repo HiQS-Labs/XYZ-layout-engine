@@ -5,8 +5,8 @@
 -->
 
 NEXT: Producer
-STATUS: Open
-ROUND: 2 / 4
+STATUS: Approved
+ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -137,5 +137,38 @@ swept file: yes
 **Evidence / limits:** Read all 230 lines of `tools/hallmark.mjs` and the entire relay including Producer remediations; no additional material findings beyond the remaining F2 defect. Only Node built-ins remain (`tools/hallmark.mjs:5`–7); a fresh import exited 0 with empty stdout/stderr under the executable guard (`tools/hallmark.mjs:222`). Relative/absolute and environment path probes passed (`tools/hallmark.mjs:10`–11). Verification used local inline Node probes, executable subprocesses, and disposable temporary source directories; no server operations, artifact edits or added tests. Graph discovery/coverage tools were unavailable, so evidence is direct-source. `utils/pdda/pdda.sh hardcoded-paths` returned `errors=0 warns=0`. Reversibility: **Easy**. Home-prefix sanitation is limited to this committed relay; pre-existing home-prefix hits elsewhere remain outside this review's edit scope.
 
 **Handoff:** Producer — resolve the remaining F2 frontmatter failure, rerun every F2 falsifier, and return for Round 3. STATUS remains Open.
+
+### Producer · Antigravity · Round 2
+
+- **[Implemented] F2 (Multiline YAML frontmatter color extraction)**:
+  Updated `kvRegex` in `parseThemeMarkdown` (`tools/hallmark.mjs:107`) to include the `m` (multiline) flag:
+  `/\b(paper|ink|accent|muted|rule|surface|secondary)\b\s*[:=]\s*["']?((?:oklch|rgb|hsl|rgba|hsla)\([^)]+\)|#[0-9a-fA-F]{3,8}|[^\s;"']+?)["']?(?:[;,]|\s*$)/gim`
+  This ensures `$` matches line boundaries (newlines) within YAML frontmatter blocks rather than only the EOF anchor.
+
+  Verified against every F2 falsifier test:
+  1. `parseThemeMarkdown('x', '---\npaper: "#fff"\nink: "#111111"\naccent: "#ff0000"\n---')` → `{ paper: '#fff', ink: '#111111', accent: '#ff0000' }` (PASS).
+  2. `parseThemeMarkdown('x', '---\npaper: "#ffffff"\nink: "#111111"\naccent: "#ff0000"\n---')` → `{ paper: '#ffffff', ink: '#111111', accent: '#ff0000' }` (PASS).
+  3. `parseThemeMarkdown('x', '| Accent | #abcdef | text on background |')` → `{ accent: '#abcdef' }` (PASS).
+  4. Multi-declaration `paper: #ffffff; ink: #111111; accent: #ff0000` → all three preserved (PASS).
+  5. Alpha hex `secondary: #aabbccdd` → `#aabbccdd` (PASS).
+
+**Handoff:** Reviewer (Codex Sol) — please verify the multiline YAML frontmatter fix and provide final verdict.
+
+## Reviewer · codex · Round 3 · 2026-11-09
+
+**Ship — VERDICT: PASS**
+
+**Basis:** F2 now satisfies every original and Round 2 falsifier. Multiline mode lets quoted YAML declarations terminate at line boundaries (`tools/hallmark.mjs:107`), while table role association, independent declarations and complete alpha hex values remain correct (`tools/hallmark.mjs:95`, `tools/hallmark.mjs:99`, `tools/hallmark.mjs:107`). F1, F3 and F4 regression probes also pass. No additional material findings from the full-file sweep.
+
+swept file: yes
+
+- **[Pass] F2 — Fully resolved.** Direct assertions of the exact five Producer Round 2 inputs returned: short YAML `{ paper: '#fff', ink: '#111111', accent: '#ff0000' }`; ordinary six-digit YAML `{ paper: '#ffffff', ink: '#111111', accent: '#ff0000' }`; the misleading-description table `{ accent: '#abcdef' }`; semicolon-separated declarations containing all three paper/ink/accent values; and alpha `{ secondary: '#aabbccdd' }` (`tools/hallmark.mjs:95`, `tools/hallmark.mjs:99`, `tools/hallmark.mjs:107`, `tools/hallmark.mjs:112`). A disposable manifest-absent directory also loaded the short YAML palette through the real Markdown reader (`tools/hallmark.mjs:47`, `tools/hallmark.mjs:58`, `tools/hallmark.mjs:59`).
+- **[Pass] F2 — Sensitive negative control and deterministic precedence.** An in-memory copy with only `/gim` changed back to `/gi` returned empty palettes for both quoted YAML inputs; the current implementation returned all three values. This reproduces the Round 2 defect without editing the artifact and isolates the correction to declaration termination (`tools/hallmark.mjs:107`). A combined CSS/table/repeated-key probe retained the first CSS paper value, consistent with CSS, then table, then key/value precedence and first-value retention within each pass (`tools/hallmark.mjs:89`, `tools/hallmark.mjs:101`, `tools/hallmark.mjs:111`).
+- **[Pass] F1/F3/F4 — Regression checks remain green.** The supplied checkout yielded 50/50 populated palettes; module and CLI output retained exact Broadside paper/ink/accent tokens (`tools/hallmark.mjs:55`, `tools/hallmark.mjs:59`, `tools/hallmark.mjs:205`). Targets `1`, `01`, `14` and the exact bento slug selected their intended macros; a disposable directory rejected ambiguous `foo` (`tools/hallmark.mjs:144`, `tools/hallmark.mjs:153`, `tools/hallmark.mjs:168`). Both original missing-`--from` cases threw in the module and exited 1 as executable invocations (`tools/hallmark.mjs:179`, `tools/hallmark.mjs:180`, `tools/hallmark.mjs:228`).
+- **[Pass] Full-file sweep — No additional material defects found within the stated operational envelope.** Read all 230 artifact lines and the entire relay, including Producer Round 2. Imports remain Node built-ins (`tools/hallmark.mjs:5`, `tools/hallmark.mjs:6`, `tools/hallmark.mjs:7`); a fresh import exited 0 with empty stdout/stderr (`tools/hallmark.mjs:222`). Relative path resolution and the explanatory missing-path error passed direct probes (`tools/hallmark.mjs:10`, `tools/hallmark.mjs:11`, `tools/hallmark.mjs:12`).
+
+**Evidence / limits:** Local inline Node assertions, executable subprocesses, an in-memory negative control and disposable local directories; all probes exited 0. No artifact changes, added tests or remote-server actions. Graph tools were unavailable, so source and runtime probes provide the evidence. `utils/pdda/pdda.sh hardcoded-paths` reported `errors=0 warns=0`. Reversibility: **Easy**. Home-prefix sanitation covers this relay only; unrelated tracked-file hits remain outside the authorized edit scope. Approval applies to the reviewed working-tree artifact. The requested relay-only commit could not be created: the filesystem sandbox denied creation of `.git/index.lock`; no commit was made.
+
+**Handoff:** Producer — review complete; all F1–F4 findings are resolved, and STATUS is Approved. No further correction requested in this relay.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

@@ -66,7 +66,7 @@ Rated 40/20/80/70 (calc=210): priority 40 reflects user exploration and design e
 
 ## Implementation Evidence
 
-- `node tools/hallmark.mjs list --from "/Users/noelsaw/Documents/GH Repos/hallmark-fork"` successfully indexed 21 macrostructures and 50 themes.
+- `node tools/hallmark.mjs list --from "../hallmark-fork"` successfully indexed 21 macrostructures and 50 themes.
 - `node tools/intake.mjs check examples/2026-11-09-hallmark-skate-guide/fixture.json` returns `ready: true, unsupported: [], pending: []`.
 - Satori and Playwright renders executed with zero collisions and exact deterministic output publications under `examples/2026-11-09-hallmark-skate-guide/renders/`.
 - Full `pnpm test` executed and passed 4/4 canary guards.

@@ -27,49 +27,92 @@ export function loadThemes(hallmarkRoot) {
     path.join(root, 'references/themes'),
     path.join(root, 'skills/hallmark/themes')
   ];
-  let themesDir = candidates.find(dir => fs.existsSync(dir));
+  const themesDir = candidates.find(dir => fs.existsSync(dir));
   if (!themesDir) {
     throw new Error(`Unable to locate themes directory in Hallmark at "${root}". Checked: ${candidates.join(', ')}`);
   }
 
   const manifestPath = path.join(themesDir, 'index.json');
+  let themeList = [];
   if (fs.existsSync(manifestPath)) {
     try {
       const data = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-      if (Array.isArray(data.themes)) return data.themes;
-      if (Array.isArray(data)) return data;
+      const raw = Array.isArray(data.themes) ? data.themes : (Array.isArray(data) ? data : []);
+      themeList = raw.map(t => ({ slug: t.slug || t.name, name: t.name || t.slug }));
     } catch (e) {
-      // Fall back to scanning files
+      // Fall back to scanning markdown files
     }
   }
 
-  // Scan markdown files if manifest is not present or unparseable
-  const files = fs.readdirSync(themesDir).filter(f => f.endsWith('.md') && f !== 'README.md');
-  return files.map(file => {
-    const slug = path.basename(file, '.md');
-    const content = fs.readFileSync(path.join(themesDir, file), 'utf8');
-    return parseThemeMarkdown(slug, content);
+  if (themeList.length === 0) {
+    const files = fs.readdirSync(themesDir).filter(f => f.endsWith('.md') && f !== 'README.md');
+    themeList = files.map(file => {
+      const slug = path.basename(file, '.md');
+      return { slug, name: slug };
+    });
+  }
+
+  return themeList.map(item => {
+    const filePath = path.join(themesDir, `${item.slug}.md`);
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, 'utf8');
+      const parsed = parseThemeMarkdown(item.slug, content);
+      return { ...item, ...parsed, palette: parsed.palette };
+    }
+    return { ...item, palette: {} };
   });
+}
+
+function mapRole(r) {
+  const lower = r.toLowerCase();
+  if (lower.startsWith('paper') || lower.startsWith('background') || lower.startsWith('surface')) {
+    return lower.includes('surface') ? 'surface' : 'paper';
+  }
+  if (lower.startsWith('ink') || lower.startsWith('text') || lower.startsWith('foreground')) return 'ink';
+  if (lower.startsWith('accent')) return 'accent';
+  if (lower.startsWith('muted')) return 'muted';
+  if (lower.startsWith('rule')) return 'rule';
+  if (lower.startsWith('secondary')) return 'secondary';
+  return null;
 }
 
 export function parseThemeMarkdown(slug, content) {
   const theme = { slug, name: slug, palette: {} };
-  // Extract colors from markdown content or frontmatter if present
-  const lines = content.split('\n');
-  for (const line of lines) {
-    const hexMatches = line.match(/(#[0-9a-fA-F]{6})/g);
-    if (!hexMatches) continue;
-    const lower = line.toLowerCase();
-    if (lower.includes('paper') || lower.includes('background') || lower.includes('surface')) {
-      if (!theme.palette.paper) theme.palette.paper = hexMatches[0];
-    } else if (lower.includes('ink') || lower.includes('text') || lower.includes('foreground')) {
-      if (!theme.palette.ink) theme.palette.ink = hexMatches[0];
-    } else if (lower.includes('accent')) {
-      if (!theme.palette.accent) theme.palette.accent = hexMatches[0];
-    } else if (lower.includes('secondary') || lower.includes('muted')) {
-      if (!theme.palette.secondary) theme.palette.secondary = hexMatches[0];
+
+  // 1. CSS Custom Properties: --color-<role>: <value>;
+  const cssVarRegex = /--color-([a-zA-Z0-9_-]+)\s*:\s*([^;]+);/g;
+  let match;
+  while ((match = cssVarRegex.exec(content)) !== null) {
+    const rawRole = match[1].toLowerCase();
+    const val = match[2].trim();
+    const role = mapRole(rawRole);
+    if (role && !theme.palette[role]) {
+      theme.palette[role] = val;
     }
   }
+
+  // 2. Table row pattern: | Role | Color | ... |
+  const tableRegex = /\|\s*(Paper|Ink|Accent|Muted|Rule|Surface|Secondary)\b[^|]*\|\s*([^|\n]+?)\s*\|/gi;
+  while ((match = tableRegex.exec(content)) !== null) {
+    const role = mapRole(match[1]);
+    const cell = match[2].trim();
+    const colorMatch = cell.match(/((?:oklch|rgb|hsl|rgba|hsla)\([^)]+\)|#[0-9a-fA-F]{3,8})/);
+    const val = colorMatch ? colorMatch[1] : cell;
+    if (role && !theme.palette[role]) {
+      theme.palette[role] = val;
+    }
+  }
+
+  // 3. Bounded key-value declarations (supports multiline frontmatter and multiple per line: "paper: #fff; ink: #111")
+  const kvRegex = /\b(paper|ink|accent|muted|rule|surface|secondary)\b\s*[:=]\s*["']?((?:oklch|rgb|hsl|rgba|hsla)\([^)]+\)|#[0-9a-fA-F]{3,8}|[^\s;"']+?)["']?(?:[;,]|\s*$)/gim;
+  while ((match = kvRegex.exec(content)) !== null) {
+    const role = mapRole(match[1]);
+    const val = match[2].trim();
+    if (role && !theme.palette[role]) {
+      theme.palette[role] = val;
+    }
+  }
+
   return theme;
 }
 
@@ -94,44 +137,86 @@ export function loadMacrostructures(hallmarkRoot) {
   });
 }
 
-export function readMacrostructure(hallmarkRoot, slug) {
+export function readMacrostructure(hallmarkRoot, target) {
   const macros = loadMacrostructures(hallmarkRoot);
-  const target = macros.find(m => m.slug === slug || m.slug.startsWith(slug));
-  if (!target) {
-    throw new Error(`Macrostructure "${slug}" not found in Hallmark. Available: ${macros.map(m => m.slug).join(', ')}`);
+  
+  // 1. Exact slug match
+  const exact = macros.find(m => m.slug === target);
+  if (exact) {
+    return { ...exact, content: fs.readFileSync(exact.file, 'utf8') };
   }
-  return { ...target, content: fs.readFileSync(target.file, 'utf8') };
+
+  // 2. Delimited numeric ID resolution (e.g. "1" or "01" -> "01-bento-grid")
+  const num = parseInt(target, 10);
+  if (!isNaN(num) && String(num) === target.replace(/^0+/, '') || target === '00' || target === '0') {
+    const padded = String(num).padStart(2, '0');
+    const numMatches = macros.filter(m => m.slug.startsWith(`${padded}-`) || m.slug.startsWith(`${num}-`));
+    if (numMatches.length === 1) {
+      return { ...numMatches[0], content: fs.readFileSync(numMatches[0].file, 'utf8') };
+    }
+    if (numMatches.length > 1) {
+      throw new Error(`Ambiguous macrostructure numeric ID "${target}". Matches: ${numMatches.map(m => m.slug).join(', ')}`);
+    }
+  }
+
+  // 3. Delimited prefix matching with ambiguity check
+  const prefixMatches = macros.filter(m => m.slug === target || m.slug.startsWith(`${target}-`) || m.slug.startsWith(target));
+  if (prefixMatches.length === 1) {
+    return { ...prefixMatches[0], content: fs.readFileSync(prefixMatches[0].file, 'utf8') };
+  }
+  if (prefixMatches.length > 1) {
+    throw new Error(`Ambiguous macrostructure target "${target}". Matches: ${prefixMatches.map(m => m.slug).join(', ')}`);
+  }
+
+  throw new Error(`Macrostructure "${target}" not found in Hallmark. Available: ${macros.map(m => m.slug).join(', ')}`);
 }
 
 export function runCLI(args) {
   let hallmarkPath = null;
   const filteredArgs = [];
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--from' && args[i + 1]) {
+    if (args[i] === '--from') {
+      if (!args[i + 1] || args[i + 1].startsWith('-')) {
+        throw new Error('--from option requires a directory path argument.');
+      }
       hallmarkPath = args[++i];
+    } else if (args[i].startsWith('--from=')) {
+      hallmarkPath = args[i].slice('--from='.length);
+      if (!hallmarkPath) {
+        throw new Error('--from option requires a directory path argument.');
+      }
     } else {
       filteredArgs.push(args[i]);
     }
   }
 
-  const [cmd = 'list', target] = filteredArgs;
+  const [cmd = 'list', target, ...extra] = filteredArgs;
+  if (extra.length > 0) {
+    throw new Error(`Unexpected positional argument: "${extra[0]}".\nUsage: node tools/hallmark.mjs [--from <path>] [list | macro <slug> | theme <slug>]`);
+  }
+
   if (cmd === 'list') {
+    if (target) {
+      throw new Error(`Unexpected argument "${target}" for command "list".\nUsage: node tools/hallmark.mjs [--from <path>] list`);
+    }
     return {
       hallmarkPath: resolveHallmarkPath(hallmarkPath),
       macrostructures: loadMacrostructures(hallmarkPath).map(m => ({ slug: m.slug, name: m.name })),
       themes: loadThemes(hallmarkPath).map(t => ({ slug: t.slug || t.name, name: t.name, palette: t.palette }))
     };
   }
-  if (cmd === 'macro' && target) {
+  if (cmd === 'macro') {
+    if (!target) throw new Error(`Missing target slug for command "macro".\nUsage: node tools/hallmark.mjs [--from <path>] macro <slug>`);
     return readMacrostructure(hallmarkPath, target);
   }
-  if (cmd === 'theme' && target) {
+  if (cmd === 'theme') {
+    if (!target) throw new Error(`Missing target slug for command "theme".\nUsage: node tools/hallmark.mjs [--from <path>] theme <slug>`);
     const themes = loadThemes(hallmarkPath);
     const found = themes.find(t => (t.slug || t.name) === target);
     if (!found) throw new Error(`Theme "${target}" not found.`);
     return found;
   }
-  throw new Error(`Usage: node tools/hallmark.mjs [--from <path>] [list | macro <slug> | theme <slug>]`);
+  throw new Error(`Unknown command "${cmd}".\nUsage: node tools/hallmark.mjs [--from <path>] [list | macro <slug> | theme <slug>]`);
 }
 
 if (process.argv[1] && fs.existsSync(process.argv[1]) && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
