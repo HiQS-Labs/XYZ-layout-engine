@@ -106,12 +106,69 @@ The intake checker reports unsupported requirements and pending artwork before r
   node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend playwright --format png,html,html-inline --out .relay-scratch/belief-reference-playwright
   node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --recipe recursive-process --backend satori --format svg,html,html-inline --out .relay-scratch/belief-reference-satori
   ```
+- **Hallmark Macrostructures & Themes (`tools/hallmark.mjs`)**:
+  [Bento Grid](examples/2026-11-09-hallmark-bento/README.md), [Stat-Led](examples/2026-11-09-hallmark-stat-led/README.md), and [How to Skateboard Guide](examples/2026-11-09-hallmark-skate-guide/README.md). Dynamically parses 21 Hallmark macrostructures and 50 print/editorial themes from an external clone (`tools/hallmark.mjs --from <path>`) without baking third-party files into core.
+  ```sh
+  node tools/intake.mjs check examples/2026-11-09-hallmark-bento/fixture.json --craft
+  node tools/render.mjs examples/2026-11-09-hallmark-bento/fixture.json --format png,svg,html,html-inline --out .relay-scratch/hallmark-bento
+  ```
+- **Editorial Asset Provider (`tools/export-editorial-asset.mjs`)**:
+  Compiles isolated, high-DPI transparent SVG and PNG editorial components (infographics, cards, badges) directly from recipe fixtures for embedding into external web applications (React, Next.js, Vite) with auto-generated responsive `<img>` markup:
+  ```sh
+  node tools/export-editorial-asset.mjs examples/2026-11-09-hallmark-bento/fixture.json --element card_hero --scale 2 --out temp/hero-card.png
+  ```
+- **Craft Floor Linter & Headless HTML Audit**:
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines `AS-13` (steering verbs: `distill`, `bolder`, `quieter`, `typeset`) and `AS-14` (anti-slop invariants). Enforced deterministically by [`tools/craft-lint.mjs`](tools/craft-lint.mjs) (no nested cards, elevation singularity, no asymmetric side stripes, typography ramp snapping) and verified via headless HTML auditing:
+  ```sh
+  node tools/craft-lint.mjs examples/2026-11-09-hallmark-bento/fixture.json
+  node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders
+  ```
 - **Solar System Overview (`solar-system@1.0.1`)**:
   [Example bundle](examples/2026-10-08-solar-system/README.md). Renders a `2400×1700` dark-field diagram with eleven generated astronomical cutouts, verified alpha channels, and deterministic leader lines.
 - **Hand-Built Visual Studies (Pre-Recipe)**:
   [RAG System Architecture](examples/2026-10-09-rag-system/README.md) and [Mitosis Cell Division](examples/2026-10-09-cell-division/README.md), recorded in the design catalog with `use_case = NULL`.
 - **Visual Design Governance & Transparent PNG SOP**:
-  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-12`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows and the 10-rule proportional `% of S` type scale), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-14`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows, proportional `% of S` type scale, steering verbs, and craft invariants), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
+
+## Using XYZ Layout Engine with Impeccable
+
+[Impeccable](https://github.com/pbakaus/impeccable) provides coding agents with a structured design vocabulary and deterministic anti-slop detection for web applications. **XYZ Layout Engine** pairs naturally with Impeccable in three complementary ways:
+
+### 1. Headless HTML Quality Auditing
+XYZ Layout Engine compiles reproducible, self-contained HTML exports (`render.html` and `render-inline.html`). You can audit rendered output using Impeccable's deterministic 62-rule detector (checking WCAG AA contrast ratios, cramped container padding, font size floors, and layout tension) without adding external runtime dependencies:
+
+```sh
+# Audit a rendered publication directory using the engine's integration helper:
+node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders
+
+# Or run Impeccable CLI directly against the standalone HTML export:
+npx impeccable detect .relay-scratch/nutrition-export/render-inline.html
+```
+
+### 2. Editorial Asset Provider for Web Apps
+Impeccable-steered coding agents excel at structuring web pages, forms, and application chrome in React, Vite, Next.js, or SvelteKit, but CSS flexbox often struggles with complex visual infographics, multi-panel editorial cards, or technical diagrams.
+
+Use XYZ Layout Engine as an **Editorial Asset Factory**: compile an entire recipe or crop a specific sub-component into an isolated, high-DPI transparent PNG or SVG asset:
+
+```sh
+# Export an individual card at 2x Retina scale with transparent alpha:
+node tools/export-editorial-asset.mjs examples/2026-11-09-hallmark-bento/fixture.json \
+  --element card_hero \
+  --scale 2 \
+  --out src/assets/hero-card.png
+```
+The command outputs the asset and ready-to-use responsive HTML markup:
+```html
+<img src="hero-card.png" width="624" height="504" alt="Editorial Asset" loading="lazy" decoding="async" />
+```
+
+### 3. Steering Recipe Iterations with Impeccable Verbs
+When prompting coding agents to iterate on or refine an XYZ Layout Engine recipe, use Impeccable's 4 core steering verbs (`AS-13`) to eliminate ambiguity:
+
+- **`distill`**: Strip secondary boxes, remove container borders, delete filler copy, and let white space and typographic scale carry the layout.
+- **`bolder`**: Increase scale contrast (expand headline toward the upper 10% limit of $S$, punch dominant darks, widen outer margins for editorial drama).
+- **`quieter`**: Tone down saturated colors, soften rules into subtle hairlines, increase line-heights, and add air between sections.
+- **`typeset`**: Snap all text sizes strictly to the `% of S` scale (max 4 distinct sizes on canvas), align cap-heights to baselines, and balance paragraph measure (40–60 characters).
 
 ## Local Recipe Catalog
 

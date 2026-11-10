@@ -1,4 +1,14 @@
 # Changelog
+## 2026-11-09 — GH-79: Impeccable craft floor, steering verbs, headless HTML audit, and editorial asset export
+
+- Codified rules **`AS-13`** (Impeccable steering verbs: `distill`, `bolder`, `quieter`, `typeset`) and **`AS-14`** (anti-slop layout invariants: no nested cards, elevation singularity, no asymmetric side stripes, typography ramp snapping) in `SYSTEM-INSTRUCTIONS.md`.
+- Added `tools/craft-lint.mjs`: Standalone deterministic linter validating layout fixtures against craft floor invariants without LLM dependency; exits 0 on clean layouts, exits 1 on violations.
+- Updated `tools/intake.mjs`: Added `--craft` flag to `intake check` to run craft floor validation during intake preflight.
+- Added `tools/impeccable/audit.mjs`: Headless HTML auditing integration discovering local `impeccable` CLI binaries or falling back to `npx impeccable detect` against rendered publication HTML.
+- Added `tools/export-editorial-asset.mjs`: Editorial asset provider compiling isolated, high-DPI transparent SVG and PNG components (infographics, cards, badges) from recipes for embedding into external web applications (React, Next.js, Vite) with responsive `<img>` markup.
+- Added repo-local agent skills: `skills/hallmark/SKILL.md` (chaining macrostructure/theme discovery, recipe translation, craft preflight, and dual rendering) and `skills/impeccable/SKILL.md` (chaining craft linting, headless HTML auditing, steering verbs, and editorial asset exports).
+- Verification: `pnpm test` passes 4/4 canaries in 38.0s (under 60s budget, zero budget drift); craft linter verified against Hallmark bento, stat-led, and skate guide canonical examples.
+
 ## 2026-11-09 — GH-74: Hallmark layouts (Bento, Stat-Led, Skate Guide) and dynamic importer harness
 
 - Updated `tools/hallmark.mjs`: CLI and module supporting dynamic loading of Hallmark macrostructures (21) and themes (50) from an external Hallmark clone via `--from <path>` or `HALLMARK_PATH` (e.g. `/Users/noelsaw/Documents/GH Repos/hallmark-fork`), ensuring third-party designs are read cleanly without baking into XYZ Layout Engine.
