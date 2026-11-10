@@ -3,9 +3,9 @@
   Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -57,7 +57,7 @@ ROUND: 1 / 4
 
 ## Log
 
-## Reviewer · codex · round 1 · 2026-11-09
+### Reviewer · Round 1 · codex · 2026-11-09
 
 VERDICT: FAIL
 Basis: Block. The discovery commands fail as written, and the skills omit contracts needed for cold-agent authoring and trustworthy audit/verification. Reviewed both entire skill files, including pre-existing content; findings below cover the defects found. Reversibility: Easy (skill prose corrections only).
@@ -93,5 +93,21 @@ swept file: yes
 Evidence/limits: Focused probe results are in `.relay-scratch/gh79-review-probes.json` and `.relay-scratch/gh79-craft-probe.json` (ephemeral harness scratch). No full suite, remote writes, external detector/download, or visual render was run. Graph lookup required an unavailable project ID/discovery surface; exact source reads were used, with no graph completeness claim. Startup roadmap CLI was unavailable at both documented local paths. Root cause: skill prose drifted from existing tool contracts; fix site: the two skill files; no runtime changes or new machinery are needed for these findings. No artifact edits made by Reviewer. No git commands run; the harness owns the relay-only commit.
 
 Handoff: Producer (Antigravity), disposition R1–R5 and revise the two skills; return to Reviewer for round 2.
+
+### Producer · Round 1 · Antigravity · 2026-11-09
+
+Dispositions for Reviewer Round 1 findings:
+
+- **[Blocker] R1 — Replace nonexistent Hallmark commands and fallback**: **Implemented**. Updated `skills/hallmark/SKILL.md` to document the actual supported CLI subcommands (`list`, `macro <slug>`, `theme <slug>`). Explicitly stated that an external Hallmark repository clone is strictly required (via `--from <path>`, `HALLMARK_PATH`, or `../hallmark`), that `tools/hallmark.mjs` fails fast if the checkout is absent, and that there are no built-in fallbacks or baked-in presets.
+- **[Should] R2 — Ground authoring in the existing intake contract and repository rules**: **Implemented**. Added a dedicated "Prerequisites & Grounding" section in both skills referencing `SYSTEM-INSTRUCTIONS.md` (`AS-1` through `AS-14`), `tools/recipes/design-intake.contract.md`, and `skills/design-intake/SKILL.md`. Explicitly linked canonical worked examples (`examples/2026-11-09-hallmark-bento/fixture.json` and `examples/2026-10-12-design-intake/fixture.json`). Clarified requirements mapping, 6-digit hex palette roles, Barlow Condensed font constraints, and explicit preservation of unsupported requirements.
+- **[Should] R3 — Describe craft-lint's actual limits and exit semantics**: **Implemented**. Updated `skills/impeccable/SKILL.md` and `skills/hallmark/SKILL.md` to detail `craft-lint.mjs` rules and exit semantics. Clarified that `typography-ramp` enforces the 12px floor and integer sizes (exit 1), but does not mathematically enforce AS-12 `% of S` proportions or the 4-size canvas cap (which must be verified independently). Documented that `no-empty-decorative-plates` emits warnings that exit 0 but must be reviewed to ensure empty plates serve deliberate background functions.
+- **[Should] R4 — Complete the render-to-current-publication verification chain**: **Implemented**. Added explicit rendering commands connecting linting to publication. Documented that the renderer publishes under `runs/<id>` and atomically points `manifest.json.current` at the active run. Instructed agents to verify publications via `verifyPublication()` or manifest inspection, target explicit active HTML files (`runs/<current-id>/render-inline.html`), perform the 3-tier visual check, and never hand-edit exported HTML.
+- **[Should] R5 — Expose audit prerequisites, fallback, and evidence limits**: **Implemented**. Documented local binary discovery (`IMPECCABLE_BIN`, `~/.impeccable/bin/impeccable`, system `which`), requiring an explicit operator decision before triggering network downloads via `npx --yes`. Explicitly stated reporting requirements (runner, version, exit code, findings), marked audits without detectors as unverified/blocked, and maintained visual inspection across backends as the authoritative standard.
+
+Verification:
+- Ran `pnpm test`: 4/4 canaries passing in 37.8s (< 60s budget).
+- Verified git diff touches only `skills/hallmark/SKILL.md` and `skills/impeccable/SKILL.md`.
+
+Handoff: Reviewer (codex), review revised skills against DoD for Round 2.
 
 <!-- END OF LOG MARKER — append new turns immediately above this line -->
