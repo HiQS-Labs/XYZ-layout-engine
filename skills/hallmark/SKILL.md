@@ -39,7 +39,12 @@ Translate the selected macrostructure geometry and theme tokens into a native `f
 - **Capabilities Check**: Run `node tools/intake.mjs capabilities` to confirm supported features. Map requirements with quotes; record unsupported features as `status: "unsupported"` rather than inventing fields or substituting fonts.
 - **Canvas Dimensions**: Set standard aspect ratios (e.g. $1200 \times 1200$ square, $1200 \times 1600$ portrait, $2800 \times 1600$ landscape spread).
 - **Settings & Palette**: Map theme colors to 6-digit hex palette roles (`paper`, `ink`, `accent`, `secondary`, `subtle`). Use repository-supported fonts (e.g. Barlow Condensed); never copy arbitrary CSS classes or external web font URLs into the intake recipe.
-- **Typography Ramp**: Calculate font sizes from $S = \min(\text{width}, \text{height})$ per `AS-12` (display $\le 10\%$, headline $\le 6\%$, max 4 distinct sizes on canvas).
+- **Typography Ramp**: Calculate font sizes strictly per `AS-12` from $S = \min(\text{width}, \text{height})$:
+  - Headline: $7\text{--}10\%$ of $S$ ($84\text{--}120\text{px}$ at $S = 1200\text{px}$), never below $6\%$.
+  - Body / caption floor: $1.8\%$ of $S$ ($\approx 22\text{px}$ at $S = 1200\text{px}$), never below $1.5\%$.
+  - Headline : body ratio $\ge 4:1$.
+  - At most 4 distinct font sizes on canvas.
+  - Refer to [SYSTEM-INSTRUCTIONS.md](../../SYSTEM-INSTRUCTIONS.md) (`AS-12`) for exact role percentages and measured before/after reporting requirements.
 - **Elements**: Position structured cards/rectangles, non-overlapping text regions, and image cutouts following the macrostructure layout zones.
 
 ### Step 3: Craft Lint & Preflight Verification
@@ -48,10 +53,10 @@ Verify the fixture adheres to structural contracts and anti-slop craft invariant
 # Run intake check with integrated craft-lint
 node tools/intake.mjs check <path-to-fixture.json> --craft
 ```
-Lint boundaries to check:
-- **0 errors (exit 1)**: Must pass `no-nested-cards`, `elevation-singularity`, `no-side-stripe-borders`, and `typography-ramp` (all font sizes integer $\ge 12\text{px}$).
-- **Review warnings (exit 0)**: Inspect `no-empty-decorative-plates` warnings; decorative plates should enclose text or imagery unless intentionally styled as full-canvas background surfaces.
-- **Manual AS-12 Check**: `craft-lint.mjs` verifies the $12\text{px}$ floor and integer sizes, but does *not* automatically calculate proportional `% of S` steps or enforce the 4-size cap; verify these mathematically before rendering.
+Lint boundaries & exit semantics:
+- **Errors exit 1**: Fixture must produce 0 errors across `no-nested-cards`, `elevation-singularity`, `no-side-stripe-borders`, and `typography-ramp` (all font sizes integer $\ge 12\text{px}$).
+- **No errors exits 0**: Review all warnings (`no-empty-decorative-plates`); empty plates must serve intentional full-canvas background surfaces rather than accidental empty containers.
+- **Scope & Limitations**: `craft-lint.mjs` executes only when `Array.isArray(fixture.elements)` is true. It is a structural anti-slop heuristic, not a schema validator or visual certifier. Always run `node tools/intake.mjs check <fixture> --craft` for complete contract admission. Verify AS-12 proportional percentages and the 4-size canvas cap mathematically.
 
 ### Step 4: Dual-Backend Rendering
 Render through both Satori and Playwright Chromium backends to produce standard publication artifacts:
@@ -68,12 +73,24 @@ node tools/render.mjs <path-to-fixture.json> \
   --format png,html,html-inline \
   --out <output-dir>/playwright
 ```
-*Note: The renderer publishes artifacts under `<output-dir>/<backend>/runs/<id>` and atomically points `manifest.json.current` to the latest active run ID.*
+*Note: The renderer publishes artifacts under `<output-dir>/runs/<id>` and atomically records `current: "runs/<id>"` in `<output-dir>/manifest.json`.*
 
 ### Step 5: Verification & Visual Inspection
 Complete publication verification on the generated outputs:
-1. **Publication Verification**: Call `verifyPublication()` on each export directory or verify that `manifest.json` exists with a valid `current` run ID, valid hash digests, and matching dimensions.
-2. **Deterministic File Targeting**: Identify the active HTML artifact using the manifest's current run (e.g. `<output-dir>/<backend>/runs/<current-id>/render-inline.html`).
+1. **Publication Verification**: Call `verifyPublication()` on each backend export root to confirm valid manifest digests, `validation.valid: true`, and `fitting.fit: true`:
+   ```js
+   import path from 'node:path';
+   import { selectedRun, verifyPublication } from './tools/render.mjs';
+
+   // Verify integrity of each export root
+   await verifyPublication('<output-dir>/playwright');
+   await verifyPublication('<output-dir>/satori');
+
+   // Deterministically resolve the active run directory (joins root + manifest.current)
+   const activeRunDir = selectedRun('<output-dir>/playwright');
+   const activeHtml = path.join(activeRunDir, 'render-inline.html');
+   ```
+2. **Deterministic Manifest Resolution**: Note that `manifest.json.current` already contains `"runs/<id>"`. If resolving paths manually without `selectedRun()`, join `path.join(exportRoot, manifest.current, 'render-inline.html')`; never duplicate `runs/`.
 3. **Visual Review**:
    - Check mobile $1/3$-scale legibility ($400\text{px}$ viewport width).
    - Check thumbnail squint hierarchy (headline, section labels, body tiers).
