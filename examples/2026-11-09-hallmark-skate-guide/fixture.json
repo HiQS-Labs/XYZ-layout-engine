@@ -1,0 +1,374 @@
+{
+  "id": "design-intake",
+  "schemaVersion": 1,
+  "width": 1200,
+  "height": 1600,
+  "source": {
+    "path": "examples/2026-11-09-hallmark-skate-guide/DESIGN.md",
+    "sha256": "482a1b27da07f8c380b9f8436c6f7132fce4b66c031caad15540f03982448037"
+  },
+  "requirements": [
+    {
+      "quote": "Use a 1200 by 1600 portrait canvas.",
+      "feature": "absolute-layout",
+      "target": "width",
+      "status": "mapped",
+      "reason": "Portrait 1200x1600 canvas on a 24px spacing grid."
+    },
+    {
+      "quote": "Adopt the Hallmark Broadside palette with grained buff stock, dense charcoal ink, deep vermilion accent, and muted rule gray.",
+      "feature": "solid-fill",
+      "target": "settings.palette",
+      "status": "mapped",
+      "reason": "Authentic Hallmark Broadside editorial printer palette."
+    },
+    {
+      "quote": "Use bundled Barlow Condensed in regular and bold, a 24px spacing grid, square card corners, and 2px borders.",
+      "feature": "single-font",
+      "target": "settings",
+      "status": "mapped",
+      "reason": "Bundled font, 24px grid, square corners, and 2px border parameters."
+    },
+    {
+      "quote": "The layout opens with a dominant broadside header, features an isolated schematic board illustration, and guides the rider through the four essential progression steps in strict chronological order.",
+      "feature": "png-artwork",
+      "target": "artwork.items.0",
+      "status": "mapped",
+      "reason": "Pinned transparent PNG illustration of the board blueprint."
+    }
+  ],
+  "settings": {
+    "palette": {
+      "paper": "#ede6d6",
+      "ink": "#1c1917",
+      "accent": "#c83228",
+      "muted": "#57534e",
+      "surface": "#e4dcce"
+    },
+    "fontFamily": "Barlow Condensed",
+    "type": {
+      "display": {
+        "size": 54,
+        "weight": 700,
+        "lineHeight": 1.25
+      },
+      "body": {
+        "size": 24,
+        "weight": 400,
+        "lineHeight": 1.3
+      }
+    },
+    "spacing": 24,
+    "cornerRadius": 0,
+    "borderWidth": 2
+  },
+  "artwork": {
+    "style": "Technical equipment diagram with isolated transparent cutouts on warm newsprint.",
+    "items": [
+      {
+        "id": "board_blueprint",
+        "prompt": {
+          "subject": "Complete skateboard seen at an angle, natural maple deck with black grip tape and silver trucks.",
+          "view": "Three-quarter top down perspective view.",
+          "lighting": "Even directional studio lighting.",
+          "background": "Transparent background.",
+          "exclusions": "No shadows on background, no human feet, no text or stickers."
+        },
+        "width": 1344,
+        "height": 752,
+        "file": {
+          "path": "examples/2026-11-09-hallmark-skate-guide/assets/board.png",
+          "sha256": "d0be76bf41982131a11ad6cda337a9f03ef7e2f50a165a7719d03bd3399be6c0"
+        }
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "card_header",
+      "type": "rect",
+      "x": 48,
+      "y": 48,
+      "width": 1104,
+      "height": 144,
+      "fill": "surface",
+      "stroke": "ink"
+    },
+    {
+      "id": "eyebrow",
+      "type": "text",
+      "x": 72,
+      "y": 72,
+      "width": 1056,
+      "height": 48,
+      "text": "HALLMARK 14 · NARRATIVE WORKFLOW / BROADSIDE THEME",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "x": 72,
+      "y": 120,
+      "width": 1056,
+      "height": 72,
+      "text": "HOW TO SKATEBOARD: THE FOUR SKILLS",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "card_board",
+      "type": "rect",
+      "x": 48,
+      "y": 216,
+      "width": 1104,
+      "height": 408,
+      "fill": "surface",
+      "stroke": "ink"
+    },
+    {
+      "id": "board_title",
+      "type": "text",
+      "x": 72,
+      "y": 240,
+      "width": 456,
+      "height": 72,
+      "text": "KNOW YOUR BOARD",
+      "role": "display",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "board_desc",
+      "type": "text",
+      "x": 72,
+      "y": 312,
+      "width": 456,
+      "height": 144,
+      "text": "Eight bolts anchor the trucks to the maple deck. The nose points in your direction of roll; the tail curves up to allow pop and clearance. Grip tape holds rubber soles firmly.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "board_safety",
+      "type": "text",
+      "x": 72,
+      "y": 480,
+      "width": 456,
+      "height": 120,
+      "text": "RULE ZERO: Always wear helmet, wrist guards, and pads before stepping on the grip. Flat rubber-soled skate shoes are non-negotiable.",
+      "role": "body",
+      "color": "muted",
+      "align": "left"
+    },
+    {
+      "id": "board_image",
+      "type": "image",
+      "x": 552,
+      "y": 240,
+      "width": 576,
+      "height": 360,
+      "asset": "board_blueprint",
+      "alt": "Technical perspective view of complete skateboard."
+    },
+    {
+      "id": "card_step1",
+      "type": "rect",
+      "x": 48,
+      "y": 648,
+      "width": 1104,
+      "height": 192,
+      "fill": "surface",
+      "stroke": "ink"
+    },
+    {
+      "id": "step1_num",
+      "type": "text",
+      "x": 72,
+      "y": 672,
+      "width": 144,
+      "height": 96,
+      "text": "1.0",
+      "role": "display",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "step1_title",
+      "type": "text",
+      "x": 240,
+      "y": 672,
+      "width": 888,
+      "height": 72,
+      "text": "FIND YOUR STANCE",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "step1_body",
+      "type": "text",
+      "x": 240,
+      "y": 744,
+      "width": 888,
+      "height": 72,
+      "text": "Feet set across the width of the board, each foot resting directly over a set of truck bolts. Keep your knees flexed and center of mass low. Try this stationary on grass or carpet first so the wheels cannot roll out.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "card_step2",
+      "type": "rect",
+      "x": 48,
+      "y": 864,
+      "width": 1104,
+      "height": 192,
+      "fill": "surface",
+      "stroke": "ink"
+    },
+    {
+      "id": "step2_num",
+      "type": "text",
+      "x": 72,
+      "y": 888,
+      "width": 144,
+      "height": 96,
+      "text": "2.0",
+      "role": "display",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "step2_title",
+      "type": "text",
+      "x": 240,
+      "y": 888,
+      "width": 888,
+      "height": 72,
+      "text": "PUSH OFF",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "step2_body",
+      "type": "text",
+      "x": 240,
+      "y": 960,
+      "width": 888,
+      "height": 72,
+      "text": "Turn your front foot to point straight forward toward the nose over the front bolts. Lower your hips and push steadily against the asphalt with your back foot. Once rolling, bring the back foot onto the tail bolts and pivot sideways.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "card_step3",
+      "type": "rect",
+      "x": 48,
+      "y": 1080,
+      "width": 1104,
+      "height": 192,
+      "fill": "surface",
+      "stroke": "ink"
+    },
+    {
+      "id": "step3_num",
+      "type": "text",
+      "x": 72,
+      "y": 1104,
+      "width": 144,
+      "height": 96,
+      "text": "3.0",
+      "role": "display",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "step3_title",
+      "type": "text",
+      "x": 240,
+      "y": 1104,
+      "width": 888,
+      "height": 72,
+      "text": "LEAN TO TURN (CARVING)",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "step3_body",
+      "type": "text",
+      "x": 240,
+      "y": 1176,
+      "width": 888,
+      "height": 72,
+      "text": "Steering does not require lifting the board. Press weight into your toes to carve toe-side; lean gently into your heels to curve heel-side. The rubber bushings inside the metal trucks compress and steer the wheelbase.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "card_step4",
+      "type": "rect",
+      "x": 48,
+      "y": 1296,
+      "width": 1104,
+      "height": 192,
+      "fill": "surface",
+      "stroke": "ink"
+    },
+    {
+      "id": "step4_num",
+      "type": "text",
+      "x": 72,
+      "y": 1320,
+      "width": 144,
+      "height": 96,
+      "text": "4.0",
+      "role": "display",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "step4_title",
+      "type": "text",
+      "x": 240,
+      "y": 1320,
+      "width": 888,
+      "height": 72,
+      "text": "FOOT BRAKE TO STOP",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "step4_body",
+      "type": "text",
+      "x": 240,
+      "y": 1392,
+      "width": 888,
+      "height": 72,
+      "text": "Do not jump off a moving board. Rotate your front foot parallel to the deck, gently take the back foot off, and drag the flat rubber sole along the ground with increasing friction until you come to a smooth, controlled halt.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "footer",
+      "type": "text",
+      "x": 48,
+      "y": 1512,
+      "width": 1104,
+      "height": 48,
+      "text": "XYZ Layout Engine · Adapted from temp/2026-11-09-skate-guide · Hallmark Macrostructure 14 (Narrative Workflow) · Broadside Theme",
+      "role": "body",
+      "color": "muted",
+      "align": "left"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "normalized": {
+    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
+    "width": 1200,
+    "height": 1600,
+    "format": "png,svg,html,html-inline",
+    "formats": [
+      "png",
+      "svg",
+      "html",
+      "html-inline"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "design-intake"
+  },
+  "catalog": {
+    "slug": "design-intake",
+    "version": "1.0.5",
+    "contentSha256": "1d4399a6bddca3e415eabd161b27a3c623e74b8b3853ab34805330951f71a24c",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "1.0.5",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "a5b3fd174462b570e4957dc3e39d91d41530286a92efcead3036d5442008a43a",
+    "svg": "9dcde6ede2d161518e7f0c90fd95290f2b2125868aadc02569d3898afabf2817",
+    "html": "544768e90fef9be9cf8eb2f54722795771c02609f4228dfa673baf812905bbcc",
+    "html-inline": "a123a03e5bf858df0ac08fcc1617c79460c8a21b6f09f39613affd2ce622547b"
+  },
+  "provenance": {
+    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
+    "inputSha256": "455b17d20bb9dfdbcf67f96f6f9662e324ead1de6c0968b2d9abad0933f3b828",
+    "fixtureSha256": "85c33736a0d5b6c6db3b8270686b17594ab2ef02331962f791f5d773652fa9a5",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 2,
+    "iterations": 1,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [
+          "intake_text_step2_body",
+          "intake_text_step3_body",
+          "intake_text_step4_body"
+        ],
+        "sizes": {
+          "intake_text_eyebrow": 24,
+          "intake_text_title": 54,
+          "intake_text_board_title": 54,
+          "intake_text_board_desc": 24,
+          "intake_text_board_safety": 24,
+          "intake_text_step1_num": 54,
+          "intake_text_step1_title": 54,
+          "intake_text_step1_body": 24,
+          "intake_text_step2_num": 54,
+          "intake_text_step2_title": 54,
+          "intake_text_step2_body": 24,
+          "intake_text_step3_num": 54,
+          "intake_text_step3_title": 54,
+          "intake_text_step3_body": 24,
+          "intake_text_step4_num": 54,
+          "intake_text_step4_title": 54,
+          "intake_text_step4_body": 24,
+          "intake_text_footer": 24
+        }
+      },
+      {
+        "iteration": 1,
+        "overflowing": [],
+        "sizes": {
+          "intake_text_eyebrow": 24,
+          "intake_text_title": 54,
+          "intake_text_board_title": 54,
+          "intake_text_board_desc": 24,
+          "intake_text_board_safety": 24,
+          "intake_text_step1_num": 54,
+          "intake_text_step1_title": 54,
+          "intake_text_step1_body": 24,
+          "intake_text_step2_num": 54,
+          "intake_text_step2_title": 54,
+          "intake_text_step2_body": 21,
+          "intake_text_step3_num": 54,
+          "intake_text_step3_title": 54,
+          "intake_text_step3_body": 21,
+          "intake_text_step4_num": 54,
+          "intake_text_step4_title": 54,
+          "intake_text_step4_body": 21,
+          "intake_text_footer": 24
+        }
+      }
+    ],
+    "finalSizes": {
+      "intake_text_eyebrow": 24,
+      "intake_text_title": 54,
+      "intake_text_board_title": 54,
+      "intake_text_board_desc": 24,
+      "intake_text_board_safety": 24,
+      "intake_text_step1_num": 54,
+      "intake_text_step1_title": 54,
+      "intake_text_step1_body": 24,
+      "intake_text_step2_num": 54,
+      "intake_text_step2_title": 54,
+      "intake_text_step2_body": 21,
+      "intake_text_step3_num": 54,
+      "intake_text_step3_title": 54,
+      "intake_text_step3_body": 21,
+      "intake_text_step4_num": 54,
+      "intake_text_step4_title": 54,
+      "intake_text_step4_body": 21,
+      "intake_text_footer": 24
+    }
+  }
+}
