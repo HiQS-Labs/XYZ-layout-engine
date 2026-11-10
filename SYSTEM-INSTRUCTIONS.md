@@ -70,6 +70,21 @@ All infographic and diagram font sizes are expressed as a percentage of **`S = M
 9. **The squint test.** Blur or downscale the image; 3 distinct visual tiers must survive: headline, section heads, and everything else. If only 2 tiers survive, the middle tier is too close to body.
 10. **Never let an LLM pick sizes in px.** Always define `S = Math.min(width, height)` and the `% of S` constants in the recipe, and compute `px = Math.round(S * pct)`. Models otherwise default to web/document sizes (`14–48px`) regardless of canvas dimensions.
 
+**AS-13 Impeccable Steering Verbs for Layout Refinement.**
+When iterating on, critiquing, or refining a visual recipe, prompt-driven sessions must use one of the 4 defined steering verbs rather than ambiguous instructions like "make it pop":
+1. **`distill`**: Strip secondary container boxes, remove gratuitous borders and frames, eliminate filler labels, and let pure white space and proportional typography establish hierarchy.
+2. **`bolder`**: Increase scale contrast (expand headline toward the upper 10% limit of `S`, punch dominant darks, widen outer margins for editorial drama).
+3. **`quieter`**: Tone down saturated colors, soften rules into subtle hairlines, increase line-heights, and add air between sections.
+4. **`typeset`**: Snap all text sizes strictly to the `% of S` scale (max 4 distinct sizes on canvas), align cap-heights to baselines, and balance paragraph measure (40–60 characters).
+
+**AS-14 Anti-Slop Layout Invariants.**
+Every visual recipe must satisfy four structural craft floor invariants:
+1. **No nested cards**: Never place a bordered or filled card container inside another card container (`no-nested-cards`).
+2. **Elevation singularity**: A box may declare a border or a shadow, never both simultaneously (`elevation-singularity`).
+3. **No asymmetric side stripes**: Do not apply a colored side border stripe (e.g. 3px left border) to a rounded card (`no-side-stripe-borders`).
+4. **No empty decorative plates**: Containers without text or imagery must be removed (`no-empty-decorative-plates`).
+Enforced deterministically by `tools/craft-lint.mjs`.
+
 ## Report
 
 Before composing, state the intended visual direction, the canvas shorter side `S = Math.min(width, height)`, the `% of S` → `px` type scale table (at most 4 sizes on the canvas, with `headline : body >= 4:1`), and the three most important hierarchy decisions.
