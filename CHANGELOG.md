@@ -1,4 +1,13 @@
 # Changelog
+## 2026-11-09 — GH-74: Borrow Hallmark layouts (Bento Grid and Stat-Led) with Riso and Distil themes
+
+- Added `tools/hallmark.mjs`: CLI and module providing Hallmark layout macrostructures (`01 · Bento Grid`, `04 · Stat-Led`) and material themes (`Riso`, `Distil`) for XYZ Layout Engine, allowing automated preset extraction without remote runtime dependencies.
+- Added `examples/2026-11-09-hallmark-bento/`: Bento Grid macrostructure paired with the Riso print theme (`#fbf8ee` paper, `#182236` ink, `#ff4e36` fluro coral, `#2da882` mint, `#ebe4d0` subtle fill), demonstrating an asymmetric multi-tier quadrant layout on a 24px spacing grid with 12px rounded corners.
+- Added `examples/2026-11-09-hallmark-stat-led/`: Stat-Led macrostructure paired with the Distil Swiss technical theme (`#f4f4f4` paper, `#11161d` deep slate ink, `#0055ff` cobalt accent, `#68707d` muted gray, `#e8eaed` surface), anchoring visual hierarchy on a massive 99.8% hero KPI card and three supporting telemetry columns.
+- Both examples adhere to Google DESIGN.md format and validate against `tools/recipes/design-intake.contract.md` (`tools/intake.mjs check`).
+- Rendered in both Satori (PNG, SVG, HTML) and Playwright Chromium (PNG, HTML) backends, fully compliant with `SYSTEM-INSTRUCTIONS.md` AS-1 through AS-12 rules.
+- Verification: `pnpm test` passes 4/4 canaries in 39.2s; all preflight structural and containment checks pass; PDDA hygiene checks pass cleanly.
+
 ## 2026-10-29 — GH-69: talk deck "Stop Re-Rolling the Whole Image", rendered by the engine
 
 - Added `examples/2026-10-29-talk-deck/`: ten 1920×1080 slides for the 18-minute talk outlined in #69, each a JSON fixture under `slides/` rendered through the shared `renderSatori` / `renderPlaywright` in both backends (vibe-coding-loop pattern: `deck.json` owns palette roles and the AS-12 percentages, `render-deck.mjs` owns geometry, the SVG ink layer and the checks). Slide 4 is the high-level system diagram (inputs → `tools/render.mjs` → outputs, catalog pinning), slide 5 the author-once / edit-forever workflow loop; both were checked box by box against `tools/render.mjs`, `tools/request.mjs`, `tools/catalog.mjs` and the recipes. No image model was called.
