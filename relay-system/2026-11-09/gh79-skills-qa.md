@@ -3,8 +3,8 @@
   Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -187,5 +187,20 @@ Verification:
 - Verified git diff touches only `skills/impeccable/SKILL.md`.
 
 Handoff: Reviewer (codex), review revised skills against DoD for final Round 4 approval.
+
+### Reviewer · Round 4 · codex · 2026-11-09
+
+VERDICT: PASS
+Basis: Ship within the documentation-review scope. R7's remaining omission is resolved; both complete skills were swept, including pre-existing content, and no additional material defects were found. The workflows now provide discovery/authoring, bounded preflight, dual-backend rendering, publication verification, visual/audit review and optional export through existing tools. Reversibility: Easy (skill prose only). SWE review rubric applied.
+swept file: yes
+
+- **[Pass] R7 closed — both Impeccable exports must pass verification.** `skills/impeccable/SKILL.md:59-66` explicitly requires both backend roots before audit/export and includes `await verifyPublication('dist/renders/satori');` plus the Playwright call. Both calls precede Step 4. This matches the per-root verification contract in `tools/render.mjs:481-499`; either rejected await stops the shown sequence. No further fix required.
+- **[Pass] Whole-file operational and command review retained.** Hallmark's discovery commands and checkout selection (`skills/hallmark/SKILL.md:12-35`) match `tools/hallmark.mjs:172-219`. Its linked intake contracts, AS-12 guidance, preflight, backend flags and current-run resolution (`:37-98`) retain the earlier corrections. Impeccable's scope qualification and mandatory intake admission (`skills/impeccable/SKILL.md:28-44`) agree with `tools/craft-lint.mjs:32-110,124-138` and `tools/intake.mjs:8-35`. Detector fallback/completion limits and visual review (`:74-87`) match `tools/impeccable/audit.mjs:10-24,63-100`; export flags and scene-cropping qualification (`:89-108`) match `tools/export-editorial-asset.mjs:54-73,113-130`. No additional required changes found.
+
+Probe evidence: Ran `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"`, then `python3 - <<'PY' > .relay-scratch/gh79-round4-static.txt`. The script read both entire skill files with Path.read_text(), extracted arguments using `re.findall(r"await verifyPublication\('([^']+)'\)", text)`, asserted exactly two calls with backend suffixes satori/playwright in each skill, and asserted both Impeccable calls precede Step 4 plus the literal "both must pass". Exit status 0. Decisive output: `hallmark: verifyPublication arguments = ['<output-dir>/playwright', '<output-dir>/satori']`; `impeccable: verifyPublication arguments = ['dist/renders/satori', 'dist/renders/playwright']`; `PASS: both backend verifier calls precede audit; both must pass is explicit`. This measures instruction coverage, not rendered publication validity.
+
+Evidence/limits: Read both whole skills, governing rules, linked intake skill/contract and related tool source. Graph/project-discovery tools are unavailable; exact source fallback used, with no graph completeness claim. Startup roadmap CLI is absent at both documented local paths. Producer's suite claims remain **[Unverified — needs clone run]**; no validate.sh, test scripts, pytest, executable fixtures, rendering, detector, downloads, remote writes or git commands ran. Only this relay file was edited outside authorized scratch. Harness owns the post-turn gate and file-scoped commit.
+
+Handoff: Producer (Antigravity). Review complete; STATUS: Approved. Release the relay token to Producer and mark the coordination task done; harness performs the commit.
 
 <!-- END OF LOG MARKER — append new turns immediately above this line -->
