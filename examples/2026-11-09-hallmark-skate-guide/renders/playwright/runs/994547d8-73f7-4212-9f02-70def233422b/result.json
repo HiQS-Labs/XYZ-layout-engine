@@ -1,0 +1,93 @@
+{
+  "normalized": {
+    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
+    "width": 1200,
+    "height": 1600,
+    "format": "png,html,html-inline",
+    "formats": [
+      "png",
+      "html",
+      "html-inline"
+    ],
+    "backend": "playwright",
+    "scale": 1,
+    "recipe": "design-intake"
+  },
+  "catalog": {
+    "slug": "design-intake",
+    "version": "1.0.5",
+    "contentSha256": "1d4399a6bddca3e415eabd161b27a3c623e74b8b3853ab34805330951f71a24c",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "1.0.5",
+    "backend": "1.64.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "3ab16658aa6847002d61c17d6461cfd769c4d21c4b2e71b0a2a6f914367b3731",
+    "html": "d16d37e220837b30e7b4b69d3a689460d0b0751fa6b522c60f17295fb3a7765f",
+    "html-inline": "59d94459e98c7a4507adbfa3acc0206743a814f993a9fbc16984f219961e206c"
+  },
+  "provenance": {
+    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
+    "inputSha256": "e01daf4ec4732ff447b613dee736d79c2b57789ed19afbe6d7c500d90e3f9053",
+    "fixtureSha256": "e01093f68234c37967f949759a647904fbc6ec0ed2bdedd791f4e089798fa65c",
+    "backend": "playwright"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 1,
+    "iterations": 0,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [],
+        "sizes": {
+          "intake_text_eyebrow": 24,
+          "intake_text_title": 54,
+          "intake_text_board_title": 54,
+          "intake_text_board_desc": 24,
+          "intake_text_board_safety": 24,
+          "intake_text_step1_num": 54,
+          "intake_text_step1_title": 54,
+          "intake_text_step1_body": 24,
+          "intake_text_step2_num": 54,
+          "intake_text_step2_title": 54,
+          "intake_text_step2_body": 24,
+          "intake_text_step3_num": 54,
+          "intake_text_step3_title": 54,
+          "intake_text_step3_body": 24,
+          "intake_text_step4_num": 54,
+          "intake_text_step4_title": 54,
+          "intake_text_step4_body": 24,
+          "intake_text_footer": 24
+        }
+      }
+    ],
+    "finalSizes": {
+      "intake_text_eyebrow": 24,
+      "intake_text_title": 54,
+      "intake_text_board_title": 54,
+      "intake_text_board_desc": 24,
+      "intake_text_board_safety": 24,
+      "intake_text_step1_num": 54,
+      "intake_text_step1_title": 54,
+      "intake_text_step1_body": 24,
+      "intake_text_step2_num": 54,
+      "intake_text_step2_title": 54,
+      "intake_text_step2_body": 24,
+      "intake_text_step3_num": 54,
+      "intake_text_step3_title": 54,
+      "intake_text_step3_body": 24,
+      "intake_text_step4_num": 54,
+      "intake_text_step4_title": 54,
+      "intake_text_step4_body": 24,
+      "intake_text_footer": 24
+    }
+  }
+}
