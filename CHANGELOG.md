@@ -1,4 +1,12 @@
 # Changelog
+## 2026-11-11 — REVIEW/: one top-level folder for human review of finished output
+
+- Added `REVIEW/README.md`: the convention. Every project publishes its final deliverables to `REVIEW/<project>/`; `REVIEW/index.html` lists all projects, newest first. Sources and intermediates stay in the project folder.
+- Added `tools/review.mjs`: `publishForReview(project, files, { note })` replaces a project's review folder and rebuilds the index; also a CLI (`node tools/review.mjs <project> <file>...`). No new dependency.
+- `.gitignore`: everything under `REVIEW/` except its README is ignored, because private and unreleased work lands there and this repository is public. Public output still ships through `examples/`.
+- `ROUTER.md`: one role-split line pointing at the folder. `AGENTS.md`: one working rule making publication to `REVIEW/` the last step of every renderer.
+- Limit: existing public examples are not yet wired to publish there; only renderers that call `publishForReview` appear. Verification: published two private pages through it and opened the generated index; `utils/pdda/pdda.sh run` reports no errors (its 24 warnings are in stale-working-docs, issue-doc-sync and governance, none in the files changed here); `pnpm test` passes 4/4 canaries in 41.1s.
+
 ## 2026-11-09 — GH-79: Impeccable craft floor, steering verbs, headless HTML audit, and editorial asset export
 
 - Codified rules **`AS-13`** (Impeccable steering verbs: `distill`, `bolder`, `quieter`, `typeset`) and **`AS-14`** (anti-slop layout invariants: no nested cards, elevation singularity, no asymmetric side stripes, typography ramp snapping) in `SYSTEM-INSTRUCTIONS.md`.
