@@ -19,7 +19,7 @@ Capture of [#82](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/82). The 
 
 | What was just completed | What's next |
 |---|---|
-| Plan approved by Codex relay QA round 1 (`relay-system/2026-11-12/gh82-plan-qa.md`). | Implement `tools/plugin-api.mjs`, `package.json` exports and docs; smoke; final relay QA; PR. |
+| Implemented `tools/plugin-api.mjs`, `package.json` `exports`, README/ROUTER/CHANGELOG/SPECS-PRD notes; `pnpm test` 4/4, PDDA no errors, smoke and red control pass (`TESTS-RESULTS/2026-11-12-GH-82/`). | Final Codex relay QA, then PR to `main`. |
 
 ## Asks
 
