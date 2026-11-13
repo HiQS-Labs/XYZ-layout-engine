@@ -263,6 +263,12 @@ record catalog identity and verification status; unavailable/unpublished/drifted
 `verified: false` with a reason without blocking local rendering. Variants, aliases and semver
 ranges remain deferred; the requirements below describe the broader target.
 
+**Delivered local observation (2026-11-12, GH-82):** modules in other repositories use the engine through
+one declared surface, `tools/plugin-api.mjs` (`package.json` `exports` root), currently `launchPlaywright`
+and `publishForReview`. That is not a `RecipeRegistry`: outside recipes cannot yet enter the request
+pipeline, whose recipe identities, allowlists and canvas sizes are hardcoded in `tools/request.mjs` and
+`tools/render.mjs`.
+
 - `RecipeRegistry` loads trusted installed recipes from disk/packages in v1; remote callers select published IDs/versions, never server paths.
 - Resolve semver ranges to an immutable exact version before rendering. Re-publishing different content under the same version is rejected; see §10.1 for cache identity.
 - **Recipe packs** (`@xyz-layout-engine/recipes-commerce`, `@xyz-layout-engine/recipes-infographic`) let you ship and license use cases separately.

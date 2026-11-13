@@ -12,6 +12,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
 - `README.md` = human-facing repo/product overview
 - `tools/catalog.mjs` + `tools/catalog.sql` = the recipe and design catalog (CLI and its canonical dump)
 - `REVIEW/` = the one top-level folder a human opens to judge finished output (`REVIEW/index.html`); renderers publish finals there through `tools/review.mjs`; contents are git-ignored, see `REVIEW/README.md`
+- `tools/plugin-api.mjs` = the only public import surface for modules in other repositories (`package.json` `exports` maps the package root to it); everything else is internal — see README "Using the engine from another repository"
 - `ROADMAP.md` = LEGACY pointer ledger, frozen since the `ROADMAP_SOURCE=releases` flip — the RELEASES DB (`releases.db` via `releases.sql`) is the source of truth; write via `releases roadmap add`, never by editing this file
 - `CHANGELOG.md` = the end-of-iteration running log (first-class PDDA artifact; governed by `PROJECT/PDDA.md`)
 - `releases.db` (via `releases.sql`) = the release-planning ledger; read and write it only through `.xyz/utils/py/releases_app.py` (the retired RELEASES markdown ledger is not used here)

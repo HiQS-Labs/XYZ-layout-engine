@@ -2,15 +2,22 @@
 gh_issue: 82
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/82
 title: "Public API for external modules: package exports with a single plugin-api entry"
-status: "Proposed (1-INBOX — not yet active)"
+status: "Active (plan approved by Codex relay QA; implementing)"
+updated: 2026-11-12
 created: 2026-11-12
-doc_type: feedback
+doc_type: feature
 reversibility: "Easy — one new file, one package.json field, docs; no recipe, renderer or catalog change."
 ---
 
 # GH-82 · Public API for external modules
 
 Capture of [#82](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/82). The live issue is the discussion surface.
+
+## Status
+
+| What was just completed | What's next |
+|---|---|
+| Plan approved by Codex relay QA round 1 (`relay-system/2026-11-12/gh82-plan-qa.md`). | Implement `tools/plugin-api.mjs`, `package.json` exports and docs; smoke; final relay QA; PR. |
 
 ## Asks
 

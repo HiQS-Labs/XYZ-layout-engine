@@ -1,4 +1,10 @@
 # Changelog
+## 2026-11-12 — GH-82: public API for modules in other repositories
+
+- Added `tools/plugin-api.mjs`, the engine's only supported import surface for outside code. It re-exports two names: `launchPlaywright` (the engine's Chromium) and `publishForReview` (the top-level `REVIEW/` folder). Adding a name is a deliberate edit to that file.
+- `package.json` gains `exports`: the package root maps to `tools/plugin-api.mjs` (plus `./package.json`). A repository that links this checkout (`"xyz-layout-engine": "link:../XYZ-layout-engine"`) imports by name; any deeper path fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`. The package name is unchanged, because the spike reads it for output folder names.
+- README section "Using the engine from another repository"; one `ROUTER.md` canonical-file line; `SPECS-PRD.md` §6.5 notes the delivered surface.
+- Deferred: loading outside recipes into the request pipeline (`XYZ_RECIPE_PATHS`), because recipe identity, allowlists and canvas sizes are hardcoded in `tools/request.mjs` and `tools/render.mjs`; revisit when an outside module needs that pipeline.
 ## 2026-11-11 — REVIEW/: one top-level folder for human review of finished output
 
 - Added `REVIEW/README.md`: the convention. Every project publishes its final deliverables to `REVIEW/<project>/`; `REVIEW/index.html` lists all projects, newest first. Sources and intermediates stay in the project folder.
