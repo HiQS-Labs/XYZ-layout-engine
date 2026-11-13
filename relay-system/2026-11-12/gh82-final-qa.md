@@ -52,7 +52,7 @@ ROUND: 1 / 3
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: the diff `4e08148..HEAD` on this branch — `tools/plugin-api.mjs`, `package.json`, `README.md`
+- Artifact under review: `tools/plugin-api.mjs` and the rest of the diff 4e08148..HEAD on this branch — `package.json`, `README.md`
   ("Using the engine from another repository"), `ROUTER.md`, `CHANGELOG.md`, `PROJECT/2-WORKING/SPECS-PRD.md` §6.5,
   `PROJECT/2-WORKING/GH-82-PLUGIN-API.md` (plan), `TESTS-RESULTS/2026-11-12-GH-82/README.md` (evidence),
   and the approved plan QA `relay-system/2026-11-12/gh82-plan-qa.md`.
