@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: done
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -85,5 +85,24 @@ Definition of Done: plan delivered as approved, evidence supports every claim, n
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: PASS
+Basis: Approve the two-name public surface in the stated local, single-operator envelope. The implementation matches the approved plan; the receipt targets the actual acceptance outcomes, and its tested runtime bytes remain unchanged. No Blocker or Should finding. Browser/suite execution remains author-reported clone evidence, not a reviewer rerun.
+swept file: yes
+
+- [Pass] **Q1: implementation and scope.** Read the entire public entry point and package manifest, the complete renderer and review publisher, the approved plan/plan QA, and surrounding documentation. `tools/plugin-api.mjs:1–15` declares the contract and contains exactly two re-exports, at lines 13 and 15; `package.json:6–9` has precisely the approved root and manifest mappings. The object-to-object comparison of base `4e08148` to seeded HEAD `a6b1fc79c753` contains no renderer, request, recipe, dependency, test or workflow change. Other changed paths are the named documentation/relays and the explicitly allowed release ledger. No new runtime mechanism or pre-existing defect requiring correction was found in the public entry point or package manifest. No fix required.
+- [Pass] **Import resolution is measured.** Command: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; node "$TMPDIR"/gh82-import-*/probe.mjs`; exit 0. The scratch consumer uses a `node_modules/xyz-layout-engine` symlink to the seeded engine; its ESM driver imports the root and manifest, asserts the deep import's exact rejection code, and never invokes launch/publication. Decisive output: `root names=launchPlaywright,publishForReview`, `types=function,function`, `manifest=xyz-layout-engine-spike`, `deep=ERR_PACKAGE_PATH_NOT_EXPORTED`, `no browser launch or publication invoked`. This directly measures `package.json:6–9` and `tools/plugin-api.mjs:13–15`. No fix required.
+- [Pass] **Q2: receipt relevance and red control.** `TESTS-RESULTS/2026-11-12-GH-82/README.md:10–15` records executed canaries/PDDA, package-name launch/close plus PNG publication, deep-import rejection, unchanged-base root-import failure, and a real-consumer pixel/hash comparison. These observe outcomes rather than merely searching for export text. The unchanged-base failure is consistent with the earlier measured base probe retained in `relay-system/2026-11-12/gh82-plan-qa.md` (quoted output: `xyz-layout-engine: ERR_MODULE_NOT_FOUND`, while the deep path worked). A read-only object comparison against receipt revision `5fffa8b` exited 0 and printed only three later changes: the working plan, receipt, and final-QA relay; runtime/package/documentation bytes tested at that revision are unchanged. No fix required.
+- [Pass] **Q3: ownership and replacement semantics.** `README.md:187–195` explicitly closes the browser in `finally`, says publishing replaces the project's directory, and identifies the engine checkout's REVIEW location/index. These match `tools/render.mjs:137–140` and `tools/review.mjs:9,14–22`: the launcher returns the browser; the publisher computes its root from its own module, removes/recreates the project directory, copies files and rebuilds the index. The link dependency at `README.md:179–181` supplies the consumer alias while retaining the manifest's original name. The plan-QA nit was addressed. No fix required.
+- [Pass] **Q4: privacy scan.** No git command was run. Equivalent read-only probe: `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; python3 "$TMPDIR/inspect-objects.py"`; exit 0. The scratch Python reader decoded stored commit/tree/blob objects, reconstructed the base-to-HEAD text diff and scanned it for home-directory prefixes, email addresses and common credential formats. Decisive output: `changed paths (12)`, `absolute-home hits=1`, `email hits=0`, `credential hits=0`. The sole home-prefix hit is this relay's own generic search instruction containing the literal `/Users/`, with no person's directory. Reading the substantive API/documentation additions found no private repository name. Binary `releases.db` was excluded from text scanning; its corresponding textual `releases.sql` was included. This is a scoped privacy review, not a universal secret-detector guarantee. No fix required.
+- [Pass] **Q5: delivered versus deferred.** `CHANGELOG.md:2–7` records the two exports, metadata, docs and deferred external recipes. `PROJECT/2-WORKING/SPECS-PRD.md:266–274` calls the public entry point delivered, explicitly says it is not a RecipeRegistry, and leaves registry/range requirements as targets. This matches the hardcoded dispatch at `tools/render.mjs:195–205`. No fix required.
+- [Nit] **Manifest exception in wording.** `README.md:197–198` says “any other import by package name fails,” but `package.json:8` deliberately permits `xyz-layout-engine/package.json`, as the import probe also demonstrates. Optional correction: say other engine subpaths are blocked, except the exported manifest. The map itself matches the approved plan.
+- [Unverified — needs clone run] **Clean-machine Chromium setup and execution limits.** `README.md:197` associates `pnpm install` with having the Playwright browser present. The seed has no installed Playwright dependency, so this turn cannot establish whether a fresh machine also needs an explicit `pnpm exec playwright install chromium`; distinguish installing the package from provisioning its browser when documenting that setup. The receipt's browser launch/publication, real consumer, canaries and PDDA remain author-reported clone observations; no such run was repeated here, and no fresh-install browser-cache claim is independently approved. The harness owns the post-turn gate.
+
+Bet: the existing launcher and publisher meet this consumer's current need without a plugin framework. Reversibility: Easy; undo the entry point/map and consumer seam together. Graph tooling was unavailable, so this review used direct source reads and narrow scratch-only probes. Historical claims in the existing changelog/PRD were read as context, not independently re-executed.
+
+Relay closed (Approved), no further turn needed; handing the token to done.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
