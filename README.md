@@ -194,7 +194,7 @@ await publishForReview('my-project', ['out/page.png'], { note: 'Page 1' });
 | `launchPlaywright()` | Starts the engine's Playwright Chromium and returns the browser; the caller closes it. |
 | `publishForReview(project, files, { note })` | **Replaces** `REVIEW/<project>/` in the engine checkout with copies of `files` and rebuilds `REVIEW/index.html`. That folder's contents are git-ignored, so private output never enters this repository. |
 
-Run `pnpm install` in the engine checkout first; on a machine that has never run Playwright, also run
+The package is ESM-only: use `import` (or `await import()` from CommonJS); synchronous `require('xyz-layout-engine')` fails with `ERR_REQUIRE_ASYNC_MODULE`. Run `pnpm install` in the engine checkout first; on a machine that has never run Playwright, also run
 `pnpm exec playwright install chromium` there. Nothing else is public: any other engine path imported by
 package name fails with `ERR_PACKAGE_PATH_NOT_EXPORTED` (only `xyz-layout-engine/package.json` is also
 exported), and engine files may change without notice. A module that needs another engine function asks for it to be added to
