@@ -2,6 +2,8 @@
 gh_issue: 82
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/82
 title: "Public API for external modules: package exports with a single plugin-api entry"
+goal: "Modules in other repositories use the engine through one declared, stable import surface instead of deep file paths"
+owner: Claude Code
 status: "Active (plan approved by Codex relay QA; implementing)"
 updated: 2026-11-12
 created: 2026-11-12
