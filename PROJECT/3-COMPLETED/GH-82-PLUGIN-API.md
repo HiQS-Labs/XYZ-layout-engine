@@ -4,7 +4,7 @@ source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/82
 title: "Public API for external modules: package exports with a single plugin-api entry"
 goal: "Modules in other repositories use the engine through one declared, stable import surface instead of deep file paths"
 owner: Claude Code
-status: "Active (plan approved by Codex relay QA; implementing)"
+status: "Completed — landed in PR #83 (7a73193) on 2026-11-12"
 updated: 2026-11-12
 created: 2026-11-12
 doc_type: feature
@@ -19,7 +19,7 @@ Capture of [#82](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/82). The 
 
 | What was just completed | What's next |
 |---|---|
-| Implemented `tools/plugin-api.mjs`, `package.json` `exports`, README/ROUTER/CHANGELOG/SPECS-PRD notes; `pnpm test` 4/4, PDDA no errors, smoke and red control pass (`TESTS-RESULTS/2026-11-12-GH-82/`). | Final Codex relay QA, then PR to `main`. |
+| Landed in PR #83 (`7a73193`) after Codex plan + final QA and Kimi K3.1 Pro QA (2 rounds); archived to 3-COMPLETED, ledger row Completed | None |
 
 ## Asks
 
