@@ -1,4 +1,9 @@
 # Changelog
+## 2026-11-12 — Remove accidental duplicate PDFs from `.relay-scratch/`
+
+- Deleted `.relay-scratch/pdf/` (four files committed by accident in #52). The two `*.pdf-accessibility.json` files were byte-identical to the canonical copies in `examples/2026-10-11-belief-updating/` and `examples/2026-10-12-belief-reference/`; the two PDFs differed from them only in the 4 bytes of their creation timestamps (19 seconds apart). README already points at the `examples/` copies.
+- Why: the relay harness deletes everything under `.relay-scratch/` after each turn, so every Codex or Kimi review turn here deleted these tracked files (HiQS-Labs/XYZ-forge#1137). With nothing tracked there, relay turns no longer touch the working tree.
+
 ## 2026-11-12 — GH-82: public API for modules in other repositories
 
 - Added `tools/plugin-api.mjs`, the engine's only supported import surface for outside code. It re-exports two names: `launchPlaywright` (the engine's Chromium) and `publishForReview` (the top-level `REVIEW/` folder). Adding a name is a deliberate edit to that file.
