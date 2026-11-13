@@ -121,4 +121,13 @@ Basis: Both Round 1 findings are resolved accurately and completely; nothing els
 - [Pass] **No private data was introduced in the reviewed GH-82 surface and documentation.** The API, manifest, usage text, plan and evidence use local placeholders or public HiQS-Labs references (`tools/plugin-api.mjs:1-15`, `package.json:1-23`, `README.md:173-202`, `PROJECT/2-WORKING/GH-82-PLUGIN-API.md:1-76`, `TESTS-RESULTS/2026-11-12-GH-82/README.md:1-17`); scoped searches found no home path, email, credential or token.
 - [Unverified — needs clone run] **Full suite, PDDA, real publication and real-consumer evidence remain harness-owned.** I did not run those restricted commands; their historical outcomes are recorded at `TESTS-RESULTS/2026-11-12-GH-82/README.md:10-15`. A narrow linked-consumer browser-launch probe was attempted with `TMPDIR` under `.relay-scratch/`, but exited 1 before launch with `ERR_MODULE_NOT_FOUND: Cannot find package 'playwright' imported from .../tools/render.mjs` because this seeded checkout has no installed dependencies. This does not measure the fresh-clone Chromium claim; the clone gate must run it.
 
+
+### Attestation · relay-drive — 2026-11-13T01:36:18Z
+task: RELAY-gh82-kimi-qa
+reviewer: kimi
+status: Approved
+reviewed-head: ad7044e27f00499d82f85119197d88c402257b61
+added-range: 16574+4259
+added-sha256: f1fc1f0fb1588bf9ff24a8194d5b5489dfc0323d0ed416597af95706886a67f7
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
