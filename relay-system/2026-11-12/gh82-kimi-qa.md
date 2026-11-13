@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-12.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -107,5 +107,18 @@ Basis: The two-name linked ESM API resolves correctly and `publishForReview` rej
 - Commit `52f1135`. No code change; `tools/plugin-api.mjs` and `package.json` are unchanged since round 1.
 
 Round 2 ask: confirm both fixes are accurate and complete, and that nothing else blocks approval.
+
+### Reviewer · Round 2 (kimi)
+
+swept file: yes
+VERDICT: PASS
+Basis: Both Round 1 findings are resolved accurately and completely; nothing else blocks the two-name public API. I swept all named PR files plus `tools/render.mjs`, `tools/request.mjs`, `tools/review.mjs`, `tools/spike/render.mjs`, and `REVIEW/README.md`; no additional pre-existing defects were found in that sweep.
+
+- [Pass] **The ESM/CommonJS documentation now matches observed Node 22 behavior.** README explicitly prescribes `import` or CommonJS `await import()` and names the synchronous-`require()` error (`README.md:197-202`); the top-level `await` causing that error remains in the review CLI guard (`tools/review.mjs:48-51`), and CHANGELOG records the limitation (`CHANGELOG.md:5`). Probe: `cd .relay-scratch/gh82-r2-review && node -e "try { const m = require('xyz-layout-engine'); console.log('require_unexpected', Object.keys(m)); } catch (e) { console.log('require_error', e.code, e.message); process.exitCode = 1; }"`; expected exit 1; decisive output: `require_error ERR_REQUIRE_ASYNC_MODULE require() cannot be used on an ESM graph with top-level await. Use import() instead.` The CommonJS dynamic-import probe exited 0 with `cjs_dynamic launchPlaywright,publishForReview`.
+- [Pass] **The review-folder guide now uses the public seam without changing internal imports.** It distinguishes in-repo relative imports from external package-name imports and shows `import { publishForReview } from 'xyz-layout-engine'` (`REVIEW/README.md:16-23`), matching the declared public surface (`tools/plugin-api.mjs:3-15`).
+- [Pass] **Linked resolution and export restrictions remain correct.** The root maps to the re-export file and only `./package.json` is additionally public (`package.json:5-9`); exactly `launchPlaywright` and `publishForReview` are exported (`tools/plugin-api.mjs:12-15`). Probe: `cd .relay-scratch/gh82-r2-review && node --input-type=module -e "const m = await import('xyz-layout-engine'); console.log('esm', Object.keys(m).sort().join(','), typeof m.launchPlaywright, typeof m.publishForReview); console.log('resolved', import.meta.resolve('xyz-layout-engine')); const p = await import('xyz-layout-engine/package.json', { with: { type: 'json' } }); console.log('package_json', p.default.name);"`; exit 0; output included `esm launchPlaywright,publishForReview function function`, the realpathed `tools/plugin-api.mjs` URL, and `package_json xyz-layout-engine-spike`. A separate deep-import probe exited 1 as expected with `deep_error ERR_PACKAGE_PATH_NOT_EXPORTED`.
+- [Pass] **Import remains side-effect free and publication remains contained.** Neither CLI guard runs on a package import (`tools/render.mjs:542-545`, `tools/review.mjs:48-51`), while Playwright loads only inside `launchPlaywright` (`tools/render.mjs:137-140`). `reviewRoot` is derived from the engine module URL, project names reject separators/dot traversal, and replacement removes then copies and reindexes (`tools/review.mjs:9`, `:14-22`), matching README (`README.md:192-195`). Probe: `publishForReview('../escape', [])`; exit 0 after the expected rejection; output: `traversal_error review project name "../escape" must be a plain folder name`.
+- [Pass] **No private data was introduced in the reviewed GH-82 surface and documentation.** The API, manifest, usage text, plan and evidence use local placeholders or public HiQS-Labs references (`tools/plugin-api.mjs:1-15`, `package.json:1-23`, `README.md:173-202`, `PROJECT/2-WORKING/GH-82-PLUGIN-API.md:1-76`, `TESTS-RESULTS/2026-11-12-GH-82/README.md:1-17`); scoped searches found no home path, email, credential or token.
+- [Unverified — needs clone run] **Full suite, PDDA, real publication and real-consumer evidence remain harness-owned.** I did not run those restricted commands; their historical outcomes are recorded at `TESTS-RESULTS/2026-11-12-GH-82/README.md:10-15`. A narrow linked-consumer browser-launch probe was attempted with `TMPDIR` under `.relay-scratch/`, but exited 1 before launch with `ERR_MODULE_NOT_FOUND: Cannot find package 'playwright' imported from .../tools/render.mjs` because this seeded checkout has no installed dependencies. This does not measure the fresh-clone Chromium claim; the clone gate must run it.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
