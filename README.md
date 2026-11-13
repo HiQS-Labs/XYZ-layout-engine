@@ -170,6 +170,37 @@ When prompting coding agents to iterate on or refine an XYZ Layout Engine recipe
 - **`quieter`**: Tone down saturated colors, soften rules into subtle hairlines, increase line-heights, and add air between sections.
 - **`typeset`**: Snap all text sizes strictly to the `% of S` scale (max 4 distinct sizes on canvas), align cap-heights to baselines, and balance paragraph measure (40–60 characters).
 
+## Using the engine from another repository
+
+Modules that live in their own repository (private or third-party) use the engine through one declared
+surface, `tools/plugin-api.mjs`, which `package.json` `exports` maps to the package root. Link a checkout
+of this repository as a package and import by name:
+
+```jsonc
+// the other repository's package.json — then run `pnpm install` there (no network needed for a link)
+{ "dependencies": { "xyz-layout-engine": "link:../XYZ-layout-engine" } }
+```
+
+```js
+import { launchPlaywright, publishForReview } from 'xyz-layout-engine';
+
+const browser = await launchPlaywright();          // the engine's own Chromium; close it when done
+try { /* render pages */ } finally { await browser.close(); }
+await publishForReview('my-project', ['out/page.png'], { note: 'Page 1' });
+```
+
+| Name | What it does |
+|---|---|
+| `launchPlaywright()` | Starts the engine's Playwright Chromium and returns the browser; the caller closes it. |
+| `publishForReview(project, files, { note })` | **Replaces** `REVIEW/<project>/` in the engine checkout with copies of `files` and rebuilds `REVIEW/index.html`. That folder's contents are git-ignored, so private output never enters this repository. |
+
+The package is ESM-only: use `import` (or `await import()` from CommonJS); synchronous `require('xyz-layout-engine')` fails with `ERR_REQUIRE_ASYNC_MODULE`. Run `pnpm install` in the engine checkout first; on a machine that has never run Playwright, also run
+`pnpm exec playwright install chromium` there. Nothing else is public: any other engine path imported by
+package name fails with `ERR_PACKAGE_PATH_NOT_EXPORTED` (only `xyz-layout-engine/package.json` is also
+exported), and engine files may change without notice. A module that needs another engine function asks for it to be added to
+`tools/plugin-api.mjs` (see that file's header). Loading outside recipes into the engine's own request
+pipeline is not supported yet; see `PROJECT/2-WORKING/SPECS-PRD.md` §6.5.
+
 ## Local Recipe Catalog
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into

@@ -14,7 +14,9 @@ Open `REVIEW/index.html`: every project, newest first, with its previews and lin
   never holds stale files:
 
   ```js
-  import { publishForReview } from '<repo>/tools/review.mjs';
+  // Code inside this repository imports it by relative path ('../tools/review.mjs' and so on);
+  // a module in another repository imports it by package name (README: "Using the engine from another repository"):
+  import { publishForReview } from 'xyz-layout-engine';
   await publishForReview('my-project', [pngPath, pdfPath, previewPath], { note: 'one line for the reviewer' });
   ```
 

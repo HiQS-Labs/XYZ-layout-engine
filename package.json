@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./tools/plugin-api.mjs",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "spike:render": "node tools/spike/render.mjs",
     "spike:verify": "node tools/spike/verify.mjs",
