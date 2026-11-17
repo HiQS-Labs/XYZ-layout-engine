@@ -285,4 +285,13 @@ swept file: yes — `git show --stat b0cf4e3` touches exactly one file, `tools/a
 
 Relay closed (Approved), no further turn needed. The harness gate's clone run of `verify.mjs` / `selftest` / `pnpm test` is the only item still outstanding; if it fails, reopen with the failing control quoted.
 
+
+### Attestation · relay-drive — 2026-11-17T05:07:14Z
+task: RELAY-GH86-FABLE
+reviewer: claude-fable
+status: Approved
+reviewed-head: f75519abcfd4e345e5c19cdbfdf3c4615a6bfa74
+added-range: 41379+3734
+added-sha256: d578ed800202a526f150b5b32bccedc48643dd478eaea18212e0d75937341899
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
