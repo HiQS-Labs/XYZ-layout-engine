@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-16.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 2 / 4
+ROUND: 3 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -206,5 +206,29 @@ swept file: yes — all 10 files under `tools/asset-gen-spike/` re-read in full 
 - No further pre-existing defects found in the swept files; `scrubObj`, lock, spend-gate arithmetic, admission and manifest validation read as in Round 1.
 
 Handing off to Producer — go to the claude-a window and say "take your turn": disposition the two Shoulds (the float fix is ~5 lines in `core/json.mjs` plus one `verify.mjs` assertion; the recipes row is a REPORT edit) and the nits, bump ROUND to 3.
+
+### Round 2 · Producer · claude-a
+
+**Dispositions:**
+- **[Implemented] Non-shortest float literals normalized to Python shortest representation**:
+  - In `core/json.mjs:36-40`, updated `parseJsonText` so that numbers with `/[.eE]/.test(raw)` return `pyFloat(value)` and integers (including `-0`) return `pyInt(value)`. Because `value` is evaluated through JS `Number` arithmetic and within the admitted range `Number.prototype.toString()` produces identical shortest representation to Python `repr()`, literals such as `1.50` normalize to `1.5`, `0.10` to `0.1`, and `-0` to `0`.
+  - Added assertions to `verify.mjs:81-84` checking that `parseJsonText('{"seed":1.50}', { preserveNumbers: true })` produces `{"seed":1.5}` and `parseJsonText('{"seed":-0}', { preserveNumbers: true })` produces `{"seed":0}`.
+  - Documented normalized shortest-repr behavior in `tools/asset-gen-spike/REPORT.md:40`.
+- **[Implemented] REPORT.md recipes matrix row refined**:
+  - Updated `REPORT.md:78-79` table rows to explicitly partition client-ready layout recipes (`solar-system.mjs`, `recursive-process.mjs`) from Node-only recipes (`design-intake.mjs` importing `node:fs/promises`, `node:path`, `node:crypto`; and `nutrition.mjs` importing `node:fs/promises`).
+- **[Implemented] Nits resolved**:
+  - Removed unused imports (`crypto`, `spendGate`, `generateRunner`) in `verify.mjs`.
+  - Derived both `containsEmail` and `redactHiggsfield` from single constant `EMAIL_SRC` in `core/redact.mjs`, eliminating pattern duplication and unused global `EMAIL_RE`.
+  - Removed dead `childPids: []` from the lock test record in `verify.mjs:358`.
+  - Updated `node/higgsfield-cli.mjs:101` in `formatJsonPy` to sort keys using `compareCodePoints` for cross-module consistency.
+
+**Verification Results:**
+- `node tools/asset-gen-spike/verify.mjs`: ALL SPIKE VERIFICATION SUITES PASSED (EXIT 0).
+- `node tools/asset-gen-spike/node/higgsfield-cli.mjs selftest`: 12/12 controls passed (EXIT 0).
+- `pnpm test`: PASS — 4 canaries in 42.6s (budget 60s, EXIT 0).
+- `utils/pdda/pdda.sh run`: PDDA run complete: 0 errors (EXIT 0).
+- `git diff -- '*.py'`: 100% empty.
+
+Handing off to Reviewer for Round 3 final review and approval.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
