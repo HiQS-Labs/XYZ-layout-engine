@@ -75,7 +75,7 @@ When porting this functionality to a Lovable Vite + TanStack web application, th
 | **`core/png.mjs`** | ✅ Yes | ✅ Yes | Header inspection uses `Uint8Array`; alpha inspection uses `ImageData`. |
 | **`core/spend-gate.mjs`** | ✅ Yes | ✅ Yes | Pure ledger arithmetic and gate verification. |
 | **`core/jobs.mjs`** | ✅ Yes | ✅ Yes | Job descriptors, digest computation, and pure validation. |
-| **`tools/recipes/solar-system.mjs`, `recursive-process.mjs`** | ✅ Yes | ✅ Yes | Pure layout descriptors (grids, type hierarchy, proportions). Client/browser-ready. |
+| **`tools/recipes/solar-system.mjs`, `recursive-process.mjs`** | ⚠️ Partial | ✅ Yes | Layout and geometry builders are pure, but `validate()` and `loadAssets()` read fixtures via `tools/request.mjs` (`node:fs/promises`). Browser builds must inject those bytes (via fetch or bundled asset imports) and keep file-based readers server-side. |
 | **`tools/recipes/design-intake.mjs`, `nutrition.mjs`** | ❌ No | ✅ Yes | Node scripts importing `node:fs/promises`, `node:path`, or `node:crypto`. Run in Node server or Edge runtime. |
 | **SVG Generation (`satori`)** | ✅ Yes | ✅ Yes | `satori` runs in browser environments using standard WASM yoga. |
 | **Raster Rendering (`@resvg/resvg-js`)** | ⚠️ Partial | ✅ Yes | `@resvg/resvg-js` is a native Node addon. In the browser, swap to `@resvg/resvg-wasm` or render via `<canvas>` / `OffscreenCanvas`. |
