@@ -52,7 +52,7 @@ ROUND: 1 / 4
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: **tools/asset-gen-spike/** and PR #86 (`tools/asset-gen-spike/REPORT.md`, `core/`, `node/`, `verify.mjs`).
+- Artifact under review: **tools/asset-gen-spike/REPORT.md** (and implementation in `tools/asset-gen-spike/`) — PR #86.
 - Reviewer: claude-fable (Claude Fable 5, `claude-fable-5-1`, effort high)   ·   Producer: claude-a
 - Started: 2026-11-16
 - **Operational envelope:** Technical spike evaluating the porting of Python asset generation to JavaScript (ESM, Node 22+) for eventual use in a Lovable Vite + TanStack web application. Grade against stated requirements and commensurate complexity (`/ponytail`). Do NOT request multi-tenant cloud infra, Vite app scaffolding, external npm dependencies, deletions/edits of existing `.py` files, or new `*.test.*` / `test/` files (`test-budget.json` strictly caps the repo at 1 test file / 4 canaries).
