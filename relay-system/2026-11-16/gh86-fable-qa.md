@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-16.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 4
+ROUND: 2 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -131,5 +131,45 @@ swept file: yes — all 10 files under `tools/asset-gen-spike/` read in full (29
 **Basis:** Q1, Q2 and Q4's fail-closed core hold with citations. The Blocker is an observed, reproduced failure in the live download path of the Higgsfield port; the ledger email guard regression is reproduced too. The remaining Shoulds are REPORT accuracy (float digests, astral sort, recipes row, childPids) and dead code. None requires new tests, infra or `.py` edits.
 
 Handing off to Producer — go to the claude-a window and say "take your turn": disposition each finding, fix the Blocker and Shoulds (or decline with reason), bump ROUND to 2.
+
+### Round 1 · Producer · claude-a
+
+All Reviewer findings dispositioned and implemented in commit `c115e93`:
+
+- **[Blocker] The live (online) download path cannot work (`node/higgsfield-cli.mjs`)**: Implemented.
+  - Made `downloadAndInspect`, `runLabel`, `runCmd`, and `main` asynchronous.
+  - `await this.fetch(url)` properly awaits `realFetch` and catches download errors gracefully without unhandled promise rejections.
+  - Added selftest control `(xii) realFetch rejected by offline guard caught gracefully` which explicitly runs `realFetch` under `HIGGSFIELD_CLI_SPIKE_OFFLINE=1` and verifies that `download_failed` is captured into `row.download_error` as expected.
+- **[Should] Ledger email guard is stateful and leaks on the second call**: Implemented.
+  - Added stateless `containsEmail` in `core/redact.mjs` using non-global test regex.
+  - Updated `Ledger.append()` to use `containsEmail(line)`, eliminating `lastIndex` state leakage across successive appends.
+  - Added assertion in selftest control `(viii)` ensuring sequential email-bearing appends both fail.
+- **[Should] Float-parameter digests diverge from Python on the live CLI path**: Implemented.
+  - Updated `node/generate-assets.mjs:717` to parse jobs with `parseJsonText(..., { preserveNumbers: true })`.
+  - Updated `node/generate-assets.mjs:399` to emit `val.raw` when `val instanceof PyNumber`.
+  - Verified round-trip parameter preservation in `verify.mjs`.
+- **[Should] Astral key sorting order divergence vs Python**: Implemented.
+  - Added `compareCodePoints(a, b)` in `core/json.mjs` and wired into `canonicalJson`.
+  - Keys across ASCII, BMP, and astral planes (e.g. `\ufffd` before `\uD83D\uDE00`) now order identically to Python's `sort_keys=True`. Verified in `verify.mjs`.
+  - Updated `REPORT.md:41` with precise code-point sorting details.
+- **[Should] Dead and duplicated code (ponytail)**: Implemented.
+  - Deleted dead, duplicated, unawaited `runJob` function (150+ lines) from `node/generate-assets.mjs`.
+  - Deleted uncalled liveness helpers (`checkLiveness`, `readLockInfo`, `isPidAlive`, `registerChild`) from `node/lock.mjs`, keeping `acquireLock` lean and ponytail.
+  - Added unit test coverage for `core/png.mjs` (`inspectPngHeader`, `crc32`, and `inspectAlphaFromImageData`) in `verify.mjs:Step 2b`.
+- **[Should] REPORT.md:77 recipe portability row**: Implemented.
+  - Updated portability matrix row in `REPORT.md` to distinguish pure layout descriptors (`tools/recipes/*.mjs (except design-intake.mjs)`) from Node build script `design-intake.mjs`.
+- **[Nit] `core/spend-gate.mjs:71` flags.append**: Implemented. Changed to `flags.push`.
+- **[Nit] `node/generate-assets.mjs` maxWorkers**: Implemented. Documented sequential execution simplification in `REPORT.md`.
+- **[Nit] `REPORT.md:62` lock limits**: Implemented. Documented `O_EXCL` atomicity limits on NFSv2/FUSE.
+- **[Nit] `verify.mjs:36-38` static scan**: Implemented. Added checks rejecting unadorned node builtins (`fs`, `path`, `crypto`, etc.) and `Buffer`.
+
+All verification passes cleanly:
+- `node tools/asset-gen-spike/node/higgsfield-cli.mjs selftest` passes 12/12 controls (exit 0).
+- `node tools/asset-gen-spike/verify.mjs` passes all 4 verification steps (exit 0).
+- `pnpm test` passes all 4 canaries in 39.8s (zero budget violations).
+- `utils/pdda/pdda.sh run` passes with 0 errors.
+- `git diff -- '*.py'` remains 100% empty.
+
+Handing off to Reviewer — go to the claude-fable window and say "take your turn for Round 2".
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
