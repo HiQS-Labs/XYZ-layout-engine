@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-16.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 2 / 4
 
@@ -171,5 +171,40 @@ All verification passes cleanly:
 - `git diff -- '*.py'` remains 100% empty.
 
 Handing off to Reviewer — go to the claude-fable window and say "take your turn for Round 2".
+
+### Round 2 · Reviewer · claude-fable
+VERDICT: FAIL
+Basis: the Round-1 Blocker and the email-guard regression are fixed and re-measured; two Shoulds remain — the float-parity fix trades the `1.0` gap for a narrower non-shortest-literal gap that REPORT.md:40 still overclaims, and the recipes portability row is still wrong (one more Node importer). Both are small; Round 3 should close. Probes ran read-only from `.relay-scratch/tmp/probe.mjs` on `node v22.22.3`; commands, rc and decisive output quoted inline. No `.py`, test or non-spike file changed (`git diff --name-status main...HEAD` outside `tools/asset-gen-spike/` → `A PROJECT/1-INBOX/GH-85-JS-ASSET-SPIKE.md`, two relay files, `M releases.db`, `M releases.sql`; `rg -i test` over the list → none).
+
+swept file: yes — all 10 files under `tools/asset-gen-spike/` re-read in full after `c115e93` (2808 lines; `verify.mjs` 389, `node/higgsfield-cli.mjs` 1019, `node/generate-assets.mjs` 590, `node/lock.mjs` 57, `core/*` 669, REPORT.md 84). No pre-existing code outside the spike is touched by the PR; the only pre-existing file consulted (`tools/recipes/nutrition.mjs`) is cited below for a REPORT accuracy row, not for a defect in it.
+
+**Round-1 dispositions re-verified**
+- [Pass] Blocker (live download path) fixed. `node/higgsfield-cli.mjs:414` `const resp = await this.fetch(url)` inside `try` (`:413-423`); awaited up the chain at `:386` (`runLabel`), `:497` (`runCmd`), `:1013` (`main`), `:1017` (top-level `await main()`); `fakeFetch` is `async` (`:659`); control (xii) at `:952-962` drives `realFetch` under the guard. Probe D: `new Runner(<scratch ledger>, '/tmp/…never-created')`, `HIGGSFIELD_CLI_SPIKE_OFFLINE=1`, `downloadAndInspect('T1', {id:'probe', result_url:'https://cdn.example.invalid/u/x.png?sig=S'}, row)` → `row = {"flags":["download_failed"],"result_url":"https://cdn.example.invalid/u/x.png","download_error":"Error: offline guard blocked a download of https://cdn.example.invalid/u/x.png"}`, `unhandledRejection` listener fired: `null`, raw dir created: `false`, query string stripped. Round-1 falsifier satisfied.
+- [Pass] Email guard stateless. `core/redact.mjs:46-49` `containsEmail` uses a fresh non-global literal; `node/higgsfield-cli.mjs:131` calls it. Probe C: `led.append({note:'mail someone@example.com here'})` → refused; `led.append({note:'other@example.com'})` → refused; ledger file exists: `false`. Selftest (viii) asserts the same at `:871-875`.
+- [Pass] Float `.0` preserved on the CLI path. `node/generate-assets.mjs:563` `parseJsonText(…, { preserveNumbers: true })`; `:245` `val instanceof PyNumber ? val.raw : JSON.stringify(val)`. Probe A: `"seed":1.0` → js `eca51c18f896…` = py `eca51c18f896…` MATCH (the Round-1 failing input); `100.0` MATCH; `7` MATCH; `1.5` MATCH.
+- [Pass] Astral key order. `core/json.mjs:49-59` `compareCodePoints`, wired at `:87`. Probe B: `{"😀":1,"￿":2,"a":3}` → js `{"a":3,"￿":2,"😀":1}` = py MATCH. `verify.mjs:85-93` asserts it against Python too.
+- [Pass] Dead code removed. `rg -n '\brunJob\b|checkLiveness|readLockInfo|isPidAlive|registerChild|childPids' tools/asset-gen-spike` → 1 match, `verify.mjs:357` (a stale `childPids: []` field in the pre-seeded lock fixture; harmless, see Nit). `node/lock.mjs` is 57 lines: `acquireLock` with `registerAttempt`/`_flush`/`release` only; `release` unlinks only when `record.parentPid === process.pid` (`:49-51`). `core/png.mjs` now exercised at `verify.mjs:96-117`; probe E on `earth.png` → `colorType 6`, `hasAlphaChannel true`, `crc32('123456789') = cbf43926`, so Step 2b's preconditions hold.
+- [Pass] Nits: `core/spend-gate.mjs:71` `flags.push`; REPORT.md:22,51 names the sequential simplification; REPORT.md:63 names the NFSv2/FUSE `O_EXCL` limit; `verify.mjs:37,40` now reject unadorned builtins and `Buffer`. `rg -n '\bBuffer\b|\bprocess\.|from\s+.node:|require\(' tools/asset-gen-spike/core/` → `0 matches` (Q1 still holds; `ArrayBuffer`/`hashBuffer` at `core/json.mjs:149,154` do not hit `\bBuffer\b`).
+- [Pass] Q2 re-run: `git diff --stat main...HEAD -- examples/ '*.py'` → empty, rc=0.
+- Q3 end-to-end `node tools/asset-gen-spike/verify.mjs` / `selftest` / `pnpm test`: **[Unverified — needs clone run]** as in Round 1; the harness gate runs after this turn. Everything above that `verify.mjs` asserts was re-measured here by direct import instead.
+
+**Open findings**
+- **[Should] Non-shortest float literals still diverge from Python on the CLI path; REPORT.md:40 overclaims.** `parseJsonText` keeps the *source text* (`core/json.mjs:38-40`) and `canonicalJson` emits it verbatim (`:71-73`), whereas Python `json.loads` normalises to the float and `json.dumps` emits `repr()` (shortest round-trip). The Round-1 fix closed the `1.0` gap and opened this one.
+  - Observed input (probe A, same job skeleton as Round 1): `"seed":1.50` → js `450a483eeb94…` vs py `83185e13cf8c…` DIFF (`jsParams={"seed":1.50}`, `pyParams={"seed":1.5}`); `"seed":0.10` → `8cff3700a169…` vs `3467a0f73252…` DIFF (`0.10` vs `0.1`); `"seed":-0` → `481e4bd388b6…` vs `2ba066c8724a…` DIFF (js `-0`, py `0` — Python reads `-0` as int 0). All three are admitted by `core/jobs.mjs:156-178` (finite, no exponent, safe range).
+  - Affected scope: any `parameters` number whose JSON literal is not Python's `repr()` — trailing zeros (`1.50`, `0.10`), or the int literal `-0`. A manifest written by the Python runner is not recognised by the JS runner for such a job (and vice versa) → second paid dispatch of a complete job; the `attempt folders exist` guard at `node/generate-assets.mjs:419-432` keys on the same digest so it does not catch it.
+  - Falsifier: `1.0`, `1.5`, `100.0`, `7` → MATCH in probe A, proving the gap is confined to non-shortest literals; a fixture `{"seed":1.50}` digested by both runners after the fix must MATCH and must emit `{"seed":1.5}`.
+  - Fix (one place): in `parseJsonText` (`core/json.mjs:37-41`) build the PyNumber from the *value*, not the source — `return isFloat ? pyFloat(value) : pyInt(value)` where `isFloat = /[.eE]/.test(raw)` (drop the `Object.is(value,-0)` clause so `-0` stays an int and prints `0`). Within the admitted range (`1e-4 ≤ |x| < 1e16`, no exponent) `Number.prototype.toString()` equals Python `repr()`, so `pyFloat` already yields the Python text (`:18-25`). Keep `raw` on the PyNumber only if something still reads it (`node/generate-assets.mjs:245` can use `String(val)` since `toString()` returns `raw`). Then either add `1.50` to the `verify.mjs:81-83` round-trip assertion or narrow REPORT.md:40 to "for literals in Python's shortest-repr form".
+- **[Should] REPORT.md:78 recipes row is still wrong: `tools/recipes/nutrition.mjs:1` imports `node:fs/promises`.** `rg -n "from 'node:" tools/recipes/` → 4 matches in 2 files: `design-intake.mjs:2-4` (`node:fs/promises`, `node:path`, `node:crypto`) and `nutrition.mjs:1` (`node:fs/promises`). Correction to my Round-1 falsifier, which named `nutrition.mjs` as clean — it was not; I misread that run. REPORT.md:79 also understates `design-intake.mjs` (says `node:fs` and `node:path`; actual is `node:fs/promises`, `node:path`, `node:crypto`).
+  - Observed input: the two matrix rows at REPORT.md:78-79 vs the rg output above.
+  - Affected scope: REPORT wording only (no runtime path).
+  - Falsifier: `solar-system.mjs` and `recursive-process.mjs` carry no `node:` import in the same rg run, so a row "pure layout descriptors (`solar-system.mjs`, `recursive-process.mjs`)" is defensible.
+  - Fix: name the browser-ready recipes explicitly (or say "recipes that import only `../spike/*`"), move `nutrition.mjs` next to `design-intake.mjs` as Node-only, and list `design-intake.mjs`'s three imports.
+- [Nit] `verify.mjs:7,15,18` still import `crypto`, `spendGate`, `generateRunner` without using them (`rg -c 'crypto\.|spendGate\.|generateRunner\.' verify.mjs` → 0 each; the `createHash` at `:137` is inside the stub's template string). Round-1 asked for these to go. Fix: delete the three imports.
+- [Nit] `core/redact.mjs:44` `EMAIL_RE` (global) is now exported with zero callers (`rg -n EMAIL_RE tools/asset-gen-spike` → the definition only) and its pattern is duplicated at `:48` and `:62`. Fix: delete `EMAIL_RE` or derive both from one `EMAIL_SRC` string (`new RegExp(EMAIL_SRC, 'i')` / `'gi'`).
+- [Nit] `verify.mjs:357` seeds `childPids: []` into the lock fixture though `lock.mjs` no longer writes that field. Harmless (refusal is `EEXIST`-only); drop the field so the fixture matches the record shape at `node/lock.mjs:15-19`.
+- [Nit] `node/higgsfield-cli.mjs:101` `formatJsonPy` still sorts with default `Object.keys().sort()` (UTF-16 order) while `canonicalJson` now sorts by code point. Output-only (`say()`), keys are fixed ASCII; name it or reuse `compareCodePoints` for consistency.
+- No further pre-existing defects found in the swept files; `scrubObj`, lock, spend-gate arithmetic, admission and manifest validation read as in Round 1.
+
+Handing off to Producer — go to the claude-a window and say "take your turn": disposition the two Shoulds (the float fix is ~5 lines in `core/json.mjs` plus one `verify.mjs` assertion; the recipes row is a REPORT edit) and the nits, bump ROUND to 3.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
