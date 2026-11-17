@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-16.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -265,5 +265,24 @@ Handing off to Producer — go to the claude-a window and say "take your turn": 
 - `REPORT.md`: Matrix accurately documents all recipes and module dependencies.
 
 Handing off to Reviewer for Round 4 final review and approval.
+
+### Round 4 · Reviewer · claude-fable
+VERDICT: PASS
+Basis: the single Round-3 Should (REPORT.md:78) is implemented as proposed and re-measured against the import graph; every earlier finding was closed in Rounds 2-3 with probes; no blockers remain. Probes ran read-only (`rg`, `git show`/`git diff` queries only); commands, rc and decisive output quoted inline.
+
+swept file: yes — `git show --stat b0cf4e3` touches exactly one file, `tools/asset-gen-spike/REPORT.md | 2 +-` (1 insertion, 1 deletion, the :78 row); nothing else in the spike changed since Round 3 (`git log --oneline -- tools/asset-gen-spike` → `b0cf4e3`, `a13214d`, `c115e93`), and all 10 spike files were swept in full in Round 2 and at every hunk in Round 3. No new pre-existing defects found.
+
+**Round-3 disposition re-verified**
+- [Pass] REPORT.md:78 now reads `⚠️ Partial | ✅ Yes | Layout and geometry builders are pure, but `validate()` and `loadAssets()` read fixtures via `tools/request.mjs` (`node:fs/promises`). Browser builds must inject those bytes (via fetch or bundled asset imports) and keep file-based readers server-side.` This matches the evidence: `rg -n "^import" tools/recipes/*.mjs` → 11 matches, 4 files, every recipe imports `../request.mjs` (`solar-system.mjs:1`, `recursive-process.mjs:1`, `nutrition.mjs:4`, `design-intake.mjs:5`); `rg -n "^import" tools/request.mjs` → 5 `node:` imports (`:1-5`). REPORT.md:79 still lists `design-intake.mjs` / `nutrition.mjs` as Node-only, consistent with `design-intake.mjs:2-4` and `nutrition.mjs:1`.
+
+**Definition of Done**
+- Q1 core isolation — [Pass] `rg -n "from\s+['\"]node:|require\(|\bprocess\.|\bBuffer\b|from\s+['\"](fs|path|os|crypto|child_process|url)['\"]" tools/asset-gen-spike/core/` → `0 matches`, rc=1 (plain `rg`, no `--include`, so the zero is real). Web APIs cited in Round 1 (`core/json.mjs:94-103,142`, `core/redact.mjs:80`, `core/png.mjs:3,41`) unchanged since.
+- Q2 Python preservation — [Pass] `git diff --stat main...HEAD -- examples/ '*.py'` → empty, rc=0; `git diff --name-status main...HEAD` outside `tools/asset-gen-spike/` → `A PROJECT/1-INBOX/GH-85-JS-ASSET-SPIKE.md`, two relay files, `M releases.db`, `M releases.sql` — no `examples/`, no test files.
+- Q3 verification & parity — [Pass] on content: digest parity (Round 3 probe, 14/15 literals MATCH with the lone DIFF rejected by both admissions), spend-cap / balance / ambiguous-create / lock / redaction controls (Round 1, `node/higgsfield-cli.mjs` selftest i–xii) and the awaited live download path (Round 2 probe D) all re-measured by direct import. End-to-end `node tools/asset-gen-spike/verify.mjs` / `selftest` / `pnpm test`: **[Unverified — needs clone run]** — Producer reports exit 0 for all three in Rounds 1-2; the harness gate after this turn is the authoritative run.
+- Q4 lockfile — [Pass] `node/lock.mjs:42` `'wx'`, `null` on `EEXIST`, refusal at `node/generate-assets.mjs` caller, `unlinkSync` gated on `record.parentPid === process.pid` (`node/lock.mjs:49-51`), `registerAttempt` before `spawnSync` (Round 2 citations; file untouched since `c115e93`).
+- Q5 portability matrix — [Pass] rows :74-82 now match the dependency graph (this round, plus Round 3's :79 check and Round 1's `package.json:19-21` dep check).
+- Q6 complexity & hygiene — [Pass] dead `runJob`, liveness helpers, unused imports, `EMAIL_RE`, `childPids` fixture all gone (`rg` → 0 matches, Rounds 2-3); no tokens or private paths (Round 1 `rg`); no new deps or `*.test.*` files.
+
+Relay closed (Approved), no further turn needed. The harness gate's clone run of `verify.mjs` / `selftest` / `pnpm test` is the only item still outstanding; if it fails, reopen with the failing control quoted.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
