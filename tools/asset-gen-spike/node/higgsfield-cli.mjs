@@ -23,7 +23,7 @@ import {
   jobFields,
   planLedgerRows
 } from '../core/spend-gate.mjs';
-import { parseJsonText, canonicalJson, sha256Sync } from '../core/json.mjs';
+import { parseJsonText, canonicalJson, sha256Sync, compareCodePoints } from '../core/json.mjs';
 import {
   redactSecrets,
   redactHiggsfield,
@@ -98,7 +98,7 @@ export function formatJsonPy(obj) {
   if (typeof obj === 'string') return JSON.stringify(obj);
   if (Array.isArray(obj)) return `[${obj.map(formatJsonPy).join(', ')}]`;
   if (typeof obj === 'object') {
-    const keys = Object.keys(obj).sort();
+    const keys = Object.keys(obj).sort(compareCodePoints);
     return `{${keys.map(k => `${JSON.stringify(k)}: ${formatJsonPy(obj[k])}`).join(', ')}}`;
   }
   return JSON.stringify(obj);

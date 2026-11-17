@@ -37,7 +37,7 @@ All verification passes offline via `node tools/asset-gen-spike/verify.mjs`:
 
 2. **Cross-Language Differential Parity with Python**:
    - `jobDigest` produces byte-for-byte identical SHA-256 hashes against `generate-assets.py`'s `job_digest` across all 13 Solar System jobs.
-   - Preserves Python numeric serialization distinctions: distinguishing `1.0` (emitted as `1.0` via `pyFloat` and preserved on the CLI path via `parseJsonText(text, { preserveNumbers: true })`) from `1` (emitted as `1`), signed negative zero `-0.0`, safe integers up to `9007199254740991`, and rejecting scientific notation exponents (e.g. `0.00001` / `1e-5` rejected per Python's `'e' in json.dumps(v).lower()`).
+   - Preserves Python numeric serialization distinctions: distinguishing `1.0` (emitted as `1.0` via `pyFloat` and preserved on the CLI path via `parseJsonText(text, { preserveNumbers: true })`) from `1` (emitted as `1`), signed negative zero `-0.0`, safe integers up to `9007199254740991`, non-shortest float literals normalized to Python shortest representation (`1.50` -> `1.5`, `-0` -> `0`), and rejecting scientific notation exponents (e.g. `0.00001` / `1e-5` rejected per Python's `'e' in json.dumps(v).lower()`).
    - Key sorting order matches Python dictionary ordering (`sort_keys=True`) across ASCII, BMP, and astral planes using code-point comparison (`compareCodePoints`).
 
 3. **Higgsfield CLI Controls**:
@@ -75,8 +75,8 @@ When porting this functionality to a Lovable Vite + TanStack web application, th
 | **`core/png.mjs`** | ✅ Yes | ✅ Yes | Header inspection uses `Uint8Array`; alpha inspection uses `ImageData`. |
 | **`core/spend-gate.mjs`** | ✅ Yes | ✅ Yes | Pure ledger arithmetic and gate verification. |
 | **`core/jobs.mjs`** | ✅ Yes | ✅ Yes | Job descriptors, digest computation, and pure validation. |
-| **`tools/recipes/*.mjs` (except `design-intake.mjs`)** | ✅ Yes | ✅ Yes | Pure layout descriptors (grids, type hierarchy, proportions). |
-| **`tools/recipes/design-intake.mjs`** | ❌ No | ✅ Yes | Node build script importing `node:fs` and `node:path`. |
+| **`tools/recipes/solar-system.mjs`, `recursive-process.mjs`** | ✅ Yes | ✅ Yes | Pure layout descriptors (grids, type hierarchy, proportions). Client/browser-ready. |
+| **`tools/recipes/design-intake.mjs`, `nutrition.mjs`** | ❌ No | ✅ Yes | Node scripts importing `node:fs/promises`, `node:path`, or `node:crypto`. Run in Node server or Edge runtime. |
 | **SVG Generation (`satori`)** | ✅ Yes | ✅ Yes | `satori` runs in browser environments using standard WASM yoga. |
 | **Raster Rendering (`@resvg/resvg-js`)** | ⚠️ Partial | ✅ Yes | `@resvg/resvg-js` is a native Node addon. In the browser, swap to `@resvg/resvg-wasm` or render via `<canvas>` / `OffscreenCanvas`. |
 | **Subprocess Execution (`node/`)** | ❌ No | ✅ Yes | Browser cannot spawn CLI binaries. Host CLI runners in Supabase Edge Functions or backend API endpoints. |

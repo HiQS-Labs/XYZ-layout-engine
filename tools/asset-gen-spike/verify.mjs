@@ -4,7 +4,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import crypto from 'node:crypto';
 import child_process from 'node:child_process';
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
@@ -12,10 +11,8 @@ import { fileURLToPath } from 'node:url';
 import * as jsonUtils from './core/json.mjs';
 import * as redactUtils from './core/redact.mjs';
 import * as pngUtils from './core/png.mjs';
-import * as spendGate from './core/spend-gate.mjs';
 import * as jobsModule from './core/jobs.mjs';
 import * as higgsfieldRunner from './node/higgsfield-cli.mjs';
-import * as generateRunner from './node/generate-assets.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,6 +78,10 @@ assert.equal(jsonUtils.canonicalJson(testObj), expectedKeySort);
 // Round-trip parseJsonText preserveNumbers check
 const parsedJob = jsonUtils.parseJsonText('{"parameters":{"seed":1.0,"count":1}}', { preserveNumbers: true });
 assert.equal(jsonUtils.canonicalJson(parsedJob), '{"parameters":{"count":1,"seed":1.0}}');
+const parsedNonShortest = jsonUtils.parseJsonText('{"seed":1.50}', { preserveNumbers: true });
+assert.equal(jsonUtils.canonicalJson(parsedNonShortest), '{"seed":1.5}');
+const parsedNegZero = jsonUtils.parseJsonText('{"seed":-0}', { preserveNumbers: true });
+assert.equal(jsonUtils.canonicalJson(parsedNegZero), '{"seed":0}');
 
 // Astral plane code-point order check
 const astralObj = { "\uD83D\uDE00": 1, "\uFFFD": 2 };
@@ -354,7 +355,6 @@ const lockFile = path.join(lockTestDir, 'generation.lock');
 // Pre-create active lock record
 fs.writeFileSync(lockFile, JSON.stringify({
   parentPid: 99999999, // dead PID
-  childPids: [],
   inFlightAttempts: ['incomplete-attempt-intent'],
   timestamp: Date.now()
 }));

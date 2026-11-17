@@ -36,8 +36,8 @@ export function parseJsonText(text, options = {}) {
     return JSON.parse(text, (key, value, context) => {
       if (options.preserveNumbers && typeof value === 'number' && context?.source) {
         const raw = context.source;
-        const isFloat = raw.includes('.') || raw.includes('e') || raw.includes('E') || Object.is(value, -0);
-        return new PyNumber(value, raw, isFloat);
+        const isFloat = /[.eE]/.test(raw);
+        return isFloat ? pyFloat(value) : pyInt(value);
       }
       return value;
     });

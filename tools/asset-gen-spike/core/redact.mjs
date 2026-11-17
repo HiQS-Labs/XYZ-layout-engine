@@ -41,11 +41,11 @@ export const AUTH_RE = /(authorization["']?\s*[:=]\s*["']?)[^\r\n"']+/gi;
 export const BEARER_RE = /\bbearer\s+[A-Za-z0-9._~+/=-]+/gi;
 export const JWT_RE = /[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g;
 export const SECRET_KV_RE = /\b((?:access_|refresh_|id_)?token|secret|api[_-]?key|key|password|passwd|sig|signature)(["']?\s*[:=]\s*["']?)([^\s"'&,;}]{6,})/gi;
-export const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+/g;
+export const EMAIL_SRC = '[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)+';
 
 export function containsEmail(text) {
   if (typeof text !== 'string') return false;
-  return /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+/i.test(text);
+  return new RegExp(EMAIL_SRC, 'i').test(text);
 }
 
 export function redactSecrets(text) {
@@ -59,7 +59,7 @@ export function redactSecrets(text) {
 
 export function redactHiggsfield(text) {
   if (typeof text !== 'string') return text;
-  return redactSecrets(text).replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+/gi, '<redacted>');
+  return redactSecrets(text).replace(new RegExp(EMAIL_SRC, 'gi'), '<redacted>');
 }
 
 export function scrubObj(obj) {
