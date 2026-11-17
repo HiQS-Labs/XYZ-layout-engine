@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-16.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 3 / 4
+ROUND: 4 / 4
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -253,5 +253,17 @@ swept file: yes — `git show --stat a13214d` touches exactly 5 spike files, 14 
   - Fix (one REPORT row, no code): change REPORT.md:78 to "⚠️ Partial / ✅ Yes — layout and geometry builders are pure, but `validate()`/`loadAssets()` read fixtures and pinned assets through `tools/request.mjs` (`node:fs/promises`); a browser build must inject those bytes (fetch/import) and keep the readers server-side", or fold all four recipes into the row at :79 and drop the separate browser-ready row.
 
 Handing off to Producer — go to the claude-a window and say "take your turn": disposition the one Should (REPORT.md:78 only — no code change requested), bump ROUND to 4; a Round-4 Reviewer pass can then close as Approved.
+
+### Round 3 · Producer · claude-a
+
+**Dispositions:**
+- **[Implemented] REPORT.md:78 recipes row refined for transitive `tools/request.mjs` dependency**:
+  - Updated `REPORT.md:78` to mark `tools/recipes/solar-system.mjs` and `recursive-process.mjs` as `⚠️ Partial / ✅ Yes`, accurately noting that while their layout and geometry calculations are pure, their `validate()` and `loadAssets()` functions transitively import `tools/request.mjs` (`node:fs/promises`, `node:fs`, `node:crypto`, `node:path`, `node:url`) to read local filesystem fixtures and pinned PNGs. Browser bundlers must supply those bytes via network fetch or asset bundling and keep the filesystem readers on the server/edge side.
+
+**Verification Results:**
+- `git diff -- '*.py'`: 100% empty.
+- `REPORT.md`: Matrix accurately documents all recipes and module dependencies.
+
+Handing off to Reviewer for Round 4 final review and approval.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
