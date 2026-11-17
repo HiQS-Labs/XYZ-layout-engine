@@ -30,7 +30,7 @@ import {
   scrubObj,
   urlNoQuery,
   excerpt,
-  EMAIL_RE
+  containsEmail
 } from '../core/redact.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -128,7 +128,7 @@ export class Ledger {
   append(row) {
     const enriched = scrubObj({ ts: nowIso(), ...row });
     const line = JSON.stringify(enriched);
-    if (EMAIL_RE.test(line)) {
+    if (containsEmail(line)) {
       throw new Error('refusing to write an email address to the ledger');
     }
     const dir = path.dirname(this.path);
@@ -141,7 +141,7 @@ export class Ledger {
   }
 }
 
-export function exclusiveLock(ledgerPath, callback) {
+export async function exclusiveLock(ledgerPath, callback) {
   const lockPath = ledgerPath.replace(/\.jsonl$/, '') + '.lock';
   let fd;
   try {
@@ -153,7 +153,7 @@ export function exclusiveLock(ledgerPath, callback) {
     throw err;
   }
   try {
-    return callback();
+    return await callback();
   } finally {
     try {
       fs.closeSync(fd);
@@ -315,7 +315,7 @@ export class Runner {
     );
   }
 
-  runLabel(label, params) {
+  async runLabel(label, params) {
     let check;
     try {
       check = this.gate(params, this.ledger.rows());
@@ -383,7 +383,7 @@ export class Runner {
     row.flags = flags;
 
     if (status === 'completed') {
-      this.downloadAndInspect(label, job, row);
+      await this.downloadAndInspect(label, job, row);
     } else {
       flags.push('not_completed');
     }
@@ -402,7 +402,7 @@ export class Runner {
     });
   }
 
-  downloadAndInspect(label, job, row) {
+  async downloadAndInspect(label, job, row) {
     const url = job.result_url;
     if (typeof url !== 'string' || !url.startsWith('https://')) {
       row.flags.push('no_https_result_url');
@@ -411,7 +411,7 @@ export class Runner {
     row.result_url = urlNoQuery(url);
     let status, contentType, data, error = null;
     try {
-      const resp = this.fetch(url);
+      const resp = await this.fetch(url);
       status = resp.status;
       contentType = resp.contentType;
       data = resp.data;
@@ -454,7 +454,7 @@ export class Runner {
   }
 }
 
-export function runCmd(runner, only = null, dryRun = false) {
+export async function runCmd(runner, only = null, dryRun = false) {
   if (only && !MATRIX.some(([l]) => l === only)) {
     throw new Refuse(1, `unknown label ${only}; known: ${MATRIX.map(([l]) => l).join(', ')}`);
   }
@@ -494,7 +494,7 @@ export function runCmd(runner, only = null, dryRun = false) {
   }
 
   for (const [label, params] of todo) {
-    runner.runLabel(label, params);
+    await runner.runLabel(label, params);
   }
   say({ run: 'done', ran: todo.map(([l]) => l), skipped: skipped.map(([l]) => l) });
   return 0;
@@ -569,9 +569,9 @@ export function initLedger(ledger, smokeJson, smokePng, inspector = runInspector
   return 0;
 }
 
-export function exitCode(fn) {
+export async function exitCode(fn) {
   try {
-    return fn();
+    return await fn();
   } catch (err) {
     if (err instanceof Refuse) {
       say(`REFUSED (exit ${err.code}): ${err.message}`, process.stderr);
@@ -640,64 +640,64 @@ if kind == 'create':
 sys.exit(2)
 `;
 
-export function selftest() {
+export async function selftest() {
   const results = [];
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hf-cli-selftest-'));
-  const fakeDir = path.join(tmp, 'fakebin');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hf-cli-selftest-"));
+  const fakeDir = path.join(tmp, "fakebin");
   fs.mkdirSync(fakeDir);
-  const shim = path.join(fakeDir, 'higgsfield');
+  const shim = path.join(fakeDir, "higgsfield");
   fs.writeFileSync(shim, SHIM_CODE, { mode: 0o755 });
 
   process.env.HIGGSFIELD_BIN = shim;
-  process.env.HIGGSFIELD_CLI_SPIKE_OFFLINE = '1';
+  process.env.HIGGSFIELD_CLI_SPIKE_OFFLINE = "1";
   process.env.HIGGSFIELD_CLI_SPIKE_FAKE_DIR = fakeDir;
 
-  const pngPath = path.resolve(ROOT, '../2026-10-08-solar-system/assets/web/mercury.png');
+  const pngPath = path.resolve(ROOT, "../2026-10-08-solar-system/assets/web/mercury.png");
   const png = fs.readFileSync(pngPath);
   const fetched = [];
 
-  const fakeFetch = url => {
+  const fakeFetch = async url => {
     fetched.push(url);
-    return { status: 200, contentType: 'image/png', data: png };
+    return { status: 200, contentType: "image/png", data: png };
   };
-  const stubInspector = filePath => ({ file: path.basename(filePath), real_alpha: true, note: 'selftest stub' });
+  const stubInspector = filePath => ({ file: path.basename(filePath), real_alpha: true, note: "selftest stub" });
 
   const scenario = (opts = {}) => {
-    fs.writeFileSync(path.join(fakeDir, 'scenario.json'), JSON.stringify({ cost: 0.25, balance: 701.0, charge: true, ...opts }));
-    fs.writeFileSync(path.join(fakeDir, 'calls.jsonl'), '');
+    fs.writeFileSync(path.join(fakeDir, "scenario.json"), JSON.stringify({ cost: 0.25, balance: 701.0, charge: true, ...opts }));
+    fs.writeFileSync(path.join(fakeDir, "calls.jsonl"), "");
     fetched.length = 0;
   };
 
   const calls = kind => {
-    const p = path.join(fakeDir, 'calls.jsonl');
+    const p = path.join(fakeDir, "calls.jsonl");
     if (!fs.existsSync(p)) return [];
-    return fs.readFileSync(p, 'utf8').split('\n').filter(Boolean).map(JSON.parse).filter(c => !kind || c.kind === kind);
+    return fs.readFileSync(p, "utf8").split("\n").filter(Boolean).map(JSON.parse).filter(c => !kind || c.kind === kind);
   };
 
   const ledger = (name, ...rows) => {
     const led = new Ledger(path.join(tmp, `${name}.jsonl`));
-    led.append({ event: 'baseline', credits: 701.0, note: 'selftest' });
+    led.append({ event: "baseline", credits: 701.0, note: "selftest" });
     for (const r of rows) led.append(r);
     return led;
   };
 
-  const run = (led, opts = {}) => {
+  const run = async (led, opts = {}) => {
     const { only = null, dry = false, inspector = stubInspector, timeout = CREATE_TIMEOUT_S, fetch = fakeFetch } = opts;
-    const runner = new Runner(led.path, path.join(tmp, 'raw'), fetch, inspector, timeout);
-    let captured = '';
+    const runner = new Runner(led.path, path.join(tmp, "raw"), fetch, inspector, timeout);
+    let captured = "";
     const origOut = process.stdout.write;
     const origErr = process.stderr.write;
     process.stdout.write = (chunk) => {
-      captured += chunk ? chunk.toString() : '';
+      captured += chunk ? chunk.toString() : "";
       return true;
     };
     process.stderr.write = (chunk) => {
-      captured += chunk ? chunk.toString() : '';
+      captured += chunk ? chunk.toString() : "";
       return true;
     };
     let code;
     try {
-      code = exitCode(() => runCmd(runner, only, dry));
+      code = await exitCode(async () => await runCmd(runner, only, dry));
     } finally {
       process.stdout.write = origOut;
       process.stderr.write = origErr;
@@ -709,170 +709,178 @@ export function selftest() {
     return led.rows().filter(r => r.event === ev && (!lbl || r.label === lbl));
   };
 
-  const control = (name, fn) => {
+  const control = async (name, fn) => {
     try {
-      const detail = fn();
+      const detail = await fn();
       results.push([name, true, detail]);
     } catch (e) {
-      results.push([name, false, `${e.name || 'Error'}: ${e.message}`]);
+      results.push([name, false, `${e.name || "Error"}: ${e.message}`]);
     }
   };
 
   // c1: cap refusal
-  control('(i) cap refusal 19.7+0.5 / 19.5+0.5', () => {
-    const led = ledger('c1');
+  await control("(i) cap refusal 19.7+0.5 / 19.5+0.5", async () => {
+    const led = ledger("c1");
     scenario({ cost: 0.5, balance: 681.3 });
-    const { code, out } = run(led, { only: 'T2-cytokinesis' });
-    if (code !== 3 || !out.includes('spend gate')) throw new Error(`19.7 spent + 0.5 not refused (exit ${code})`);
-    if (calls('create').length !== 0) throw new Error('a refused call reached create');
-    const ref = events(led, 'refused')[0];
+    const { code, out } = await run(led, { only: "T2-cytokinesis" });
+    if (code !== 3 || !out.includes("spend gate")) throw new Error(`19.7 spent + 0.5 not refused (exit ${code})`);
+    if (calls("create").length !== 0) throw new Error("a refused call reached create");
+    const ref = events(led, "refused")[0];
     if (ref.spent_by_balance !== 19.7 || ref.total_if_run !== 20.2) throw new Error(`refused row ${JSON.stringify(ref)}`);
     scenario({ cost: 0.5, balance: 681.5 });
-    const r2 = run(led, { only: 'T2-cytokinesis' });
-    const res = events(led, 'reserve')[0];
-    if (r2.code !== 0 || calls('create').length !== 1) throw new Error(`19.5 + 0.5 not allowed (exit ${r2.code})`);
+    const r2 = await run(led, { only: "T2-cytokinesis" });
+    const res = events(led, "reserve")[0];
+    if (r2.code !== 0 || calls("create").length !== 1) throw new Error(`19.5 + 0.5 not allowed (exit ${r2.code})`);
     if (res.spent_by_balance !== 19.5 || res.total_if_run !== 20.0) throw new Error(`reserve row ${JSON.stringify(res)}`);
-    if (!gateAllows(20.0) || gateAllows(20.000001)) throw new Error('gate boundary check');
-    if ([NaN, Infinity, -Infinity].some(gateAllows)) throw new Error('non-finite allowed');
-    if (!Number.isNaN(spendTotal(NaN, 1.0, 0.5)) || !Number.isNaN(spendTotal(1.0, NaN, 0.5))) throw new Error('spendTotal nan');
-    return 'balance 681.3 (19.7 spent) + 0.5 = 20.2 refused, exit 3, 0 creates; 681.5 (19.5) + 0.5 = 20.0 allowed, 1 create; gate refuses nan/inf/-inf and a NaN in either max() argument';
+    if (!gateAllows(20.0) || gateAllows(20.000001)) throw new Error("gate boundary check");
+    if ([NaN, Infinity, -Infinity].some(gateAllows)) throw new Error("non-finite allowed");
+    if (!Number.isNaN(spendTotal(NaN, 1.0, 0.5)) || !Number.isNaN(spendTotal(1.0, NaN, 0.5))) throw new Error("spendTotal nan");
+    return "balance 681.3 (19.7 spent) + 0.5 = 20.2 refused, exit 3, 0 creates; 681.5 (19.5) + 0.5 = 20.0 allowed, 1 create; gate refuses nan/inf/-inf and a NaN in either max() argument";
   });
 
   // c2: unusable cost or balance stops
-  control('(ii) unusable cost or balance stops', () => {
-    const bad = ['{"credits": NaN}', '{"credits": Infinity}', '{"credits": "inf"}', '{"credits": -1}', 'not json', '', '{}', '{"credits": true}', '{"credits": 1e999}'];
-    const cases = bad.concat(['{"credits": 0}']).map(b => ['cost', b]).concat(bad.map(b => ['balance', b]));
-    cases.forEach(([which, reply], n) => {
+  await control("(ii) unusable cost or balance stops", async () => {
+    const bad = ['{"credits": NaN}', '{"credits": Infinity}', '{"credits": "inf"}', '{"credits": -1}', "not json", "", "{}", '{"credits": true}', '{"credits": 1e999}'];
+    const cases = bad.concat(['{"credits": 0}']).map(b => ["cost", b]).concat(bad.map(b => ["balance", b]));
+    for (let n = 0; n < cases.length; n++) {
+      const [which, reply] = cases[n];
       scenario({ [which]: reply });
       const led = ledger(`c2-${n}`);
-      const { code } = run(led, { only: 'T2-cytokinesis' });
+      const { code } = await run(led, { only: "T2-cytokinesis" });
       if (code !== 4) throw new Error(`${which} ${reply}: exit ${code}`);
-      if (calls('create').length !== 0 || events(led, 'reserve').length !== 0) throw new Error(`${which} ${reply}: reserved or created`);
-      if (events(led, 'stopped')[0].phase !== 'gate') throw new Error('stopped phase not gate');
-    });
+      if (calls("create").length !== 0 || events(led, "reserve").length !== 0) throw new Error(`${which} ${reply}: reserved or created`);
+      if (events(led, "stopped")[0].phase !== "gate") throw new Error("stopped phase not gate");
+    }
     scenario({ cost_rc: 1 });
-    const rRc = run(ledger('c2-rc'), { only: 'T2-cytokinesis' });
-    if (rRc.code !== 4 || calls('create').length !== 0) throw new Error(`cost exit 1: exit ${rRc.code}`);
+    const rRc = await run(ledger("c2-rc"), { only: "T2-cytokinesis" });
+    if (rRc.code !== 4 || calls("create").length !== 0) throw new Error(`cost exit 1: exit ${rRc.code}`);
     return `${cases.length} unusable cost/balance replies and a failing cost command -> exit 4, gate-stopped row, 0 creates`;
   });
 
   // c3: balance lag
-  control('(iii) balance lag uses the larger', () => {
-    const led = ledger('c3', { event: 'result', label: 'selftest-seed', est_credits: 18.75, final_status: 'completed' });
+  await control("(iii) balance lag uses the larger", async () => {
+    const led = ledger("c3", { event: "result", label: "selftest-seed", est_credits: 18.75, final_status: "completed" });
     scenario({ cost: 0.5, balance: 701.0, charge: false });
-    const { code } = run(led);
+    const { code } = await run(led);
     if (code !== 3) throw new Error(`exit ${code}, expected third call refused`);
-    if (calls('create').length !== 2) throw new Error(`${calls('create').length} creates, expected 2`);
-    const [r1, r2] = events(led, 'reserve');
-    const ref = events(led, 'refused')[0];
+    if (calls("create").length !== 2) throw new Error(`${calls("create").length} creates, expected 2`);
+    const [r1, r2] = events(led, "reserve");
+    const ref = events(led, "refused")[0];
     const got = [r1, r2, ref].map(r => [r.spent_by_balance, r.est_sum_before, r.total_if_run]);
     const expected = [[0.0, 18.75, 19.25], [0.0, 19.25, 19.75], [0.0, 19.75, 20.25]];
     if (JSON.stringify(got) !== JSON.stringify(expected)) throw new Error(`arithmetic ${JSON.stringify(got)}`);
-    if (ref.label !== 'T3-sunburst-interphase' || !events(led, 'result', 'T2-cytokinesis').length) throw new Error('labels');
-    return 'balance stays 701 (0 spent by balance); estimates 18.75 -> 19.25 -> 19.75: T1 at 19.25 and T2 at 19.75 allowed, T3 refused';
+    if (ref.label !== "T3-sunburst-interphase" || !events(led, "result", "T2-cytokinesis").length) throw new Error("labels");
+    return "balance stays 701 (0 spent by balance); estimates 18.75 -> 19.25 -> 19.75: T1 at 19.25 and T2 at 19.75 allowed, T3 refused";
   });
 
   // c4: ambiguous creates stop
-  control('(iv) ambiguous create stops, no retry', () => {
-    for (const mode of ['exit1', 'garbage', 'running', 'sleep']) {
+  await control("(iv) ambiguous create stops, no retry", async () => {
+    for (const mode of ["exit1", "garbage", "running", "sleep"]) {
       scenario({ create: mode });
       const led = ledger(`c4-${mode}`);
-      const { code } = run(led, { timeout: mode === 'sleep' ? 1 : CREATE_TIMEOUT_S });
+      const { code } = await run(led, { timeout: mode === "sleep" ? 1 : CREATE_TIMEOUT_S });
       if (code !== 4) throw new Error(`${mode}: exit ${code}`);
-      if (calls('create').length !== 1) throw new Error(`${mode}: create count`);
+      if (calls("create").length !== 1) throw new Error(`${mode}: create count`);
       const evs = led.rows().map(r => r.event);
-      if (JSON.stringify(evs) !== JSON.stringify(['baseline', 'reserve', 'stopped'])) throw new Error(`${mode}: events`);
-      if (events(led, 'stopped')[0].attempt_id !== events(led, 'reserve')[0].attempt_id) throw new Error(`${mode}: attempt mismatch`);
+      if (JSON.stringify(evs) !== JSON.stringify(["baseline", "reserve", "stopped"])) throw new Error(`${mode}: events`);
+      if (events(led, "stopped")[0].attempt_id !== events(led, "reserve")[0].attempt_id) throw new Error(`${mode}: attempt mismatch`);
       scenario();
-      const rRetry = run(led, { only: 'T1-smoke-interphase' });
-      if (rRetry.code !== 0 || calls('create').length !== 0 || !rRetry.out.includes('never retried')) {
+      const rRetry = await run(led, { only: "T1-smoke-interphase" });
+      if (rRetry.code !== 0 || calls("create").length !== 0 || !rRetry.out.includes("never retried")) {
         throw new Error(`${mode}: label retried`);
       }
     }
-    scenario({ create: 'failed' });
-    const ledFailed = ledger('c4-failed');
-    const rFailed = run(ledFailed);
-    if (rFailed.code !== 0 || calls('create').length !== 5) throw new Error(`clean failure: exit ${rFailed.code}`);
-    if (!events(ledFailed, 'result').every(r => r.final_status === 'failed' && !r.go_eligible)) throw new Error('failed rows');
-    if (estSumOf(ledFailed.rows()) !== 1.25) throw new Error('failed calls not counted at estimate');
-    return 'exit 1 with no output, non-JSON output, status running and timeout -> stopped row, exit 4, 1 create; clean failed x5 recorded';
+    scenario({ create: "failed" });
+    const ledFailed = ledger("c4-failed");
+    const rFailed = await run(ledFailed);
+    if (rFailed.code !== 0 || calls("create").length !== 5) throw new Error(`clean failure: exit ${rFailed.code}`);
+    if (!events(ledFailed, "result").every(r => r.final_status === "failed" && !r.go_eligible)) throw new Error("failed rows");
+    if (estSumOf(ledFailed.rows()) !== 1.25) throw new Error("failed calls not counted at estimate");
+    return "exit 1 with no output, non-JSON output, status running and timeout -> stopped row, exit 4, 1 create; clean failed x5 recorded";
   });
 
   // c5: second process refused by lock
-  control('(v) second process refused by the lock', () => {
-    const led = ledger('c5');
+  await control("(v) second process refused by the lock", async () => {
+    const led = ledger("c5");
     scenario();
-    exclusiveLock(led.path, () => {
-      const p = child_process.spawnSync('node', [__filename, '--ledger', led.path, '--raw-dir', path.join(tmp, 'raw'), 'run'], {
-        encoding: 'utf8'
+    await exclusiveLock(led.path, () => {
+      const p = child_process.spawnSync("node", [__filename, "--ledger", led.path, "--raw-dir", path.join(tmp, "raw"), "run"], {
+        encoding: "utf8"
       });
-      if (p.status !== 5 || !(p.stderr || '').includes('another process')) {
+      if (p.status !== 5 || !(p.stderr || "").includes("another process")) {
         throw new Error(`second process exit ${p.status}: ${p.stderr}`);
       }
     });
-    if (calls().length !== 0) throw new Error('the refused process called CLI');
-    exclusiveLock(led.path, () => {});
-    return 'second process exit 5 while lock was held, 0 CLI calls; lock reacquired after release';
+    if (calls().length !== 0) throw new Error("the refused process called CLI");
+    await exclusiveLock(led.path, () => {});
+    return "second process exit 5 while lock was held, 0 CLI calls; lock reacquired after release";
   });
 
   // c6: param echo mismatch
-  control('(vi) param echo mismatch flagged', () => {
-    scenario({ echo_background: 'opaque' });
-    const led = ledger('c6');
-    const { code } = run(led, { only: 'T2-cytokinesis' });
-    const r = events(led, 'result')[0];
-    if (code !== 0 || r.echoed_background !== 'opaque' || !r.flags.includes('param_not_echoed')) throw new Error(`row ${JSON.stringify(r)}`);
-    if (r.inspection.real_alpha !== true || r.go_eligible !== false) throw new Error('mismatch still GO-eligible');
+  await control("(vi) param echo mismatch flagged", async () => {
+    scenario({ echo_background: "opaque" });
+    const led = ledger("c6");
+    const { code } = await run(led, { only: "T2-cytokinesis" });
+    const r = events(led, "result")[0];
+    if (code !== 0 || r.echoed_background !== "opaque" || !r.flags.includes("param_not_echoed")) throw new Error(`row ${JSON.stringify(r)}`);
+    if (r.inspection.real_alpha !== true || r.go_eligible !== false) throw new Error("mismatch still GO-eligible");
     scenario();
-    const led2 = ledger('c6b');
-    run(led2, { only: 'T2-cytokinesis' });
-    if (events(led2, 'result')[0].go_eligible !== true) throw new Error('clean echo should be GO-eligible');
-    return 'echo opaque for transparent -> flags [param_not_echoed], go_eligible false (clean echo: true)';
+    const led2 = ledger("c6b");
+    await run(led2, { only: "T2-cytokinesis" });
+    if (events(led2, "result")[0].go_eligible !== true) throw new Error("clean echo should be GO-eligible");
+    return "echo opaque for transparent -> flags [param_not_echoed], go_eligible false (clean echo: true)";
   });
 
   // c7: resumable, dry run, pipeline
-  control('(vii) resumable, dry run, pipeline', () => {
-    const prior = MATRIX.slice(0, 4).map(([l]) => ({ event: 'result', label: l, est_credits: 0.25, final_status: 'completed' }));
-    const led = ledger('c7', ...prior);
+  await control("(vii) resumable, dry run, pipeline", async () => {
+    const prior = MATRIX.slice(0, 4).map(([l]) => ({ event: "result", label: l, est_credits: 0.25, final_status: "completed" }));
+    const led = ledger("c7", ...prior);
     scenario({ balance: 700.0 });
-    const { code, out } = run(led, { dry: true });
-    if (code !== 0 || calls('create').length !== 0 || events(led, 'reserve').length !== 0) throw new Error('dry run created or reserved');
-    const would = out.split('\n').filter(l => l.includes('"would_run"')).map(l => JSON.parse(l).label);
-    if (JSON.stringify(would) !== JSON.stringify(['C1-flare-opaque-interphase']) || !out.includes('"projected_total": 1.25')) {
+    const { code, out } = await run(led, { dry: true });
+    if (code !== 0 || calls("create").length !== 0 || events(led, "reserve").length !== 0) throw new Error("dry run created or reserved");
+    const would = out.split("\n").filter(l => l.includes('"would_run"')).map(l => JSON.parse(l).label);
+    if (JSON.stringify(would) !== JSON.stringify(["C1-flare-opaque-interphase"]) || !out.includes('"projected_total": 1.25')) {
       throw new Error(`dry run output: ${out}`);
     }
-    const rReal = run(led, { inspector: runInspector });
-    const made = calls('create');
-    if (rReal.code !== 0 || made.length !== 1 || !made[0].args.includes('opaque')) {
+    const rReal = await run(led, { inspector: runInspector });
+    const made = calls("create");
+    if (rReal.code !== 0 || made.length !== 1 || !made[0].args.includes("opaque")) {
       throw new Error(`exit ${rReal.code}, creates: ${JSON.stringify(made)}`);
     }
-    const r = events(led, 'result', 'C1-flare-opaque-interphase')[0];
-    if (r.result_url.includes('?') || r.sha256 !== sha256Sync(png)) throw new Error('url/sha');
-    if (r.content_type !== 'image/png' || r.inspection.real_alpha !== true) throw new Error('pipeline inspection');
-    if (r.balance_before !== 700.0 || r.balance_after !== 699.75 || r.measured_credits !== 0.25) throw new Error('balance accounting');
-    if (r.go_eligible !== false) throw new Error('opaque requested control must not be GO-eligible');
+    const r = events(led, "result", "C1-flare-opaque-interphase")[0];
+    if (r.result_url.includes("?") || r.sha256 !== sha256Sync(png)) throw new Error("url/sha");
+    if (r.content_type !== "image/png" || r.inspection.real_alpha !== true) throw new Error("pipeline inspection");
+    if (r.balance_before !== 700.0 || r.balance_after !== 699.75 || r.measured_credits !== 0.25) throw new Error("balance accounting");
+    if (r.go_eligible !== false) throw new Error("opaque requested control must not be GO-eligible");
     scenario({ balance: 699.75 });
-    const rRerun = run(led);
-    if (rRerun.code !== 0 || calls('create').length !== 0) throw new Error('rerun created a job');
-    return 'T1-T4 have results: dry run lists only C1; run creates only C1; rerun creates nothing';
+    const rRerun = await run(led);
+    if (rRerun.code !== 0 || calls("create").length !== 0) throw new Error("rerun created a job");
+    return "T1-T4 have results: dry run lists only C1; run creates only C1; rerun creates nothing";
   });
 
   // c8: no email in ledger
-  control('(viii) no email in the ledger', () => {
-    scenario({ email: 'selftest.person@example.com' });
-    const led = ledger('c8');
-    const { code, out } = run(led);
-    const text = fs.readFileSync(led.path, 'utf8');
-    if (code !== 0 || calls('create').length !== 5) throw new Error(`exit ${code}`);
-    if (text.includes('example.com') || text.includes('@') || text.includes('email')) throw new Error('email in ledger');
-    if (out.includes('example.com')) throw new Error('email printed to stdout');
-    return 'shim account JSON carried an email; 5 creates; ledger and output contain no email';
+  await control("(viii) no email in the ledger", async () => {
+    scenario({ email: "selftest.person@example.com" });
+    const led = ledger("c8");
+    const { code, out } = await run(led);
+    const text = fs.readFileSync(led.path, "utf8");
+    if (code !== 0 || calls("create").length !== 5) throw new Error(`exit ${code}`);
+    if (text.includes("example.com") || text.includes("@") || text.includes("email")) throw new Error("email in ledger");
+    if (out.includes("example.com")) throw new Error("email printed to stdout");
+
+    // Stateless email refusal check (GH-86 QA: assert subsequent email appends both fail)
+    let ref1 = false, ref2 = false;
+    try { led.append({ event: "x", note: "mail someone@example.com here" }); } catch { ref1 = true; }
+    try { led.append({ event: "x", note: "other@example.com" }); } catch { ref2 = true; }
+    if (!ref1 || !ref2) throw new Error(`stateless email refusal failed: ref1=${ref1}, ref2=${ref2}`);
+
+    return "shim account JSON carried an email; 5 creates; ledger and output contain no email; sequential email appends refused statelessly";
   });
 
   // c9: inspector controls
-  control('(ix) inspector controls', () => {
-    const transparent = path.resolve(ROOT, '../2026-10-08-solar-system/assets/web/earth.png');
-    const opaque = path.resolve(ROOT, '../2026-10-08-solar-system/solar-system.png');
+  await control("(ix) inspector controls", () => {
+    const transparent = path.resolve(ROOT, "../2026-10-08-solar-system/assets/web/earth.png");
+    const opaque = path.resolve(ROOT, "../2026-10-08-solar-system/solar-system.png");
     const a = runInspector(transparent);
     const b = runInspector(opaque);
     if (a.real_alpha !== true || a.minAlpha !== 0) throw new Error(`transparent: ${JSON.stringify(a)}`);
@@ -881,63 +889,76 @@ export function selftest() {
   });
 
   // c10: tokens and signed URLs never reach ledger
-  control('(x) tokens and signed URLs never reach the ledger', () => {
-    const jwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZWxmdGVzdCJ9.c2VsZnRlc3Qtc2lnbmF0dXJl';
-    const secrets = ['SECRETSIG', 'Expires=1', 'abc.def.ghi-longtokenvalue', jwt, 'tokvalue123456', 'acctok987654', 'DLSECRET', 'X-Amz-Expires=60'];
+  await control("(x) tokens and signed URLs never reach the ledger", async () => {
+    const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZWxmdGVzdCJ9.c2VsZnRlc3Qtc2lnbmF0dXJl";
+    const secrets = ["SECRETSIG", "Expires=1", "abc.def.ghi-longtokenvalue", jwt, "tokvalue123456", "acctok987654", "DLSECRET", "X-Amz-Expires=60"];
     scenario({
-      create: 'leaky',
+      create: "leaky",
       stderr:
-        'error: upload https://cdn.example/x.png?sig=SECRETSIG&Expires=1 failed\n' +
+        "error: upload https://cdn.example/x.png?sig=SECRETSIG&Expires=1 failed\n" +
         `${jwt}\n` +
         'retry with token=tokvalue123456 {"access_token": "acctok987654"}\n' +
-        'Authorization: Bearer abc.def.ghi-longtokenvalue\n'
+        "Authorization: Bearer abc.def.ghi-longtokenvalue\n"
     });
-    const ledA = ledger('c10a');
-    const rA = run(ledA, { only: 'T2-cytokinesis' });
-    if (rA.code !== 4 || calls('create').length !== 1) throw new Error(`leaky create: exit ${rA.code}`);
+    const ledA = ledger("c10a");
+    const rA = await run(ledA, { only: "T2-cytokinesis" });
+    if (rA.code !== 4 || calls("create").length !== 1) throw new Error(`leaky create: exit ${rA.code}`);
 
-    const leakyFetch = url => {
-      throw new Error('GET https://cdn.example.invalid/u/x.png?X-Amz-Signature=DLSECRET&X-Amz-Expires=60 returned 403');
+    const leakyFetch = async url => {
+      throw new Error("GET https://cdn.example.invalid/u/x.png?X-Amz-Signature=DLSECRET&X-Amz-Expires=60 returned 403");
     };
     scenario();
-    const ledB = ledger('c10b');
-    const rB = run(ledB, { only: 'T2-cytokinesis', fetch: leakyFetch });
-    const rRes = events(ledB, 'result')[0];
-    if (rB.code !== 0 || !rRes.flags.includes('download_failed')) throw new Error(`download failure: exit ${rB.code}`);
+    const ledB = ledger("c10b");
+    const rB = await run(ledB, { only: "T2-cytokinesis", fetch: leakyFetch });
+    const rRes = events(ledB, "result")[0];
+    if (rB.code !== 0 || !rRes.flags.includes("download_failed")) throw new Error(`download failure: exit ${rB.code}`);
 
-    const text = fs.readFileSync(ledA.path, 'utf8') + fs.readFileSync(ledB.path, 'utf8');
+    const text = fs.readFileSync(ledA.path, "utf8") + fs.readFileSync(ledB.path, "utf8");
     const outTotal = rA.out + rB.out;
     for (const s of secrets) {
       if (text.includes(s)) throw new Error(`${s} reached the ledger`);
       if (outTotal.includes(s)) throw new Error(`${s} reached stdout/stderr`);
     }
-    if (!text.includes('https://cdn.example/x.png?<query-stripped>') || !text.includes('https://cdn.example.invalid/u/x.png?<query-stripped>')) {
-      throw new Error('stripped form missing from ledger');
+    if (!text.includes("https://cdn.example/x.png?<query-stripped>") || !text.includes("https://cdn.example.invalid/u/x.png?<query-stripped>")) {
+      throw new Error("stripped form missing from ledger");
     }
-    if (!rA.out.includes('https://cdn.example/x.png?<query-stripped>')) {
-      throw new Error('stripped form missing from stderr');
+    if (!rA.out.includes("https://cdn.example/x.png?<query-stripped>")) {
+      throw new Error("stripped form missing from stderr");
     }
-    if (redactSecrets(redactSecrets(text)) !== text) throw new Error('redaction not idempotent');
-    return 'stderr with signed URL, Auth header, JWT, token, download exception: none in ledger or stdout; query-stripped forms recorded';
+    if (redactSecrets(redactSecrets(text)) !== text) throw new Error("redaction not idempotent");
+    return "stderr with signed URL, Auth header, JWT, token, download exception: none in ledger or stdout; query-stripped forms recorded";
   });
 
   // c11: HIGGSFIELD_BIN only under offline guard
-  control('(xi) HIGGSFIELD_BIN only under the offline guard', () => {
+  await control("(xi) HIGGSFIELD_BIN only under the offline guard", () => {
     const env = { ...process.env };
     delete env.HIGGSFIELD_CLI_SPIKE_OFFLINE;
     delete env.HIGGSFIELD_CLI_SPIKE_FAKE_DIR;
     env.HIGGSFIELD_BIN = shim;
 
-    const probe = child_process.spawnSync('node', ['-e', `
+    const probe = child_process.spawnSync("node", ["-e", `
       import { cliBin } from ${JSON.stringify(fileURLToPath(import.meta.url))};
       console.log(cliBin());
-    `], { env, encoding: 'utf8' });
+    `], { env, encoding: "utf8" });
 
-    if (probe.status !== 0 || probe.stdout.trim() !== 'higgsfield') {
+    if (probe.status !== 0 || probe.stdout.trim() !== "higgsfield") {
       throw new Error(`guard off: ${probe.stdout} ${probe.stderr}`);
     }
-    if (cliBin() !== shim) throw new Error('guard on: override not honoured');
+    if (cliBin() !== shim) throw new Error("guard on: override not honoured");
     return 'guard off + HIGGSFIELD_BIN=fake -> "higgsfield"; guard on -> fake shim path';
+  });
+
+  // c12: realFetch rejected by offline guard caught gracefully
+  await control("(xii) realFetch rejected by offline guard caught gracefully", async () => {
+    const rawDir = path.join(tmp, "raw-realfetch");
+    const runner = new Runner(ledger("c12").path, rawDir, realFetch, stubInspector);
+    const row = { flags: [] };
+    const job = { id: "test-real", result_url: "https://cdn.example.invalid/u/test.png" };
+    await runner.downloadAndInspect("T1-offline", job, row);
+    if (!row.flags.includes("download_failed") || !row.download_error || !row.download_error.includes("offline guard blocked a download")) {
+      throw new Error(`expected download_failed with offline guard message, got: ${JSON.stringify(row)}`);
+    }
+    return "realFetch under offline guard caught and formatted into download_error without unhandled rejection";
   });
 
   try {
@@ -947,7 +968,7 @@ export function selftest() {
   }
 
   for (const [name, ok, detail] of results) {
-    say(`${ok ? 'PASS' : 'FAIL'} ${name}: ${detail}`);
+    say(`${ok ? "PASS" : "FAIL"} ${name}: ${detail}`);
   }
   const failed = results.filter(r => !r[1]);
   say(`selftest: ${results.length - failed.length}/${results.length} controls passed`);
@@ -955,7 +976,7 @@ export function selftest() {
 }
 
 // ---------------------------------------------------- Main CLI
-export function main(argv = process.argv.slice(2)) {
+export async function main(argv = process.argv.slice(2)) {
   const getOpt = (name, fallback = null) => {
     const idx = argv.indexOf(name);
     return idx !== -1 && idx + 1 < argv.length ? argv[idx + 1] : fallback;
@@ -967,11 +988,11 @@ export function main(argv = process.argv.slice(2)) {
   const rawDir = getOpt('--raw-dir');
 
   if (cmd === 'selftest') {
-    return selftest();
+    return await selftest();
   }
 
-  const go = () => {
-    return exclusiveLock(ledgerPath, () => {
+  const go = async () => {
+    return await exclusiveLock(ledgerPath, async () => {
       if (cmd === 'init-ledger') {
         const smokeJson = getOpt('--smoke-json');
         const smokePng = getOpt('--smoke-png');
@@ -983,15 +1004,16 @@ export function main(argv = process.argv.slice(2)) {
       if (cmd === 'run') {
         const only = getOpt('--only');
         const dryRun = hasFlag('--dry-run');
-        return runCmd(new Runner(ledgerPath, rawDir), only, dryRun);
+        return await runCmd(new Runner(ledgerPath, rawDir), only, dryRun);
       }
       throw new Refuse(1, `unknown command: ${cmd}`);
     });
   };
 
-  return exitCode(go);
+  return await exitCode(go);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename)) {
-  process.exit(main());
+  const code = await main();
+  process.exit(code);
 }

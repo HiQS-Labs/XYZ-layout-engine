@@ -157,161 +157,7 @@ export function validateOutput(outPath, receiptPath, state = null, background = 
   }
 }
 
-export function runJob(job, digest, manifestPath, assetsDir, caller, timeout, maxBudget = null, deadline = null, maxAttempts = 1, callerManifest = null, lockHandle = null) {
-  const state = readManifest(manifestPath)[digest] || {};
-  if (state.status === 'complete') {
-    return validateOutput(
-      path.join(assetsDir, state.output),
-      path.join(assetsDir, state.receipt),
-      state,
-      job.background,
-      job._recipe_ref,
-      maxAttempts,
-      deadline
-    );
-  }
-  if (state.status && state.status !== 'pending') {
-    console.log(`${job.id}: unresolved state requires explicit retry`);
-    return false;
-  }
-
-  const nowSec = Date.now() / 1000;
-  const remaining = deadline ? Math.min(timeout, deadline - nowSec) : timeout;
-  if (remaining <= 0) {
-    console.log('whole-run deadline exceeded before dispatch');
-    return false;
-  }
-
-  if (maxBudget !== null) {
-    const records = Object.values(readManifest(manifestPath));
-    const costs = [];
-    for (const v of records) {
-      if (v.cost) costs.push(v.cost);
-      if (Array.isArray(v.history)) {
-        for (const h of v.history) {
-          if (h && h.cost) costs.push(h.cost);
-        }
-      }
-    }
-    const spent = costs.reduce((acc, c) => (c && typeof c.usd === 'number' ? acc + c.usd : acc), 0);
-    if (spent >= maxBudget) {
-      console.log('observable cost budget exceeded before dispatch');
-      return false;
-    }
-  }
-
-  const attemptUuid = crypto.randomUUID().replace(/-/g, '');
-  const attemptDir = path.join(assetsDir, `${job.id}_${digest}_${attemptUuid}`);
-  fs.mkdirSync(attemptDir, { recursive: true });
-
-  const out = path.join(attemptDir, 'image.png');
-  const receipt = path.join(attemptDir, 'receipt.json');
-
-  const args = ['image', '--prompt', job.prompt, '--out', out];
-  for (const field of ['model', 'size', 'quality', 'background']) {
-    args.push(`--${field}`, job[field]);
-  }
-  if (callerManifest) {
-    if (sha256Sync(fs.readFileSync(callerManifest)) !== job._manifest_sha256) {
-      throw new Error('caller manifest changed after admission');
-    }
-    args.push('--manifest', callerManifest);
-  }
-  if (sha256Sync(fs.readFileSync(caller)) !== job._caller_sha256) {
-    throw new Error('caller changed after admission');
-  }
-
-  const refs = job.references || [];
-  for (let i = 0; i < refs.length; i++) {
-    const ref = refs[i];
-    const ext = path.extname(ref);
-    const snapshot = path.join(attemptDir, `reference-${i}${ext}`);
-    const refBytes = fs.readFileSync(ref);
-    if (refBytes.length > 35 * 1024 * 1024) {
-      throw new Error('reference grew after admission');
-    }
-    fs.writeFileSync(snapshot, refBytes);
-    if (sha256Sync(refBytes) !== job.reference_digests[i]) {
-      throw new Error('reference changed after admission');
-    }
-    args.push('--reference', snapshot);
-  }
-
-  const params = job.parameters || {};
-  const sortedParamKeys = Object.keys(params).sort();
-  for (const k of sortedParamKeys) {
-    const val = params[k];
-    const text = typeof val === 'string' ? val : JSON.stringify(val);
-    args.push('--param', `${k}=${text}`);
-  }
-
-  updateManifest(manifestPath, digest, {
-    status: 'in-flight',
-    output: path.relative(assetsDir, out),
-    receipt: path.relative(assetsDir, receipt)
-  });
-
-  const startMonotonic = Date.now();
-  if (lockHandle) {
-    lockHandle.registerAttempt(attemptUuid);
-  }
-
-  let child;
-  let stdoutBuf = '';
-  let stderrBuf = '';
-  let timedOut = false;
-
-  try {
-    const timeLimitMs = Math.max(1, Math.floor(remaining * 1000));
-    child = child_process.spawn('node', [caller, ...args], {
-      detached: true,
-      stdio: ['ignore', 'pipe', 'pipe']
-    });
-
-    if (lockHandle && child.pid) {
-      lockHandle.registerChild(child.pid);
-    }
-
-    const timer = setTimeout(() => {
-      timedOut = true;
-      try {
-        process.kill(-child.pid, 'SIGKILL');
-      } catch {
-        try {
-          child.kill('SIGKILL');
-        } catch {
-          // ignore
-        }
-      }
-    }, timeLimitMs);
-
-    child.stdout.on('data', d => { stdoutBuf += d.toString(); });
-    child.stderr.on('data', d => { stderrBuf += d.toString(); });
-
-    const exitPromise = new Promise(resolve => {
-      child.on('close', code => {
-        clearTimeout(timer);
-        resolve(code);
-      });
-      child.on('error', () => {
-        clearTimeout(timer);
-        resolve(1);
-      });
-    });
-
-    const exitCode = child_process.spawnSync ? null : null; // async wrapper
-    // Wait for exit synchronously
-    const code = child_process.execSync ? null : null;
-  } catch (err) {
-    updateManifest(manifestPath, digest, {
-      status: 'unknown',
-      reason: 'caller or receipt interrupted; explicit reconciliation required'
-    });
-    return false;
-  }
-}
-
-// Synchronous and async execution wrapper
+// Synchronous execution wrapper
 export function executeJobSync(job, digest, manifestPath, assetsDir, caller, timeout, maxBudget = null, deadline = null, maxAttempts = 1, callerManifest = null, lockHandle = null) {
   const state = readManifest(manifestPath)[digest] || {};
   if (state.status === 'complete') {
@@ -396,7 +242,7 @@ export function executeJobSync(job, digest, manifestPath, assetsDir, caller, tim
   const sortedParamKeys = Object.keys(params).sort();
   for (const k of sortedParamKeys) {
     const val = params[k];
-    const text = typeof val === 'string' ? val : JSON.stringify(val);
+    const text = typeof val === 'string' ? val : (val instanceof PyNumber ? val.raw : JSON.stringify(val));
     args.push('--param', `${k}=${text}`);
   }
 
@@ -714,7 +560,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename
     const jobsFile = getOpt('--jobs');
     let jobList = SOLAR_SYSTEM_JOBS;
     if (jobsFile) {
-      jobList = JSON.parse(fs.readFileSync(jobsFile, 'utf8'));
+      jobList = parseJsonText(fs.readFileSync(jobsFile, 'utf8'), { preserveNumbers: true });
     }
 
     const maxCalls = parseInt(getOpt('--max-calls', '11'), 10);

@@ -46,6 +46,18 @@ export function parseJsonText(text, options = {}) {
   }
 }
 
+export function compareCodePoints(a, b) {
+  const aChars = [...a];
+  const bChars = [...b];
+  const len = Math.min(aChars.length, bChars.length);
+  for (let i = 0; i < len; i++) {
+    const cpA = aChars[i].codePointAt(0);
+    const cpB = bChars[i].codePointAt(0);
+    if (cpA !== cpB) return cpA - cpB;
+  }
+  return aChars.length - bChars.length;
+}
+
 export function canonicalJson(value) {
   if (value === null) {
     return 'null';
@@ -72,7 +84,7 @@ export function canonicalJson(value) {
     return `[${value.map(canonicalJson).join(',')}]`;
   }
   if (typeof value === 'object') {
-    const keys = Object.keys(value).sort();
+    const keys = Object.keys(value).sort(compareCodePoints);
     const parts = keys.map(k => `${JSON.stringify(k)}:${canonicalJson(value[k])}`);
     return `{${parts.join(',')}}`;
   }

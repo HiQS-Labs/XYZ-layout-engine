@@ -43,6 +43,11 @@ export const JWT_RE = /[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,
 export const SECRET_KV_RE = /\b((?:access_|refresh_|id_)?token|secret|api[_-]?key|key|password|passwd|sig|signature)(["']?\s*[:=]\s*["']?)([^\s"'&,;}]{6,})/gi;
 export const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+/g;
 
+export function containsEmail(text) {
+  if (typeof text !== 'string') return false;
+  return /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+/i.test(text);
+}
+
 export function redactSecrets(text) {
   if (typeof text !== 'string') return text;
   let out = text.replace(URL_QUERY_RE, '$1?<query-stripped>');
@@ -54,7 +59,7 @@ export function redactSecrets(text) {
 
 export function redactHiggsfield(text) {
   if (typeof text !== 'string') return text;
-  return redactSecrets(text).replace(EMAIL_RE, '<redacted>');
+  return redactSecrets(text).replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+/gi, '<redacted>');
 }
 
 export function scrubObj(obj) {

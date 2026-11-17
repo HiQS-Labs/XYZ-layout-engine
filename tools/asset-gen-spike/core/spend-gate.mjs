@@ -68,7 +68,7 @@ export function estSumOf(rows) {
 export function checkHiggsfieldJob(params, job) {
   const flags = [];
   if (job?.job_type !== JOB_TYPE) {
-    flags.append ? flags.append('job_type_mismatch') : flags.push('job_type_mismatch');
+    flags.push('job_type_mismatch');
   }
   const echoed = (job && typeof job.params === 'object' && job.params !== null) ? job.params.background : null;
   if (echoed !== params.background) {

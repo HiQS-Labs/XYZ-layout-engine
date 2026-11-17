@@ -34,8 +34,10 @@ for (const file of coreFiles) {
     const line = lines[i].trim();
     if (line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
     assert(!/from\s+['"]node:/.test(line), `File ${file}:${i + 1} contains node:* import: ${line}`);
+    assert(!/from\s+['"](fs|path|os|crypto|child_process|url)['"]/.test(line), `File ${file}:${i + 1} contains unadorned node import: ${line}`);
     assert(!/\brequire\s*\(/.test(line), `File ${file}:${i + 1} contains require(): ${line}`);
     assert(!/\bprocess\./.test(line), `File ${file}:${i + 1} contains process.* reference: ${line}`);
+    assert(!/\bBuffer\b/.test(line), `File ${file}:${i + 1} contains Buffer reference: ${line}`);
   }
 }
 console.log(`✓ All ${coreFiles.length} core ESM modules verified 100% free of node:* built-ins.`);
@@ -76,12 +78,54 @@ const expectedKeySort = child_process.execFileSync(
   { encoding: 'utf8' }
 ).trim();
 assert.equal(jsonUtils.canonicalJson(testObj), expectedKeySort);
-console.log('✓ Key sorting, Unicode, and numeric serialization verified identical to Python.');
+// Round-trip parseJsonText preserveNumbers check
+const parsedJob = jsonUtils.parseJsonText('{"parameters":{"seed":1.0,"count":1}}', { preserveNumbers: true });
+assert.equal(jsonUtils.canonicalJson(parsedJob), '{"parameters":{"count":1,"seed":1.0}}');
 
-console.log('=== Step 3: Higgsfield CLI 11/11 Offline Controls ===');
-const hfExit = higgsfieldRunner.selftest();
+// Astral plane code-point order check
+const astralObj = { "\uD83D\uDE00": 1, "\uFFFD": 2 };
+const expectedAstralSort = child_process.execFileSync(
+  'python3',
+  ['-B', '-c', pyKeySortScript, JSON.stringify(astralObj)],
+  { encoding: 'utf8' }
+).trim();
+assert.equal(jsonUtils.canonicalJson(astralObj), expectedAstralSort);
+assert.equal(jsonUtils.canonicalJson(astralObj), '{"\ufffd":2,"😀":1}');
+console.log('✓ Key sorting (including astral code points), Unicode, and numeric serialization verified identical to Python.');
+
+console.log('=== Step 2b: Pure-ESM PNG & Redaction Unit Checks ===');
+const earthPngPath = path.join(REPO_ROOT, 'examples/2026-10-08-solar-system/assets/web/earth.png');
+const earthPngBytes = fs.readFileSync(earthPngPath);
+const earthHeader = pngUtils.inspectPngHeader(earthPngBytes);
+assert(earthHeader.width > 0 && earthHeader.height > 0);
+assert.equal(earthHeader.hasAlphaChannel, true);
+assert.equal(pngUtils.crc32(new TextEncoder().encode('123456789')), 0xcbf43926);
+
+const fakeImageData = {
+  width: 2,
+  height: 2,
+  data: new Uint8ClampedArray([
+    255, 0, 0, 255,
+    0, 255, 0, 128,
+    0, 0, 255, 255,
+    0, 0, 0, 0
+  ])
+};
+const alphaRes = pngUtils.inspectAlphaFromImageData(fakeImageData);
+assert.equal(alphaRes.realAlpha, true);
+assert.equal(alphaRes.minAlpha, 0);
+assert.equal(alphaRes.transparentPixelRatio, 0.5);
+
+// Stateless email check
+assert.equal(redactUtils.containsEmail('hello world'), false);
+assert.equal(redactUtils.containsEmail('test1@example.com'), true);
+assert.equal(redactUtils.containsEmail('test2@example.com'), true);
+console.log('✓ Pure-ESM PNG parser, alpha evaluator, and stateless email redaction verified.');
+
+console.log('=== Step 3: Higgsfield CLI 12/12 Offline Controls ===');
+const hfExit = await higgsfieldRunner.selftest();
 assert.equal(hfExit, 0, 'Higgsfield selftest failed');
-console.log('✓ Higgsfield CLI 11/11 offline controls passed.');
+console.log('✓ Higgsfield CLI 12/12 offline controls passed.');
 
 console.log('=== Step 4: Generator Recovery and Race Controls ===');
 const tmpGenDir = fs.mkdtempSync(path.join(os.tmpdir(), 'gen-spike-verify-'));
@@ -300,7 +344,7 @@ for (const seed of [0.0000001, 9007199254740993]) {
   assert.match(res.stderr, /round-trip/);
 }
 
-// Deterministic test for spawn-to-registration window and concurrent lock contenders
+// Deterministic test for O_EXCL fail-closed concurrent manifest ownership
 const lockTestDir = path.join(tmpGenDir, 'g-lock-race');
 fs.mkdirSync(lockTestDir, { recursive: true });
 const lockJobs = path.join(lockTestDir, 'jobs.json');
