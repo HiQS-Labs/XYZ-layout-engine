@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-16.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 3 / 4
 
@@ -230,5 +230,28 @@ Handing off to Producer — go to the claude-a window and say "take your turn": 
 - `git diff -- '*.py'`: 100% empty.
 
 Handing off to Reviewer for Round 3 final review and approval.
+
+### Round 3 · Reviewer · claude-fable
+VERDICT: FAIL
+Basis: both Round-2 Shoulds were implemented and the float one is re-measured as fixed, but the recipes portability row (REPORT.md:78) is still wrong — the two recipes it now calls "Client/browser-ready" import `tools/request.mjs`, which is Node-only. My Round-2 falsifier only checked direct `node:` imports and named those two files as defensible; that was my error, corrected here with the transitive evidence. One REPORT line separates this from Approved. Probes ran read-only from `.relay-scratch/tmp/probe3.mjs` on `node v22.22.3` / Python 3.14.7; commands, rc and decisive output quoted inline. No `.py`, test or non-spike file changed (`git diff --stat main...HEAD -- examples/ '*.py'` → empty, rc=0; `git diff --name-status main...HEAD` outside `tools/asset-gen-spike/` → `A PROJECT/1-INBOX/GH-85-JS-ASSET-SPIKE.md`, two relay files, `M releases.db`, `M releases.sql`).
+
+swept file: yes — `git show --stat a13214d` touches exactly 5 spike files, 14 insertions / 14 deletions; `core/json.mjs` (159 lines) and `core/redact.mjs` (94) re-read in full, the other three (`verify.mjs`, `node/higgsfield-cli.mjs`, REPORT.md) read at every hunk plus the surrounding call sites cited below; all 10 files were swept in full in Round 2 and nothing outside those 14 lines changed since. No new pre-existing defects found.
+
+**Round-2 dispositions re-verified**
+- [Pass] Non-shortest float literals. `core/json.mjs:39-40` `const isFloat = /[.eE]/.test(raw); return isFloat ? pyFloat(value) : pyInt(value);` — the PyNumber is now built from the value, so `raw` is `Number.prototype.toString()` (`:22-24`, `:28`), with `-0` reaching `pyInt` → `"0"` and `-0.0` reaching `pyFloat` → `"-0.0"` (`:19-21`). Probe: `canonicalJson(parseJsonText(skel, {preserveNumbers:true}))` vs Python `json.dumps(json.loads(skel), sort_keys=True, separators=(',',':'), ensure_ascii=False)` on the Round-1/2 job skeleton, 15 literals: `1.0 1.5 1.50 0.10 -0 -0.0 100.0 7 9007199254740991 0.0001 123456789.125 1e2 -1.50 10.000` → 14 MATCH, including the three Round-2 failures (`1.50`→`{"seed":1.5}`, `0.10`→`{"seed":0.1}`, `-0`→`{"seed":0}`). The one DIFF, `0.00001` (js `0.00001`, py `1e-05`), is rejected by both admissions: `core/jobs.mjs:170-175` (`Math.abs(numVal) < 1e-4` → `hasExponent` → throw) and `generate-assets.py:195` (`'e' in json.dumps(v).lower()` → `True`, checked). `verify.mjs:81-84` asserts `{"seed":1.5}` and `{"seed":0}`; REPORT.md:40 now names the normalisation. Round-2 falsifier satisfied.
+- [Pass] Email helper. `core/redact.mjs:44` `EMAIL_SRC` string; `:48` `new RegExp(EMAIL_SRC,'i').test` (fresh object per call); `:62` `new RegExp(EMAIL_SRC,'gi')`. Probe: `containsEmail('a x@y.com b')` twice → `true true`; `redactHiggsfield('x@y.com and z@w.org')` → `<redacted> and <redacted>`. `rg -n 'EMAIL_RE' tools/asset-gen-spike` → 0 matches.
+- [Pass] Nits. `rg -n 'childPids|spendGate|generateRunner' tools/asset-gen-spike` → 0 matches; `\bcrypto\b` in `verify.mjs` → only the static-scan regex (`:34`) and the Python stub's template string (`:138`); `node/higgsfield-cli.mjs:101` `Object.keys(obj).sort(compareCodePoints)`, imported at `:26`.
+- [Pass] Q1 still holds after the edits: `rg -n "from\s+['\"]node:|require\(|\bprocess\.|\bBuffer\b|from\s+['\"](fs|path|os|crypto|child_process|url)['\"]" tools/asset-gen-spike/core/` → `0 matches`, rc=1. `crypto.subtle` at `core/json.mjs:143,154` is the Web global, not an import.
+- [Pass] REPORT.md:79 now lists `design-intake.mjs` (`node:fs/promises`, `node:path`, `node:crypto` at `:2-4`) and `nutrition.mjs` (`node:fs/promises` at `:1`) as Node-only — matches `rg -n "from 'node:" tools/recipes/` (4 matches, 2 files).
+- Q3 end-to-end `node tools/asset-gen-spike/verify.mjs` / `selftest` / `pnpm test`: **[Unverified — needs clone run]** as in Rounds 1-2; the harness gate runs after this turn. Every assertion the Round-2 diff added to `verify.mjs` was re-measured here by direct import.
+
+**Open finding**
+- **[Should] REPORT.md:78 is still wrong: `tools/recipes/solar-system.mjs` and `recursive-process.mjs` are not browser-ready.** Both import `../request.mjs` at line 1 (`import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } from '../request.mjs'`), and `tools/request.mjs:1-5` imports `node:fs/promises`, `node:fs`, `node:crypto`, `node:path`, `node:url`. The recipes call the filesystem readers on their main path: `solar-system.mjs:62` `await readBounded(new URL('fixture.json', EXAMPLE), …)` in `validate()`, `:87` `readPinnedPngs(EXAMPLE, 'verification.json', ASSET_IDS)` in `loadAssets()`; `recursive-process.mjs:38,72` likewise. A browser bundler fails to resolve `node:fs/promises` on import, so the row's "✅ Yes / Client/browser-ready" is false for the modules as shipped.
+  - Observed input: the row at REPORT.md:78 vs `rg -n "^import" tools/recipes/*.mjs` (11 matches, 4 files — every recipe imports `../request.mjs`) and `rg -n "^import" tools/request.mjs` (5 `node:` imports).
+  - Affected scope: REPORT wording only (no spike runtime path); it misleads the Lovable port the spike exists to inform.
+  - Falsifier: a recipe under `tools/recipes/` with no `../request.mjs`, `../spike/*` or `node:` import would justify a "browser-ready" row — `ls tools/recipes/` shows none (`design-intake.mjs`, `nutrition.mjs`, `recursive-process.mjs`, `solar-system.mjs` all import `../request.mjs`).
+  - Fix (one REPORT row, no code): change REPORT.md:78 to "⚠️ Partial / ✅ Yes — layout and geometry builders are pure, but `validate()`/`loadAssets()` read fixtures and pinned assets through `tools/request.mjs` (`node:fs/promises`); a browser build must inject those bytes (fetch/import) and keep the readers server-side", or fold all four recipes into the row at :79 and drop the separate browser-ready row.
+
+Handing off to Producer — go to the claude-a window and say "take your turn": disposition the one Should (REPORT.md:78 only — no code change requested), bump ROUND to 4; a Round-4 Reviewer pass can then close as Approved.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
