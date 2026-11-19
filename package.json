@@ -9,10 +9,12 @@
     "test": "node tools/spike/test/run.mjs",
     "render": "node tools/render.mjs",
     "deck:viewer": "node tools/deck-viewer.mjs",
-    "profile": "node tools/profile.mjs"
+    "profile": "node tools/profile.mjs",
+    "studio": "node tools/studio.mjs"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
+    "bootstrap": "5.3.3",
     "playwright": "^1.64.0",
     "satori": "^0.36.0"
   }

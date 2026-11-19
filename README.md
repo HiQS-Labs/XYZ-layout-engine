@@ -75,6 +75,14 @@ Run these commands from the repository root. Dependency installation may use the
 4. **Export Retrieval and Distribution:**
    Read the `current` field of `.relay-scratch/nutrition-export/manifest.json` and resolve that relative path under `.relay-scratch/nutrition-export/` to locate the selected immutable output directory. For distribution, you can copy the compact `render.html` plus its `assets/` directory, or use the standalone `render-inline.html`.
 
+## XYZ Studio (local browser front end)
+
+```sh
+pnpm studio    # then open http://127.0.0.1:4173
+```
+
+A Bootstrap page served by [`tools/studio.mjs`](tools/studio.mjs) on loopback only. Pick a fixture, edit its text, colours and numbers, and the engine re-renders it with the same validation, fitting and publishing as `tools/render.mjs`; the receipt shows errors, final type sizes and the PNG digest. Renders go to `.relay-scratch/studio/out/`; Save writes only under `.relay-scratch/` or `temp/`, never over committed examples. The Gallery lists every recognised fixture, and Checks runs catalog verify and craft lint.
+
 ## DESIGN.md intake
 
 Use the repository-local [design-intake skill](skills/design-intake/SKILL.md) to have an active agent translate an art-direction document into settings, separate artwork prompts and a data-only recipe. There is no new LLM API dependency. [The contract](tools/recipes/design-intake.contract.md) and [neutral worked example](examples/2026-10-12-design-intake/README.md) describe the supported subset.

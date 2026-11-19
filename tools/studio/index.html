@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="studio-token" content="__STUDIO_TOKEN__">
+<title>XYZ Studio</title>
+<link rel="stylesheet" href="/vendor/bootstrap.min.css">
+<link rel="stylesheet" href="/studio/studio.css">
+</head>
+<body>
+<header class="studio-nav">
+  <div class="inner">
+    <a class="brand" href="#editor">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 2h4v4H2zM8 2h4v4H8zM2 8h4v4H2z"/><path class="half" d="M8 8h4v4H8z"/></svg></span>
+      XYZ Studio
+    </a>
+    <span class="host-chip" id="hostChip">127.0.0.1</span>
+    <div class="nav-actions">
+      <select class="form-select form-select-sm fixture-pick" id="fixturePick" aria-label="Fixture"></select>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Render backend">
+        <input type="radio" class="btn-check" name="backend" id="bkSatori" value="satori" checked>
+        <label class="btn btn-outline-secondary" for="bkSatori">Satori</label>
+        <input type="radio" class="btn-check" name="backend" id="bkChromium" value="playwright">
+        <label class="btn btn-outline-secondary" for="bkChromium">Chromium</label>
+      </div>
+      <button class="btn btn-sm btn-primary" id="renderBtn" type="button">Render</button>
+      <button class="btn btn-sm btn-outline-primary" id="saveBtn" type="button" data-bs-toggle="modal" data-bs-target="#saveModal">Save fixture</button>
+      <button class="btn btn-sm btn-outline-secondary" id="themeBtn" type="button" aria-label="Switch colour theme">Theme: auto</button>
+    </div>
+  </div>
+</header>
+
+<main class="studio-wrap">
+  <ul class="nav nav-tabs" id="studioTabs" role="tablist">
+    <li class="nav-item" role="presentation"><button class="nav-link active" id="tab-editor" data-bs-toggle="tab" data-bs-target="#pane-editor" type="button" role="tab" aria-controls="pane-editor" aria-selected="true">Editor</button></li>
+    <li class="nav-item" role="presentation"><button class="nav-link" id="tab-gallery" data-bs-toggle="tab" data-bs-target="#pane-gallery" type="button" role="tab" aria-controls="pane-gallery" aria-selected="false">Gallery</button></li>
+    <li class="nav-item" role="presentation"><button class="nav-link" id="tab-checks" data-bs-toggle="tab" data-bs-target="#pane-checks" type="button" role="tab" aria-controls="pane-checks" aria-selected="false">Checks</button></li>
+  </ul>
+
+  <div class="tab-content">
+    <section class="tab-pane fade show active" id="pane-editor" role="tabpanel" aria-labelledby="tab-editor">
+      <div class="tab-pane-body">
+        <div class="row g-4">
+          <div class="col-12 col-lg-3">
+            <h2 class="pane-title">Fixture fields</h2>
+            <div class="mono-path mb-2" id="fixturePath">Loading…</div>
+            <input class="form-control form-control-sm mb-3" id="fieldFilter" type="search" placeholder="Filter fields" aria-label="Filter fields">
+            <div class="fields" id="fields"></div>
+            <div class="field-group">
+              <span class="form-label">Extra output formats</span>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="fmtSvg" value="svg"><label class="form-check-label" for="fmtSvg">SVG</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="fmtHtml" value="html"><label class="form-check-label" for="fmtHtml">HTML</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="fmtInline" value="html-inline"><label class="form-check-label" for="fmtInline">Inline HTML</label></div>
+              </div>
+              <div class="form-check form-switch mt-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="autoRender" checked>
+                <label class="form-check-label" for="autoRender">Render after each change</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <div class="preview-bar">
+              <h2 class="pane-title mb-0">Preview <span class="badge rounded-pill badge-edits ms-1" id="editCount">No edits</span></h2>
+              <div class="btn-group btn-group-sm" role="group" aria-label="Compare renders">
+                <input type="radio" class="btn-check" name="cmp" id="cmpSaved" value="saved">
+                <label class="btn btn-outline-secondary" for="cmpSaved">Saved</label>
+                <input type="radio" class="btn-check" name="cmp" id="cmpEdited" value="edited" checked>
+                <label class="btn btn-outline-secondary" for="cmpEdited">With edits</label>
+              </div>
+            </div>
+            <div class="preview-frame">
+              <img id="previewImg" alt="Render preview" hidden>
+              <p class="preview-empty" id="previewEmpty">Pick a fixture to render it.</p>
+              <div class="busy" id="busy" hidden><div class="spinner-border" role="status"><span class="visually-hidden">Rendering</span></div></div>
+            </div>
+            <div class="preview-meta" id="previewMeta"></div>
+            <div class="file-links" id="fileLinks"></div>
+          </div>
+
+          <div class="col-12 col-lg-3">
+            <h2 class="pane-title">Receipt</h2>
+            <div class="receipt-block d-flex flex-wrap gap-2" id="pills"><span class="status-pill idle">Not rendered</span></div>
+            <div class="receipt-block" id="errorsBlock" hidden>
+              <div class="form-label">Validation errors</div>
+              <ul class="error-list" id="errorList"></ul>
+            </div>
+            <div class="receipt-block" id="sizesBlock" hidden>
+              <div class="form-label">Final type sizes <code id="fitNote"></code></div>
+              <table class="fit-table"><tbody id="sizeRows"></tbody></table>
+            </div>
+            <div class="receipt-block">
+              <div class="form-label">POST /api/render body</div>
+              <pre class="req" id="reqBody"></pre>
+            </div>
+            <div class="receipt-block" id="digestBlock" hidden>
+              <div class="form-label">render.png sha-256</div>
+              <div class="digest" id="digest"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-pane fade" id="pane-gallery" role="tabpanel" aria-labelledby="tab-gallery">
+      <div class="tab-pane-body">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h2 class="pane-title mb-0">Fixtures</h2>
+          <input class="form-control form-control-sm gallery-search" id="gallerySearch" type="search" placeholder="Filter by name, recipe or folder" aria-label="Filter gallery">
+        </div>
+        <div class="gallery-grid" id="galleryGrid"><p class="text-body-secondary">Loading…</p></div>
+        <p class="text-body-secondary small mt-3 mb-0" id="galleryEmpty" hidden>No fixture matches that filter.</p>
+      </div>
+    </section>
+
+    <section class="tab-pane fade" id="pane-checks" role="tabpanel" aria-labelledby="tab-checks">
+      <div class="tab-pane-body">
+        <h2 class="pane-title">Checks</h2>
+        <div class="check-list">
+          <div class="check-row">
+            <div><h3>Recipe catalog</h3><p>Published recipe versions match their declared files. <code>node tools/catalog.mjs verify</code></p><div class="check-detail" id="catalogDetail"></div></div>
+            <div class="check-side"><span class="status-pill idle" id="catalogPill">Not run</span><button class="btn btn-sm btn-primary" type="button" id="runCatalog">Run</button></div>
+          </div>
+          <div class="check-row">
+            <div><h3>Fixture validation and fit</h3><p>Schema, text fit and final sizes from the last render. <code>renderAndPublish</code></p><div class="check-detail" id="fitDetail"></div></div>
+            <div class="check-side"><span class="status-pill idle" id="fitPill">Not rendered</span><button class="btn btn-sm btn-outline-secondary" type="button" id="runFit">Render now</button></div>
+          </div>
+          <div class="check-row">
+            <div><h3>Craft lint (AS-14)</h3><p>Nested cards, elevation, side stripes and type ramp for the saved fixture file. <code>node tools/craft-lint.mjs</code></p><div class="check-detail" id="craftDetail"></div></div>
+            <div class="check-side"><span class="status-pill idle" id="craftPill">Not run</span><button class="btn btn-sm btn-primary" type="button" id="runCraft">Run</button></div>
+          </div>
+        </div>
+        <p class="small text-body-secondary mt-3 mb-0">Document checks (<code>utils/pdda/pdda.sh run</code>) and the HTML audit stay on the command line.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="saveForm">
+      <div class="modal-header"><h2 class="modal-title fs-5" id="saveTitle">Save fixture</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body">
+        <label class="form-label" for="savePath">Save to</label>
+        <input class="form-control mono-input" id="savePath" required>
+        <div class="form-text">Must be inside <code>.relay-scratch/</code> or <code>temp/</code>. Committed examples are never overwritten. The fixture is validated and rendered before it is written.</div>
+        <div class="form-text" id="saveSummary"></div>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-primary" id="saveConfirm">Save</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0">
+  <div class="toast" id="studioToast" role="status" aria-live="polite" aria-atomic="true"><div class="toast-body" id="toastBody"></div></div>
+</div>
+
+<script src="/vendor/bootstrap.bundle.min.js"></script>
+<script src="/studio/app.js"></script>
+</body>
+</html>
