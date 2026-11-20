@@ -1,4 +1,12 @@
 # Changelog
+## 2026-11-20 — FRONTDOOR FD-07 to FD-10 fixed; recipe patch versions
+
+- FD-09: removed the dead `mangajdm-promo` recipe branch from `tools/request.mjs` (its example was deleted in `d0113e7`; there is no recipe module). Such fixtures are now rejected at validation ("select a trusted nutrition, solar-system, recursive-process or design-intake recipe") instead of failing later with "unsupported recipe identity". `tools/request.mjs` is a declared file of `recursive-process` and `design-intake`, so both were published as patch versions: `recursive-process@6.0.1` and `design-intake@1.0.6`. Patch, not minor, because accepted requests are unchanged: the design-intake and Hallmark Bento PNG/SVG/HTML and the belief-reference SVG/HTML renders are byte-identical before and after.
+- FD-07: re-rendered `examples/2026-10-09-rag-system/`; committed the refreshed `rag-system.html` and `verification.json` (renderer note now names the shared `tools/render.mjs`; HTML digest current). PNG, SVG and Chromium PNG were already identical. `rag-system.pdf` differs between runs only in its 16 bytes of creation and modification dates, so the committed PDF was kept.
+- FD-08: `ROUTER.md` startup step 7 now says `releases_app.py` ships in the XYZ Forge RELEASES overlay (`xyz-vendor.sh <this-repo> --with-releases`, run from XYZ Forge's `relay-automation` folder) and gives a read-only `sqlite3 -readonly releases.db` query that works on a fresh clone.
+- FD-10: `examples/2026-10-17-vibe-coding-loop/README.md` uses `pnpm install --frozen-lockfile`.
+- Removed a hardcoded home-directory path from the GH-74 entry below.
+- `FRONTDOOR.md`: all ten findings fixed; the check block prints nothing on this branch and prints FD-07 to FD-10 on `main` before these fixes (negative control). The FD-08 check now accepts the documented fresh-clone path. README and `docs/catalog.md` carry the new recipe versions.
 ## 2026-11-20 — README rewritten for new users; front-door audit and dashboard
 
 - Rewrote `README.md` against a read of every CLI, recipe and example: requirements (Node 22.13+ for unflagged `node:sqlite`, pnpm, optional Playwright Chromium), a three-step quick start, how fixtures, recipes, backends, atomic exports and receipts fit together, a command table with `render.mjs` flags and defaults, the four recipes, all eleven example folders with render commands, agent authoring, skills, limits, repository layout and contributing.
@@ -42,7 +50,7 @@
 
 ## 2026-11-09 — GH-74: Hallmark layouts (Bento, Stat-Led, Skate Guide) and dynamic importer harness
 
-- Updated `tools/hallmark.mjs`: CLI and module supporting dynamic loading of Hallmark macrostructures (21) and themes (50) from an external Hallmark clone via `--from <path>` or `HALLMARK_PATH` (e.g. `/Users/noelsaw/Documents/GH Repos/hallmark-fork`), ensuring third-party designs are read cleanly without baking into XYZ Layout Engine.
+- Updated `tools/hallmark.mjs`: CLI and module supporting dynamic loading of Hallmark macrostructures (21) and themes (50) from an external Hallmark clone via `--from <path>` or `HALLMARK_PATH` (e.g. `../hallmark`, the default), ensuring third-party designs are read cleanly without baking into XYZ Layout Engine.
 - Added `examples/2026-11-09-hallmark-skate-guide/`: Narrative Workflow (`14 · Narrative Workflow`) rebuilt from `temp/2026-11-09-skate-guide/` with the Broadside theme (`#ede6d6` unbleached buff stock, `#1c1917` charcoal ink, `#c83228` vermilion red signal, `#57534e` muted gray, `#e4dcce` structural tint), 1200×1600 portrait layout, 4 progressive numbered step cards, featured board anatomy cutout asset (`assets/board.png`), and safety rules card.
 - Added `examples/2026-11-09-hallmark-bento/`: Bento Grid macrostructure (`01 · Bento Grid`) paired with the Riso print theme (`#fbf8ee` paper, `#182236` ink, `#ff4e36` fluro coral, `#2da882` mint, `#ebe4d0` subtle fill), demonstrating an asymmetric multi-tier quadrant layout on a 24px spacing grid with 12px rounded corners.
 - Added `examples/2026-11-09-hallmark-stat-led/`: Stat-Led macrostructure (`04 · Stat-Led`) paired with the Distil Swiss technical theme (`#f4f4f4` paper, `#11161d` deep slate ink, `#0055ff` cobalt accent, `#68707d` muted gray, `#e8eaed` surface), anchoring visual hierarchy on a massive 99.8% hero KPI card and three supporting telemetry columns.

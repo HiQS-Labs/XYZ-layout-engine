@@ -1,6 +1,6 @@
 {
-  "renderer": "Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime",
-  "generatedAt": "2026-10-09T15:21:44.023Z",
+  "renderer": "Shared root tools/render.mjs renderSatori / renderPlaywright functions; root pinned dependencies/fonts",
+  "generatedAt": "2026-11-20T17:20:54.305Z",
   "width": 2400,
   "height": 1660,
   "stages": [
@@ -81,7 +81,7 @@
   "artifactDigests": {
     "png": "c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6",
     "svg": "68d6d459c3ef219297202170f1195f97be352815ca3bc032b68cde066bb59bb8",
-    "html": "f9addfc65fccb58be686371e196c0482d0c493754ac23b8edd2ff35ce0786476",
+    "html": "ea9d463db17c075500b6191f903455b0f5886c929ac191c9afe97f94db013a5b",
     "chromiumPng": "db8c112b62db4c1433d9e7fc677f22d3c4b050b3164deed4f0175e9e9364c5d8"
   },
   "satoriBounds": {

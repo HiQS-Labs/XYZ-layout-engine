@@ -175,8 +175,8 @@ All four are active in the catalog.
 |---|---|---|---|---|
 | `nutrition` | 4.0.0 | 1000×1000 | Barlow Condensed | Nutrition infographic |
 | `solar-system` | 1.0.1 | 2400×1700 | Inter | Solar System overview |
-| `recursive-process` | 6.0.0 | 1600×1340 | Barlow Condensed | Belief-updating diagrams |
-| `design-intake` | 1.0.5 | Declared by the fixture (up to 8192 px a side) | Barlow Condensed | Any `DESIGN.md` translated by an agent, including the Hallmark examples |
+| `recursive-process` | 6.0.1 | 1600×1340 | Barlow Condensed | Belief-updating diagrams |
+| `design-intake` | 1.0.6 | Declared by the fixture (up to 8192 px a side) | Barlow Condensed | Any `DESIGN.md` translated by an agent, including the Hallmark examples |
 
 `nutrition`, `solar-system` and `recursive-process` are purpose-built layouts. `design-intake` is a
 general, data-only recipe: absolute-positioned text, PNG images and rectangles in one font family. See
