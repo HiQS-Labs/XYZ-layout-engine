@@ -518,7 +518,8 @@ test('guards: the verifier stops detecting tampering', async () => {
     cpSync(path.join(SPIKE, '../request.mjs'), path.join(root, 'tools/request.mjs'));
     mkdirSync(path.join(root, 'tools/spike'), { recursive: true });
     cpSync(path.join(SPIKE, 'assets.mjs'), path.join(root, 'tools/spike/assets.mjs'));
-    cpSync(path.join(SPIKE, '../../examples/2026-10-08-solar-system'), path.join(root, 'examples/2026-10-08-solar-system'), { recursive: true });
+    // Preserve the relative catalog compatibility link inside the isolated checkout.
+    cpSync(path.join(SPIKE, '../../examples/2026-10-08-solar-system'), path.join(root, 'examples/2026-10-08-solar-system'), { recursive: true, verbatimSymlinks: true });
     const { loadAssets } = await import(pathToFileURL(path.join(root, 'tools/recipes/solar-system.mjs')).href);
     const initialAssets = await loadAssets();
     const sun = path.join(root, 'examples/2026-10-08-solar-system/assets/web/sun.png'), originalSun = readFileSync(sun);

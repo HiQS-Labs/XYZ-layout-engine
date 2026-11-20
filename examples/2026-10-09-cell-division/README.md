@@ -2,7 +2,7 @@
 
 A 2400×1480 explainer diagram of the cell cycle, rendered with the GH-1 spike's existing render functions (Satori → resvg, and Playwright/Chromium). It is the third renderer example, after the [Solar System](../2026-10-08-solar-system/README.md) and the [RAG system](../2026-10-09-rag-system/README.md): six stage cards that read left to right, with a dashed return loop that closes the cycle.
 
-![Cell division diagram](cell-division.png)
+![Cell division diagram](renders/cell-division.png)
 
 The diagram is simplified. Human body cells carry 46 chromosomes, not the two or three drawn here, and the phases blend into one another. Four of the six stage images are hand-drawn SVG; the interphase and cytokinesis images are AI-generated (see below). No other images were generated, and nothing was uploaded.
 
@@ -12,9 +12,9 @@ This folder also holds the GH-8 Higgsfield transparency tests (`higgsfield-spike
 
 | File | What it is |
 |---|---|
-| `cell-division.png` | Final Satori → resvg render |
-| `cell-division-chromium.png` | Same scene rendered by Playwright/Chromium |
-| `cell-division.html` | Self-contained responsive viewer; double-click a label to edit it (edits are not saved) |
+| `renders/cell-division.png` | Final Satori → resvg render |
+| `renders/cell-division-chromium.png` | Same scene rendered by Playwright/Chromium |
+| `renders/cell-division.html` | Self-contained responsive viewer; double-click a label to edit it (edits are not saved) |
 | `fixture.json` | Diagram copy: the six stages, the three groups and their colours, the two note panels (the credit and source lines live in the script) |
 | `render-diagram.mjs` | Builds the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Evidence: image nodes, text ids, Satori bounds, Chromium text metrics, artifact digests, findings |
@@ -46,7 +46,7 @@ The script requires the six stages by name and in cycle order (interphase, proph
 - no Chromium text overflows;
 - no two text boxes overlap.
 
-These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. The operator reviewed and approved `cell-division.png` and the `cell-division.html` viewer on 2026-10-09; that approval covered the all-SVG version published in PR #15 (commit `4d9aa2c`). The operator then reviewed and approved the version with two AI-generated transparent cells (this change), covering the Satori `cell-division.png` and the viewer but not the Chromium comparison render.
+These are layout checks. They do not judge whether the picture looks right or whether the biology is drawn well. The agent looked at both PNGs and adjusted the icons and spacing. The operator reviewed and approved `renders/cell-division.png` and the `renders/cell-division.html` viewer on 2026-10-09; that approval covered the all-SVG version published in PR #15 (commit `4d9aa2c`). The operator then reviewed and approved the version with two AI-generated transparent cells (this change), covering the Satori `renders/cell-division.png` and the viewer but not the Chromium comparison render.
 
 Red controls run on 2026-10-09 on throwaway copies. Each copy was deleted afterwards, and the real files were rerun green:
 
