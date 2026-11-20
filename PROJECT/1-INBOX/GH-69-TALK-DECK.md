@@ -25,5 +25,5 @@ Capture of [#69](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/69). The 
 ## Open items
 
 - [ ] The "two re-rolls side by side" hook slide needs two image-model regenerations of the nutrition infographic; the deck shows the real engine render instead and says so. Requires a paid image call and an operator decision.
-- [ ] `README.md` (lines 10 and 15) and the issue name `tools/spike/measure-chromium.mjs`, which is not in the tree or its history; the containment, overflow and glyph checks live in `tools/render.mjs`, text-overlap checks in `design-intake` preflight and the example scripts. The deck describes what the code does; the README wording is a separate fix.
+- [x] `README.md` (lines 10 and 15) and the issue name `tools/spike/measure-chromium.mjs`, which is not in the tree or its history; the containment, overflow and glyph checks live in `tools/render.mjs`, text-overlap checks in `design-intake` preflight and the example scripts. The deck describes what the code does; the README wording is a separate fix. README fixed 2026-11-20 (README rewrite); the issue text still names the file.
 - [ ] Rehearse an invalid `--set` to show schema rejection (unverified, per the issue).
