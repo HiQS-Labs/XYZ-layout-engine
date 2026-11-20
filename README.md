@@ -116,7 +116,7 @@ fixture.json ──► recipe (tools/recipes/*.mjs) ──► scene ──► Sa
 |---|---|
 | `node tools/render.mjs` (`pnpm render`) | Render a fixture. The main tool. |
 | `node tools/intake.mjs` | Preflight a `design-intake` fixture without rendering (add `--craft` for the craft linter). |
-| `node tools/craft-lint.mjs` | Check a fixture against the craft rules in `AS-14`; exit 1 on violations. |
+| `node tools/craft-lint.mjs` | Check a fixture for some of the `AS-14` craft rules; exit 1 on errors, warnings still pass. |
 | `node tools/export-editorial-asset.mjs` | Export a whole fixture or one element as a high-DPI transparent PNG or SVG for a web app. |
 | `node tools/impeccable/audit.mjs` | Audit a rendered `render.html` with the Impeccable detector. |
 | `node tools/hallmark.mjs` | List and read Hallmark layouts and themes from a local Hallmark clone. |
@@ -201,8 +201,13 @@ and asset provenance.
 | [Hallmark skate guide](examples/2026-11-09-hallmark-skate-guide/README.md), Broadside theme, 1200×1600 | `design-intake` | `node tools/render.mjs examples/2026-11-09-hallmark-skate-guide/fixture.json --format png,svg,html,html-inline --out temp/hallmark-skate-guide` |
 
 The Hallmark examples adapt layouts and themes from [Hallmark](https://github.com/nutlope/hallmark).
-Their fixtures are ordinary `design-intake` data, so rendering them needs no Hallmark checkout; only
-`tools/hallmark.mjs` (reading new layouts) does.
+Their fixtures are ordinary `design-intake` data, so rendering them needs no Hallmark checkout, and
+no Hallmark files are copied into this repository. To read Hallmark's layouts (21 macrostructures) and
+themes (50 print and editorial themes) from your own clone:
+
+```sh
+node tools/hallmark.mjs [--from <path>] [list | macro <slug> | theme <slug>]   # or set HALLMARK_PATH; default ../hallmark
+```
 
 The belief-reference artwork is WebP, which Satori cannot rasterise to PNG: use
 `--backend playwright` for its PNG and `--backend satori --format svg` for its SVG.
@@ -281,8 +286,7 @@ captured the art direction: compare the render with the source.
 
 ### Optional: paid image generation
 
-Generating cutouts is the only step that uses the network or costs money, and it is never part of
-rendering. The Solar System generator needs a POSIX environment with Python 3 and Node, a deployed
+Cutout generation calls a paid image API and is never part of rendering. The Solar System generator needs a POSIX environment with Python 3 and Node, a deployed
 HiQS caller entry point with credentials, and a matching recipe manifest at
 `caller.parent.parent/assets/image-manifest.json`.
 
@@ -309,33 +313,43 @@ deployed caller revision is unverified.
 These tools build on [Impeccable](https://github.com/pbakaus/impeccable), a design vocabulary and
 anti-slop detector for coding agents.
 
-**Craft linter.** `AS-14` in `SYSTEM-INSTRUCTIONS.md` lists layout invariants: no nested cards, a
-border or a shadow but never both, no coloured side stripes on rounded containers, font sizes snapped
-to the type scale, and no empty decorative plates. `tools/craft-lint.mjs` checks a fixture against
-them without an LLM; `intake.mjs check --craft` runs the same check during preflight.
+**Craft linter.** `AS-14` in `SYSTEM-INSTRUCTIONS.md` lists layout invariants. `tools/craft-lint.mjs`
+checks part of them without an LLM, and `intake.mjs check --craft` runs the same check during
+preflight:
+
+- Errors (exit 1): a card nested inside a card with the same border and fill, an element with both a
+  border and a shadow, a coloured side stripe on a rounded card, and a `settings.type.*.size` that is
+  not a whole number or is below 12 px.
+- Warning only (exit 0): a rectangle with no text or image inside it.
+
+It does not check the proportional `% of S` type scale or the four-size limit (`AS-12`): check those
+by hand.
 
 ```sh
-node tools/craft-lint.mjs examples/2026-11-09-hallmark-bento/fixture.json          # exit 1 on violations
+node tools/craft-lint.mjs examples/2026-11-09-hallmark-bento/fixture.json          # exit 1 on errors
 node tools/intake.mjs check examples/2026-11-09-hallmark-bento/fixture.json --craft
 ```
 
-**Headless HTML audit.** `tools/impeccable/audit.mjs` runs Impeccable's detector (contrast, padding,
-font-size floors, layout tension) on a `render.html` or `render-inline.html`, or on the first one it
-finds under a directory. It uses an `impeccable` binary from `IMPECCABLE_BIN`, `~/.impeccable/bin/` or
+**Headless HTML audit.** `tools/impeccable/audit.mjs` runs Impeccable's deterministic detector (62
+rules, per Impeccable: WCAG AA contrast, cramped container padding, font-size floors, layout tension) on
+a `render.html` or `render-inline.html`, or on the first one it finds under a directory. It uses an `impeccable` binary from `IMPECCABLE_BIN`, `~/.impeccable/bin/` or
 your PATH; without one it runs `npx --yes impeccable detect`, which downloads the package from npm.
 
 ```sh
 node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders [--json]
+npx impeccable detect temp/nutrition/runs/<uuid>/render-inline.html   # or call Impeccable directly
 ```
 
 **Steering verbs.** `AS-13` gives four words for asking an agent to revise a recipe: `distill` (remove
-boxes, borders and filler), `bolder` (more scale contrast, stronger darks, wider margins), `quieter`
-(softer colour, hairline rules, more air) and `typeset` (snap to the type scale, at most four sizes,
-40–60 character measure).
+boxes, borders and filler; let white space and type scale carry the layout), `bolder` (more scale
+contrast, headline toward the upper 10% limit of S, stronger darks, wider margins), `quieter` (softer
+colour, hairline rules, taller line height, more air) and `typeset` (snap to the `% of S` scale, at most
+four sizes, cap heights on baselines, 40–60 character measure).
 
 **Editorial assets for web apps.** `tools/export-editorial-asset.mjs` renders a whole fixture, or one
-element by ID, as a transparent PNG or SVG at 1×, 2× or 3×, and prints a ready-to-use `<img>` tag. Use
-it for infographics, cards and diagrams that are hard to build in CSS.
+element by ID, as a transparent PNG or SVG at 1×, 2× or 3×, and prints a ready-to-use responsive
+`<img>` tag. Use it for infographics, multi-panel cards and diagrams that are hard to build in CSS, then
+embed them in a React, Next.js, Vite or SvelteKit app.
 
 ```sh
 node tools/export-editorial-asset.mjs <fixture.json> [--element <id>] [--format png|svg] [--scale 1|2|3] [--out <path>] [--opaque]
