@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-20.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 2
 
@@ -74,5 +74,30 @@ ROUND: 1 / 2
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: current-source review found two README accuracy issues; the historical no-fact-lost criterion remains unverified. Both requested corrections are docs-only, Easy to reverse. Bet: describe the existing heuristic precisely rather than expand runtime enforcement; failure mode is readers treating a green lint as proportional-type compliance.
+swept file: yes
+
+- [Should] R1 — `README.md:124` says “exit 1 on violations”; `README.md:312–315` implies the linter enforces snapped proportional typography and all listed invariants. Actual checks only reject numeric `settings.type.*.size` when non-integer or below 12 (`tools/craft-lint.mjs:80–89`); empty plates are warnings (`:91–109`), with exit 0 (`:133–138`). Narrow the command row and prose to errors versus warnings and explicitly leave AS-12 percentages/four-size compliance to manual checks, as `skills/impeccable/SKILL.md` already does. No runtime change requested.
+  Observed input: `{width:1200,height:1200,elements:[],settings:{type:{headline:{size:13}}}}` returns `ok:true` with no findings; `{width:1200,height:1200,elements:[{type:"rect",id:"empty",x:10,y:10,width:100,height:100}]}` returns `ok:true` and one warning.
+  Affected scope: README descriptions of standalone craft-lint and `intake --craft`, not schema admission or runtime behavior.
+  Falsifier: if those inputs returned errors, the wording might be accurate; current source and the probe show they do not.
+  Probe command (exit 0): `node --input-type=module -e 'import {lintFixture} from "./tools/craft-lint.mjs"; for (const [name,fixture] of Object.entries({offScale:{width:1200,height:1200,elements:[],settings:{type:{headline:{size:13}}}},emptyPlate:{width:1200,height:1200,elements:[{type:"rect",id:"empty",x:10,y:10,width:100,height:100}]}})) console.log(name,JSON.stringify(lintFixture(fixture)));'`
+  Decisive output: `offScale {"ok":true,"findings":[],"errors":[],"warnings":[]}`; `emptyPlate` had `"ok":true`, `"errors":[]`, and `"severity":"warn"` for `no-empty-decorative-plates`.
+- [Should] R2 — pre-existing sentence `README.md:284` (“Generating cutouts is the only step that uses the network or costs money”) now contradicts the documented downloads at `README.md:249–252` and `:324–325`. Replace it with “Cutout generation calls a paid image API and is never part of rendering”; retain the accurate network caveats near quick start. No implementation change requested.
+  Observed input: the quoted sentence alongside the explicit `npx --yes --package=@google/design.md@0.4.0` download and audit fallback.
+  Affected scope: the optional paid-generation paragraph, not the offline rendering guarantee.
+  Falsifier: neither optional tool could download packages; `tools/impeccable/audit.mjs:69–70` explicitly invokes `npx` with `--yes impeccable detect`.
+- [Pass] Q1/Q3, audit and intake wiring: `tools/impeccable/audit.mjs:10–24,27–45,63–73` matches README binary precedence, recursive first-file discovery and exact fallback; `tools/intake.mjs:6,14–18,27–30` runs the shared linter with `--craft`. The cross-repository heading is intact at `README.md:362`, matching `ROUTER.md` and `tools/plugin-api.mjs:8–9`. Fix R2 to make the whole-file network wording consistent. Offline rendering/browser behavior was not dynamically rerun.
+- [Pass] Q1, review/public API: `tools/review.mjs:9,14–22,25–33,48–51` supports engine-root publication, replacement, newest-first indexing and both CLI modes; `.gitignore:13–14` and `REVIEW/README.md` support the privacy convention. `tools/plugin-api.mjs:13–15` exports exactly the two documented names. These are static checks; no publication was invoked.
+- [Pass] Q1/Q4, package and example/export facts: `package.json:4–11` retains private ESM, both root/package-json exports and Node `>=22.13`; the alias dependency in `README.md:370` makes importing as `xyz-layout-engine` valid despite the internal package name. `tools/export-editorial-asset.mjs:17–20,54–74,87–104,113–124` supports the flags, crop, default scale/transparency, dimensions and markup. JSON inspection of the three Hallmark fixtures found `design-intake` with 1200×1200, 1200×1200 and 1200×1600 respectively; Bento `card_hero` is 624×504 with no top-level title, matching the documented 1248×1008 / default-alt example (`README.md:345–346`). `tools/hallmark.mjs:9–19,119–146,174–219` supports reading from an external local clone. `SYSTEM-INSTRUCTIONS.md:73–85` supports steering verbs and AS-14; the new skill files exist and describe the README workflows.
+- [Nit] Q4, whole-file historical ordering: `CHANGELOG.md:532–567` contains `[Unreleased]` followed by three dated October 9 entries below October 1, and `:100–145` also mixes October 14/15. No duplicate exact H2 headings or conflict markers were found by a read-only Python scan (exit 0: `duplicate changelog headings: []`, `merge markers: False`). Do not claim globally chronological ordering; no historical rewrite requested for this merge review. No additional pre-existing defects found in the four-file sweep beyond the network sentence and these historical ordering issues; FRONTDOOR's already-open FD-07–FD-10 remain recorded, not newly resolved.
+- [Unverified — historical comparison unavailable] Q2 and exact merge provenance: the enclosing turn expressly prohibits every Git invocation, overriding Setup's `git diff`/`git show` requests. Neither `118bd38^2:README.md` nor the historical diff was supplied in the relay, so I cannot certify that no upstream substantive fact was lost or that `FRONTDOOR.md:11`'s `e100f57` identity matches the stated merge. Supply the requested historical comparison as harness/Producer evidence for the next review; do not infer preservation from current-section coverage alone.
+- [Unverified — needs clone run] Fresh install, full renders, synchronous require failure, canaries and PDDA gates were not rerun under this reviewer envelope. Prior CHANGELOG/FRONTDOOR execution receipts are author evidence, not independent execution this turn. Graph discovery was attempted first; MCP returned `MCP tool call requires approval, but approval policy is never`, so direct source reads were used. No new tests/scripts/config are justified by these prose corrections (Q5).
+
+Handing off to Producer (claude-a) — address R1/R2 and provide historical comparison evidence, then return for round 2. No artifact files were edited by this reviewer; harness owns the relay-only commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
