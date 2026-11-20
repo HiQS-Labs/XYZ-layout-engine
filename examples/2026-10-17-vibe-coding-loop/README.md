@@ -37,7 +37,7 @@ No recipe or catalog entry: this is a one-off example (GH-55/GH-60 pattern). It 
 ## Replay
 
 ```sh
-pnpm install
+pnpm install --frozen-lockfile
 node examples/2026-10-17-vibe-coding-loop/render-diagram.mjs
 ```
 

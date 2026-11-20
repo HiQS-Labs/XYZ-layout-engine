@@ -8,9 +8,9 @@ changes.
 
 | | |
 |---|---|
-| **Last audited** | 2026-11-20, README-rewrite branch merged with `origin/main` at `e100f57` (adds Hallmark, Impeccable, `REVIEW/` and the public package API) |
+| **Last audited** | 2026-11-20, branch `fix/frontdoor-open-findings` off `main` at `323e1e8` (FD-07 to FD-10 fixed; check block prints nothing) |
 | **Method** | front-door walk: fresh clone of HEAD plus the new docs, Node v26.13.0 and v18.20.8, Chromium hidden, `npx --yes pnpm@{9,10,12}` |
-| **Verdict** | ✅ **Smooth** for the documented path: install, two renders and `pnpm test` work as written, with no accounts or keys. Four low or medium findings remain off the quick-start path. |
+| **Verdict** | ✅ **Smooth**: install, two renders and `pnpm test` work as written, with no accounts or keys. All ten findings are fixed; the check block prints nothing. |
 
 ## Health at a glance
 
@@ -20,8 +20,8 @@ changes.
 | 🔑 Leaked secrets | ✅ | No provider-format key in the tree; the only history hits are base64 image data in renders deleted in `d0113e7` |
 | First success works | ✅ | Quick start: install, nutrition render, solar edit/save, `pnpm test` (4/4, ~30 s) |
 | Prerequisites declared | ✅ | Node `>=22.13` in README and `engines`; Chromium install is in the quick start |
-| Doc ↔ code drift | ⚠️ | RAG example evidence is stale (FD-07) |
-| Agent front door | ⚠️ | `ROUTER.md` startup step 7 runs a script that is not in the repo (FD-08) |
+| Doc ↔ code drift | ✅ | README, docs and example evidence match the code (FD-04 to FD-07 fixed) |
+| Agent front door | ✅ | `ROUTER.md` step 7 works on a fresh clone through a read-only ledger query (FD-08) |
 
 ## Findings
 
@@ -35,10 +35,10 @@ Severity 🔴 high · 🟠 med · 🟡 low. Status ⬜ OPEN · ✅ FIXED.
 | FD-04 | Drift: README named `tools/spike/measure-chromium.mjs`, which never existed | 🟠 | ✅ | README describes the real checks in `tools/render.mjs` and `tools/intake.mjs` |
 | FD-05 | Drift: README listed JetBrains Mono and IBM Plex Sans as bundled fonts | 🟡 | ✅ | Removed; Alegreya added |
 | FD-06 | Undocumented: three example folders missing from README | 🟡 | ✅ | All `examples/*` folders listed with render commands |
-| FD-07 | Drift: running `examples/2026-10-09-rag-system/render-diagram.mjs` rewrites committed `rag-system.html`, `.pdf` and `verification.json` (stale renderer note and HTML digest), leaving the tree dirty | 🟡 | ⬜ | Re-render and commit the RAG evidence |
-| FD-08 | Agent door: `ROUTER.md` startup step 7 runs `utils/py/releases_app.py` / `.xyz/utils/py/releases_app.py`; neither is in a fresh clone | 🟠 | ⬜ | Vendor the releases overlay, or say in `ROUTER.md` where the script comes from |
-| FD-09 | Dead code path: `tools/request.mjs` accepts recipe `mangajdm-promo`, but there is no recipe module, so renders fail late with "unsupported recipe identity" | 🟡 | ⬜ | Remove the branch (its example was deleted in `d0113e7`) |
-| FD-10 | Install: `examples/2026-10-17-vibe-coding-loop/README.md` says plain `pnpm install`, not `--frozen-lockfile` | 🟡 | ⬜ | Use `pnpm install --frozen-lockfile` like every other README |
+| FD-07 | Drift: RAG example's committed `rag-system.html` and `verification.json` predated the shared renderer (stale renderer note and HTML digest) | 🟡 | ✅ | Re-rendered and committed both; PNG, SVG and Chromium PNG were already current. `rag-system.pdf` differs per run only in its creation and modification dates, so the committed PDF was kept. `generatedAt` still changes on every run |
+| FD-08 | Agent door: `ROUTER.md` startup step 7 ran `releases_app.py`, which is not in a fresh clone, with no alternative | 🟠 | ✅ | Step 7 now says the script ships in the XYZ Forge RELEASES overlay (`xyz-vendor.sh <this-repo> --with-releases`) and gives a read-only `sqlite3 -readonly releases.db` query for a fresh clone |
+| FD-09 | Dead code path: `tools/request.mjs` accepted recipe `mangajdm-promo`, which has no recipe module, so renders failed late with "unsupported recipe identity" | 🟡 | ✅ | Branch removed; such fixtures are now rejected up front. `tools/request.mjs` is a catalog-declared file, so `recursive-process` 6.0.1 and `design-intake` 1.0.6 were published as patch versions (renders byte-identical) |
+| FD-10 | Install: `examples/2026-10-17-vibe-coding-loop/README.md` said plain `pnpm install`, not `--frozen-lockfile` | 🟡 | ✅ | Now `pnpm install --frozen-lockfile` like every other README |
 
 ## Verified baselines (keep green)
 
@@ -80,8 +80,9 @@ for d in examples/*/; do grep -q "${d%/}/" README.md || echo "FD-06 OPEN: README
 grep -q 'Shared root tools/render.mjs' examples/2026-10-09-rag-system/verification.json \
   || echo "FD-07 OPEN: RAG verification.json predates the shared renderer; re-render and commit"
 # FD-08: ROUTER.md startup step 7 script exists in the clone
-grep -q 'releases_app.py' ROUTER.md && [ ! -e utils/py/releases_app.py ] && [ ! -e .xyz/utils/py/releases_app.py ] \
-  && echo "FD-08 OPEN: ROUTER.md step 7 runs releases_app.py, which is not in this clone"
+grep -q 'releases_app.py' ROUTER.md && [ ! -e .xyz/utils/py/releases_app.py ] \
+  && ! { grep -q 'xyz-vendor.sh <this-repo> --with-releases' ROUTER.md && grep -q 'sqlite3 -readonly releases.db' ROUTER.md; } \
+  && echo "FD-08 OPEN: ROUTER.md step 7 runs releases_app.py, which is not in this clone, and gives no fresh-clone path"
 # FD-09: no recipe accepted without a module
 grep -q "mangajdm-promo" tools/request.mjs && [ ! -e tools/recipes/mangajdm-promo.mjs ] \
   && echo "FD-09 OPEN: tools/request.mjs accepts mangajdm-promo but tools/recipes/mangajdm-promo.mjs does not exist"

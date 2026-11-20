@@ -3,7 +3,7 @@ import { invalid, LIMITS, readBounded, readPinnedPngs, validateFixtureShape } fr
 // Reference-directed recursive process. Geometry is deterministic; the six illustrations are pinned transparent WebP assets
 // (Satori/resvg cannot rasterize WebP, so PNG output needs --backend playwright).
 // Fixed semantic structure; bounded copy and palette remain fixture-owned.
-export const version = '6.0.0';
+export const version = '6.0.1';
 export const name = 'recursive-process';
 
 export const FONT = {
