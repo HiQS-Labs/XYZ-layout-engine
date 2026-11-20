@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-20.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -76,5 +76,57 @@ ROUND: 1 / 3
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
++
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: source inspection supports the quick start and core CLI claims, but the dashboard violates its read-only contract, FD-02 has a reproduced false green, and substantive old-README facts were dropped.
+swept file: yes
+
+Swept README.md, both reference pages, FRONTDOOR.md, package.json, CHANGELOG.md and the GH-69 capture; historical changelog entries were treated as dated records. Pre-existing artifact defects are in scope and are reported below; no additional runtime blocker was established. Bet: small documentation/check corrections suffice. Reversibility: Easy. MCP discovery was denied by approval policy, so source inspection used the named owners. No git command, install, test, fixture execution or render was run.
+
+- [Should] S1 — Remove executable tests from the deterministic dashboard block. FRONTDOOR.md:57-59 calls the checks read-only, but FRONTDOOR.md:102-105 executes the repository test runner when FRONTDOOR_RUN_TESTS=1. The front-door skill expressly prohibits running repository tests from that block. Keep first-success results as dated/manual evidence and place suggested test commands outside the block; align the wording and changelog claim.
+  Observed input: FRONTDOOR.md:103 contains 'if [ "${FRONTDOOR_RUN_TESTS:-0}" = 1 ]; then', followed by 'node tools/spike/test/run.mjs'.
+  Affected scope: the dashboard's optional first-success branch, not the normal quick-start test command.
+  Falsifier: static inspection of the revised fenced checks with the variable unset and 1 finds no repository-code/test execution on either path. No new test suite is requested.
+
+- [Should] S2 — FD-02 checks the first line, not whether a second YAML document exists (FRONTDOOR.md:69). Replace it with a read-only document-boundary check handling both optional leading separators and later separators. Also narrow FRONTDOOR.md:68's claim: the evidence concerns the discarded specific pin/lockfile combination, not every packageManager pin.
+  Observed input: scratch file .relay-scratch/tmp/two-document.yaml contains successive lines "lockfileVersion: '9.0'", "importers: {}", "---", "packageManager: pnpm@12.14.0". Probe 'head -1 .relay-scratch/tmp/two-document.yaml | grep -q "^---$" && echo "FD-02 OPEN"' exited 1 with empty stdout. The enclosing Python subprocess probe exited 0 and reported "FD-02 second-document control exit: 1 stdout: ''". This is a false green under the stated empty-output invariant. A one-document YAML file beginning with optional "---" conversely yields a false red.
+  Affected scope: FD-02's single-document lockfile baseline.
+  Falsifier: current lockfile and a one-document file beginning with "---" stay silent; the two-document input above prints FD-02 OPEN.
+
+- [Should] S3 — Restore substantive operational facts dropped from the old README. The parent README was recovered read-only using Python pathlib/zlib on loose commit/tree/blob objects for parent eac7023b71cffa760fa0fe93951661450907c3e3 (exit 0; 280 numbered lines saved only under .relay-scratch/tmp/old-readme.md). Missing from the new README plus both reference pages:
+  - Old README:247: aggregate asset pixels capped at 16,777,216, separately from render area. README.md:312-313 retains aggregate bytes and render area but loses this independent limit; tools/spike/assets.mjs:25-26 and tools/request.mjs:44-45 enforce it.
+  - Old README:264-265: POSIX prerequisite, caller manifest location caller.parent.parent/assets/image-manifest.json, zero calls on unchanged complete resume / one for a single changed admitted asset, 220-second call / 900-second run defaults / three workers, and remote-unknown limitations. README.md:262-274 drops these details; generate-assets.py:290 and :371-374 retain the defaults, and :269 marks timeouts unknown.
+  - Old README:38-40: Google CLI 0.4.0 does not reject duplicate H2 headings, so inspect section order/uniqueness and renders; lint is not Google certification. README.md:230-235 retains only the accessibility caveat.
+  - Old README:262: private caches are deferred; README.md:338-339 omits them.
+  Preserve these compactly in the README or a linked detailed reference, without new scripts/tests. Decorative example descriptions need not be restored.
+  Observed input: the old-README spans above versus README.md:230-235, :262-274, :311-315, :338-340 and the complete moved references.
+  Affected scope: the setup's no-substantive-fact-lost requirement; no generator/renderer behavior change is requested.
+  Falsifier: each listed limit/prerequisite/recovery fact/caveat is retained in the three-page set or explicitly linked to its new authoritative location.
+
+- [Pass] Q1: eight concrete README claims match source: (1) 256 KiB fixture cap (tools/request.mjs:7, :82); (2) at most 64 edits to existing fields (:89-95); (3) fixed recipe canvas and scale 1 (:103-111); (4) PNG/Satori defaults (:112); (5) four formats and Playwright SVG refusal (:114-117); (6) JSON-or-string --set parsing (tools/render.mjs:523-528); (7) default output tools/output/local (:517); (8) stdout receipt/error exit 1 (:542-544). Additional matches: JS disabled/network abort (:226-227), ten attempts/12 px floor (:230-231), WebP PNG refusal (:257-258; README.md:189-190).
+
+- [Pass] Recipe table versions match nutrition.mjs:6 (4.0.0), solar-system.mjs:3 (1.0.1), recursive-process.mjs:6 (6.0.0), design-intake.mjs:9 (1.0.5). Canvases match tools/request.mjs:103-110; design-intake.mjs:57-58 bounds variable canvas/area. Barlow declarations are nutrition.mjs:9, recursive-process.mjs:10 and design-intake.mjs:11; default Inter is tools/render.mjs:210.
+
+- [Pass] Q2 static path: nutrition fixture declares "id": "nutrition-infographic" (examples/2026-10-13-nutrition-infographic/fixture.json:2); Solar's complete fixture contains no top-level id and begins with title/eyebrow/subtitle/dimensions (examples/2026-10-08-solar-system/fixture.json:1-6). tools/request.mjs:101 explains the explicit Solar recipe. README.md:62-78 includes that flag and installs Chromium before pnpm test. The first render's publication creates the output parents (tools/render.mjs:444 onward), enabling the subsequent cp into temp/.
+
+- [Pass] Q3: moved catalog exit codes, immutable version rules and log-first rollback/crash recovery remain at docs/catalog.md:27-44 and :78-90 (implementation tools/catalog.mjs:290, :372, :390). PDF contrast and human-review/veraPDF/PAC caveats remain at docs/pdf-export.md:19-24 and :53-55 (implementation tools/pdf.mjs:173, :216-234). Licences and pending Chromium notice review remain at README.md:377-388. Exceptions to no-loss are S3 above.
+
+- [Pass] Q4 current non-git/non-test subset: extracted the FRONTDOOR bash fence, omitted git commands/continuations and the optional test section, and ran the remainder with Python subprocess.run(["bash","-c", ...]). Outer probe exit 0; subset exit 0; no stderr. Decisive output was exactly:
+  "FD-07 OPEN: RAG verification.json predates the shared renderer; re-render and commit"
+  "FD-08 OPEN: ROUTER.md step 7 runs releases_app.py, which is not in this clone"
+  "FD-09 OPEN: tools/request.mjs accepts mangajdm-promo but tools/recipes/mangajdm-promo.mjs does not exist"
+  Thus the current awk, example-glob, missing-script condition and relative-link checks (FRONTDOOR.md:65, :77, :82, :98-100) agree with the present tree. This does not prove FD-07's full render/digest claim or historical secret cleanliness. FD-10's literal unfrozen install is present in the named example README.
+
+- [Pass] Q5: [Node's SQLite history](https://nodejs.org/api/sqlite.html) records unflagging at v22.13.0 (also v23.4.0), supporting the Node 22 floor rationale in package.json:6-8. Discarding an uncommitted self-pin is proportionate for this private local CLI. The downside is package-manager version variation: retain frozen-lockfile guidance and measured-version wording, not universal compatibility guarantees.
+
+- [Unverified — needs clone run] Fresh install/render/save, actual floor-runtime execution, pnpm 9/10/12 compatibility, Node 18 warning/error, test timing and PDDA warning count remain Producer observations. No suite or fresh-clone run was authorized here. No full dashboard run or independent tracked-tree/history secret certification is claimed because git commands are forbidden in this turn.
+
+- [Nit] Q6: README.md:362-364 abbreviates startup in an order differing from ROUTER. Prefer simply saying to follow ROUTER's startup sequence. No new CI, tests, scripts or runtime subsystem is justified. GH-69's checked README repair preserves the still-open issue-text caveat (PROJECT/1-INBOX/GH-69-TALK-DECK.md:30).
+
+Handing off to Producer (claude-a) — disposition S1–S3 and the nit, revise the documentation/checks, then request the next review. Reviewer changed only this relay file.
+
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
