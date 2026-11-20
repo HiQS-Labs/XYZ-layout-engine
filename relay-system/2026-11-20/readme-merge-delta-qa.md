@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-20.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -204,5 +204,20 @@ exported), and engine files may change without notice. A module that needs anoth
 `tools/plugin-api.mjs` (see that file's header). Loading outside recipes into the engine's own request
 pipeline is not supported yet; see `PROJECT/2-WORKING/SPECS-PRD.md` §6.5.
 ```
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: R1/R2 are resolved; current-source checks and comparison against the Producer-supplied upstream additions cover Q1–Q4. No Blocker remains. Bet: accept the supplied historical extraction as Producer evidence while independently checking its facts against the current README; the failure mode is an omission in that extraction. Historical Git provenance was not independently rerun because this turn prohibits Git. Reversibility: Easy (documentation only).
+swept file: yes
+
+- [Pass] R1 resolved: `README.md:124,316–330` distinguishes errors from warnings and explicitly leaves AS-12 percentages/four-size compliance to manual review. This matches `tools/craft-lint.mjs:80–109,123–138`; `tools/intake.mjs:6,14–18,27–30` invokes the same checker. No runtime change or new test is needed.
+- [Pass] R2/Q3 resolved: `README.md:289` now says “Cutout generation calls a paid image API and is never part of rendering.” Package downloads remain explicit at `README.md:68–70,254–257,333–340`. Binary precedence and fallback match `tools/impeccable/audit.mjs:10–24,63–73`; directory discovery matches `:27–45`. The exact cross-repository heading survives at `README.md:376`, as required by `ROUTER.md` and `tools/plugin-api.mjs:8–9`. Offline rendering is retained from the approved baseline, not newly executed here.
+- [Pass] Q2, comparison to the supplied historical text: Hallmark counts/reader/no bundled third-party files appear at `README.md:199–209`; craft/audit commands, direct detector invocation and attributed detector-rule description at `:316–340`; all four detailed verbs at `:343–347`; editorial components, frameworks, flags and markup at `:349–360`; AS-1 through AS-14 and generation/provenance pointers at `:234–251`; the complete plugin API contract at `:376–408`. No substantive fact from the supplied upstream additions is missing. Replacing upstream's overbroad enforcement wording and runtime-dependency phrase with precise lint and download caveats is appropriate. The Producer's `e100f57` ancestry receipt supports `FRONTDOOR.md:11`; it remains author-supplied provenance.
+- [Pass] Q1, source mappings: `tools/hallmark.mjs:9–19,119–146,174–219` supports the external reader; inventory counts are upstream snapshot facts, not constants enforced by this dynamic reader. `SYSTEM-INSTRUCTIONS.md:73–85` supports the verbs/invariants. `skills/hallmark/SKILL.md` (“Step 1” through “Step 5”) and `skills/impeccable/SKILL.md` (“Chained Workflow for Agents”) support the two skill rows. `tools/export-editorial-asset.mjs:17–20,54–74,94–104,113–124` supports the export flags, dimensions and markup; Bento's `card_hero` in `examples/2026-11-09-hallmark-bento/fixture.json` is 624×504 with no fixture title. `tools/review.mjs:9,14–33,48–51`, `REVIEW/README.md:10–33` and `.gitignore:13–14` support the publication/privacy section. `tools/plugin-api.mjs:13–15` supplies exactly the documented exports. The six command rows and layout entries at `README.md:123–128,480–492` map to these existing files.
+- [Pass] Q4/Q5: `package.json:4–11` retains private ESM, both exports and Node `>=22.13`; the linked dependency alias at `README.md:384` supports the documented import name. The merged entries at `CHANGELOG.md:2–60` preserve distinct README, public-API, review-folder, craft and Hallmark records. No new implementation, dependency, suite or configuration is proposed by the corrections. Full-file sweep found no additional material pre-existing defect in the four artifacts; round-one historical CHANGELOG ordering observations and FRONTDOOR FD-07–FD-10 remain acknowledged, not newly resolved.
+- [Unverified — needs clone run] Install/render/browser checks, synchronous require failure, canaries and PDDA were not run in this reviewer worktree. CHANGELOG execution results are Producer receipts; the harness owns subsequent gates. Graph discovery was attempted first and returned “MCP tool call requires approval, but approval policy is never”; named-source reads were used instead. No Git command, artifact edit, download or executable fixture was run.
+
+Relay closed (Approved), no further turn needed. Only this relay file was edited; the harness owns its file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
