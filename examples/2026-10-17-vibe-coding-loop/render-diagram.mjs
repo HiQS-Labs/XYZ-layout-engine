@@ -190,13 +190,17 @@ assert.equal(result.png.readUInt32BE(16),W);assert.equal(result.png.readUInt32BE
 assert.equal(chromiumResult.png.readUInt32BE(16),W);assert.equal(chromiumResult.png.readUInt32BE(20),H);
 
 // Red controls write their outputs to OUT_DIR so the committed artifacts stay untouched.
-const OUT=process.env.OUT_DIR?path.resolve(process.env.OUT_DIR):ROOT;
+const OUT=process.env.OUT_DIR?path.resolve(process.env.OUT_DIR):path.join(ROOT,'renders');
+await fs.mkdir(OUT,{recursive:true});
 const NAME='vibe-coding-loop';
 await fs.writeFile(path.join(OUT,NAME+'.png'),result.png);
 await fs.writeFile(path.join(OUT,NAME+'-chromium.png'),chromiumResult.png);
 const responsive=chromiumResult.html.replace('</head>',`<style>html,body{width:100%!important;height:100%!important;overflow:auto!important;background:${P.ground}}#canvas{transform-origin:top left}</style></head>`).replace('</body>',`<script>function fit(){const s=Math.min(1,innerWidth/${W});document.getElementById('canvas').style.transform='scale('+s+')';document.body.style.minHeight=(${H}*s)+'px'}addEventListener('resize',fit);fit();</script></body>`);
 await fs.writeFile(path.join(OUT,NAME+'.html'),responsive);
 const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlaywright; vendored Barlow Condensed; cutouts via readPinnedPngs',width:W,height:H,as12,graphics,textIds:texts,artifactDigests:{png:sha(result.png),chromiumPng:sha(chromiumResult.png),html:sha(responsive)},findings};
-await fs.writeFile(path.join(OUT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
+await fs.writeFile(path.join(process.env.OUT_DIR?OUT:ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${texts.length} text ids; ${W}x${H} in both backends; AS-12 sizes ${as12.distinctSizes.join('/')} px; no unsupported glyphs, escapes, overflow or overlap.`);
+
+const {publishForReview}=await import(new URL('tools/review.mjs',RT).href);
+if(!process.env.OUT_DIR) await publishForReview('vibe-coding-loop', [path.join(OUT,'vibe-coding-loop.png'), path.join(OUT,'vibe-coding-loop-chromium.png'), path.join(OUT,'vibe-coding-loop.html')]);

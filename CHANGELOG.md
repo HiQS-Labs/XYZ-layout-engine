@@ -1,4 +1,10 @@
 # Changelog
+
+## 2026-11-20 — Normalize public example render paths
+
+- Moved loose HTML and PNG renders into each example's `renders/` directory without changing their bytes. Updated diagram writers and current documentation, and published their finals through the existing local review helper.
+- Preserved gallery entry points, source assets, versioned snapshots, and immutable catalog records. Four relative compatibility symlinks preserve the catalog's original artifact paths. Easy reversal.
+
 ## 2026-11-20 — FRONTDOOR FD-07 to FD-10 fixed; recipe patch versions
 
 - FD-09: removed the dead `mangajdm-promo` recipe branch from `tools/request.mjs` (its example was deleted in `d0113e7`; there is no recipe module). Such fixtures are now rejected at validation ("select a trusted nutrition, solar-system, recursive-process or design-intake recipe") instead of failing later with "unsupported recipe identity". `tools/request.mjs` is a declared file of `recursive-process` and `design-intake`, so both were published as patch versions: `recursive-process@6.0.1` and `design-intake@1.0.6`. Patch, not minor, because accepted requests are unchanged: the design-intake and Hallmark Bento PNG/SVG/HTML and the belief-reference SVG/HTML renders are byte-identical before and after.
