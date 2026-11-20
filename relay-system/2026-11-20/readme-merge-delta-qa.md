@@ -220,4 +220,13 @@ swept file: yes
 
 Relay closed (Approved), no further turn needed. Only this relay file was edited; the harness owns its file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-11-20T17:02:27Z
+task: RELAY-readme-merge-delta-qa-085715
+reviewer: codex
+status: Approved
+reviewed-head: 8fbbe5b8129dacef684f8ed601645b0c336be1cd
+added-range: 24449+4334
+added-sha256: 23cb1f5c211c027a5870157096a5fd3cba4c3e9c7a0cb5fd2706494c7fa6876f
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
