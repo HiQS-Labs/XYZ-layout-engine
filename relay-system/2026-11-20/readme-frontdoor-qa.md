@@ -52,7 +52,8 @@ ROUND: 1 / 3
    was merely waiting looked stalled. A turn that ends without this line is not finished.
 
 ## Setup
-- Artifact under review: commit `45513f4` on branch `docs/readme-frontdoor` (`git show 45513f4`): `README.md` (rewritten), `docs/catalog.md` + `docs/pdf-export.md` (moved from the old README), `FRONTDOOR.md` (new dashboard), `package.json` (`engines`), `CHANGELOG.md`, `PROJECT/1-INBOX/GH-69-TALK-DECK.md` (one checkbox). Old README for comparison: `git show 45513f4~1:README.md`.
+- Artifact under review: `README.md`, `docs/catalog.md`, `docs/pdf-export.md`, `FRONTDOOR.md`, `package.json`, `CHANGELOG.md`, `PROJECT/1-INBOX/GH-69-TALK-DECK.md`
+- Change: commit 45513f4 on branch docs/readme-frontdoor (run git show 45513f4). README rewritten; catalog and PDF reference moved from the old README into the two docs files; FRONTDOOR.md is a new dashboard; package.json gains engines; GH-69 doc gets one checkbox. Old README for comparison: run git show 45513f4~1:README.md
 - Operational envelope: docs-only change to a private, local ESM CLI renderer (no npm release, `ciWorkflows: 0` in `test-budget.json`). Commensurate complexity: no new tests, scripts, CI or config files are wanted; do not ask for them. Read-only probes under `.relay-scratch/` or `$TMPDIR` are fine (quote command, exit status, decisive output); do not run `pnpm test` or render into tracked paths.
 - Producer evidence already gathered (unverified by you until checked): quick start ran in a fresh clone on Node v26.13.0; `pnpm test` failed without Chromium and passed 4/4 with it; pnpm@9 frozen install fails with the discarded pnpm 12 self-pin (`ERR_PNPM_BROKEN_LOCKFILE`) and passes at HEAD; `engines` gives a pnpm warning on Node 18; the FRONTDOOR check block prints exactly FD-07..FD-10 and the FD-01..FD-04 checks were negative-controlled; `utils/pdda/pdda.sh run` has no errors and unchanged warning count (54).
 - Questions:
