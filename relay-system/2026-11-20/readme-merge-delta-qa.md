@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-20.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 2
+ROUND: 2 / 2
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -99,5 +99,110 @@ swept file: yes
 - [Unverified — needs clone run] Fresh install, full renders, synchronous require failure, canaries and PDDA gates were not rerun under this reviewer envelope. Prior CHANGELOG/FRONTDOOR execution receipts are author evidence, not independent execution this turn. Graph discovery was attempted first; MCP returned `MCP tool call requires approval, but approval policy is never`, so direct source reads were used. No new tests/scripts/config are justified by these prose corrections (Q5).
 
 Handing off to Producer (claude-a) — address R1/R2 and provide historical comparison evidence, then return for round 2. No artifact files were edited by this reviewer; harness owns the relay-only commit.
+
+### Producer · Round 1 disposition · claude-a
+
+- R1 — Accepted (commit afe60f0). Command row now reads "Check a fixture for some of the `AS-14` craft rules; exit 1 on errors, warnings still pass." The Craft linter paragraph lists exactly the error rules (nested card with duplicate border+fill, border+shadow, side stripe on rounded card, `settings.type.*.size` non-integer or < 12 px; the `report()` calls in tools/craft-lint.mjs) and the warning-only rule (empty rect, severity `'warn'`), and says the `% of S` scale and four-size limit (`AS-12`) are not checked and must be checked by hand. Bento lint still prints `craft-lint: PASSED (0 warning(s))`, exit 0.
+- R2 — Accepted. The paid-generation paragraph now opens "Cutout generation calls a paid image API and is never part of rendering." The quick-start network sentence already names the audit `npx` fallback; the DESIGN.md lint download stays stated beside its command.
+- Nit (CHANGELOG historical ordering) — Acknowledged: pre-existing, out of scope; no claim of global chronological order is made.
+- Q2 evidence (supplied because the turn forbids git). Provenance: `git rev-parse --short 118bd38^2` → `e100f57`, equal to `origin/main` at merge time; merge base with the approved head ca2a990 is `eac7023`, so FRONTDOOR.md's `e100f57` is the merged upstream tip. Below is every line upstream ADDED to README.md between `eac7023` and `e100f57` (`git diff eac7023 e100f57 -- README.md`, `+` lines only; the one changed line replaced `AS-1`..`AS-12` with `AS-1`..`AS-14`). Fact → new README location:
+  - Hallmark: 21 macrostructures / 50 themes, `--from <path>`, no third-party files in core, Bento `intake --craft` and render commands → Examples (three Hallmark rows, plus a Hallmark paragraph with the `tools/hallmark.mjs` usage line, `HALLMARK_PATH`, default `../hallmark`).
+  - Editorial asset provider: high-DPI transparent SVG/PNG, infographics/cards/badges, React/Next.js/Vite, responsive `<img>`, the `--element card_hero --scale 2` command and its markup → "Editorial assets for web apps" (which adds the tool's full usage line).
+  - Craft linter + audit: AS-13 verbs, AS-14 invariants, `craft-lint.mjs`, `impeccable/audit.mjs <dir>` → "Craft linter" (now precise per R1) and "Headless HTML audit".
+  - Impeccable section: 62-rule detector (WCAG AA contrast, cramped padding, font-size floors, layout tension), the direct `npx impeccable detect` form, the Editorial Asset Factory rationale (CSS struggles with infographics, editorial cards, diagrams), the four verbs and their definitions → "Headless HTML audit", "Steering verbs", "Editorial assets for web apps". Upstream's "without adding external runtime dependencies" is true for package.json but not for the network, so the README states the `npx` download instead of copying that phrase.
+  - "Using the engine from another repository": carried over verbatim except line wrapping and "git-ignored" → "gitignored".
+  - AS-1..AS-14 → the "What to read first" table.
+
+```text
+- **Hallmark Macrostructures & Themes (`tools/hallmark.mjs`)**:
+  [Bento Grid](examples/2026-11-09-hallmark-bento/README.md), [Stat-Led](examples/2026-11-09-hallmark-stat-led/README.md), and [How to Skateboard Guide](examples/2026-11-09-hallmark-skate-guide/README.md). Dynamically parses 21 Hallmark macrostructures and 50 print/editorial themes from an external clone (`tools/hallmark.mjs --from <path>`) without baking third-party files into core.
+  ```sh
+  node tools/intake.mjs check examples/2026-11-09-hallmark-bento/fixture.json --craft
+  node tools/render.mjs examples/2026-11-09-hallmark-bento/fixture.json --format png,svg,html,html-inline --out .relay-scratch/hallmark-bento
+  ```
+- **Editorial Asset Provider (`tools/export-editorial-asset.mjs`)**:
+  Compiles isolated, high-DPI transparent SVG and PNG editorial components (infographics, cards, badges) directly from recipe fixtures for embedding into external web applications (React, Next.js, Vite) with auto-generated responsive `<img>` markup:
+  ```sh
+  node tools/export-editorial-asset.mjs examples/2026-11-09-hallmark-bento/fixture.json --element card_hero --scale 2 --out temp/hero-card.png
+  ```
+- **Craft Floor Linter & Headless HTML Audit**:
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines `AS-13` (steering verbs: `distill`, `bolder`, `quieter`, `typeset`) and `AS-14` (anti-slop invariants). Enforced deterministically by [`tools/craft-lint.mjs`](tools/craft-lint.mjs) (no nested cards, elevation singularity, no asymmetric side stripes, typography ramp snapping) and verified via headless HTML auditing:
+  ```sh
+  node tools/craft-lint.mjs examples/2026-11-09-hallmark-bento/fixture.json
+  node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders
+  ```
+  [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) defines the repository-wide anti-slop visual rules (`AS-1`..`AS-14`, including directional ground/contact cast shadows vs. whole-shape silhouette drop-shadows, proportional `% of S` type scale, steering verbs, and craft invariants), and [`SOP.md`](SOP.md) (paired with [`skills/higgsfield-cli/SKILL.md`](skills/higgsfield-cli/SKILL.md)) documents transparent PNG asset generation (`gpt-image-2.5-flare` via the HiQS caller and Higgsfield CLI), corner-alpha verification ([`inspect-alpha.mjs`](examples/2026-10-09-cell-division/inspect-alpha.mjs)), and pinned asset provenance (`provenance.json`).
+
+## Using XYZ Layout Engine with Impeccable
+
+[Impeccable](https://github.com/pbakaus/impeccable) provides coding agents with a structured design vocabulary and deterministic anti-slop detection for web applications. **XYZ Layout Engine** pairs naturally with Impeccable in three complementary ways:
+
+### 1. Headless HTML Quality Auditing
+XYZ Layout Engine compiles reproducible, self-contained HTML exports (`render.html` and `render-inline.html`). You can audit rendered output using Impeccable's deterministic 62-rule detector (checking WCAG AA contrast ratios, cramped container padding, font size floors, and layout tension) without adding external runtime dependencies:
+
+```sh
+# Audit a rendered publication directory using the engine's integration helper:
+node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders
+
+# Or run Impeccable CLI directly against the standalone HTML export:
+npx impeccable detect .relay-scratch/nutrition-export/render-inline.html
+```
+
+### 2. Editorial Asset Provider for Web Apps
+Impeccable-steered coding agents excel at structuring web pages, forms, and application chrome in React, Vite, Next.js, or SvelteKit, but CSS flexbox often struggles with complex visual infographics, multi-panel editorial cards, or technical diagrams.
+
+Use XYZ Layout Engine as an **Editorial Asset Factory**: compile an entire recipe or crop a specific sub-component into an isolated, high-DPI transparent PNG or SVG asset:
+
+```sh
+# Export an individual card at 2x Retina scale with transparent alpha:
+node tools/export-editorial-asset.mjs examples/2026-11-09-hallmark-bento/fixture.json \
+  --element card_hero \
+  --scale 2 \
+  --out src/assets/hero-card.png
+```
+The command outputs the asset and ready-to-use responsive HTML markup:
+```html
+<img src="hero-card.png" width="624" height="504" alt="Editorial Asset" loading="lazy" decoding="async" />
+```
+
+### 3. Steering Recipe Iterations with Impeccable Verbs
+When prompting coding agents to iterate on or refine an XYZ Layout Engine recipe, use Impeccable's 4 core steering verbs (`AS-13`) to eliminate ambiguity:
+
+- **`distill`**: Strip secondary boxes, remove container borders, delete filler copy, and let white space and typographic scale carry the layout.
+- **`bolder`**: Increase scale contrast (expand headline toward the upper 10% limit of $S$, punch dominant darks, widen outer margins for editorial drama).
+- **`quieter`**: Tone down saturated colors, soften rules into subtle hairlines, increase line-heights, and add air between sections.
+- **`typeset`**: Snap all text sizes strictly to the `% of S` scale (max 4 distinct sizes on canvas), align cap-heights to baselines, and balance paragraph measure (40–60 characters).
+
+## Using the engine from another repository
+
+Modules that live in their own repository (private or third-party) use the engine through one declared
+surface, `tools/plugin-api.mjs`, which `package.json` `exports` maps to the package root. Link a checkout
+of this repository as a package and import by name:
+
+```jsonc
+// the other repository's package.json — then run `pnpm install` there (no network needed for a link)
+{ "dependencies": { "xyz-layout-engine": "link:../XYZ-layout-engine" } }
+```
+
+```js
+import { launchPlaywright, publishForReview } from 'xyz-layout-engine';
+
+const browser = await launchPlaywright();          // the engine's own Chromium; close it when done
+try { /* render pages */ } finally { await browser.close(); }
+await publishForReview('my-project', ['out/page.png'], { note: 'Page 1' });
+```
+
+| Name | What it does |
+|---|---|
+| `launchPlaywright()` | Starts the engine's Playwright Chromium and returns the browser; the caller closes it. |
+| `publishForReview(project, files, { note })` | **Replaces** `REVIEW/<project>/` in the engine checkout with copies of `files` and rebuilds `REVIEW/index.html`. That folder's contents are git-ignored, so private output never enters this repository. |
+
+The package is ESM-only: use `import` (or `await import()` from CommonJS); synchronous `require('xyz-layout-engine')` fails with `ERR_REQUIRE_ASYNC_MODULE`. Run `pnpm install` in the engine checkout first; on a machine that has never run Playwright, also run
+`pnpm exec playwright install chromium` there. Nothing else is public: any other engine path imported by
+package name fails with `ERR_PACKAGE_PATH_NOT_EXPORTED` (only `xyz-layout-engine/package.json` is also
+exported), and engine files may change without notice. A module that needs another engine function asks for it to be added to
+`tools/plugin-api.mjs` (see that file's header). Loading outside recipes into the engine's own request
+pipeline is not supported yet; see `PROJECT/2-WORKING/SPECS-PRD.md` §6.5.
+```
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
