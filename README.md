@@ -83,6 +83,14 @@ pnpm studio    # then open http://127.0.0.1:4173
 
 A Bootstrap page served by [`tools/studio.mjs`](tools/studio.mjs) on loopback only. Pick a fixture, edit its text, colours and numbers, and the engine re-renders it with the same validation, fitting and publishing as `tools/render.mjs`; the receipt shows errors, final type sizes and the PNG digest. Renders go to `.relay-scratch/studio/out/`; Save writes only under `.relay-scratch/` or `temp/`, never over committed examples. The Gallery lists every recognised fixture, and Checks runs catalog verify and craft lint.
 
+Or run it in Docker with nothing installed but Docker:
+
+```sh
+docker compose up --build    # then open http://localhost:4173; Ctrl+C to stop
+```
+
+The image ([`Dockerfile`](Dockerfile)) is the Playwright base image, so both Satori and Chromium renders work. [`compose.yaml`](compose.yaml) publishes the port on `127.0.0.1` only and mounts `.relay-scratch/` and `temp/`, so renders and saved fixtures appear in your checkout. Committed examples are baked into the image: rebuild after changing them. Keep the base image tag in step with the `playwright` version in `pnpm-lock.yaml`.
+
 ## DESIGN.md intake
 
 Use the repository-local [design-intake skill](skills/design-intake/SKILL.md) to have an active agent translate an art-direction document into settings, separate artwork prompts and a data-only recipe. There is no new LLM API dependency. [The contract](tools/recipes/design-intake.contract.md) and [neutral worked example](examples/2026-10-12-design-intake/README.md) describe the supported subset.

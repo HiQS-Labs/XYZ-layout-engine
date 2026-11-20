@@ -9,6 +9,8 @@
 // and saved fixtures only under .relay-scratch/ or temp/ (never examples/). POSTs need the per-process
 // token embedded in the page, a JSON body and a loopback Host header (blocks cross-site and DNS-rebinding calls).
 // Renders run one at a time. Limit: single user, no auth beyond the token; revisit if it ever binds off-loopback.
+// STUDIO_HOST=0.0.0.0 exists only for the Docker image, whose port is published on the host's 127.0.0.1;
+// the Host allow-list below still accepts only loopback names.
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -43,6 +45,7 @@ const PAGE_CSP = "default-src 'self'; img-src 'self' data:; style-src 'self'; sc
 const args = process.argv.slice(2);
 const PORT = Number(args.includes('--port') ? args[args.indexOf('--port') + 1] : process.env.STUDIO_PORT ?? 4173);
 const TOKEN = crypto.randomBytes(24).toString('hex');
+const LISTEN_HOST = process.env.STUDIO_HOST ?? '127.0.0.1';
 const HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`]);
 
 const fail = (status, error, details) => Object.assign(new Error(error), { status, details });
@@ -242,4 +245,4 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-server.listen(PORT, '127.0.0.1', () => console.log(`XYZ Studio on http://127.0.0.1:${PORT} (reads examples/, .relay-scratch/, temp/; writes .relay-scratch/studio/)`));
+server.listen(PORT, LISTEN_HOST, () => console.log(`XYZ Studio on http://127.0.0.1:${PORT} (reads examples/, .relay-scratch/, temp/; writes .relay-scratch/studio/)`));

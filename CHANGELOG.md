@@ -1,4 +1,10 @@
 # Changelog
+## 2026-11-19 — XYZ Studio in Docker (one command)
+
+- Added `Dockerfile`, `compose.yaml` and `.dockerignore`: `docker compose up --build` builds an image from `mcr.microsoft.com/playwright:v1.64.0-noble` (Node 24 plus Chromium matching the locked `playwright@1.64.0`), installs with `pnpm install --frozen-lockfile` as the non-root `pwuser`, and runs `tools/studio.mjs`. Compose publishes `127.0.0.1:4173` only and bind-mounts `.relay-scratch/` and `temp/`, so output lands in the checkout.
+- `tools/studio.mjs`: the listen address now reads `STUDIO_HOST` (default `127.0.0.1`, unchanged for `pnpm studio`). The image sets `0.0.0.0` so Docker can forward the port; the loopback Host allow-list, token and Origin checks are unchanged.
+- Limit: examples are copied into the image, so edits to `examples/` need a rebuild. The base image tag must move with the `playwright` lock version. No test added: packaging only, no new engine behaviour.
+- Verification (Docker 20.10.21, Intel Mac): the image builds; in the browser at http://localhost:4173 the nutrition fixture rendered with Satori (1.4 s) and Chromium (6.4 s), with `render.png` written to the host's `.relay-scratch/studio/out/`; catalog check passed in the container; a foreign Host header gets 421; the LAN address (`en0`) is not reachable.
 ## 2026-11-19 — XYZ Studio: local browser front end (PRD "optional browser preview")
 
 - Added `tools/studio.mjs` (`pnpm studio`, http://127.0.0.1:4173): a `node:http` server bound to loopback that serves a Bootstrap 5.3.3 page and a small JSON API (`/api/fixtures`, `/api/fixture`, `/api/gallery`, `/api/recipes`, `/api/render`, `/api/save`, `/api/check`). Renders and saves call the engine's own `processRequest`, `publishArtifacts` and `saveFixture` in `runCLI`'s order; no second validation or render path. Renders run one at a time into `.relay-scratch/studio/out/`.
