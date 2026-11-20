@@ -156,4 +156,13 @@ Swept the complete current README, catalog/PDF references, FRONTDOOR, package ma
 
 Relay closed (Approved), no further turn needed. Reviewer changed only this relay file; the harness owns the file-scoped commit.
 
+
+### Attestation · relay-drive — 2026-11-20T16:52:45Z
+task: RELAY-readme-frontdoor-qa-084532
+reviewer: codex
+status: Approved
+reviewed-head: ca2a99022fb89c27cc026ce8d401c4b3c48b8157
+added-range: 19161+4912
+added-sha256: db5b56763121fe01e7ad0e3f776414dba463be2943f5b9dae534c8cb0bfa024c
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
