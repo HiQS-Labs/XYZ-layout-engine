@@ -30,7 +30,7 @@ Severity 🔴 high · 🟠 med · 🟡 low. Status ⬜ OPEN · ✅ FIXED.
 | ID | Area | Sev | Status | Fix |
 |---|---|---|---|---|
 | FD-01 | First success: quick-start `pnpm test` failed without Chromium (2 of 4 canaries launch it) | 🔴 | ✅ | `pnpm exec playwright install chromium` added to the quick start before step 3 |
-| FD-02 | Install: uncommitted pnpm 12 self-pin (`packageManager` + a second lockfile document) broke `pnpm@9` with `ERR_PNPM_BROKEN_LOCKFILE` and silently switched pnpm 10/12 to 12.14.0 | 🟠 | ✅ | Pin discarded (Codex + agy consult, unanimous); README no longer claims a pin |
+| FD-02 | Install: the uncommitted `pnpm@12.14.0` self-pin (`packageManager` plus a second lockfile document) broke `pnpm@9 install --frozen-lockfile` with `ERR_PNPM_BROKEN_LOCKFILE` and silently switched pnpm 10/12 to 12.14.0 | 🟠 | ✅ | That pin discarded (Codex + agy consult, unanimous); README no longer claims a pin. The check flags any `packageManager` field so a future pin gets a deliberate decision |
 | FD-03 | Prerequisite: no `engines` field, so Node 18 installed silently, then failed on `node:zlib` `crc32` | 🟠 | ✅ | `"engines": {"node": ">=22.13"}` (pnpm warns at install); error text documented in README |
 | FD-04 | Drift: README named `tools/spike/measure-chromium.mjs`, which never existed | 🟠 | ✅ | README describes the real checks in `tools/render.mjs` and `tools/intake.mjs` |
 | FD-05 | Drift: README listed JetBrains Mono and IBM Plex Sans as bundled fonts | 🟡 | ✅ | Removed; Alegreya added |
@@ -47,7 +47,7 @@ Severity 🔴 high · 🟠 med · 🟡 low. Status ⬜ OPEN · ✅ FIXED.
 - ✅ **README links resolve**: every relative link in `README.md`, `docs/catalog.md` and `docs/pdf-export.md`.
 - ✅ **Lockfile is single-document**: `pnpm-lock.yaml` installs on pnpm 9, 10 and 12.
 - ✅ **No human-gated wall** on the render path. Paid cutout generation (HiQS caller credentials, Higgsfield account) is optional and marked so.
-- ✅ **First success** (optional, slow): `node tools/spike/test/run.mjs` passes 4/4 when Chromium is installed.
+- ✅ **First success** (manual evidence, 2026-11-20): `node tools/spike/test/run.mjs` passed 4/4 in about 30 s with Chromium installed. Re-run it by hand; it is not part of the read-only block below.
 
 **Not checked:** installs on Linux or Windows (the only tested host is darwin-arm64), and a real first
 Chromium download (it comes from `cdn.playwright.dev`, which proxies and agent sandboxes can block).
@@ -55,8 +55,8 @@ Chromium download (it comes from `cdn.playwright.dev`, which proxies and agent s
 ## Deterministic checks — re-run to refresh
 
 Empty output means all green. Each printed line names an OPEN finding or a broken baseline. The
-checks are read-only. Set `FRONTDOOR_RUN_TESTS=1` to also run the test suite (about 30 seconds; needs
-Chromium).
+checks only read files (`grep`, `awk`, `test`, `git grep`, and `node -p` to read `package.json`); they
+run no repository code or tests.
 
 ```bash
 # Run from the repository root.
@@ -66,7 +66,8 @@ awk '/^## Quick start/{q=1} q&&/playwright install chromium/{c=NR} q&&/^pnpm tes
   || echo "FD-01 OPEN: README quick start runs pnpm test without installing Chromium first"
 # FD-02: no pnpm self-pin; lockfile is a single YAML document
 grep -q '"packageManager"' package.json && echo "FD-02 OPEN: package.json pins packageManager (breaks pnpm@9 frozen install)"
-head -1 pnpm-lock.yaml | grep -q '^---$' && echo "FD-02 OPEN: pnpm-lock.yaml is multi-document (ERR_PNPM_BROKEN_LOCKFILE on pnpm@9)"
+awk '/^---[[:space:]]*$/{ if (c) d=1; next } /[^[:space:]]/{c=1} END{exit !d}' pnpm-lock.yaml \
+  && echo "FD-02 OPEN: pnpm-lock.yaml has a second YAML document (ERR_PNPM_BROKEN_LOCKFILE on pnpm@9)"
 # FD-03: engines declares the Node floor
 [ "$(node -p 'require("./package.json").engines?.node ?? ""')" = ">=22.13" ] || echo "FD-03 OPEN: package.json engines.node is not >=22.13"
 # FD-04: README names no non-existent measure tool
@@ -99,8 +100,4 @@ for f in README.md docs/catalog.md docs/pdf-export.md; do
     [ -e "$(dirname "$f")/$p" ] || echo "BASELINE BROKEN: dead link in $f -> $p"
   done
 done
-# Baseline (opt-in): first success
-if [ "${FRONTDOOR_RUN_TESTS:-0}" = 1 ]; then
-  node tools/spike/test/run.mjs >/dev/null 2>&1 || echo "BASELINE BROKEN: node tools/spike/test/run.mjs failed"
-fi
 ```

@@ -228,12 +228,14 @@ What to read first:
 | [`SOP.md`](SOP.md) | How to generate transparent PNG cutouts, verify their alpha, and record provenance. |
 
 The engine does not parse `DESIGN.md` itself. An agent translates the supported choices into a
-fixture and a trusted recipe. You can lint a brief (the first run downloads the CLI from npm; lint
-success is not an accessibility check):
+fixture and a trusted recipe. You can lint a brief (the first run downloads the CLI from npm):
 
 ```sh
 npx --yes --package=@google/design.md@0.4.0 designmd lint docs/design-md/DESIGN.md
 ```
+
+CLI 0.4.0 does not reject duplicate H2 headings, so also check section order and uniqueness yourself
+and inspect the actual renders. Passing lint is not an accessibility check or Google certification.
 
 ### Agent skills in this repo
 
@@ -260,9 +262,18 @@ captured the art direction: compare the render with the source.
 ### Optional: paid image generation
 
 Generating cutouts is the only step that uses the network or costs money, and it is never part of
-rendering. The Solar System generator needs Python 3, a deployed HiQS caller with credentials, and a
-recipe asset manifest. It refuses any batch larger than `--max-calls` (default 11) before making a
-call, and refuses unknown or corrupt states rather than replaying them. A dry run makes no paid calls:
+rendering. The Solar System generator needs a POSIX environment with Python 3 and Node, a deployed
+HiQS caller entry point with credentials, and a matching recipe manifest at
+`caller.parent.parent/assets/image-manifest.json`.
+
+- Calls: the default plan is 13 jobs (11 are display derivatives). An unchanged, complete resume makes
+  zero calls; one changed admitted asset makes one.
+- Limits: `--max-calls` 11, 220 seconds per call, 900 seconds per run, 3 workers. It refuses a batch
+  larger than `--max-calls` before making any call. What happens remotely after a timeout is unknown.
+- Unknown or corrupt states are refused rather than replayed; replacing them needs explicit
+  authorization (`--force-retry`).
+
+A dry run makes no paid calls:
 
 ```sh
 mkdir -p temp/assets-test
@@ -309,8 +320,9 @@ design records and crash recovery are in [docs/catalog.md](docs/catalog.md).
 **Inputs**
 
 - Fixture JSON: at most 256 KiB, and the path must be inside the working directory.
-- Per image: at most 5 MiB and 16,777,216 pixels. Per scene: at most 35 MiB encoded and 16,777,216
-  pixels of render area. A whole export: at most 64 MiB.
+- Per image: at most 5 MiB and 16,777,216 pixels. Per scene: at most 35 MiB of encoded images,
+  16,777,216 image pixels in total, and 16,777,216 pixels of render area. A whole export: at most
+  64 MiB.
 - Canvas: each recipe owns its size (see [Recipes](#recipes)); any other size, and any scale other
   than 1, is rejected.
 
@@ -335,8 +347,8 @@ design records and crash recovery are in [docs/catalog.md](docs/catalog.md).
 
 - Hard per-stage timeouts. A JavaScript timer cannot interrupt synchronous rasterisation, so there
   is no time limit on a single render.
-- Fetching remote assets, multi-tenant isolation, SSRF protection and service queues. These are
-  planned for later and switched off rather than half-built.
+- Fetching remote assets, multi-tenant isolation, SSRF protection, private caches and service
+  queues. These are planned for later and switched off rather than half-built.
 - Recipe variants, slug renames and semver ranges in the catalog.
 
 ## Repository layout
@@ -359,9 +371,7 @@ utils/pdda/                  document-governance checks
 
 ## Contributing
 
-- AI agents start with [`ROUTER.md`](ROUTER.md), then [`AGENTS.md`](AGENTS.md) and
-  [`GUIDING-PRINCIPLES.md`](GUIDING-PRINCIPLES.md). For visual work, read `SYSTEM-INSTRUCTIONS.md`
-  first.
+- AI agents follow the startup sequence in [`ROUTER.md`](ROUTER.md).
 - Before reporting a change, run `pnpm test` and `utils/pdda/pdda.sh run`.
 - [`FRONTDOOR.md`](FRONTDOOR.md) tracks onboarding health. After changing a setup-facing doc, re-run
   its check block; empty output means green.

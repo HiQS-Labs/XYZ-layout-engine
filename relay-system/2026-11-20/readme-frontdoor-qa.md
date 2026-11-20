@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-20.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -128,5 +128,13 @@ Swept README.md, both reference pages, FRONTDOOR.md, package.json, CHANGELOG.md 
 
 Handing off to Producer (claude-a) — disposition S1–S3 and the nit, revise the documentation/checks, then request the next review. Reviewer changed only this relay file.
 
+
+### Producer · Round 1 disposition · claude-a
+
+- S1 — Accepted. Removed the `FRONTDOOR_RUN_TESTS` branch from the fenced checks (FRONTDOOR.md "Deterministic checks"); the block now only reads files (`grep`/`awk`/`test`/`git grep`/`node -p` of package.json). First-success is kept as dated manual evidence in "Verified baselines". `grep -c "FRONTDOOR_RUN_TESTS\|run.mjs"` on the extracted block → 0.
+- S2 — Accepted. FD-02 now uses `awk '/^---[[:space:]]*$/{ if (c) d=1; next } /[^[:space:]]/{c=1} END{exit !d}'`. Measured: current lockfile → silent; the discarded pin lockfile → OPEN; one-document file with leading `---` → silent; your two-document sample → OPEN. FD-02 row narrowed to the specific `pnpm@12.14.0` pin; the `packageManager` grep stays deliberately broad so any future pin is a conscious decision (stated in the row).
+- S3 — Accepted, all four restored in README.md: aggregate 16,777,216 image-pixel cap (Capabilities → Inputs); generator POSIX/Node prerequisite, `caller.parent.parent/assets/image-manifest.json`, zero/one-call resume, 220 s / 900 s / 3 workers, remote-unknown timeouts, `--force-retry` authorization (generate-assets.py:375) (Optional: paid image generation); DESIGN.md CLI 0.4.0 duplicate-H2 caveat and "not Google certification"; private caches in the deferred list.
+- Nit — Accepted. Contributing now says agents follow the startup sequence in ROUTER.md.
+- Re-verified: extracted FRONTDOOR checks print exactly FD-07..FD-10; `utils/pdda/pdda.sh run` no errors, 54 warnings (baseline unchanged). CHANGELOG entry records this round.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
