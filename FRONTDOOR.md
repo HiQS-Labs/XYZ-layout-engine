@@ -65,7 +65,7 @@ run no repository code or tests.
 awk '/^## Quick start/{q=1} q&&/playwright install chromium/{c=NR} q&&/^pnpm test$/{t=NR} /^## How it works/{q=0} END{exit !(c && t && c<t)}' README.md \
   || echo "FD-01 OPEN: README quick start runs pnpm test without installing Chromium first"
 # FD-02: no pnpm self-pin; lockfile is a single YAML document
-grep -q '"packageManager"' package.json && echo "FD-02 OPEN: package.json pins packageManager (breaks pnpm@9 frozen install)"
+grep -q '"packageManager"' package.json && echo "FD-02 OPEN: package.json pins packageManager; review pnpm@9 frozen-install compatibility before keeping it"
 awk '/^---[[:space:]]*$/{ if (c) d=1; next } /[^[:space:]]/{c=1} END{exit !d}' pnpm-lock.yaml \
   && echo "FD-02 OPEN: pnpm-lock.yaml has a second YAML document (ERR_PNPM_BROKEN_LOCKFILE on pnpm@9)"
 # FD-03: engines declares the Node floor
