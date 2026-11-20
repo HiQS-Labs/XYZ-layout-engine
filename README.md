@@ -24,7 +24,9 @@ colours or positions with one command and re-render in seconds.
 
 > **Status:** local MVP, written in ESM JavaScript (TypeScript is a product target). It is a private
 > package (`0.0.0`): there is no npm release, HTTP server, MCP server or `bin` entry yet. You use it
-> through the CLIs below, from a checkout of this repository.
+> through the CLIs below from a checkout of this repository, or link the checkout from another
+> repository and import its small public API (see
+> [Using the engine from another repository](#using-the-engine-from-another-repository)).
 
 ## Contents
 
@@ -35,6 +37,9 @@ colours or positions with one command and re-render in seconds.
 - [Recipes](#recipes)
 - [Examples](#examples)
 - [Authoring with an AI agent](#authoring-with-an-ai-agent)
+- [Craft linting, Impeccable and editorial assets](#craft-linting-impeccable-and-editorial-assets)
+- [Reviewing finished output](#reviewing-finished-output)
+- [Using the engine from another repository](#using-the-engine-from-another-repository)
 - [Accessible PDF export](#accessible-pdf-export)
 - [Recipe and design catalog](#recipe-and-design-catalog)
 - [Capabilities and limits](#capabilities-and-limits)
@@ -59,7 +64,8 @@ colours or positions with one command and re-render in seconds.
 ## Quick start
 
 Run everything from the repository root. Installing dependencies and Chromium uses the network;
-nothing after that does. `temp/` is gitignored, so it is a safe place for scratch output.
+rendering does not. (Two optional tools can: the Impeccable audit falls back to `npx`, and paid
+cutout generation calls an image API.) `temp/` is gitignored, so it is a safe place for scratch output.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -109,7 +115,12 @@ fixture.json ──► recipe (tools/recipes/*.mjs) ──► scene ──► Sa
 | Command | What it does |
 |---|---|
 | `node tools/render.mjs` (`pnpm render`) | Render a fixture. The main tool. |
-| `node tools/intake.mjs` | Preflight a `design-intake` fixture without rendering. |
+| `node tools/intake.mjs` | Preflight a `design-intake` fixture without rendering (add `--craft` for the craft linter). |
+| `node tools/craft-lint.mjs` | Check a fixture against the craft rules in `AS-14`; exit 1 on violations. |
+| `node tools/export-editorial-asset.mjs` | Export a whole fixture or one element as a high-DPI transparent PNG or SVG for a web app. |
+| `node tools/impeccable/audit.mjs` | Audit a rendered `render.html` with the Impeccable detector. |
+| `node tools/hallmark.mjs` | List and read Hallmark layouts and themes from a local Hallmark clone. |
+| `node tools/review.mjs` | Copy finished files into `REVIEW/<project>/` and rebuild `REVIEW/index.html`. |
 | `node tools/pdf.mjs` | Export a tagged, accessible PDF and check an existing one. |
 | `node tools/catalog.mjs` | List, show, verify and publish recipes; record designs. |
 | `node tools/deck-viewer.mjs` (`pnpm deck:viewer`) | Build a static HTML viewer for a folder of slides. |
@@ -141,7 +152,7 @@ blocked.
 
 ```sh
 node tools/intake.mjs capabilities          # what the design-intake recipe supports (JSON)
-node tools/intake.mjs check <fixture.json> [--backend satori|playwright] [--format ...]
+node tools/intake.mjs check <fixture.json> [--backend satori|playwright] [--format ...] [--craft]
 ```
 
 `check` reports unsupported requirements and pending artwork before you render or pay for image
@@ -165,7 +176,7 @@ All four are active in the catalog.
 | `nutrition` | 4.0.0 | 1000×1000 | Barlow Condensed | Nutrition infographic |
 | `solar-system` | 1.0.1 | 2400×1700 | Inter | Solar System overview |
 | `recursive-process` | 6.0.0 | 1600×1340 | Barlow Condensed | Belief-updating diagrams |
-| `design-intake` | 1.0.5 | Declared by the fixture (up to 8192 px a side) | Barlow Condensed | Any `DESIGN.md` translated by an agent |
+| `design-intake` | 1.0.5 | Declared by the fixture (up to 8192 px a side) | Barlow Condensed | Any `DESIGN.md` translated by an agent, including the Hallmark examples |
 
 `nutrition`, `solar-system` and `recursive-process` are purpose-built layouts. `design-intake` is a
 general, data-only recipe: absolute-positioned text, PNG images and rectangles in one font family. See
@@ -185,6 +196,13 @@ and asset provenance.
 | [Belief updating](examples/2026-10-11-belief-updating/README.md), the original feedback-loop study | `recursive-process` | `node examples/2026-10-11-belief-updating/render-diagram.mjs` |
 | [Belief reference](examples/2026-10-12-belief-reference/README.md), the same loop directed by a reference image, with WebP artwork | `recursive-process` | `node tools/render.mjs examples/2026-10-12-belief-reference/fixture.json --backend playwright --format png,html --out temp/belief` |
 | [Design intake](examples/2026-10-12-design-intake/README.md), a neutral `DESIGN.md` translated into a fixture | `design-intake` | `node tools/render.mjs examples/2026-10-12-design-intake/fixture.json --format png,svg,html,html-inline --out temp/intake` |
+| [Hallmark Bento Grid](examples/2026-11-09-hallmark-bento/README.md), Riso theme, 1200×1200 | `design-intake` | `node tools/render.mjs examples/2026-11-09-hallmark-bento/fixture.json --format png,svg,html,html-inline --out temp/hallmark-bento` |
+| [Hallmark Stat-Led](examples/2026-11-09-hallmark-stat-led/README.md), Distil theme, 1200×1200 | `design-intake` | `node tools/render.mjs examples/2026-11-09-hallmark-stat-led/fixture.json --format png,svg,html,html-inline --out temp/hallmark-stat-led` |
+| [Hallmark skate guide](examples/2026-11-09-hallmark-skate-guide/README.md), Broadside theme, 1200×1600 | `design-intake` | `node tools/render.mjs examples/2026-11-09-hallmark-skate-guide/fixture.json --format png,svg,html,html-inline --out temp/hallmark-skate-guide` |
+
+The Hallmark examples adapt layouts and themes from [Hallmark](https://github.com/nutlope/hallmark).
+Their fixtures are ordinary `design-intake` data, so rendering them needs no Hallmark checkout; only
+`tools/hallmark.mjs` (reading new layouts) does.
 
 The belief-reference artwork is WebP, which Satori cannot rasterise to PNG: use
 `--backend playwright` for its PNG and `--backend satori --format svg` for its SVG.
@@ -223,7 +241,7 @@ What to read first:
 
 | File | Purpose |
 |---|---|
-| [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) | Anti-slop design rules `AS-1`..`AS-12` (typography, the proportional type scale, shadows, cutouts). They override recipe, skill and prompt defaults. |
+| [`SYSTEM-INSTRUCTIONS.md`](SYSTEM-INSTRUCTIONS.md) | Anti-slop design rules `AS-1`..`AS-14` (typography, the proportional type scale, shadows, cutouts, steering verbs, craft invariants). They override recipe, skill and prompt defaults. |
 | [`DESIGN.md`](DESIGN.md) | How to write a design brief, a profile of [Google Labs' alpha DESIGN.md format](https://github.com/google-labs-code/design.md). See also the [token-bearing sample](docs/design-md/DESIGN.md) and the [adoption review](docs/design-md/REVIEW.md). |
 | [`SOP.md`](SOP.md) | How to generate transparent PNG cutouts, verify their alpha, and record provenance. |
 
@@ -243,6 +261,8 @@ and inspect the actual renders. Passing lint is not an accessibility check or Go
 |---|---|
 | [`skills/design-intake`](skills/design-intake/SKILL.md) | Turns a `DESIGN.md` into a `design-intake` fixture, separate artwork prompts and a data-only recipe. Starts with `node tools/intake.mjs capabilities`. |
 | [`skills/design-diagram`](skills/design-diagram/SKILL.md) | Takes a topic to a reviewed example folder and a ready pull request, using the RAG example as the pattern. |
+| [`skills/hallmark`](skills/hallmark/SKILL.md) | Reads Hallmark layouts and themes from an external clone, adapts them into a `design-intake` fixture, runs the craft linter and renders both backends. |
+| [`skills/impeccable`](skills/impeccable/SKILL.md) | Chains craft linting, the headless HTML audit, steering verbs and editorial asset export. |
 | [`skills/higgsfield-cli`](skills/higgsfield-cli/SKILL.md) | Generates a transparent PNG with the Higgsfield CLI under a credit cap and checks its alpha. `SOP.md` wins if they disagree. |
 
 The skills live in `skills/` and are not installed automatically. Point your agent at the `SKILL.md`,
@@ -283,6 +303,95 @@ python3 -B examples/2026-10-08-solar-system/generate-assets.py --caller <externa
 
 The default plan is 13 jobs, so the default cap of 11 refuses it (exit 4, zero calls). The exact
 deployed caller revision is unverified.
+
+## Craft linting, Impeccable and editorial assets
+
+These tools build on [Impeccable](https://github.com/pbakaus/impeccable), a design vocabulary and
+anti-slop detector for coding agents.
+
+**Craft linter.** `AS-14` in `SYSTEM-INSTRUCTIONS.md` lists layout invariants: no nested cards, a
+border or a shadow but never both, no coloured side stripes on rounded containers, font sizes snapped
+to the type scale, and no empty decorative plates. `tools/craft-lint.mjs` checks a fixture against
+them without an LLM; `intake.mjs check --craft` runs the same check during preflight.
+
+```sh
+node tools/craft-lint.mjs examples/2026-11-09-hallmark-bento/fixture.json          # exit 1 on violations
+node tools/intake.mjs check examples/2026-11-09-hallmark-bento/fixture.json --craft
+```
+
+**Headless HTML audit.** `tools/impeccable/audit.mjs` runs Impeccable's detector (contrast, padding,
+font-size floors, layout tension) on a `render.html` or `render-inline.html`, or on the first one it
+finds under a directory. It uses an `impeccable` binary from `IMPECCABLE_BIN`, `~/.impeccable/bin/` or
+your PATH; without one it runs `npx --yes impeccable detect`, which downloads the package from npm.
+
+```sh
+node tools/impeccable/audit.mjs examples/2026-11-09-hallmark-bento/renders [--json]
+```
+
+**Steering verbs.** `AS-13` gives four words for asking an agent to revise a recipe: `distill` (remove
+boxes, borders and filler), `bolder` (more scale contrast, stronger darks, wider margins), `quieter`
+(softer colour, hairline rules, more air) and `typeset` (snap to the type scale, at most four sizes,
+40–60 character measure).
+
+**Editorial assets for web apps.** `tools/export-editorial-asset.mjs` renders a whole fixture, or one
+element by ID, as a transparent PNG or SVG at 1×, 2× or 3×, and prints a ready-to-use `<img>` tag. Use
+it for infographics, cards and diagrams that are hard to build in CSS.
+
+```sh
+node tools/export-editorial-asset.mjs <fixture.json> [--element <id>] [--format png|svg] [--scale 1|2|3] [--out <path>] [--opaque]
+node tools/export-editorial-asset.mjs examples/2026-11-09-hallmark-bento/fixture.json --element card_hero --scale 2 --out temp/hero-card.png
+```
+
+That example writes a 1248×1008 PNG and prints
+`<img src="hero-card.png" width="624" height="504" alt="Editorial Asset" loading="lazy" decoding="async" />`.
+
+## Reviewing finished output
+
+`REVIEW/` is the one folder a person opens to judge finished work: `REVIEW/<project>/` holds a
+project's final files and `REVIEW/index.html` lists every project, newest first. Its contents are
+gitignored (except its README), because private work lands there and this repository is public;
+public output still ships through `examples/`. See [`REVIEW/README.md`](REVIEW/README.md).
+
+```sh
+node tools/review.mjs <project-name> <file> [file ...]   # replace REVIEW/<project>/ with these files
+node tools/review.mjs                                   # rebuild the index only
+```
+
+Existing examples do not publish there yet; only renderers that call `publishForReview` appear.
+
+## Using the engine from another repository
+
+Modules that live in their own repository (private or third-party) use the engine through one declared
+surface, `tools/plugin-api.mjs`, which `package.json` `exports` maps to the package root. Link a
+checkout of this repository as a package and import by name:
+
+```jsonc
+// the other repository's package.json — then run `pnpm install` there (no network needed for a link)
+{ "dependencies": { "xyz-layout-engine": "link:../XYZ-layout-engine" } }
+```
+
+```js
+import { launchPlaywright, publishForReview } from 'xyz-layout-engine';
+
+const browser = await launchPlaywright();          // the engine's own Chromium; close it when done
+try { /* render pages */ } finally { await browser.close(); }
+await publishForReview('my-project', ['out/page.png'], { note: 'Page 1' });
+```
+
+| Name | What it does |
+|---|---|
+| `launchPlaywright()` | Starts the engine's Playwright Chromium and returns the browser; the caller closes it. |
+| `publishForReview(project, files, { note })` | **Replaces** `REVIEW/<project>/` in the engine checkout with copies of `files` and rebuilds `REVIEW/index.html`. That folder's contents are gitignored, so private output never enters this repository. |
+
+The package is ESM-only: use `import` (or `await import()` from CommonJS); synchronous
+`require('xyz-layout-engine')` fails with `ERR_REQUIRE_ASYNC_MODULE`. Run `pnpm install` in the engine
+checkout first; on a machine that has never run Playwright, also run
+`pnpm exec playwright install chromium` there. Nothing else is public: any other engine path imported
+by package name fails with `ERR_PACKAGE_PATH_NOT_EXPORTED` (only `xyz-layout-engine/package.json` is
+also exported), and engine files may change without notice. A module that needs another engine
+function asks for it to be added to `tools/plugin-api.mjs` (see that file's header). Loading outside
+recipes into the engine's own request pipeline is not supported yet; see
+`PROJECT/2-WORKING/SPECS-PRD.md` §6.5.
 
 ## Accessible PDF export
 
@@ -356,14 +465,17 @@ design records and crash recovery are in [docs/catalog.md](docs/catalog.md).
 ```text
 tools/
   render.mjs, request.mjs    renderer and shared input validation
+  plugin-api.mjs             the public API for other repositories (package.json "exports")
   recipes/                   trusted recipes and their design contracts
   a11y/                      accessibility specs used by the PDF export
   catalog.mjs, catalog.sql   catalog CLI and its canonical dump
-  intake.mjs, pdf.mjs, deck-viewer.mjs, profile.mjs
+  intake.mjs, pdf.mjs, deck-viewer.mjs, profile.mjs, review.mjs
+  craft-lint.mjs, export-editorial-asset.mjs, hallmark.mjs, impeccable/audit.mjs
   fonts/                     vendored fonts (Barlow Condensed, Alegreya)
   spike/                     GH-1 backend comparison, Inter font, and the test suite (spike/test/)
 examples/                    dated example bundles: fixtures, renders, provenance
-skills/                      agent skills (design-intake, design-diagram, higgsfield-cli)
+skills/                      agent skills (design-intake, design-diagram, hallmark, impeccable, higgsfield-cli)
+REVIEW/                      finished output for human review (contents gitignored)
 docs/                        DESIGN.md sample and review, catalog and PDF references
 PROJECT/                     planning documents (inbox, working, completed)
 utils/pdda/                  document-governance checks

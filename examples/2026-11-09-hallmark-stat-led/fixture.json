@@ -1,0 +1,303 @@
+{
+  "id": "design-intake",
+  "schemaVersion": 1,
+  "width": 1200,
+  "height": 1200,
+  "source": {
+    "path": "examples/2026-11-09-hallmark-stat-led/DESIGN.md",
+    "sha256": "72a25fdc18cbedb94c3b16d9e2850994dbd10ac2ea29863914cffbc8aa8c34e3"
+  },
+  "requirements": [
+    {
+      "quote": "Use a 1200 by 1200 square canvas.",
+      "feature": "absolute-layout",
+      "target": "width",
+      "status": "mapped",
+      "reason": "Square 1200x1200 canvas on a 24px spacing grid."
+    },
+    {
+      "quote": "Adopt the Hallmark Distil theme palette with clean titanium paper, deep slate ink, electric cobalt accent, and functional muted gray.",
+      "feature": "solid-fill",
+      "target": "settings.palette",
+      "status": "mapped",
+      "reason": "Authentic Hallmark Distil Swiss technical palette."
+    },
+    {
+      "quote": "Use bundled Barlow Condensed in regular and bold, a 24px spacing grid, 4px rounded corners, and 1px card borders.",
+      "feature": "single-font",
+      "target": "settings",
+      "status": "mapped",
+      "reason": "Bundled font, 24px grid, 4px radius, and 1px border parameters."
+    },
+    {
+      "quote": "The Stat-Led macrostructure anchors visual hierarchy with a dominant hero KPI block and three supporting analytical columns.",
+      "feature": "text",
+      "target": "elements",
+      "status": "mapped",
+      "reason": "Hallmark Macrostructure 04 metrics-anchored layout."
+    }
+  ],
+  "settings": {
+    "palette": {
+      "paper": "#f4f4f4",
+      "ink": "#11161d",
+      "accent": "#0055ff",
+      "muted": "#68707d",
+      "surface": "#e8eaed"
+    },
+    "fontFamily": "Barlow Condensed",
+    "type": {
+      "display": {
+        "size": 96,
+        "weight": 700,
+        "lineHeight": 1.2
+      },
+      "body": {
+        "size": 24,
+        "weight": 400,
+        "lineHeight": 1.3
+      }
+    },
+    "spacing": 24,
+    "cornerRadius": 4,
+    "borderWidth": 1
+  },
+  "artwork": {
+    "style": "Technical telemetry layout with high-contrast metric callouts and structural slate frames.",
+    "items": []
+  },
+  "elements": [
+    {
+      "id": "card_kpi",
+      "type": "rect",
+      "x": 48,
+      "y": 192,
+      "width": 1104,
+      "height": 360,
+      "fill": "surface",
+      "stroke": "accent"
+    },
+    {
+      "id": "card_col1",
+      "type": "rect",
+      "x": 48,
+      "y": 576,
+      "width": 336,
+      "height": 480,
+      "fill": "surface",
+      "stroke": "muted"
+    },
+    {
+      "id": "card_col2",
+      "type": "rect",
+      "x": 432,
+      "y": 576,
+      "width": 336,
+      "height": 480,
+      "fill": "surface",
+      "stroke": "muted"
+    },
+    {
+      "id": "card_col3",
+      "type": "rect",
+      "x": 816,
+      "y": 576,
+      "width": 336,
+      "height": 480,
+      "fill": "surface",
+      "stroke": "muted"
+    },
+    {
+      "id": "eyebrow",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 1104,
+      "height": 24,
+      "text": "HALLMARK 04 · STAT-LED / DISTIL THEME",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "headline",
+      "type": "text",
+      "x": 48,
+      "y": 96,
+      "width": 1104,
+      "height": 72,
+      "text": "TELEMETRY & GEOMETRY VERIFICATION",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "kpi_stat",
+      "type": "text",
+      "x": 72,
+      "y": 216,
+      "width": 528,
+      "height": 144,
+      "text": "99.8%",
+      "role": "display",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "kpi_label",
+      "type": "text",
+      "x": 72,
+      "y": 384,
+      "width": 528,
+      "height": 48,
+      "text": "PASS-THROUGH GEOMETRY ACCURACY",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "hero_context_title",
+      "type": "text",
+      "x": 624,
+      "y": 216,
+      "width": 504,
+      "height": 48,
+      "text": "PROVEN OVER 3,200 EXPORTS",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "hero_context_body",
+      "type": "text",
+      "x": 624,
+      "y": 288,
+      "width": 504,
+      "height": 216,
+      "text": "By measuring computed bounding boxes in headless Chromium before export, the engine catches text clipping, overflow, and element collision at build time. When an element exceeds bounds, deterministic font fitting scales down without operator intervention.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "col1_stat",
+      "type": "text",
+      "x": 72,
+      "y": 600,
+      "width": 288,
+      "height": 72,
+      "text": "0px",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "col1_label",
+      "type": "text",
+      "x": 72,
+      "y": 696,
+      "width": 288,
+      "height": 48,
+      "text": "REGION OVERLAP TOLERANCE",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "col1_body",
+      "type": "text",
+      "x": 72,
+      "y": 768,
+      "width": 288,
+      "height": 264,
+      "text": "Every bounding box is checked against all sibling text regions. Overlapping regions trigger instant rejection during intake preflight rather than silent corruption.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "col2_stat",
+      "type": "text",
+      "x": 456,
+      "y": 600,
+      "width": 288,
+      "height": 72,
+      "text": "12ms",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "col2_label",
+      "type": "text",
+      "x": 456,
+      "y": 696,
+      "width": 288,
+      "height": 48,
+      "text": "OFFLINE SATORI LATENCY",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "col2_body",
+      "type": "text",
+      "x": 456,
+      "y": 768,
+      "width": 288,
+      "height": 264,
+      "text": "Eliminating generative re-rolls at render time reduces compile cycles from minutes of paid GPU diffusion calls to milliseconds of local CPU vector rasterization.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "col3_stat",
+      "type": "text",
+      "x": 840,
+      "y": 600,
+      "width": 288,
+      "height": 72,
+      "text": "4 FONTS",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "col3_label",
+      "type": "text",
+      "x": 840,
+      "y": 696,
+      "width": 288,
+      "height": 48,
+      "text": "PINNED REPO PACKAGES",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "col3_body",
+      "type": "text",
+      "x": 840,
+      "y": 768,
+      "width": 288,
+      "height": 264,
+      "text": "All font faces are pinned in the repository tree under OFL licensing. Zero CDN dependencies, zero web font requests, and zero fallback glyph degradation.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "footer",
+      "type": "text",
+      "x": 48,
+      "y": 1080,
+      "width": 1104,
+      "height": 48,
+      "text": "XYZ Layout Engine · Hallmark Macrostructure 04 · Stat-Led · Distil Theme",
+      "role": "body",
+      "color": "muted",
+      "align": "left"
+    }
+  ]
+}

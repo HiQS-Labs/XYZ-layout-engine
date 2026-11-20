@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./tools/plugin-api.mjs",
+    "./package.json": "./package.json"
+  },
   "engines": {
     "node": ">=22.13"
   },

@@ -8,7 +8,7 @@ changes.
 
 | | |
 |---|---|
-| **Last audited** | 2026-11-20, working tree of the README-rewrite branch (README, docs and `package.json` changes included) |
+| **Last audited** | 2026-11-20, README-rewrite branch merged with `origin/main` at `e100f57` (adds Hallmark, Impeccable, `REVIEW/` and the public package API) |
 | **Method** | front-door walk: fresh clone of HEAD plus the new docs, Node v26.13.0 and v18.20.8, Chromium hidden, `npx --yes pnpm@{9,10,12}` |
 | **Verdict** | ✅ **Smooth** for the documented path: install, two renders and `pnpm test` work as written, with no accounts or keys. Four low or medium findings remain off the quick-start path. |
 
