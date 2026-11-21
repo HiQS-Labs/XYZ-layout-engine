@@ -1,0 +1,130 @@
+{
+  "normalized": {
+    "inputPath": "examples/2026-10-13-nutrition-infographic/fixture.json",
+    "width": 1000,
+    "height": 1000,
+    "format": "png,html,html-inline",
+    "formats": [
+      "png",
+      "html",
+      "html-inline"
+    ],
+    "backend": "playwright",
+    "scale": 1,
+    "recipe": "nutrition"
+  },
+  "catalog": {
+    "slug": "nutrition",
+    "version": "4.1.0",
+    "contentSha256": "851252d20d00c44a23e1646eb50dcd1520739e8cea3eead0eb8e515791e163c5",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "4.1.0",
+    "backend": "1.64.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "f06223e0e8c21ec417aa8880aa700521b5897c749d05eea34c0b452c7797d836",
+    "html": "9ffc4b2fa5682c40489727d746a99a348c6941cc8202dc4569c76a1b196cf0d4",
+    "html-inline": "dca4fd7c89e6e6e0c19b0891275211f756e6b51b9c5b5d0deb1fa8cf87f37cbf"
+  },
+  "provenance": {
+    "inputPath": "examples/2026-10-13-nutrition-infographic/fixture.json",
+    "inputSha256": "81b520e2aab87ddf937e685736e09ce3eac8ae297825014180a6caa1ed253e95",
+    "fixtureSha256": "895d93441f45a9bd3b0c99282d8f204592143c01e4177c0f6374c8b95db8668a",
+    "backend": "playwright"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 2,
+    "iterations": 1,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [
+          "benefit_1",
+          "benefit_3",
+          "benefit_4"
+        ],
+        "sizes": {
+          "header_headline": 66,
+          "header_subtitle": 36,
+          "header_caption": 19,
+          "callout_1_title": 23,
+          "callout_1_text": 19,
+          "callout_2_title": 23,
+          "callout_2_text": 19,
+          "item_1_title": 23,
+          "item_1_caption": 19,
+          "item_2_title": 23,
+          "item_2_caption": 19,
+          "item_3_title": 23,
+          "item_3_caption": 19,
+          "item_4_title": 23,
+          "item_4_caption": 19,
+          "benefit_1": 19,
+          "benefit_2": 19,
+          "benefit_3": 19,
+          "benefit_4": 19,
+          "footer_text": 23,
+          "footer_tagline": 19
+        }
+      },
+      {
+        "iteration": 1,
+        "overflowing": [],
+        "sizes": {
+          "header_headline": 66,
+          "header_subtitle": 36,
+          "header_caption": 19,
+          "callout_1_title": 23,
+          "callout_1_text": 19,
+          "callout_2_title": 23,
+          "callout_2_text": 19,
+          "item_1_title": 23,
+          "item_1_caption": 19,
+          "item_2_title": 23,
+          "item_2_caption": 19,
+          "item_3_title": 23,
+          "item_3_caption": 19,
+          "item_4_title": 23,
+          "item_4_caption": 19,
+          "benefit_1": 17,
+          "benefit_2": 19,
+          "benefit_3": 17,
+          "benefit_4": 17,
+          "footer_text": 23,
+          "footer_tagline": 19
+        }
+      }
+    ],
+    "finalSizes": {
+      "header_headline": 66,
+      "header_subtitle": 36,
+      "header_caption": 19,
+      "callout_1_title": 23,
+      "callout_1_text": 19,
+      "callout_2_title": 23,
+      "callout_2_text": 19,
+      "item_1_title": 23,
+      "item_1_caption": 19,
+      "item_2_title": 23,
+      "item_2_caption": 19,
+      "item_3_title": 23,
+      "item_3_caption": 19,
+      "item_4_title": 23,
+      "item_4_caption": 19,
+      "benefit_1": 17,
+      "benefit_2": 19,
+      "benefit_3": 17,
+      "benefit_4": 17,
+      "footer_text": 23,
+      "footer_tagline": 19
+    }
+  }
+}
