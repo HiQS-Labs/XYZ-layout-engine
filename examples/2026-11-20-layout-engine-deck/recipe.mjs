@@ -39,7 +39,7 @@ export function sceneFor(slide, theme, family = fontFamily, slideArt, background
 
   if (cover) {
     nodes.push({ type: 'img', props: { id: 'bookend-qr', src: bookendQr, width: 184, height: 184,
-      style: { position: 'absolute', right: 48, bottom: 36 } } });
+      style: { position: 'absolute', right: margin, bottom: 36 } } });
     if (slideArt && !background) {
       nodes.unshift({
         type: 'img',

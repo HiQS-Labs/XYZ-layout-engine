@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-21 — Align the overview deck’s QR codes
+
+- The welcome and thank-you slides now place the QR image on the horizontal divider’s right margin in both editions.
+
 ## 2026-11-21 — Present decks in full screen
 
 - Added fullscreen presentation controls to the shared viewer and repeatable release exports for both overview-deck themes.

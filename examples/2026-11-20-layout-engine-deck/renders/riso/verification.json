@@ -8,11 +8,11 @@
       "textCount": 4,
       "satori": {
         "headlineWidthPct": 36.3,
-        "pngSha256": "45211c007d71591e6e106f5e5d6328eca95dbe2a53b6ebeb49d5a606c7d688ca"
+        "pngSha256": "83e03dc705e7eabe9042afa6c86f21e8c79173be2e6dc9d0e623ad44db18fbd8"
       },
       "chromium": {
         "headlineWidthPct": 36.3,
-        "pngSha256": "2191a15480a91ea96c6f90f55b435604ecbe001d824965cea3501950e2b92e1d"
+        "pngSha256": "5da03cf6528019c910acfe917485d7098942974f85db2515eb2e4ae1d7483601"
       }
     },
     {
@@ -176,16 +176,16 @@
       "textCount": 5,
       "satori": {
         "headlineWidthPct": 20.5,
-        "pngSha256": "fc7f13e040e0e95d183d8d3176cc84523a65b6859ebd6b68b2e94e06d186480d"
+        "pngSha256": "39c343e84dc630f30b97b15a098c08be2ecb4a98ff5ca5b8967fd25cc8abfaef"
       },
       "chromium": {
         "headlineWidthPct": 20.5,
-        "pngSha256": "0c312e3e7218bba37fb4d1ca9748a11a007fd025201720e15101d79adeed689c"
+        "pngSha256": "58f62693c18d6a95faf70074aedb4b37183a154e27e8736c9004bae2f49d0b0e"
       }
     }
   ],
   "exports": {
-    "deck.html": "85e97c91dddfd1d4a88eba42b896907539834dac0984453c0c62301c3cf93071",
-    "deck.pdf": "53d4bfeb4f972f1a28d35c320bd5c47c352f4d74bca690b39172ff54d8bdb0ef"
+    "deck.html": "3b779c96551e8718cee70865962778fbe02af8cc9b97d5b5af8998b5022b1f1c",
+    "deck.pdf": "4596eb8bd4879379fca78272b1a86ec6cd8b8d7c4e932f68470ed5dbd7770fd3"
   }
 }

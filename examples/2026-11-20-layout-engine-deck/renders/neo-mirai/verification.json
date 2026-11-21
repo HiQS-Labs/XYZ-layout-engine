@@ -8,11 +8,11 @@
       "textCount": 4,
       "satori": {
         "headlineWidthPct": 38.6,
-        "pngSha256": "3e262d821ca90d2f2d3db2212093557ffd2cc06278788493f5726c3dbd38056e"
+        "pngSha256": "13164f4f82e38152e4f4868b301ac95a4807957ea991d68447568bd86a688bbb"
       },
       "chromium": {
         "headlineWidthPct": 38.6,
-        "pngSha256": "dfdf37bf97512d8f39fa14cd6921b01c7e48ec8c3ea1327e0ccf03a8c58087cc"
+        "pngSha256": "5a78461d0c5dd56f17b5423af5edf353855d601553b6d30d1232d0e63fa44dc9"
       }
     },
     {
@@ -176,16 +176,16 @@
       "textCount": 5,
       "satori": {
         "headlineWidthPct": 21.4,
-        "pngSha256": "87af4c42c4148bc6c0b535b23d6845b22dcc51a3b228a3fba133dfb7b77fefc7"
+        "pngSha256": "cf20fc4e417b0c69a677afd93337ef9c5ae2d2d0728e87a8e1b04c8744e64c3a"
       },
       "chromium": {
         "headlineWidthPct": 21.4,
-        "pngSha256": "27aca829a0ad2cf363ef3cfd9a36c38e650b2db684bfaea1c25174a41efa0902"
+        "pngSha256": "41d81d076ff8b1fa3acd27140b8b4a5184e806f20a56212cd34ad17a08241b60"
       }
     }
   ],
   "exports": {
-    "deck.html": "eec9be7a454993923d3954669db0252f18654004c5609a64bdf844b6944d9f5f",
-    "deck.pdf": "d5a63bb742540e6c00e9594f5621c6e59ba2d7e3df2342f1fc5e8b0eafe29601"
+    "deck.html": "df40ff61a58cf2abe30694ae046a7f031291448415520a7fd0ed43fcf92cbd73",
+    "deck.pdf": "1c9dd03657c425553a7bdc7b316719921cace26405511d32f725f819d54244f7"
   }
 }
