@@ -1,0 +1,78 @@
+{
+  "amber-transit.png": {
+    "provider": "higgsfield-cli",
+    "model": "gpt_image_2_5",
+    "variant": "flare",
+    "created_at": "2026-11-21T04:05:25.319477Z",
+    "params": {
+      "prompt": "Isolated architectural illustration for a future-design conference slide: a floating transit station with terraced brass platforms, slender ivory towers, an amber sun disc and two tiny human figures giving scale. Art directed as 1970s Japanese speculative architecture print, restrained warm cream, burnt vermilion and antique brass, precise ink contours, gentle print grain. Compact vertical silhouette with clearly open gaps and no clipping. Isolated subject on a transparent background, no backdrop, no ground shadow, no text, no signage or watermark.",
+      "quality": "medium",
+      "resolution": "1k",
+      "aspect_ratio": "1:1",
+      "background": "transparent"
+    },
+    "credits": {
+      "estimated": 0.5,
+      "measured": 0.5
+    },
+    "original": {
+      "sha256": "6021d12509418e220e7693de7c5b0c2ff1c4c855c550b57a218c4ac1b61dd452",
+      "bytes": 1240910,
+      "png": {
+        "colorType": 6,
+        "bitDepth": 8,
+        "hasTRNS": false,
+        "width": 1024,
+        "height": 1024
+      },
+      "real_alpha": true,
+      "transparentPixelRatio": 0.762688
+    }
+  },
+  "moon-observatory.png": {
+    "provider": "higgsfield-cli",
+    "model": "gpt_image_2_5",
+    "variant": "flare",
+    "created_at": "2026-11-21T04:06:16.500037Z",
+    "params": {
+      "prompt": "Isolated architectural illustration for the closing slide of a future-design conference: a small spiral observatory and elevated garden walkway, sculptural cream concrete, amber glass, a rust-red moon disc behind the structure and a traveler looking out. Art directed as 1970s Japanese speculative architecture print, antique brass highlights, precise ink contours and gentle print grain. Compact vertical silhouette, well-defined edges and no clipping. Isolated subject on a transparent background, no backdrop, no ground shadow, no text, no signage or watermark.",
+      "quality": "medium",
+      "resolution": "1k",
+      "aspect_ratio": "1:1",
+      "background": "transparent"
+    },
+    "credits": {
+      "estimated": 0.5,
+      "measured": 0.5
+    },
+    "original": {
+      "sha256": "2df1fc2671a57d5e38c90354b4436616ee39f05355ba7ef935c421fa98c3e50b",
+      "bytes": 1566445,
+      "png": {
+        "colorType": 6,
+        "bitDepth": 8,
+        "hasTRNS": false,
+        "width": 1024,
+        "height": 1024
+      },
+      "real_alpha": true,
+      "transparentPixelRatio": 0.635335
+    }
+  },
+  "maple-railway.png": {
+    "provider": "OpenAI image generation",
+    "description": "maple railway landscape inspired by the two supplied references",
+    "original": {
+      "file": "maple-railway.png",
+      "sha256": "e30c586a3ae7f77db7432dc2da2fce0e91125d23db92dbee398bdd808be4b8c2"
+    }
+  },
+  "eclipse-garden.png": {
+    "provider": "OpenAI image generation",
+    "description": "eclipse garden landscape inspired by the two supplied references",
+    "original": {
+      "file": "eclipse-garden.png",
+      "sha256": "bc303c4238a859a9a407d4d64e9d23308c319310ab8669ac971732008dcc63e3"
+    }
+  }
+}

@@ -1,4 +1,42 @@
 # Changelog
+
+## 2026-11-21 — Add technical specifications to the overview deck
+
+- Added a slide on JavaScript, Node.js, the rendering libraries and the SQLite recipe catalog before the closing slide in both editions.
+
+## 2026-11-20 — Show how XYZ Layout Engine fits a layout
+
+- Replaced the rover diagram on slide 7 with the local render loop and a real export from the nutrition recipe. Easy reversal.
+
+## 2026-11-20 — Repair the overview deck’s offline viewer
+
+- Encoded the HTML presentation frames as WebP and reused them across navigation, thumbnails and the grid. The first slide also renders with scripts disabled. Verified direct-file and inline Chromium navigation for both editions. Easy reversal.
+
+## 2026-11-20 — Illustrate a neural imaging pipeline
+
+- Added an editable scientific diagram with deterministic PNG views of a rover, a separate denoising input, and a LinkedIn link on the closing slide. Both editions now have thirteen slides. Easy reversal.
+
+## 2026-11-20 — Show the engine’s applications and illustrate alternating slides
+
+- Added “What XYZ LE is for” after the welcome slide and two original Japanese sci-fi landscapes to the Neo-Mirai theme. Both twelve-slide editions render from the shared JSON. Easy reversal.
+
+## 2026-11-20 — Use Neo-Mirai typography and original cover art
+
+- Embedded Chakra Petch, Zen Old Mincho and Azeret Mono for the reference’s display, prose and metadata roles. Added two transparent Higgsfield illustrations with verified alpha and pinned digests. Re-rendered all eleven slides in both backends. Easy reversal.
+
+## 2026-11-20 — Style the overview deck with Neo-Mirai
+
+- Made Neo-Mirai the default overview-deck theme with warm paper, deep teal and a vermilion bookend motif. Kept the eleven-slide JSON content and the optional Riso theme. Easy reversal.
+
+## 2026-11-20 — Present the design system integrations
+
+- Added a slide explaining Hallmark theme and layout adaptation and Impeccable HTML audits. Rendered the default and Riso editions with the same eleven-slide JSON source. Easy reversal.
+
+## 2026-11-20 — XYZ Layout Engine overview deck
+
+- Added a ten-slide example recipe with separate JSON copy and theme. It reuses both render backends, packages a PDF and offline HTML viewer, and publishes through `publishForReview`. Linked it from the README. Reversal is easy.
+- Verified ten slides in both renderers, an independent palette swap, and keyboard navigation in the relocated offline viewer. The existing four canaries passed.
+
 ## 2026-11-20 — FRONTDOOR FD-07 to FD-10 fixed; recipe patch versions
 
 - FD-09: removed the dead `mangajdm-promo` recipe branch from `tools/request.mjs` (its example was deleted in `d0113e7`; there is no recipe module). Such fixtures are now rejected at validation ("select a trusted nutrition, solar-system, recursive-process or design-intake recipe") instead of failing later with "unsupported recipe identity". `tools/request.mjs` is a declared file of `recursive-process` and `design-intake`, so both were published as patch versions: `recursive-process@6.0.1` and `design-intake@1.0.6`. Patch, not minor, because accepted requests are unchanged: the design-intake and Hallmark Bento PNG/SVG/HTML and the belief-reference SVG/HTML renders are byte-identical before and after.

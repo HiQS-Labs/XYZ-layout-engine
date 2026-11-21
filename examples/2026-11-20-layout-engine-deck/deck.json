@@ -1,0 +1,187 @@
+{
+  "slides": [
+    {
+      "id": "welcome",
+      "layout": "bookend",
+      "section": "Welcome",
+      "title": "XYZ Layout Engine",
+      "lead": "Reproducible graphics from structured data",
+      "note": "Presented by Noel Saw"
+    },
+    {
+      "id": "purpose",
+      "layout": "list",
+      "section": "Applications",
+      "title": "What XYZ LE is for",
+      "lead": "Three ways to use a layout recipe",
+      "items": [
+        { "title": "Infographics" },
+        { "title": "Diagrams" },
+        { "title": "Comic Book Panels" }
+      ]
+    },
+    {
+      "id": "problem",
+      "layout": "rows",
+      "section": "Problem statement",
+      "title": "Small edits can trigger a full redesign",
+      "lead": "Every revision creates another chance for layout drift.",
+      "items": [
+        { "title": "Generated images", "body": "Regenerating an image can change the composition and artwork along with the text." },
+        { "title": "Manual layout", "body": "Copying a design across formats or campaigns means rechecking alignment, spacing and line breaks." },
+        { "title": "Repeat production", "body": "Without a saved recipe and inputs, it is hard to reproduce an approved export." }
+      ]
+    },
+    {
+      "id": "solution",
+      "layout": "split",
+      "section": "How we are solving it",
+      "title": "Author once, render from inputs",
+      "lead": "The current MVP runs locally.",
+      "items": [
+        { "title": "Author the design", "body": "A designer or AI agent turns a brief into a trusted recipe, editable JSON and optional artwork." },
+        { "title": "Render the design", "body": "The engine validates inputs, fits text and embeds bundled fonts. Change the JSON to render the next version." }
+      ]
+    },
+    {
+      "id": "components",
+      "layout": "split",
+      "section": "Custom + off-the-shelf solutions",
+      "title": "Our recipes on proven renderers",
+      "lead": "Two backends share the same scene.",
+      "items": [
+        { "title": "XYZ Layout Engine", "body": "Recipe conventions, fixture validation, fitting, asset checks, catalog pins and export receipts." },
+        { "title": "Rendering backends", "body": "Satori lays out the scene and produces SVG. resvg rasterizes it. Playwright runs Chromium for browser rendering." }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "layout": "flow",
+      "section": "How it fits together",
+      "title": "The local rendering pipeline",
+      "lead": "This deck uses the same renderers as the infographic examples.",
+      "items": [
+        { "title": "JSON + assets", "body": "Copy, design inputs and artwork." },
+        { "title": "Trusted recipe", "body": "Builds the scene and defines its geometry." },
+        { "title": "Render backend", "body": "Satori + resvg or headless Chromium." },
+        { "title": "Artifacts", "body": "PNG, SVG or HTML, depending on the backend." }
+      ],
+      "note": "The standard render CLI also writes a receipt with digests and versions."
+    },
+    {
+      "id": "render-loop",
+      "layout": "render-loop",
+      "section": "Inside XYZ Layout Engine",
+      "title": "How the engine fits a layout",
+      "lead": "A render of the nutrition infographic, from JSON to PNG.",
+      "inputs": [
+        {
+          "title": "JSON fixture",
+          "body": "Copy, palette and artwork IDs"
+        },
+        {
+          "title": "Nutrition recipe",
+          "body": "Canvas, fonts and text regions"
+        }
+      ],
+      "stages": [
+        {
+          "title": "Build the scene",
+          "body": "Place the text and artwork."
+        },
+        {
+          "title": "Measure the text",
+          "body": "Check each text box."
+        }
+      ],
+      "retry": "Overflow? Shrink type and retry.",
+      "output": "Text fits",
+      "artifact": "Rendered PNG",
+      "receipt": "result.json records the fit and file digests.",
+      "note": "If text still overflows at the size or retry limit, the engine stops the render."
+    },
+    {
+      "id": "value",
+      "layout": "split",
+      "section": "Unique value proposition",
+      "title": "Keep approved art. Update the data.",
+      "lead": "Reuse the same composition across a series.",
+      "items": [
+        { "title": "For designers", "body": "Set the typography, spacing and artwork once. Change the visual treatment independently of the copy." },
+        { "title": "For repeat production", "body": "Feed updated copy or numbers into the same recipe and render offline from a checkout." }
+      ]
+    },
+    {
+      "id": "difference",
+      "layout": "rows",
+      "section": "Why it’s unique",
+      "title": "What makes a render reproducible",
+      "lead": "The inputs and render environment can be checked in and replayed.",
+      "items": [
+        { "title": "Editable inputs", "body": "Content is structured JSON. Recipe code defines the canvas, font and layout rules." },
+        { "title": "Versioned recipes", "body": "The catalog binds published recipe versions to SHA-256 digests of their declared files." },
+        { "title": "Offline rendering", "body": "Bundled fonts and local artwork keep the render independent of model calls and asset downloads." }
+      ]
+    },
+    {
+      "id": "future",
+      "layout": "rows",
+      "section": "Possible future features",
+      "title": "What could follow the local MVP",
+      "lead": "Product directions under consideration",
+      "items": [
+        { "title": "HTTP and MCP", "body": "Expose the same render operations to remote applications and agent tools." },
+        { "title": "Durable render jobs", "body": "Support queued work, retries and authorized access to finished artifacts." },
+        { "title": "Installed recipes", "body": "Discover trusted recipes from installed packages." }
+      ],
+      "note": "Proposals from SPECS-PRD"
+    },
+    {
+      "id": "use-cases",
+      "layout": "rows",
+      "section": "Actual real-world use cases",
+      "title": "Artwork, education and talks",
+      "lead": "Three projects with different output requirements",
+      "items": [
+        { "title": "MangaJDM t-shirt artwork", "body": "A reusable recipe turned existing artwork into three portrait social promos." },
+        { "title": "Nutrition infographic", "body": "An illustrated guide with a dedicated DESIGN.md style brief and reusable recipe." },
+        { "title": "A technical talk", "body": "“Stop Re-Rolling the Whole Image,” a ten-slide deck rendered with both backends." }
+      ],
+      "note": "Historical sources: GH-28, GH-44 and the October 13 changelog."
+    },
+    {
+      "id": "design-integrations",
+      "layout": "split",
+      "section": "Design system integrations",
+      "title": "Design patterns and quality checks",
+      "lead": "Hallmark informs the design. Impeccable audits the rendered HTML.",
+      "items": [
+        { "title": "Hallmark", "body": "Read layouts and themes from a local clone and adapt them into JSON. The Bento, Stat-Led and Skate Guide examples show the workflow." },
+        { "title": "Impeccable", "body": "Run the optional HTML audit to flag contrast, small text and cramped spacing. Use its design guidance to refine the recipe." }
+      ],
+      "note": "The Riso edition of this deck adapts the palette from the Hallmark Bento example."
+    },
+    {
+      "id": "tech-specs",
+      "layout": "rows",
+      "section": "Technical specifications",
+      "title": "What runs XYZ Layout Engine",
+      "lead": "The local engine runs on Node.js 22.13 or newer.",
+      "items": [
+        { "title": "Language and data", "body": "JavaScript ES modules define the recipes. JSON files supply the copy, layout inputs and palette." },
+        { "title": "Rendering", "body": "Satori produces SVG and resvg converts it to PNG. Playwright drives Chromium for browser rendering." },
+        { "title": "Recipe catalog", "body": "SQLite stores recipe versions and SHA-256 digests so the engine can verify the files used in a render." }
+      ],
+      "note": "Dependencies are pinned in the pnpm lockfile."
+    },
+    {
+      "id": "thanks",
+      "layout": "bookend",
+      "section": "XYZ Layout Engine",
+      "title": "Thank you",
+      "lead": "Explore the recipes and run the examples.",
+      "note": "https://github.com/HiQS-Labs/XYZ-layout-engine",
+      "profile": "https://www.linkedin.com/in/noelsaw"
+    }
+  ]
+}
