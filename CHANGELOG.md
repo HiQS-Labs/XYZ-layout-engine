@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-21 — Present decks in full screen
+
+- Added fullscreen presentation controls to the shared viewer and repeatable release exports for both overview-deck themes.
+
+## 2026-11-21 — Credit the event sponsors
+
+- Added a Sponsors slide before the closing page with venue and coffee credits and an original Higgsfield mug illustration.
+
+## 2026-11-21 — Add the presenter’s QR code to the deck
+
+- Placed the supplied QR on the welcome and thank-you slides in both editions.
+
 ## 2026-11-21 — Add technical specifications to the overview deck
 
 - Added a slide on JavaScript, Node.js, the rendering libraries and the SQLite recipe catalog before the closing slide in both editions.

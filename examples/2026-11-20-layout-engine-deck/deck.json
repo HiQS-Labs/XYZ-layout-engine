@@ -175,6 +175,16 @@
       "note": "Dependencies are pinned in the pnpm lockfile."
     },
     {
+      "id": "sponsors",
+      "layout": "sponsors",
+      "section": "Event acknowledgments",
+      "title": "Sponsors",
+      "items": [
+        { "title": "Event Space", "body": "BLANKSPACES Coworking" },
+        { "title": "Coffee", "body": "XYZ Layout Engine / Neochrome" }
+      ]
+    },
+    {
       "id": "thanks",
       "layout": "bookend",
       "section": "XYZ Layout Engine",

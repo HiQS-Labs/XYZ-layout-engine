@@ -74,5 +74,35 @@
       "file": "eclipse-garden.png",
       "sha256": "bc303c4238a859a9a407d4d64e9d23308c319310ab8669ac971732008dcc63e3"
     }
+  },
+  "coffee-mug.png": {
+    "provider": "higgsfield-cli",
+    "model": "gpt_image_2_5",
+    "variant": "flare",
+    "created_at": "2026-11-21T16:23:04.035374Z",
+    "params": {
+      "prompt": "Isolated ivory ceramic coffee mug with forest-green glaze on the handle and a round abstract botanical medallion, freshly poured black coffee visible from a three-quarter angle, Japanese architectural print texture, warm brass ink details. Transparent background, no backdrop, no shadow, no text or brand logos.",
+      "quality": "medium",
+      "resolution": "1k",
+      "aspect_ratio": "1:1",
+      "background": "transparent"
+    },
+    "credits": {
+      "estimated": 0.5,
+      "measured": 0.5
+    },
+    "original": {
+      "sha256": "cb699c9096481a893830e88451f520602199d5c9f7e204733a00327cc1b472b9",
+      "bytes": 1911919,
+      "png": {
+        "colorType": 6,
+        "bitDepth": 8,
+        "hasTRNS": false,
+        "width": 1024,
+        "height": 1024
+      },
+      "real_alpha": true,
+      "transparentPixelRatio": 0.403948
+    }
   }
 }

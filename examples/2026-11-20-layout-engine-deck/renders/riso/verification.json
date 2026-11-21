@@ -8,11 +8,11 @@
       "textCount": 4,
       "satori": {
         "headlineWidthPct": 36.3,
-        "pngSha256": "05f53939377720f1e44757bb6e2b345e3df16eeb6dff69f2e2cd7194c48ac350"
+        "pngSha256": "45211c007d71591e6e106f5e5d6328eca95dbe2a53b6ebeb49d5a606c7d688ca"
       },
       "chromium": {
         "headlineWidthPct": 36.3,
-        "pngSha256": "201bc26ca4d552c0dbccfbd9e57c04213d69e4c9b10f65cdb245ecee7353161a"
+        "pngSha256": "2191a15480a91ea96c6f90f55b435604ecbe001d824965cea3501950e2b92e1d"
       }
     },
     {
@@ -160,20 +160,32 @@
       }
     },
     {
+      "id": "sponsors",
+      "textCount": 6,
+      "satori": {
+        "headlineWidthPct": 18.4,
+        "pngSha256": "21ed17972522418e1d89cb76eca3bc05301b0cce6165283fd8ef648342797cfe"
+      },
+      "chromium": {
+        "headlineWidthPct": 18.4,
+        "pngSha256": "458335efd136d0676929900a33d8bfd03e0f00d1463a266e5f1281bbe5306651"
+      }
+    },
+    {
       "id": "thanks",
       "textCount": 5,
       "satori": {
         "headlineWidthPct": 20.5,
-        "pngSha256": "0fbc2aabbd78e41fc74b99de4438a7913748857f6f930f69ddff8534e3d39b98"
+        "pngSha256": "fc7f13e040e0e95d183d8d3176cc84523a65b6859ebd6b68b2e94e06d186480d"
       },
       "chromium": {
         "headlineWidthPct": 20.5,
-        "pngSha256": "d61b53952b9cdef774c340c8c3b54dcf7a9f2fc742145ae85013da4fd7cd46cb"
+        "pngSha256": "0c312e3e7218bba37fb4d1ca9748a11a007fd025201720e15101d79adeed689c"
       }
     }
   ],
   "exports": {
-    "deck.html": "94282e09f3455679dc06438a33c9087bfbbad2aa3205ee3c12efd1d3672a35ee",
-    "deck.pdf": "4152f959b4110a915dfaf102e89a18e9e6880cdfec9c68925aec548fad428f83"
+    "deck.html": "85e97c91dddfd1d4a88eba42b896907539834dac0984453c0c62301c3cf93071",
+    "deck.pdf": "53d4bfeb4f972f1a28d35c320bd5c47c352f4d74bca690b39172ff54d8bdb0ef"
   }
 }

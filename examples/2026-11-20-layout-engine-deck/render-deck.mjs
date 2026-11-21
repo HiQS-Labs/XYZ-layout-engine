@@ -1,10 +1,9 @@
 import assert from 'node:assert/strict';
-import { execFile } from 'node:child_process';
+import { buildViewer, viewerHtml } from '../../tools/deck-viewer.mjs';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
 import { launchPlaywright, renderPlaywright, renderSatori } from '../../tools/render.mjs';
 import { publishForReview } from '../../tools/review.mjs';
 import { fontFamily, height, sceneFor, width } from './recipe.mjs';
@@ -42,7 +41,7 @@ for (const directory of ['renders', 'chromium', 'slides']) {
 
 const dataUri = (type, bytes) => 'data:' + type + ';base64,' + Buffer.from(bytes).toString('base64');
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
-const bookendArt = new Map();
+const slideArt = new Map();
 const backgrounds = [];
 if (neoMirai) {
   const provenance = await readJson(new URL('assets/provenance.json', import.meta.url));
@@ -54,9 +53,15 @@ if (neoMirai) {
   for (const [id, file] of [['welcome', 'amber-transit.png'], ['thanks', 'moon-observatory.png']]) {
     const bytes = await fs.readFile(new URL('assets/' + file, import.meta.url));
     assert.equal(digest(bytes), provenance[file].original.sha256, file + ' asset digest mismatch');
-    bookendArt.set(id, dataUri('image/png', bytes));
+    slideArt.set(id, dataUri('image/png', bytes));
   }
 }
+const mugFile = 'coffee-mug.png';
+const mug = await fs.readFile(new URL('assets/' + mugFile, import.meta.url));
+const mugReceipt = (await readJson(new URL('assets/provenance.json', import.meta.url)))[mugFile];
+assert.equal(digest(mug), mugReceipt.original.sha256, 'Coffee mug digest mismatch');
+slideArt.set('sponsors', dataUri('image/png', mug));
+const bookendQr = dataUri('image/png', await fs.readFile(new URL('assets/bookend-qr.png', import.meta.url)));
 const nutritionPreview = dataUri('image/png', await fs.readFile(new URL(
   '../2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png', import.meta.url)));
 let profileLink;
@@ -68,9 +73,9 @@ try {
   const context = await browser.newContext({ viewport: { width, height } });
   const encoder = await context.newPage();
   for (const [index, slide] of slides.entries()) {
-    const background = backgrounds.length && !bookendArt.has(slide.id) && index % 2 === 1
+    const background = backgrounds.length && !slideArt.has(slide.id) && index % 2 === 1
       ? backgrounds[Math.floor(index / 2) % backgrounds.length] : undefined;
-    const { scene, textIds } = sceneFor(slide, theme, family, bookendArt.get(slide.id), background, nutritionPreview);
+    const { scene, textIds } = sceneFor(slide, theme, family, slideArt.get(slide.id), background, nutritionPreview, bookendQr);
     const satori = await renderSatori(scene, fonts, width, height, family);
     const chromium = await renderPlaywright(context, scene, fonts, width, height, family);
     assert.deepEqual(satori.missingSegments, [], slide.id + ' has missing glyphs');
@@ -151,32 +156,29 @@ await fs.writeFile(path.join(out, 'verification.json'), JSON.stringify({
   width, height, themeSha256: digest(JSON.stringify(theme)), slides: verification,
 }, null, 2) + '\n');
 await fs.writeFile(path.join(out, 'deck.json'), JSON.stringify({ title, width, height, slides: ids }));
-await promisify(execFile)(process.execPath, [path.join(root, 'tools/deck-viewer.mjs'), out]);
-// Keep the full-resolution PNGs for export. Embed each presentation frame in
-// the viewer's slide data and reuse it for the stage, thumbnails and grid.
-const html = await fs.readFile(path.join(out, 'index.html'), 'utf8');
-let offline = html
-  .replace(/"png":"renders\/([a-z0-9-]+)\.png"/g, (_, id) => '"png":"' + viewerFrames.get(id) + '"')
-  .replace(/(src|href)="renders\/([a-z0-9-]+)\.png"/g, (_, attr, id) => `data-frame-${attr}="${id}"`)
-  .replace('function show(k)', `
-const localFrames = new Map(S.map(slide => [slide.slug, slide.png]));
-for (const attr of ['src', 'href']) {
-  const key = 'data-frame-' + attr;
-  for (const element of document.querySelectorAll('[' + key + ']')) {
-    element.setAttribute(attr, localFrames.get(element.getAttribute(key)));
-  }
-}
-function show(k)`)
-  .replace('<img id="frame" ', '<img id="frame" src="' + viewerFrames.get(ids[0]) + '" ')
-  .replace('<div class="bar">', '<noscript><p>Open the <a href="deck.pdf">PDF edition</a> to view all slides.</p></noscript><div class="bar">');
-if (profileLink) {
-  const { id, url, x, y, w, h } = profileLink;
-  const css = `<style>.stage{position:relative}.profile-link{display:none;position:absolute;left:${100*x/width}%;top:${100*y/height}%;width:${100*w/width}%;height:${100*h/height}%}.stage:has(#frame[alt^="Slide ${id}:"]) .profile-link{display:block}</style>`;
-  offline = offline.replace('</head>', css + '</head>').replace('</a></div>\n<p class="caption">',
-    `</a><a class="profile-link" href="${url}" aria-label="Noel Saw on LinkedIn"></a></div>\n<p class="caption">`);
-}
+const model = await buildViewer(out);
+const relative = filename => filename;
+await fs.writeFile(path.join(out, 'index.html'), viewerHtml(model, relative));
+const offline = viewerHtml(model, relative, {
+  frames: viewerFrames,
+  link: profileLink && { ...profileLink, label: 'Noel Saw on LinkedIn' },
+});
 const viewer = path.join(out, 'deck.html');
 await fs.writeFile(viewer, offline);
+if (process.argv.includes('--release')) {
+  const edition = neoMirai ? 'neo-mirai' : 'riso';
+  const releaseDir = fileURLToPath(new URL('renders/' + edition + '/', import.meta.url));
+  await fs.mkdir(releaseDir, { recursive: true });
+  const exports = {};
+  for (const filename of ['deck.html', 'deck.pdf']) {
+    const bytes = await fs.readFile(path.join(out, filename));
+    exports[filename] = digest(bytes);
+    await fs.writeFile(path.join(releaseDir, filename), bytes);
+  }
+  const receipt = await readJson(path.join(out, 'verification.json'));
+  await fs.writeFile(path.join(releaseDir, 'verification.json'),
+    JSON.stringify({ ...receipt, exports }, null, 2) + '\n');
+}
 if (publish) {
   console.log(await publishForReview('layout-engine-deck', [
     path.join(out, 'deck.pdf'), viewer,

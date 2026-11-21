@@ -223,7 +223,7 @@ renders plus a `verification.json`)
 | [The vibe-coding loop](examples/2026-10-17-vibe-coding-loop/README.md), a slide with pinned PNG cutouts | `node examples/2026-10-17-vibe-coding-loop/render-diagram.mjs` |
 | [XYZ Forge diagrams](examples/xyz-forge/README.md), three diagrams under `today/` and `future/` | `node examples/xyz-forge/today/system-v1/render-diagram.mjs` (see its README for all three) |
 | [Talk deck "Stop Re-Rolling the Whole Image"](examples/2026-10-29-talk-deck/README.md), ten 1920×1080 slides with a [browsable viewer](examples/2026-10-29-talk-deck/index.html) | `node examples/2026-10-29-talk-deck/render-deck.mjs`, then `deck-pdf.mjs` and `node tools/deck-viewer.mjs examples/2026-10-29-talk-deck` |
-| [XYZ Layout Engine overview deck](examples/2026-11-20-layout-engine-deck/README.md), fourteen slides with editable copy and theme, PDF and offline HTML | `node examples/2026-11-20-layout-engine-deck/render-deck.mjs` |
+| [XYZ Layout Engine overview deck](examples/2026-11-20-layout-engine-deck/README.md), fifteen slides with editable copy and theme, PDF and offline HTML | `node examples/2026-11-20-layout-engine-deck/render-deck.mjs` |
 
 Scripts that make a Chromium render need Playwright's Chromium installed. The XYZ Forge README notes
 those scripts must run outside the Claude Code macOS sandbox.

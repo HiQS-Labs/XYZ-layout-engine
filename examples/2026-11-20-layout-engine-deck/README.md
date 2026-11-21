@@ -1,6 +1,6 @@
 # XYZ Layout Engine overview deck
 
-Fourteen 16:9 slides for a live introduction by Noel Saw. The deck presents the local MVP, then labels
+Fifteen 16:9 slides for a live introduction by Noel Saw. The deck presents the local MVP, then labels
 possible future features separately. It also demonstrates how the same recipe can render updated
 copy or a different palette.
 
@@ -22,7 +22,20 @@ alongside the HTML to use the viewer's PDF link. The HTML contains its own slide
 navigation works without the PDF or a network connection. Use the arrow keys to present or **G**
 to see all slides.
 
-Slide 7 traces the local render loop using the [nutrition fixture](../2026-10-13-nutrition-infographic/fixture.json) and its [version 4 Satori output](../2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png). The [render operation](../../tools/render.mjs) validates the fixture, builds the scene, measures text and retries with smaller type for overflowing labels. The diagram’s connectors are recipe geometry and its labels live in the deck JSON. Slide 13 covers the local runtime, rendering libraries and recipe catalog. The closing slide links to Noel Saw’s LinkedIn profile in both exports.
+Slide 7 traces the local render loop using the [nutrition fixture](../2026-10-13-nutrition-infographic/fixture.json) and its [version 4 Satori output](../2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png). The [render operation](../../tools/render.mjs) validates the fixture, builds the scene, measures text and retries with smaller type for overflowing labels. The diagram’s connectors are recipe geometry and its labels live in the deck JSON. Slide 13 covers the local runtime, rendering libraries and recipe catalog. Slide 14 credits the event space and coffee sponsors. Both bookends display the supplied QR code at bottom right. The closing slide links to Noel Saw’s LinkedIn profile in both exports.
+
+## Presenting and rebuilding
+
+Open a downloaded `deck.html` in a standalone browser. Click **Full screen** or press **F**. Use the arrow keys, or click the left or right half of the slide, to navigate. Press **F** or **Esc** to leave full screen. Embedded file viewers may restrict browser fullscreen permission.
+
+From the repository root, rebuild the two checked-in editions and their SHA-256 receipts:
+
+```sh
+node examples/2026-11-20-layout-engine-deck/render-deck.mjs --release
+THEME=examples/2026-11-20-layout-engine-deck/theme-riso.json OUT_DIR=temp/layout-engine-deck-riso node examples/2026-11-20-layout-engine-deck/render-deck.mjs --release
+```
+
+The shared viewer generator accepts embedded frames directly. The source deck, both themes, fonts and artwork are checked in. PDF creation metadata may vary between builds.
 
 ## Editing
 
@@ -32,7 +45,7 @@ headings, Zen Old Mincho for prose, and Azeret Mono for metadata. The
 [font sources and licenses](../../tools/fonts/neo-mirai/SOURCE.md) and
 [art generation receipts](assets/provenance.json) are bundled locally.
 
-- [deck.json](deck.json) owns the fourteen slides, their order, copy and layout choices.
+- [deck.json](deck.json) owns the fifteen slides, their order, copy and layout choices.
 - [theme.json](theme.json) owns the palette, font profile, type ratios, weights and line heights.
 - [recipe.mjs](recipe.mjs) owns the canvas, font family, spacing and six reusable layouts.
 - [render-deck.mjs](render-deck.mjs) renders the scenes with the shared Satori and Playwright
@@ -92,6 +105,6 @@ prose and metadata roles from the source design. Azeret Mono is used only for sh
 
 On slide 7 the headline spans 57.3% of the Neo-Mirai canvas in both backends. Arrows join the two inputs, trace the overflow retry and lead to the real nutrition export. The 234 px print thumbnail is an output sample, with the readable explanation alongside it (AS-8).
 
-Both backends passed glyph, bounds and text-overlap checks on all fourteen slides. The bookend
+Both backends passed glyph, bounds and text-overlap checks on all fifteen slides. The bookend
 art was inspected at full size over the dark teal canvas. Both source PNGs passed real-alpha
 verification, with their digests checked again during rendering.

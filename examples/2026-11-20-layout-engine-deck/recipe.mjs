@@ -12,7 +12,7 @@ function box(id, x, y, width, style, children) {
     left: x, top: y, width, ...style }, children } };
 }
 
-export function sceneFor(slide, theme, family = fontFamily, bookendArt, background, nutritionPreview) {
+export function sceneFor(slide, theme, family = fontFamily, slideArt, background, nutritionPreview, bookendQr) {
   const { palette, type } = theme;
   const cover = slide.layout === 'bookend';
   const ink = cover ? palette.coverInk : palette.ink;
@@ -33,15 +33,18 @@ export function sceneFor(slide, theme, family = fontFamily, bookendArt, backgrou
   const nodes = [
     text('section', slide.section, 'label', margin, cover ? 144 : 56, content, accent),
     text('headline', slide.title, 'headline', margin, cover ? 200 : 88, headlineWidth),
-    text('lead', slide.lead, 'section', margin, cover ? 352 : slide.layout === 'render-loop' ? 175 : 248, content, muted, type.body.weight),
   ];
+  if (slide.lead) nodes.push(text('lead', slide.lead, 'section', margin,
+    cover ? 352 : slide.layout === 'render-loop' ? 175 : 248, content, muted, type.body.weight));
 
   if (cover) {
-    if (bookendArt && !background) {
+    nodes.push({ type: 'img', props: { id: 'bookend-qr', src: bookendQr, width: 184, height: 184,
+      style: { position: 'absolute', right: 48, bottom: 36 } } });
+    if (slideArt && !background) {
       nodes.unshift({
         type: 'img',
         props: {
-          id: 'bookend-art', src: bookendArt, width: 392, height: 392,
+          id: 'bookend-art', src: slideArt, width: 392, height: 392,
           style: { position: 'absolute', left: 814, top: 74 },
         },
       });
@@ -85,6 +88,15 @@ export function sceneFor(slide, theme, family = fontFamily, bookendArt, backgrou
         height: 234, style: { position: 'absolute', left: 908, top: 238 } } },
       text('artifact', slide.artifact, 'section', 908, 486, 287),
       text('receipt', slide.receipt, 'label', 908, 532, 290, muted));
+  } else if (slide.layout === 'sponsors') {
+    slide.items.forEach(({ title, body }, index) => {
+      const y = 260 + index * 154;
+      nodes.push(rule('credit-rule-' + index, margin, y, 565),
+        text('credit-role-' + index, title, 'label', margin, y + 16, 565, accent),
+        text('credit-name-' + index, body, 'section', margin, y + 55, 575, ink, type.body.weight));
+    });
+    nodes.push({ type: 'img', props: { id: 'coffee-mug', src: slideArt, width: 430, height: 430,
+      style: { position: 'absolute', left: 715, top: 156 } } });
   } else if (slide.layout === 'list') {
     slide.items.forEach(({ title }, index) => {
       nodes.push(text('item-' + index, title, 'section', margin, 336 + index * 74, 640));
