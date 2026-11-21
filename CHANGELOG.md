@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-21 — Assemble the Astra nutrition poster
+
+- Added a replayable assembly with lettering, artwork and an optional JavaScript/CSS layout sheet that uses measured poster geometry. The animation lands on the live nutrition v4.1 poster, with a manual slider, configurable timing, WebM and still-frame exports.
+
+## 2026-11-21 — Animate the Neon imaging diagram
+
+- Added a simplified presentation fork with a recipe switch for staggered entrances, an offline replayable HTML view and a settled PNG export.
+
 ## 2026-11-21 — Illustrate the nutrition poster’s render paths
 
 - Added an editable exploded-view example showing how the JavaScript recipe places text and artwork, and how Satori and Chromium render the styled scene. Preserved the first benchmark image alongside the revision.

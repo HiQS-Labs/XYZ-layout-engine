@@ -20,6 +20,28 @@ The accent identifies the art plane and its annotation system. Open labels repla
 
 The lower diagram traces the numeric leaf placement from the nutrition recipe into its styled scene and shows the two alternative render paths. Chromium also uses Satori for a pinned-font coverage check on the first pass. The shared HTML exporter can serialize the scene with either backend. The diagram itself renders with Chromium. The [first independent benchmark output](benchmark/astra-high-first-pass.png) preserves the result before this follow-up art direction.
 
+## Astra assembly animation
+
+[Play the interactive assembly](astra-assembly/index.html), [watch the video](astra-assembly/assembly.webm), or [open the assembled frame](astra-assembly/assembled.png). The lettering sheet and the artwork sheet start in Astra’s exploded perspective. A third sheet slides between them to show the JavaScript recipe’s leaf coordinates and the resulting inline CSS. Its dashed outline marks the real image box. The sheets turn face-on and converge as the leaf and each food illustration return to their slots in the nutrition v4.1 HTML. The final poster has selectable text.
+
+Use the slider to inspect a placement mid-flight, or pause and replay the sequence. Set `autoAssemble`, `holdMs` and `assemblyMs` in [recipe.json](astra-assembly/recipe.json). Set `showStyleLayer` to `false` to play the earlier two-sheet sequence. Reduced-motion viewers start on the assembled poster and can step through the exploded and layout views. From the repository root, rebuild the offline HTML, WebM and PNG with:
+
+```sh
+node examples/2026-11-21-imaging-layer-pipeline/astra-assembly/render.mjs
+```
+
+## Neon motion variant
+
+[Open the animated diagram](neon-motion/index.html) or [view the static poster](neon-motion/poster.png). This presentation fork reuses the three planes from the [Gemini Neon submission](benchmark/runs/gemini-4-neon-xhigh/output/index.html). The original submission remains available for grading.
+
+Set `entranceAnimation` in [recipe.json](neon-motion/recipe.json) to `true` for the alternating entrances and replay button, or `false` for a static HTML diagram. The same file owns the captions, palette and type scale. From the repository root, rebuild and publish both outputs with:
+
+```sh
+node examples/2026-11-21-imaging-layer-pipeline/neon-motion/render.mjs
+```
+
+The 2.5-second sequence introduces layout, lettering, artwork and the finished poster, followed by the two alternative PNG render paths. The HTML embeds its fonts and images and reflows into two columns on a phone. Reduced-motion preferences, printing and the PNG export show the settled composition.
+
 ## Running a blind benchmark
 
 Extract [the handout](benchmark/handout.zip) in a fresh workspace for each run. Give the model only that workspace, the included prompt, and a preconfigured Node.js/Playwright/Chromium runtime. Keep the evaluation and prior outputs outside the workspace. Use filesystem isolation and disable network access when the boundary must be enforced by the harness.
