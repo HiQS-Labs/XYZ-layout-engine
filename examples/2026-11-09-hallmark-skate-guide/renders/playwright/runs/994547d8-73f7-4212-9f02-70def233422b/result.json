@@ -1,6 +1,6 @@
 {
   "normalized": {
-    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
+    "inputPath": "examples/2026-11-09-hallmark-skate-guide/fixture.json",
     "width": 1200,
     "height": 1600,
     "format": "png,html,html-inline",
@@ -15,12 +15,12 @@
   },
   "catalog": {
     "slug": "design-intake",
-    "version": "1.0.5",
-    "contentSha256": "1d4399a6bddca3e415eabd161b27a3c623e74b8b3853ab34805330951f71a24c",
+    "version": "1.0.6",
+    "contentSha256": "5f892c837b19d3afac00e79f914e29f1574f9cad8689295994e6c2970c346ccd",
     "verified": true
   },
   "versions": {
-    "recipe": "1.0.5",
+    "recipe": "1.0.6",
     "backend": "1.64.0"
   },
   "validation": {
@@ -33,7 +33,7 @@
     "html-inline": "59d94459e98c7a4507adbfa3acc0206743a814f993a9fbc16984f219961e206c"
   },
   "provenance": {
-    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-skate-guide/fixture.json",
+    "inputPath": "examples/2026-11-09-hallmark-skate-guide/fixture.json",
     "inputSha256": "e01daf4ec4732ff447b613dee736d79c2b57789ed19afbe6d7c500d90e3f9053",
     "fixtureSha256": "e01093f68234c37967f949759a647904fbc6ec0ed2bdedd791f4e089798fa65c",
     "backend": "playwright"

@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "observations": [
+    ["headline", 6, "A blind reader can identify the fixture headline as the place to edit the words."],
+    ["artwork", 6, "A blind reader can identify the illustration asset or asset ID as the way to replace the leaf."],
+    ["placement", 8, "A blind reader can point to one actual nutrition recipe property and correctly predict the visible effect of editing it."],
+    ["scene", 8, "The diagram puts the recipe in Node.js at render time and connects its styled scene to CSS in the exported HTML."],
+    ["satori", 6, "The reader correctly traces the Satori path through SVG, with resvg rasterizing SVG for PNG."],
+    ["chromium", 6, "The reader correctly traces Playwright driving Chromium to lay out HTML and capture PNG."],
+    ["delivery", 5, "The reader can distinguish selectable text in offline HTML from pixels in a PNG and understands either backend can export HTML."],
+    ["depth", 8, "At least two distinguishable planes or equivalent depth cues visually relate recognizable parts of the nutrition poster."],
+    ["annotation", 6, "At 400 CSS pixels wide, the reviewer can associate two legible annotations with the correct pictured components, without zoom."],
+    ["visualInference", 6, "With explanatory prose covered, a blind reader can point to two separate components and explain one relationship that the composition communicates."],
+    ["rebuild", 10, "In an isolated fresh copy of the packet, the documented single command regenerates both deliverables after the exported files are moved aside."],
+    ["edit", 5, "In that isolated copy, one caption edit followed by the same render command changes the visible caption in both outputs."]
+  ]
+}

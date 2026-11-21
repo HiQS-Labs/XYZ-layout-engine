@@ -1,0 +1,19 @@
+{
+  "width": 1000,
+  "height": 1470,
+  "theme": {
+    "palette": {
+      "ink": "#172f29",
+      "paper": "#faf5dd",
+      "accent": "#d3ec76",
+      "rule": "#819588"
+    }
+  },
+  "headline": "Anatomy of a poster",
+  "textNote": "Edit the headline in the fixture. The new words flow into the HTML heading on the next render.",
+  "artNote": "Choose another illustration for the hero slot. Its transparent edges let the page show through.",
+  "recipeNote": "In Node.js, the nutrition recipe combines the words and images into one scene. The HTML export turns style properties such as the leaf’s width and position into CSS.",
+  "outputNote": "With either backend, the engine can also export the fitted scene as offline HTML with selectable text and embedded artwork.",
+  "satoriNote": "Satori lays out the scene and draws it as SVG. For PNG output, resvg rasterizes that SVG.",
+  "chromiumNote": "Playwright opens the styled HTML in Chromium. The browser lays out the page and captures a PNG."
+}

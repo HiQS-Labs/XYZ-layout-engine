@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anatomy of a poster · XYZ Layout Engine</title>
+<style>
+@font-face{font-family:B;src:url({{regular}})}@font-face{font-family:B;font-weight:700;src:url({{bold}})}
+*{box-sizing:border-box}body{margin:0;background:{{ink}};color:{{paper}};font:{{body}}/1.22 B,sans-serif}
+main{width:{{width}}px;height:{{height}}px;position:relative;overflow:hidden;margin:auto;background:{{ink}}}
+header,.notes,footer{padding:0 48px}.mast{display:flex;justify-content:space-between;padding:23px 0 11px;border-bottom:1px solid {{rule}};font-weight:700;letter-spacing:.06em}
+.accent,.part{color:{{accent}}}h1{font-size:{{display}};line-height:1;margin:15px 0 0;letter-spacing:-.025em}
+.scene{position:relative;height:450px;perspective:1600px;perspective-origin:0 55%}
+.sheet{position:absolute;transform:rotateY(-36deg) skewY(-10deg);border:2px solid {{paper}};background:rgba(250,245,221,.74)}
+.type{width:380px;height:340px;left:107px;top:61px;background:#e1e4c6}.type img{width:100%;height:100%}
+.art{width:391px;height:349px;left:459px;top:52px;background:rgba(211,236,118,.12);border-color:{{accent}}}
+.leaf{position:absolute;height:86%;width:78%;object-fit:contain;top:0;left:10%;opacity:.94;mask-image:radial-gradient(ellipse closest-side,#000 78%,transparent 113%)}
+.foods{position:absolute;display:flex;bottom:3%;left:4%;width:92%;height:22%}.foods img{width:25%;object-fit:contain;opacity:.83}
+.guide{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding-bottom:30px}
+h2{font-size:{{heading}};line-height:1.08;margin:0 0 8px}p{margin:0}.part{margin-right:10px}footer{background:{{paper}};color:{{ink}};position:absolute;bottom:0;width:100%;height:682px;padding:30px 48px}
+.build{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+pre{margin:0;background:{{ink}};color:{{accent}};padding:15px 20px;font:20px/1.4 monospace}
+.flow{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:48px;padding-top:42px;margin:10px 0 21px}
+.flow::before{content:"";position:absolute;top:0;height:20px;left:50%;border-left:2px solid {{ink}}}
+.flow::after{content:"";position:absolute;top:20px;height:16px;left:24%;right:24%;border:2px solid {{ink}};border-bottom:0}
+.result{border-top:1px solid {{rule}};display:grid;grid-template-columns:1fr 208px;gap:28px;padding-top:16px;align-items:center}
+figure{margin:0}figure img{display:block;width:100%}figcaption{margin-top:5px;text-align:center;font-size:19px}
+</style><main>
+<header><div class="mast"><span>XYZ LAYOUT ENGINE</span><span class="accent">EXPLODED VIEW / NUTRITION v4.1</span></div><h1>{{title}}</h1></header>
+<section class="scene" aria-label="Exploded schematic separating poster lettering and illustration">
+<svg class="guide" viewBox="0 0 1000 450" aria-hidden="true"><path d="M74 154L899 18 M74 343L899 390" fill="none" stroke="{{rule}}" stroke-dasharray="5 7"/></svg>
+<div class="sheet type"><img alt="Lettering isolated from the Fuel Well. Live Well. poster" src="{{lettering}}"></div>
+<div class="sheet art"><img alt="Translucent leaf from the nutrition poster" class="leaf" src="{{leaf}}"><div class="foods">{{foods}}</div></div>
+<svg class="guide" viewBox="0 0 1000 450" aria-hidden="true"><g fill="none" stroke="{{accent}}" stroke-width="2"><path d="M221 99H72V438 M706 225H883V408H547V438"/></g><g fill="{{ink}}" stroke="{{accent}}" stroke-width="3"><circle cx="221" cy="99" r="6"/><circle cx="706" cy="225" r="6"/></g></svg>
+</section>
+<section class="notes"><div><h2><span class="part">A</span> Change the words</h2><p>{{text}}</p></div><div><h2><span class="part">B</span> Swap the leaf</h2><p>{{art}}</p></div></section>
+<footer>
+<div class="build"><div><h2>JavaScript builds the styled scene</h2><p>{{recipe}}</p></div>
+<pre aria-label="Leaf placement in the nutrition recipe">hero_img · style
+position: 'absolute'
+left: 262, top: -34
+width: 428, height: 640</pre></div>
+<div class="flow" aria-label="Two render paths from one scene">
+<section><h2>Satori + resvg</h2><p>{{satori}}</p></section>
+<section><h2>Playwright + Chromium</h2><p>{{chromium}}</p></section></div>
+<div class="result"><div><h2>What the viewer opens</h2><p>{{output}}</p></div><figure><img src="{{poster}}" alt="Finished Fuel Well. Live Well. nutrition poster"><figcaption>Chromium PNG</figcaption></figure></div>
+</footer>
+</main>
+<script>function fit(){document.querySelector('main').style.zoom=Math.min(1,innerWidth/{{width}})}fit();addEventListener('resize',fit)</script></html>
