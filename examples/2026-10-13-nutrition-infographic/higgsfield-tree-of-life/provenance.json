@@ -1,0 +1,1369 @@
+{
+  "assets": [
+    {
+      "asset": "tree",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Majestic single botanical tree of life, rounded green canopy, braided tawny trunk and an intricate fan of exposed roots, vertical silhouette, whole tree including roots. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "98ba0205-c2c5-4a29-a3c6-fb789eca4e89",
+      "created_at": "2026-11-21T19:27:45.232266Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 459,
+        "balance_after": 458.5
+      },
+      "original": {
+        "file": "tree.png (raw download not committed)",
+        "sha256": "4c087a3d8cd06d7f2aa60d8ad7364bb619d0e6613f3fcf25e55c4502593d1289",
+        "bytes": 1846481,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "tree.png",
+          "format": "png",
+          "bytes": 1846481,
+          "sha256": "4c087a3d8cd06d7f2aa60d8ad7364bb619d0e6613f3fcf25e55c4502593d1289",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "partialAlphaPixels": 484902,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.537561,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/tree.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          146,
+          0,
+          877,
+          1024
+        ],
+        "max_dimension": 768,
+        "inspection": {
+          "file": "tree.png",
+          "format": "png",
+          "bytes": 810300,
+          "sha256": "3b4f02788ff38163e57186866289410dc278a0c9e3e0e79d2b607cd19d128b5a",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 548,
+            "height": 768
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 548,
+            "height": 768,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 270604,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.356652,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "scale",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Balanced antique green two-pan scale holding avocado, berries and leafy greens on left and salmon and chickpeas on right. Both pans level. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "950cc807-11a5-4407-8bc8-e461b6e8150e",
+      "created_at": "2026-11-21T19:28:05.109038Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 458.5,
+        "balance_after": 458
+      },
+      "original": {
+        "file": "scale.png (raw download not committed)",
+        "sha256": "467102384e93c02281dcff48489c58cf5b558e82250855c8f5f8eaba2c92a933",
+        "bytes": 1463928,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "scale.png",
+          "format": "png",
+          "bytes": 1463928,
+          "sha256": "467102384e93c02281dcff48489c58cf5b558e82250855c8f5f8eaba2c92a933",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 354019,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.662381,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/scale.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          9,
+          137,
+          1016,
+          929
+        ],
+        "max_dimension": 512,
+        "inspection": {
+          "file": "scale.png",
+          "format": "png",
+          "bytes": 255747,
+          "sha256": "f91348bc5fdb970019ae0be8b75a9c6513769d7f327838604715c9b75070c7fb",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 512,
+            "height": 403
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 512,
+            "height": 403,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 89665,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.558565,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "warning",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "A red soda cup with straw, chip bag and chocolate doughnut grouped together crossed by a bold muted vermilion prohibition ring and diagonal slash. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "cea2f42a-d0fd-41dd-be66-90725f911771",
+      "created_at": "2026-11-21T19:28:26.122725Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 458,
+        "balance_after": 457.5
+      },
+      "original": {
+        "file": "warning.png (raw download not committed)",
+        "sha256": "f6e0335a1819162cc6702c38d8a67969ba08cd77a51c9b90f670bd3322874365",
+        "bytes": 1636215,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "warning.png",
+          "format": "png",
+          "bytes": 1636215,
+          "sha256": "f6e0335a1819162cc6702c38d8a67969ba08cd77a51c9b90f670bd3322874365",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 517758,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.506227,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/warning.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          67,
+          49,
+          940,
+          941
+        ],
+        "max_dimension": 512,
+        "inspection": {
+          "file": "warning.png",
+          "format": "png",
+          "bytes": 410060,
+          "sha256": "39f5c50fd300cd646ecb5604c808420a264096ebc666fde647af96153cbd8494",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 501,
+            "height": 512
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 501,
+            "height": 512,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 168719,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.33239,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "parfait",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Lidded glass parfait jar showing distinct layers of oats, yogurt, strawberries and blueberries. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "19ccdcc3-e4c6-42e2-b064-dee8169f07c6",
+      "created_at": "2026-11-21T19:28:45.981657Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 457.5,
+        "balance_after": 457
+      },
+      "original": {
+        "file": "parfait.png (raw download not committed)",
+        "sha256": "578225293ab56ccbdc129474b39dd61c43c9d21aa3446df3cbfff1277c6783a8",
+        "bytes": 1650130,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "parfait.png",
+          "format": "png",
+          "bytes": 1650130,
+          "sha256": "578225293ab56ccbdc129474b39dd61c43c9d21aa3446df3cbfff1277c6783a8",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 413792,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.605377,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/parfait.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          264,
+          19,
+          758,
+          1005
+        ],
+        "max_dimension": 320,
+        "inspection": {
+          "file": "parfait.png",
+          "format": "png",
+          "bytes": 123189,
+          "sha256": "ef12048a97602c9ff81085e5393e3f6834bdefcaa4216c5a142dd06c22bd176e",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 160,
+            "height": 320
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 160,
+            "height": 320,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 42542,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.157676,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "container",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Open clear rectangular portable snack box holding grapes on one side and mixed nuts on the other, three-quarter view. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "ecd084c9-9cde-4dc3-aa9e-c9baf801c74c",
+      "created_at": "2026-11-21T19:29:03.459247Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 457,
+        "balance_after": 456.5
+      },
+      "original": {
+        "file": "container.png (raw download not committed)",
+        "sha256": "2fbd8cffd1b6f3fe0c8168021562425b08a337d43b22a824818c5094e1b2f5b4",
+        "bytes": 1816947,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "container.png",
+          "format": "png",
+          "bytes": 1816947,
+          "sha256": "2fbd8cffd1b6f3fe0c8168021562425b08a337d43b22a824818c5094e1b2f5b4",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 519558,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.504511,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/container.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          29,
+          181,
+          996,
+          865
+        ],
+        "max_dimension": 320,
+        "inspection": {
+          "file": "container.png",
+          "format": "png",
+          "bytes": 158577,
+          "sha256": "e90356a0ec4a6cc023f3d42ff09d73d60f68f7cbbed73398025710eef6e3125b",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 320,
+            "height": 226
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 320,
+            "height": 226,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 56291,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.213468,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "wrap",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Two halves of a chicken wrap in a toasted tortilla showing green lettuce, tomatoes and grilled chicken, lying horizontally. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "db389aff-269e-4973-b120-43d2182b1d2e",
+      "created_at": "2026-11-21T19:29:22.874558Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 456.5,
+        "balance_after": 456
+      },
+      "original": {
+        "file": "wrap.png (raw download not committed)",
+        "sha256": "b73878355c078790d0d8d2fa51a5fd7974b1f8392a1f7b788493b5e101fc1b5f",
+        "bytes": 1391494,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "wrap.png",
+          "format": "png",
+          "bytes": 1391494,
+          "sha256": "b73878355c078790d0d8d2fa51a5fd7974b1f8392a1f7b788493b5e101fc1b5f",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 339825,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.675918,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/wrap.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          14,
+          277,
+          1011,
+          737
+        ],
+        "max_dimension": 320,
+        "inspection": {
+          "file": "wrap.png",
+          "format": "png",
+          "bytes": 109603,
+          "sha256": "a8d0134f5e1a22e85c536a1be3ed161cc98b35e4eccc9924bd489bb7dee2a6fd",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 320,
+            "height": 148
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 320,
+            "height": 148,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 34603,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.257622,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "bottle",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Upright sage-green reusable steel water bottle with a dark loop cap and small cream water droplet emblem. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "8fe7b031-8906-424a-898b-6ba6cd401062",
+      "created_at": "2026-11-21T19:29:40.168768Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 456,
+        "balance_after": 455.5
+      },
+      "original": {
+        "file": "bottle.png (raw download not committed)",
+        "sha256": "662369d541b0f39aaaaa2f6fcbe2bbd50fccf9e5aea1de8b10a9cd3ccbd25fa9",
+        "bytes": 1101349,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "bottle.png",
+          "format": "png",
+          "bytes": 1101349,
+          "sha256": "662369d541b0f39aaaaa2f6fcbe2bbd50fccf9e5aea1de8b10a9cd3ccbd25fa9",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 236745,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.774222,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/bottle.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          374,
+          11,
+          649,
+          1012
+        ],
+        "max_dimension": 320,
+        "inspection": {
+          "file": "bottle.png",
+          "format": "png",
+          "bytes": 48054,
+          "sha256": "85dd14fdf93b03277b8339e3743822f752c2f686c291a17958e2e948bfffb349",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 88,
+            "height": 320
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 88,
+            "height": 320,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 23491,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.142045,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "leaf",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "One simple fresh green pointed leaf tilted to the right with clear central vein, small botanical ornament. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "c7b36ccf-56e9-4f32-b843-ff66a7596e90",
+      "created_at": "2026-11-21T19:29:57.246146Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 455.5,
+        "balance_after": 455
+      },
+      "original": {
+        "file": "leaf.png (raw download not committed)",
+        "sha256": "41d411f866c49f15a948eaadba13bd9116d1a48f5d7947bbbc6d79ac96e0327b",
+        "bytes": 1158658,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "leaf.png",
+          "format": "png",
+          "bytes": 1158658,
+          "sha256": "41d411f866c49f15a948eaadba13bd9116d1a48f5d7947bbbc6d79ac96e0327b",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 206994,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.802595,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/leaf.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          308,
+          31,
+          741,
+          992
+        ],
+        "max_dimension": 128,
+        "inspection": {
+          "file": "leaf.png",
+          "format": "png",
+          "bytes": 12162,
+          "sha256": "532aa5563d0b7585b325caf28c086e24c39da35aeb132a8ef65cb580ab55f0e6",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 58,
+            "height": 128
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 58,
+            "height": 128,
+            "cornerAlpha": [
+              0,
+              38,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 3785,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.464305,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "heart",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Simple solid botanical green heart silhouette, footer ornament. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "0512701d-ee02-468d-85cb-6bda38050c4a",
+      "created_at": "2026-11-21T19:30:13.160782Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 455,
+        "balance_after": 454.5
+      },
+      "original": {
+        "file": "heart.png (raw download not committed)",
+        "sha256": "0aaf608491a35b679fc473a4001b431ec25894a4d4c3d30c9ac4c3b757d8c355",
+        "bytes": 1463844,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "heart.png",
+          "format": "png",
+          "bytes": 1463844,
+          "sha256": "0aaf608491a35b679fc473a4001b431ec25894a4d4c3d30c9ac4c3b757d8c355",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 393435,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.624791,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/heart.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          145,
+          63,
+          881,
+          979
+        ],
+        "max_dimension": 128,
+        "inspection": {
+          "file": "heart.png",
+          "format": "png",
+          "bytes": 21270,
+          "sha256": "d54be19b221a4181f3c0462ef9236d3abfdd0b5c02592f4f3aa3e5e29da72ae6",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 103,
+            "height": 128
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 103,
+            "height": 128,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 7702,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.387894,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "energy",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Tiny readable single cream lightning bolt pictogram centered on one solid circular moss green disk. Graphic stamp, strong silhouette. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "aa1ec03b-0764-4244-aadc-0831b96f87f5",
+      "created_at": "2026-11-21T19:30:33.096556Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 454.5,
+        "balance_after": 454
+      },
+      "original": {
+        "file": "energy.png (raw download not committed)",
+        "sha256": "631c1cb31165af4a94faad2ee36ac38cf26202572534fa93175bf1f6d91a76cf",
+        "bytes": 1261074,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "energy.png",
+          "format": "png",
+          "bytes": 1261074,
+          "sha256": "631c1cb31165af4a94faad2ee36ac38cf26202572534fa93175bf1f6d91a76cf",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 309616,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.704727,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/energy.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          202,
+          185,
+          823,
+          823
+        ],
+        "max_dimension": 128,
+        "inspection": {
+          "file": "energy.png",
+          "format": "png",
+          "bytes": 27230,
+          "sha256": "b0081a5014720742219fdf172b7c9ae2968cb6c548114cb990cc0fe3da25cd48",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 125,
+            "height": 128
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 125,
+            "height": 128,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 12475,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.202375,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "focus",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Tiny readable single cream brain pictogram centered on one solid circular moss green disk. Graphic stamp, strong silhouette. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "c058144a-f348-48aa-a1d0-6e86aef788b8",
+      "created_at": "2026-11-21T19:30:49.126613Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 454,
+        "balance_after": 453.5
+      },
+      "original": {
+        "file": "focus.png (raw download not committed)",
+        "sha256": "45459e6a0b9d0247c54c550a0556680b9feb3dda4d59a107e93e4978c97f845a",
+        "bytes": 1359019,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "focus.png",
+          "format": "png",
+          "bytes": 1359019,
+          "sha256": "45459e6a0b9d0247c54c550a0556680b9feb3dda4d59a107e93e4978c97f845a",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 405898,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.612906,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/focus.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          157,
+          139,
+          868,
+          870
+        ],
+        "max_dimension": 128,
+        "inspection": {
+          "file": "focus.png",
+          "format": "png",
+          "bytes": 30016,
+          "sha256": "68121919ff4095b0a7ddba661a210c0a7b693514adf72a010f7b827ab1259047",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 124,
+            "height": 128
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 124,
+            "height": 128,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 12413,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.200227,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "immunity",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Tiny readable single cream shield pictogram centered on one solid circular moss green disk. Graphic stamp, strong silhouette. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "032eca1e-0fd9-4d55-9498-ac993c1aedf2",
+      "created_at": "2026-11-21T19:31:07.776917Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 453.5,
+        "balance_after": 453
+      },
+      "original": {
+        "file": "immunity.png (raw download not committed)",
+        "sha256": "1045d59b7513bf5a5f85bd81fc36481861144b6255333f3b8e1c24c07c54e140",
+        "bytes": 1343115,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "immunity.png",
+          "format": "png",
+          "bytes": 1343115,
+          "sha256": "1045d59b7513bf5a5f85bd81fc36481861144b6255333f3b8e1c24c07c54e140",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 450442,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.570425,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/immunity.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          164,
+          163,
+          861,
+          855
+        ],
+        "max_dimension": 128,
+        "inspection": {
+          "file": "immunity.png",
+          "format": "png",
+          "bytes": 30072,
+          "sha256": "bb59300f11b64c0f2ab465e6954a614d0a1f03569dcce05b68992cd051525286",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 128,
+            "height": 127
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 128,
+            "height": 127,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 13986,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.125123,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    },
+    {
+      "asset": "wellbeing",
+      "provider": "higgsfield-cli",
+      "model": "gpt_image_2_5",
+      "variant": "flare",
+      "params": {
+        "aspect_ratio": "1:1",
+        "background": "transparent",
+        "height": 1024,
+        "medias": [],
+        "model": "flare",
+        "prompt": "Tiny readable single cream smiling face pictogram centered on one solid circular moss green disk. Graphic stamp, strong silhouette. Naturalistic painted field-guide illustration, restrained moss and ochre palette, distinct silhouette, complete subject centered with narrow breathing room. Isolated subject on a transparent background, no backdrop, no shadow, no text.",
+        "quality": "medium",
+        "reference_elements": [],
+        "remove_bg": false,
+        "resolution": "1k",
+        "width": 1024
+      },
+      "job_id": "42084a5c-54c6-4f38-bc10-a621dc03057a",
+      "created_at": "2026-11-21T19:31:28.174687Z",
+      "credits": {
+        "estimated": 0.5,
+        "measured_by_balance": 0.5,
+        "balance_before": 453,
+        "balance_after": 452.5
+      },
+      "original": {
+        "file": "wellbeing.png (raw download not committed)",
+        "sha256": "8d5c492b0d6f4350a895ed5ff1b12383561a538d3ff288602739b9679abdbf38",
+        "bytes": 1530275,
+        "width": 1024,
+        "height": 1024,
+        "alpha": {
+          "file": "wellbeing.png",
+          "format": "png",
+          "bytes": 1530275,
+          "sha256": "8d5c492b0d6f4350a895ed5ff1b12383561a538d3ff288602739b9679abdbf38",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 1024,
+            "height": 1024
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 1024,
+            "height": 1024,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 452182,
+            "maxAlpha": 254
+          },
+          "transparentPixelRatio": 0.568766,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      },
+      "web": {
+        "path": "assets/wellbeing.png",
+        "made_with": "Pillow 12.3.0 RGBA crop and Lanczos thumbnail",
+        "crop": [
+          131,
+          112,
+          883,
+          883
+        ],
+        "max_dimension": 128,
+        "inspection": {
+          "file": "wellbeing.png",
+          "format": "png",
+          "bytes": 29009,
+          "sha256": "3c3ecf0a4686b4cc6744122eb54452c560705429cef511b6e36f7834fe7adb00",
+          "png": {
+            "colorType": 6,
+            "bitDepth": 8,
+            "hasTRNS": false,
+            "width": 125,
+            "height": 128
+          },
+          "hasAlphaChannel": true,
+          "decoded": {
+            "width": 125,
+            "height": 128,
+            "cornerAlpha": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "partialAlphaPixels": 12474,
+            "maxAlpha": 255
+          },
+          "transparentPixelRatio": 0.203187,
+          "minAlpha": 0,
+          "opaqueCornerCount": 0,
+          "real_alpha": true
+        }
+      }
+    }
+  ]
+}

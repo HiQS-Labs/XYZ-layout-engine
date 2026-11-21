@@ -1,0 +1,78 @@
+{
+  "eyebrow": "XYZ LAYOUT ENGINE · VISUAL ARCHITECTURE & EDITING GUIDE",
+  "title": "HOW A POSTER IS ASSEMBLED",
+  "subtitle": "From JSON content, transparent PNG assets, and a Node.js recipe to self-contained HTML and raster PNG",
+  "legend": {
+    "words": "① WORDS · fixture.json",
+    "art": "② ART · leaf_glow.png",
+    "move": "③ MOVE · nutrition.mjs"
+  },
+  "cards": {
+    "headline": {
+      "badge": "① EDIT HEADLINE",
+      "file": "nutrition/fixture.json",
+      "caption": "Edit sections.header.headline in the JSON fixture (nutrition/fixture.json) to change the poster headline words without touching layout code."
+    },
+    "artwork": {
+      "badge": "② SWAP THE LEAF",
+      "file": "assets/web/leaf_glow.png",
+      "caption": "Choose artwork by changing hero.illustrationId (\"leaf_glow\") or swapping leaf_glow.png to replace the hero leaf illustration."
+    },
+    "placement": {
+      "badge": "③ MOVE OR SIZE LEAF",
+      "file": "source/nutrition.mjs",
+      "caption": "Adjust hero leaf placement in nutrition.mjs: left 262 shifts x-offset, top -34 pulls it 34px up, width 428 and height 640 resize its box."
+    }
+  },
+  "assembly": {
+    "heading": "EXPLODED 3D SCENE LAYERS · 1000 × 1000 COORDINATE SPACE",
+    "planes": {
+      "l1": "L1 · BACKDROP & PANELS",
+      "l2": "L2 · ITEMS & GROUND SHADOWS",
+      "l3": "L3 · HERO LEAF (262, -34)",
+      "l4": "L4 · FLEXBOX TYPOGRAPHY"
+    },
+    "note": "Flexbox rows frame an open center window on L4 while the hero leaf floats independently on L3 at absolute coordinates (left: 262, top: -34)."
+  },
+  "viewer": {
+    "heading": "ASSEMBLED POSTER & VIEWER EXPERIENCE",
+    "htmlBadge": "OFFLINE HTML",
+    "htmlSub": "render-inline.html · EITHER BACKEND",
+    "pngBadge": "EXPORTED PNG",
+    "pngSub": "render.png · 1000 × 1000 BITMAP",
+    "caption": "Either backend exports self-contained offline HTML (render-inline.html) with live selectable text, versus flat pixels in an exported PNG."
+  },
+  "pipeline": {
+    "heading": "ENGINE RENDER PIPELINE · WHEN JS RUNS, WHAT CSS DOES & WHERE BACKENDS FIT",
+    "nodeRecipe": {
+      "badge": "1 · NODE.JS RECIPE",
+      "sub": "Render Time · source/nutrition.mjs",
+      "caption": "At render time, the JavaScript recipe (source/nutrition.mjs) executes in the Node.js runtime to validate inputs, fit text, and build the scene."
+    },
+    "cssStyling": {
+      "badge": "2 · CSS SERIALIZER",
+      "sub": "toDocument() · source/render.mjs",
+      "caption": "toDocument() serializes scene style properties into inline CSS styling and embedded @font-face rules so CSS handles all HTML layout."
+    },
+    "satoriSvg": {
+      "badge": "A1 · SATORI → SVG",
+      "sub": "--backend satori · Pure Node.js",
+      "caption": "Vector path: Satori computes Flexbox layout in Node.js with bundled fonts and renders the scene tree into standalone SVG markup."
+    },
+    "resvgPng": {
+      "badge": "A2 · RESVG → PNG",
+      "sub": "@resvg/resvg-js · Fast Rasterizer",
+      "caption": "Raster step: resvg (@resvg/resvg-js) rasterizes Satori's SVG vector output directly into a finished PNG image (render.png)."
+    },
+    "playwrightChromium": {
+      "badge": "B1 · PLAYWRIGHT → CHROMIUM",
+      "sub": "--backend playwright · Browser Engine",
+      "caption": "Browser path: Playwright drives headless Chromium to load the self-contained HTML and compute exact CSS layout and font metrics."
+    },
+    "chromiumCapture": {
+      "badge": "B2 · CHROMIUM PNG CAPTURE",
+      "sub": "page.screenshot() · Pixel-Exact",
+      "caption": "Screenshot step: Chromium performs PNG capture via page.screenshot() to export the rendered viewport as render.png."
+    }
+  }
+}

@@ -7,7 +7,7 @@ Open the [Chromium HTML](renders-v4.1/playwright/render-inline.html), [Satori HT
 ## Comparing editions
 
 - [Version 2](renders/playwright/render.png) and [version 3](renders-v3/playwright/render.png) show the earlier leaf scale.
-- [Version 4.0 PNG](renders-v4/playwright/render.png) is the catalog-pinned previous design. Its [archived inline HTML](renders-v4/satori/render-inline.html) matches the original Chromium HTML byte for byte. The previously shared `renders-v4/playwright/render-inline.html` opens the revised poster.
+- [Version 4.0 PNG](renders-v4/playwright/render.png) is the catalog-pinned previous design. Its [archived inline HTML](renders-v4/satori/render-inline.html) matches the original Chromium HTML byte for byte. The previously shared [Chromium HTML](renders-v4/playwright/render-inline.html) now opens the tree-of-life edition. Its [PNG](renders-v4/playwright/tree-of-life.png) uses the same typography and food illustrations as v4.1. Rebuild it with `node examples/2026-10-13-nutrition-infographic/render-tree-of-life.mjs`.
 - [Version 4.1 PNG](renders-v4.1/playwright/render.png) and [SVG](renders-v4.1/satori/render.svg) are the revised exports. Compare the measurements in [verification-v4.1.json](verification-v4.1.json) with the [4.0 report](verification-v4.json).
 
 The four base type sizes are 66, 36, 23 and 19 px. Chromium fits three wrapped benefit labels at 17 px. Satori fits them at 19 px.

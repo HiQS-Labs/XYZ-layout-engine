@@ -1,0 +1,82 @@
+{
+  "slots": [
+    {
+      "slot": "header_row",
+      "sha256": "532aa5563d0b7585b325caf28c086e24c39da35aeb132a8ef65cb580ab55f0e6"
+    },
+    {
+      "slot": "header_row",
+      "sha256": "532aa5563d0b7585b325caf28c086e24c39da35aeb132a8ef65cb580ab55f0e6"
+    },
+    {
+      "slot": "callout_1_img",
+      "sha256": "f91348bc5fdb970019ae0be8b75a9c6513769d7f327838604715c9b75070c7fb"
+    },
+    {
+      "slot": "hero_img",
+      "sha256": "3b4f02788ff38163e57186866289410dc278a0c9e3e0e79d2b607cd19d128b5a"
+    },
+    {
+      "slot": "callout_2_img",
+      "sha256": "39f5c50fd300cd646ecb5604c808420a264096ebc666fde647af96153cbd8494"
+    },
+    {
+      "slot": "item_1_img",
+      "sha256": "ef12048a97602c9ff81085e5393e3f6834bdefcaa4216c5a142dd06c22bd176e"
+    },
+    {
+      "slot": "item_2_img",
+      "sha256": "e90356a0ec4a6cc023f3d42ff09d73d60f68f7cbbed73398025710eef6e3125b"
+    },
+    {
+      "slot": "item_3_img",
+      "sha256": "a8d0134f5e1a22e85c536a1be3ed161cc98b35e4eccc9924bd489bb7dee2a6fd"
+    },
+    {
+      "slot": "item_4_img",
+      "sha256": "85dd14fdf93b03277b8339e3743822f752c2f686c291a17958e2e948bfffb349"
+    },
+    {
+      "slot": "benefit_1_icon",
+      "sha256": "b0081a5014720742219fdf172b7c9ae2968cb6c548114cb990cc0fe3da25cd48"
+    },
+    {
+      "slot": "benefit_2_icon",
+      "sha256": "68121919ff4095b0a7ddba661a210c0a7b693514adf72a010f7b827ab1259047"
+    },
+    {
+      "slot": "benefit_3_icon",
+      "sha256": "bb59300f11b64c0f2ab465e6954a614d0a1f03569dcce05b68992cd051525286"
+    },
+    {
+      "slot": "benefit_4_icon",
+      "sha256": "3c3ecf0a4686b4cc6744122eb54452c560705429cef511b6e36f7834fe7adb00"
+    },
+    {
+      "slot": "footer",
+      "sha256": "532aa5563d0b7585b325caf28c086e24c39da35aeb132a8ef65cb580ab55f0e6"
+    },
+    {
+      "slot": "footer",
+      "sha256": "d54be19b221a4181f3c0462ef9236d3abfdd0b5c02592f4f3aa3e5e29da72ae6"
+    }
+  ],
+  "headline_width": 693.6875,
+  "headline_cap_height": 56,
+  "tree_visible_height": 495.56502278645837,
+  "font_sizes": [
+    80,
+    32,
+    24,
+    20
+  ],
+  "benefit_label_to_icon": [
+    1.5,
+    0.75,
+    1.5,
+    1.5
+  ],
+  "external_requests": [],
+  "matches_baseline_copy": true,
+  "offline_pixel_replay_byte_identical": true
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-21 — Fuel Well with original Higgsfield artwork
+
+- Added an editable tree-of-life edition with 13 newly generated transparent illustrations, an offline Chromium rebuild, and measured generation receipts.
+
+## 2026-11-21 — Tree of life nutrition poster
+
+- Replaced the central leaf in the shared v4 Chromium HTML with an illustrated tree of life. Added a matching PNG and a local rebuild command.
+
 ## 2026-11-21 — Assemble the Astra nutrition poster
 
 - Added a replayable assembly with lettering, artwork and an optional JavaScript/CSS layout sheet that uses measured poster geometry. The animation lands on the live nutrition v4.1 poster, with a manual slider, configurable timing, WebM and still-frame exports.
