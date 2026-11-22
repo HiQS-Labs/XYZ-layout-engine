@@ -1,0 +1,24 @@
+{
+  "slide": 5,
+  "layout": "workflow",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "04 · AI-ONCE / EDIT-FOREVER WORKFLOW",
+  "title": "Author once. Edit one element forever.",
+  "subtitle": "The saved fixture, not a new prompt, is the source of the next render.",
+  "stages": [
+    { "title": "AUTHOR ONCE", "caption": "DESIGN.md -> recipe + fixture + cutouts", "actor": "AI" },
+    { "title": "RENDER", "caption": "Validate + lay out + export", "actor": "ENGINE" },
+    { "title": "--set", "caption": "Change one fixture element", "actor": "EDIT" },
+    { "title": "--save", "caption": "Persist the validated edit", "actor": "EDIT" },
+    { "title": "RERENDER", "caption": "Render the saved fixture again", "actor": "ENGINE" },
+    { "title": "SAME BYTES", "caption": "Matching SVG hash on replay", "actor": "PROOF" }
+  ],
+  "loopLabel": "NEXT EDIT: RETURN TO --set",
+  "takeaway": "AI authors once. The deterministic loop handles every later edit.",
+  "footer": "Identical bytes means replaying the same saved fixture — before and after fixtures intentionally differ.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

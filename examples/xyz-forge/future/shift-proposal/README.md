@@ -2,7 +2,7 @@
 
 A **future proposal**, not a description of anything built. It draws the outer loop explored in [HiQS-Labs/XYZ-forge#1081](https://github.com/HiQS-Labs/XYZ-forge/issues/1081): one thin `/shift` skill that runs an 8-to-5 factory day over the existing skills from the [version 2 software factory diagram](../../today/software-factory-v2/README.md). Same visual language as the belief-updating reference and the two earlier XYZ Forge diagrams.
 
-![Future proposal: /shift outer loop](xyz-forge-shift-proposal.png)
+![Future proposal: /shift outer loop](renders/xyz-forge-shift-proposal.png)
 
 ## Reading the diagram
 

@@ -1,0 +1,11 @@
+# One command: docker compose up --build   →   http://localhost:4173
+services:
+  studio:
+    build: .
+    image: xyz-studio
+    ports:
+      - "127.0.0.1:4173:4173" # loopback only: the studio has no auth beyond its page token
+    volumes:
+      - ./.relay-scratch:/app/.relay-scratch # renders and saved fixtures land in your checkout
+      - ./temp:/app/temp
+    init: true

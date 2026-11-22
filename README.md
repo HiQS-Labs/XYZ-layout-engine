@@ -167,6 +167,24 @@ confirm glyph coverage and text fit.
   cold renders in separate processes (`fresh`) or 10 warm renders after one priming run (`warm`). It
   prints mean, variance, min and max per stage plus memory use, then deletes its scratch folders.
 
+### XYZ Studio (`tools/studio.mjs`): local browser front end
+
+```sh
+pnpm studio                  # then open http://127.0.0.1:4173
+docker compose up --build    # or, with only Docker installed: http://localhost:4173
+```
+
+A Bootstrap page served on loopback only. Pick a fixture, edit its text, colours and numbers, and the engine
+re-renders it with the same validation, fitting and publishing as `tools/render.mjs`; the receipt shows errors,
+final type sizes and the PNG digest. Renders go to `.relay-scratch/studio/out/`; Save writes only under
+`.relay-scratch/` or `temp/`, never over committed examples. The Gallery lists every recognised fixture, and
+Checks runs catalog verify and craft lint.
+
+The Docker image ([`Dockerfile`](Dockerfile)) builds on the Playwright base image, so Satori and Chromium renders
+both work. [`compose.yaml`](compose.yaml) publishes the port on `127.0.0.1` only and mounts `.relay-scratch/` and
+`temp/`, so output appears in your checkout. Examples are baked into the image: rebuild after changing them, and
+keep the base image tag in step with the `playwright` version in `pnpm-lock.yaml`.
+
 ## Recipes
 
 All four are active in the catalog.
@@ -371,7 +389,8 @@ node tools/review.mjs <project-name> <file> [file ...]   # replace REVIEW/<proje
 node tools/review.mjs                                   # rebuild the index only
 ```
 
-Existing examples do not publish there yet; only renderers that call `publishForReview` appear.
+The diagram scripts that publish to review also write public PNG and HTML output under their example’s
+`renders/` folder. See [the output conventions](SOP.md#publishing-example-renders).
 
 ## Using the engine from another repository
 

@@ -2,7 +2,7 @@
 
 A 2400×1700 educational poster rendered with XYZ Layout Engine's shared render operations (Satori → resvg, and Playwright/Chromium), using eleven transparent illustrations generated with OpenAI `gpt-image-2.5-flare` through the HiQS resolve-image skill.
 
-![Solar System diagram](solar-system.png)
+![Solar System diagram](renders/solar-system.png)
 
 Sizes, distances, belt density and positions are schematic, not to scale. The artwork is illustrative, not observational imagery.
 
@@ -10,10 +10,10 @@ Sizes, distances, belt density and positions are schematic, not to scale. The ar
 
 | File | What it is |
 |---|---|
-| `solar-system.png` | Final Satori → resvg render |
-| `solar-system-chromium.png` | Same scene rendered by Playwright/Chromium |
-| `solar-system.html` | Self-contained responsive viewer (images inlined) |
-| `contact-sheet.png` | All generated assets side by side |
+| `renders/solar-system.png` | Final Satori → resvg render |
+| `renders/solar-system-chromium.png` | Same scene rendered by Playwright/Chromium |
+| `renders/solar-system.html` | Self-contained responsive viewer (images inlined) |
+| `renders/contact-sheet.png` | All generated assets side by side |
 | `fixture.json` | Scene content: planets, labels, layout, disclaimer, sources |
 | `render-diagram.mjs` | Thin shared CLI caller; publishes a new immutable run |
 | `contact-sheet.mjs` | Builds the contact sheet |
