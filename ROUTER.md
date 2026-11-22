@@ -11,6 +11,8 @@ This file is the first entry point for an AI agent working in this repo: it tell
 - `DESIGN.md` = lightweight Google alpha format profile for new design briefs; authoring guidance with existing fixture/recipe authority
 - `README.md` = human-facing repo/product overview
 - `tools/catalog.mjs` + `tools/catalog.sql` = the recipe and design catalog (CLI and its canonical dump)
+- `REVIEW/` = the one top-level folder a human opens to judge finished output (`REVIEW/index.html`); renderers publish finals there through `tools/review.mjs`; contents are git-ignored, see `REVIEW/README.md`
+- `tools/plugin-api.mjs` = the only public import surface for modules in other repositories (`package.json` `exports` maps the package root to it); everything else is internal — see README "Using the engine from another repository"
 - `ROADMAP.md` = LEGACY pointer ledger, frozen since the `ROADMAP_SOURCE=releases` flip — the RELEASES DB (`releases.db` via `releases.sql`) is the source of truth; write via `releases roadmap add`, never by editing this file
 - `CHANGELOG.md` = the end-of-iteration running log (first-class PDDA artifact; governed by `PROJECT/PDDA.md`)
 - `releases.db` (via `releases.sql`) = the release-planning ledger; read and write it only through `.xyz/utils/py/releases_app.py` (the retired RELEASES markdown ledger is not used here)
@@ -28,7 +30,7 @@ This file is the first entry point for an AI agent working in this repo: it tell
    Read `DESIGN.md` next when authoring a new design brief; it defines the format and optional lint check, not new renderer capabilities.
 5. Read `README.md` for the repo's purpose and baseline usage. -> expect a short explanation of what is canonical here.
 6. If the task is about the PDDA contract or enforcement model, read `PROJECT/PDDA.md`. -> expect the source of truth for lifecycle, roadmap, changelog, and enforcement rules.
-7. Run `python3 utils/py/releases_app.py roadmap list` (or `.xyz/utils/py/releases_app.py roadmap list`) to find the active effort or parked intake. -> expect links outward to the canonical `PROJECT/**` docs; the roadmap is a pointer ledger, not a plan body. (`ROADMAP.md` is the frozen legacy file — do not read it for current state or edit it.)
+7. Run `python3 .xyz/utils/py/releases_app.py roadmap list` to find the active effort or parked intake. The script is not committed here: it ships in the XYZ Forge RELEASES overlay, installed by running xyz-vendor.sh <this-repo> --with-releases from the `relay-automation` folder of an [XYZ Forge](https://github.com/HiQS-Labs/XYZ-forge) checkout. On a fresh clone without it, read the ledger read-only with `sqlite3 -readonly releases.db "SELECT section, gh_number, title, doc_path FROM roadmap_items WHERE section <> 'Completed' ORDER BY section, position"`. -> expect links outward to the canonical `PROJECT/**` docs; the roadmap is a pointer ledger, not a plan body. (`ROADMAP.md` is the frozen legacy file — do not read it for current state or edit it.)
 8. Before reporting success on repo changes, run `utils/pdda/pdda.sh run` or the relevant single check (`utils/pdda/pdda.sh <check>`). -> expect deterministic findings first, then any LLM review.
 9. If you are exploring an unknown system, proposing a new spike, or are blocked, search `PROJECT/3-COMPLETED/` and `CHANGELOG.md` for past context first. -> expect to recover memory of past struggles, gotchas, or decisions.
 

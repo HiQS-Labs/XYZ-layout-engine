@@ -9,6 +9,10 @@ tools/spike/assets/generated/*.png
 # Local design previews and preserved review galleries
 /temp/
 
+# Human review folder: the convention (README) is public, the contents are private by default
+/REVIEW/*
+!/REVIEW/README.md
+
 # Aider Studio (auto-added)
 REPO_MAP.md
 .aider/
