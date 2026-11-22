@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-21.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -90,5 +90,31 @@ Easy rollback: retire the opt-in v2 packet and evaluator. No change to engine, o
 First paraphrase what this proposes, how the existing system works and exclusions using the embedded plan alone. Then verify against the existing evaluation files and issue scope. Check falsifiers, risk, ratings and proportionality. Review only.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: Block plan approval pending two bounded acceptance clarifications against GH-96; no runtime defect is claimed.
+swept file: yes
+
+Paraphrase (embedded plan alone): Replace the creative packet's prompt/goals with an opt-in v2 that tests selective communication: readers locate two edits and trace an export. The existing v1 nearby-term score saturated on four submissions while human ballots remain pending. Preserve v1, reuse artifact and isolated operator checks, and add blind reading plus pairwise preference calibrated with three controls. Engine behavior, old grades and model cost controls are excluded.
+
+Review basis: The Setup Definition of Done is still a placeholder; used the fetched GH-96 Acceptance and this plan's four implementation steps as the review criteria. Entire embedded artifact reviewed, including opening claims and rollback/ratings; no additional pre-existing defect found in that artifact beyond the findings below. Existing evaluation README, rubric, ballot and full grade.mjs inspected read-only. Graph discovery was unavailable (tool returned “MCP tool call requires approval, but approval policy is never”); file inspection was the fallback. No evaluator, test suite, candidate code or phase gate executed.
+
+- [Pass] Existing-system description is supported: evaluation/README.md says “It rewards co-located technical terms; an incorrect sentence can still contain the terms”; benchmark/GOALS.md specifies “20 artifact points plus 8 points for each of ten technical relationships.” The plan correctly treats this as coverage, not an established reader-comprehension failure. GH-96 Context also states “Four anonymous-candidate submissions each earned 100 automated points and have pending design grades”; only one saved automated result was located locally, so the four-run assertion is issue-supported, not independently rerun.
+- [Should] Make the v2 evaluator/report delivery executable and bounded. Step 2 only says “Extend the evaluation documentation with v2 workflow”; step 3 promises a “short report” without a command or named evaluator/ballot/report owner. GH-96 Acceptance explicitly requires “a reproducible command, default short report and inspectable evidence.” Add the intended existing evaluation location/entry point, versioned factual key and ballot/report outputs, and acceptance that one documented command produces the short report with a link to evidence; specify that absent panel ballots still allow factual/artifact reporting. No new framework or suite is needed.
+  Observed input: evaluation/README.md currently documents `node grade.mjs /path/to/output completed-ballot.json > score.json`; grade.mjs reads the v1 rubric and emits one JSON score, with no pairwise report. Embedded steps 2–3 do not assign its v2 replacement or extension.
+  Affected scope: v2 evaluation/report delivery only; preserve the historical v1 command and results.
+  Falsifier: A concrete v2 entry point and invocation already specified by the plan that emits the required default short report and inspectable evidence with no preference ballot would make this request unnecessary; none is named.
+- [Should] Define the ranking stop rule and density criterion. Step 3 says “Keep ... unstable votes explicit” but does not require withholding a ranking; step 4 says “density alone carries no penalty” without saying that observed reading failure may justify one. GH-96 Acceptance requires “Penalize density only when reading suffers. Suppress unstable rankings.” Add those explicit acceptance outcomes, and a simple definition of instability (for example a judge changing the preferred candidate after order reversal); label no panel as unavailable rather than inferring a winner.
+  Observed input: The embedded plan's phrases quoted above allow a report to publish an order-dependent winner with an instability note; the issue explicitly forbids such a ranking.
+  Affected scope: Optional v2 panel interpretation and the dense-correct calibration, not old automated scores.
+  Falsifier: A paired ballot choosing A in A/B order and B in B/A order must yield no stable ranking; equally readable concise/dense controls must incur no density penalty, while a documented reading failure may affect the reading result. Existing plan text mandating these outcomes would remove this finding.
+- [Unverified — no citation] Scope and rollback are proportionate for a small opt-in evaluator: “Keep the historical packet and grader reproducible” and “Easy rollback: retire the opt-in v2 packet and evaluator” protect old comparisons. Preserve the existing evaluation README's “fresh sandbox” and “networking disabled” boundary when reusing artifact/operator checks. No engine performance benchmark or additional CI gate is warranted by this document change.
+- [Nit] Rating 65/40/50/65 is plausibly bounded by the stated recoverability and ceiling evidence, but label the four axes (priority/severity/appeal/effort cheapness) so their order is explicit. The quoted “trend unknown” appropriately avoids claiming recurrence. Step 1 should explicitly retain the issue's “surplus facts and editorial freedom” in the replacement brief, rather than relying on the title to communicate that experimental requirement.
+
+Bet before relay edit: making these acceptance outcomes explicit should prevent a report that looks complete while omitting the issue's consumer-facing command or publishing unstable comparisons. Tradeoff: a few plan sentences, not new infrastructure. Failure mode: overprescribing implementation; the requested fixes deliberately leave the mechanism to the Producer. Reversibility: Easy.
+
+Handing off to Producer (author) — address or disposition each finding, then return for review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
