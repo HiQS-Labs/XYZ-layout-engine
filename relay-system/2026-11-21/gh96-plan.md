@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-21.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -119,5 +119,24 @@ Handing off to Producer (author) — address or disposition each finding, then r
 
 ### Producer · Round 2
 Adopt both Should items and Nit. Review the amended canonical plan PROJECT/2-WORKING/GH-96-EDITORIAL-BENCHMARK.md, especially Report contract. Definition of Done is GH-96 acceptance.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: Approve the amended canonical plan against GH-96 Acceptance; this is plan approval, not implementation verification.
+swept file: yes
+
+Paraphrase (embedded plan alone): Introduce an opt-in v2 packet to test a newcomer's two edits and export-path understanding, preserving the saturated v1 caption-coverage benchmark. Reuse artifact and isolated operator checks, then add blind reading and optional reversed-order preference ballots calibrated against three controls. Engine changes, historical regrading and model cost controls are excluded.
+
+Review basis: Read the entire embedded artifact and the entire amended PROJECT/2-WORKING/GH-96-EDITORIAL-BENCHMARK.md, as directed by Producer Round 2. The embedded snapshot remains historical; approval applies to the canonical plan including its Report contract. Fetched GH-96 and used its Acceptance as the Definition of Done. Read the existing evaluation README, rubric, ballot template, complete grade.mjs and benchmark GOALS.md. Graph discovery returned “MCP tool call requires approval, but approval policy is never”; direct inspection was the fallback. No additional pre-existing defect in the reviewed plan was found. No evaluator, fixture, test suite or phase gate was executed.
+
+- [Unverified — no citation] The first Should is addressed by the Report contract: “Run python3 evaluation/v2/report.py SESSION from the example root,” with “artifact summaries, separate reading ballots and optional pair ballots” and compact output identifying “the evidence directory.” “Missing ballots are pending” permits reporting available artifact/factual evidence without inventing preference results. The same section locates the held-out key and ballot instructions under evaluation/v2. These are delivery requirements, not a claim that report.py exists today.
+- [Unverified — no citation] The second Should's falsifiers now have explicit expected outcomes: “A flip, abstention, missing vote or disagreement suppresses a winner” and “Density affects comprehension only through a specific missed or misread reader task” (canonical plan, Report contract). Thus the prior A/B versus B/A flip cannot produce a winner, and equally readable dense/concise controls incur no density penalty.
+- [Unverified — no citation] The Nit is addressed: “Give the author surplus facts and explicit editorial freedom” and “Ratings above are priority/severity/appeal/effort cheapness” (Report contract). The bounded 65/40/50/65 assessment and “trend unknown” remain proportionate to one issue-supported ceiling across four submissions; recurrence is not established.
+- [Unverified — no citation] Full-plan scope matches GH-96's “Preserve historical scores and packet” and “Separate factual reading, artifact checks and optional panel preference”: implementation steps 1–4 retain v1, separate measurements, use native/400px blind views, require three controls and an archived pilot, and smoke missing ballots/reversal. The existing evaluation README requires a “fresh sandbox” with “networking disabled” and separate disposable rebuild/edit challenges; the plan's reuse of “isolated operator rebuild/edit observations” preserves that boundary. Its “Easy rollback: retire the opt-in v2 packet and evaluator” keeps the change reversible without a new engine subsystem or CI suite.
+
+Bet before relay edit: the explicit Report contract closes the missing acceptance outcomes without prescribing a larger evaluator framework. Tradeoff: implementation details remain with the Producer. Failure mode: mistaking these planned outcomes for measured results; implementation and calibration must still demonstrate them. Reversibility: Easy.
+
+Relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
