@@ -1,0 +1,66 @@
+{
+  "kicker": "HANDOVER MAP · NUTRITION POSTER",
+  "title": "HOW FUEL WELL IS MADE",
+  "subtitle": "Two edits. One route to the PNG.",
+  "columns": {
+    "edit": "YOU EDIT",
+    "build": "THE RECIPE STACKS IT",
+    "see": "YOU SEE"
+  },
+  "edit1": {
+    "heading": "CHANGE THE HEADLINE",
+    "file": "nutrition/fixture.json",
+    "note": "Type new words between the quotes. The poster prints them in capitals and shrinks them to fit one line."
+  },
+  "edit2": {
+    "heading": "SWAP THE HERO ARTWORK",
+    "note": "Save your picture over this file: same name, see-through background, tall 427 × 640 shape. The file is pinned in provenance.json."
+  },
+  "layers": [
+    {
+      "name": "WORDS",
+      "note": "every text field in fixture.json"
+    },
+    {
+      "name": "ARTWORK",
+      "note": "PNG files, found by name"
+    },
+    {
+      "name": "PAPER",
+      "note": "colours from theme"
+    }
+  ],
+  "seeNote": "nutrition/render.png · 1000 × 1000",
+  "routeTitle": "ONE ROUTE TO THE PNG",
+  "route": [
+    {
+      "name": "fixture.json",
+      "where": "nutrition/",
+      "does": "Holds the words and the artwork names."
+    },
+    {
+      "name": "render.mjs",
+      "where": "source/ · runCLI",
+      "does": "Reads the fixture and applies any command-line edits."
+    },
+    {
+      "name": "nutrition.mjs",
+      "where": "source/ · buildScene",
+      "does": "Checks the fixture, then places every word and picture."
+    },
+    {
+      "name": "Satori + resvg",
+      "where": "called by render.mjs",
+      "does": "Lays out the type and paints the pixels."
+    },
+    {
+      "name": "render.png",
+      "where": "your --out folder",
+      "does": "The finished poster you open and check."
+    }
+  ],
+  "commandLabel": "RUN THIS",
+  "command": "node source/render.mjs nutrition/fixture.json --format png --out my-folder",
+  "commandTip": "Quick try without opening the file, add:",
+  "commandTipCode": "--set sections.header.headline=\"NEW WORDS\""
+}
