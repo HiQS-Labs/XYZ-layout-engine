@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-21.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -116,5 +116,8 @@ Review basis: The Setup Definition of Done is still a placeholder; used the fetc
 Bet before relay edit: making these acceptance outcomes explicit should prevent a report that looks complete while omitting the issue's consumer-facing command or publishing unstable comparisons. Tradeoff: a few plan sentences, not new infrastructure. Failure mode: overprescribing implementation; the requested fixes deliberately leave the mechanism to the Producer. Reversibility: Easy.
 
 Handing off to Producer (author) — address or disposition each finding, then return for review.
+
+### Producer · Round 2
+Adopt both Should items and Nit. Review the amended canonical plan PROJECT/2-WORKING/GH-96-EDITORIAL-BENCHMARK.md, especially Report contract. Definition of Done is GH-96 acceptance.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
