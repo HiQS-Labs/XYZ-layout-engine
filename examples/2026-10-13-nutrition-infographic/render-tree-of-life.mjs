@@ -6,7 +6,7 @@ import {publishForReview} from '../../tools/review.mjs';
 const local = path => new URL(path, import.meta.url);
 const html = local('renders-v4/playwright/render-inline.html');
 const png = local('renders-v4/playwright/tree-of-life.png');
-const tree = await fs.readFile(local('assets/web/tree_of_life.png'));
+const tree = await fs.readFile(local('assets/tree_of_life.png'));
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage({viewport:{width:1000,height:1000}, offline:true});
