@@ -2,8 +2,9 @@
 gh_issue: 69
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/69
 title: "Talk: 'Stop Re-Rolling the Whole Image' — timed 18-minute outline + live --set/--save demo"
-status: "Proposed (1-INBOX — not yet active)"
+status: "Completed — landed in PR #71 (eac7023) on 2026-10-29"
 created: 2026-10-29
+updated: 2026-10-29
 doc_type: feedback
 related:
   - examples/2026-10-29-talk-deck/
@@ -15,6 +16,10 @@ reversibility: "Easy — one example folder (fixtures, a render script, PNGs, a 
 # GH-69 · Talk deck: "Stop Re-Rolling the Whole Image"
 
 Capture of [#69](https://github.com/HiQS-Labs/XYZ-layout-engine/issues/69). The live issue holds the timed outline, the verified demo commands and the measured timings; it stays the discussion surface.
+
+| What was just completed | What's next |
+|---|---|
+| Landed in PR #71 (`eac7023`, squash of `6ee6418` deck + `41f054b` viewer); archived to 3-COMPLETED, ledger row Completed | The three open items below stay on the issue; none blocks the deck |
 
 ## Asks
 
