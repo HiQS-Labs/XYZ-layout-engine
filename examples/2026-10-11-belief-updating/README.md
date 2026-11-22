@@ -2,14 +2,14 @@
 
 A 1600×1340 explainer rendered through the trusted `recursive-process@1.0.0` recipe (`tools/recipes/recursive-process.mjs`). The copy, the palette and the formula tokens come from `fixture.json`; the layout, icons and checks come from the recipe and the shared `processRequest`. It recreates an operator-supplied reference ("Human Development: A Recursive Belief Updating Process"), revised under `SYSTEM-INSTRUCTIONS.md`. The reference image is not committed, because its provenance is unknown.
 
-![Belief updating as a recursive process](belief-updating.png)
+![Belief updating as a recursive process](renders/belief-updating.png)
 
 | File | What it is |
 |---|---|
 | `fixture.json` | The copy, palette and tokens; it is also the recipe's pinned schema |
 | `render-diagram.mjs` | A thin caller; it renders into this folder's gitignored `out/` |
-| `belief-updating.png` | Satori → resvg render |
-| `belief-updating-chromium.png` | The same scene rendered by Playwright/Chromium |
+| `renders/belief-updating.png` | Satori → resvg render |
+| `renders/belief-updating-chromium.png` | The same scene rendered by Playwright/Chromium |
 | `receipt.json`, `receipt-chromium.json` | The engine's receipts for those renders. `inputPath` is made repo-relative; the rest is unchanged. |
 
 ## Reproducing

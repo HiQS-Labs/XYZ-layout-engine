@@ -60,7 +60,7 @@ case because they are hand-built scripts with no recipe.
 |---|---|---|
 | `node tools/catalog.mjs design list` | List recorded designs | 0 |
 | `node tools/catalog.mjs design show 2026-10-08-solar-system` | Show a design by ID (`design show <id>`) | 0 |
-| `node tools/catalog.mjs design add 2026-10-10-rag-study --fixture examples/2026-10-09-rag-system/fixture.json --artifact examples/2026-10-09-rag-system/rag-system.png --friction 'Hand-built lanes and connectors; no recipe.'` | Record a new ID and append its log line | 0 |
+| `node tools/catalog.mjs design add 2026-10-10-rag-study --fixture examples/2026-10-09-rag-system/fixture.json --artifact examples/2026-10-09-rag-system/renders/rag-system.png --friction 'Hand-built lanes and connectors; no recipe.'` | Record a new ID and append its log line | 0 |
 
 The add example succeeds once; repeating the ID exits **1** and preserves the dump and log.
 Exit **1** also means validation, I/O or drift failure (including an unknown design or use-case

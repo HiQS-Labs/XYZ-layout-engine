@@ -389,7 +389,8 @@ node tools/review.mjs <project-name> <file> [file ...]   # replace REVIEW/<proje
 node tools/review.mjs                                   # rebuild the index only
 ```
 
-Existing examples do not publish there yet; only renderers that call `publishForReview` appear.
+The diagram scripts that publish to review also write public PNG and HTML output under their example’s
+`renders/` folder. See [the output conventions](SOP.md#publishing-example-renders).
 
 ## Using the engine from another repository
 

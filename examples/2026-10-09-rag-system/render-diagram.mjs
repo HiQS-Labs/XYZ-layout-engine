@@ -170,12 +170,14 @@ assert.equal(found.length,10);
 assert.equal(result.png.readUInt32BE(16),W);assert.equal(result.png.readUInt32BE(20),H);
 assert.equal(chromiumResult.png.readUInt32BE(16),W);assert.equal(chromiumResult.png.readUInt32BE(20),H);
 
-const outPng=path.join(ROOT,'rag-system.png');
+const OUT=path.join(ROOT,'renders');
+await fs.mkdir(OUT,{recursive:true});
+const outPng=path.join(OUT,'rag-system.png');
 await fs.writeFile(outPng,result.png);
-await fs.writeFile(path.join(ROOT,'rag-system-chromium.png'),chromiumResult.png);
+await fs.writeFile(path.join(OUT,'rag-system-chromium.png'),chromiumResult.png);
 await fs.writeFile(path.join(ROOT,'rag-system.svg'),result.svg);
 const responsive=chromiumResult.html.replace('</head>',`<style>html,body{width:100%!important;height:100%!important;overflow:auto!important;background:#060c1b}#canvas{transform-origin:top left}span[contenteditable]{outline:1px dashed #577da4;cursor:text}</style></head>`).replace('</body>',`<script>function fit(){const s=Math.min(1,innerWidth/${W});document.getElementById('canvas').style.transform='scale('+s+')';document.body.style.minHeight=(${H}*s)+'px'}addEventListener('resize',fit);fit();document.querySelectorAll('span').forEach(e=>{e.title='Double-click to edit this label';e.addEventListener('dblclick',()=>{e.contentEditable='true';e.focus()});e.addEventListener('blur',()=>e.removeAttribute('contenteditable'))});</script></body>`);
-await fs.writeFile(path.join(ROOT,'rag-system.html'),responsive);
+await fs.writeFile(path.join(OUT,'rag-system.html'),responsive);
 const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlaywright functions; root pinned dependencies/fonts',generatedAt:new Date().toISOString(),width:W,height:H,stages:stages.map(s=>s.id),imageNodes:found,textIds:texts,artifactDigests:{png:sha(result.png),svg:sha(result.svg),html:sha(responsive),chromiumPng:sha(chromiumResult.png)},satoriBounds:result.bounds,chromiumText:chromiumResult.textBoxes,findings};
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
@@ -198,3 +200,6 @@ try{
  console.log(`PDF ${pdfResult.verdict.pass?'PASS':'FAIL'}: rag-system.pdf\n${summarize(pdfResult)}`);
  assert.ok(pdfResult.verdict.pass,'accessible PDF checks failed');
 }finally{await pdfBrowser.close()}
+
+const {publishForReview}=await import(new URL('tools/review.mjs',RT).href);
+await publishForReview('rag-system', [path.join(OUT,'rag-system.png'), path.join(OUT,'rag-system-chromium.png'), path.join(OUT,'rag-system.html'), path.join(ROOT,'rag-system.pdf')]);

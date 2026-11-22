@@ -7,10 +7,10 @@ cutout standing on its card with a two-layer ground shadow. Built for
 [nutrition infographic](../2026-10-13-nutrition-infographic/): a [DESIGN.md](DESIGN.md) brief, a fixture
 that owns copy and palette, an AS-12 type scale and pinned PNG cutouts.
 
-![The Vibe-Coding Loop](vibe-coding-loop.png)
+![The Vibe-Coding Loop](renders/vibe-coding-loop.png)
 
-- [Satori PNG](vibe-coding-loop.png) · [Chromium PNG](vibe-coding-loop-chromium.png) ·
-  [responsive HTML](vibe-coding-loop.html) · [verification.json](verification.json)
+- [Satori PNG](renders/vibe-coding-loop.png) · [Chromium PNG](renders/vibe-coding-loop-chromium.png) ·
+  [responsive HTML](renders/vibe-coding-loop.html) · [verification.json](verification.json)
 - Design brief: [DESIGN.md](DESIGN.md) · cutouts and provenance: [ASSETS.md](ASSETS.md)
 
 ## What changed from the source slide
@@ -29,7 +29,7 @@ The structure was first reviewed on a Claude Design canvas.
 | `fixture.json` | all copy, palette roles, type percentages, asset ids and visible boxes |
 | `render-diagram.mjs` | geometry, ground shadows, connectors, layout and AS-12 checks |
 | `artwork.json`, `provenance.json`, `receipts/`, `assets/web/` | cutout prompts, pins and display PNGs |
-| `vibe-coding-loop*.png`, `.html`, `verification.json` | generated outputs |
+| `renders/vibe-coding-loop*.png`, `renders/vibe-coding-loop.html`, `verification.json` | generated outputs |
 
 No recipe or catalog entry: this is a one-off example (GH-55/GH-60 pattern). It imports the shared
 `renderSatori` / `renderPlaywright` and `readPinnedPngs` and edits no pinned file.

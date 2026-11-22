@@ -2,7 +2,7 @@
 
 Version 2 of the [XYZ Forge system diagram](../system-v1/README.md). Version 1 drew the runtime: stages, harness modes, adapters, tick and records. This version makes the operator's commands the subject. It shows the skills that move work through the factory and how they hand work to each other: `/daily`, `/workhorse`, `/start-task`, `/marathon`, `/review-code` (alias `/review-pr`) and `/merge-cleanup`. It uses the same visual language as the belief-updating reference and version 1.
 
-![XYZ Forge software factory](xyz-forge-software-factory.png)
+![XYZ Forge software factory](renders/xyz-forge-software-factory.png)
 
 The diagram is schematic. Skill roles are summarized from each skill's `SKILL.md` description in HiQS-Labs/XYZ-forge (`skills/`) and the deployed `/daily` skill. `/marathon` stands for `/start-marathon` (prepares lanes and a dry run) plus `/pre-marathon` (fires them after operator confirmation). Icons are hand-drawn SVG; no images were generated.
 
@@ -10,9 +10,9 @@ The diagram is schematic. Skill roles are summarized from each skill's `SKILL.md
 
 | File | What it is |
 |---|---|
-| `xyz-forge-software-factory.png` | Final Satori → resvg render |
-| `xyz-forge-software-factory-chromium.png` | Same scene rendered by Playwright/Chromium |
-| `xyz-forge-software-factory.html` | Self-contained responsive viewer |
+| `renders/xyz-forge-software-factory.png` | Final Satori → resvg render |
+| `renders/xyz-forge-software-factory-chromium.png` | Same scene rendered by Playwright/Chromium |
+| `renders/xyz-forge-software-factory.html` | Self-contained responsive viewer |
 | `fixture.json` | All copy and palette roles |
 | `render-diagram.mjs` | Owns the geometry, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Text and icon ids, artifact digests, findings (empty on a pass) |

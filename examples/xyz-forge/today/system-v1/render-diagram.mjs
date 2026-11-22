@@ -226,12 +226,17 @@ for(const id of texts){
 assert.equal(result.png.readUInt32BE(16),W);assert.equal(result.png.readUInt32BE(20),H);
 assert.equal(chromiumResult.png.readUInt32BE(16),W);assert.equal(chromiumResult.png.readUInt32BE(20),H);
 
-await fs.writeFile(path.join(ROOT,'xyz-forge-system.png'),result.png);
-await fs.writeFile(path.join(ROOT,'xyz-forge-system-chromium.png'),chromiumResult.png);
+const OUT=path.join(ROOT,'renders');
+await fs.mkdir(OUT,{recursive:true});
+await fs.writeFile(path.join(OUT,'xyz-forge-system.png'),result.png);
+await fs.writeFile(path.join(OUT,'xyz-forge-system-chromium.png'),chromiumResult.png);
 await fs.writeFile(path.join(ROOT,'xyz-forge-system.svg'),result.svg);
 const responsive=chromiumResult.html.replace('</head>',`<style>html,body{width:100%!important;height:100%!important;overflow:auto!important;background:${P.background}}#canvas{transform-origin:top left}</style></head>`).replace('</body>',`<script>function fit(){const s=Math.min(1,innerWidth/${W});document.getElementById('canvas').style.transform='scale('+s+')';document.body.style.minHeight=(${H}*s)+'px'}addEventListener('resize',fit);fit();</script></body>`);
-await fs.writeFile(path.join(ROOT,'xyz-forge-system.html'),responsive);
+await fs.writeFile(path.join(OUT,'xyz-forge-system.html'),responsive);
 const evidence={renderer:'Shared root tools/render.mjs renderSatori / renderPlaywright; bundled Barlow Condensed',width:W,height:H,textIds:texts,iconIds,artifactDigests:{png:sha(result.png),chromiumPng:sha(chromiumResult.png),html:sha(responsive)},findings};
 await fs.writeFile(path.join(ROOT,'verification.json'),JSON.stringify(evidence,null,2)+'\n');
 assert.equal(findings.length,0,JSON.stringify(findings,null,1));
 console.log(`PASS: ${texts.length} text ids and ${iconIds.length} icons; ${W}x${H} in both backends; no unsupported glyphs, escapes, overflow or overlap.`);
+
+const {publishForReview}=await import(new URL('tools/review.mjs',RT).href);
+await publishForReview('xyz-forge-system', [path.join(OUT,'xyz-forge-system.png'), path.join(OUT,'xyz-forge-system-chromium.png'), path.join(OUT,'xyz-forge-system.html')]);
