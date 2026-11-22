@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-21.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -99,5 +99,23 @@ Run python3 evaluation/v2/report.py SESSION from the example root. SESSION conta
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: GH-96 is satisfied as an opt-in, local operator-run pilot with incomplete calibration disclosed and no model ranking asserted. No blocking or pre-existing defect found in the complete embedded artifact and supporting benchmark files reviewed.
+swept file: yes
+
+- [Unverified — no citation] Preserved v1 against origin/main d47eb2530f3b37e867d591e277339137e04c6982 and reviewed head e51df1cd76b9d5e4cd0888adbe67ac1d71a772c6. Read-only Python/zlib object audit, command “python3 .relay-scratch/tmp/audit.py”, exit 0: “v1 unchanged: True” for benchmark/creative-handout.zip, benchmark/handout.zip, evaluation/grade.mjs, evaluation/rubric.json and evaluation/ballot-template.json; “seed vs committed mismatches: []”. The 24 changed paths concern v2, documentation, evidence, relay and release metadata; no engine change. Fix: none.
+- [Unverified — no citation] Packet probe, command “python3 examples/2026-11-21-imaging-layer-pipeline/benchmark/v2/packet.py .relay-scratch/tmp/editorial-handout.zip”, exit 0. ZipFile comparison returned “members: 18 same names: True” and “changed: ['PROMPT.md', 'GOALS.md']”. The prompt names the newcomer and three tasks and says “You may omit the rest”; the answer key, controls and judge instructions remain outside the packet. Fix: none.
+- [Unverified — no citation] evaluation/v2/pair.mjs creates forward [0,1] and reverse [1,0] rooms, canvas-rebaked PNGs at native/400px sizes and opaque A/B filenames. Its README requires image-only rooms, located answers before preference and withheld source/key. controls.mjs provides concise, dense and reversed variants with identical base geometry and facts; reversed copy says “resvg creates SVG. Satori turns it into PNG.” Dense copy adds surplus facts without removing the task answers. Fix: none.
+- [Unverified — no citation] Command “python3 examples/2026-11-21-imaging-layer-pipeline/evaluation/v2/report.py TESTS-RESULTS/2026-11-21+GH-96/pilot”, exit 0: both deliveries show “png pass, html pass, sameDesign pass, rebuild pending, edit pending”; Codex shows “order-sensitive”, both readings 3/3 vs 3/3, Agy “pending”, and “Panel preference · inconclusive”. The short report prints an observed reason and evidence directory. Artifact passes summarize retained grades, not a fresh browser run. Fix: none.
+- [Unverified — no citation] Same report command with TESTS-RESULTS/2026-11-21+GH-96/accuracy, exit 0: Codex “pending”; Agy “first”, forward and reverse 3/3 vs 2/3, “missed second export”; “Panel preference · inconclusive”. Retained ballots mark the located reversed export false. TESTS-RESULTS/2026-11-21+GH-96/README.md explicitly states “Density ballots were unavailable at this checkpoint” and “These pilot findings support no overall model ranking”, and labels archived candidates products of the old brief. Fix: none.
+- [Unverified — no citation] Scratch-only Python subprocess probes invoking evaluation/v2/report.py against .relay-scratch/tmp/report-probe each exited 0: absent ballots yielded “Panel preference · inconclusive”; both judges choosing A forward/B reverse yielded “Panel preference · first”; changing Codex reverse to A yielded “codex · order-sensitive” and “Panel preference · inconclusive”. Synthetic factual flags remained false: preference and factual totals are separate. report.py admits only matching first/second/tie outcomes. Fix: none.
+- [Unverified — needs clone run] Native suite, PDDA, actual Chromium pair/control rendering, and isolated rebuild/edit challenges were not rerun under this turn’s restrictions. Earlier suite/PDDA claims are producer receipts. Density neutrality remains pending calibration, not established evidence. Run the harness gate after handoff; retain missing calibration ballots before asserting a calibrated ranking.
+
+Reversibility: Easy — v2 remains opt-in. Reviewed against live GH-96 acceptance and the whole embedded plan. Graph discovery was unavailable under approval-policy never; scoped file inspection supplied evidence. No artifact/source edits or git commands were performed.
+
+relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
