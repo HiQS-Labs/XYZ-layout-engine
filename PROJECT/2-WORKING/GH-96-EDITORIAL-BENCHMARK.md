@@ -2,7 +2,7 @@
 gh_issue: 96
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/96
 title: Editorial judgment benchmark
-status: Proposed
+status: In progress
 created: 2026-11-21
 ---
 # Editorial judgment benchmark
