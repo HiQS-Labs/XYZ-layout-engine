@@ -1,0 +1,28 @@
+{
+  "slide": 9,
+  "layout": "designmd",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "08 · DESIGN.md, HONESTLY",
+  "title": "DESIGN.md is agent input — not engine input",
+  "subtitle": "Google Labs' alpha format: ordered design rationale + optional YAML tokens.",
+  "flow": [
+    { "title": "DESIGN.md", "caption": "Human + agent design brief" },
+    { "title": "AGENT", "caption": "Translates supported choices" },
+    { "title": "FIXTURE + RECIPE", "caption": "Data + trusted layout code" },
+    { "title": "ENGINE", "caption": "Never parses the Markdown" }
+  ],
+  "blockedTitle": "BLOCKED INTAKE",
+  "blockedBody": "Unsupported briefs come back blocked — never silently simplified.",
+  "storyTitle": "THE LINE-HEIGHT STORY",
+  "story": [
+    { "title": "1.1", "caption": "Headline line height clipped glyphs" },
+    { "title": "REFUSED", "caption": "Renderer rejected the clipped text" },
+    { "title": "1.3", "caption": "Recipe-only fix; no fit guard relaxed" }
+  ],
+  "footer": "See examples/2026-10-12-design-intake/: capability check -> intake -> render.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

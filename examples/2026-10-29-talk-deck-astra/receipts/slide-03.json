@@ -1,0 +1,63 @@
+{
+  "slide": 3,
+  "fixture": "fixtures/slide-03.json",
+  "layout": "split",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "ai_title",
+    "ai_caption",
+    "ai_item_0",
+    "ai_item_1",
+    "ai_item_2",
+    "engine_title",
+    "engine_caption",
+    "engine_item_0",
+    "engine_item_1",
+    "engine_item_2",
+    "split_handoff",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.811,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 0,
+    "maxGraphicToCap": 0,
+    "iconToLabelRatio": null,
+    "exceptions": []
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "252fbecf9e67f7d76959bd1edf39124a286ca63ffcd6ee9dd4d7556f6781986b",
+    "chromiumPng": "ce5c736e88fc9938873c3720d79757fd0d38280590f2016eea7cf5f766b791c7",
+    "svg": "239d39a4107a008d2cf76f4428242dcea30b8fbb456b0693932a718eedaefa86"
+  },
+  "findings": []
+}

@@ -1,0 +1,24 @@
+{
+  "slide": 7,
+  "layout": "comparison",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "06 · REAL BEFORE / AFTER RENDERS",
+  "title": "The saved fixture rerenders identically",
+  "subtitle": "Real nutrition@4.0.0 outputs from the commands on slide 6.",
+  "beforeImage": "assets/nutrition-before.png",
+  "afterImage": "assets/nutrition-after.png",
+  "beforeLabel": "BEFORE · GREEN HEADLINE",
+  "afterLabel": "AFTER · NAVY HEADLINE + HEADINGS",
+  "proofLabel": "AFTER SVG = AGAIN SVG",
+  "hash": "SHA-1 ceefd615f5ca0c4e2a7c80c1ce947d7d3a9dc6c2",
+  "timing": "Node v26.0.0 · edit + save 0.549 s · rerender 0.383 s · under a second",
+  "footer": "Artwork and fitted layout stay fixed; requested headline and primary color change.",
+  "as12Exceptions": [
+    { "rule": "AS-12 rule 5", "reason": "480 px real-render evidence images must remain large enough for before/after comparison; they are subject matter, not decorative hero art." }
+  ],
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}
