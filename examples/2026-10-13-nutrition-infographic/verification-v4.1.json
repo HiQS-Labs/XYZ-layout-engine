@@ -1,0 +1,154 @@
+{
+  "recipe": "nutrition@4.1.0",
+  "canvas": [
+    1000,
+    1000
+  ],
+  "referenceSha256": "c4a7c925096c886ae61de95c7800e1977b33966348286bf309e40b43e52f212b",
+  "measurement": "Raster ink bounds in pixels at 1000 × 1000. The central green leaf mask excludes the pale halo (green > red + 12 and green > blue + 36). Heading and subtitle ink use red < 117, green < 145, blue < 118 inside their respective rows.",
+  "reference": {
+    "leaf": {
+      "x": 356,
+      "y": 148,
+      "width": 293,
+      "height": 541
+    },
+    "headline": {
+      "x": 220,
+      "y": 34,
+      "width": 567,
+      "height": 44
+    },
+    "subtitle": {
+      "x": 259,
+      "y": 96,
+      "width": 496,
+      "height": 31
+    }
+  },
+  "previous": {
+    "2": {
+      "leaf": {
+        "x": 396,
+        "y": 186,
+        "width": 208,
+        "height": 405
+      },
+      "headline": {
+        "x": 281,
+        "y": 44,
+        "width": 438,
+        "height": 35
+      },
+      "subtitle": {
+        "x": 345,
+        "y": 103,
+        "width": 310,
+        "height": 22
+      }
+    },
+    "3": {
+      "leaf": {
+        "x": 396,
+        "y": 186,
+        "width": 208,
+        "height": 405
+      },
+      "headline": {
+        "x": 281,
+        "y": 44,
+        "width": 438,
+        "height": 35
+      },
+      "subtitle": {
+        "x": 345,
+        "y": 103,
+        "width": 310,
+        "height": 22
+      }
+    },
+    "4.0": {
+      "leaf": {
+        "x": 456,
+        "y": 327,
+        "width": 88,
+        "height": 172
+      },
+      "headline": {
+        "x": 107,
+        "y": 51,
+        "width": 786,
+        "height": 66
+      },
+      "subtitle": {
+        "x": 300,
+        "y": 150,
+        "width": 401,
+        "height": 28
+      }
+    }
+  },
+  "backends": {
+    "satori": {
+      "measurements": {
+        "leaf": {
+          "x": 361,
+          "y": 147,
+          "width": 277,
+          "height": 541
+        },
+        "headline": {
+          "x": 217,
+          "y": 38,
+          "width": 567,
+          "height": 46
+        },
+        "subtitle": {
+          "x": 254,
+          "y": 100,
+          "width": 493,
+          "height": 32
+        }
+      },
+      "attempts": 1,
+      "finalFontSizesPx": [
+        66,
+        36,
+        23,
+        19
+      ],
+      "pngSha256": "75bbc6194c1209c793bef5bf70fb31b55b17fc7f822cd391d0ba3b1f0103f821"
+    },
+    "playwright": {
+      "measurements": {
+        "leaf": {
+          "x": 362,
+          "y": 147,
+          "width": 277,
+          "height": 541
+        },
+        "headline": {
+          "x": 215,
+          "y": 36,
+          "width": 570,
+          "height": 47
+        },
+        "subtitle": {
+          "x": 252,
+          "y": 99,
+          "width": 495,
+          "height": 33
+        }
+      },
+      "attempts": 2,
+      "finalFontSizesPx": [
+        66,
+        36,
+        23,
+        19,
+        17
+      ],
+      "pngSha256": "f06223e0e8c21ec417aa8880aa700521b5897c749d05eea34c0b452c7797d836"
+    }
+  }
+}

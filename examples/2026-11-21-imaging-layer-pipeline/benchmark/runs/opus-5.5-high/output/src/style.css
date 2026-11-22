@@ -1,0 +1,129 @@
+/* Explainer stylesheet. Colours: amber = words, green = leaf artwork, cyan = placement. */
+*{box-sizing:border-box}
+html,body{margin:0;width:var(--W);height:var(--H);overflow:hidden;background:#0d1712}
+body{font-family:'Barlow Condensed',sans-serif;color:#e9f0e4;-webkit-font-smoothing:antialiased}
+code{font-family:inherit;background:rgba(255,255,255,.1);border-radius:4px;padding:0 4px;color:#fff6dc;white-space:nowrap}
+b{color:#fff}
+
+.frame{position:relative;width:var(--W);height:var(--H);overflow:hidden;
+  background:radial-gradient(ellipse 900px 520px at 55% 38%,#1f3426 0%,#132219 55%,#0b140f 100%)}
+/* Floor grid in real perspective: the planes stand on it. */
+.floor{position:absolute;left:-400px;right:-400px;top:520px;height:420px;
+  background-image:linear-gradient(rgba(170,220,180,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(170,220,180,.10) 1px,transparent 1px);
+  background-size:60px 60px;transform:perspective(500px) rotateX(62deg);transform-origin:50% 0;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 55%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 55%,transparent)}
+
+.title{position:absolute;left:28px;top:16px;width:1340px}
+.title h1{margin:0;font-size:50px;line-height:1;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fdf6dc}
+.title p{margin:6px 0 0;font-size:22px;line-height:1.2;color:#b8c9b3;white-space:nowrap}
+
+.stage{position:absolute;left:0;top:0;width:var(--W);height:var(--H);pointer-events:none}
+.world{position:absolute;inset:0;transform-style:preserve-3d}
+.plane{position:absolute;left:0;top:0;width:1000px;height:1000px;transform-origin:0 0;border-radius:26px}
+.mk{position:absolute;width:2px;height:2px;margin:-1px 0 0 -1px}
+.mk-inline{display:inline-block;width:2px;height:2px;vertical-align:middle}
+
+/* ① content plane: a sheet of data */
+.p-content{background:#efe8d0;box-shadow:0 0 0 4px #d8cfae,0 40px 80px rgba(0,0,0,.55);filter:brightness(.86) saturate(.8);padding:46px 52px;color:#3a3a2c}
+.p-content .tab{display:inline-block;font-size:56px;font-weight:700;background:#3a4a33;color:#f6efd8;padding:6px 28px;border-radius:14px;margin-bottom:26px}
+.json{font-size:46px;line-height:1.36;white-space:nowrap}
+.jl{position:relative}
+.jk{color:#6a5a2c}
+.jv{color:#2f5d27;font-weight:700}
+.hl-words,.hl-leaf{border-radius:8px;padding:0 8px}
+.hl-words{background:#f2a93b;box-shadow:0 0 0 5px #f2a93b}
+.hl-words .jv{color:#2a1a00}
+.hl-leaf{background:#8fd16a;box-shadow:0 0 0 5px #8fd16a}
+.hl-leaf .jv{color:#0f2a08}
+.tile{position:absolute;right:56px;bottom:52px;width:250px;height:410px;background:#fffdf3;border:4px dashed #8fd16a;border-radius:20px;display:flex;flex-direction:column;align-items:center;padding:16px}
+.tile img{width:200px;height:300px;object-fit:contain}
+.tile-name{font-size:30px;line-height:1.1;text-align:center;color:#3a4a33;margin-top:8px}
+
+/* ② layout plane: glass with the recipe's boxes */
+.p-layout{background:rgba(160,230,190,.08);box-shadow:inset 0 0 0 4px rgba(190,255,215,.55),0 30px 70px rgba(0,0,0,.35);backdrop-filter:blur(0px)}
+.wb{position:absolute;border:3px dashed rgba(205,245,215,.55);border-radius:6px}
+.wb.faint{border:2px solid rgba(205,245,215,.18)}
+.wl{position:absolute;left:6px;top:-40px;font-size:30px;font-weight:700;color:rgba(215,250,225,.85);white-space:nowrap}
+.wb.words{border:4px solid #f2a93b;background:rgba(242,169,59,.12);display:flex;align-items:center;justify-content:center}
+.wb.words .wl{color:#f2a93b}
+.ghost-head{white-space:nowrap;font-size:66px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;line-height:1.25;color:transparent;-webkit-text-stroke:2px #f6c879}
+.ghost-leaf{position:absolute;object-fit:contain;opacity:.9}
+.wb.leafbox{border:5px dashed #5fd0e0;background:rgba(95,208,224,.06)}
+.wb.leafbox .wl{color:#5fd0e0;top:auto;bottom:10px;left:12px}
+.dim,.dim-w{position:absolute;height:0;border-top:4px solid #5fd0e0}
+.dim::before,.dim::after{content:'';position:absolute;top:-16px;width:4px;height:28px;background:#5fd0e0}
+.dim::before{left:0}.dim::after{right:0}
+.dim span,.dim-w span,.dim-top span{position:absolute;font-size:40px;font-weight:700;color:#0d1712;background:#5fd0e0;padding:0 12px;border-radius:8px;white-space:nowrap}
+.dim span{left:50%;top:-26px;transform:translateX(-50%)}
+.dim-w span{left:50%;top:-24px;transform:translateX(-50%)}
+.dim-top{position:absolute;width:0;border-left:4px solid #5fd0e0}
+.dim-top span{left:12px;top:-6px}
+
+/* ③ render plane: the finished pixels */
+.p-render{box-shadow:0 0 0 4px #f4f8ea,0 60px 110px rgba(0,0,0,.65)}
+.p-render img{display:block;width:1000px;height:1000px;border-radius:26px}
+
+/* connectors */
+.wires{position:absolute;left:0;top:0;pointer-events:none}
+.ray{fill:none;stroke-width:3;stroke-dasharray:7 6;stroke-linecap:round}
+.ray.thin{stroke-width:2}
+.lead{fill:none;stroke-width:4.5}
+.words{stroke:#f2a93b}.leaf{stroke:#8fd16a}.move{stroke:#5fd0e0}
+.dot{stroke:#0d1712;stroke-width:2}
+.dot.words{fill:#f2a93b}.dot.leaf{fill:#8fd16a}.dot.move{fill:#5fd0e0}
+
+/* placards under each plane */
+.placard{position:absolute;width:240px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.placard b{font-size:30px;line-height:1;letter-spacing:1px;color:#fdf6dc;background:rgba(10,20,14,.75);padding:4px 12px;border-radius:8px}
+.placard span{font-size:19px;color:#b8c9b3;margin-top:3px;background:rgba(10,20,14,.6);padding:0 6px;border-radius:4px}
+
+/* annotation cards */
+.note{position:absolute;background:rgba(9,18,13,.88);border:2px solid var(--c);border-left-width:8px;border-radius:12px;padding:8px 14px 12px}
+.note-t{font-size:44px;line-height:1;white-space:nowrap;font-weight:700;color:var(--c);letter-spacing:.5px}
+.note-b{font-size:21px;line-height:1.25;color:#e3ebde;margin-top:6px}
+.note-b code,.col-recipe code{white-space:normal}
+
+/* bottom band */
+.bottom{position:absolute;left:20px;right:20px;top:800px;height:286px;display:flex;gap:16px}
+.col{background:rgba(9,18,13,.82);border:1px solid rgba(190,230,200,.22);border-radius:14px;padding:12px 16px}
+.col h2{margin:0 0 8px;font-size:28px;line-height:1;letter-spacing:1px;color:#fdf6dc}
+.col-recipe{width:410px}
+.col-recipe ol{margin:0;padding-left:22px;font-size:18.5px;line-height:1.26;color:#d8e3d3}
+.col-recipe li{margin-bottom:6px}
+.col-recipe li::marker{color:#f2a93b;font-weight:700}
+.col-backends{width:500px}
+.lane{margin-bottom:6px}
+.lane-name{font-size:16px;text-transform:uppercase;letter-spacing:1.5px;color:#9fb79a;font-weight:700}
+.chips{display:flex;align-items:center;gap:5px;margin:4px 0 3px;flex-wrap:nowrap}
+.chips i{font-style:normal;color:#9fb79a;font-size:20px}
+.chip{font-size:19px;font-weight:700;padding:2px 9px;border-radius:999px;background:#2b4433;color:#f0f6ea;border:1px solid #4f7259;white-space:nowrap}
+.chip.scene{background:#f2a93b;color:#1a1200;border-color:#f2a93b}
+.chip.file{background:transparent;border-style:dashed}
+.chip.png{border-color:#5fd0e0;color:#5fd0e0}
+.lane p,.either{margin:0;font-size:17.5px;line-height:1.2;color:#d8e3d3}
+.either{margin-top:2px;padding-top:5px;border-top:1px solid rgba(190,230,200,.2);color:#fdf6dc}
+.col-compare{flex:1}
+.cards{display:flex;gap:10px}
+.card{flex:1;border-radius:10px;padding:8px 10px;position:relative}
+.html-card{background:#f7f3e3;color:#2a3326}
+.png-card{background:#1c2b22;border:1px solid #4f7259}
+.card-t{font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.html-card .card-t{color:#2f5d27}.png-card .card-t{color:#5fd0e0}
+.live{margin-top:6px;height:66px;display:flex;align-items:center;flex-wrap:wrap;font-size:27px;line-height:1.05;font-weight:700;color:#2f5d27;letter-spacing:.5px}
+.live .sel{background:#9cc7ff;color:#0e2a6b;padding:0 2px}
+.caret{display:inline-block;width:2px;height:30px;background:#0e2a6b;margin-left:1px}
+.pixels{margin-top:6px;height:66px;border-radius:4px;image-rendering:pixelated;
+  background-size:3000px 3000px;background-position:-750px -288px;background-repeat:no-repeat;box-shadow:inset 0 0 0 1px #4f7259}
+.tag{position:absolute;right:8px;top:9px;font-size:13px;font-weight:700;padding:0 6px;border-radius:4px}
+.html-card .tag{background:#2f5d27;color:#f7f3e3}.png-card .tag{background:#5fd0e0;color:#0d1712}
+.card p{margin:6px 0 0;font-size:16.5px;line-height:1.2}
+.png-card p{color:#d8e3d3}
+
+.foot{position:absolute;left:28px;right:28px;bottom:8px;font-size:16px;color:#8ea58a;letter-spacing:.3px}
+
+/* plane tabs: labels that live on each plane, so they recede with it */
+.ptab{position:absolute;left:0;top:-112px;display:flex;align-items:baseline;gap:22px;white-space:nowrap}
+.ptab b{font-size:76px;line-height:1.1;font-weight:700;letter-spacing:2px;color:#0d1712;background:#fdf6dc;padding:0 26px;border-radius:16px}
+.ptab span{font-size:52px;color:#cfe0c8}
+.p-content .ptab{left:-52px;top:-140px}
+.p-content{overflow:visible}

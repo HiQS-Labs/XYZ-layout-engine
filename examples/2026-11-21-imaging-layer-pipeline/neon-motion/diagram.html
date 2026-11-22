@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-motion="{{motion}}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}} · XYZ Layout Engine</title>
+<style>
+@font-face{font-family:Barlow;src:url('{{regular}}')}@font-face{font-family:Barlow;src:url('{{bold}}');font-weight:700}
+:root{ {{tokens}} color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:var(--body)/1.28 Barlow,sans-serif}
+main{position:relative;max-width:{{width}}px;margin:auto;padding:38px 4% 36px;overflow:hidden}
+header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:12px;min-height:46px}
+.brand,.eyebrow{font-size:var(--label);font-weight:bold;letter-spacing:.10em;text-transform:uppercase}
+.brand{color:var(--accent)}
+button{color:var(--ink);background:transparent;font:inherit;cursor:pointer;border:1px solid var(--rule);border-radius:2em;padding:3px 16px}
+button:hover,button:focus-visible{border-color:var(--accent);color:var(--accent)}
+h1,h2,p,figure{margin:0}
+h1{font-size:var(--title);line-height:1;letter-spacing:-.035em;margin:22px 0 6px}
+.intro{font-size:var(--heading);line-height:1.15;color:var(--muted)}
+.stages{display:grid;grid-template-columns:repeat(3,1fr) 1.16fr;gap:16px;margin:25px 0 24px}
+figure{min-width:0}
+.image{height:clamp(160px,23vw,282px);display:grid;align-items:center;justify-items:center;perspective:900px}
+.plane img{width:91%;transform:rotateY(-33deg) rotateX(9deg) rotateZ(-7deg);background:#e4ecda;border:1px solid var(--ink)}
+img{display:block;max-width:100%;height:auto}
+.proof img{width:auto;height:94%;max-height:265px;max-width:100%;object-fit:contain}
+figcaption{border-top:1px solid var(--rule);padding-top:9px}
+h2{font-size:var(--heading);line-height:1.12;letter-spacing:-.01em}
+figcaption h2{display:flex;align-items:baseline;gap:10px}
+.mark{font-size:var(--label);color:var(--accent);font-weight:400}
+figcaption p,.route p{color:var(--muted);margin-top:4px;max-width:34ch}
+footer{padding-top:18px;border-top:1px solid var(--rule);display:grid;grid-template-columns:1fr 1.1fr 1.16fr;gap:24px}
+.eyebrow{color:var(--accent);margin-top:5px}
+.route strong{font-size:var(--heading);line-height:1}
+[data-step]{--from:-110px}
+[data-side="right"]{--from:110px}
+@keyframes arrive{from{transform:translateX(var(--from));opacity:0}to{transform:translateX(0);opacity:1}}
+@media screen and (prefers-reduced-motion:no-preference){
+  .preparing [data-step]{opacity:0}
+  .playing [data-step]{animation:arrive 850ms cubic-bezier(.22,.66,.24,1) backwards;animation-delay:var(--delay)}
+}
+@media(prefers-reduced-motion:reduce){button{display:none}}
+@media(max-width:760px){
+ main{padding:20px 5% 28px}
+ h1{font-size:clamp(44px,10vw,72px)}
+ .intro{font-size:23px}
+ .stages{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 16px}
+ .image{height:clamp(135px,39vw,240px)}
+ .plane img,.proof img{max-height:92%;width:auto;max-width:90%}
+ h2,.route strong{font-size:25px}
+ figcaption h2{gap:6px}
+ footer{grid-template-columns:1fr 1fr;gap:12px}
+ footer .eyebrow{grid-column:1/-1}
+}
+@media print{button{visibility:hidden}body{print-color-adjust:exact;-webkit-print-color-adjust:exact}main{break-inside:avoid}}
+</style>
+<script>if (document.documentElement.dataset.motion === "true") document.documentElement.classList.add("preparing");</script>
+</head>
+<body>
+<main>
+<header><span class="brand">XYZ Layout Engine</span><button type="button" hidden>Replay animation</button></header>
+<h1>{{title}}</h1><p class="intro">{{intro}}</p>
+<section aria-label="How the poster is assembled" class="stages">{{stages}}</section>
+<footer><span class="eyebrow">Two ways to render</span>{{routes}}</footer>
+</main>
+<script>
+const main = document.querySelector('main');
+const replay = document.querySelector('button');
+function play() {
+  document.documentElement.classList.remove('preparing');
+  main.classList.remove('playing');
+  void main.offsetWidth;
+  main.classList.add('playing');
+}
+if (document.documentElement.dataset.motion === 'true') {
+  replay.hidden = false;
+  replay.addEventListener('click', play);
+  Promise.allSettled([document.fonts.ready, ...Array.from(document.images, image => image.decode())]).then(play);
+}
+</script>
+</body></html>

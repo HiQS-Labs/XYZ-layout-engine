@@ -4,6 +4,34 @@
 
 - Moved loose HTML and PNG renders into each example's `renders/` directory without changing their bytes. Updated diagram writers and current documentation, and published their finals through the existing local review helper.
 - Preserved gallery entry points, source assets, versioned snapshots, and immutable catalog records. Four relative compatibility symlinks preserve the catalog's original artifact paths. Easy reversal.
+## 2026-11-21 — Fuel Well with original Higgsfield artwork
+
+- Added an editable tree-of-life edition with 13 newly generated transparent illustrations, an offline Chromium rebuild, and measured generation receipts.
+
+## 2026-11-21 — Tree of life nutrition poster
+
+- Replaced the central leaf in the shared v4 Chromium HTML with an illustrated tree of life. Added a matching PNG and a local rebuild command.
+
+## 2026-11-21 — Assemble the Astra nutrition poster
+
+- Added a replayable assembly with lettering, artwork and an optional JavaScript/CSS layout sheet that uses measured poster geometry. The animation lands on the live nutrition v4.1 poster, with a manual slider, configurable timing, WebM and still-frame exports.
+
+## 2026-11-21 — Animate the Neon imaging diagram
+
+- Added a simplified presentation fork with a recipe switch for staggered entrances, an offline replayable HTML view and a settled PNG export.
+
+## 2026-11-21 — Illustrate the nutrition poster’s render paths
+
+- Added an editable exploded-view example showing how the JavaScript recipe places text and artwork, and how Satori and Chromium render the styled scene. Preserved the first benchmark image alongside the revision.
+
+## 2026-11-20 — Restore the nutrition poster’s reference proportions
+
+- Published `nutrition@4.1.0` with a full-height leaf and a smaller headline. The previously shared Chromium HTML opens the revised poster, and the catalog retains the original 4.0 design. Easy reversal.
+
+## 2026-11-20 — GH-74 Hallmark receipts use portable fixture paths
+
+- Re-rendered Bento, Skate Guide, and Stat-Led with both Satori and Playwright on `design-intake@1.0.6`. All 43 non-receipt artifacts matched the committed bytes.
+- Recorded repository-relative fixture paths in the refreshed receipts and updated both manifest copies for each run. The publication verifier passed for all six runs, with the existing run links preserved. Easy reversal.
 
 ## 2026-11-20 — FRONTDOOR FD-07 to FD-10 fixed; recipe patch versions
 

@@ -1,6 +1,6 @@
 {
   "normalized": {
-    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-stat-led/fixture.json",
+    "inputPath": "examples/2026-11-09-hallmark-stat-led/fixture.json",
     "width": 1200,
     "height": 1200,
     "format": "png,html,html-inline",
@@ -15,12 +15,12 @@
   },
   "catalog": {
     "slug": "design-intake",
-    "version": "1.0.5",
-    "contentSha256": "1d4399a6bddca3e415eabd161b27a3c623e74b8b3853ab34805330951f71a24c",
+    "version": "1.0.6",
+    "contentSha256": "5f892c837b19d3afac00e79f914e29f1574f9cad8689295994e6c2970c346ccd",
     "verified": true
   },
   "versions": {
-    "recipe": "1.0.5",
+    "recipe": "1.0.6",
     "backend": "1.64.0"
   },
   "validation": {
@@ -33,7 +33,7 @@
     "html-inline": "da997ae3fbd7c258877e6b24d8f302238a29009a96ec253f613226ae9571f385"
   },
   "provenance": {
-    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-stat-led/fixture.json",
+    "inputPath": "examples/2026-11-09-hallmark-stat-led/fixture.json",
     "inputSha256": "11757a2cd0c496ced4fc1c11fe07822ed7060f740f6c5d237d1db691b85b19a2",
     "fixtureSha256": "bff0a09643ce8837e54514b2ce6fd8c882ba90db4aff1cc76f983463013fe39b",
     "backend": "playwright"

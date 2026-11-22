@@ -73,3 +73,11 @@ After inspecting alpha and visual cohesion across all 7 outputs, downscale into
 a candidate `assets/web/` folder using `examples/2026-10-09-cell-division/make-web-asset.mjs`
 (or `tools/spike/downscale-assets.mjs`), update `provenance.json`, and publish a
 new `nutrition` version via `node tools/catalog.mjs publish`.
+
+## Tree-of-life edition
+
+The central illustration in the [tree-of-life poster](renders-v4/playwright/render-inline.html) was generated with the built-in OpenAI image generator in transparent-background mode. The [display PNG](assets/web/tree_of_life.png) is a 426 × 640 downsample of the 1024 × 1536 RGBA original.
+
+**Generation prompt**
+
+> A single freestanding Tree of Life for the center of a cream botanical nutrition poster. Front view, full tree with elegantly twisting warm bronze-brown trunk, spreading roots exposed like a delicate mirrored crown, branching boughs, and a dense rounded crown of distinct deep emerald, olive and spring green leaves. Naturalistic hand-painted botanical illustration with sculptural dimensional shading, soft upper-left light and a few warm gold highlights. Strong legible silhouette, visible branching, no enclosing circle, no ground or landscape, no typography or border. Portrait 2:3 composition, centered with the whole canopy and all root tips inside the frame and narrow transparent margins. Genuine transparent background including gaps between branches.

@@ -20,7 +20,7 @@ colours or positions with one command and re-render in seconds.
 
 | Nutrition infographic (`nutrition` recipe) | Feedback-loop diagram (`recursive-process` recipe) |
 |---|---|
-| ![Nutrition infographic](examples/2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png) | ![Belief updating diagram](examples/2026-10-12-belief-reference/renders-v6/playwright/thumbnail.png) |
+| ![Nutrition infographic](examples/2026-10-13-nutrition-infographic/renders-v4.1/satori/thumbnail.png) | ![Belief updating diagram](examples/2026-10-12-belief-reference/renders-v6/playwright/thumbnail.png) |
 
 > **Status:** local MVP, written in ESM JavaScript (TypeScript is a product target). It is a private
 > package (`0.0.0`): there is no npm release, HTTP server, MCP server or `bin` entry yet. You use it
@@ -191,7 +191,7 @@ All four are active in the catalog.
 
 | Recipe | Version | Canvas | Font | Used by |
 |---|---|---|---|---|
-| `nutrition` | 4.0.0 | 1000×1000 | Barlow Condensed | Nutrition infographic |
+| `nutrition` | 4.1.0 | 1000×1000 | Barlow Condensed | Nutrition infographic |
 | `solar-system` | 1.0.1 | 2400×1700 | Inter | Solar System overview |
 | `recursive-process` | 6.0.1 | 1600×1340 | Barlow Condensed | Belief-updating diagrams |
 | `design-intake` | 1.0.6 | Declared by the fixture (up to 8192 px a side) | Barlow Condensed | Any `DESIGN.md` translated by an agent, including the Hallmark examples |

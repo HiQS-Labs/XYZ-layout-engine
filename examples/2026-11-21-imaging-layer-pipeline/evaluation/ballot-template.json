@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "answers": {
+    "headline": {
+      "pass": null,
+      "evidence": ""
+    },
+    "artwork": {
+      "pass": null,
+      "evidence": ""
+    },
+    "placement": {
+      "pass": null,
+      "evidence": ""
+    },
+    "scene": {
+      "pass": null,
+      "evidence": ""
+    },
+    "satori": {
+      "pass": null,
+      "evidence": ""
+    },
+    "chromium": {
+      "pass": null,
+      "evidence": ""
+    },
+    "delivery": {
+      "pass": null,
+      "evidence": ""
+    },
+    "depth": {
+      "pass": null,
+      "evidence": ""
+    },
+    "annotation": {
+      "pass": null,
+      "evidence": ""
+    },
+    "visualInference": {
+      "pass": null,
+      "evidence": ""
+    },
+    "rebuild": {
+      "pass": null,
+      "evidence": ""
+    },
+    "edit": {
+      "pass": null,
+      "evidence": ""
+    }
+  }
+}

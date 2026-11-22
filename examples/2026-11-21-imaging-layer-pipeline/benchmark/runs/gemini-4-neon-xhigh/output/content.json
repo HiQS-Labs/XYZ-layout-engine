@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "width": 1500,
+    "height": 1000,
+    "pageTitle": "How XYZ Layout Engine Assembles a Poster"
+  },
+  "header": {
+    "title": "HOW XYZ LAYOUT ENGINE ASSEMBLES A POSTER",
+    "subtitle": "Editable JSON words, transparent artwork, and a Node.js recipe become self-contained offline HTML or raster PNG.",
+    "legend": [
+      { "num": "1", "label": "EDIT WORDS", "tone": "emerald" },
+      { "num": "2", "label": "SWAP LEAF", "tone": "teal" },
+      { "num": "3", "label": "MOVE LEAF", "tone": "amber" },
+      { "num": "4", "label": "RENDER & EXPORT", "tone": "sky" }
+    ]
+  },
+  "inputs": {
+    "words": {
+      "badge": "1. EDIT WORDS",
+      "file": "nutrition/fixture.json",
+      "caption": "Edit sections.header.headline in the fixture JSON to change the poster headline words without touching layout code."
+    },
+    "artwork": {
+      "badge": "2. SWAP LEAF",
+      "file": "nutrition/assets/web/",
+      "assetFile": "leaf_glow.png",
+      "caption": "Change artwork choice via hero.illustrationId (\"leaf_glow\") or replace the transparent leaf_glow.png illustration."
+    },
+    "recipe": {
+      "badge": "3. MOVE LEAF",
+      "file": "source/nutrition.mjs",
+      "caption": "Actual recipe placement: left: 262 shifts the leaf right; top: -34 pulls it upward into the header; width: 428 and height: 640 resize it."
+    }
+  },
+  "stage": {
+    "kicker": "EXPLODED 3D ASSEMBLY PLANES  ·  RECOGNIZABLE PARTS OF \"FUEL WELL. LIVE WELL.\"",
+    "plane1Label": "PLANE 1 · CANVAS & CSS GRID",
+    "plane2Label": "PLANE 2 · FIXTURE HEADLINE & COPY",
+    "plane3Label": "PLANE 3 · LEAF ARTWORK & RECIPE COORDS",
+    "depthNote": "Three independent layers stack in Z-depth and merge into one 1000 × 1000 scene",
+    "assembledBadge": "ASSEMBLED POSTER",
+    "assembledDims": "1000 × 1000 px",
+    "sceneSummaryTitle": "STYLED SCENE TREE (IN NODE.JS)",
+    "sceneSummaryBody": "buildScene(fixture) runs in Node.js at render time, combining fixture JSON text, transparent PNG cutouts, Barlow Condensed fonts, and layout style objects."
+  },
+  "pipeline": {
+    "nodeStage": {
+      "badge": "4. NODE.JS RECIPE → CSS",
+      "sub": "Runs in Node.js runtime at render time",
+      "step1Title": "JavaScript Recipe in Node.js",
+      "step1Body": "source/nutrition.mjs validates fixture JSON and runs buildScene() in the Node.js runtime at render time — never in the viewer's browser.",
+      "step2Title": "Styled Scene → Inline CSS Styling",
+      "step2Body": "toHtml() and toDocument() in source/render.mjs serialize scene styles (position:absolute; left:262px; top:-34px) into inline CSS styling and embedded @font-face CSS in the exported HTML."
+    },
+    "backendsStage": {
+      "badge": "5. TWO RENDER BACKENDS",
+      "sub": "Same styled scene · choose Satori or Playwright",
+      "satoriBadge": "SATORI PATH",
+      "satoriSteps": [
+        { "title": "Styled Scene", "detail": "Flexbox tree" },
+        { "title": "Satori", "detail": "Layout → SVG" },
+        { "title": "resvg", "detail": "Rasterizes SVG → PNG" }
+      ],
+      "satoriCaption": "Satori lays out the scene into SVG; @resvg/resvg-js (resvg) rasterizes that SVG directly into a PNG.",
+      "playwrightBadge": "PLAYWRIGHT PATH",
+      "playwrightSteps": [
+        { "title": "HTML + CSS", "detail": "toDocument()" },
+        { "title": "Playwright", "detail": "Drives Chromium" },
+        { "title": "Chromium", "detail": "Layout + PNG capture" }
+      ],
+      "playwrightCaption": "Playwright drives headless Chromium to lay out the HTML/CSS document and capture a PNG via page.screenshot().",
+      "sharedHtmlBanner": "EITHER BACKEND EXPORTS OFFLINE HTML — Both Satori and Playwright feed toDocument() to output self-contained offline HTML."
+    },
+    "outputsStage": {
+      "htmlCard": {
+        "badge": "OFFLINE HTML",
+        "file": "render-inline.html",
+        "demoSelection": "WELL.",
+        "demoPrefix": "FUEL ",
+        "demoTag": "<h1 style=\"font-size:66px;color:#2f5d27\">",
+        "bullets": [
+          "Selectable, searchable live text laid out with CSS styling.",
+          "Self-contained offline HTML: embedded fonts & base64 artwork, zero network calls.",
+          "Exportable from either Satori or Playwright backend."
+        ]
+      },
+      "pngCard": {
+        "badge": "EXPORTED PNG",
+        "file": "render.png",
+        "demoDims": "1000 × 1000 px",
+        "demoLoupeLabel": "RASTER PIXELS",
+        "bullets": [
+          "Flattened raster pixels — fixed resolution, non-selectable text.",
+          "Produced by resvg rasterizing SVG or Chromium PNG capture.",
+          "Identical in every image viewer, slide deck, or print export."
+        ]
+      }
+    }
+  }
+}

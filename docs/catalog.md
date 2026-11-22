@@ -6,7 +6,7 @@ reference; the [README](../README.md#recipe-and-design-catalog) has the short ve
 ## Recipes
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The current identities are `nutrition@4.0.0`,
+in-memory SQLite by `tools/catalog.mjs`. The current identities are `nutrition@4.1.0`,
 `solar-system@1.0.1`, `recursive-process@6.0.1` and `design-intake@1.0.6`: an immutable slug and an
 exact `MAJOR.MINOR.PATCH` version bound to SHA-256 digests of declared files. There is no serial
 number; a recipe is identified by `slug@semver`. Older versions (`nutrition@1.0.0`..`3.0.0`,
@@ -20,7 +20,7 @@ Run from the repository root on a Node with unflagged `node:sqlite` (22.13 or ne
 | `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
 | `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
 | `node tools/catalog.mjs show solar-system` | Look up Solar System by slug | 0 |
-| `node tools/catalog.mjs publish nutrition 4.0.0` | Unchanged publication succeeds as a no-op | 0 |
+| `node tools/catalog.mjs publish nutrition 4.1.0` | Unchanged publication succeeds as a no-op | 0 |
 | `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
 | `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
 
