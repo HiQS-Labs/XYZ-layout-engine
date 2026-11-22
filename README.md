@@ -20,7 +20,7 @@ colours or positions with one command and re-render in seconds.
 
 | Nutrition infographic (`nutrition` recipe) | Feedback-loop diagram (`recursive-process` recipe) |
 |---|---|
-| ![Nutrition infographic](examples/2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png) | ![Belief updating diagram](examples/2026-10-12-belief-reference/renders-v6/playwright/thumbnail.png) |
+| ![Nutrition infographic](examples/2026-10-13-nutrition-infographic/renders-v4.1/satori/thumbnail.png) | ![Belief updating diagram](examples/2026-10-12-belief-reference/renders-v6/playwright/thumbnail.png) |
 
 > **Status:** local MVP, written in ESM JavaScript (TypeScript is a product target). It is a private
 > package (`0.0.0`): there is no npm release, HTTP server, MCP server or `bin` entry yet. You use it
@@ -167,13 +167,31 @@ confirm glyph coverage and text fit.
   cold renders in separate processes (`fresh`) or 10 warm renders after one priming run (`warm`). It
   prints mean, variance, min and max per stage plus memory use, then deletes its scratch folders.
 
+### XYZ Studio (`tools/studio.mjs`): local browser front end
+
+```sh
+pnpm studio                  # then open http://127.0.0.1:4173
+docker compose up --build    # or, with only Docker installed: http://localhost:4173
+```
+
+A Bootstrap page served on loopback only. Pick a fixture, edit its text, colours and numbers, and the engine
+re-renders it with the same validation, fitting and publishing as `tools/render.mjs`; the receipt shows errors,
+final type sizes and the PNG digest. Renders go to `.relay-scratch/studio/out/`; Save writes only under
+`.relay-scratch/` or `temp/`, never over committed examples. The Gallery lists every recognised fixture, and
+Checks runs catalog verify and craft lint.
+
+The Docker image ([`Dockerfile`](Dockerfile)) builds on the Playwright base image, so Satori and Chromium renders
+both work. [`compose.yaml`](compose.yaml) publishes the port on `127.0.0.1` only and mounts `.relay-scratch/` and
+`temp/`, so output appears in your checkout. Examples are baked into the image: rebuild after changing them, and
+keep the base image tag in step with the `playwright` version in `pnpm-lock.yaml`.
+
 ## Recipes
 
 All four are active in the catalog.
 
 | Recipe | Version | Canvas | Font | Used by |
 |---|---|---|---|---|
-| `nutrition` | 4.0.0 | 1000×1000 | Barlow Condensed | Nutrition infographic |
+| `nutrition` | 4.1.0 | 1000×1000 | Barlow Condensed | Nutrition infographic |
 | `solar-system` | 1.0.1 | 2400×1700 | Inter | Solar System overview |
 | `recursive-process` | 6.0.1 | 1600×1340 | Barlow Condensed | Belief-updating diagrams |
 | `design-intake` | 1.0.6 | Declared by the fixture (up to 8192 px a side) | Barlow Condensed | Any `DESIGN.md` translated by an agent, including the Hallmark examples |
@@ -372,7 +390,8 @@ node tools/review.mjs <project-name> <file> [file ...]   # replace REVIEW/<proje
 node tools/review.mjs                                   # rebuild the index only
 ```
 
-Existing examples do not publish there yet; only renderers that call `publishForReview` appear.
+The diagram scripts that publish to review also write public PNG and HTML output under their example’s
+`renders/` folder. See [the output conventions](SOP.md#publishing-example-renders).
 
 ## Using the engine from another repository
 

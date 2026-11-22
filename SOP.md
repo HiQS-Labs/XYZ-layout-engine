@@ -49,3 +49,14 @@ Run one job at a time. Never retry a failed job automatically; read the failure 
 ## When to change this SOP
 
 Update the table and the "Last verified" date when any of these happens: an MCP spike runs (pass or fail); the REST docs list a transparency field; or a CLI version changes the `--background` behaviour. Record the evidence in the same change, and update `skills/higgsfield-cli/SKILL.md` with it.
+
+## Publishing example renders
+
+- Put public PNG and HTML render outputs in the example's `renders/` folder. Keep existing
+  versioned `renders-vN/` snapshots at their recorded paths.
+- Keep input assets and verification receipts with the example. Root `index.html` files are
+  navigation entry points. Four legacy PNG paths are relative symlinks for immutable catalog
+  records. Link to the actual output under `renders/` in current documentation.
+- Example scripts that generate final previews publish them to the gitignored
+  [REVIEW folder](REVIEW/README.md) via `publishForReview`. Use a separate scratch output directory
+  for experiments and deliberate red controls.

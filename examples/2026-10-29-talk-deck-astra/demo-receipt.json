@@ -1,0 +1,78 @@
+{
+  "issue": "HiQS-Labs/XYZ-layout-engine#69",
+  "date": "2026-10-29",
+  "runtime": {
+    "node": "v26.0.0",
+    "commandPrefix": "PATH=\"/opt/homebrew/bin:$PATH\""
+  },
+  "recipe": {
+    "slug": "nutrition",
+    "version": "4.0.0",
+    "catalogVerified": true,
+    "contentSha256": "c6499955ac440dc7875e0a4fb3ab7251490ca86b86f8b48f994ee24f71ae4dcf",
+    "backend": "satori",
+    "backendVersion": "0.36.0"
+  },
+  "setupCommands": [
+    "mkdir -p .relay-scratch/talk-demo",
+    "cp tools/spike/fixture.json .relay-scratch/talk-demo/n.json"
+  ],
+  "runs": [
+    {
+      "stage": "before",
+      "command": "node tools/render.mjs .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/before",
+      "wallSeconds": 0.882,
+      "runId": "197b6146-1daf-4b3f-9ad0-95f6b8f6f181",
+      "fit": true,
+      "fittingIterations": 0,
+      "pngSha256": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504",
+      "svgSha256": "ec2a3a243c32044bd0c954cc769aee4fcf7b6cc8ece29ca860b3c8f13e4c66c0"
+    },
+    {
+      "stage": "edit-and-save",
+      "command": "node tools/render.mjs .relay-scratch/talk-demo/n.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/after",
+      "wallSeconds": 0.549,
+      "runId": "ea730116-dd31-4698-a8c7-1aab95772115",
+      "fit": true,
+      "fittingIterations": 0,
+      "changedFields": [
+        "sections.header.headline",
+        "theme.palette.primary"
+      ],
+      "pngSha256": "397f21d5029f9e27298e1884cfa9d04b901ab095dde0d4f2c710f35bfd357ac9",
+      "svgSha1": "ceefd615f5ca0c4e2a7c80c1ce947d7d3a9dc6c2",
+      "svgSha256": "fbe0090ad0e992d29788f132820bf9e38ee18f5fb1ee07404d19fbe386f86c19"
+    },
+    {
+      "stage": "rerender-saved-fixture",
+      "command": "node tools/render.mjs .relay-scratch/talk-demo/n.json --format svg --out .relay-scratch/talk-demo/again",
+      "wallSeconds": 0.383,
+      "runId": "8f885be2-5803-4eeb-897c-f6904270d6de",
+      "fit": true,
+      "fittingIterations": 0,
+      "svgSha1": "ceefd615f5ca0c4e2a7c80c1ce947d7d3a9dc6c2",
+      "svgSha256": "fbe0090ad0e992d29788f132820bf9e38ee18f5fb1ee07404d19fbe386f86c19"
+    }
+  ],
+  "hashCommand": "shasum .relay-scratch/talk-demo/{after,again}/runs/*/render.svg",
+  "verification": {
+    "afterAndAgainSvgByteIdentical": true,
+    "allRunsFitFirstAttempt": true,
+    "timingsAreOneObservedRunNotABenchmark": true,
+    "demoChangesTwoFieldsInOneSavedFixture": true
+  },
+  "committedComparisonAssets": [
+    {
+      "path": "assets/nutrition-before.png",
+      "sourceStage": "before",
+      "sourceRunId": "197b6146-1daf-4b3f-9ad0-95f6b8f6f181",
+      "sha256": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504"
+    },
+    {
+      "path": "assets/nutrition-after.png",
+      "sourceStage": "edit-and-save",
+      "sourceRunId": "ea730116-dd31-4698-a8c7-1aab95772115",
+      "sha256": "397f21d5029f9e27298e1884cfa9d04b901ab095dde0d4f2c710f35bfd357ac9"
+    }
+  ]
+}

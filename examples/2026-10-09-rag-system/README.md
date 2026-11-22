@@ -2,7 +2,7 @@
 
 A 2400×1660 explainer diagram of retrieval-augmented generation (RAG), rendered with the GH-1 spike's existing render functions (Satori → resvg, and Playwright/Chromium). It is the second renderer example after the [Solar System](../2026-10-08-solar-system/README.md): a left-to-right pipeline with two flows instead of radial orbits.
 
-![RAG system diagram](rag-system.png)
+![RAG system diagram](renders/rag-system.png)
 
 The diagram is conceptual. Real systems differ in chunk size, embedding model, vector store and ranking. The ten stage icons are hand-drawn SVG; no images were generated and nothing was uploaded.
 
@@ -10,9 +10,9 @@ The diagram is conceptual. Real systems differ in chunk size, embedding model, v
 
 | File | What it is |
 |---|---|
-| `rag-system.png` | Final Satori → resvg render |
-| `rag-system-chromium.png` | Same scene rendered by Playwright/Chromium |
-| `rag-system.html` | Self-contained responsive viewer; double-click a label to edit it (edits are not saved) |
+| `renders/rag-system.png` | Final Satori → resvg render |
+| `renders/rag-system-chromium.png` | Same scene rendered by Playwright/Chromium |
+| `renders/rag-system.html` | Self-contained responsive viewer; double-click a label to edit it (edits are not saved) |
 | `fixture.json` | Diagram copy, the ten stages, lane colors and the note panels (credit and source lines live in the script) |
 | `render-diagram.mjs` | Builds the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Evidence: image nodes, text ids, Satori bounds, Chromium text metrics, artifact digests, findings |

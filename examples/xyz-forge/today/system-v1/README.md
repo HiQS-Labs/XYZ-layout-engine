@@ -2,7 +2,7 @@
 
 A 2000×1570 redraw of the XYZ Forge system diagram (dark, boxed, neon routes) in the visual language of the [October 12 belief-updating reference](../../../2026-10-12-belief-reference/README.md): warm ivory ground, charcoal Barlow Condensed type, a rounded title panel, numbered stage markers over short column rules, point-up hexagons on one horizontal reading line, thin slate connectors with rounded elbows, compact cards with labels underneath, and one pale blue-grey accent shape.
 
-![XYZ Forge system diagram](xyz-forge-system.png)
+![XYZ Forge system diagram](renders/xyz-forge-system.png)
 
 The diagram is schematic. It shows control and record flows, not deployment topology or timing. Icons are hand-drawn SVG; no images were generated and nothing was uploaded.
 
@@ -10,9 +10,9 @@ The diagram is schematic. It shows control and record flows, not deployment topo
 
 | File | What it is |
 |---|---|
-| `xyz-forge-system.png` | Final Satori → resvg render |
-| `xyz-forge-system-chromium.png` | Same scene rendered by Playwright/Chromium |
-| `xyz-forge-system.html` | Self-contained responsive viewer |
+| `renders/xyz-forge-system.png` | Final Satori → resvg render |
+| `renders/xyz-forge-system-chromium.png` | Same scene rendered by Playwright/Chromium |
+| `renders/xyz-forge-system.html` | Self-contained responsive viewer |
 | `fixture.json` | All copy and the palette roles |
 | `render-diagram.mjs` | Owns the geometry, builds the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Text and icon ids, artifact digests, findings (empty on a pass) |

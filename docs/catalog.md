@@ -6,7 +6,7 @@ reference; the [README](../README.md#recipe-and-design-catalog) has the short ve
 ## Recipes
 
 Recipe files own content; `tools/catalog.sql` is the canonical identity ledger, loaded into
-in-memory SQLite by `tools/catalog.mjs`. The current identities are `nutrition@4.0.0`,
+in-memory SQLite by `tools/catalog.mjs`. The current identities are `nutrition@4.1.0`,
 `solar-system@1.0.1`, `recursive-process@6.0.1` and `design-intake@1.0.6`: an immutable slug and an
 exact `MAJOR.MINOR.PATCH` version bound to SHA-256 digests of declared files. There is no serial
 number; a recipe is identified by `slug@semver`. Older versions (`nutrition@1.0.0`..`3.0.0`,
@@ -20,7 +20,7 @@ Run from the repository root on a Node with unflagged `node:sqlite` (22.13 or ne
 | `node tools/catalog.mjs list` | List recipe identities and statuses | 0 |
 | `node tools/catalog.mjs show nutrition` | Show identity, versions, files and outputs | 0 |
 | `node tools/catalog.mjs show solar-system` | Look up Solar System by slug | 0 |
-| `node tools/catalog.mjs publish nutrition 4.0.0` | Unchanged publication succeeds as a no-op | 0 |
+| `node tools/catalog.mjs publish nutrition 4.1.0` | Unchanged publication succeeds as a no-op | 0 |
 | `node tools/catalog.mjs verify` | Current module versions are published, declared files match, dump is canonical | 0 |
 | `node tools/catalog.mjs export --check` | Check canonical dump bytes without rewriting | 0 |
 
@@ -60,7 +60,7 @@ case because they are hand-built scripts with no recipe.
 |---|---|---|
 | `node tools/catalog.mjs design list` | List recorded designs | 0 |
 | `node tools/catalog.mjs design show 2026-10-08-solar-system` | Show a design by ID (`design show <id>`) | 0 |
-| `node tools/catalog.mjs design add 2026-10-10-rag-study --fixture examples/2026-10-09-rag-system/fixture.json --artifact examples/2026-10-09-rag-system/rag-system.png --friction 'Hand-built lanes and connectors; no recipe.'` | Record a new ID and append its log line | 0 |
+| `node tools/catalog.mjs design add 2026-10-10-rag-study --fixture examples/2026-10-09-rag-system/fixture.json --artifact examples/2026-10-09-rag-system/renders/rag-system.png --friction 'Hand-built lanes and connectors; no recipe.'` | Record a new ID and append its log line | 0 |
 
 The add example succeeds once; repeating the ID exits **1** and preserves the dump and log.
 Exit **1** also means validation, I/O or drift failure (including an unknown design or use-case

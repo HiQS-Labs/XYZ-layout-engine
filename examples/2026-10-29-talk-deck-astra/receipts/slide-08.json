@@ -1,0 +1,67 @@
+{
+  "slide": 8,
+  "fixture": "fixtures/slide-08.json",
+  "layout": "recipes",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "recipe_stage_title_0",
+    "recipe_stage_code_0",
+    "recipe_stage_caption_0",
+    "recipe_stage_title_1",
+    "recipe_stage_code_1",
+    "recipe_stage_caption_1",
+    "recipe_stage_title_2",
+    "recipe_stage_code_2",
+    "recipe_stage_caption_2",
+    "recipe_rule_number_0",
+    "recipe_rule_0",
+    "recipe_rule_number_1",
+    "recipe_rule_1",
+    "recipe_rule_number_2",
+    "recipe_rule_2",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.677,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 0,
+    "maxGraphicToCap": 0,
+    "iconToLabelRatio": null,
+    "exceptions": []
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "f4573809f3dddf802d3f2e2557927440842183214acf1d3aa4c4ba4b18acd8eb",
+    "chromiumPng": "06168684652502996cf00fec912dc6eb2be32c648beb71f26247cdfdeb6094ec",
+    "svg": "02676ddefc5de97c91a9fb16a494051820e25819c0e686f90de1d18dedd57a39"
+  },
+  "findings": []
+}

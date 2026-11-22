@@ -1,0 +1,21 @@
+{
+  "width": 1280,
+  "height": 800,
+  "theme": {
+    "palette": { "ground": "#132b25", "ink": "#fcf9e8", "muted": "#ced9c8", "accent": "#c8eb86", "rule": "#567365" },
+    "type": { "title": 0.10, "heading": 0.039, "body": 0.024, "label": 0.022 }
+  },
+  "entranceAnimation": true,
+  "title": "Three layers, one poster.",
+  "intro": "A JavaScript recipe places words and artwork in a single styled scene.",
+  "stages": [
+    { "title": "Layout", "caption": "CSS defines the space for the headline, leaf and food illustrations." },
+    { "title": "Lettering", "caption": "The fixture supplies the headline and captions as editable text." },
+    { "title": "Artwork", "caption": "Transparent cutouts let the lettering and layout show through." },
+    { "title": "Assembled poster", "caption": "All three share one set of coordinates." }
+  ],
+  "exports": [
+    { "name": "Satori", "path": "Builds an SVG. resvg turns it into a PNG." },
+    { "name": "Chromium", "path": "Playwright captures the HTML layout as a PNG." }
+  ]
+}

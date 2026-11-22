@@ -1,0 +1,75 @@
+{
+  "slide": 7,
+  "fixture": "fixtures/slide-07.json",
+  "layout": "comparison",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "before_label",
+    "after_label",
+    "comparison_proof",
+    "comparison_hash",
+    "comparison_timing",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [
+    {
+      "id": "before",
+      "visibleWidth": 480,
+      "visibleHeight": 480,
+      "sourceSha256": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504"
+    },
+    {
+      "id": "after",
+      "visibleWidth": 480,
+      "visibleHeight": 480,
+      "sourceSha256": "397f21d5029f9e27298e1884cfa9d04b901ab095dde0d4f2c710f35bfd357ac9"
+    }
+  ],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.724,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 480,
+    "maxGraphicToCap": 7.97,
+    "iconToLabelRatio": null,
+    "exceptions": [
+      {
+        "rule": "AS-12 rule 5",
+        "reason": "480 px real-render evidence images must remain large enough for before/after comparison; they are subject matter, not decorative hero art."
+      }
+    ]
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "f3876aa5f24759bbfebc1c81db2207ff087a4e06c5e018607c0ababebce8e949",
+    "chromiumPng": "a1587791c9d9aa62749080cfbe492f20fe9ed26a85ab8168b6b2276606a2ed30",
+    "svg": "b4a48cb40d01c1f7a9d4a95f5a55d75df76afc76bd68c6a62469bc6cecd3c3d0"
+  },
+  "findings": []
+}

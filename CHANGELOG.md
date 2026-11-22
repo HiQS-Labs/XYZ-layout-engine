@@ -1,5 +1,37 @@
 # Changelog
 
+## 2026-11-20 — Normalize public example render paths
+
+- Moved loose HTML and PNG renders into each example's `renders/` directory without changing their bytes. Updated diagram writers and current documentation, and published their finals through the existing local review helper.
+- Preserved gallery entry points, source assets, versioned snapshots, and immutable catalog records. Four relative compatibility symlinks preserve the catalog's original artifact paths. Easy reversal.
+## 2026-11-21 — Fuel Well with original Higgsfield artwork
+
+- Added an editable tree-of-life edition with 13 newly generated transparent illustrations, an offline Chromium rebuild, and measured generation receipts.
+
+## 2026-11-21 — Tree of life nutrition poster
+
+- Replaced the central leaf in the shared v4 Chromium HTML with an illustrated tree of life. Added a matching PNG and a local rebuild command.
+
+## 2026-11-21 — Assemble the Astra nutrition poster
+
+- Added a replayable assembly with lettering, artwork and an optional JavaScript/CSS layout sheet that uses measured poster geometry. The animation lands on the live nutrition v4.1 poster, with a manual slider, configurable timing, WebM and still-frame exports.
+
+## 2026-11-21 — Animate the Neon imaging diagram
+
+- Added a simplified presentation fork with a recipe switch for staggered entrances, an offline replayable HTML view and a settled PNG export.
+
+## 2026-11-21 — Illustrate the nutrition poster’s render paths
+
+- Added an editable exploded-view example showing how the JavaScript recipe places text and artwork, and how Satori and Chromium render the styled scene. Preserved the first benchmark image alongside the revision.
+
+## 2026-11-20 — Restore the nutrition poster’s reference proportions
+
+- Published `nutrition@4.1.0` with a full-height leaf and a smaller headline. The previously shared Chromium HTML opens the revised poster, and the catalog retains the original 4.0 design. Easy reversal.
+
+## 2026-11-20 — GH-74 Hallmark receipts use portable fixture paths
+
+- Re-rendered Bento, Skate Guide, and Stat-Led with both Satori and Playwright on `design-intake@1.0.6`. All 43 non-receipt artifacts matched the committed bytes.
+- Recorded repository-relative fixture paths in the refreshed receipts and updated both manifest copies for each run. The publication verifier passed for all six runs, with the existing run links preserved. Easy reversal.
 ## 2026-11-21 — Align the overview deck’s QR codes
 
 - The welcome and thank-you slides now place the QR image on the horizontal divider’s right margin in both editions.
@@ -73,6 +105,21 @@
 - Merged `origin/main` (#74–#84) into the branch: the README now also covers Hallmark examples and `tools/hallmark.mjs`, the craft linter (`AS-13`/`AS-14`, `intake --craft`), the Impeccable audit (and its `npx` network fallback), editorial asset export, `REVIEW/` with `tools/review.mjs`, and the public API section "Using the engine from another repository" kept under that heading because `ROUTER.md` and `tools/plugin-api.mjs` point to it. Commands checked on the merged tree: Bento `intake --craft` and `craft-lint` pass, Bento render exit 0, editorial export writes a 1248×1008 RGBA PNG, a linked consumer imports exactly `launchPlaywright,publishForReview` and gets `ERR_PACKAGE_PATH_NOT_EXPORTED` for deeper paths.
 - Codex merge-delta QA round 1 (FAIL) led to: the craft linter described exactly (errors vs the warning-only empty-plate rule; `AS-12` scale not checked), and the paid-generation paragraph no longer claims to be the only network step. Upstream README facts that the first merge pass had dropped (Hallmark usage and counts, direct `npx impeccable detect`, detector rule list, steering-verb detail, web-framework names) were restored.
 - Verification: quick-start commands (nutrition render to four formats, solar `--set`/`--save`, belief-reference Playwright PNG, `intake.mjs check`) ran on Node v26.13.0; `node tools/spike/test/run.mjs` 4/4 in 30.0 s; `utils/pdda/pdda.sh run` no errors, warnings unchanged from baseline (54); every relative link in the three docs resolves. Docs only: no runtime or test change.
+## 2026-11-19 — XYZ Studio in Docker (one command)
+
+- Added `Dockerfile`, `compose.yaml` and `.dockerignore`: `docker compose up --build` builds an image from `mcr.microsoft.com/playwright:v1.64.0-noble` (Node 24 plus Chromium matching the locked `playwright@1.64.0`), installs with `pnpm install --frozen-lockfile` as the non-root `pwuser`, and runs `tools/studio.mjs`. Compose publishes `127.0.0.1:4173` only and bind-mounts `.relay-scratch/` and `temp/`, so output lands in the checkout.
+- `tools/studio.mjs`: the listen address now reads `STUDIO_HOST` (default `127.0.0.1`, unchanged for `pnpm studio`). The image sets `0.0.0.0` so Docker can forward the port; the loopback Host allow-list, token and Origin checks are unchanged.
+- Limit: examples are copied into the image, so edits to `examples/` need a rebuild. The base image tag must move with the `playwright` lock version. No test added: packaging only, no new engine behaviour.
+- Verification (Docker 20.10.21, Intel Mac): the image builds; in the browser at http://localhost:4173 the nutrition fixture rendered with Satori (1.4 s) and Chromium (6.4 s), with `render.png` written to the host's `.relay-scratch/studio/out/`; catalog check passed in the container; a foreign Host header gets 421; the LAN address (`en0`) is not reachable.
+## 2026-11-19 — XYZ Studio: local browser front end (PRD "optional browser preview")
+
+- Added `tools/studio.mjs` (`pnpm studio`, http://127.0.0.1:4173): a `node:http` server bound to loopback that serves a Bootstrap 5.3.3 page and a small JSON API (`/api/fixtures`, `/api/fixture`, `/api/gallery`, `/api/recipes`, `/api/render`, `/api/save`, `/api/check`). Renders and saves call the engine's own `processRequest`, `publishArtifacts` and `saveFixture` in `runCLI`'s order; no second validation or render path. Renders run one at a time into `.relay-scratch/studio/out/`.
+- Added `tools/studio/` (`index.html`, `app.js`, `studio.css`): Editor (fields generated from the fixture JSON, auto-render, saved vs edited compare, receipt with validation errors, fit result, final type sizes, request body and PNG digest), Gallery (every recognised fixture under `examples/`, `.relay-scratch/`, `temp/` with its latest studio run or committed render) and Checks (catalog verify, craft lint, last render's fit).
+- Guards: loopback Host header required; POSTs need the per-process token in the page, `application/json` and a same-origin `Origin`; reads limited to `examples/`, `.relay-scratch/`, `temp/`; saves limited to `.relay-scratch/` and `temp/`, so committed examples are never overwritten; page served with a strict CSP; rendered HTML opened sandboxed with scripts off.
+- Dependency: `bootstrap@5.3.3` (devDependency, with its `@popperjs/core` peer) so the page works offline; served from `node_modules`. Fonts reuse the bundled Barlow Condensed.
+- `tools/render.mjs` is unchanged on purpose: it is a catalog-declared file of every published recipe version, so extracting a shared `renderAndPublish` there fails `catalog verify`. The studio keeps that six-line sequence locally with a comment; fold it into a shared export at the next recipe republish.
+- Limit: fixtures are recognised by `id` (nutrition, recursive-process, design-intake) or a `planets` array (Solar System); other example fixtures and deck slides are not listed. No test added: the studio is a thin adapter over operations the canaries already cover, and `test-budget.json` admits none for it.
+- Verification: in the browser, rendered nutrition (Satori, 0.7–1.4 s) and belief-reference (Chromium, 2.9 s); an invalid colour showed the engine's `requires #rrggbb color` error; Save wrote `.relay-scratch/studio/fixtures/…nutrition-infographic.json` with `examples/` untouched (`git status`); token, Host, Origin, path-escape and save-into-`examples/` requests are refused. `node tools/catalog.mjs verify` passes; `utils/pdda/pdda.sh run` reports no errors (57 warnings, all pre-existing). `pnpm test` not run: on this Intel Mac the canaries take ~100–130 s against the 60 s deadline.
 ## 2026-11-12 — Remove accidental duplicate PDFs from `.relay-scratch/`
 
 - Deleted `.relay-scratch/pdf/` (four files committed by accident in #52). The two `*.pdf-accessibility.json` files were byte-identical to the canonical copies in `examples/2026-10-11-belief-updating/` and `examples/2026-10-12-belief-reference/`; the two PDFs differed from them only in the 4 bytes of their creation timestamps (19 seconds apart). README already points at the `examples/` copies.
@@ -121,6 +168,18 @@
 - Added `tools/deck-viewer.mjs` (`pnpm deck:viewer <dir>`), the repeatable last step for any deck folder: reads `deck.json`, the frames under `renders/` and the per-slide fixtures for captions and alt text, and writes one static `index.html` (relative links, no inlined bytes, no timestamps, no dependencies) with arrow-key navigation, a thumbnail strip, a Satori / Chromium switch, a grid view and `#<n>/<backend>` deep links; exits 1 on a missing frame. Generated `examples/2026-10-29-talk-deck/index.html` with it; the file repeats byte for byte.
 - One-off example (GH-55/GH-60/GH-63 pattern): no recipe, catalog, renderer, font or test change beyond the viewer tool. Captured GH-69 in `PROJECT/1-INBOX/GH-69-TALK-DECK.md` and parked it in the releases ledger.
 - Verification: script passes in both backends with zero findings; two consecutive runs give identical digests for all twenty PNGs, `verification.json` and `deck.pdf`. Its checks caught, during layout, a 1.05 headline line height that clipped in Chromium (fixed to 1.2, no guard loosened), a wrapped backend label and a too-short catalog strip. All PNGs inspected at full size and on a contact sheet at 640 px and 400 px. Open: the issue's "two re-rolls side by side" slide needs paid image calls; root `README.md` and #69 name a `measure-chromium.mjs` that does not exist in the tree.
+## 2026-10-27 — GH-68: Tunnel Run anime-style POC stills (round 1)
+
+- Added `examples/2026-10-27-tunnel-run/`: the Tunnel Run art direction guide, its prompts sent verbatim, a single-create `gen.sh`, two 1344×752 `gpt_image_2_5` stills (flare, medium, 16:9, opaque) and `provenance.json` (job ids, credits, sha256; no signed URLs or account details).
+- Higgsfield CLI 1.2.2 is installed on this Mac via Homebrew. Only `higgsfield` and `higgs` are linked, so the existing Hugging Face `hf` command is unchanged.
+- Spend: 1.0 credit (0.5 per image, quoted and measured by balance) against an operator cap of $10 per session, counted as 10 credits.
+- Results against the guide's acceptance check: POC 1 has the painted look but shows a grille badge and tyre spray; POC 2 drifts toward a 3D render on the floor and ceiling. Re-runs are listed in `PROJECT/1-INBOX/GH-68-TUNNEL-RUN-POCS.md`.
+## 2026-10-29 — GH-69: ten-slide dogfood talk deck, "Stop Re-Rolling the Whole Image"
+
+- Added `examples/2026-10-29-talk-deck-astra/`: ten independent JSON fixtures rendered at 1920×1080 through the shared Satori and Chromium backends, including the required technical-system and author-once/edit-forever workflow diagrams. The exact issue demo commands, real nutrition before/after outputs, matching SVG hashes and observed sub-second wall times are retained with per-slide receipts and an AS report. No image-model slide output or paid image generation. Easy reversal: one additive example folder; no runtime, published recipe, catalog, dependency, test or CI change.
+- Documented two source discrepancies rather than hiding them: the README's `tools/spike/measure-chromium.mjs` path is absent at base `0d6706c` (the slide names the checked `tools/render.mjs` and `tools/spike/verify.mjs` implementation sites), and the issue's exact demo edits headline plus primary color despite its one-element narrative. Slide 7 declares its 480 px real-render evidence images as an AS-12 rule-5 exception (7.97× headline cap height).
+- Verification: all ten slides pass both backends with zero recorded text overlaps, clippings, unsupported glyphs or automated AS-12 findings; clean replay produced 41/41 byte-identical generated files. All 20 PNGs inspected at full size and exact 640×360 and 400×225 thumbnails, plus native slide-7 evidence crops; main hierarchy holds, while 21 px supporting copy and long command/hash lines need zoom at 400 px. `pnpm test` passed 4/4 in 47.1 s within the unchanged budget. `utils/pdda/pdda.sh run` reported no errors and 33 warnings confined to unchanged governance references.
+
 ## 2026-10-18 — GH-65: XYZ Forge diagrams grouped by lens; prior-art check shown
 
 - Moved the three XYZ Forge examples under `examples/xyz-forge/`: `today/system-v1/` (was `2026-10-14-xyz-forge-system/`), `today/software-factory-v2/` (was `2026-10-15-xyz-forge-software-factory/`) and `future/shift-proposal/` (was `2026-10-15-xyz-forge-shift-proposal/`), with an index README. Pure renames; each script's repo-root URL gained two levels and in-folder links and replay commands were updated. v1's outputs are byte-identical after the move. Older changelog entries, completed plans and relay threads keep the old paths as history.
@@ -497,6 +556,12 @@
 - Reuses the pinned runtime in `examples/2026-10-08-solar-system/runtime/` by relative import, so no second runtime copy. No change to `tools/spike/**`, `package.json`, `test-budget.json`, or any test or workflow.
 - Bet: the existing render functions carry a second, structurally different layout (a two-lane pipeline) from fixture data alone. Failure mode: checks pass while the picture looks wrong; the agent inspected both PNGs, human review is pending. Coupling limit: moving the Solar System `runtime/` breaks this example until GH-5 lands a shared render operation. Reversibility: Easy — delete the folder and this entry.
 - Verification: render prints `PASS` (10 icon nodes, 49 text ids, both backends). Three red controls each failed by name and were restored: overflowing description (`chunk_desc`), missing `retrieve` icon, Chromium `title` off-canvas. Plan QA: Codex, 2 rounds, Approved. Answer to the skill question: no `SKILL.md` exists in the tracked repo; GH-5 does not track one.
+
+## 2026-10-08 — Agy QA of MVP improvement plan
+
+- Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.
+- Revised GH-5 to accept nutrition first with the product-hero smoke, extend the existing four canaries within the ratchet, qualify generation/render measurements separately, and use the published Solar System display assets for future offline recipe promotion. Original image inputs remain omitted; the generator does not produce the two selected refinements. All eleven selected display image digests match committed evidence.
+- Reversibility: Easy — plan/recon/QA records only. Main checkout unchanged by this task; no runtime implementation or paid image calls. Verification: matched the approved plan bytes to the reviewed commit; Agy shim, review-once, lock-resolver and attestation checks pass within their recorded limits. The aggregate vendor-snapshot gate was not green and is explicitly disqualified in `relay-system/2026-10-08/gh5-qa-receipt.json`. Targeted PDDA frontmatter, roadmap coverage and changelog checks pass with zero errors/warnings; diff whitespace passes.
 
 ## 2026-10-08 — Solar System diagram with Milky Way inset
 

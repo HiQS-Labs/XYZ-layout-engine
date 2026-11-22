@@ -1,6 +1,6 @@
 {
   "normalized": {
-    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-bento/fixture.json",
+    "inputPath": "examples/2026-11-09-hallmark-bento/fixture.json",
     "width": 1200,
     "height": 1200,
     "format": "png,svg,html,html-inline",
@@ -16,12 +16,12 @@
   },
   "catalog": {
     "slug": "design-intake",
-    "version": "1.0.5",
-    "contentSha256": "1d4399a6bddca3e415eabd161b27a3c623e74b8b3853ab34805330951f71a24c",
+    "version": "1.0.6",
+    "contentSha256": "5f892c837b19d3afac00e79f914e29f1574f9cad8689295994e6c2970c346ccd",
     "verified": true
   },
   "versions": {
-    "recipe": "1.0.5",
+    "recipe": "1.0.6",
     "backend": "0.36.0"
   },
   "validation": {
@@ -35,7 +35,7 @@
     "html-inline": "8e6d461b6977610f090db4ea2436fca39a95087bbcb39210718069076308286c"
   },
   "provenance": {
-    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-bento/fixture.json",
+    "inputPath": "examples/2026-11-09-hallmark-bento/fixture.json",
     "inputSha256": "fedc6c0fe0d3610e617ae34f8de72858de2477befad833a54d3af38b883d2d1b",
     "fixtureSha256": "be1946fae28803aa7d04b72e8ca26b1a3d61d08c5d69c23cc13c4ebd0a64bde6",
     "backend": "satori"

@@ -1,0 +1,30 @@
+{
+  "slide": 4,
+  "layout": "system",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "03 · HIGH-LEVEL TECHNICAL SYSTEM",
+  "title": "Structured inputs. Deterministic outputs.",
+  "subtitle": "Authoring is explicit; only fixtures, trusted recipes and pinned assets enter the renderer.",
+  "inputsTitle": "AUTHORING + RENDER INPUTS",
+  "inputs": [
+    { "title": "DESIGN.md / reference image", "caption": "Agent input; not parsed by the engine" },
+    { "title": "fixture.json", "caption": "Schema-validated structured data" },
+    { "title": "tools/recipes/*.mjs", "caption": "Trusted, versioned layout module" },
+    { "title": "PNG cutouts / inline SVG", "caption": "True-alpha or vector artwork" }
+  ],
+  "renderTitle": "tools/render.mjs",
+  "renderItems": ["Satori + resvg", "or headless Chromium", "Bundled local fonts", "Overlap + clipping checks"],
+  "renderNote": "Checks verified in render.mjs + spike/verify.mjs",
+  "outputsTitle": "OUTPUTS",
+  "formats": ["PNG", "SVG", "HTML", "html-inline"],
+  "manifestTitle": "manifest.json",
+  "manifestBody": "current: immutable runs/<uuid>/",
+  "catalogTitle": "tools/catalog.mjs",
+  "catalogBody": "Published recipe versions pinned by SHA-256 content hashes",
+  "footer": "Source-checked current code; README's measure-chromium.mjs path is absent in this checkout.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

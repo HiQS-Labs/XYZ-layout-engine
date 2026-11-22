@@ -1,0 +1,65 @@
+{
+  "slide": 6,
+  "fixture": "fixtures/slide-06.json",
+  "layout": "commands",
+  "renderer": "Shared tools/render.mjs renderSatori + renderPlaywright; vendored Barlow Condensed",
+  "width": 1920,
+  "height": 1080,
+  "textIds": [
+    "command_number_0",
+    "demo_command_0",
+    "command_number_1",
+    "demo_command_1",
+    "command_number_2",
+    "demo_command_2",
+    "command_number_3",
+    "demo_command_3",
+    "command_number_4",
+    "demo_command_4",
+    "command_number_5",
+    "demo_command_5",
+    "demo_watch",
+    "eyebrow",
+    "title",
+    "subtitle",
+    "footer",
+    "page"
+  ],
+  "graphics": [],
+  "as12": {
+    "S": 1080,
+    "px": {
+      "headline": 86,
+      "subhead": 32,
+      "label": 26,
+      "body": 21
+    },
+    "distinctSizes": [
+      86,
+      32,
+      26,
+      21
+    ],
+    "headlinePctOfS": 0.08,
+    "headlinePctOfWidth": 0.621,
+    "bodyPctOfS": 0.019,
+    "headlineToBody": 4.1,
+    "headlineCapHeightPx": 60.2,
+    "largestVisibleGraphicHeightPx": 0,
+    "maxGraphicToCap": 0,
+    "iconToLabelRatio": null,
+    "exceptions": []
+  },
+  "checks": {
+    "overlaps": 0,
+    "clippings": 0,
+    "unsupportedGlyphFindings": 0,
+    "as12Findings": 0
+  },
+  "artifactDigests": {
+    "png": "686d1c0696dac057fdc9e312bf78364cb666f37c802e24de3a6f58e12e181afe",
+    "chromiumPng": "72d240884e9bd8d61bbe20b5373ad8a95439f3688021fa0db0a64894748aac40",
+    "svg": "308ec0068a3bb133d882469844c79b9c97c17042a6acd3ec0ae69e3396ab01e0"
+  },
+  "findings": []
+}

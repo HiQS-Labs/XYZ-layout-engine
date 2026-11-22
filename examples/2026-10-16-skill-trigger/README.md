@@ -2,7 +2,7 @@
 
 A 1920×1920 recreation of an operator-supplied Claude Skills explainer plate (#60): aged parchment with watercolor stains, a hand-drawn double frame, a terracotta Alegreya title whose second line is italic, and a charcoal ink diagram. The plate makes one point: a skill loads only when something in the prompt reaches the skill's description. The description is the trigger.
 
-![Why your skill never runs](skill-trigger.png)
+![Why your skill never runs](renders/skill-trigger.png)
 
 The paper texture, stains, ink line work and splatter are procedural SVG built by the script with a fixed seed. No images were generated and nothing was uploaded.
 
@@ -10,9 +10,9 @@ The paper texture, stains, ink line work and splatter are procedural SVG built b
 
 | File | What it is |
 |---|---|
-| `skill-trigger.png` | Final Satori → resvg render |
-| `skill-trigger-chromium.png` | Same scene rendered by Playwright/Chromium |
-| `skill-trigger.html` | Self-contained responsive viewer |
+| `renders/skill-trigger.png` | Final Satori → resvg render |
+| `renders/skill-trigger-chromium.png` | Same scene rendered by Playwright/Chromium |
+| `renders/skill-trigger.html` | Self-contained responsive viewer |
 | `fixture.json` | All copy, palette roles and type settings |
 | `render-diagram.mjs` | Owns the geometry, builds the paper and ink layers and the scene, renders both backends, runs the checks, writes `verification.json` |
 | `verification.json` | Text ids, artifact digests, findings (empty on a pass) |
