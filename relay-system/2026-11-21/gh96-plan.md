@@ -139,4 +139,13 @@ Bet before relay edit: the explicit Report contract closes the missing acceptanc
 
 Relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-11-22T03:37:22Z
+task: RELAY-GH96-EDITORIAL-PLAN
+reviewer: codex
+status: Approved
+reviewed-head: 7112e773f1553c2c37e05dc51cc01af62575b4d9
+added-range: 14021+3819
+added-sha256: 6e1dea1ff11ac06f53003f303996186cd87bc20c0982a77c7c14c9c7905213f1
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
