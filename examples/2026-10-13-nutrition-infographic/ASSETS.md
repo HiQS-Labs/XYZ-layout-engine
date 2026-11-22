@@ -76,7 +76,7 @@ new `nutrition` version via `node tools/catalog.mjs publish`.
 
 ## Tree-of-life edition
 
-The central illustration in the [tree-of-life poster](renders-v4/playwright/render-inline.html) was generated with the built-in OpenAI image generator in transparent-background mode. The [display PNG](assets/web/tree_of_life.png) is a 426 × 640 downsample of the 1024 × 1536 RGBA original.
+The central illustration in the [tree-of-life poster](renders-v4/playwright/render-inline.html) was generated with the built-in OpenAI image generator in transparent-background mode. The [display PNG](assets/tree_of_life.png) is a 426 × 640 downsample of the 1024 × 1536 RGBA original.
 
 **Generation prompt**
 

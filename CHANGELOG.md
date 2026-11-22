@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-21 — Integration QA for #94
+
+- Moved the tree-of-life variant artwork outside the pinned nutrition asset directory and indexed the three newly landed examples in the README.
+
 ## 2026-11-20 — Normalize public example render paths
 
 - Moved loose HTML and PNG renders into each example's `renders/` directory without changing their bytes. Updated diagram writers and current documentation, and published their finals through the existing local review helper.
