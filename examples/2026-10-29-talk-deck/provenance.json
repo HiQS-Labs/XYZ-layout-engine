@@ -1,0 +1,56 @@
+{
+  "source": "The live demo script from issue #69, run verbatim from the repository root on 2026-10-29 with Node v26.0.0 (tools/render.mjs, recipe nutrition@4.0.0 verified against tools/catalog.sql, Satori 0.36.0 + resvg). The exported run folders live in the untracked .relay-scratch/talk-demo/; the two PNGs below are byte copies of their render.png, and receipts/ holds their result.json and manifest.json.",
+  "commands": [
+    "mkdir -p .relay-scratch/talk-demo",
+    "cp tools/spike/fixture.json .relay-scratch/talk-demo/n.json",
+    "node tools/render.mjs .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/before",
+    "node tools/render.mjs .relay-scratch/talk-demo/n.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/talk-demo/n.json --format png,svg --out .relay-scratch/talk-demo/after",
+    "node tools/render.mjs .relay-scratch/talk-demo/n.json --format svg --out .relay-scratch/talk-demo/again",
+    "shasum .relay-scratch/talk-demo/{after,again}/runs/*/render.svg"
+  ],
+  "runs": {
+    "before": {
+      "run": "runs/2aa75c4f-dda7-4aa7-ad3c-c3bd1907d70a",
+      "svgSha256": "ec2a3a243c32044bd0c954cc769aee4fcf7b6cc8ece29ca860b3c8f13e4c66c0",
+      "svgSha1": "c5bfd3635a391a49df3baac6ff4960feaa5bcee0",
+      "pngSha256": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504",
+      "wallSeconds": 0.61
+    },
+    "after": {
+      "run": "runs/e5cb5ab3-c5db-40c7-80a1-3265b2b2fee5",
+      "svgSha256": "fbe0090ad0e992d29788f132820bf9e38ee18f5fb1ee07404d19fbe386f86c19",
+      "svgSha1": "ceefd615f5ca0c4e2a7c80c1ce947d7d3a9dc6c2",
+      "pngSha256": "397f21d5029f9e27298e1884cfa9d04b901ab095dde0d4f2c710f35bfd357ac9",
+      "wallSeconds": 0.57
+    },
+    "again": {
+      "run": "runs/38640ee9-b7b5-4606-8e2a-368f6aebde3d",
+      "svgSha256": "fbe0090ad0e992d29788f132820bf9e38ee18f5fb1ee07404d19fbe386f86c19",
+      "svgSha1": "ceefd615f5ca0c4e2a7c80c1ce947d7d3a9dc6c2",
+      "wallSeconds": 0.39
+    }
+  },
+  "timing": "Wall time per render command including Node startup, measured with /usr/bin/time -p on the operator's Mac: 0.39 to 0.61 s. Issue #69 recorded 0.38 to 0.75 s on 2026-10-29. Say 'under a second', not 'milliseconds'.",
+  "assets": {
+    "demo-before": {
+      "display": {
+        "path": "assets/web/demo-before.png",
+        "sha256": "588bea559fadedaab97fc341145e1c10e2ba09a495cf44401c990c62940b9504",
+        "width": 1000,
+        "height": 1000,
+        "from": "before run render.png"
+      }
+    },
+    "demo-after": {
+      "display": {
+        "path": "assets/web/demo-after.png",
+        "sha256": "397f21d5029f9e27298e1884cfa9d04b901ab095dde0d4f2c710f35bfd357ac9",
+        "width": 1000,
+        "height": 1000,
+        "from": "after run render.png"
+      }
+    }
+  },
+  "imagery": "No image model was called for this deck. The two embedded renders contain the nutrition example's seven AI-generated cutouts (gpt-image-2.5-flare, see tools/spike/assets/SOURCES.md); the deck's own slides, diagrams and type are engine output.",
+  "receipts": "receipts/<run>.result.json and receipts/<run>.manifest.json are the published run receipts. In the three result.json files the operator's home-directory prefix in normalized.inputPath was replaced by '~' before committing (public repo), so their bytes no longer match the result.json digest recorded in the matching manifest.json; the render.png and render.svg digests are untouched and are the ones the deck pins."
+}

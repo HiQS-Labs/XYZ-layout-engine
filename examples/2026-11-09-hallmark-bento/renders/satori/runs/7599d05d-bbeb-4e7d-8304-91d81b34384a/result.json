@@ -1,0 +1,127 @@
+{
+  "normalized": {
+    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-bento/fixture.json",
+    "width": 1200,
+    "height": 1200,
+    "format": "png,svg,html,html-inline",
+    "formats": [
+      "png",
+      "svg",
+      "html",
+      "html-inline"
+    ],
+    "backend": "satori",
+    "scale": 1,
+    "recipe": "design-intake"
+  },
+  "catalog": {
+    "slug": "design-intake",
+    "version": "1.0.5",
+    "contentSha256": "1d4399a6bddca3e415eabd161b27a3c623e74b8b3853ab34805330951f71a24c",
+    "verified": true
+  },
+  "versions": {
+    "recipe": "1.0.5",
+    "backend": "0.36.0"
+  },
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "digests": {
+    "png": "1ac33adc5f6a10e11c4cead98bec094aedbf75ae287fc50ca485cdaa2c3805cd",
+    "svg": "ba9f00d3336aa0d8008d874f6f299c9b87773b26cd600233759b8781bd284aa7",
+    "html": "0d1602b3e55f727b58322765e82a0da86e448b4f26f29f269eedaca84b4c9854",
+    "html-inline": "8e6d461b6977610f090db4ea2436fca39a95087bbcb39210718069076308286c"
+  },
+  "provenance": {
+    "inputPath": "/Users/noelsaw/Documents/GH Repos/XYZ-layout-engine/examples/2026-11-09-hallmark-bento/fixture.json",
+    "inputSha256": "fedc6c0fe0d3610e617ae34f8de72858de2477befad833a54d3af38b883d2d1b",
+    "fixtureSha256": "be1946fae28803aa7d04b72e8ca26b1a3d61d08c5d69c23cc13c4ebd0a64bde6",
+    "backend": "satori"
+  },
+  "fitting": {
+    "fit": true,
+    "attempts": 3,
+    "iterations": 2,
+    "unresolved": [],
+    "steps": [
+      {
+        "iteration": 0,
+        "overflowing": [
+          "intake_text_eyebrow",
+          "intake_text_headline",
+          "intake_text_hero_headline"
+        ],
+        "sizes": {
+          "intake_text_eyebrow": 24,
+          "intake_text_headline": 96,
+          "intake_text_hero_label": 24,
+          "intake_text_hero_headline": 96,
+          "intake_text_hero_body": 24,
+          "intake_text_ur_label": 24,
+          "intake_text_ur_body": 24,
+          "intake_text_mr_label": 24,
+          "intake_text_mr_body": 24,
+          "intake_text_bot_label": 24,
+          "intake_text_bot_body": 24,
+          "intake_text_footer": 24
+        }
+      },
+      {
+        "iteration": 1,
+        "overflowing": [
+          "intake_text_eyebrow",
+          "intake_text_headline",
+          "intake_text_hero_headline"
+        ],
+        "sizes": {
+          "intake_text_eyebrow": 21,
+          "intake_text_headline": 86,
+          "intake_text_hero_label": 24,
+          "intake_text_hero_headline": 86,
+          "intake_text_hero_body": 24,
+          "intake_text_ur_label": 24,
+          "intake_text_ur_body": 24,
+          "intake_text_mr_label": 24,
+          "intake_text_mr_body": 24,
+          "intake_text_bot_label": 24,
+          "intake_text_bot_body": 24,
+          "intake_text_footer": 24
+        }
+      },
+      {
+        "iteration": 2,
+        "overflowing": [],
+        "sizes": {
+          "intake_text_eyebrow": 18,
+          "intake_text_headline": 77,
+          "intake_text_hero_label": 24,
+          "intake_text_hero_headline": 77,
+          "intake_text_hero_body": 24,
+          "intake_text_ur_label": 24,
+          "intake_text_ur_body": 24,
+          "intake_text_mr_label": 24,
+          "intake_text_mr_body": 24,
+          "intake_text_bot_label": 24,
+          "intake_text_bot_body": 24,
+          "intake_text_footer": 24
+        }
+      }
+    ],
+    "finalSizes": {
+      "intake_text_eyebrow": 18,
+      "intake_text_headline": 77,
+      "intake_text_hero_label": 24,
+      "intake_text_hero_headline": 77,
+      "intake_text_hero_body": 24,
+      "intake_text_ur_label": 24,
+      "intake_text_ur_body": 24,
+      "intake_text_mr_label": 24,
+      "intake_text_mr_body": 24,
+      "intake_text_bot_label": 24,
+      "intake_text_bot_body": 24,
+      "intake_text_footer": 24
+    }
+  }
+}

@@ -1,0 +1,617 @@
+{
+  "renderer": "Shared root tools/render.mjs renderSatori / renderPlaywright; vendored Barlow Condensed; demo renders via readPinnedPngs",
+  "width": 1920,
+  "height": 1080,
+  "S": 1080,
+  "px": {
+    "headline": 97,
+    "subhead": 36,
+    "label": 29,
+    "body": 24
+  },
+  "capHeightPx": 67.9,
+  "slides": [
+    {
+      "slug": "01-title",
+      "layout": "title",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.652,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 8,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "subtitle",
+        "abstract",
+        "split",
+        "dogfood",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "13d76f7e18654f6d6209a04896c5e27cf14daf8e613a39433cf3686376c219af",
+        "chromiumPng": "be06d60822aa412b1bed01e627ffa49bf034953c0a0288fdd391c4fda7bdc5c2"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "02-reroll-tax",
+      "layout": "reroll",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.579,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 640,
+        "maxGraphicToCap": 9.43,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [
+        {
+          "asset": "demo-before",
+          "visibleHeight": 640,
+          "visibleWidth": 640
+        }
+      ],
+      "textCount": 12,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "legend_ai_name",
+        "legend_engine_name",
+        "ask",
+        "opt_0_label",
+        "opt_0_text",
+        "opt_1_label",
+        "opt_1_text",
+        "disclosure",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "a4e85e37bea55eb5e136187821f3a5efc7fac63e6f3e2f895530d1e6ebfea876",
+        "chromiumPng": "6514453e6f33386fa817a562e5cf37718157bbff66587c8277ce0a8add7527c0"
+      },
+      "exceptions": [
+        {
+          "rule": "AS-12 graphic vs 3x cap height",
+          "ratio": 9.43,
+          "why": "The embedded render is the subject of the slide (AS-8), so it is taller than 3x the headline cap height."
+        }
+      ],
+      "findings": []
+    },
+    {
+      "slug": "03-split",
+      "layout": "split",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.691,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 23,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "legend_ai_name",
+        "legend_engine_name",
+        "col_0_label",
+        "col_0_item_0",
+        "col_0_item_1",
+        "col_0_item_2",
+        "col_0_item_3",
+        "col_0_note",
+        "col_1_label",
+        "col_1_item_0",
+        "col_1_item_1",
+        "col_1_item_2",
+        "col_1_item_3",
+        "col_1_note",
+        "hand_label",
+        "hand_0",
+        "hand_1",
+        "hand_2",
+        "hand_note",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "e184c96bf18afcc90aead42be2dd58bab0f408d0f184323f1cd6ff9ae1e60415",
+        "chromiumPng": "0396ae39982bbe6c7360779dcdf0dc8c55b917abf71753eeff6431f74a0106f5"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "04-system",
+      "layout": "system",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.69,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 35,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "legend_ai_name",
+        "legend_engine_name",
+        "in_label",
+        "in_brief_title",
+        "in_brief_text",
+        "in_fixture_title",
+        "in_fixture_text",
+        "in_recipe_title",
+        "in_recipe_text",
+        "in_cutouts_title",
+        "in_cutouts_text",
+        "re_label",
+        "re_title",
+        "stage_validate",
+        "stage_scene",
+        "stage_backends_left",
+        "stage_backends_right",
+        "stage_fit",
+        "stage_fonts",
+        "out_label",
+        "out_png_title",
+        "out_png_text",
+        "out_html_title",
+        "out_html_text",
+        "out_receipt_title",
+        "out_receipt_text",
+        "out_manifest_title",
+        "out_manifest_text",
+        "catalog_title",
+        "catalog_text",
+        "footnote",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "323bb16899a00cdc75401c5d733b8aca2b83ba6f5ff9908aacd2550944c91f0f",
+        "chromiumPng": "57ad9169fefedd6254f88dc85375e859551603bd6c9303972ad108c0cf34c16d"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "05-workflow",
+      "layout": "workflow",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.524,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 24,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "legend_ai_name",
+        "legend_engine_name",
+        "once_label",
+        "once_brief_title",
+        "once_brief_text",
+        "once_translate_title",
+        "once_translate_text",
+        "once_bundle_title",
+        "once_bundle_text",
+        "handoff",
+        "forever_label",
+        "forever_render_title",
+        "forever_render_text",
+        "forever_set_title",
+        "forever_set_text",
+        "forever_save_title",
+        "forever_save_text",
+        "forever_rerender_title",
+        "forever_rerender_text",
+        "loop",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "b5ad9f35ad24d0c0e9cdd57ac45e5508e9cf7e3a2915e7eb32caa81982409d4e",
+        "chromiumPng": "21585bcc2ecf103512446f4926011548adba2590ae5a94ce835e20337c4aedf5"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "06-demo-setup",
+      "layout": "demo",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.551,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 22,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "step_0_label",
+        "step_0_text",
+        "cmd_0_0",
+        "cmd_0_1",
+        "step_1_label",
+        "step_1_text",
+        "cmd_1_0",
+        "step_2_label",
+        "step_2_text",
+        "cmd_2_0",
+        "cmd_2_1",
+        "cmd_2_2",
+        "step_3_label",
+        "step_3_text",
+        "cmd_3_0",
+        "cmd_3_1",
+        "watch",
+        "env",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "204a90a3ed402cf4357f2302eddacf7e5a1f13e3ffe5d2d2e0784deaf3673a13",
+        "chromiumPng": "6101c18f198b68fb56aadfd5f661306795c665cae470187fae6d360b5b815cfa"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "07-before-after",
+      "layout": "compare",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.682,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 600,
+        "maxGraphicToCap": 8.84,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [
+        {
+          "asset": "demo-before",
+          "visibleHeight": 600,
+          "visibleWidth": 600
+        },
+        {
+          "asset": "demo-after",
+          "visibleHeight": 600,
+          "visibleWidth": 600
+        }
+      ],
+      "textCount": 15,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "cap_0",
+        "cap_1",
+        "fact_0_label",
+        "fact_0_text",
+        "fact_1_label",
+        "fact_1_text",
+        "fact_2_label",
+        "fact_2_text",
+        "fact_3_label",
+        "fact_3_text",
+        "disclosure",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "d9bc574d85034098de9d54ab5cf7bec3785f14316195e44aa7b1109edc26ddca",
+        "chromiumPng": "3415623744eb8c0807307ebc55729360609a4c06c2255e3ebae5b1fe4898a05a"
+      },
+      "exceptions": [
+        {
+          "rule": "AS-12 graphic vs 3x cap height",
+          "ratio": 8.84,
+          "why": "The two embedded renders are the evidence the slide exists to show (AS-8), so they are taller than 3x the headline cap height."
+        }
+      ],
+      "findings": []
+    },
+    {
+      "slug": "08-recipes",
+      "layout": "recipes",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.689,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 24,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "pt_0_label",
+        "pt_0_text",
+        "pt_1_label",
+        "pt_1_text",
+        "pt_2_label",
+        "pt_2_text",
+        "pt_3_label",
+        "pt_3_text",
+        "ledger_label",
+        "ledger_h0",
+        "ledger_h1",
+        "row_0_slug",
+        "row_0_digest",
+        "row_1_slug",
+        "row_1_digest",
+        "row_2_slug",
+        "row_2_digest",
+        "row_3_slug",
+        "row_3_digest",
+        "ledger_note",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "38244bf5c45e6e2cad55a31d2a5f8109c54dd9102819892a12eb1d20fac148d5",
+        "chromiumPng": "a387e3849c05880ac4b602350d4c2f811fbc5c5954bd2120df63178bf41d83b4"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "09-design-md",
+      "layout": "designmd",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.729,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 16,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "lead",
+        "flow_caps_title",
+        "flow_caps_text",
+        "flow_check_title",
+        "flow_check_text",
+        "flow_render_title",
+        "flow_render_text",
+        "story_0_label",
+        "story_0_text",
+        "story_1_label",
+        "story_1_text",
+        "example",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "7a7d3edc09d7769282662e6e63cd1067f0a49adc5753ff684306432515802ba7",
+        "chromiumPng": "6b7f3e64e9b471b5c63c58f4157685e2d0de7dac1b9c7de072add6ac5ade818b"
+      },
+      "exceptions": [],
+      "findings": []
+    },
+    {
+      "slug": "10-close",
+      "layout": "close",
+      "as12": {
+        "S": 1080,
+        "px": {
+          "headline": 97,
+          "subhead": 36,
+          "label": 29,
+          "body": 24
+        },
+        "distinctSizes": [
+          97,
+          36,
+          29,
+          24
+        ],
+        "headlinePctOfS": 0.09,
+        "bodyPctOfS": 0.022,
+        "headlineToBody": 4.04,
+        "headlinePctOfWidth": 0.629,
+        "headlineLines": 1,
+        "capHeightPx": 67.9,
+        "maxGraphicHeightPx": 0,
+        "maxGraphicToCap": 0,
+        "legendLabelToSwatch": 1.09
+      },
+      "graphics": [],
+      "textCount": 16,
+      "textIds": [
+        "eyebrow",
+        "title",
+        "ways_label",
+        "way_0_title",
+        "way_0_text",
+        "way_1_title",
+        "way_1_text",
+        "way_2_title",
+        "way_2_text",
+        "take_label",
+        "take_0",
+        "take_1",
+        "take_2",
+        "closing",
+        "footer_left",
+        "footer_right"
+      ],
+      "artifactDigests": {
+        "png": "dc2f2baa9d202ffb95891a4943363508eef36b1d678097a6c8b0e979af49c2d6",
+        "chromiumPng": "946abc5064dd9ca9d29bdda3100b56d043471de39727b2007022fa543366aa1a"
+      },
+      "exceptions": [],
+      "findings": []
+    }
+  ],
+  "findings": []
+}

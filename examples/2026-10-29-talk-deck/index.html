@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stop Re-Rolling the Whole Image — deck viewer</title>
+<style>
+:root{--ink:#14161A;--muted:#4A5160;--rule:#D9DCE2;--fill:#F3F4F6;--accent:#1F4FC4}
+body{margin:0;padding:24px;background:#fff;color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:1600px;margin:auto}
+h1{font-size:28px;line-height:1.2;margin:0 0 4px}
+.meta{color:var(--muted)}
+.links{margin:8px 0 16px}
+a{color:var(--accent)}
+.bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+button{font:inherit;padding:6px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--fill);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--muted)}
+.seg{display:inline-flex;gap:12px;border:0;padding:0;margin:0}
+.seg legend{position:absolute;left:-9999px}
+.counter{font-variant-numeric:tabular-nums;min-width:5em}
+.stage{margin:16px 0 8px;background:var(--fill);border:1px solid var(--rule)}
+.stage img{display:block;width:100%;height:auto;aspect-ratio:1920/1080}
+.caption{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted)}
+.caption b{color:var(--ink)}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:16px 0}
+.thumb{position:relative;padding:0;background:#fff;border:2px solid var(--rule);border-radius:4px;overflow:hidden}
+.thumb[aria-current="true"]{border-color:var(--accent)}
+.thumb img{display:block;width:100%;height:auto}
+.thumb span{position:absolute;left:4px;bottom:4px;padding:0 6px;font-size:12px;background:#fff;border-radius:3px;color:var(--muted)}
+.grid{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:16px}
+figure{margin:0}
+.grid img{display:block;width:100%;height:auto;border:1px solid var(--rule)}
+figcaption{margin:8px 0 0;color:var(--muted)}
+code{font-size:14px}
+body.grid-mode .stage,body.grid-mode .caption,body.grid-mode .strip{display:none}
+body.grid-mode .grid{display:grid}
+@media(max-width:800px){body{padding:12px}.grid{grid-template-columns:1fr}}
+</style></head><body><main>
+<h1>Stop Re-Rolling the Whole Image</h1>
+<p class="meta">10 slides · 1920 × 1080 · rendered by XYZ Layout Engine</p>
+<p class="links"><a href="README.md">README</a> · <a href="DESIGN.md">DESIGN.md</a> · <a href="deck.pdf">PDF</a> · <a href="verification.json">Verification</a> · <a href="provenance.json">Provenance</a></p>
+<div class="bar">
+<button id="prev" aria-label="Previous slide">← Prev</button><span class="counter" id="counter">1 / 10</span><button id="next" aria-label="Next slide">Next →</button>
+<fieldset class="seg" id="backend"><legend>Backend</legend><label><input type="radio" name="backend" value="" checked>Satori + resvg</label><label><input type="radio" name="backend" value="-chromium">Chromium</label></fieldset>
+<button id="mode" aria-pressed="false">Grid</button>
+<span class="meta">Keys: ← → Home End · G grid</span>
+</div>
+<div class="stage"><a id="full" href="renders/01-title.png"><img id="frame" src="renders/01-title.png" alt="Slide 01-title: XYZ LAYOUT ENGINE · AN 18-MINUTE TALK · STOP RE-ROLLING THE WHOLE IMAGE" width="1920" height="1080"></a></div>
+<p class="caption"><span><b id="cap-title"></b> <span id="cap-eyebrow"></span></span><span id="cap-file"></span></p>
+<div class="strip" id="strip"><button class="thumb" data-i="0" aria-label="Go to slide 1"><img src="renders/01-title.png" alt="" loading="lazy" width="1920" height="1080"><span>1</span></button><button class="thumb" data-i="1" aria-label="Go to slide 2"><img src="renders/02-reroll-tax.png" alt="" loading="lazy" width="1920" height="1080"><span>2</span></button><button class="thumb" data-i="2" aria-label="Go to slide 3"><img src="renders/03-split.png" alt="" loading="lazy" width="1920" height="1080"><span>3</span></button><button class="thumb" data-i="3" aria-label="Go to slide 4"><img src="renders/04-system.png" alt="" loading="lazy" width="1920" height="1080"><span>4</span></button><button class="thumb" data-i="4" aria-label="Go to slide 5"><img src="renders/05-workflow.png" alt="" loading="lazy" width="1920" height="1080"><span>5</span></button><button class="thumb" data-i="5" aria-label="Go to slide 6"><img src="renders/06-demo-setup.png" alt="" loading="lazy" width="1920" height="1080"><span>6</span></button><button class="thumb" data-i="6" aria-label="Go to slide 7"><img src="renders/07-before-after.png" alt="" loading="lazy" width="1920" height="1080"><span>7</span></button><button class="thumb" data-i="7" aria-label="Go to slide 8"><img src="renders/08-recipes.png" alt="" loading="lazy" width="1920" height="1080"><span>8</span></button><button class="thumb" data-i="8" aria-label="Go to slide 9"><img src="renders/09-design-md.png" alt="" loading="lazy" width="1920" height="1080"><span>9</span></button><button class="thumb" data-i="9" aria-label="Go to slide 10"><img src="renders/10-close.png" alt="" loading="lazy" width="1920" height="1080"><span>10</span></button></div>
+<div class="grid"><figure><a href="renders/01-title.png"><img src="renders/01-title.png" alt="Slide 01-title: XYZ LAYOUT ENGINE · AN 18-MINUTE TALK · STOP RE-ROLLING THE WHOLE IMAGE" loading="lazy" width="1920" height="1080"></a><figcaption><b>1</b> STOP RE-ROLLING THE WHOLE IMAGE <code>slides/01-title.json</code></figcaption></figure><figure><a href="renders/02-reroll-tax.png"><img src="renders/02-reroll-tax.png" alt="Slide 02-reroll-tax: 0:00 – 1:30 · THE HOOK · THE RE-ROLL TAX ON ONE LABEL" loading="lazy" width="1920" height="1080"></a><figcaption><b>2</b> THE RE-ROLL TAX ON ONE LABEL <code>slides/02-reroll-tax.json</code></figcaption></figure><figure><a href="renders/03-split.png"><img src="renders/03-split.png" alt="Slide 03-split: 1:30 – 4:00 · THE SPLIT · SPLIT THE WORK: TASTE VS GEOMETRY" loading="lazy" width="1920" height="1080"></a><figcaption><b>3</b> SPLIT THE WORK: TASTE VS GEOMETRY <code>slides/03-split.json</code></figcaption></figure><figure><a href="renders/04-system.png"><img src="renders/04-system.png" alt="Slide 04-system: 1:30 – 4:00 · THE SYSTEM, HIGH LEVEL · SYSTEM: INPUTS, RENDERER, OUTPUTS" loading="lazy" width="1920" height="1080"></a><figcaption><b>4</b> SYSTEM: INPUTS, RENDERER, OUTPUTS <code>slides/04-system.json</code></figcaption></figure><figure><a href="renders/05-workflow.png"><img src="renders/05-workflow.png" alt="Slide 05-workflow: 4:00 – 8:00 · THE LOOP · AUTHOR ONCE, EDIT FOREVER" loading="lazy" width="1920" height="1080"></a><figcaption><b>5</b> AUTHOR ONCE, EDIT FOREVER <code>slides/05-workflow.json</code></figcaption></figure><figure><a href="renders/06-demo-setup.png"><img src="renders/06-demo-setup.png" alt="Slide 06-demo-setup: 4:00 – 8:00 · LIVE DEMO · LIVE DEMO: EDIT ONE ELEMENT" loading="lazy" width="1920" height="1080"></a><figcaption><b>6</b> LIVE DEMO: EDIT ONE ELEMENT <code>slides/06-demo-setup.json</code></figcaption></figure><figure><a href="renders/07-before-after.png"><img src="renders/07-before-after.png" alt="Slide 07-before-after: 4:00 – 8:00 · THE RESULT (PRE-RENDERED FALLBACK) · TWO FIELDS CHANGED. NOTHING ELSE." loading="lazy" width="1920" height="1080"></a><figcaption><b>7</b> TWO FIELDS CHANGED. NOTHING ELSE. <code>slides/07-before-after.json</code></figcaption></figure><figure><a href="renders/08-recipes.png"><img src="renders/08-recipes.png" alt="Slide 08-recipes: 8:00 – 11:30 · RECIPES · RECIPES: VERSIONED, PINNED, HASHED" loading="lazy" width="1920" height="1080"></a><figcaption><b>8</b> RECIPES: VERSIONED, PINNED, HASHED <code>slides/08-recipes.json</code></figcaption></figure><figure><a href="renders/09-design-md.png"><img src="renders/09-design-md.png" alt="Slide 09-design-md: 11:30 – 15:00 · DESIGN.md · DESIGN.md IS TRANSLATED, NOT PARSED" loading="lazy" width="1920" height="1080"></a><figcaption><b>9</b> DESIGN.md IS TRANSLATED, NOT PARSED <code>slides/09-design-md.json</code></figcaption></figure><figure><a href="renders/10-close.png"><img src="renders/10-close.png" alt="Slide 10-close: 15:00 – 18:00 · CLOSE · THREE WAYS IN, THREE TAKEAWAYS" loading="lazy" width="1920" height="1080"></a><figcaption><b>10</b> THREE WAYS IN, THREE TAKEAWAYS <code>slides/10-close.json</code></figcaption></figure></div>
+</main>
+<script>
+const S=[{"slug":"01-title","title":"STOP RE-ROLLING THE WHOLE IMAGE","eyebrow":"XYZ LAYOUT ENGINE · AN 18-MINUTE TALK","fixture":"slides/01-title.json","png":"renders/01-title.png"},{"slug":"02-reroll-tax","title":"THE RE-ROLL TAX ON ONE LABEL","eyebrow":"0:00 – 1:30 · THE HOOK","fixture":"slides/02-reroll-tax.json","png":"renders/02-reroll-tax.png"},{"slug":"03-split","title":"SPLIT THE WORK: TASTE VS GEOMETRY","eyebrow":"1:30 – 4:00 · THE SPLIT","fixture":"slides/03-split.json","png":"renders/03-split.png"},{"slug":"04-system","title":"SYSTEM: INPUTS, RENDERER, OUTPUTS","eyebrow":"1:30 – 4:00 · THE SYSTEM, HIGH LEVEL","fixture":"slides/04-system.json","png":"renders/04-system.png"},{"slug":"05-workflow","title":"AUTHOR ONCE, EDIT FOREVER","eyebrow":"4:00 – 8:00 · THE LOOP","fixture":"slides/05-workflow.json","png":"renders/05-workflow.png"},{"slug":"06-demo-setup","title":"LIVE DEMO: EDIT ONE ELEMENT","eyebrow":"4:00 – 8:00 · LIVE DEMO","fixture":"slides/06-demo-setup.json","png":"renders/06-demo-setup.png"},{"slug":"07-before-after","title":"TWO FIELDS CHANGED. NOTHING ELSE.","eyebrow":"4:00 – 8:00 · THE RESULT (PRE-RENDERED FALLBACK)","fixture":"slides/07-before-after.json","png":"renders/07-before-after.png"},{"slug":"08-recipes","title":"RECIPES: VERSIONED, PINNED, HASHED","eyebrow":"8:00 – 11:30 · RECIPES","fixture":"slides/08-recipes.json","png":"renders/08-recipes.png"},{"slug":"09-design-md","title":"DESIGN.md IS TRANSLATED, NOT PARSED","eyebrow":"11:30 – 15:00 · DESIGN.md","fixture":"slides/09-design-md.json","png":"renders/09-design-md.png"},{"slug":"10-close","title":"THREE WAYS IN, THREE TAKEAWAYS","eyebrow":"15:00 – 18:00 · CLOSE","fixture":"slides/10-close.json","png":"renders/10-close.png"}];const N=S.length;let i=0,backend='';
+const $=id=>document.getElementById(id);
+const src=s=>backend?s.png.replace(/\.png$/,backend+'.png'):s.png;
+function show(k){i=(k+N)%N;const s=S[i];$('frame').src=src(s);$('full').href=src(s);
+$('frame').alt='Slide '+s.slug+': '+(s.eyebrow?s.eyebrow+' · ':'')+s.title;
+$('counter').textContent=(i+1)+' / '+N;$('cap-title').textContent=s.title;$('cap-eyebrow').textContent=s.eyebrow;
+$('cap-file').textContent=s.fixture||s.slug;
+document.querySelectorAll('.thumb').forEach((t,k)=>t.setAttribute('aria-current',k===i?'true':'false'));
+history.replaceState(null,'','#'+(i+1)+(backend?'/'+backend.slice(1):''));}
+function mode(on){document.body.classList.toggle('grid-mode',on);$('mode').setAttribute('aria-pressed',String(on));$('mode').textContent=on?'Slides':'Grid';}
+$('prev').onclick=()=>show(i-1);$('next').onclick=()=>show(i+1);
+$('mode').onclick=()=>mode(!document.body.classList.contains('grid-mode'));
+$('strip').addEventListener('click',e=>{const t=e.target.closest('.thumb');if(t){mode(false);show(+t.dataset.i);}});
+const bk=$('backend');if(bk)bk.addEventListener('change',e=>{backend=e.target.value;show(i);});
+addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey)return;
+if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')show(i+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
+else if(e.key==='Home')show(0);else if(e.key==='End')show(N-1);else if(e.key==='g'||e.key==='G')mode(!document.body.classList.contains('grid-mode'));else return;e.preventDefault();});
+function init(){const m=/^#(\d+)(?:\/(\w+))?/.exec(location.hash);
+if(m&&bk&&m[2]){const r=bk.querySelector('input[value="-'+m[2]+'"]');if(r){r.checked=true;backend=r.value;}}
+show(m?Math.min(N,Math.max(1,+m[1]))-1:0);}
+addEventListener('hashchange',init);init();
+</script></body></html>

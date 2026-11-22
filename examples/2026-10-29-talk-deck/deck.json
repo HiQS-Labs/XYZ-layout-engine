@@ -1,0 +1,44 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "title": "Stop Re-Rolling the Whole Image",
+  "footer": "XYZ Layout Engine · Stop Re-Rolling the Whole Image · issue #69",
+  "slides": [
+    "01-title",
+    "02-reroll-tax",
+    "03-split",
+    "04-system",
+    "05-workflow",
+    "06-demo-setup",
+    "07-before-after",
+    "08-recipes",
+    "09-design-md",
+    "10-close"
+  ],
+  "legend": [
+    { "owner": "ai", "name": "AI-owned" },
+    { "owner": "engine", "name": "Engine-owned" }
+  ],
+  "theme": {
+    "palette": {
+      "ground": "#FFFFFF",
+      "ink": "#14161A",
+      "muted": "#4A5160",
+      "rule": "#D9DCE2",
+      "connector": "#7A808C",
+      "neutralFill": "#F3F4F6",
+      "aiFill": "#FDEFE4",
+      "aiLine": "#F2C7A5",
+      "aiInk": "#A8480B",
+      "engineFill": "#EAF0FC",
+      "engineLine": "#BFD0F5",
+      "engineInk": "#1F4FC4",
+      "beforePrimary": "#2F5D27",
+      "afterPrimary": "#335577"
+    },
+    "type": {
+      "family": "Barlow Condensed",
+      "pct": { "headline": 0.09, "subhead": 0.033, "label": 0.027, "body": 0.022 }
+    }
+  }
+}

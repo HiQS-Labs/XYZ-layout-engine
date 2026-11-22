@@ -1,0 +1,255 @@
+{
+  "id": "design-intake",
+  "schemaVersion": 1,
+  "width": 1200,
+  "height": 1200,
+  "source": {
+    "path": "examples/2026-11-09-hallmark-bento/DESIGN.md",
+    "sha256": "da4b99565a6bfbb0a7c0cc8533177674bc50cf7a3ad7203c04c0e7b5c74b665b"
+  },
+  "requirements": [
+    {
+      "quote": "Use a 1200 by 1200 square canvas.",
+      "feature": "absolute-layout",
+      "target": "width",
+      "status": "mapped",
+      "reason": "Square 1200x1200 canvas on a 24px spacing grid."
+    },
+    {
+      "quote": "Adopt the Hallmark Riso theme palette with tactile paper, midnight navy ink, vibrant fluro coral accent, and mint secondary.",
+      "feature": "solid-fill",
+      "target": "settings.palette",
+      "status": "mapped",
+      "reason": "Authentic Hallmark Riso print material palette."
+    },
+    {
+      "quote": "Use bundled Barlow Condensed in regular and bold, a 24px spacing grid, 12px rounded corners, and 2px card borders.",
+      "feature": "single-font",
+      "target": "settings",
+      "status": "mapped",
+      "reason": "Bundled font, 24px grid, 12px radius, and 2px border parameters."
+    },
+    {
+      "quote": "The Bento Grid macrostructure organizes content into an asymmetric quadrant layout with a dominant hero block on the left and supporting telemetry on the right.",
+      "feature": "text",
+      "target": "elements",
+      "status": "mapped",
+      "reason": "Hallmark Macrostructure 01 multi-tier asymmetric bento grid."
+    }
+  ],
+  "settings": {
+    "palette": {
+      "paper": "#fbf8ee",
+      "ink": "#182236",
+      "accent": "#ff4e36",
+      "secondary": "#2da882",
+      "subtle": "#ebe4d0"
+    },
+    "fontFamily": "Barlow Condensed",
+    "type": {
+      "display": {
+        "size": 96,
+        "weight": 700,
+        "lineHeight": 1.2
+      },
+      "body": {
+        "size": 24,
+        "weight": 400,
+        "lineHeight": 1.3
+      }
+    },
+    "spacing": 24,
+    "cornerRadius": 12,
+    "borderWidth": 2
+  },
+  "artwork": {
+    "style": "Clean geometric diagram with spot risograph colors and crisp vector lines.",
+    "items": []
+  },
+  "elements": [
+    {
+      "id": "card_hero",
+      "type": "rect",
+      "x": 48,
+      "y": 216,
+      "width": 624,
+      "height": 504,
+      "fill": "subtle",
+      "stroke": "ink"
+    },
+    {
+      "id": "card_upper_right",
+      "type": "rect",
+      "x": 696,
+      "y": 216,
+      "width": 456,
+      "height": 240,
+      "fill": "subtle",
+      "stroke": "secondary"
+    },
+    {
+      "id": "card_mid_right",
+      "type": "rect",
+      "x": 696,
+      "y": 480,
+      "width": 456,
+      "height": 240,
+      "fill": "subtle",
+      "stroke": "accent"
+    },
+    {
+      "id": "card_bottom",
+      "type": "rect",
+      "x": 48,
+      "y": 744,
+      "width": 1104,
+      "height": 336,
+      "fill": "subtle",
+      "stroke": "ink"
+    },
+    {
+      "id": "eyebrow",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 1104,
+      "height": 24,
+      "text": "HALLMARK 01 · BENTO GRID / RISO THEME",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "headline",
+      "type": "text",
+      "x": 48,
+      "y": 96,
+      "width": 1104,
+      "height": 96,
+      "text": "DETERMINISTIC COMPOSITION",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "hero_label",
+      "type": "text",
+      "x": 72,
+      "y": 240,
+      "width": 576,
+      "height": 48,
+      "text": "CORE INVARIANT: THE PROBABILISTIC BOUNDARY",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "hero_headline",
+      "type": "text",
+      "x": 72,
+      "y": 312,
+      "width": 576,
+      "height": 192,
+      "text": "NEVER REROLL ENTIRE PAGES",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "hero_body",
+      "type": "text",
+      "x": 72,
+      "y": 528,
+      "width": 576,
+      "height": 144,
+      "text": "Generative diffusion models excel at isolated cutouts and organic textures, but collapse when rendering typography and precise grids. Keep generative pixels inside leaf nodes and let code own geometry.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "ur_label",
+      "type": "text",
+      "x": 720,
+      "y": 240,
+      "width": 408,
+      "height": 48,
+      "text": "ZERO NETWORK AT RENDER TIME",
+      "role": "body",
+      "color": "secondary",
+      "align": "left"
+    },
+    {
+      "id": "ur_body",
+      "type": "text",
+      "x": 720,
+      "y": 312,
+      "width": 408,
+      "height": 120,
+      "text": "Every font, asset, and token is vendored locally. Render pipelines execute offline with byte-for-byte reproducibility.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "mr_label",
+      "type": "text",
+      "x": 720,
+      "y": 504,
+      "width": 408,
+      "height": 48,
+      "text": "AUTOMATED COLLISION LINTING",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "mr_body",
+      "type": "text",
+      "x": 720,
+      "y": 576,
+      "width": 408,
+      "height": 120,
+      "text": "Headless Chromium measures text bounds and rejects overlapping regions or clipped glyphs before export.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "bot_label",
+      "type": "text",
+      "x": 72,
+      "y": 768,
+      "width": 1056,
+      "height": 48,
+      "text": "PORTABLE ARCHITECTURE: GOOGLE DESIGN.MD INTERCHANGE",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "bot_body",
+      "type": "text",
+      "x": 72,
+      "y": 840,
+      "width": 1056,
+      "height": 192,
+      "text": "Hallmark exports portable system tokens and anti-slop rules via Google DESIGN.md. XYZ Layout Engine ingests these briefs without remote dependencies, mapping materials to deterministic Satori and Chromium scenes with zero runtime sprawl.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "footer",
+      "type": "text",
+      "x": 48,
+      "y": 1104,
+      "width": 1104,
+      "height": 48,
+      "text": "XYZ Layout Engine · Hallmark Macrostructure 01 · Bento Grid · Riso Theme",
+      "role": "body",
+      "color": "secondary",
+      "align": "left"
+    }
+  ]
+}
