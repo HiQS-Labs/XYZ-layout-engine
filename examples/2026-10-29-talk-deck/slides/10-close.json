@@ -1,0 +1,23 @@
+{
+  "layout": "close",
+  "number": "10",
+  "eyebrow": "15:00 – 18:00 · CLOSE",
+  "title": "THREE WAYS IN, THREE TAKEAWAYS",
+  "ways": {
+    "label": "THREE WAYS TO DRIVE IT",
+    "items": [
+      { "n": "1", "title": "Cloud agent + generated cutouts", "text": "authors the recipe and the DESIGN.md contract, generates true-alpha PNGs (SOP.md) and pins them in the example bundle" },
+      { "n": "2", "title": "100% local LLM, offline", "text": "reads SYSTEM-INSTRUCTIONS.md and DESIGN.md, edits fixture.json, self-corrects from the renderer's overflow and overlap findings, draws inline SVG" },
+      { "n": "3", "title": "CI job or backend, no AI at runtime", "text": "renders, validates and edits with --set / --save: no network, no paid calls, the same bytes every time" }
+    ]
+  },
+  "takeaways": {
+    "label": "TAKEAWAYS",
+    "items": [
+      "AI designs once.",
+      "Every later edit touches one element.",
+      "Recipes and DESIGN.md make the design durable input, not a one-shot prompt."
+    ]
+  },
+  "closing": "Deck source: examples/2026-10-29-talk-deck/ · every slide here is a fixture rendered by the engine"
+}

@@ -1,0 +1,23 @@
+{
+  "layout": "recipes",
+  "number": "08",
+  "eyebrow": "8:00 – 11:30 · RECIPES",
+  "title": "RECIPES: VERSIONED, PINNED, HASHED",
+  "points": [
+    { "label": "A recipe is a versioned layout module.", "text": "tools/recipes/nutrition.mjs exports name = 'nutrition' and version = '4.0.0'. It validates the fixture and builds the scene." },
+    { "label": "Published versions are pinned by hash.", "text": "tools/catalog.sql records slug@semver and the SHA-256 of every declared file. node tools/catalog.mjs verify fails on any drift." },
+    { "label": "A change ships as a new version.", "text": "Published rows are immutable, so past renders stay reproducible. Every receipt records the recipe version and verified: true or false." },
+    { "label": "The fixture is data, never code.", "text": "Schema-validated: unknown fields, code and remote assets are refused. A layout that does not fit is rejected, not shipped." }
+  ],
+  "ledger": {
+    "label": "ACTIVE RECIPES IN tools/catalog.sql",
+    "columns": ["slug@version", "content SHA-256, first 12"],
+    "rows": [
+      ["design-intake@1.0.5", "1d4399a6bddc"],
+      ["nutrition@4.0.0", "c6499955ac44"],
+      ["recursive-process@6.0.0", "6995256de110"],
+      ["solar-system@1.0.1", "0ed16cdc7b51"]
+    ],
+    "note": "From node tools/catalog.mjs show <slug> --json on 2026-10-29. Older versions stay in the ledger as history."
+  }
+}
