@@ -3,10 +3,19 @@ gh_issue: 96
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/96
 title: Editorial judgment benchmark
 status: In progress
+updated: 2026-11-21
+owner: Codex
+goal: Compare newcomer reading outcomes across anonymous poster submissions
 created: 2026-11-21
 ---
 # Editorial judgment benchmark
 Four historical submissions scored 100 automated points on v1. Its ten nearby-term checks measure caption coverage. The reader ballot is pending. In v2 the reader must identify two changes and trace one real export. Accurate selective communication is the goal.
+
+## Status
+
+| What was just completed | What's next |
+|---|---|
+| Plan review and v2 implementation | Verify pilot evidence and submit for integration. |
 
 ## Implementation and acceptance
 1. Build a versioned packet using the existing creative ZIP's inputs with replacement prompt and goals. Keep the historical packet and grader reproducible. Publish the audience and tasks. Hold out answers, controls and judges.

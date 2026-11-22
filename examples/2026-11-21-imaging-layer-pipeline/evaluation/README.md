@@ -12,3 +12,5 @@ From this directory:
     node grade.mjs /path/to/output completed-ballot.json > score.json
 
 A matching score means the same recorded observations earned the same percentage. Human judgments about legibility and comprehension can differ. Report reader disagreement separately and adjudicate using the pictured evidence. A model's visual decision and tool cost are useful qualitative notes. Tool use earns no points. The score does not establish filesystem isolation or compliance with the credit cap; verify those from the run environment.
+
+For the opt-in editorial judgment task, see [v2 pilot instructions](v2/README.md). Historical packets and grades use the procedure above.

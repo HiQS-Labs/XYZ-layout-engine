@@ -1,0 +1,41 @@
+{
+  "thumbnail": "Both A-400.png and B-400.png share the same two-column layout: 'Editing Fuel Well' top-left, three stacked instruction blocks on the left, and the 'FUEL WELL. LIVE WELL.' poster preview on the right. Even at 400px thumbnail scale, all left-column headings and body lines are legible—already showing the swapped export line between A ('Satori creates SVG. resvg turns it into PNG.') and B ('resvg creates SVG. Satori turns it into PNG.')—while the small subcopy inside the embedded poster on the right is blurred until native resolution.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit the headline in the fixture to change the words at the top.",
+        "location": "Left column, top section below the 'Editing Fuel Well' title, under the heading 'Change the headline'.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change the hero illustration ID to swap this artwork.",
+        "location": "Left column, middle section below 'Change the headline', under the heading 'Replace the leaf'.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Satori creates SVG. resvg turns it into PNG.",
+        "location": "Left column, bottom section below 'Replace the leaf', under the heading 'Export the poster'.",
+        "correct": true
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit the headline in the fixture to change the words at the top.",
+        "location": "Left column, top section below the 'Editing Fuel Well' title, under the heading 'Change the headline'.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change the hero illustration ID to swap this artwork.",
+        "location": "Left column, middle section below 'Change the headline', under the heading 'Replace the leaf'.",
+        "correct": true
+      },
+      "export": {
+        "answer": "resvg creates SVG. Satori turns it into PNG.",
+        "location": "Left column, bottom section below 'Replace the leaf', under the heading 'Export the poster'.",
+        "correct": false
+      }
+    }
+  },
+  "choice": "A",
+  "reason": "A and B are visually identical in layout, typography, poster preview, and headline/leaf instructions, but in the bottom-left 'Export the poster' section A displays the accurate route ('Satori creates SVG. resvg turns it into PNG.') while B prints the inverted route ('resvg creates SVG. Satori turns it into PNG.')."
+}

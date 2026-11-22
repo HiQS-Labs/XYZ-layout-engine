@@ -1,0 +1,41 @@
+{
+  "thumbnail": "Viewed A-400.png and B-400.png first. A emphasizes three layers and large editing callouts; B separates editing tasks on the left, scene layers centrally, and exports on the right.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit sections.header.headline in fixture.json.",
+        "location": "Upper-left orange EDIT THE WORDS box.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change hero.illustrationId from \"leaf_glow\" to another illustration in nutrition/assets/web/.",
+        "location": "Lower-left green SWAP THE LEAF box.",
+        "correct": true
+      },
+      "export": {
+        "answer": "scene → Satori → SVG → resvg → PNG.",
+        "location": "Bottom-center TWO BACKENDS, ONE SCENE panel, SATORI PATH row.",
+        "correct": true
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit sections.header.headline in nutrition/fixture.json.",
+        "location": "Upper-left yellow ① EDIT HEADLINE panel, filename badge and explanatory text below the JSON.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change hero.illustrationId (\"leaf_glow\") or swap leaf_glow.png; the pictured asset is assets/web/leaf_glow.png.",
+        "location": "Middle-left green ② SWAP THE LEAF panel, filename badge, JSON example, and caption.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Playwright drives headless Chromium; page.screenshot({ clip }) exports render.png.",
+        "location": "Bottom pipeline, purple B1 PLAYWRIGHT → CHROMIUM and B2 CHROMIUM PNG CAPTURE boxes.",
+        "correct": true
+      }
+    }
+  },
+  "choice": "B",
+  "reason": "B supplies explicit headline and artwork file paths, two concrete leaf replacement methods, and named export files and capture calls. Its task instructions are more actionable; density earns no penalty."
+}
