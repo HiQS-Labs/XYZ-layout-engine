@@ -1,0 +1,27 @@
+{
+  "slide": 10,
+  "layout": "close",
+  "width": 1920,
+  "height": 1080,
+  "eyebrow": "09 · THREE DRIVERS, THREE TAKEAWAYS",
+  "title": "AI designs once. You keep exact control.",
+  "subtitle": "Cloud agent, local LLM or plain CI — the durable artifacts stay the same.",
+  "modesTitle": "THREE WAYS TO DRIVE IT",
+  "modes": [
+    { "title": "CLOUD AGENT", "caption": "Art direction + generated isolated cutouts" },
+    { "title": "100% LOCAL LLM", "caption": "Fixture / recipe edits + geometry feedback" },
+    { "title": "CI / BACKEND", "caption": "No AI at runtime; render, validate, export" }
+  ],
+  "takeawaysTitle": "THREE TAKEAWAYS",
+  "takeaways": [
+    "AI designs once.",
+    "Later edits touch one element.",
+    "Recipes + DESIGN.md make the design durable."
+  ],
+  "closing": "EDIT THE ELEMENT. KEEP THE DESIGN.",
+  "footer": "Local rendering needs no network or paid API. Q&A follows the 18-minute talk.",
+  "theme": {
+    "palette": { "ground": "#F7F3EA", "ink": "#14213D", "muted": "#4F5665", "accent": "#C75026", "accentSoft": "#F2DED3", "rule": "#C9C3B8", "panel": "#FFFFFF", "soft": "#E9EDF2" },
+    "type": { "family": "Barlow Condensed", "pct": { "headline": 0.08, "subhead": 0.03, "label": 0.024, "body": 0.019 } }
+  }
+}

@@ -1,0 +1,9 @@
+.git
+node_modules
+.relay-scratch
+temp
+REVIEW
+.claude
+.aider
+.DS_Store
+tools/spike/assets/generated/*.png
