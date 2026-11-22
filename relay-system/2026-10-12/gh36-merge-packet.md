@@ -1,0 +1,15 @@
+# PR #37 merge integration QA
+
+Review the resolved tree against current main ca133276 and original PR head 026679195. This is the second and final reserved repair attempt for PR #37; scope is its nine conflicts and the existing C1 consumer.
+
+The surgical union retains both recipe admissions, inference, canvases and save paths in tools/request.mjs, both module branches plus the reviewed recipe FONT propagation in tools/render.mjs, and both declared-file sets in tools/catalog.mjs. Sweep those complete files and the existing C1 consumer for material defects. Published recipe modules, fixtures, font binaries and examples are unchanged from their respective sources. The incoming reviewed SOURCE.md font notes are retained.
+
+Catalog persistence used the existing CLI import with a canonical in-memory candidate (loadDump/exportDump), retaining original recursive recipe/version GIDs. CLI design add appended the incoming design. All 63 main rows are preserved, all 10 incoming published rows retain their identity and hashes, and main's design log is an exact prefix followed by the original incoming line. RELEASES used the existing disjoint writer replay, kept main generation 61, and replayed only GH-36 with unchanged ratings 50/10/75/45. No SQL hand edit, new framework, suite, dependency, workflow or installed runtime patch.
+
+CHANGELOG required a caller repair because main had reordered historical dated sections, so the strict prefix-additive helper correctly refused. The resolution retains main verbatim and inserts the one incoming October 11 section after its October 12 entries. No historical section was lost.
+
+Evidence is in gh36-merge-verification/: four existing canaries passed in 39.7s under the unchanged 60s gate; catalog verify/export and RELEASES check pass; full PDDA has zero errors and two existing governance warnings. A separate full clone at ca133276 is the baseline for 35 format comparisons: nutrition, solar-system and all three MangaJDM fixtures; Satori png/svg/html/html-inline and Playwright png/html/html-inline. Every output digest, compact asset and fit step matches exactly. Check evidence/source rather than trusting this narrative. Additional tests only if a concrete gap requires them; do not repeat the full suite without cause.
+
+All original example outputs, including both ignored out/runs trees, have also been saved privately with SHA-256 verification for restoration into the primary examples folder after landing. They are not public evidence paths.
+
+Definition of Done: all four trusted recipes remain admitted and published; existing recipe bytes/fit and catalog identities/history retained; recursive-process FONT logic and safety/limits remain intact; no conflict markers or off-scope runtime edits; test budget and canonical checks pass; README/current plan status reflect final QA. Human review of the artwork is pending. Do not equate machine approval with human artwork approval. The human review is a stated carry-over, not a machine gate claimed complete.

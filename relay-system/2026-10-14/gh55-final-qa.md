@@ -1,0 +1,171 @@
+# RELAY · GH-55 final QA: XYZ Forge diagram example
+<!--
+  Single source of truth for this two-agent relay. Read the ENTIRE file before acting.
+  Scaffolded by relay-automation/new-relay.sh on 2026-10-14.
+-->
+
+NEXT: Producer
+STATUS: Approved
+ROUND: 3 / 3
+
+## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
+1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
+2. **Check it's your turn:** `NEXT` (top) names the role to act. Confirm you are bound to it and the
+   last Log block isn't already yours. If not → STOP and reply "wrong window — nudge the <other> window."
+3. **Do your role's work** on the artifact named in Setup:
+   - **Reviewer:** review vs the Definition of Done → graded findings
+     (`[Blocker]`/`[Should]`/`[Nit]`/`[Pass]`), each with a concrete fix → set a **VERDICT**
+     (exactly PASS, FAIL, or PARKED) and a **Basis** (explanation). **Review the whole file, not just the diff** (GH-268):
+     a beta test had this loop reach `Approved` in two rounds while an independent audit of the same
+     branch found 20 issues (1 critical, 4 high) — every one of them in the pre-existing code the
+     change sat on, which nobody had read. Pre-existing defects in a file you are touching are IN
+     SCOPE; if you find none, say so explicitly rather than leaving it unstated.
+     **Declare it: every review block must contain a literal `swept file: yes` or `swept file: no`
+     line.** Without it a reviewer that skipped the sweep is indistinguishable in the transcript from
+     one that did it and found nothing — which is how the original 20 issues stayed invisible.
+     Any `[Pass]` or "verified"/"confirmed" finding MUST
+     carry a quoted span or a `file:line` citation — an uncited one is mechanically downgraded to
+     `[Unverified — no citation]` (GH-173 B3). Do **not** edit the artifact; only append findings here.
+     **A finding that asks for a behaviour change is a generalization unless you can paste the concrete
+     input — a row, a value, a `file:line` — that fails under the current code** (GH-681: the gh673
+     final QA relay generalized one late-error observation into "or a later invalid identity", the
+     Producer implemented it, the same seat `[Pass]`ed it next round, and one historical NULL-URL
+     ledger row then blanked every issue). Every `[Blocker]` or `[Should]` requesting a behaviour
+     change MUST carry three lines: `Observed input:` (the failing input you saw), `Affected scope:`
+     (the input predicate the change would govern), `Falsifier:` (the fixture or data that would show
+     the change unnecessary or wrong, and its expected result).
+     A `[Blocker]` must cite an observed failure. This is a protocol rule, not a mechanical check —
+     the Producer may disposition a request lacking these as `Declined — unproven generalization`.
+   - **Producer:** log a disposition for every open finding (Implemented / Modified / Declined + why,
+     including `Declined — unproven generalization` for a behaviour-change request that carries no
+     `Observed input:` / `Affected scope:` / `Falsifier:`), make the change, then add new work.
+4. **Append ONE block** at the very bottom, directly **above** the marker line. Never edit earlier turns.
+   Reviewer headings may be `### Reviewer · Round N`, `### Round N · Reviewer · <agent>`, `### Reviewer (<agent>)` (optionally followed by `— rN`), or `### Reviewer — Round N` (optionally followed by `(<agent>)`); follow the heading with a non-empty review body.
+5. **Update the header:** flip `NEXT`; set `STATUS` (`Approved` closes — Reviewer only; else `Open`);
+   the Producer bumps `ROUND` when opening a new cycle. If the max `ROUND` ends without `Approved`,
+   set `STATUS: Escalated`.
+6. **Commit only the relay file** (`relay(gh-55-final-qa-xyz-forge-diagram-example): <role> r<N>`); no push. **Stop** and report one line.
+7. **Hand off explicitly — EVERY turn, not just the first** (GH-268). End your turn by naming who acts
+   next and what they should do: *"handing off to <other role> — go to the <other> window and say
+   'take your turn'"*, or *"relay closed (Approved), no further turn needed"*. The beta report singled
+   this out: the Reviewer turn never told the user to return to the Producer window, so a relay that
+   was merely waiting looked stalled. A turn that ends without this line is not finished.
+
+## Setup
+- Artifacts under review (committed on this branch): `examples/2026-10-14-xyz-forge-system/`
+  (`fixture.json`, `render-diagram.mjs`, `README.md`, `.gitignore`, `xyz-forge-system.png`,
+  `xyz-forge-system-chromium.png`, `xyz-forge-system.html`, `verification.json`), the `CHANGELOG.md` top entry,
+  and the plan with its Evidence table: `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md`.
+- Source diagram the operator asked to redesign (read-only seed): **.relay-artifacts/xyz-forge-source.png**.
+  Style reference: `examples/2026-10-12-belief-reference/renders-v5/satori/render.png` and its README.
+- Plan QA: `relay-system/2026-10-14/gh55-plan-qa.md` (Approved, round 2).
+- Reviewer: codex   ·   Producer: claude-a
+- Started: 2026-10-14
+- Operational envelope: one documentation example in a local single-repo layout engine. Grade against the plan's
+  requirements and commensurate complexity. The repo's `test-budget.json` forbids new tests without a named failure
+  mode; do not ask for one, nor for a recipe, catalog registration or image generation.
+- Definition of Done: plan requirements 1–4 and acceptance checks met; evidence in the plan substantiates them.
+
+Questions:
+
+1. Content parity: compare `.relay-artifacts/xyz-forge-source.png` with `xyz-forge-system.png`. Does every
+   source node and edge appear, or appear as a simplification the README discloses (README "Simplifications,
+   stated")? Does any edge in the redraw misstate direction or meaning (e.g. operator routes, revise loop,
+   dispatch, claims, record reads/writes)?
+2. Style parity: does the redraw follow the belief reference's palette, type, title panel, stage markers,
+   hexagons, connectors and single accent shape (plan requirement 3)?
+3. Does `render-diagram.mjs` keep one geometry owner, reuse the shared renderer, and keep checks equivalent to
+   the RAG precedent? Any dead code, unused fixture fields or copy that fails AS-7?
+4. Does the plan's Evidence table substantiate the acceptance checks (PASS line, red control ids, PDDA, pnpm test)?
+5. Is the diff free of accidental files (no SVG, no `.xyz/`, no `.tick/`), and is the CHANGELOG entry accurate?
+
+Cite file:line for disagreements. Set STATUS: Approved if it passes.
+
+## Ground rules
+1. This file is the single source of truth. The agents never share memory — read the whole file.
+2. Take a turn only if `NEXT` names your role — otherwise reply "not my turn" and stop.
+3. One turn = one block appended at the very bottom, above the marker. Never edit earlier turns.
+4. Stay tight — findings are bullets, not essays. Grade every finding.
+5. **The Reviewer never edits the artifact.** It proposes graded findings; the Producer implements.
+6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
+
+## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: FAIL
+Basis: One undisclosed source-edge omission prevents content-parity acceptance. The visual treatment and bounded implementation otherwise fit the brief. Correction is Easy: explicitly disclose this omission in the existing simplifications paragraph, or restore the read relationship and regenerate through the existing renderer.
+swept file: yes
+
+- [Should] **F1 — disclose the missing PDDA → execution-harness read relationship.** In `.relay-artifacts/xyz-forge-source.png`, the dashed route labelled “reads” rises from PDDA Project Documents (near source x537, y1020), turns at about y540, and points into Execution Harness. The redraw has only a records → Plan read route; `examples/2026-10-14-xyz-forge-system/render-diagram.mjs:103`–106 enumerates the four shelf routes, with none to Execute. `examples/2026-10-14-xyz-forge-system/README.md:41` discloses the omitted harness evidence-write and harness/tick edges, but not this read. Cheapest fix: extend that paragraph to explicitly state that harness reads of PDDA plans/status/handoff context are omitted for readability; alternatively restore the labelled edge. No new test needed.
+  Observed input: The seeded source PNG’s concrete PDDA Project Documents → Execution Harness dashed “reads” route, absent from the rendered PNG and the disclosed omissions at README:41.
+  Affected scope: This example’s depiction/disclosure of that one source record-read relationship; no engine behavior or other examples.
+  Falsifier: A labelled PDDA/shelf → Execute read relationship in the current redraw, or an explicit existing README disclosure of its omission, would invalidate F1. Neither appears in the supplied artifacts.
+- [Pass] **Style and remaining main routes:** inspected source, belief-reference v5 PNG, both redraw PNGs and 420px thumbnails. Ivory/slate palette, Barlow Condensed, title panel, stage markers/formulas, point-up hexagons, single accent shelf and subordinate runtime cards follow the reference (`fixture.json:7`–16; `render-diagram.mjs:73`–108, 122–129). Operator → intake, gate → operator, operator → land, gate → execute retry, execute ↔ adapters, adapters → workspaces, adapters ↔ tick and land ↔ GitHub preserve direction (`render-diagram.mjs:86`–100). The four mode alternatives and schematic/no-generated-imagery footer remain explicit (`fixture.json:76`–98, 155–157). No additional content or AS-7 defect found in the bounded sweep.
+- [Pass] **One owner and checks:** the complete example script keeps geometry locally and calls the shared renderers (`render-diagram.mjs:9`, 25–33, 190–198); its finite-geometry, containment, Chromium-overflow and pairwise text-overlap checks retain the relevant RAG precedent checks (`render-diagram.mjs:200`–227). No material dead code found; fixture `id` and empty intake `token` are inert metadata, not a required redesign.
+- [Pass] **Retained receipt matches the artifacts.** Read-only probe command (exit 0): `python3 - <<'PY'` with `p=Path("examples/2026-10-14-xyz-forge-system"); v=json.loads((p/"verification.json").read_text())`, then for `(key,name)` in `[("png","xyz-forge-system.png"),("chromiumPng","xyz-forge-system-chromium.png"),("html","xyz-forge-system.html")]` compare `hashlib.sha256((p/name).read_bytes()).hexdigest()` to `v["artifactDigests"][key]` and unpack each PNG header using `struct.unpack(">II",b[16:24])`. Decisive output: `xyz-forge-system.png True (2000, 1570)`; `xyz-forge-system-chromium.png True (2000, 1570)`; `xyz-forge-system.html True HTML`; text-id count/unique count/icon count/findings: `77 77 5 []`. Receipt is consistent with `verification.json`’s quoted `"findings": []`; this does not independently rerun layout validation.
+- [Pass] **Thumbnail inspection:** command `sips --resampleWidth 420 examples/2026-10-14-xyz-forge-system/xyz-forge-system.png --out "$TMPDIR/satori-thumb.png"` and the corresponding Chromium command, exit 0, wrote both scratch thumbnails. Main reading line/hierarchy survives; fine captions require full size, as disclosed at README:43. Initial Python thumbnail attempt exited 1 (`ModuleNotFoundError: No module named 'PIL'`); native `sips` supplied the previews without installing anything.
+- [Unverified — needs clone run] **Executable acceptance:** plan Evidence at `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:122`–127 reports the expected PASS line, red-control ids/container and exit 1, restored exit 0, PDDA and four budgeted canaries. Those reports substantiate the intended checks on paper; I did not execute render fixtures, PDDA, or test suites in this reviewer worktree. Harness gate owns fresh verification. The red-control row states the mutation but omits the exact mutation command requested by the plan; retaining that command in the next evidence update would improve replayability.
+- [Unverified — needs harness audit] **Branch-wide accidental-file check:** Git is prohibited this turn, so no diff/changed-path claim is made. Directory inspection lists exactly the eight named example files, with no SVG present, and `.gitignore` excludes the regenerated SVG. `CHANGELOG.md:2`–5 accurately describes the bounded example and its reported verification. Harness must confirm the whole branch adds no accidental `.xyz/`, `.tick/`, or other files.
+
+Review scope: read the complete fixture, script, example README, verification receipt, HTML, plan and RAG precedent script; inspected both PNGs and the seeded source. No further pre-existing defect found in those reviewed files. Graph lookup used Verify intent against nearest indexed project `XYZ-layout-engine`, generation `2026-10-13T02:52:30Z`; current relay worktree is not indexed, examples are excluded and plan freshness is missing, so all material review evidence above comes from direct source/artifact reads, not graph completeness.
+
+Handing off to Producer (claude-a) — address F1, record its disposition, and return for Round 2 review.
+
+### Producer · Round 2 · claude-a
+
+- F1 — Implemented (disclosure option). `examples/2026-10-14-xyz-forge-system/README.md` "Simplifications, stated" now names three undrawn harness edges, including the harness read of PDDA project documents, and why (a shelf → harness connector would cross the dispatch spine and mode trail). No render change, so PNGs, HTML and `verification.json` are unchanged.
+- Red-control replayability — Implemented. The plan's Evidence row now carries the exact mutation command.
+- Branch-wide accidental files — producer check: `git diff --name-only origin/main...HEAD` lists only CHANGELOG.md, the plan doc, the two relay threads, releases.db/.sql and the eight example files; `.xyz/`, `.tick/` and `.relay-scratch/` are git-excluded and absent from the diff.
+
+Reviewer: please re-check F1 only; approve if resolved.
+
+### Reviewer · Round 2 · codex
+
+VERDICT: PASS
+Basis: F1 is resolved by explicit disclosure of the omitted source relationship. The full artifact sweep found no further material defect. Approval covers artifact review and retained evidence; fresh executable and branch-containment gates remain the harness responsibility.
+swept file: yes
+
+- [Pass] **F1 closed.** `examples/2026-10-14-xyz-forge-system/README.md:41` now explicitly names “the harness's read of PDDA project documents (plans, status, handoff context)” among undrawn source edges and explains the crossing avoided. This satisfies the source-parity requirement allowing stated simplifications; no redraw is needed.
+- [Pass] **Whole-artifact sweep.** Re-read the complete fixture, render script, README and plan; inspected the seeded source PNG, both output PNGs and belief-reference PNG. Main routes and the disclosed simplifications remain consistent with the source. Style follows the documented hierarchy and reference mapping (`README.md:21`–43); the script retains one geometry owner and shared rendering with finite geometry, containment, overflow and overlap checks (`render-diagram.mjs:25`–33, 190–227). No additional pre-existing defect found in the reviewed files. Inspected the retained HTML resource references and responsive script as well; no external src/href URL was found.
+- [Pass] **Retained receipt integrity.** Read-only Python probe (exit 0): `p=Path("examples/2026-10-14-xyz-forge-system"); v=json.loads((p/"verification.json").read_text()); [(print(n,hashlib.sha256((p/n).read_bytes()).hexdigest()==v["artifactDigests"][k])) for k,n in [("png","xyz-forge-system.png"),("chromiumPng","xyz-forge-system-chromium.png"),("html","xyz-forge-system.html")]]`, with PNG dimensions read using `struct.unpack(">II",b[16:24])`. Decisive output: `xyz-forge-system.png True (2000, 1570)`; `xyz-forge-system-chromium.png True (2000, 1570)`; `xyz-forge-system.html True HTML`; `text ids/unique/icons/findings: 77 77 5 []`. This corroborates the receipt's quoted `"findings": []`, without rerunning the renderer.
+- [Pass] **Evidence replayability improved.** `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:123` now records the exact sixfold caption mutation command, failing exit 1 and decisive `rec0_caption` / `recbox0` output. Rows 122–127 retain passing render, restore, PDDA and budgeted canary evidence. `CHANGELOG.md:2`–5 accurately describes the example and those reported checks.
+- [Unverified — needs clone run] Fresh rendering, red-control execution, PDDA and test suites were intentionally not run in this reviewer worktree. The harness gate must verify them. No independent branch-wide diff assertion: Git was prohibited. Read-only directory enumeration returned precisely the eight named example files, with no SVG; whole-branch accidental-file containment remains a harness audit.
+
+Graph tools are unavailable in this turn's tool inventory; this review relies on direct file reads and artifact inspection, with no claim of graph completeness. Only this relay file was edited; no artifact/source changes or Git commands were made.
+
+Relay closed (Approved), no further turn needed. Token handoff: done.
+
+### Producer · Round 3 · claude-a
+
+- No artifact change since Round 2 (HEAD `1263113`; Round 2 reviewed the same tree).
+- relay-drive refused the Round 2 close as `close-mismatch`: the token was released `--to done` (`tick info` shows `status: open`, `handoff-to: done`) rather than closed with `tick done`, so no attestation was written. STATUS reset to Open for one confirmation turn.
+
+Reviewer: confirm the Round 2 PASS still holds, set STATUS: Approved, and close the token with `tick done RELAY-gh55-final-qa-r3 --agent codex` (not `tick release --to done`).
+
+### Reviewer · Round 3 · codex
+
+VERDICT: PASS
+Basis: Round 2 approval still holds after a fresh source/artifact inspection. This turn repairs the relay close protocol; no artifact change is requested. Reversibility: Easy (relay metadata and appended review only).
+swept file: yes
+
+- [Pass] **F1 remains resolved.** `examples/2026-10-14-xyz-forge-system/README.md:41` explicitly discloses “the harness's read of PDDA project documents (plans, status, handoff context)” and the crossing avoided. Re-inspected the seeded source PNG, both output PNGs and the belief-reference PNG; the routes, stated simplifications and style mapping remain acceptable (`README.md:21`–43).
+- [Pass] **Whole-file sweep remains clear.** Re-read the complete fixture, script, README and plan. One geometry owner and shared rendering remain at `render-diagram.mjs:25`–33 and 190–198; finite geometry, containment, overflow and text overlap checks remain at 200–227. No additional pre-existing material defect found. AS-2/3/4/6 choices and exceptions remain disclosed at `README.md:39`–40; footer disclosure satisfies AS-7 (`fixture.json`, quoted “Icons are hand-drawn vectors; no images were generated.”). Both PNGs were inspected at full view and 420px thumbnail; the main hierarchy survives while fine captions require full size.
+- [Pass] **Receipt integrity rechecked.** Read-only probe command: `python3 -` importing `Path,json,hashlib,struct,re`; load `verification.json`; for `(k,n)` in `[("png","xyz-forge-system.png"),("chromiumPng","xyz-forge-system-chromium.png"),("html","xyz-forge-system.html")]`, print `hashlib.sha256((p/n).read_bytes()).hexdigest()==v["artifactDigests"][k]` and PNG header dimensions using `struct.unpack(">II",b[16:24])`; print text-id counts, icon count and findings. Exit 0; decisive output: `xyz-forge-system.png True (2000, 1570)`, `xyz-forge-system-chromium.png True (2000, 1570)`, `xyz-forge-system.html True HTML`, `text ids/unique/icons/findings: 77 77 5 []`. This corroborates the receipt's `"findings": []`, without executing the render fixture.
+- [Pass] **Thumbnail probe.** Commands `sips --resampleWidth 420 examples/2026-10-14-xyz-forge-system/xyz-forge-system.png --out "$TMPDIR/r3-satori-thumb.png"` and the corresponding `xyz-forge-system-chromium.png` / `r3-chromium-thumb.png` command exited 0 and produced the two inspected scratch previews. `TMPDIR` was pinned to `.relay-scratch/tmp`; no artifact was modified.
+- [Pass] **Retained acceptance evidence remains sufficient for review.** Plan `PROJECT/2-WORKING/GH-55-XYZ-FORGE-DIAGRAM.md:122`–127 records render PASS, the red control with exit 1 and `rec0_caption` / `recbox0`, restoration, PDDA and four passing canaries. `CHANGELOG.md:2`–5 accurately describes the example and reported checks.
+- [Unverified — needs clone run] Fresh rendering, red-control execution, PDDA and test suites were not run under this turn's restrictions; the harness owns those gates. No Git commands were run, so branch-wide containment remains a harness audit. Direct directory enumeration found the eight expected example files, with no SVG present.
+
+Graph tools are unavailable in the current tool inventory; evidence is from direct reads and image inspection. Only the relay file was edited; previews were written under exempt scratch. The harness owns the file-scoped commit. Close using the env-pinned absolute tick's `done RELAY-gh55-final-qa-r3 --agent codex`, as requested by the Round 3 recovery note, rather than releasing an open task to a role named done.
+
+Relay closed (Approved), no further turn needed.
+
+
+### Attestation · relay-drive — 2026-10-15T06:20:37Z
+task: RELAY-gh55-final-qa-r3
+reviewer: codex
+status: Approved
+reviewed-head: 42a2ded6fa8571e4cb34ee69bd895a020316fa68
+added-range: 17877+3604
+added-sha256: 85c55dc688099ea819442ef7ab052384cca7dc471a382e5ac145be39199c5035
+<!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->

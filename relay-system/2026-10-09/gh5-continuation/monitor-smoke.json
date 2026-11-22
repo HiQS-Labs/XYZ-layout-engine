@@ -1,0 +1,23 @@
+[
+  {
+    "control": "six due times",
+    "exit": 0,
+    "intervals": [
+      600.0,
+      1200.0,
+      1800.0,
+      2400.0,
+      3000.0,
+      3600.0
+    ],
+    "pass": true,
+    "real_executor_dispatched": false
+  },
+  {
+    "control": "early halt cancels checks",
+    "exit": 4,
+    "intervals": [],
+    "pass": true,
+    "real_executor_dispatched": false
+  }
+]

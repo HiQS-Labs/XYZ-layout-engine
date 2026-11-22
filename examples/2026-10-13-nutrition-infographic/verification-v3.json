@@ -1,0 +1,289 @@
+{
+  "sourceCommit": "40d3023",
+  "runtime": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "renders": [
+    {
+      "backend": "satori",
+      "valid": true,
+      "files": 26,
+      "bytes": 12051513,
+      "recipe": "nutrition@3.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "3321e800b81f3528c394ba58d5c8ce87f93a90305777d7976e311653d51f0e93",
+        "svg": "708d351dab0467df32c91eb9c2f1f8ed3216c1fc3d8da3ec0f57b2381309d373",
+        "html": "b400da4b079aeec1c4cf5f33cddbd41c23bccd0a4284cca3864ed40bf508520a",
+        "html-inline": "7ecb97a69aa0c437f468d9ac20b7a90173a31c30cf0d043237e1d6bdc7f4735a"
+      }
+    },
+    {
+      "backend": "playwright",
+      "valid": true,
+      "files": 25,
+      "bytes": 7996956,
+      "recipe": "nutrition@3.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "f07a629817e04bf8b1352d70239284216faa81e4cd0989af2675318999ebd3f0",
+        "html": "b400da4b079aeec1c4cf5f33cddbd41c23bccd0a4284cca3864ed40bf508520a",
+        "html-inline": "7ecb97a69aa0c437f468d9ac20b7a90173a31c30cf0d043237e1d6bdc7f4735a"
+      }
+    }
+  ],
+  "shadowProbe": {
+    "lightSource": "upper-right corner -> lower-left ground cast",
+    "stageOriginWaterBottle": {
+      "x0": 565,
+      "y0": 673,
+      "width": 160,
+      "height": 170
+    },
+    "stageBoundsChickenWrap": {
+      "satori": {
+        "x": 388,
+        "y": 733,
+        "width": 160,
+        "height": 107,
+        "visibleTopY": 72,
+        "visibleBaseY": 154
+      },
+      "playwright": {
+        "x": 387.5,
+        "y": 734.5,
+        "width": 160,
+        "height": 107,
+        "visibleTopY": 72,
+        "visibleBaseY": 154
+      }
+    },
+    "samples": {
+      "P_bg_upper": {
+        "x": 590,
+        "y": 728
+      },
+      "P_upper": {
+        "x": 619,
+        "y": 728
+      },
+      "P_bg_cap": {
+        "x": 600,
+        "y": 690
+      },
+      "P_cap_under": {
+        "x": 649,
+        "y": 690
+      },
+      "P_bg_base": {
+        "x": 577,
+        "y": 836
+      },
+      "P_cast_52": {
+        "x": 617,
+        "y": 836
+      },
+      "P_cast_48": {
+        "x": 613,
+        "y": 836
+      }
+    },
+    "satori": {
+      "P_bg_upper": {
+        "rgb": [
+          249,
+          246,
+          233
+        ],
+        "luma": 245.41
+      },
+      "P_upper": {
+        "rgb": [
+          249,
+          246,
+          233
+        ],
+        "luma": 245.41,
+        "delta": 0
+      },
+      "P_bg_cap": {
+        "rgb": [
+          250,
+          247,
+          235
+        ],
+        "luma": 246.53
+      },
+      "P_cap_under": {
+        "rgb": [
+          250,
+          247,
+          234
+        ],
+        "luma": 246.42,
+        "delta": 0.11
+      },
+      "P_bg_base": {
+        "rgb": [
+          248,
+          244,
+          229
+        ],
+        "luma": 243.49
+      },
+      "P_cast_52": {
+        "rgb": [
+          193,
+          194,
+          178
+        ],
+        "luma": 191.88,
+        "drop": 51.61
+      },
+      "P_cast_48": {
+        "rgb": [
+          198,
+          198,
+          182
+        ],
+        "luma": 196.18,
+        "drop": 47.31
+      },
+      "pass": true
+    },
+    "playwright": {
+      "P_bg_upper": {
+        "rgb": [
+          249,
+          246,
+          233
+        ],
+        "luma": 245.41
+      },
+      "P_upper": {
+        "rgb": [
+          250,
+          247,
+          233
+        ],
+        "luma": 246.3,
+        "delta": 0.89
+      },
+      "P_bg_cap": {
+        "rgb": [
+          250,
+          247,
+          235
+        ],
+        "luma": 246.53
+      },
+      "P_cap_under": {
+        "rgb": [
+          250,
+          247,
+          234
+        ],
+        "luma": 246.42,
+        "delta": 0.11
+      },
+      "P_bg_base": {
+        "rgb": [
+          248,
+          244,
+          229
+        ],
+        "luma": 243.49
+      },
+      "P_cast_52": {
+        "rgb": [
+          201,
+          200,
+          185
+        ],
+        "luma": 198.59,
+        "drop": 44.9
+      },
+      "P_cast_48": {
+        "rgb": [
+          206,
+          205,
+          189
+        ],
+        "luma": 203.47,
+        "drop": 40.02
+      },
+      "pass": true
+    },
+    "redControlNutrition200": {
+      "artifact": "examples/2026-10-13-nutrition-infographic/renders/satori/render.png",
+      "P_bg_upper": {
+        "rgb": [
+          249,
+          246,
+          233
+        ],
+        "luma": 245.41
+      },
+      "P_upper": {
+        "rgb": [
+          242,
+          239,
+          227
+        ],
+        "luma": 238.53,
+        "delta": 6.88
+      },
+      "P_bg_cap": {
+        "rgb": [
+          250,
+          247,
+          235
+        ],
+        "luma": 246.53
+      },
+      "P_cap_under": {
+        "rgb": [
+          237,
+          234,
+          222
+        ],
+        "luma": 233.53,
+        "delta": 13
+      },
+      "P_bg_base": {
+        "rgb": [
+          248,
+          244,
+          229
+        ],
+        "luma": 243.49
+      },
+      "P_cast_52": {
+        "rgb": [
+          242,
+          239,
+          224
+        ],
+        "luma": 238.19,
+        "drop": 5.3
+      },
+      "P_cast_48": {
+        "rgb": [
+          245,
+          242,
+          226
+        ],
+        "luma": 241.07,
+        "drop": 2.42
+      },
+      "pass": false
+    }
+  },
+  "receiptSanitization": "Only home-directory prefix replaced by ~; raw export result digest retained in export-manifest.json. Retained file hashes in SHA256SUMS."
+}

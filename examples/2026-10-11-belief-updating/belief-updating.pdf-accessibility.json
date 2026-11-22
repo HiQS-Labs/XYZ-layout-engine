@@ -1,0 +1,572 @@
+{
+  "sequence": [
+    {
+      "type": "H1",
+      "id": "title",
+      "text": "Human development as recursive belief updating"
+    },
+    {
+      "type": "P",
+      "id": "subtitle",
+      "text": "Each consequence becomes the next activating event. Examining a belief produces a revised outlook that later beliefs keep building on."
+    },
+    {
+      "type": "Figure",
+      "id": "structure",
+      "alt": "Flow diagram in four numbered columns, after the ABC model: A is an activating event, B a belief, C a consequence, D an examination and E the outcome. Column 1: activating event A1 leads to belief B1, which leads to consequence C1 (the relationship is strained). Column 2: that consequence becomes the next event A2, leading to updated belief B2 and consequence C2 (the relationship is repaired). Column 3: B2 branches up to examination D and then revised outlook E. Column 4: a wide arrow labelled continuous belief revision runs right over a chain of later beliefs, B3, B4 and onward, each with a small head silhouette."
+    },
+    {
+      "type": "H2",
+      "id": "event_1_label",
+      "text": "Activating event"
+    },
+    {
+      "type": "P",
+      "id": "event_1_caption",
+      "text": "Something happens, such as a tense conversation."
+    },
+    {
+      "type": "Figure",
+      "id": "activating_event_art",
+      "alt": "Two people shaking hands, with a speech bubble above them."
+    },
+    {
+      "type": "H2",
+      "id": "state_1_label",
+      "text": "Belief"
+    },
+    {
+      "type": "P",
+      "id": "state_1_caption",
+      "text": "How the event is interpreted in the moment."
+    },
+    {
+      "type": "H2",
+      "id": "consequence_1_label",
+      "text": "Consequence"
+    },
+    {
+      "type": "P",
+      "id": "consequence_1_caption",
+      "text": "The relationship is strained."
+    },
+    {
+      "type": "Figure",
+      "id": "consequence_1_art",
+      "alt": "A person beside a broken chain link and a minus sign."
+    },
+    {
+      "type": "H2",
+      "id": "event_2_label",
+      "text": "Next event"
+    },
+    {
+      "type": "P",
+      "id": "event_2_caption",
+      "text": "The first consequence becomes the next thing that happens."
+    },
+    {
+      "type": "H2",
+      "id": "state_2_label",
+      "text": "Updated belief"
+    },
+    {
+      "type": "P",
+      "id": "state_2_caption",
+      "text": "Shaped by what the first consequence taught."
+    },
+    {
+      "type": "H2",
+      "id": "consequence_2_label",
+      "text": "Consequence"
+    },
+    {
+      "type": "P",
+      "id": "consequence_2_caption",
+      "text": "The relationship is repaired."
+    },
+    {
+      "type": "Figure",
+      "id": "consequence_2_art",
+      "alt": "Two people shaking hands, with a plus sign."
+    },
+    {
+      "type": "H2",
+      "id": "examination_label",
+      "text": "Examination"
+    },
+    {
+      "type": "P",
+      "id": "examination_caption",
+      "text": "Question the belief: is it accurate, and is it useful?"
+    },
+    {
+      "type": "Figure",
+      "id": "examination_art",
+      "alt": "Two gears with a question mark above them."
+    },
+    {
+      "type": "H2",
+      "id": "outcome_label",
+      "text": "Revised outlook"
+    },
+    {
+      "type": "P",
+      "id": "outcome_caption",
+      "text": "A more flexible way to read the next event."
+    },
+    {
+      "type": "Figure",
+      "id": "revised_philosophy_art",
+      "alt": "A shield showing the sun rising over water."
+    },
+    {
+      "type": "H2",
+      "id": "trail_label",
+      "text": "Continuous belief revision"
+    },
+    {
+      "type": "P",
+      "id": "footer_note",
+      "text": "Schematic: the stages and outcomes are illustrative, not measured."
+    },
+    {
+      "type": "P",
+      "id": "footer_source",
+      "text": "After the ABC model of cognitive-behavioural therapy (A activating event, B belief, C consequence), with D and E shown as examination and revised outlook."
+    }
+  ],
+  "contrast": [
+    {
+      "id": "title",
+      "tag": "h1",
+      "text": "Human development as recursive belief updating",
+      "fontSize": 33.1376,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 14.61,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "subtitle",
+      "tag": "p",
+      "text": "Each consequence becomes the next activating event. Examinin",
+      "fontSize": 18.6399,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "event_1_label",
+      "tag": "h2",
+      "text": "Activating event",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "event_1_caption",
+      "tag": "p",
+      "text": "Something happens, such as a tense conversation.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "state_1_label",
+      "tag": "h2",
+      "text": "Belief",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "state_1_caption",
+      "tag": "p",
+      "text": "How the event is interpreted in the moment.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "consequence_1_label",
+      "tag": "h2",
+      "text": "Consequence",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "consequence_1_caption",
+      "tag": "p",
+      "text": "The relationship is strained.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "event_2_label",
+      "tag": "h2",
+      "text": "Next event",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "event_2_caption",
+      "tag": "p",
+      "text": "The first consequence becomes the next thing that happens.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "state_2_label",
+      "tag": "h2",
+      "text": "Updated belief",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "state_2_caption",
+      "tag": "p",
+      "text": "Shaped by what the first consequence taught.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "consequence_2_label",
+      "tag": "h2",
+      "text": "Consequence",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "consequence_2_caption",
+      "tag": "p",
+      "text": "The relationship is repaired.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "examination_label",
+      "tag": "h2",
+      "text": "Examination",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "examination_caption",
+      "tag": "p",
+      "text": "Question the belief: is it accurate, and is it useful?",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "outcome_label",
+      "tag": "h2",
+      "text": "Revised outlook",
+      "fontSize": 20.711,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 13.04,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "outcome_caption",
+      "tag": "p",
+      "text": "A more flexible way to read the next event.",
+      "fontSize": 16.5688,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "trail_label",
+      "tag": "h2",
+      "text": "Continuous belief revision",
+      "fontSize": 20.711,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 13.04,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "footer_note",
+      "tag": "p",
+      "text": "Schematic: the stages and outcomes are illustrative, not mea",
+      "fontSize": 15.5332,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "footer_source",
+      "tag": "p",
+      "text": "After the ABC model of cognitive-behavioural therapy (A acti",
+      "fontSize": 14.4977,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 4.94,
+      "required": 4.5,
+      "pass": true
+    }
+  ],
+  "visual": {
+    "changedPixels": 129,
+    "totalPixels": 2144000
+  },
+  "report": {
+    "pages": 1,
+    "pageSize": [
+      0,
+      0,
+      1200,
+      1005.12
+    ],
+    "marked": true,
+    "hasStructTree": true,
+    "lang": "en",
+    "title": "Human development as recursive belief updating",
+    "displayDocTitle": true,
+    "tabsStructure": true,
+    "structureTypes": [
+      "Document",
+      "Figure",
+      "H1",
+      "H2",
+      "NonStruct",
+      "P"
+    ],
+    "order": [
+      {
+        "type": "H1",
+        "text": "Human development as recursive belief updating"
+      },
+      {
+        "type": "P",
+        "text": "Each consequence becomes the next activating event. Examining a belief produces a revised outlook that later beliefs keep building on."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Flow diagram in four numbered columns, after the ABC model: A is an activating event, B a belief, C a consequence, D an examination and E the outcome. Column 1: activating event A1 leads to belief B1, which leads to consequence C1 (the relationship is strained). Column 2: that consequence becomes the next event A2, leading to updated belief B2 and consequence C2 (the relationship is repaired). Column 3: B2 branches up to examination D and then revised outlook E. Column 4: a wide arrow labelled continuous belief revision runs right over a chain of later beliefs, B3, B4 and onward, each with a small head silhouette."
+      },
+      {
+        "type": "H2",
+        "text": "Activating event"
+      },
+      {
+        "type": "P",
+        "text": "Something happens, such as atense conversation."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two people shaking hands, with a speech bubble above them."
+      },
+      {
+        "type": "H2",
+        "text": "Belief"
+      },
+      {
+        "type": "P",
+        "text": "How the event is interpreted in themoment."
+      },
+      {
+        "type": "H2",
+        "text": "Consequence"
+      },
+      {
+        "type": "P",
+        "text": "The relationship is strained."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A person beside a broken chain link and a minus sign."
+      },
+      {
+        "type": "H2",
+        "text": "Next event"
+      },
+      {
+        "type": "P",
+        "text": "The first consequence becomes thenext thing that happens."
+      },
+      {
+        "type": "H2",
+        "text": "Updated belief"
+      },
+      {
+        "type": "P",
+        "text": "Shaped by what the firstconsequence taught."
+      },
+      {
+        "type": "H2",
+        "text": "Consequence"
+      },
+      {
+        "type": "P",
+        "text": "The relationship is repaired."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two people shaking hands, with a plus sign."
+      },
+      {
+        "type": "H2",
+        "text": "Examination"
+      },
+      {
+        "type": "P",
+        "text": "Question the belief: is itaccurate, and is ituseful?"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two gears with a question mark above them."
+      },
+      {
+        "type": "H2",
+        "text": "Revised outlook"
+      },
+      {
+        "type": "P",
+        "text": "A more flexible way to readthe next event."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A shield showing the sun rising over water."
+      },
+      {
+        "type": "H2",
+        "text": "Continuous belief revision"
+      },
+      {
+        "type": "P",
+        "text": "Schematic: the stages and outcomes are illustrative, not measured."
+      },
+      {
+        "type": "P",
+        "text": "After the ABC model of cognitive-behavioural therapy (A activating event, B belief, C consequence), with D and E shown as examination and revised outlook."
+      }
+    ],
+    "figures": [
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Flow diagram in four numbered columns, after the ABC model: A is an activating event, B a belief, C a consequence, D an examination and E the outcome. Column 1: activating event A1 leads to belief B1, which leads to consequence C1 (the relationship is strained). Column 2: that consequence becomes the next event A2, leading to updated belief B2 and consequence C2 (the relationship is repaired). Column 3: B2 branches up to examination D and then revised outlook E. Column 4: a wide arrow labelled continuous belief revision runs right over a chain of later beliefs, B3, B4 and onward, each with a small head silhouette."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two people shaking hands, with a speech bubble above them."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A person beside a broken chain link and a minus sign."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two people shaking hands, with a plus sign."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Two gears with a question mark above them."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A shield showing the sun rising over water."
+      }
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": {
+      "single page at the canvas size": true,
+      "tagged (MarkInfo /Marked true, StructTreeRoot)": true,
+      "document language set": true,
+      "title set and shown in the title bar": true,
+      "tab order follows structure": true,
+      "exactly one H1": true,
+      "headings do not skip levels": true,
+      "every figure has alt text": true,
+      "all non-decorative images are tagged figures": true,
+      "tag order matches the reading order (text decoded from the PDF)": true,
+      "all text meets WCAG AA contrast": true,
+      "semantic page paints like the plain export": true
+    },
+    "firstMismatch": null,
+    "contrastFailures": []
+  },
+  "provenance": {
+    "recipe": "recursive-process",
+    "version": "6.0.0",
+    "inputPath": "examples/2026-10-11-belief-updating/fixture.json",
+    "svgSha256": "8189a5d86f5016357bec60b3a54f3f640b1302105b22c08f50c7262ac3068403"
+  }
+}

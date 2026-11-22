@@ -1,4 +1,448 @@
 # Changelog
+## 2026-11-20 — FRONTDOOR FD-07 to FD-10 fixed; recipe patch versions
+
+- FD-09: removed the dead `mangajdm-promo` recipe branch from `tools/request.mjs` (its example was deleted in `d0113e7`; there is no recipe module). Such fixtures are now rejected at validation ("select a trusted nutrition, solar-system, recursive-process or design-intake recipe") instead of failing later with "unsupported recipe identity". `tools/request.mjs` is a declared file of `recursive-process` and `design-intake`, so both were published as patch versions: `recursive-process@6.0.1` and `design-intake@1.0.6`. Patch, not minor, because accepted requests are unchanged: the design-intake and Hallmark Bento PNG/SVG/HTML and the belief-reference SVG/HTML renders are byte-identical before and after.
+- FD-07: re-rendered `examples/2026-10-09-rag-system/`; committed the refreshed `rag-system.html` and `verification.json` (renderer note now names the shared `tools/render.mjs`; HTML digest current). PNG, SVG and Chromium PNG were already identical. `rag-system.pdf` differs between runs only in its 16 bytes of creation and modification dates, so the committed PDF was kept.
+- FD-08: `ROUTER.md` startup step 7 now says `releases_app.py` ships in the XYZ Forge RELEASES overlay (`xyz-vendor.sh <this-repo> --with-releases`, run from XYZ Forge's `relay-automation` folder) and gives a read-only `sqlite3 -readonly releases.db` query that works on a fresh clone.
+- FD-10: `examples/2026-10-17-vibe-coding-loop/README.md` uses `pnpm install --frozen-lockfile`.
+- Removed a hardcoded home-directory path from the GH-74 entry below.
+- `FRONTDOOR.md`: all ten findings fixed; the check block prints nothing on this branch and prints FD-07 to FD-10 on `main` before these fixes (negative control). The FD-08 check now accepts the documented fresh-clone path. README and `docs/catalog.md` carry the new recipe versions.
+## 2026-11-20 — README rewritten for new users; front-door audit and dashboard
+
+- Rewrote `README.md` against a read of every CLI, recipe and example: requirements (Node 22.13+ for unflagged `node:sqlite`, pnpm, optional Playwright Chromium), a three-step quick start, how fixtures, recipes, backends, atomic exports and receipts fit together, a command table with `render.mjs` flags and defaults, the four recipes, all eleven example folders with render commands, agent authoring, skills, limits, repository layout and contributing.
+- Added the examples the README had left out (skill-trigger, vibe-coding-loop, XYZ Forge), `design-intake@1.0.5` in the recipe list, `pnpm profile`, the Alegreya font, and the fact that there is no npm package, HTTP or MCP server yet.
+- Corrected claims: removed `tools/spike/measure-chromium.mjs` (never in the tree; GH-69 open item ticked) and the JetBrains Mono / IBM Plex Sans font claims (not bundled); the Solar System edit keeps its required `--recipe solar-system` (its fixture has no recognised top-level `id`).
+- Moved the detailed catalog and PDF reference out of the README, unchanged in substance, to `docs/catalog.md` and `docs/pdf-export.md`.
+- Front-door audit (fresh clone, Chromium hidden, Node 26 and 18, pnpm 9/10/12): quick-start `pnpm test` failed without Chromium (two canaries launch it), so the quick start now installs it first; the Node 18 `crc32` error is documented.
+- Added `"engines": {"node": ">=22.13"}` to `package.json` (pnpm warns at install on older Node; lockfile unchanged; no `engine-strict`). Discarded an uncommitted pnpm 12 self-pin (`packageManager` plus a second `pnpm-lock.yaml` document): it broke `pnpm@9 install --frozen-lockfile` with `ERR_PNPM_BROKEN_LOCKFILE`, which the talk-deck README offers as a fallback, and silently switched pnpm 10/12 to 12.14.0. Codex and agy consult was unanimous on both calls.
+- Added `FRONTDOOR.md`, an onboarding dashboard with one read-only check per finding (empty output = green). Open: FD-07 stale RAG evidence, FD-08 `ROUTER.md` step 7 script missing from a fresh clone, FD-09 dead `mangajdm-promo` branch in `tools/request.mjs`, FD-10 unfrozen install in the vibe-coding README. Checks for the fixed findings were negative-controlled. Codex QA round 1 (FAIL) led to: the opt-in test run removed from the read-only block, FD-02 now detects a second YAML document anywhere in the lockfile, and four dropped old-README facts restored (aggregate image-pixel cap, generator prerequisites and limits, DESIGN.md lint caveat, private caches deferred).
+- Merged `origin/main` (#74–#84) into the branch: the README now also covers Hallmark examples and `tools/hallmark.mjs`, the craft linter (`AS-13`/`AS-14`, `intake --craft`), the Impeccable audit (and its `npx` network fallback), editorial asset export, `REVIEW/` with `tools/review.mjs`, and the public API section "Using the engine from another repository" kept under that heading because `ROUTER.md` and `tools/plugin-api.mjs` point to it. Commands checked on the merged tree: Bento `intake --craft` and `craft-lint` pass, Bento render exit 0, editorial export writes a 1248×1008 RGBA PNG, a linked consumer imports exactly `launchPlaywright,publishForReview` and gets `ERR_PACKAGE_PATH_NOT_EXPORTED` for deeper paths.
+- Codex merge-delta QA round 1 (FAIL) led to: the craft linter described exactly (errors vs the warning-only empty-plate rule; `AS-12` scale not checked), and the paid-generation paragraph no longer claims to be the only network step. Upstream README facts that the first merge pass had dropped (Hallmark usage and counts, direct `npx impeccable detect`, detector rule list, steering-verb detail, web-framework names) were restored.
+- Verification: quick-start commands (nutrition render to four formats, solar `--set`/`--save`, belief-reference Playwright PNG, `intake.mjs check`) ran on Node v26.13.0; `node tools/spike/test/run.mjs` 4/4 in 30.0 s; `utils/pdda/pdda.sh run` no errors, warnings unchanged from baseline (54); every relative link in the three docs resolves. Docs only: no runtime or test change.
+## 2026-11-12 — Remove accidental duplicate PDFs from `.relay-scratch/`
+
+- Deleted `.relay-scratch/pdf/` (four files committed by accident in #52). The two `*.pdf-accessibility.json` files were byte-identical to the canonical copies in `examples/2026-10-11-belief-updating/` and `examples/2026-10-12-belief-reference/`; the two PDFs differed from them only in the 4 bytes of their creation timestamps (19 seconds apart). README already points at the `examples/` copies.
+- Why: the relay harness deletes everything under `.relay-scratch/` after each turn, so every Codex or Kimi review turn here deleted these tracked files (HiQS-Labs/XYZ-forge#1137). With nothing tracked there, relay turns no longer touch the working tree.
+
+## 2026-11-12 — GH-82: public API for modules in other repositories
+
+- Added `tools/plugin-api.mjs`, the engine's only supported import surface for outside code. It re-exports two names: `launchPlaywright` (the engine's Chromium) and `publishForReview` (the top-level `REVIEW/` folder). Adding a name is a deliberate edit to that file.
+- `package.json` gains `exports`: the package root maps to `tools/plugin-api.mjs` (plus `./package.json`). A repository that links this checkout (`"xyz-layout-engine": "link:../XYZ-layout-engine"`) imports by name; any deeper path fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`. The package is ESM-only (synchronous `require()` fails because the review module has top-level `await`); `REVIEW/README.md` now shows the package import for outside repositories. The package name is unchanged, because the spike reads it for output folder names.
+- README section "Using the engine from another repository"; one `ROUTER.md` canonical-file line; `SPECS-PRD.md` §6.5 notes the delivered surface.
+- Deferred: loading outside recipes into the request pipeline (`XYZ_RECIPE_PATHS`), because recipe identity, allowlists and canvas sizes are hardcoded in `tools/request.mjs` and `tools/render.mjs`; revisit when an outside module needs that pipeline.
+## 2026-11-11 — REVIEW/: one top-level folder for human review of finished output
+
+- Added `REVIEW/README.md`: the convention. Every project publishes its final deliverables to `REVIEW/<project>/`; `REVIEW/index.html` lists all projects, newest first. Sources and intermediates stay in the project folder.
+- Added `tools/review.mjs`: `publishForReview(project, files, { note })` replaces a project's review folder and rebuilds the index; also a CLI (`node tools/review.mjs <project> <file>...`). No new dependency.
+- `.gitignore`: everything under `REVIEW/` except its README is ignored, because private and unreleased work lands there and this repository is public. Public output still ships through `examples/`.
+- `ROUTER.md`: one role-split line pointing at the folder. `AGENTS.md`: one working rule making publication to `REVIEW/` the last step of every renderer.
+- Limit: existing public examples are not yet wired to publish there; only renderers that call `publishForReview` appear. Verification: published two private pages through it and opened the generated index; `utils/pdda/pdda.sh run` reports no errors (its 24 warnings are in stale-working-docs, issue-doc-sync and governance, none in the files changed here); `pnpm test` passes 4/4 canaries in 41.1s.
+
+## 2026-11-09 — GH-79: Impeccable craft floor, steering verbs, headless HTML audit, and editorial asset export
+
+- Codified rules **`AS-13`** (Impeccable steering verbs: `distill`, `bolder`, `quieter`, `typeset`) and **`AS-14`** (anti-slop layout invariants: no nested cards, elevation singularity, no asymmetric side stripes, typography ramp snapping) in `SYSTEM-INSTRUCTIONS.md`.
+- Added `tools/craft-lint.mjs`: Standalone deterministic linter validating layout fixtures against craft floor invariants without LLM dependency; exits 0 on clean layouts, exits 1 on violations.
+- Updated `tools/intake.mjs`: Added `--craft` flag to `intake check` to run craft floor validation during intake preflight.
+- Added `tools/impeccable/audit.mjs`: Headless HTML auditing integration discovering local `impeccable` CLI binaries or falling back to `npx impeccable detect` against rendered publication HTML.
+- Added `tools/export-editorial-asset.mjs`: Editorial asset provider compiling isolated, high-DPI transparent SVG and PNG components (infographics, cards, badges) from recipes for embedding into external web applications (React, Next.js, Vite) with responsive `<img>` markup.
+- Added repo-local agent skills: `skills/hallmark/SKILL.md` (chaining macrostructure/theme discovery, recipe translation, craft preflight, and dual rendering) and `skills/impeccable/SKILL.md` (chaining craft linting, headless HTML auditing, steering verbs, and editorial asset exports).
+- Verification: `pnpm test` passes 4/4 canaries in 38.0s (under 60s budget, zero budget drift); craft linter verified against Hallmark bento, stat-led, and skate guide canonical examples.
+
+## 2026-11-09 — GH-74: Hallmark layouts (Bento, Stat-Led, Skate Guide) and dynamic importer harness
+
+- Updated `tools/hallmark.mjs`: CLI and module supporting dynamic loading of Hallmark macrostructures (21) and themes (50) from an external Hallmark clone via `--from <path>` or `HALLMARK_PATH` (e.g. `../hallmark`, the default), ensuring third-party designs are read cleanly without baking into XYZ Layout Engine.
+- Added `examples/2026-11-09-hallmark-skate-guide/`: Narrative Workflow (`14 · Narrative Workflow`) rebuilt from `temp/2026-11-09-skate-guide/` with the Broadside theme (`#ede6d6` unbleached buff stock, `#1c1917` charcoal ink, `#c83228` vermilion red signal, `#57534e` muted gray, `#e4dcce` structural tint), 1200×1600 portrait layout, 4 progressive numbered step cards, featured board anatomy cutout asset (`assets/board.png`), and safety rules card.
+- Added `examples/2026-11-09-hallmark-bento/`: Bento Grid macrostructure (`01 · Bento Grid`) paired with the Riso print theme (`#fbf8ee` paper, `#182236` ink, `#ff4e36` fluro coral, `#2da882` mint, `#ebe4d0` subtle fill), demonstrating an asymmetric multi-tier quadrant layout on a 24px spacing grid with 12px rounded corners.
+- Added `examples/2026-11-09-hallmark-stat-led/`: Stat-Led macrostructure (`04 · Stat-Led`) paired with the Distil Swiss technical theme (`#f4f4f4` paper, `#11161d` deep slate ink, `#0055ff` cobalt accent, `#68707d` muted gray, `#e8eaed` surface), anchoring visual hierarchy on a massive 99.8% hero KPI card and three supporting telemetry columns.
+- All examples adhere to Google DESIGN.md format and validate against `tools/recipes/design-intake.contract.md` (`tools/intake.mjs check`).
+- Rendered in both Satori (PNG, SVG, HTML) and Playwright Chromium (PNG, HTML) backends, fully compliant with `SYSTEM-INSTRUCTIONS.md` AS-1 through AS-12 rules.
+- Verification: `pnpm test` passes 4/4 canaries; all preflight structural and containment checks pass; PDDA hygiene checks pass cleanly.
+
+## 2026-10-29 — GH-69: talk deck "Stop Re-Rolling the Whole Image", rendered by the engine
+
+- Added `examples/2026-10-29-talk-deck/`: ten 1920×1080 slides for the 18-minute talk outlined in #69, each a JSON fixture under `slides/` rendered through the shared `renderSatori` / `renderPlaywright` in both backends (vibe-coding-loop pattern: `deck.json` owns palette roles and the AS-12 percentages, `render-deck.mjs` owns geometry, the SVG ink layer and the checks). Slide 4 is the high-level system diagram (inputs → `tools/render.mjs` → outputs, catalog pinning), slide 5 the author-once / edit-forever workflow loop; both were checked box by box against `tools/render.mjs`, `tools/request.mjs`, `tools/catalog.mjs` and the recipes. No image model was called.
+- Slides 2 and 7 embed the real before and after nutrition renders from the #69 demo commands, rerun verbatim on 2026-10-29 (after and again `render.svg` shasum `ceefd615…`, 0.39–0.61 s per command on Node v26); pinned by SHA-256 in `provenance.json` with their receipts under `receipts/`, loaded through `readPinnedPngs`.
+- Type scale from `S = 1080`: 97 / 36 / 29 / 24 px, headline:body 4.04:1, one headline line per slide at 52–73% of the canvas width. Ligatures are disabled at the scene root (`fontFeatureSettings: '"liga" 0'`, honoured by Satori and Chromium) because Barlow Condensed ligates `--` into a dash, which misprinted every `--set` / `--save`. Two declared AS-12 exceptions: the embedded renders on slides 2 and 7 exceed 3× the headline cap height because they are the subject.
+- Optional `deck-pdf.mjs` prints the ten Satori PNGs to `deck.pdf` through the Playwright Chromium already installed, with the PDF dates normalised so the file repeats byte for byte. No new dependency.
+- Added `tools/deck-viewer.mjs` (`pnpm deck:viewer <dir>`), the repeatable last step for any deck folder: reads `deck.json`, the frames under `renders/` and the per-slide fixtures for captions and alt text, and writes one static `index.html` (relative links, no inlined bytes, no timestamps, no dependencies) with arrow-key navigation, a thumbnail strip, a Satori / Chromium switch, a grid view and `#<n>/<backend>` deep links; exits 1 on a missing frame. Generated `examples/2026-10-29-talk-deck/index.html` with it; the file repeats byte for byte.
+- One-off example (GH-55/GH-60/GH-63 pattern): no recipe, catalog, renderer, font or test change beyond the viewer tool. Captured GH-69 in `PROJECT/1-INBOX/GH-69-TALK-DECK.md` and parked it in the releases ledger.
+- Verification: script passes in both backends with zero findings; two consecutive runs give identical digests for all twenty PNGs, `verification.json` and `deck.pdf`. Its checks caught, during layout, a 1.05 headline line height that clipped in Chromium (fixed to 1.2, no guard loosened), a wrapped backend label and a too-short catalog strip. All PNGs inspected at full size and on a contact sheet at 640 px and 400 px. Open: the issue's "two re-rolls side by side" slide needs paid image calls; root `README.md` and #69 name a `measure-chromium.mjs` that does not exist in the tree.
+## 2026-10-18 — GH-65: XYZ Forge diagrams grouped by lens; prior-art check shown
+
+- Moved the three XYZ Forge examples under `examples/xyz-forge/`: `today/system-v1/` (was `2026-10-14-xyz-forge-system/`), `today/software-factory-v2/` (was `2026-10-15-xyz-forge-software-factory/`) and `future/shift-proposal/` (was `2026-10-15-xyz-forge-shift-proposal/`), with an index README. Pure renames; each script's repo-root URL gained two levels and in-folder links and replay commands were updated. v1's outputs are byte-identical after the move. Older changelog entries, completed plans and relay threads keep the old paths as history.
+- Both lenses now show the prior-art check `/start-task` runs before intake: v2's `/start-task` caption reads "Prior-art check, fresh clone, recon, plan, Codex QA, build, gates, final QA." ("Codex plan QA" shortened to fit two lines), and the shift proposal's morning open "runs a prior-art check to drop duplicates" before proposing the day's items.
+- Root `.gitignore`: Aider Studio's `REPO_MAP.md` and `.aider/` (operator request).
+- v2 no longer claims "seven" commands (it draws six nodes; `/review-pr` is an alias): subtitle, README and script comment drop the numeral.
+- Verification: all three scripts pass; v2 and shift captions match their fixtures in the generated HTML; repeat runs identical; red controls exit 1 (moved v1 script before the path fix: `Cannot find module …/examples/xyz-forge/tools/render.mjs`; tripled Open caption overlaps `routes_label` in both backends), each restored to PASS. Plan QA approved by Codex in round 2.
+## 2026-10-17 — GH-63: "The Vibe-Coding Loop" diagram with small PNG cutouts
+
+- Added `examples/2026-10-17-vibe-coding-loop/`: slide 4/7 of an intro deck, redesigned from an operator-supplied slide whose dashed ring collided with its nodes and labels. Four steps in a clockwise 2×2 loop with You/AI actor colouring, a "repeat until done" return arrow, a "not yet" / "it works" decision at step 03 and a dashed "Ship it" exit. Structure first reviewed on a Claude Design canvas.
+- Built through the nutrition example's lens: a `DESIGN.md` brief in the Google alpha profile, a fixture that owns copy and palette, an AS-12 scale computed from `S = 1200` (108/36/29/23 px), and five transparent `gpt-image-2.5-flare` cutouts (5 paid calls, all first-attempt) pinned in `provenance.json` and loaded with `readPinnedPngs`. Each cutout stands on its card's floor line with a two-layer contact/cast ground shadow (AS-11), drawn locally rather than imported from the pinned `nutrition.mjs`.
+- One-off example (GH-55/GH-60 pattern): no recipe, catalog, renderer, font or test change.
+- Verification: script passes in both backends (1600×1200) with repeatable digests; red controls exit 1 (fourfold caption escapes `text_describe`; a different valid PNG under `idea` fails `display digest mismatch`; body at 1.4% of S fails the AS-12 floor), each restored to a byte-identical `verification.json`. Inspected at full size, 533 px and 400 px: the loop reads on a phone, the 23 px captions do not without zoom. Plan QA approved by Codex in round 2.
+## 2026-10-14 — GH-50 optional transparent WebP artwork (`recursive-process@6.0.0`)
+
+- `readPinnedPngs` (`tools/request.mjs`) takes an optional `format` (`'png'` default, or `'webp'`). WebP artwork is checked by a new header-only `inspectWebp` (RIFF length, VP8X alpha flag or lossless VP8L alpha bit; plain VP8 refused), with the same realpath containment, per-asset and aggregate budgets, and SHA-256 pinning (`webp.sha256` in provenance). It lives in `request.mjs` rather than `tools/spike/assets.mjs` so the nutrition and solar-system declared modules stay byte-identical. Refs #50.
+- `tools/render.mjs` admits WebP at every image boundary it passes through: the `toHtml` source allowlist, the compact-HTML asset extractor, and the three publication checks (staged asset, manifest path, artifact identity). `tools/profile.mjs` counts `.webp` reads as asset reads.
+- `@resvg/resvg-js` 2.6.2 (newest stable) silently drops WebP images: a probe painted 9,346 pixels from a PNG and 0 from the same artwork as WebP, with no error. Satori PNG renders of a scene with a WebP image source (not label text) are therefore refused with `use --backend playwright for PNG`; Satori SVG/HTML and Chromium PNG/HTML are supported. Operator decision: WebP + Chromium PNG, no resvg upgrade, no decoder dependency, no PNG twins.
+- The belief-reference diagram's six illustrations are lossless WebP conversions of the display PNGs (`cwebp 1.6.0 -lossless -exact`): 128,652 bytes vs 221,372 (42% smaller). Published `recursive-process@6.0.0` (major: Satori PNG is no longer supported for it), retained `renders-v6/` evidence and `verification-v6.json`, and registered design `2026-10-14-belief-reference-webp`. The v6 Chromium PNG differs from v5 in 13,142 of 2,144,000 pixels by at most 1/255 per channel. Dropped a stale `renders-v4/.DS_Store` line from that example's `SHA256SUMS` (the file was never tracked, so `shasum -c` failed on fresh clones).
+- Bet: trusted committed WebP is safe to admit with a header check because decoded transparency is proven at commit time (`inspect-alpha.mjs` `real_alpha: true`) and at test time (C1 offline image loads). Signal: C1 and `verifyPublication` stay green. Reversibility: Easy for source; the 6.0.0 catalog row is durable history.
+- Verification: `pnpm test` 4/4 in 41 s (budget unchanged: 1 file, 4 tests, 60 s); the existing C1 GH-36 block now renders Satori `svg,html,html-inline` and Chromium `png,html,html-inline`, asserts the Satori PNG refusal, and points its negative controls at SVG. Nutrition and solar-system Satori PNG/SVG digests are unchanged from base `ed56529`. Seven red controls recorded in `relay-system/2026-10-14/gh50-verification/controls.md`. `node tools/catalog.mjs verify`, `export --check`, `shasum -a 256 -c SHA256SUMS` and `utils/pdda/pdda.sh run` pass.
+- Landing repair (2026-10-16, merge batch #59/#62): rebased onto main after #43, #49, #53 and #61. `tools/render.mjs` keeps both the WebP allowances and #61's `font.faces`; `recursive-process@6.0.0` was re-published against the merged files, and `design-intake@1.0.5` published because it pins the changed `tools/render.mjs` and `tools/request.mjs`. `tools/pdf.mjs` now accepts embedded WebP images: before the fix, exporting the belief-reference PDF failed with `only embedded trusted images are supported`. Both recursive-process PDFs were re-exported and pass every export check.
+## 2026-10-16 — GH-60: "Why your skill never runs" Claude Skills plate
+
+- Added `examples/2026-10-16-skill-trigger/`: a recreation of an operator-supplied parchment plate explaining that a skill loads only when the prompt reaches its description. Paper, stains and ink work are seeded procedural SVG; the paper is rasterized once and embedded so both backends share it.
+- AS-5 (operator request): a supplied reference design is matched with the closest Google Fonts family, vendored with license and hashes; with no reference, dense diagrams use Barlow Condensed.
+- Vendored Alegreya (OFL, static WOFF from `@fontsource/alegreya@5.1.0`, hashes in `tools/fonts/alegreya/SOURCE.md`). Added an optional `font.faces` list to `tools/render.mjs` for extra same-family faces such as italics. Without it, output is byte-identical (the shift-proposal example's digests are unchanged). Published `design-intake@1.0.4`, the only recipe that pins `tools/render.mjs`; patch bump, no output change.
+- Verification: script passes in both backends (1920×1920) with repeatable digests; red controls exit 1 (sixfold subtitle escapes `subtitle_box`; withholding `font.faces` fails the italic-registration check); `node tools/catalog.mjs verify` valid; both PNGs inspected at full size and a 480px thumbnail; `pnpm test` passes. Plan QA approved by Codex.
+## 2026-10-14 — GH-51 lightweight Google DESIGN.md authoring profile
+
+- Adopted Google's alpha document convention for new briefs through root `DESIGN.md`, a token-bearing sample, and ROUTER/SYSTEM-INSTRUCTIONS/README pointers. The documented claim is low-to-medium authoring compatibility; the engine still consumes JSON fixtures and trusted recipes.
+- Recorded an official-source review after the operator-requested resolve-research chain returned `contract_rejected` in both search stages; the operator authorized the separately labelled review. Preserved compact attempt/recipe/digest provenance.
+- Bet: portable briefs can improve authoring without a second styling owner. **Easy** to revert; existing published briefs, fixtures, renderer, assets and catalog remain byte-identical. Revisit direct import only for a concrete caller requirement. Removed a pre-existing README Solar System gallery link whose target does not exist; its working example-bundle link remains.
+- Verification: Google CLI 0.4.0 reports zero errors/warnings on guide and sample; separate section checks pass and reject duplicates/empty bodies/documents. Broken token reference exits 1; the CLI's duplicate-H2 blind spot is recorded. Catalog verify/canonical export and local document links pass. Detailed gate/review evidence is tracked in GH-51 and `TESTS-RESULTS/2026-10-14-GH-51/`.
+
+- Codex plan QA Approved in round 1; final full QA Approved in round 1 and two wording nits resolved with Approved narrow round 2. PDDA reports 0 errors and the same 40 pre-existing governance warnings as the baseline.
+
+## 2026-10-14 — GH-48 global proportional `% of S` type scale rules (`AS-12` & `nutrition@4.0.0`)
+
+- Codified rule **`AS-12`** and updated **`AS-5`** and **`## Report`** in `SYSTEM-INSTRUCTIONS.md` so all sessions derive infographic font sizes proportionally as a percentage of `S = Math.min(width, height)` (the canvas's shorter side) rather than ad-hoc Web/document pixel sizes: design for `1/3` scale (`~400px` phone width), headline `7–10% of S` (never below `6%`), subhead/tagline `2.5–3.5% of S`, section labels `2.2–2.8% of S`, body/caption floor `1.8–2.2% of S` (never below `1.5%`, footer/source `1.5%`), headline-to-body ratio `>= 4:1`, max `4` distinct sizes on the canvas, largest visible graphic height `<= ~3×` headline cap height, headline width `50–85%` of canvas width, allocated whitespace, icon-plus-label pair label height `>= 70%` of icon height, 3-tier squint hierarchy, and `S × pct` computation. Refs #48.
+- Updated `examples/2026-10-13-nutrition-infographic/DESIGN.md` and `tools/recipes/nutrition.mjs` (`nutrition@4.0.0`) on `S = 1000px` (`CANVAS_SHORTER_SIDE = 1000`) to compute `TYPE_SCALE_PCT = { headline: 0.092, subhead: 0.031, sectionLabel: 0.025, body: 0.021 }` → `TYPE_SCALE = { headline: 92, subhead: 31, sectionLabel: 25, body: 21 }` (`4` distinct sizes across `21` configured size IDs / `20` rendered text leaves on the default fixture; omitted `...SPIKE_DEFAULT_SIZES` so unused legacy keys cannot leak into `finalSizes`). Preserved all `AS-11` directional ground/contact cast shadows (`GROUND_SHADOW_SPECS`, `groundShadowUri`, `groundedImg`) and rebalanced the `#canvas` (`padding: 22px 24px 20px, gap: 10`), header (`width: 952, gap: 4`), hero leaf (`220 × 204`, visible alpha height `191.25px = 2.970 × 64.4px` cap height `<= 3.0×`), side callouts (`width: 310, gap: 6`, `callout_1..2_text` `maxWidth: 185`), bottom food items (`width: 678, gap: 6`, 4 items of `width: 165, maxWidth: 165`), benefits summary card (`width: 262, padding: 12px 12px, gap: 10`, `34 × 34` icons with `25px` bold uppercase labels = `73.5%` font / `88.2%` box ratio `>= 70%`), and pill footer (`width: 940, padding: 10px 24px, gap: 16`).
+- Published `nutrition@4.0.0` in `tools/catalog.sql`, retained selected standalone display artifacts (`render.png`, `render.svg` for Satori, `render-inline.html`, `result.json`, `500 × 500` `thumbnail.png`, plus `export-manifest.json` as publication provenance) in `renders-v4/satori/` and `renders-v4/playwright/` alongside `verification-v4.json` while preserving `renders/` (`nutrition@2.0.0`..`2.0.2`) and `renders-v3/` (`nutrition@3.0.0`) immutable on disk, and registered design `2026-10-13-nutrition-type-scale` in `tools/catalog.sql` and `tools/design-log.jsonl`. Updated `tools/spike/test/canaries.test.mjs` C4 isolated catalog publish version literal to `'4.0.0'`.
+- Verification: `pnpm test` passes 4/4 canaries within the unchanged 60s budget (`test-budget.json`: 1 file, 4 tests, 0 workflows). Both `satori` and `playwright` publications fit on attempt 1 (`iterations: 0`, `unresolved: []`), pass all 10 `AS-12` rules (`[92, 31, 25, 21]`, `4.381:1` headline-to-body ratio, `79.0%` Satori / `79.4%` Chromium headline width, `191.25px <= 193.2px` max graphic-to-cap-height ratio `2.97×`, `0.735` / `0.882 >= 0.70` benefit label-to-icon ratio, and inspected readability at `333 × 333`, `400 × 400`, and `500 × 500`), while the historical `nutrition@3.0.0` red control (`renders-v3/satori/result.json`) fails `9` distinct active sizes (`[50, 24, 21, 20, 18, 17, 16, 15, 14]`), `50px < 70px` headline floor, `14px < 18px` body floor, `3.57:1 < 4:1` ratio, `43.2% < 50%` headline width, and `6.11× > 3.0×` hero-to-cap-height ratio. `node tools/catalog.mjs verify`, `node tools/catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS`, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run` pass.
+## 2026-10-15 — GH-55: future proposal diagram for the /shift outer loop
+
+- Added `examples/2026-10-15-xyz-forge-shift-proposal/`, labelled as a future proposal: the 8-to-5 `/shift` outer loop explored in HiQS-Labs/XYZ-forge#1081 (morning open, dispatch to existing skills, approved merge windows, evening close, report seeding the next day), with Phase 0 (open and close only) as the single accent. Not built; non-goals in the footer. Refs #55.
+- Verification: script passes in both backends (2200×1500); both PNGs inspected. Independent review did not run.
+
+## 2026-10-15 — GH-55 version 2: XYZ Forge software factory skills
+
+- Added `examples/2026-10-15-xyz-forge-software-factory/`, version 2 of the XYZ Forge diagram, focused on the operator commands that drive the software factory: `/daily`, `/workhorse`, `/start-task`, `/marathon` (`/start-marathon` + `/pre-marathon`), `/review-code` (`/review-pr`) and `/merge-cleanup`, with `/idea` and `/triage` as intake, `/ate` (automated variation and fuzz testing that files one ranked issue per run) feeding `/triage`, and five method skills underneath. Same shared renderer, Barlow Condensed and belief-reference vocabulary; version 1 unchanged. Refs #55.
+- Verification: script passes in both backends (2200×1740). Its overlap check caught a /marathon label colliding with the /start-task caption during layout; fixed by moving the lower rows. Both PNGs inspected at full size and thumbnail. Independent review did not run for version 2.
+
+## 2026-10-14 — GH-55 XYZ Forge system diagram example
+
+- Added `examples/2026-10-14-xyz-forge-system/`: the operator-supplied XYZ Forge system diagram redrawn in the belief-reference visual language (ivory ground, Barlow Condensed, rounded title panel, numbered stage markers, point-up hexagons on one reading line, thin slate connectors, one pale accent shape for durable records). Follows the RAG example pattern: one fixture and one render script over the shared `renderSatori`/`renderPlaywright`; no engine, recipe, catalog or font change; hand-drawn SVG icons, no image generation. Refs #55.
+- Verification: the script passes in both backends (no unsupported glyphs, container escapes, Chromium overflow or text overlap; 2000×1570). Red control (sixfold `records.entries[0].caption`) exits 1 with `rec0_caption` escaping `recbox0` in both backends; restored run passes. Both PNGs inspected at full size and thumbnail. Easy reversal: one additive folder.
+
+## 2026-10-15 — Accessible PDF export (`PDF` branch)
+
+- Added `tools/pdf.mjs`: scenes print as tagged single-page PDFs with headings, alt text, a set reading order, language and title, plus a reader that walks the PDF tag tree and decodes tagged text through the embedded ToUnicode maps. Each export fails unless structure, alt text, reading order, AA text contrast (measured against the painted pixels) and visual equality with the plain export all pass. Recipe specs in `tools/a11y/`; cell-division and RAG examples export from their scripts. Seven repository PDFs added. Easy reversal: new files plus appended export blocks; no catalog-declared file changed.
+- Bet: Chromium's tagged output plus explicit specs meets WCAG 2.2 AA for these single-page diagrams. Failure modes found and handled: filtered images and painted-only swatches lose tags (transparent alt overlay); contextual-alternate parentheses and `ﬁ` ligatures lose Unicode (features off in PDF); Venus's Solar System label fails contrast over the asteroid belt (`pdf-fixture.json`, pending a version decision on the published fixture).
+- Verification: all seven PDFs pass their export checks; macOS PDFKit independently reads one page each, the titles and the text (including `(RGB)` and `first`, no U+FB01); Quartz rasterizations match the diagrams; `node tools/catalog.mjs verify` stays valid. Not validated with veraPDF/PAC; non-text contrast and alt-text quality are human-reviewed. Canary tests not run in this iteration.
+
+## 2026-10-14 — PR #43 landing reconciliation
+
+- Preserved current delivered examples and intentional MangaJDM catalog retirement while adding DESIGN.md intake. Replayed only PR-added catalog records through the canonical importer and reconciled the disjoint RELEASES ledger changes. Existing published rows and source artifact bytes remain intact. Published dependency-only design-intake@1.0.3 because current main removed the retired MangaJDM renderer dispatch from its pinned render module. Easy reversal.
+- Verification: all four existing canaries pass in 44.5s; catalog verification/canonical export and RELEASES checks pass. PDDA reports no errors and 33 governance warnings. Merge-batch issue #54 records the landing and review.
+
+## 2026-10-13 — GH-46 diagram object shadow tuning round (`AS-11` & `nutrition@3.0.0`)
+
+- Codified rule **`AS-11`** in `SYSTEM-INSTRUCTIONS.md`: when 3D objects or cutouts rest on a surface, ground their base footprint with a two-layer contact occlusion + directional cast shadow from one consistent scene corner light source rather than a whole-shape CSS `drop-shadow(...)` filter that traces upper lids, loop caps, and crossbars with a sticker halo. Reserve silhouette `drop-shadow` or glow filters for flat badges, floating UI elements, or stated emissive icons, and align sibling cutouts in the same row onto a shared tabletop ground baseline. Refs #46.
+- Updated `examples/2026-10-13-nutrition-infographic/DESIGN.md` and `tools/recipes/nutrition.mjs` (`nutrition@3.0.0`) to replace whole-shape `PNG_SHADOW` (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))`) on the six tabletop 3D cutouts (`balance_scale`, `skip_spike`, `parfait_jar`, `snack_container`, `chicken_wrap`, `water_bottle`) with a deterministic two-layer SVG `<radialGradient>` ground shadow (`GROUND_SHADOW_SPECS`, `groundShadowUri`, `groundedImg`: tight `contact` occlusion ellipse under each measured alpha base footprint + directional `cast` ellipse offset to the lower-left from an upper-right corner light source) rendered inside a `position: 'relative'` stage behind each cutout `<img>`. Retained `HERO_SHADOW` (`drop-shadow(0px 6px 8px rgba(242,228,150,0.45))`) on the floating emissive `leaf_glow` (`hero_img`).
+- Aligned `chicken_wrap` (`item_3_img`) onto the bottom-row tabletop ground plane (`top: 60, height: 107` inside its `160 × 170` stage so `visibleBaseY = 154`, matching `snack_container` at `154.0` and `parfait_jar` at `156.2` while keeping `item_3_img` bounds strictly inside the stage across both Satori and Chromium).
+- Published `nutrition@3.0.0` in `tools/catalog.sql`, exported both backends (`renders-v3/satori/` and `renders-v3/playwright/`) and `verification-v3.json` while preserving `renders/` (`2026-10-13-nutrition-infographic`, `nutrition@2.0.0`..`2.0.2`) immutable on disk, and registered design `2026-10-13-nutrition-shadow-tuning` in `tools/catalog.sql` and `tools/design-log.jsonl`. Updated `tools/spike/test/canaries.test.mjs` C4 isolated catalog publish version literal to `'3.0.0'`.
+- Verification: `pnpm test` passes 4/4 canaries within the unchanged 60s budget (`test-budget.json`: 1 file, 4 tests, 0 workflows). Positive pixel luma probe (`water_bottle`, `x0 = 565, y0 = 673`) passes on both `renders-v3/satori/render.png` (`|L(P_bg_upper) - L(P_upper)| = 0.00 <= 2.0` at `(619, 728)`, `|L(P_bg_cap) - L(P_cap_under)| = 0.11 <= 1.5` at `(649, 690)`, `L(P_bg_base) - L(P_cast) = 51.61 >= 18.0` at `(617, 836)`) and `renders-v3/playwright/render.png` (`0.89 <= 2.0`, `0.11 <= 1.5`, `44.90 >= 18.0`), while the historical `nutrition@2.0.0` red control (`renders/satori/render.png`) fails (`L(P_bg_cap) - L(P_cap_under) = 13.0 > 6.0`, `L(P_bg_base) - L(P_cast_48) = 2.42 < 5.0` at `(613, 836)`). `node tools/catalog.mjs verify`, `node tools/catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS`, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run` pass.
+
+## 2026-10-13 — GH-44 nutrition infographic DESIGN.md, MangaJDM archive, and README refresh
+
+- Created `examples/2026-10-13-nutrition-infographic/` from the reference poster (`PROJECT/2-WORKING/layout-engine-reference.png`) with a dedicated `DESIGN.md` style guide and art direction contract, `ASSETS.md`, `artwork.json`, `provenance.json`, `fixture.json`, `receipts/`, and `assets/web/*.png` for the seven `gpt-image-2.5-flare` transparent PNG illustrations (`leaf_glow`, `balance_scale`, `skip_spike`, `parfait_jar`, `snack_container`, `chicken_wrap`, `water_bottle`) with verified corner alpha (`opaqueCornerCount: 0`). Crisp vector SVGs remain for the four monochrome benefit badges (`icon_energy`, `icon_focus`, `icon_immunity`, `icon_wellbeing`) and botanical ornaments (`leaf_small`, `heart`). Refs #44.
+- Published `nutrition@2.0.0` and documentation-aligned patch `nutrition@2.0.2` (`tools/recipes/nutrition.mjs`, with identical rendered PNG/SVG/HTML digests) using bundled `Barlow Condensed` (`tools/fonts/barlow-condensed/`) ALL CAPS (`textTransform: 'uppercase'`) for all headlines and titles, a radial-gradient cream canvas (`radial-gradient(circle at 50% 44%, #fffef8 0%, #f7f3e3 58%, #ede6cf 100%)`), and per-PNG drop shadows (`drop-shadow(0px 8px 6px rgba(31,42,28,0.22))` on the six grounded illustrations and `drop-shadow(0px 6px 8px rgba(242,228,150,0.45))` on `leaf_glow`). Added a narrow `<image style="filter:drop-shadow(...)">` to SVG `<feDropShadow>` filter translation in `renderSatori` (`tools/render.mjs`) that strips the inline CSS filter so exported SVGs never double-apply the shadow. Registered design `2026-10-13-nutrition-infographic` in `tools/catalog.sql` and `tools/design-log.jsonl`.
+- Archived `examples/2026-10-11-mangajdm-promos/`, `examples/2026-10-12-design-revision/`, and `tools/recipes/mangajdm-promo.mjs` into gitignored `temp/ManagaJDM projects/` on `Noels-Mac-Studio.local` and local checkouts, and removed `mangajdm-promo` and its 7 design rows from `tools/render.mjs`, `tools/catalog.mjs`, `tools/catalog.sql`, and `tools/design-log.jsonl` while preserving all unrelated catalog rows byte-for-byte.
+- Updated `README.md` to reflect current delivered recipes (`nutrition@2.0.2`, `solar-system@1.0.1`, `recursive-process@5.0.0`), examples, `DESIGN.md` style guides, bundled `Barlow Condensed` font, per-PNG drop shadows, `SYSTEM-INSTRUCTIONS.md` / `SOP.md` governance, and the log-first compensated `design add` write/rollback order.
+- Verification: `pnpm test` passes 4/4 canaries within the 60s budget (`tools/spike/verify.mjs` uses `process.exitCode = 1` to avoid a Node v24 `atexit` hang on macOS 27, and C2 checks `osRelease` for OS-dependent Chromium PNG rasterization while always verifying Satori and HTML golden digests). `node tools/catalog.mjs verify`, `node tools/catalog.mjs export --check`, `shasum -a 256 -c SHA256SUMS`, `releases_app.py --root . check`, and `utils/pdda/pdda.sh run` pass. Protected spike and baseline recipe digests (`solar-system`, `recursive-process`) remain byte-identical.
+
+## 2026-10-12 — GH-42 DESIGN.md intake
+
+- Added the agent-assisted `design-intake` skill, a strict data-only recipe adapter, and capability preflight. Pinned Markdown, quoted requirement mappings, settings and separate PNG prompts now feed the existing validation, fitting and atomic export operations; no new LLM API/provider dependency or custom HTML renderer.
+- Bet: explicit capabilities preserve art direction better than silent substitutions. Unsupported fonts/effects and unpinned assets block rendering; source/asset hashes, geometry and planned pixel budgets fail by field. Easy reversal; existing recipes retain their artifact bytes.
+- Published `design-intake@1.0.2` and dependency-only `recursive-process@5.0.1`. Neutral synthetic-PNG example is public; private project inputs remain untouched. Multiple font families, arbitrary CSS and semantic-fidelity proof are outside this first version.
+- Verification: Codex plan and final QA Approved; all four canaries passed in 41.0s in an isolated clone; both new backend exports/visual inspections passed; 28/28 prior artifact digests unchanged. Catalog and canonical checks pass. PDDA has no errors, issue-state warnings cleared by refresh, and two pre-existing governance warnings remain. See the GH-42 working plan and TESTS-RESULTS evidence.
+
+## 2026-10-12 — GH-8 close-out landed (PR #40)
+
+- PR #40 merged as `f98a529` after Codex plan, final and pre-merge QA (Approved) and a CodeRabbit fix (the balance is re-read before each job's cap check). Issue #8 closed with the decision recorded: CLI route; REST NO-GO; MCP untested and dropped; Phases 1 to 4 dropped. Refs NeochromeTeam/hiqs-ai-resolve#43 (catalog ledger).
+- Capture doc moved to `PROJECT/3-COMPLETED/`, with a note that its older Phase 0/0b status tables are historical. Ledger re-pointed and reconciled to Completed through the canonical RELEASES CLI.
+- The `higgsfield-cli` skill is deployed as a copy in the Skills Army collection and linked into Claude Code, Codex, Antigravity, ZCode and Grok Bot.
+
+## 2026-10-12 — Accepted design merge verification
+
+- Operator approved landing the combined MangaJDM and belief-diagram revisions. Preserve separate replay commits using a merge commit. Refreshed two documentation hashes after the earlier replay/historical-brief notes; rendered evidence is unchanged.
+- Final canaries pass4/4in38.9s; catalog verify/canonical export and all100 retained-file hashes pass. Full PDDA reports zero errors and the same three unrelated warnings. Human artwork review is accepted for this revision; other GH-38 carry-overs remain separate.
+
+## 2026-10-12 — C2 connector bend refinement
+
+- Replaced the cramped C2 connector turn with a 20px rounded elbow and 16px horizontal lead into its arrowhead. Removed the isolated divider fragment immediately below it. The recipe/design contract own this geometry; Barlow Condensed, artwork and other placements are unchanged.
+- Published `recursive-process@5.0.0` in source commit `b5c6700`; Astra light regenerated both backends under `examples/2026-10-12-belief-reference/renders-v5/`. Earlier outputs remain intact; no hand-edited HTML or image-generation calls. Easy reversal using separate source and artifact commits.
+
+- Verification: both full exports pass publication/catalog and first-attempt fitting; both final PNGs inspected. Catalog canonical check and targeted PDDA changelog check pass. Render evidence is committed separately as `caaf248`; this two-path geometry correction uses focused render checks rather than rerunning the unchanged general suite.
+
+## 2026-10-12 — Diagram divider clearance and bundled condensed typography
+
+- Corrected the reusable `recursive-process` recipe's stage rules at the marked activating-event, consequence and examination locations. Individual divider gaps also clear the revised-philosophy caption and footer. Extended the examination connector's horizontal leg from 8 to 37 reference pixels so its arrowhead approaches the visible gears.
+- Switched to the repository's pinned Barlow Condensed regular/bold faces at the operator's request. Formula arrows are SVG geometry because that font lacks the arrow glyph. Published `recursive-process@4.0.0`; source checkpoint `36a2f7c`. The design contract now records divider clearance and visible-artwork endpoint rules.
+- Astra light regenerated both backends into `examples/2026-10-12-belief-reference/renders-v4/`. Old gallery, HTML and published PNGs remain intact; new HTML is engine-generated. Six accepted artwork PNGs are reused with no image-generation calls.
+- Verification: both exports pass publication/catalog checks and first-attempt fit, including legacy-fixture preflight; both final PNGs inspected at full and thumbnail sizes. Existing four canaries pass in42.9s under the unchanged60s budget. Full PDDA: zero errors, three unchanged warnings (GH-8 ledger state and two governance references).
+- Root cause: identical divider segments ignored occupied text/connector regions and the examination arrow stopped at the padded asset box. Fix site is recipe-owned geometry; no shared renderer or validation changes. Easy reversal through separate source and generated-artifact commits.
+
+## 2026-10-12 — GH-38 reference-directed diagram and generated artwork
+
+- Published `recursive-process@3.0.0` with the supplied reference's four stages, belief hexagons, consequence cards and continuation arrow. Astra at low reasoning effort implemented and rendered the recipe in both backends. Six individual PNG illustrations are pinned with prompts, settings, receipts and source/display hashes; seven successful image calls include one examination refinement.
+- The reusable design/artwork contracts live under `tools/recipes/recursive-process.*`. The new gallery, AS review and replay instructions live in `examples/2026-10-12-belief-reference/`. Fresh artwork generation is probabilistic; retained assets and deterministic geometry preserve the accepted composition. Provider PNG metadata requires the existing display converter; no engine guards were weakened.
+- Saved the accepted earlier gallery and all linked imagery under gitignored `temp/2026-10-12-accepted-design-gallery/`; retained its Git checkpoint with tag `archive/gh38-editorial-2026-10-12`. Kept one combined design branch, synchronized local main and integrated origin/main, preserving both unrelated parked branches.
+- Replay checkpoints: `fe4d6b2` design contract, `ab9136b` generated assets, `636f476` recipe/catalog publication, `de0c86d` final renders and evidence. Earlier before/after checkpoints remain in history. Nothing pushed or merged on GitHub.
+- Verification: both complete exports pass publication/catalog/fit checks; all 35 retained hashes pass. Existing four canaries pass in 39.5 seconds under the unchanged 60-second budget. The existing unsupported-font assertion now uses CJK because the selected Inter face supports arrows.
+- Preservation checks retain all 160 prior catalog rows and the original example trees. Final PDDA reports zero errors and three warnings: two existing governance references plus the unrelated GH-8 issue/roadmap state mismatch following upstream integration.
+- Bet: explicit reference anchors plus separately generated, pinned illustrations make close visual reproduction reliable while leaving individual artwork variable. Easy reversal through the recorded commits; exact new image pixels are not promised.
+
+## 2026-10-12 — GH-38 expressive design revision of PR #32 and PR #37
+
+- Revised the taste brief and had an Astra sub-agent at low reasoning effort implement and render three artwork-led MangaJDM posters and a belief-updating diagram with a sweeping feedback path. Larger subject imagery and concrete copy replace the uniform framed promo layout; plain-language labels and a distinct examination branch lead the diagram.
+- Published `mangajdm-promo@3.0.0` and `recursive-process@2.0.0` through the catalog CLI. MangaJDM's intermediate `2.0.0` remains in history: its all-bold Integra layout exposed Chromium's unused regular-font check, resolved with regular supporting copy in a separate version and commit. Original examples and design records remain intact.
+- Separate commits retain the baseline checkpoint, taste direction, source/fixtures, font correction, and rendered evidence. The comparison gallery and replay instructions live in `examples/2026-10-12-design-revision/`. No new imagery was generated; the posters reuse supplied brand assets.
+- Verification: all eight recipe/backend receipts report valid output and verified catalog identity; existing canaries pass 4/4 in 36.8 seconds under the unchanged 60-second budget. Visual inspection covers both backends at full and thumbnail sizes. Human preference remains for the operator to judge.
+- Final catalog verification and canonical export pass; all 40 retained-file hashes match. All 113 baseline catalog rows, the old design-log prefix and original example trees are preserved. Full PDDA reports zero errors and the same two pre-existing governance warnings.
+- Bet: expressive composition and clearer process flow improve these examples without changing the shared renderer. Easy reversal through the recorded Git checkpoints; revisit the direction if the artwork still misses the intended taste.
+
+## 2026-10-12 — GH-8 close-out: the Higgsfield CLI skill
+
+- New `skills/higgsfield-cli/SKILL.md`: an agent makes a transparent PNG through the installed Higgsfield CLI (`gpt_image_2_5 --background transparent`) with a written credit cap, a `generate cost` quote before each single create, no automatic retry, a full signed download whose query is never stored, the existing `inspect-alpha.mjs` check (`format: "png"` and `real_alpha: true`), and provenance in the shape of the cell-division example. No reference images or local files go to Higgsfield unless the operator asks. Refs #8.
+- `SOP.md` points agents at the skill and records the operator's 2026-10-12 decision: the CLI is the route; issue #8's Phases 1 to 4 (provider contract, `ingest`, a built-in provider) are dropped. MCP stays untested; REST stays NO-GO for transparency.
+- Bet: a numbered procedure over the existing CLI and inspector is enough for occasional asset work, so no runner, test, dependency or workflow was added. Revisit if a second recurring Higgsfield consumer appears or a skipped step causes an incident. Easy to reverse (delete the skill folder, revert the SOP lines).
+- Verification: every CLI command and flag in the skill checked against `higgsfield` 1.1.26 help and `model get` (no paid call); every repo path checked; inspector control earth.png → `real_alpha: true`, solar-system.png → `false`; `utils/pdda/pdda.sh run`. Plan QA: Codex, 2 rounds, Approved.
+
+## 2026-10-12 — GH-38 follow-up fixes landed (PR #39)
+
+- PR #39 merged as `f6219536ad` after Approved native Codex plan and final QA; catalog recovery and shared PNG loading are complete. Four canaries passed in39.3s;35format/assets/fit comparisons remain identical and76old catalog rows/design-log bytes are retained.
+- Issue38 keeps its human artwork, canonical Forge main-branch reconciliation and governance-reference carry-overs open. Its two code findings are checked complete with PR/evidence links. Source example output is unchanged, including primary-only historical render runs.
+- Generic wave reconciliation still refuses main because it hardcodes development; closeout uses the canonical project RELEASES CLI and PDDA without an installed-runtime patch. Task clone retirement follows verified backup-first cleanup; original GH36 clone remains preserved.
+
+## 2026-10-12 — GH-38 catalog write recovery and shared PNG loading
+
+- The catalog writer atomically stages the design log before committing the dump and restores exact prior log bytes/absence if the dump write fails. Rollback failure is explicit. Successful atomic renames no longer attempt obsolete-temp cleanup and cannot be mistaken for failed commits.
+- Solar and MangaJDM now reuse the bounded, contained, PNG-inspected, digest-checked reader beside the existing core file-read helpers. Published both as 1.0.1 through the catalog CLI; retained old 1.0.0 records and design pins. Nutrition's pinned asset module and all artwork/fonts/fixtures stay unchanged.
+- Extended existing C4 with log/dump write failure and retry assertions; no added test block, suite, dependency, workflow or budget. Four canaries pass in39.3s; compensation/digest guard removals turn checks red.35format comparisons retain identical output/assets/fit;76old catalog rows and the design log are preserved.
+- Limit: ordinary local I/O recovery, not process/power-loss atomicity. Issue38's human artwork, canonical Forge reconciliation and governance-reference follow-ups remain outside these two fixes.
+
+## 2026-10-12 — GH-36 / PR #37 landing and output preservation
+
+- Merged PR #37 (`4434fc5ee0`) after a surgical semantic conflict repair and independent Codex merge QA (Approved, round 2). All four trusted recipes remain published; original recipe modules, fixtures, font binaries and artwork are retained.
+- Verification: four existing canaries passed in 39.7s under the unchanged 60s budget; 35 format comparisons against main matched every digest, compact asset and fit step. Canonical catalog and RELEASES checks pass; the repair clone PDDA reports zero errors with two governance warnings. Primary closeout has zero errors, clean issue/doc sync and nine warnings in unchanged governance documents.
+- Preserved all 79 original example files by SHA-256, restoring both ignored belief-updating render runs to the primary examples folder. Kept the original GH-36 clone at the operator's request; disposable verification clones are eligible for backup-first cleanup.
+- Reconciled GH-36 through the canonical project RELEASES CLI and archived its completed implementation plan. The installed wave reconciler hardcodes development and refused main; no installed runtime patch or gate bypass was used.
+- Carry-over: Human review of the artwork is pending.
+
+## 2026-10-12 — MangaJDM PR32 landed and GH28 closed
+
+- Squash-merged PR #32 as005ba14; issue #28 closed. Three portrait promos, one trusted recipe and three CLI catalog designs are on main. Fresh full-clone canaries pass4/4 in41.0s after concurrent workloads were paused; earlier deadline holds are preserved as evidence, and the60s budget is unchanged. Refs #28.
+- Moved the completed plan to `PROJECT/3-COMPLETED/` and reconciled its RELEASES pointer/section through the canonical CLI, retaining ratings and prior rows. The installed wave reconciler hardcodes development and refused main; used the existing project lifecycle/CLI checks without modifying Forge runtime or bypassing gates. Single-PR run; unrelated PR #37 remains untouched.
+- Easy reversal (task/closeout commits); backup and fresh handle/claim/provenance checks govern clone retirement. No social posting or paid calls.
+
+## 2026-10-12 — MangaJDM integration and public receipt paths
+
+- Integrated current main into PR #32. Removed one extra changelog preamble blank line and replayed GH28 through the canonical RELEASES CLI, retaining GH34 and both ratings. No runtime/recipe content change. Refs #28.
+- Applied current public-repo transcript path redaction. Republished only export input-path metadata through the existing publisher; all PNG/SVG/HTML/fonts/images and catalog hashes remain byte-identical. Original runs are retained in Git history/private scratch; native attestations retain their original review hashes. Easy to reverse.
+
+## 2026-10-11 — Recursive-process recipe and a belief-updating example (#36)
+
+- **New recipe:** `recursive-process@1.0.0` (`tools/recipes/recursive-process.mjs`), published through the catalog CLI. It is a fixed-structure recipe driven by a fixture: four stage columns, two A→B→C cycles, an examination branch and a continuous-revision trail.
+  - It validates its own domains: formula tokens, polarity and stage numbers.
+  - It is wired into recipe selection, admission (canvas 1600×1340), `--save`, and the catalog's declared files.
+- **Recipe-declared fonts:** `processRequest` now loads a font the recipe declares; this recipe uses Barlow Condensed. Recipes without `FONT` keep Inter.
+  - Proof: all 14 nutrition and solar artifacts (Satori `png,svg,html,html-inline`; Playwright `png,html,html-inline`) are byte-identical before and after.
+  - The font lacks subscript digits and `→`, so subscripts are drawn as smaller spans and arrows as SVG.
+  - Its line box is 1.2 em. Below that, Chromium reports overflow: at 1.1 the title and labels failed every fit attempt, and at 1.0 stage numbers shrank. All text uses at least 1.2; this is recorded in `SOURCE.md`.
+- **New example:** `examples/2026-10-11-belief-updating/` holds the renders from both backends, receipts (`verified: true`), and a README with the AS report. It is recorded as a design with its #21 log line.
+- **Canary C1** (no new test) covers:
+  - both-backend renders;
+  - glyph coverage;
+  - offline HTML, through a shared `assertOfflineExport` helper that the nutrition check also uses now;
+  - five named refusals, each going red when its guard is removed. The non-fit guard is the engine's shared throw, and the GH-36 control catches it on its own.
+
+  `pnpm test` runs 4/4 in about 38 s.
+- Easy to reverse (revert). Refs #36.
+
+## 2026-10-11 — SYSTEM-INSTRUCTIONS.md: anti-slop design rules for every agent
+
+- New root file `SYSTEM-INSTRUCTIONS.md`: ten numbered rules (AS-1 to AS-10) against cliché visual output, plus a required before-and-after report. The rules were adapted from an operator-supplied list for web front ends to what this engine makes: fixed-canvas infographics, diagrams and AI-generated image assets. Web-only advice (hero sections, buttons, mobile overflow) was replaced by rules on infographic composition, fixture themes, vendored fonts and image prompts.
+- Precedence is stated: the rules override recipe, skill and prompt defaults for visual work, never `AGENTS.md` or the engine's checks, and they never justify editing a pinned published recipe version.
+- It is reachable from the startup path: ROUTER role split and new startup step 4 (later steps renumbered), a pointer in AGENTS.md, and the first "Before you start" line of `skills/design-diagram`.
+- No code, test or check changes. Easy to reverse (revert). Refs #20.
+
+## 2026-10-11 — MangaJDM portrait promos via recipe/catalog
+
+- Added one fixed `mangajdm-promo@1.0.0` recipe and three1080×1920 examples: icon, generations and apparel concept. Supplied art/provenance, editable fixtures, PNG/SVG/offline HTML, gallery and TikTok/Instagram captions/alt text are included. Existing CLI publishes the recipe and records three design IDs; no new dependency, test suite, grid parser or renderer. Refs #28. Refs #21.
+- Both backends fit at full type sizes; repeated PNG/SVG bytes, saved-copy edits, relocated offline exports, asset/canvas/art/duplicate red controls and old catalog/history retention pass. Four canaries pass in31.9s. Independent plan QA Approved; final Codex QA Approved/attested in Round2 after a CLI ledger-pointer correction. Evidence: `examples/2026-10-11-mangajdm-promos/VERIFICATION.md`. Ready [PR #32](https://github.com/HiQS-Labs/XYZ-layout-engine/pull/32); issue28 remains open pending merge. Easy reversal: task commits together. No social posting, paid image calls or primary-checkout edits.
+## 2026-10-11 — Home-directory paths scrubbed from committed transcripts (#23 S10)
+
+- The home-directory prefix is replaced with `~` in 139 committed `relay-system/` and `marathon-system/` files: 737 lines, same-line replacements only, done byte-safely with `perl`, so non-UTF-8 logs were not skipped. A search for the home directory now returns 0 files.
+- AGENTS.md gains a one-line rule with the scrub command for future transcripts. PDDA's `hardcoded-paths` check covers working docs only, and changing it belongs upstream in XYZ-forge.
+- Limit: Git history still holds the old bytes. Removing them would need a history rewrite and a force-push of `main`, which was not done.
+- Checks: `pnpm test` 4/4 in 33.0 s; PDDA warnings identical before and after (33 and 33, no errors); `releases check` clean; `catalog verify` valid. Refs #23. Easy to reverse (revert).
+
+## 2026-10-11 — Generation safety: no double payment, no signed URLs in receipts (#23 S3, S4, S5, S7)
+
+- `examples/2026-10-08-solar-system/generate-assets.py`:
+  - A job whose attempt directory exists but has no manifest record (a deleted, emptied or truncated manifest) is refused instead of being paid for again, unless `--force-retry` is given (S3).
+  - The caller inherits the run lock, so a caller left running after the generator crashes blocks `--force-retry` from paying twice; receipts are written atomically (S4).
+  - `failed` now reads the per-attempt `dispatched: false` that the real caller emits, so a never-dispatched job can be re-planned (S5).
+  - URL query strings are stripped from receipts and from the manifest's copied `attempts` (S7). Receipts are now the redacted, re-serialized caller output rather than its verbatim bytes. Output that is not JSON is replaced by a fixed record (byte count and sha256), since escaped or percent-encoded signed URLs can hide in it.
+  - An empty job list exits 4 instead of 0.
+- Each item was reproduced first against a stub caller, with no paid calls.
+- The existing C1 canary is extended (no new test). Removing any one of the guards turns C1 red. Gate: 4/4 in 36.7 s. Codex QA round 1 found the emptied-manifest and unparseable-output gaps; both are fixed with C1 controls.
+- Refs #23. Easy to reverse (revert).
+
+## 2026-10-11 — Barlow Condensed is the starter default font for new visual work (#34)
+
+- Vendored Barlow Condensed Regular (400) and Bold (700) with its SIL Open Font License under `tools/fonts/barlow-condensed/`. Each file is byte-identical to google/fonts commit `60824dce`, and `SOURCE.md` records it with sha256 values.
+- `skills/design-diagram` now switches a new diagram's copied script to Barlow Condensed unless the brief names a font. It lists the three exact edits (the backend calls written out in full) plus a positive and a negative grep check, and adds trap 8: leaving out the family argument makes Chromium silently fall back to a system font while Satori still draws Barlow.
+- Existing recipes and diagrams stay on Inter; no engine, recipe or example code changed. There is no engine-level fallback yet, because nothing lets a recipe or user declare a font.
+- Proof: a probe rendered the same 40 px line at 436 px in Barlow Condensed against 613 px in Inter, matching in both backends with `fontLoaded: true`. A scratch copy of the RAG diagram with the skill's edits rendered `PASS`.
+- Easy to reverse (revert). Refs #34.
+
+## 2026-10-11 — #33 and #35 landed; #34 reconciled
+
+- Landed #35 (`fb8b0d6`, Barlow Condensed as the starter default font) and #33 (`33f1eff`, `SYSTEM-INSTRUCTIONS.md`, rebased onto #35). Closed #34. The ledger moved GH-34 to Completed, and its capture doc moved to `PROJECT/3-COMPLETED/`. Refs #34.
+- Easy to reverse (documents and ledger only).
+
+## 2026-10-11 — Post-QA review closed; #9, #19 and #26 reconciled
+
+- Landed #24 (`51b7a47`, GH-20 A2 design records), #25 (`7d66787`, #23 S1/S2) and #27 (`db5af24`, the #26 post-QA record: GLM 5.3 PASS with no Blocker or Should findings). Closed #26 (done), #19 (delivered by #22 and #24 under the #20 plan) and #9 (superseded by #20 Phase B). The ledger moved GH-26 to Completed and GH-9 to Deferred; the GH-26 doc moved to `PROJECT/3-COMPLETED/`, and the GH-9 doc and its marathon folder to `PROJECT/4-MISC/`. #20, #21, #23, #5 and #8 stay open. Refs #20. Refs #23.
+- Easy to reverse (documents and ledger only).
+
+## 2026-10-10 — GH-5 hardening: `--save` and `--out .` (items S1 and S2 of #23)
+
+- `--save` no longer overwrites arbitrary in-root JSON: it refuses an export `manifest.json`, anything under a `runs/` folder, and any existing file that is not a copy of the same fixture (so `--save package.json` is rejected and `package.json` is unchanged). `--out` refuses the authorized root itself and `.git`, so an export can no longer write `manifest.json` and `runs/` into the repo root. Replacing the same fixture (`--save` to its own file) and creating a new `.json` still work.
+- One assertion block added to the existing C1 canary (five lines); red controls: removing either guard makes C1 fail with `Missing expected rejection`. No new test, workflow or dependency. Refs #23. Easy to reverse (revert).
+
+## 2026-10-10 — GH-20 A2 design catalog documentation
+
+- Named the catalog CLI and canonical dump in ROUTER, with the CLI as the only write path. README documents delivered insert-only designs, CLI commands and exit codes, null use cases for hand-built RAG/cell-division, the append-only grammar log and its review triggers, and deferred Phase B work. Refs #20. Refs #21.
+- Easy reversal: documentation only. Design list/show, catalog verify and export check exited 0; a scratch-only add exited 0, duplicate add exited 1 preserving dump/log, and misspelled subverb exited 2. Optional add flags and a published use-case pin passed in scratch. Scoped PDDA path checks had zero findings; the absolute-home-path red control exited 1 as expected. ROUTER adds exactly two lines; README adds only its Designs subsection; tools/examples hashes and path set are unchanged. Independent review, full PDDA and the project gate remain harness-owned.
+
+## 2026-10-10 — GH-5 (#18) and GH-10 A1 (#22) landed and reconciled
+
+- Landed PR #18 (`15c2f25`, GH-5 shared offline MVP; review blocker on text fitting fixed before merge) and PR #22 (`fbfe02e`, GH-10 A1 recipe catalog, `slug@semver`, no serial). Issue #10 closed; its row moved to Completed and its plan and marathon folder to `PROJECT/3-COMPLETED/`. #5 stays open (human artwork approval, paid-provider benchmarks and later service work are unchecked); #23 tracks the PR #18 review follow-ups. The current ID and catalog plan is the finalized comment on #20; #9 is superseded by it.
+- Easy reversal: documentation and ledger only. `releases_app.py check` clean; PDDA no errors.
+
+## 2026-10-10 — GH-10 catalog: drop the serial number (plan: issue #20)
+
+- Removed the `serial` column, `RCP-NNNN` display and serial lookup from `tools/catalog.mjs`, `tools/catalog.sql`, the render receipt's `catalog` block, the C4 canary and the README/PRD text. A recipe is identified by `slug`, a version by `slug@semver`, matching the PRD recipe ID and the finalized three-ID plan on #20. The canary's retention control now checks that a retired recipe's slug cannot be reused. Refs #10. Refs #20.
+- Easy reversal (nothing was pushed or referenced before the change). `catalog verify` and `export --check` pass on the migrated dump; `pnpm test` passes.
+
+## 2026-10-10 — GH-10 local catalog documentation
+
+- Documented the delivered local recipe catalog: immutable slug/exact-version identity, files owning content and the canonical SQL ledger owning identity, version bump rules, operator-only writes, CLI exit codes and the Node SQLite ExperimentalWarning. README names variants, aliases and semver ranges as deferred; PRD §6.5 adds one delivered-observation note without new requirements. Refs #10. Refs #19.
+- Easy reversal: documentation only. Six documented catalog commands passed in a disposable scratch copy on Node v22.22.3; misspelled verb returned 2, and unknown recipe, declared-file drift, changed-content republish and non-canonical dump returned 1. Refused republish preserved ledger bytes. Targeted PDDA path/frontmatter/status checks passed with zero findings; an absolute-home-path red control raised the expected finding. Independent Agy review, the full gate and base-ref containment check remain harness-owned.
+
+## 2026-10-10 — GH-5 final integration consumer repair
+
+- Final independent Wave 1 QA found B1: two diagrams and two cell helpers on newly integrated main still imported the removed copied Solar runtime. Migrated their import/font/package references to the existing root renderer/fonts/Playwright; corrected reproduction and design-diagram instructions. Preserved fixtures, assets, historical art, validation and the shared core. Easy rollback; no new dependency/test/engine. Refs #5.
+- Disposable full-clone scratch renders pass both backends: RAG 10 icons/49 text ids, cell division 6 icons/33 text ids. PNG/SVG bytes and Satori/Chromium geometry match originals; HTML differs only in quote entity serialization, with full decoded equality. Downscale/alpha helpers pass; no paid calls. Exact proof and fresh suite/PDDA logs: `relay-system/2026-10-09/gh5-final-verification/`. Final independent Round 2 and pre-PR remain pending.
+
+## 2026-10-09 — GH-5 machine phases accepted and origin integrated
+
+- Original Phase 5 normal attempt 2 received independent Codex approval/attestation and passed all four canaries in 29.4s. Clarified thirteen default generation jobs vs eleven selected display assets: the default eleven-call cap refuses the fresh batch; explicit dry-run cap 13 plans it without provider dispatch. Native timer completed at 555.9s and cancelled all six scheduled checks at terminal. Refs #5.
+- Integrated origin/main 447f7aa in the full task clone, retaining review ancestry and all incoming content. Resolved only ledger conflicts using row/receipt union, promoted GH-5 pointer and maximum generation, then canonical rebuild/check clean at generation 32. Main checkout untouched.
+- Integrated fresh full-clone frozen-lockfile install and four canaries passed in 29.4s; PDDA no errors/two existing governance warnings. Receipts: `relay-system/2026-10-09/gh5-final-verification/`. Final independent Wave 1 QA and pre-PR gate remain pending; human artwork/provider/notices/Later criteria are not marked complete.
+
+## 2026-10-09 — GH-5 Phase 5 provenance correction (coordinator)
+
+- Corrected current workflow hashes by replaying the exact edits in a fresh full clone at b0b47ce: nutrition headline `Fuel for today` and primary `#335577` produce SVG `38c3c44daa33df60a07c3a647a4e0c77abe211ca9da2846f4ae293459df5139a`; Mercury labelX=830 produces `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`. Each saved fixture readback and manifest-selected rerender matched. The earlier Phase 5 entry assigned a historical nutrition probe hash to different edits; this entry supersedes that evidence claim. Historical entries and 120 profiling samples remain preserved.
+- Frozen-lockfile install passed with independent node_modules. Compact and relocated inline HTML for both recipes loaded all images and Inter 400/700, zero HTTP(S) requests. Commands, exit codes and output: `relay-system/2026-10-09/gh5-phase5-recovery/fresh-workflow-commands.json`. No paid calls, runtime/test/dependency changes or human acceptance claims.
+- Phase 5 first native attempt halted at its review cap before the suite gate; one normal attempt remains. Independent recovery QA, native Phase 5 gate, latest-origin integration and final Wave 1/pre-PR gates are still pending. Refs #5.
+
+## 2026-10-09 — GH-5 Phase 5 Integration and Handoff (Agy builder)
+
+- Created `README.md` and updated PRD/MVP-REPORT to document the pinned offline install/render/edit/export workflows for the `nutrition` and `solar-system` recipes.
+- Documented source-configured capability caps in `.relay-scratch/` without mutating root evidence: source-configured bounds for inputs (256 KiB), pixel render areas (16.7M), image sizes (5 MiB), and total export capacities (64 MiB). Enforceable render deadlines, RSS limits, and concurrency limits are unsupported. Fresh-install/offline network/browser checks are [Unverified — needs clone run].
+- Explicitly rejected unsupported scripts (CJK, Emoji without fallback fonts) and documented non-fit exhaustion halts.
+- Documented deferral of remote HTTP/MCP, tenant isolation/SSRF, private caches, and durable service queues to the Later queue. Event-loop timers are rejected as a substitute for hard synchronous rasterization interruption.
+- Scratch edit probes succeeded for atomic saving and subsequent generation of transient vs durable assets via `--save`, outputting `svg` and `html-inline`. Executed exact commands for Nutrition (`node tools/render.mjs .relay-scratch/nutrition-edit.json --set 'sections.header.headline=Fuel for today' --set 'theme.palette.primary=#335577' --save .relay-scratch/nutrition-edit.json --format png,svg,html,html-inline --out .relay-scratch/nutrition-export`, exit 0, edited SVG digest `f0bafb7349bc8e992ecaf1a2e51073e953ba3c8cf900f4e863215bee67fd3747`) and Solar System (`node tools/render.mjs .relay-scratch/solar-edit.json --recipe solar-system --set 'planets.0.labelX=830' --save .relay-scratch/solar-edit.json --format svg --out .relay-scratch/solar-export`, exit 0, edited SVG digest `06f195aea8f3e2bf9ea69efe4ff1b3d5309a8db643ba80f9f50d75d01a04d5fb`).
+- Retained prior Phase 4 measurement statistics. Independent review and native gate checking are deferred to the reviewer and harness. Human visual acceptance remains pending.
+
+
+## 2026-10-09 — GH-5 Phase 4 Codex builder candidate
+
+- GH-5 Phase 4 gate repair: select the requested `render.html` by artifact name in existing C1, retaining MIME/doctype checks after compact export adds bundled fonts/images. C2's missing comparison output was a cascade from C1's early stop. All four canaries pass in 36.8s, including dynamic offline HTML/font/image checks; geometry and 12 artifact digests match. The native override halted; Phase 4 advancement and Phase 5 remain pending.
+
+- Added schema-validated atomic fixture saves and CLI dot-path text/theme/placement edits, requested-format exports, compact HTML with a confined content-addressed asset folder and explicit self-contained HTML. Existing render/admission/publication owners remain shared; SVG accurately retains raster artwork.
+- Bet: skip unrequested PNG raster work while retaining direct validated supplied display assets. Easy rollback via the phase commit; no derivative cache, browser pool, dependency, provider client, new test block or workflow. Revisit caching only when an admitted transform/resolution workload demonstrates useful savings.
+- Verification: focused scratch probes pass for durable rerender, strict edits/save targets, failed publication preservation, export/source tamper detection and restoration, confined HTML references and Solar placement edits. Before/after five fresh and ten truly warm samples per recipe/PNG/SVG preserve artifact and text-geometry digests; complete stage statistics and samples are retained in tools/MVP-REPORT.md. Zero unrequested raster target is met; no PNG speedup claim.
+- Pending: sandbox blocked Chromium before page creation, so actual offline browser/font/image loading remains for independent Agy review and the harness-owned four-canary/60-second gate. Existing C1/C4 were extended; builder did not run the full suite and does not claim native approval, human artwork acceptance or live-provider measurements. All verification copies/scripts/output stayed in .relay-scratch; no git command, source fixture mutation or off-lane cache/helper was used.
+
+## 2026-10-09 — GH-5 local MVP marathon preparation
+
+- Rebased a fresh full clone onto the operator-confirmed origin/main integration branch (a8e7e574; no development branch). Promoted GH-5 with the canonical roadmap writer, registered its marathon and LocalMVP release, and prepared five strictly sequential phase briefs/YAML. Main checkout is untouched.
+- Applied ponytail: reuse ESM/Python modules, existing HiQS caller and four canaries; no provider client, framework, service/queue/editor or extra CI. Preserved Later work and human/provider acceptance as pending. Codex implementation-plan QA is Approved/attested; fixed its concrete contact-sheet migration omission. All eleven selected display-asset digests match.
+- Reversibility: Easy — plan/ledger/receipts only, no runtime change or paid generation. Fresh baseline pnpm test passed four canaries in 8.2s, 216 geometry boxes and 12 byte-identical artifacts. Planner write/check exited 0 with one wave/no held items/no drift; added the required pending wave QA overlay after checking the generated core. Direct preflight/full YAML admission are recorded separately; execution completion is not claimed.
+
+## 2026-10-09 — GH-5 Phase 3 bounded recovery
+
+- Native second review interrupted by Codex HTTP503 before verdict/gate; original failure and monitor2/6 receipts retained, four outstanding checks cancelled. Saved independent probes identified real runtime defects; baseline C1 failed with undefined spawn. Earlier Phase3 builder claims of passing recovery/immutability were not verified.
+- Easy surgical repair in existing generator/C1/docs: one exclusive batch lock, fail-closed atomic state, immutable attempt evidence, strict safe inputs, actual output/digest/decoded-alpha validation, exact deployed caller parameters/references/recipe identity, unknown/corrupt-state refusal and Sun-first admission. Preserve historical artwork/prompts/receipts; no new provider client/framework/test/CI or paid calls.
+- Existing four canaries passed in32.1s, within60s;216 golden boxes and12 byte-identical artifacts. Real-PNG stub counts resume/refinement/cap/corruption/unknown/overlap/timeout dispatches. Cost remains an observable stopping threshold; provider measurements and human artwork acceptance pending. Independent recovery review found malformed-state replay, numeric parser drift, late deadline sampling and wrong-recipe reuse; repaired in current owners/C1. Final revised source passes4/4 in28.6s; native attempt2 halted before build at Agy model-probe20s timeout (counter2/2 retained, gate not run). Independent recovery QA continues separately; phases4/5 held.
+
+## 2026-10-09 — GH-5 local MVP Phase 2
+
+- Extended shared render tools (`tools/request.mjs`, `tools/render.mjs`) to dynamically load recipes and support adaptive text fitting (shrinks overflowing text by 10% at most 10 total attempts down to 12px, tracking bounds natively).
+- Promoted the Solar System scene to `tools/recipes/solar-system.mjs` and integrated its display assets natively via the shared pipeline.
+- Refactored `examples/2026-10-08-solar-system/render-diagram.mjs` and `contact-sheet.mjs` to be thin callers of the shared pipeline (publishing to owned tools/output roots via the shared atomic manifest), allowing the ad-hoc `runtime/` directory to be completely deleted.
+- Native monitored build halted on an off-lane shrink-canary probe (gate not run); observer recorded check 1/6 then cancelled outstanding checks. Preserved the failed attempt and repaired through existing owners; current four-canary verification passes in 24.4s, with golden geometry/digests preserved. Independent Phase 2 review and resumption remain pending.
+
+## 2026-10-08 — Agy QA of MVP improvement plan
+
+- Ran the operator-requested relay-xyz plan QA with Agy / Gemini 3.1 Pro (High) in a new full clone, refreshing from PR #4 to the latest landed PR #7 baseline as origin advanced. Round 3 is supervisor-attested Approved (driver exit 0), reviewed head `10469bde095f22d7eab1afe09b2d55b055b9a4dc`; preserved prior findings and the round-2 close-mismatch rejection in the relay thread.
+- Revised GH-5 to accept nutrition first with the product-hero smoke, extend the existing four canaries within the ratchet, qualify generation/render measurements separately, and use the published Solar System display assets for future offline recipe promotion. Original image inputs remain omitted; the generator does not produce the two selected refinements. All eleven selected display image digests match committed evidence.
+- Reversibility: Easy — plan/recon/QA records only. Main checkout unchanged by this task; no runtime implementation or paid image calls. Verification: matched the approved plan bytes to the reviewed commit; Agy shim, review-once, lock-resolver and attestation checks pass within their recorded limits. The aggregate vendor-snapshot gate was not green and is explicitly disqualified in `relay-system/2026-10-08/gh5-qa-receipt.json`. Targeted PDDA frontmatter, roadmap coverage and changelog checks pass with zero errors/warnings; diff whitespace passes.
+
+## 2026-10-09 — Cell division example: operator approves the version with two AI-generated cells
+
+- The operator reviewed the diagram with the two AI-generated transparent cells (interphase, cytokinesis) and approved the artwork ("Artwork looks good", 2026-10-09). This approval covers `cell-division.png` and `cell-division.html` as shipped by this change, and supersedes the earlier all-SVG-only scope recorded below. Reversibility: Easy.
+
+## 2026-10-09 — SOP.md: which Higgsfield method to use
+
+- Added `SOP.md` at the repo root: use the Higgsfield CLI (`--background transparent`) for transparent images and verify alpha on every result; the REST API is NO-GO for transparency; MCP is untested; the HiQS endpoint is the other working path. Includes the spend-capped procedure, standing rules, known limits and when to update it.
+- Docs only; every claim points at the existing FINDINGS.md and ledgers. Not reviewed by Agy (added after the PR #17 QA). Reversibility: Easy (delete the file).
+
+## 2026-10-09 — GH-8 Phase 0b: the Higgsfield CLI returns real transparency; two cell images in the diagram
+
+- Tested the installed Higgsfield CLI (`higgsfield generate create gpt_image_2_5 --background transparent`) under an operator-approved 20-credit cap: **4 of 4 transparent requests returned real alpha** (RGBA, minimum alpha 0, no opaque corners) and the opaque control returned an opaque image. Five jobs cost 1.5 credits (balance 701 to 699.5, matching the quoted prices). This corrects the earlier reading of PR #15: its NO-GO applies to the REST routes only. The MCP connector is still untested. Details: `examples/2026-10-09-cell-division/FINDINGS.md`; ledger: `cli-spike-ledger.jsonl`.
+- The cell-division diagram now uses two AI-generated transparent PNGs, interphase (medium-quality Flare) and cytokinesis (low-quality Flare), as 256 px web copies with provenance (`assets/provenance.json`); the other four stages keep their SVG icons and the footer discloses the AI-generated cells. The renderer verifies each raster's sha256 against provenance and refuses a raster that is not real alpha. The operator's earlier approval covered the all-SVG version only; this version still needs review.
+- Added `higgsfield-cli-spike.py` (credit-capped runner around the installed CLI; 11 offline selftest controls, each mutation-checked; never reads or writes the CLI's token, records credits only, redacts tokens, signed URLs and emails) and `make-web-asset.mjs`.
+- Bet: the CLI route's `background: transparent` yields usable transparent art at 0.25 to 0.5 credits per image. Failure mode: results vary by prompt or the CLI's interactive sign-in blocks unattended use; neither was tested beyond five jobs. Reversibility: Easy (revert the PR); the 1.5 credits are spent. Process: plan approved by Agy in 1 round; code by Agy in 2 rounds (token and signed-URL redaction, test-only binary override); no change to `tools/spike/**`, `package.json`, `test-budget.json`, and no new dependency or test file. #8 stays open: its Phases 1 to 4 are not started.
+
+## 2026-10-09 — Cell division example approved
+
+- The operator reviewed and approved `examples/2026-10-09-cell-division/cell-division.png` and `cell-division.html` (the Satori render and its responsive viewer) as published in PR #15 (`4d9aa2c`, all-SVG art); a later change to the artwork needs its own review. Both already live in the conventional `examples/<date>-<slug>/` folder, named like the Solar System example's files, so nothing was moved. The README now records the approval in place of "human review pending". The Chromium comparison render is not part of the approval. Reversibility: Easy — documentation only. Verification: PDDA run and `releases check`.
+
+## 2026-10-09 — GH-13 and GH-8 Phase 0 landed and reconciled
+
+- PR #14 (design-diagram skill, `87de428`) and PR #15 (Higgsfield Phase 0 spike and cell-division example, `4d9aa2c`) squash-merged to `main`; issue #13 closed. The roadmap writer moved GH-13 to Completed (`roadmap reconcile-state --apply`); the GH-13 plan moved to `PROJECT/3-COMPLETED/` with its row repointed. Issue #8 was closed automatically when PR #15 merged, because the PR description said "does not close #8" and GitHub treats "close #8" as a closing keyword whatever precedes it. That was wrong (its Phases 1 to 4 are not started): #8 was reopened with an explanation, and its ledger row, which the reconcile had moved to Completed, was moved back to Queue / parked intake through the writer (`roadmap update --section`). Lesson: never write a closing keyword next to an issue number in a PR description for an issue that must stay open; say "Refs #8" only. PR #15's changelog and ledger collision with #14 was resolved by the merge tool's additive-disjoint path. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
+
+## 2026-10-09 — GH-8 Phase 0: Higgsfield transparency spike and cell-division example
+
+- Ran the GH-8 Phase 0 spike against Higgsfield's REST API (Flare and Sunburst, GPT Image 2.5, 1k/low, 12 paid generations, sequential, reserved at an assumed $1.20 under a $1.90 gate and the operator's $2.00 cap). **Verdict: NO-GO for native transparency on these routes.** `background: "transparent"` and `output_format: "png"` are accepted without error but ignored, every image is opaque RGB with no alpha channel, and prompting for a transparent background produced a flat white backdrop or a faint baked checkerboard. The MCP connector was not tested (not connectable here). Details: `examples/2026-10-09-cell-division/FINDINGS.md`; every call: `spike-ledger.jsonl`.
+- Added `examples/2026-10-09-cell-division/`: a "How cells reproduce (mitosis)" explainer (six stages, loop-back arrow, two note panels) rendered through the pinned runtime with hand-drawn SVG icons, plus the spike tools: `higgsfield-spike.py` (spend-gated, secret-scrubbing REST runner, eight offline selftest controls) and `inspect-alpha.mjs` (Chromium-based alpha inspector, proven on a transparent and an opaque known file).
+- Bet: a bounded REST probe settles whether Higgsfield exposes alpha for Images 2.5 before any provider contract is built. Failure mode: the answer lives only in the untested MCP surface; stated as the main open question. Reversibility: Easy for the code and docs (delete the folder); the spend is not recoverable and was capped. Verification: selftest 8/8, diagram `PASS` with three red controls, real secret scan clean, PDDA and ledger checks. Process: plan approved by Agy in 3 rounds; code reviewed by Agy in 3 rounds (the third round's two findings, a `NaN` quote that would bypass the spend gate and an unparseable quote falling back to the assumed price, were fixed and verified by the final reviewer without a fourth Agy round, because the cap was exhausted).
+- No change to `tools/spike/**`, `package.json`, `test-budget.json`; no new test, workflow or dependency. #8 stays open: the provider contract and any Higgsfield skill or connector (its Phases 1 to 4) are not started.
+
+## 2026-10-09 — GH-13: design-diagram skill
+
+- Added `skills/design-diagram/SKILL.md`: an eleven-step procedure that takes a topic to a reviewed `examples/<YYYY-MM-DD>-<slug>/` folder and a PR, using `examples/2026-10-09-rag-system/` as the working pattern, plus a table of seven known traps each with its evidence pointer. Hand-drawn SVG is the default art; paid generation only on request; the skill does not install itself. No script, dependency, test or engine change.
+- Bet: instructions that point at a working example let a cold agent repeat the process. Failure mode: the skill drifts from the example it points at. Reversibility: Easy — delete `skills/design-diagram/` and append a rollback entry here.
+- Verification: path probe (one-off, not committed) found 23 existing input references and failed by name on an empty skill, a removed RAG reference and an invented path. A cold agent given only the skill built a four-stage CDN diagram to `PASS` and ran all three red controls; it found eight gaps (RAG-specific code to hunt, structural lane names, footer positions tied to canvas height, no icon spec, Chromium sandbox crash, red-control mechanics, fixture keys read by name, README wording) which are now fixed in the skill. The fixed skill was not cold-run a second time; the final Codex review reads it.
+
+## 2026-10-09 — GH-11 landed and reconciled
+
+- PR #12 squash-merged to `main` as `7d209fa`; issue #11 closed. The roadmap writer moved GH-11 to Completed (`roadmap reconcile-state --apply`), and the plan moved to `PROJECT/3-COMPLETED/` with its row repointed. Reversibility: Easy — ledger and documentation only. Verification: `releases check` and PDDA run.
+
+## 2026-10-09 — GH-11: RAG system diagram example
+
+- Added `examples/2026-10-09-rag-system/`: a 2400×1660 explainer of how retrieval-augmented generation works, with an ingest flow (documents → chunk → embed → vector store) and a query flow (question → embed → retrieve → augment → generate → cited answer). Fixture-driven, ten hand-drawn SVG stage icons (no image generation, nothing uploaded), rendered through the existing GH-1 Satori/resvg and Chromium functions, with PNGs, a responsive HTML viewer, `verification.json` and a README.
+- Reuses the pinned runtime in `examples/2026-10-08-solar-system/runtime/` by relative import, so no second runtime copy. No change to `tools/spike/**`, `package.json`, `test-budget.json`, or any test or workflow.
+- Bet: the existing render functions carry a second, structurally different layout (a two-lane pipeline) from fixture data alone. Failure mode: checks pass while the picture looks wrong; the agent inspected both PNGs, human review is pending. Coupling limit: moving the Solar System `runtime/` breaks this example until GH-5 lands a shared render operation. Reversibility: Easy — delete the folder and this entry.
+- Verification: render prints `PASS` (10 icon nodes, 49 text ids, both backends). Three red controls each failed by name and were restored: overflowing description (`chunk_desc`), missing `retrieve` icon, Chromium `title` off-canvas. Plan QA: Codex, 2 rounds, Approved. Answer to the skill question: no `SKILL.md` exists in the tracked repo; GH-5 does not track one.
 
 ## 2026-10-08 — Agy QA of MVP improvement plan
 
@@ -99,3 +543,40 @@
 - Sharpened AGENTS.md and GUIDING-PRINCIPLES.md around DRY, durability, maintainability, security, and measured performance, using the ponytail lens. No engine code, tests, CI configuration, or installed PDDA runtime changed.
 - Bet: shared application operations with thin protocol adapters satisfy both deployment modes without duplicate engine behavior. Reversibility: Easy (documents only); revisit after the geometry and deployment spikes.
 - Verification: `utils/pdda/pdda.sh run` completed in observe mode: frontmatter/status/path checks pass; one pre-existing roadmap-coverage error remains (empty releases ledger; `releases` CLI unavailable on PATH), with ten existing governance warnings. PRD anchors, relative document links, fenced blocks, and edited-file whitespace pass. No runtime behavior was tested; this is a specification-only change.
+
+## [Unreleased]
+### Added
+- Reusable local library operations (\`tools/render.mjs\`, \`tools/request.mjs\`) for Satori and Chromium rendering without side-effects on import.
+- Nutrition recipe explicitly versioned and exported in \`tools/recipes/nutrition.mjs\`.
+### Changed
+- \`tools/spike/render.mjs\` uses an atomic staging directory for output and implements a direct-execution guard.
+- Validation semantics enforce input dimensions, and symlink/realpath containment.
+
+
+## 2026-10-09 — GH-5 workhorse Phase 1 recovery
+
+- Repaired the existing request/recipe/render owners: bounded confined JSON and strict nutrition fields, explicit fixed-canvas/scale subset, bounded valid PNG admission, escaped HTML and browser finally cleanup; shared requested artifacts and usable local CLI.
+- Replaced mixed mutable publication with immutable runs and one atomic manifest selector; verifier/C2 resolve that shared selector while preserving manifest-free historical goldens. Added tools/spike/verify.mjs to the Phase 1 write contract for this necessary reader seam.
+- Extended existing C1 for boundary/failure controls. Orchestrator pnpm test passed 4/4 in 10.8s, 216 geometry boxes and 12 byte-identical artifacts. Receipts: relay-system/2026-10-09/gh5-p1-repair/. Independent committed-code QA and continuation remain pending; failed native lane/cap preserved.
+- Filed canonical XYZ Forge #1006 for opt-in bounded 600-second × 6 progress reporting. Existing heartbeat/timeouts/read-only monitors remain; no installed harness runtime edits or paid calls.
+
+- Independent recovery QA round 1 found and reproduced cross-date last-good discovery and default comparison-root mismatch. Reused shared selectedSpikeRun for verifier/C2 and aligned defaults; existing C1 verifies no-override flow, later-date failure discovery and selected-output tampering. Updated suite: 4/4 in 11.3s; second independent QA pending.
+
+- Independent Phase2 review caught native resvg abort for radiusX=8192. Repaired recipe-owned pre-render spatial admission; existing C1 rejects radius/centre/image-size/label escape controls. Four canaries pass in24.7s with goldens preserved; second independent review pending.
+
+- GH-5 containment recovery: the existing C1 deadline import probe uses Python `-B` to prevent source-tree bytecode. The authorized original Phase3 override halted on an off-lane `__pycache__` before independent review/native gate; all six scheduled checks were cancelled at150.2s. No native approval or further override is claimed.
+
+
+## 2026-10-09 — GH-5 Phase 4 native TURN-2 builder receipt
+
+- Preserved the current measured-redraw/durable-edit/export implementation and existing C1 exact-name HTML repair. Focused scratch probes reproduce `font/ttf` at artifact[0] and verify the requested page by name; both recipes pass copy-only durable edits/rerender, requested exports and publication checks with originals unchanged.
+- Syntax checks and one profiler smoke per recipe passed. No runtime/test change, full suite, paid call or git operation in this turn. Easy reversal; independent Agy review and the new harness-owned gate remain pending. Prior recovery suite evidence is not new phase approval.
+
+## 2026-10-09 — GH-5 Phase 5 integration and handoff recovery
+
+- Documented one pinned install/render/edit/export workflow for nutrition and Solar System on a fresh checkout without originals, paid API calls, or copied runtime.
+- Recorded schema/capability limits (e.g. 256 KiB JSON input, max 5 MiB/16M pixels per image), PNG vs SVG formats, durable JSON edits, compact offline HTML exports, and expected generation calls.
+- Integrated delivered local observations from the coordinator replay (fresh-workflow-commands.json). Verified durable edits and rerender behaviors with matching exact SVG digests.
+- Pinned font (Inter) and dependencies, deferring Chromium packaging until terms are reviewed. 
+- Stage diagnostics, worker-based hard interruptions, remote HTTP/MCP, tenant isolation, private caches, durable service queues, and themes remain deferred to Later.
+- Added Phase 5 handoff documentation. Final QA, native gate test (`pnpm test`), and visual human approval remain pending independently.

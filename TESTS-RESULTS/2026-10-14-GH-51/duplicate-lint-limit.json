@@ -1,0 +1,19 @@
+{
+  "findings": [
+    {
+      "severity": "info",
+      "message": "Design system defines 3 colors, 2 typography scales, 1 rounding level, 2 spacing tokens, 3 components.",
+      "rule": "token-summary"
+    },
+    {
+      "severity": "warning",
+      "message": "Section 'Do's and Don'ts' appears before 'Colors', which is out of order. Expected order: Overview, Colors, Typography, Layout, Elevation & Depth, Shapes, Components, Do's and Don'ts",
+      "rule": "section-order"
+    }
+  ],
+  "summary": {
+    "errors": 0,
+    "warnings": 1,
+    "infos": 1
+  }
+}

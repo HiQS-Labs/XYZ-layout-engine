@@ -1,0 +1,6 @@
+{
+  "baselineWarnings": 40,
+  "candidateWarnings": 40,
+  "sameFindingsIgnoringLineNumbers": true,
+  "newErrors": 0
+}

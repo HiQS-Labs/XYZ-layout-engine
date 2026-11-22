@@ -1,0 +1,50 @@
+{
+  "status": "failed",
+  "publication": "published",
+  "question": "Medium-depth primary-source review of Google Labs DESIGN.md current alpha specification at github.com/google-labs-code/design.md and stitch.withgoogle.com/docs/design-md/specification. Identify required versus optional Markdown section order, optional YAML schema, unknown content preservation, linter requirements, current CLI package/version and exact lint command, and the smallest honest low-to-medium document-level adoption for an offline deterministic layout engine whose JSON fixtures and JavaScript recipes own rendering. Distinguish older prose-only Stitch design-md skill conventions from current format. Assess whether we can adopt without importing tokens into runtime, changing recipes or adding dependencies. Cite authoritative primary sources and material disagreements. Prefer extraction of official spec and repository README.",
+  "stages": {
+    "gemini": {
+      "status": "failed",
+      "recipeRef": "recipe:hiqs/gemini-grounded-search@r1",
+      "retrievedAt": "2026-10-14T16:38:25.319Z",
+      "attempts": [
+        {
+          "at": "2026-10-14T16:38:25.319Z",
+          "provider": "gemini",
+          "serviceRef": "service:google/gemini-api@r1",
+          "dispatched": true,
+          "status": "failed",
+          "reason": "contract_rejected",
+          "resultDigest": "f149e5c4de5988806d7c64941cb13c5a612b45dc199b49d28f1c2aea639b8b6c",
+          "traceDigest": "b1e46c73496bb7c84b1d0cc682f6937ac79072328ea678f0292d4592e19887b7",
+          "snapshotDigest": "e775f043c4a518687c962143cecb2bbd3b6555de60bf46bf67ad6991af5b896f",
+          "policyDigest": "cb240e37b61d9217a1d3d9edc377d3a49036cc6d20de9d7c99d875e77288a839",
+          "recipeRef": "recipe:hiqs/gemini-grounded-search@r1",
+          "inputDigest": "91673a1a4d32081347ad3e24a0710928db21cb7bdc4512859de491b5c36983a1"
+        }
+      ]
+    },
+    "perplexity": {
+      "status": "failed",
+      "recipeRef": "recipe:hiqs/perplexity-cross-check@r1",
+      "retrievedAt": "2026-10-14T16:39:06.093Z",
+      "attempts": [
+        {
+          "at": "2026-10-14T16:39:06.093Z",
+          "provider": "perplexity",
+          "serviceRef": "service:perplexityai/api-platform@r1",
+          "dispatched": true,
+          "status": "failed",
+          "reason": "contract_rejected",
+          "resultDigest": "493feae8268348b95d2be13b59f31e5380d5ad3c195d2a1c3f13590b520852e2",
+          "traceDigest": "801b97634e5564d50658330bb75f2a08facf6170b3139138d41eb7ca2af10478",
+          "snapshotDigest": "e775f043c4a518687c962143cecb2bbd3b6555de60bf46bf67ad6991af5b896f",
+          "policyDigest": "cb240e37b61d9217a1d3d9edc377d3a49036cc6d20de9d7c99d875e77288a839",
+          "recipeRef": "recipe:hiqs/perplexity-cross-check@r1",
+          "inputDigest": "b043d3aca00b3ded7783ef1bda9f6893fe0daaae7d025c5366feed8b92694d58"
+        }
+      ]
+    }
+  },
+  "extraction": []
+}

@@ -1,0 +1,911 @@
+{
+  "renderer": "Existing GH-1 renderSatori / renderPlaywright functions, pinned in ../2026-10-08-solar-system/runtime",
+  "art": "hand-drawn stroke-only SVG icons; raster stages (sha256 and real alpha verified): interphase, cytokinesis",
+  "generatedAt": "2026-10-10T03:08:27.061Z",
+  "width": 2400,
+  "height": 1480,
+  "stages": [
+    "interphase",
+    "prophase",
+    "metaphase",
+    "anaphase",
+    "telophase",
+    "cytokinesis"
+  ],
+  "imageNodes": [
+    "asset_interphase",
+    "asset_prophase",
+    "asset_metaphase",
+    "asset_anaphase",
+    "asset_telophase",
+    "asset_cytokinesis"
+  ],
+  "rasterAssets": {
+    "interphase": {
+      "path": "assets/web/interphase.png",
+      "sha256": "c61ca2d72ddf3ba0ca8ff2784f604ace4f9f202ad29dfc4a2a6460cdd9b78090",
+      "bytes": 81895,
+      "provenance": {
+        "file": "assets/provenance.json",
+        "stage": "interphase",
+        "provider": "higgsfield-cli",
+        "model": "gpt_image_2_5",
+        "jobId": "3e204ac7-d507-4b9c-8489-505e401290c6",
+        "originalSha256": "17cc8856e1affd392cad1471a04ef0fe040dfac42827ff7d189e4de3fcc9df07"
+      },
+      "alpha": {
+        "real_alpha": true,
+        "colorType": 6,
+        "transparentPixelRatio": 0.488724,
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "opaqueCornerCount": 0
+      }
+    },
+    "cytokinesis": {
+      "path": "assets/web/cytokinesis.png",
+      "sha256": "9d7564c1863e3902693d6d6c179356d70791e5cefb0e82612efa6d1aab87127d",
+      "bytes": 56390,
+      "provenance": {
+        "file": "assets/provenance.json",
+        "stage": "cytokinesis",
+        "provider": "higgsfield-cli",
+        "model": "gpt_image_2_5",
+        "jobId": "e1efbe5f-254a-4ffc-b331-9c421e53dbab",
+        "originalSha256": "ea34af329cc39bdaa1195ef1856bdc38fdf310f720aa1af7174bad86994a0eb0"
+      },
+      "alpha": {
+        "real_alpha": true,
+        "colorType": 6,
+        "transparentPixelRatio": 0.652359,
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "opaqueCornerCount": 0
+      }
+    }
+  },
+  "textIds": [
+    "eyebrow",
+    "title",
+    "subtitle",
+    "group_growth",
+    "group_mitosis",
+    "group_split",
+    "interphase_step",
+    "interphase_title",
+    "interphase_desc",
+    "prophase_step",
+    "prophase_title",
+    "prophase_desc",
+    "metaphase_step",
+    "metaphase_title",
+    "metaphase_desc",
+    "anaphase_step",
+    "anaphase_title",
+    "anaphase_desc",
+    "telophase_step",
+    "telophase_title",
+    "telophase_desc",
+    "cytokinesis_step",
+    "cytokinesis_title",
+    "cytokinesis_desc",
+    "edge_cycle",
+    "panel_why_title",
+    "panel_why_body",
+    "panel_same_title",
+    "panel_same_body",
+    "footer_message",
+    "footer_credit",
+    "scale_note",
+    "source_note"
+  ],
+  "artifactDigests": {
+    "png": "343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044",
+    "svg": "06411cf30d4ceefc17419de08d9d40392bf275506390dd303a940e335bd0aac6",
+    "html": "c041e117432111de4bb517c043c9ce949ab865f41f1e02a0c4090fc8c9781982",
+    "chromiumPng": "2087fce0c14bad634b0ee7e9587fd202921d2f57b78891d94569dc2c3aa2d485"
+  },
+  "satoriBounds": {
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1480
+    },
+    "backdrop": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1480
+    },
+    "arrows": {
+      "x": 0,
+      "y": 0,
+      "width": 2400,
+      "height": 1480
+    },
+    "header": {
+      "x": 100,
+      "y": 80,
+      "width": 2200,
+      "height": 238
+    },
+    "eyebrow": {
+      "x": 100,
+      "y": 80,
+      "width": 2200,
+      "height": 30
+    },
+    "title": {
+      "x": 100,
+      "y": 128,
+      "width": 2200,
+      "height": 130
+    },
+    "subtitle": {
+      "x": 100,
+      "y": 276,
+      "width": 2200,
+      "height": 42
+    },
+    "group_growth": {
+      "x": 106,
+      "y": 406,
+      "width": 300,
+      "height": 27
+    },
+    "group_mitosis": {
+      "x": 482,
+      "y": 406,
+      "width": 1428,
+      "height": 27
+    },
+    "group_split": {
+      "x": 1986,
+      "y": 406,
+      "width": 300,
+      "height": 27
+    },
+    "card_interphase": {
+      "x": 100,
+      "y": 470,
+      "width": 312,
+      "height": 450
+    },
+    "stepbox_interphase": {
+      "x": 126,
+      "y": 496,
+      "width": 80,
+      "height": 29
+    },
+    "interphase_step": {
+      "x": 126,
+      "y": 496,
+      "width": 27,
+      "height": 29
+    },
+    "asset_interphase": {
+      "x": 170,
+      "y": 520,
+      "width": 176,
+      "height": 176
+    },
+    "body_interphase": {
+      "x": 126,
+      "y": 724,
+      "width": 264,
+      "height": 174
+    },
+    "interphase_title": {
+      "x": 126,
+      "y": 724,
+      "width": 264,
+      "height": 44
+    },
+    "interphase_desc": {
+      "x": 126,
+      "y": 778,
+      "width": 264,
+      "height": 120
+    },
+    "card_prophase": {
+      "x": 476,
+      "y": 470,
+      "width": 312,
+      "height": 450
+    },
+    "stepbox_prophase": {
+      "x": 502,
+      "y": 496,
+      "width": 80,
+      "height": 29
+    },
+    "prophase_step": {
+      "x": 502,
+      "y": 496,
+      "width": 31,
+      "height": 29
+    },
+    "asset_prophase": {
+      "x": 546,
+      "y": 520,
+      "width": 176,
+      "height": 176
+    },
+    "body_prophase": {
+      "x": 502,
+      "y": 724,
+      "width": 264,
+      "height": 174
+    },
+    "prophase_title": {
+      "x": 502,
+      "y": 724,
+      "width": 264,
+      "height": 44
+    },
+    "prophase_desc": {
+      "x": 502,
+      "y": 778,
+      "width": 264,
+      "height": 120
+    },
+    "card_metaphase": {
+      "x": 852,
+      "y": 470,
+      "width": 312,
+      "height": 450
+    },
+    "stepbox_metaphase": {
+      "x": 878,
+      "y": 496,
+      "width": 80,
+      "height": 29
+    },
+    "metaphase_step": {
+      "x": 878,
+      "y": 496,
+      "width": 32,
+      "height": 29
+    },
+    "asset_metaphase": {
+      "x": 922,
+      "y": 520,
+      "width": 176,
+      "height": 176
+    },
+    "body_metaphase": {
+      "x": 878,
+      "y": 724,
+      "width": 264,
+      "height": 144
+    },
+    "metaphase_title": {
+      "x": 878,
+      "y": 724,
+      "width": 264,
+      "height": 44
+    },
+    "metaphase_desc": {
+      "x": 878,
+      "y": 778,
+      "width": 264,
+      "height": 90
+    },
+    "card_anaphase": {
+      "x": 1228,
+      "y": 470,
+      "width": 312,
+      "height": 450
+    },
+    "stepbox_anaphase": {
+      "x": 1254,
+      "y": 496,
+      "width": 80,
+      "height": 29
+    },
+    "anaphase_step": {
+      "x": 1254,
+      "y": 496,
+      "width": 32,
+      "height": 29
+    },
+    "asset_anaphase": {
+      "x": 1298,
+      "y": 520,
+      "width": 176,
+      "height": 176
+    },
+    "body_anaphase": {
+      "x": 1254,
+      "y": 724,
+      "width": 264,
+      "height": 144
+    },
+    "anaphase_title": {
+      "x": 1254,
+      "y": 724,
+      "width": 264,
+      "height": 44
+    },
+    "anaphase_desc": {
+      "x": 1254,
+      "y": 778,
+      "width": 264,
+      "height": 90
+    },
+    "card_telophase": {
+      "x": 1604,
+      "y": 470,
+      "width": 312,
+      "height": 450
+    },
+    "stepbox_telophase": {
+      "x": 1630,
+      "y": 496,
+      "width": 80,
+      "height": 29
+    },
+    "telophase_step": {
+      "x": 1630,
+      "y": 496,
+      "width": 31,
+      "height": 29
+    },
+    "asset_telophase": {
+      "x": 1674,
+      "y": 520,
+      "width": 176,
+      "height": 176
+    },
+    "body_telophase": {
+      "x": 1630,
+      "y": 724,
+      "width": 264,
+      "height": 174
+    },
+    "telophase_title": {
+      "x": 1630,
+      "y": 724,
+      "width": 264,
+      "height": 44
+    },
+    "telophase_desc": {
+      "x": 1630,
+      "y": 778,
+      "width": 264,
+      "height": 120
+    },
+    "card_cytokinesis": {
+      "x": 1980,
+      "y": 470,
+      "width": 312,
+      "height": 450
+    },
+    "stepbox_cytokinesis": {
+      "x": 2006,
+      "y": 496,
+      "width": 80,
+      "height": 29
+    },
+    "cytokinesis_step": {
+      "x": 2006,
+      "y": 496,
+      "width": 32,
+      "height": 29
+    },
+    "asset_cytokinesis": {
+      "x": 2050,
+      "y": 520,
+      "width": 176,
+      "height": 176
+    },
+    "body_cytokinesis": {
+      "x": 2006,
+      "y": 724,
+      "width": 264,
+      "height": 144
+    },
+    "cytokinesis_title": {
+      "x": 2006,
+      "y": 724,
+      "width": 264,
+      "height": 44
+    },
+    "cytokinesis_desc": {
+      "x": 2006,
+      "y": 778,
+      "width": 264,
+      "height": 90
+    },
+    "edgebox_edge_cycle": {
+      "x": 476,
+      "y": 990,
+      "width": 1440,
+      "height": 29
+    },
+    "edge_cycle": {
+      "x": 893,
+      "y": 990,
+      "width": 607,
+      "height": 29
+    },
+    "panel_why": {
+      "x": 100,
+      "y": 1068,
+      "width": 1080,
+      "height": 190
+    },
+    "panel_why_title": {
+      "x": 142,
+      "y": 1099,
+      "width": 1007,
+      "height": 26
+    },
+    "panel_why_body": {
+      "x": 142,
+      "y": 1139,
+      "width": 1007,
+      "height": 76
+    },
+    "panel_same": {
+      "x": 1220,
+      "y": 1068,
+      "width": 1080,
+      "height": 190
+    },
+    "panel_same_title": {
+      "x": 1262,
+      "y": 1099,
+      "width": 1007,
+      "height": 26
+    },
+    "panel_same_body": {
+      "x": 1262,
+      "y": 1139,
+      "width": 1007,
+      "height": 76
+    },
+    "footer_rule": {
+      "x": 100,
+      "y": 1320,
+      "width": 2200,
+      "height": 1
+    },
+    "footer": {
+      "x": 100,
+      "y": 1348,
+      "width": 2200,
+      "height": 107
+    },
+    "footer_summary": {
+      "x": 100,
+      "y": 1348,
+      "width": 2200,
+      "height": 29
+    },
+    "footer_message": {
+      "x": 100,
+      "y": 1348,
+      "width": 666,
+      "height": 29
+    },
+    "footer_credit": {
+      "x": 2097,
+      "y": 1352,
+      "width": 203,
+      "height": 22
+    },
+    "scale_note": {
+      "x": 100,
+      "y": 1393,
+      "width": 2200,
+      "height": 25
+    },
+    "source_note": {
+      "x": 100,
+      "y": 1434,
+      "width": 2200,
+      "height": 21
+    }
+  },
+  "chromiumText": {
+    "eyebrow": {
+      "x": 100,
+      "y": 80,
+      "width": 503.98,
+      "height": 28,
+      "text": "CELL BIOLOGY  /  THE CELL CYCLE",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 30,
+      "clientHeight": 30,
+      "lineCount": 1
+    },
+    "title": {
+      "x": 100,
+      "y": 126.89,
+      "width": 1484.59,
+      "height": 131,
+      "text": "How cells reproduce (mitosis)",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 130,
+      "clientHeight": 130,
+      "lineCount": 1
+    },
+    "subtitle": {
+      "x": 100,
+      "y": 276.48,
+      "width": 1417.13,
+      "height": 39,
+      "text": "One cell copies its DNA, then splits into two daughter cells that carry the same chromosomes.",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 42,
+      "clientHeight": 42,
+      "lineCount": 1
+    },
+    "group_growth": {
+      "x": 106,
+      "y": 407,
+      "width": 236.72,
+      "height": 25,
+      "text": "GROW + COPY DNA",
+      "scrollWidth": 300,
+      "clientWidth": 300,
+      "scrollHeight": 27,
+      "clientHeight": 27,
+      "lineCount": 1
+    },
+    "group_mitosis": {
+      "x": 482,
+      "y": 407,
+      "width": 407.67,
+      "height": 25,
+      "text": "MITOSIS  /  THE NUCLEUS DIVIDES",
+      "scrollWidth": 1428,
+      "clientWidth": 1428,
+      "scrollHeight": 27,
+      "clientHeight": 27,
+      "lineCount": 1
+    },
+    "group_split": {
+      "x": 1986,
+      "y": 407,
+      "width": 210.34,
+      "height": 25,
+      "text": "THE CELL SPLITS",
+      "scrollWidth": 300,
+      "clientWidth": 300,
+      "scrollHeight": 27,
+      "clientHeight": 27,
+      "lineCount": 1
+    },
+    "interphase_step": {
+      "x": 126,
+      "y": 497,
+      "width": 28.33,
+      "height": 26,
+      "text": "01",
+      "scrollWidth": 28,
+      "clientWidth": 28,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "interphase_title": {
+      "x": 126,
+      "y": 725,
+      "width": 178.83,
+      "height": 41,
+      "text": "Interphase",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "interphase_desc": {
+      "x": 126,
+      "y": 779.19,
+      "width": 238.02,
+      "height": 115.06,
+      "text": "The cell grows and copies its DNA: each chromosome becomes two sister chromatids.",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 119,
+      "clientHeight": 119,
+      "lineCount": 4
+    },
+    "prophase_step": {
+      "x": 502,
+      "y": 497,
+      "width": 32.7,
+      "height": 26,
+      "text": "02",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "prophase_title": {
+      "x": 502,
+      "y": 725,
+      "width": 157.55,
+      "height": 41,
+      "text": "Prophase",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "prophase_desc": {
+      "x": 502,
+      "y": 779.19,
+      "width": 258.23,
+      "height": 115.06,
+      "text": "Chromosomes coil up into visible X shapes and the spindle begins to form.",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 119,
+      "clientHeight": 119,
+      "lineCount": 4
+    },
+    "metaphase_step": {
+      "x": 878,
+      "y": 497,
+      "width": 33.05,
+      "height": 26,
+      "text": "03",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "metaphase_title": {
+      "x": 878,
+      "y": 725,
+      "width": 185.92,
+      "height": 41,
+      "text": "Metaphase",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "metaphase_desc": {
+      "x": 878,
+      "y": 779.19,
+      "width": 255.78,
+      "height": 85.38,
+      "text": "Spindle fibers line the chromosomes up across the middle of the cell.",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 89,
+      "clientHeight": 89,
+      "lineCount": 3
+    },
+    "anaphase_step": {
+      "x": 1254,
+      "y": 497,
+      "width": 33.72,
+      "height": 26,
+      "text": "04",
+      "scrollWidth": 34,
+      "clientWidth": 34,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "anaphase_title": {
+      "x": 1254,
+      "y": 725,
+      "width": 167.94,
+      "height": 41,
+      "text": "Anaphase",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "anaphase_desc": {
+      "x": 1254,
+      "y": 779.19,
+      "width": 262.5,
+      "height": 85.38,
+      "text": "The sister chromatids are pulled apart toward opposite ends of the cell.",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 89,
+      "clientHeight": 89,
+      "lineCount": 3
+    },
+    "telophase_step": {
+      "x": 1630,
+      "y": 497,
+      "width": 32.91,
+      "height": 26,
+      "text": "05",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "telophase_title": {
+      "x": 1630,
+      "y": 725,
+      "width": 172,
+      "height": 41,
+      "text": "Telophase",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "telophase_desc": {
+      "x": 1630,
+      "y": 779.19,
+      "width": 263.23,
+      "height": 115.06,
+      "text": "A new nuclear envelope forms around each of the two sets of chromosomes.",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 119,
+      "clientHeight": 119,
+      "lineCount": 4
+    },
+    "cytokinesis_step": {
+      "x": 2006,
+      "y": 497,
+      "width": 33.13,
+      "height": 26,
+      "text": "06",
+      "scrollWidth": 33,
+      "clientWidth": 33,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "cytokinesis_title": {
+      "x": 2006,
+      "y": 725,
+      "width": 197.03,
+      "height": 41,
+      "text": "Cytokinesis",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 44,
+      "clientHeight": 44,
+      "lineCount": 1
+    },
+    "cytokinesis_desc": {
+      "x": 2006,
+      "y": 779.19,
+      "width": 247.42,
+      "height": 85.38,
+      "text": "The cytoplasm pinches in two, leaving two identical daughter cells.",
+      "scrollWidth": 264,
+      "clientWidth": 264,
+      "scrollHeight": 89,
+      "clientHeight": 89,
+      "lineCount": 3
+    },
+    "edge_cycle": {
+      "x": 892.83,
+      "y": 991,
+      "width": 606.33,
+      "height": 26,
+      "text": "each daughter cell can begin the cycle again at interphase",
+      "scrollWidth": 606,
+      "clientWidth": 606,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "panel_why_title": {
+      "x": 142,
+      "y": 1100,
+      "width": 212.02,
+      "height": 24,
+      "text": "WHY IT MATTERS",
+      "scrollWidth": 1007,
+      "clientWidth": 1007,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "panel_why_body": {
+      "x": 142,
+      "y": 1141,
+      "width": 1005.69,
+      "height": 70.8,
+      "text": "Mitosis is how a body grows, replaces worn-out cells and heals wounds. When its checks fail, cells can divide out of control, as in cancer.",
+      "scrollWidth": 1007,
+      "clientWidth": 1007,
+      "scrollHeight": 76,
+      "clientHeight": 76,
+      "lineCount": 2
+    },
+    "panel_same_title": {
+      "x": 1262,
+      "y": 1100,
+      "width": 290.5,
+      "height": 24,
+      "text": "WHAT STAYS THE SAME",
+      "scrollWidth": 1007,
+      "clientWidth": 1007,
+      "scrollHeight": 26,
+      "clientHeight": 26,
+      "lineCount": 1
+    },
+    "panel_same_body": {
+      "x": 1262,
+      "y": 1141,
+      "width": 994.45,
+      "height": 70.8,
+      "text": "Each daughter cell gets a full copy of the DNA: the same chromosomes, in the same number, as the parent cell.",
+      "scrollWidth": 1007,
+      "clientWidth": 1007,
+      "scrollHeight": 76,
+      "clientHeight": 76,
+      "lineCount": 2
+    },
+    "footer_message": {
+      "x": 100,
+      "y": 1349,
+      "width": 674.63,
+      "height": 26,
+      "text": "GROW  /  COPY  /  CONDENSE  /  ALIGN  /  SEPARATE  /  SPLIT",
+      "scrollWidth": 675,
+      "clientWidth": 675,
+      "scrollHeight": 29,
+      "clientHeight": 29,
+      "lineCount": 1
+    },
+    "footer_credit": {
+      "x": 2091.63,
+      "y": 1352.25,
+      "width": 208.38,
+      "height": 20,
+      "text": "XYZ LAYOUT ENGINE",
+      "scrollWidth": 208,
+      "clientWidth": 208,
+      "scrollHeight": 22,
+      "clientHeight": 22,
+      "lineCount": 1
+    },
+    "scale_note": {
+      "x": 100,
+      "y": 1392.59,
+      "width": 2198.97,
+      "height": 23,
+      "text": "Simplified diagram: human body cells carry 46 chromosomes, not the few drawn here, and the phases blend into one another. Icons are hand-drawn vector art; the interphase and cytokinesis cells are AI-generated (GPT Image 2.5 via Higgsfield).",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 25,
+      "clientHeight": 25,
+      "lineCount": 1
+    },
+    "source_note": {
+      "x": 100,
+      "y": 1433.28,
+      "width": 1032.84,
+      "height": 20,
+      "text": "Reference: OpenStax, Biology 2e (2018), section 10.2 \"The Cell Cycle\", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle",
+      "scrollWidth": 2200,
+      "clientWidth": 2200,
+      "scrollHeight": 21,
+      "clientHeight": 21,
+      "lineCount": 1
+    }
+  },
+  "findings": []
+}

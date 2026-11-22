@@ -1,0 +1,40 @@
+$ node tools/spike/test/run.mjs
+test-budget: ok — 1/1 files, 4/4 tests, 0/0 workflows, deadline 60s
+TAP version 13
+# \# C1: import/space CLI, admission, HTML, browser cleanup and two-success/late-failure publication controls passed
+# \# C2 geometry: 216 boxes compared within 0.5 px
+# \# C2 digests: 12 artifacts byte-identical
+# Subtest: guards: render pipeline breaks on a clean checkout
+ok 1 - guards: render pipeline breaks on a clean checkout
+  ---
+  duration_ms: 10460.929
+  type: 'test'
+  ...
+# Subtest: guards: unintended visual or layout drift
+ok 2 - guards: unintended visual or layout drift
+  ---
+  duration_ms: 30.001
+  type: 'test'
+  ...
+# Subtest: guards: committed evidence no longer satisfies the gate
+ok 3 - guards: committed evidence no longer satisfies the gate
+  ---
+  duration_ms: 115.454416
+  type: 'test'
+  ...
+# Subtest: guards: the verifier stops detecting tampering
+ok 4 - guards: the verifier stops detecting tampering
+  ---
+  duration_ms: 114.670458
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10803.289459
+test-budget: PASS — 4 canaries in 10.8s (budget 60s)

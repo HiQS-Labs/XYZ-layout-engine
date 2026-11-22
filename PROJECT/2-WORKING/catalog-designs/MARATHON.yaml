@@ -1,0 +1,39 @@
+# Umbrella GH-19, member GH-20 Phase A2 (plan: finalized comment on #20; design log #21). Base: origin/main (a055741).
+# One full clone, one serial lane. Codex builder (driver default), independent Agy reviewer.
+# Dispatch: --pre-advance-cmd 'pnpm test'. No push, no PR, no merge from builder turns. Phase B is not in this file.
+name: gh20-a2-catalog-designs
+phases:
+  - id: gh20-a2-p0
+    name: "Spike: migration, NULL literal, ID, log and path decisions"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/catalog-designs/briefs/gh20-a2-p0.md
+    artifact: PROJECT/2-WORKING/GH-20-CATALOG-DESIGNS.md
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+
+  - id: gh20-a2-p1
+    name: "Designs table, CLI verbs, verify and C4"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/catalog-designs/briefs/gh20-a2-p1.md
+    artifact: tools/catalog.mjs, tools/catalog.sql, tools/spike/test/canaries.test.mjs
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh20-a2-p0
+
+  - id: gh20-a2-p2
+    name: "Seed three designs and the design log"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/catalog-designs/briefs/gh20-a2-p2.md
+    artifact: tools/catalog.sql, tools/design-log.jsonl
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh20-a2-p1
+
+  - id: gh20-a2-p3
+    name: "ROUTER pointer, README and CHANGELOG"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/catalog-designs/briefs/gh20-a2-p3.md
+    artifact: ROUTER.md, README.md, CHANGELOG.md
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh20-a2-p2

@@ -1,0 +1,19 @@
+{
+  "added_len": 4489,
+  "added_sha256": "60d6d919a5d243c0731808ff48aefdc0f60d6061dda87a9c2af21f6009e949e4",
+  "added_start": 5458,
+  "artifact_sha256": "9b32903590690a617110129d636d78969845fdfd216f2d34b79dfdc4899e4f90",
+  "attested_at": "2026-10-12T21:01:30Z",
+  "driver_pid": 98714,
+  "isolated": true,
+  "relay_file": "~/Documents/GH Repos/XYZ-layout-engine-gh38-followup-fixes-2026-10-12/relay-system/2026-10-12/gh38-final.codex.md",
+  "relay_file_rel": "relay-system/2026-10-12/gh38-final.codex.md",
+  "reviewed_head": "6bcb9b32453a23b5a1d224669ca434a36718eadc",
+  "reviewer": "codex",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "~/Documents/GH Repos/XYZ-layout-engine-gh38-followup-fixes-2026-10-12",
+  "task": "GH38-FINAL-20261012",
+  "trailer_sha256": "d582a0dcf4238922166e89aaa30f820a6d72f5e777123386f5484a82b9bc2bf0",
+  "transcript_repo": "~/Documents/GH Repos/XYZ-layout-engine-gh38-followup-fixes-2026-10-12"
+}

@@ -1,0 +1,29 @@
+{
+  "status": "halted",
+  "observed_at": "2026-10-09T15:44:40.265230+00:00",
+  "exec_session_id": 91947,
+  "source_head_before_launch": "1c0a49d",
+  "first_task": "MARATHON-GH5-P2-TURN",
+  "task_status": "claimed",
+  "claimer": "agy",
+  "branch": "marathon/gh-5-mvp-foundation",
+  "base": "a8e7e574c85762d5c2b08fecdf2243a5bbd8bb2c",
+  "order": [
+    "gh5-p2",
+    "gh5-p3",
+    "gh5-p4",
+    "gh5-p5"
+  ],
+  "yaml_sha256": "3146ad2cb21c123b78f2e4778e932739864ee598b19b86c03d902c75b287577e",
+  "readiness_attestation": "relay-system/2026-10-09/gh5-continuation/agy-attestation.json",
+  "observer_receipts": ".workhorse/monitor-gh5",
+  "interval_seconds": 600,
+  "max_checks": 6,
+  "intervals_completed": 1,
+  "complete": false,
+  "clone_cleanup": "preserve unfinished/local-only work",
+  "latest_monitor_receipt": ".workhorse/monitor-gh5/interval-01.json",
+  "exit": 6,
+  "reason": "off-lane shrink-canary.mjs",
+  "outstanding_checks_cancelled": 5
+}

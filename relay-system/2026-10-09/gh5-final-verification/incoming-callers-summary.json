@@ -1,0 +1,72 @@
+{
+  "candidate": "d8b92502335b09ab9aefe1bd4b0fccd1a063703b",
+  "comparison": {
+    "rag-system": {
+      "findings": [],
+      "dimensions": [
+        2400,
+        1660
+      ],
+      "image_nodes": 10,
+      "text_ids": 49,
+      "artifacts_equal": {
+        "png": true,
+        "svg": true,
+        "html": false,
+        "chromiumPng": true
+      },
+      "before_digests": {
+        "png": "c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6",
+        "svg": "68d6d459c3ef219297202170f1195f97be352815ca3bc032b68cde066bb59bb8",
+        "html": "f9addfc65fccb58be686371e196c0482d0c493754ac23b8edd2ff35ce0786476",
+        "chromiumPng": "db8c112b62db4c1433d9e7fc677f22d3c4b050b3164deed4f0175e9e9364c5d8"
+      },
+      "after_digests": {
+        "png": "c59d51b1e08b3c2b024a519c6842397640410891d64ee519fe1dfdd3237a49a6",
+        "svg": "68d6d459c3ef219297202170f1195f97be352815ca3bc032b68cde066bb59bb8",
+        "html": "ea9d463db17c075500b6191f903455b0f5886c929ac191c9afe97f94db013a5b",
+        "chromiumPng": "db8c112b62db4c1433d9e7fc677f22d3c4b050b3164deed4f0175e9e9364c5d8"
+      },
+      "satori_bounds_equal": true,
+      "chromium_text_equal": true
+    },
+    "cell-division": {
+      "findings": [],
+      "dimensions": [
+        2400,
+        1480
+      ],
+      "image_nodes": 6,
+      "text_ids": 33,
+      "artifacts_equal": {
+        "png": true,
+        "svg": true,
+        "html": false,
+        "chromiumPng": true
+      },
+      "before_digests": {
+        "png": "343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044",
+        "svg": "06411cf30d4ceefc17419de08d9d40392bf275506390dd303a940e335bd0aac6",
+        "html": "c041e117432111de4bb517c043c9ce949ab865f41f1e02a0c4090fc8c9781982",
+        "chromiumPng": "2087fce0c14bad634b0ee7e9587fd202921d2f57b78891d94569dc2c3aa2d485"
+      },
+      "after_digests": {
+        "png": "343e1c063c46bcd29307ad5be19954951e85706aff081379440288aaa59c4044",
+        "svg": "06411cf30d4ceefc17419de08d9d40392bf275506390dd303a940e335bd0aac6",
+        "html": "c92612e34a9b22ded7cb3e95d2c8853471d5c036ddbacc5d17e147baec0a8dee",
+        "chromiumPng": "2087fce0c14bad634b0ee7e9587fd202921d2f57b78891d94569dc2c3aa2d485"
+      },
+      "satori_bounds_equal": true,
+      "chromium_text_equal": true
+    }
+  },
+  "helper": {
+    "source_width": 256,
+    "output_width": 128,
+    "real_alpha": true
+  },
+  "all_commands_exit_zero": true,
+  "paid_calls": 0,
+  "tracked_sources_unchanged": true,
+  "scope": "existing diagram/layout assertions and retained artifact/geometry comparisons; agent/human aesthetic approval not newly claimed"
+}

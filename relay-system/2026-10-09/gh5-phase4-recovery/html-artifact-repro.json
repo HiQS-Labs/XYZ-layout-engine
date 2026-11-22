@@ -1,0 +1,18 @@
+{
+  "candidate": "be3ddb5561c2aa0b487e54a85b922d0e45a27d96",
+  "input": {
+    "inputPath": "tools/spike/fixture.json",
+    "format": "html"
+  },
+  "observed_first_mime": "font/ttf",
+  "requested_page": {
+    "name": "render.html",
+    "mime": "text/html",
+    "doctype": true
+  },
+  "unrequested_png": false,
+  "root_cause": "Existing C1 asserted positional artifact[0] after compact HTML added packaged font/image dependencies before render.html. C1 stopped before fresh comparison output, causing C2 cascade.",
+  "fix_site": "Existing C1, select requested page by exact artifact name while retaining presence/MIME/doctype assertions. No runtime ordering contract or added test.",
+  "verification": "All four canaries pass in 36.8s; dynamic offline browser/font/image checks passed; 216 geometry boxes and 12 byte-identical comparison artifacts.",
+  "native_phase_advancement": "pending; attempt 3 override consumed"
+}

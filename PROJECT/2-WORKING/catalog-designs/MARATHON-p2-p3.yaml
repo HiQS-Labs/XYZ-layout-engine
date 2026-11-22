@@ -1,0 +1,24 @@
+# Recovery plan (operator-authorized 2026-10-10): the first run halted at phase gh20-a2-p1 on a reviewer close fault
+# (STATUS header left Open, forge #1020). Phase 0 is attested and gated. Phase 1's code was independently reviewed and
+# attested in relay-system/2026-10-10/gh20-a2-p1-recovery-qa.md (Approved) and passes pnpm test at its head.
+# This file runs only the remaining phases, with the dependency on gh20-a2-p1 cleared because that phase is not in this plan.
+# Umbrella GH-19, member GH-20 Phase A2. One full clone, one serial lane. Codex builder, independent Agy reviewer.
+# Dispatch: --pre-advance-cmd 'pnpm test'. No push, no PR, no merge from builder turns.
+name: gh20-a2-recovery-p2-p3
+phases:
+  - id: gh20-a2-p2
+    name: "Seed three designs and the design log"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/catalog-designs/briefs/gh20-a2-p2.md
+    artifact: tools/catalog.sql, tools/design-log.jsonl
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+
+  - id: gh20-a2-p3
+    name: "ROUTER pointer, README and CHANGELOG"
+    reviewer: agy
+    brief: PROJECT/2-WORKING/catalog-designs/briefs/gh20-a2-p3.md
+    artifact: ROUTER.md, README.md, CHANGELOG.md
+    turn_timeout_s: 1500
+    max_review_rounds: 2
+    depends_on: gh20-a2-p2

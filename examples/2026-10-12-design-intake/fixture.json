@@ -1,0 +1,163 @@
+{
+  "id": "design-intake",
+  "schemaVersion": 1,
+  "width": 800,
+  "height": 1040,
+  "source": {
+    "path": "examples/2026-10-12-design-intake/DESIGN.md",
+    "sha256": "a4dc13aadfc05631208b1eb105ebc30351b238c26c2f4abfef1c4f6d26ce1041"
+  },
+  "requirements": [
+    {
+      "quote": "Use an 800 by 1040 canvas.",
+      "feature": "absolute-layout",
+      "target": "width",
+      "status": "mapped",
+      "reason": "Portrait canvas and absolute composition."
+    },
+    {
+      "quote": "Use warm paper, dark charcoal ink and a muted rust accent for the divide.",
+      "feature": "solid-fill",
+      "target": "settings.palette",
+      "status": "mapped",
+      "reason": "Paper and ink palette; rust reserved for the divide and the eyebrow."
+    },
+    {
+      "quote": "Use bundled Barlow Condensed in regular and bold, an 8px spacing grid, square corners and no shadows.",
+      "feature": "single-font",
+      "target": "settings",
+      "status": "mapped",
+      "reason": "Bundled weights, 8px grid, square corners; no shadow fields."
+    },
+    {
+      "quote": "The title READ THE RIDGE deserves first attention, with one large schematic ridge illustration below it.",
+      "feature": "text",
+      "target": "elements",
+      "status": "mapped",
+      "reason": "Large headline above the subject, explanation below, quiet disclosure."
+    },
+    {
+      "quote": "Create one separate PNG: a side view of a ridge, simplified dark slopes with the divide marked in rust.",
+      "feature": "png-artwork",
+      "target": "artwork.items.0",
+      "status": "mapped",
+      "reason": "One separate pinned synthetic illustration; prompt is retained for later authorized generation."
+    }
+  ],
+  "settings": {
+    "palette": {
+      "paper": "#ece7da",
+      "ink": "#343b3a",
+      "accent": "#b64b32"
+    },
+    "fontFamily": "Barlow Condensed",
+    "type": {
+      "display": {
+        "size": 80,
+        "weight": 700,
+        "lineHeight": 1.3
+      },
+      "body": {
+        "size": 28,
+        "weight": 400,
+        "lineHeight": 1.3
+      }
+    },
+    "spacing": 8,
+    "cornerRadius": 0,
+    "borderWidth": 0
+  },
+  "artwork": {
+    "style": "Flat field-guide illustration with charcoal slopes and one muted rust divide, no texture.",
+    "items": [
+      {
+        "id": "ridge",
+        "prompt": {
+          "subject": "A ridge dividing two slopes, with its divide marked in muted rust.",
+          "view": "Side view, simplified schematic silhouette.",
+          "lighting": "Flat illustrative lighting.",
+          "background": "Transparent background.",
+          "exclusions": "No labels, lettering, arrows, people, photographic texture or full poster layout."
+        },
+        "width": 704,
+        "height": 384,
+        "file": {
+          "path": "examples/2026-10-12-design-intake/ridge.png",
+          "sha256": "a2f722bcb7c3e628a97a0121444069202b9ce62c165424151932c531b4ff73f1"
+        }
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "eyebrow",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 704,
+      "height": 48,
+      "text": "RIDGELINE / FIELD NOTES",
+      "role": "body",
+      "color": "accent",
+      "align": "left"
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "x": 48,
+      "y": 112,
+      "width": 704,
+      "height": 112,
+      "text": "READ THE RIDGE",
+      "role": "display",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "ridge",
+      "type": "image",
+      "x": 48,
+      "y": 256,
+      "width": 704,
+      "height": 384,
+      "asset": "ridge",
+      "alt": "Schematic ridge with a rust divide and two dark slopes."
+    },
+    {
+      "id": "takeaway",
+      "type": "text",
+      "x": 48,
+      "y": 688,
+      "width": 704,
+      "height": 96,
+      "text": "A ridge divides the direction water flows.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "explanation",
+      "type": "text",
+      "x": 48,
+      "y": 816,
+      "width": 704,
+      "height": 96,
+      "text": "Follow the shape of the land: water moves down either side of the divide.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    },
+    {
+      "id": "disclosure",
+      "type": "text",
+      "x": 48,
+      "y": 960,
+      "width": 704,
+      "height": 48,
+      "text": "Schematic illustration. Synthetic PNG; no image model used.",
+      "role": "body",
+      "color": "ink",
+      "align": "left"
+    }
+  ]
+}

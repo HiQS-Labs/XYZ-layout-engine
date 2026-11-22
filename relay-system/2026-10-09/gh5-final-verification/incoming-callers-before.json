@@ -1,0 +1,7 @@
+{
+  "candidate": "6e54db1",
+  "command": "node examples/2026-10-09-rag-system/render-diagram.mjs",
+  "exit": 1,
+  "error": "ERR_MODULE_NOT_FOUND: examples/2026-10-08-solar-system/runtime/tools/spike/render.mjs",
+  "scope": "coordinator fresh full clone, before fixture reads/output writes; final QA B1 separately reproduces all four missing imports"
+}

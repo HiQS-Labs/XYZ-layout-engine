@@ -1,0 +1,19 @@
+{
+  "added_len": 4019,
+  "added_sha256": "da46c83e58c880639666ef357ccd27060ddf1c9843e1aa7b717bd82ce03d2a62",
+  "added_start": 11874,
+  "artifact_sha256": "7abd95c35ad8155602a012099185499e4f9a17d82fd90b2cad2e5a4dd06491f9",
+  "attested_at": "2026-10-12T19:19:05Z",
+  "driver_pid": 44926,
+  "isolated": true,
+  "relay_file": "/private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/merge-cleanup-k193rpvb/pr-37-02667919-z34qb644/relay-system/2026-10-12/gh36-merge.codex.md",
+  "relay_file_rel": "relay-system/2026-10-12/gh36-merge.codex.md",
+  "reviewed_head": "506044823ce5b39984944ce27cbd52fb906ef4e6",
+  "reviewer": "codex",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "/private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/merge-cleanup-k193rpvb/pr-37-02667919-z34qb644",
+  "task": "GH36-MERGE-20261012",
+  "trailer_sha256": "6c1cc1450a8ebd955e66cab4cf2ecad02675a137c90111b2b1f13d83e3beb43e",
+  "transcript_repo": "/private/var/folders/69/3l_82qtj7fzglnt_jjg07jh40000gn/T/merge-cleanup-k193rpvb/pr-37-02667919-z34qb644"
+}

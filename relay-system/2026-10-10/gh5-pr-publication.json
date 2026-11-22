@@ -1,0 +1,27 @@
+{
+  "operation": {
+    "operation_id": "gh5-ready-pr-20261010",
+    "target": "https://github.com/HiQS-Labs/XYZ-layout-engine",
+    "head_branch": "marathon/gh-5-mvp-foundation",
+    "base": "main",
+    "source_head": "b1c8cb8a105f4a506efdc72740a295767ecb193b",
+    "title": "GH-5: shared offline MVP, safe generation resume, and durable edits",
+    "request_fingerprint": "e0f0fcf86cd135b6d013bdaf7636667998fbf28f3fbfd8a245d596736ad7fbdc",
+    "idempotency_key": "repo+head_branch+base; reconcile gh pr list before retry",
+    "existing_pr_lookup": "authoritative empty list immediately before publish",
+    "branch_push": "fast-forward; no force",
+    "recorded_at": "2026-10-10T07:12:02.883549+00:00"
+  },
+  "verified_pr": {
+    "baseRefName": "main",
+    "headRefOid": "b1c8cb8a105f4a506efdc72740a295767ecb193b",
+    "isDraft": false,
+    "number": 18,
+    "state": "OPEN",
+    "url": "https://github.com/HiQS-Labs/XYZ-layout-engine/pull/18"
+  },
+  "reviewed_source": "9246ae2b0d754d176907294bd059d459ff756239",
+  "native_wave1_status": "Approved",
+  "pre_pr_exit": 0,
+  "verified_at": "2026-10-10T07:14:06.759311+00:00"
+}

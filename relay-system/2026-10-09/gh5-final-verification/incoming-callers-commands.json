@@ -1,0 +1,68 @@
+[
+  {
+    "command": "git rev-parse HEAD",
+    "exit": 0,
+    "stdout": "d8b92502335b09ab9aefe1bd4b0fccd1a063703b\n",
+    "stderr": ""
+  },
+  {
+    "command": "pnpm install --frozen-lockfile",
+    "exit": 0,
+    "stdout": "\u2713 Lockfile passes supply-chain policies (verified 1d ago)\nLockfile is up to date, resolution step is skipped\nDone in 4ms using pnpm v12.4.1\n",
+    "stderr": ""
+  },
+  {
+    "command": "mkdir -p .relay-scratch",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": "cp -R examples/2026-10-09-rag-system .relay-scratch/rag-system",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": "node .relay-scratch/rag-system/render-diagram.mjs",
+    "exit": 0,
+    "stdout": "PASS: 10 separate icon nodes; 49 text ids present and unique; 2400x1660 in both backends; text and icons inside canvas and cards in Satori and Chromium; no text overflow or overlap.\n",
+    "stderr": ""
+  },
+  {
+    "command": "cp -R examples/2026-10-09-cell-division .relay-scratch/cell-division",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": "node .relay-scratch/cell-division/render-diagram.mjs",
+    "exit": 0,
+    "stdout": "PASS: 6 separate icon nodes; 33 text ids present and unique; 2400x1480 in both backends; text and icons inside canvas and cards in Satori and Chromium; no text overflow or overlap.\n",
+    "stderr": ""
+  },
+  {
+    "command": "node .relay-scratch/cell-division/make-web-asset.mjs .relay-scratch/cell-division/assets/web/interphase.png .relay-scratch/cell-division/helper-128.png 128",
+    "exit": 0,
+    "stdout": "{\"out\":\".relay-scratch/cell-division/helper-128.png\",\"width\":128,\"height\":128,\"bytes\":22563,\"sha256\":\"49f6fad2c2aa501b9898696261321474e55cc34ecd0cf365958e27b3a6cb9512\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": "node .relay-scratch/cell-division/inspect-alpha.mjs .relay-scratch/cell-division/assets/web/interphase.png .relay-scratch/cell-division/helper-128.png",
+    "exit": 0,
+    "stdout": "{\"file\":\"interphase.png\",\"format\":\"png\",\"bytes\":81895,\"sha256\":\"c61ca2d72ddf3ba0ca8ff2784f604ace4f9f202ad29dfc4a2a6460cdd9b78090\",\"png\":{\"colorType\":6,\"bitDepth\":8,\"hasTRNS\":false,\"width\":256,\"height\":256},\"hasAlphaChannel\":true,\"decoded\":{\"width\":256,\"height\":256,\"cornerAlpha\":[0,0,0,0],\"partialAlphaPixels\":33492,\"maxAlpha\":255},\"transparentPixelRatio\":0.488724,\"minAlpha\":0,\"opaqueCornerCount\":0,\"real_alpha\":true}\n{\"file\":\"helper-128.png\",\"format\":\"png\",\"bytes\":22563,\"sha256\":\"49f6fad2c2aa501b9898696261321474e55cc34ecd0cf365958e27b3a6cb9512\",\"png\":{\"colorType\":6,\"bitDepth\":8,\"hasTRNS\":false,\"width\":128,\"height\":128},\"hasAlphaChannel\":true,\"decoded\":{\"width\":128,\"height\":128,\"cornerAlpha\":[0,0,0,0],\"partialAlphaPixels\":8219,\"maxAlpha\":255},\"transparentPixelRatio\":0.491394,\"minAlpha\":0,\"opaqueCornerCount\":0,\"real_alpha\":true}\n",
+    "stderr": ""
+  },
+  {
+    "command": "git diff --exit-code",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": "python3 -B -c 'from pathlib import Path\nimport html\nfor slug in ['\"'\"'rag-system'\"'\"','\"'\"'cell-division'\"'\"']:\n old=(Path('\"'\"'examples'\"'\"')/('\"'\"'2026-10-09-'\"'\"'+slug)/(slug+'\"'\"'.html'\"'\"')).read_text()\n new=(Path('\"'\"'.relay-scratch'\"'\"')/slug/(slug+'\"'\"'.html'\"'\"')).read_text()\n assert html.unescape(old)==html.unescape(new)\n print(slug,'\"'\"'HTML differs only in entity serialization; complete decoded HTML identical'\"'\"')\n'",
+    "exit": 0,
+    "stdout": "rag-system HTML differs only in entity serialization; complete decoded HTML identical\ncell-division HTML differs only in entity serialization; complete decoded HTML identical\n",
+    "stderr": ""
+  }
+]

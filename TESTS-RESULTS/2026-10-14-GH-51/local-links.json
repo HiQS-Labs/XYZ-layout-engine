@@ -1,0 +1,133 @@
+{
+  "valid": true,
+  "checked": [
+    {
+      "file": "DESIGN.md",
+      "target": "docs/design-md/DESIGN.md"
+    },
+    {
+      "file": "DESIGN.md",
+      "target": "SYSTEM-INSTRUCTIONS.md"
+    },
+    {
+      "file": "DESIGN.md",
+      "target": "docs/design-md/REVIEW.md"
+    },
+    {
+      "file": "docs/design-md/DESIGN.md",
+      "target": "../../DESIGN.md"
+    },
+    {
+      "file": "docs/design-md/REVIEW.md",
+      "target": "../../TESTS-RESULTS/2026-10-14-GH-51/research-provenance.json"
+    },
+    {
+      "file": "README.md",
+      "target": "SYSTEM-INSTRUCTIONS.md"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/render.mjs"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/catalog.mjs"
+    },
+    {
+      "file": "README.md",
+      "target": "SYSTEM-INSTRUCTIONS.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-09-cell-division/inspect-alpha.mjs"
+    },
+    {
+      "file": "README.md",
+      "target": "DESIGN.md"
+    },
+    {
+      "file": "README.md",
+      "target": "docs/design-md/DESIGN.md"
+    },
+    {
+      "file": "README.md",
+      "target": "docs/design-md/REVIEW.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-13-nutrition-infographic/README.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-13-nutrition-infographic/index.html"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-13-nutrition-infographic/DESIGN.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-12-belief-reference/README.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-11-belief-updating/README.md"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/recipes/recursive-process.design.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-08-solar-system/README.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-09-rag-system/README.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-09-cell-division/README.md"
+    },
+    {
+      "file": "README.md",
+      "target": "SYSTEM-INSTRUCTIONS.md"
+    },
+    {
+      "file": "README.md",
+      "target": "SOP.md"
+    },
+    {
+      "file": "README.md",
+      "target": "skills/higgsfield-cli/SKILL.md"
+    },
+    {
+      "file": "README.md",
+      "target": "examples/2026-10-09-cell-division/inspect-alpha.mjs"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/spike/assets/OFL.txt"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/spike/assets/SOURCES.md"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/fonts/barlow-condensed/OFL.txt"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/fonts/barlow-condensed/SOURCE.md"
+    },
+    {
+      "file": "README.md",
+      "target": "tools/spike/REPORT.md"
+    },
+    {
+      "file": "SYSTEM-INSTRUCTIONS.md",
+      "target": "DESIGN.md"
+    }
+  ]
+}

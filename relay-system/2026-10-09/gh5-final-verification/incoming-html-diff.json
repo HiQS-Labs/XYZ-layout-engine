@@ -1,0 +1,27 @@
+{
+  "rag-system": {
+    "diff_lines": 8,
+    "serializer_diff": [
+      "--- \n",
+      "+++ \n",
+      "@@ -71 +71 @@\n",
+      "-<span id=\"question_desc\" style=\"font-size:21px;line-height:1.3;color:#9eadc3\">\"What is our refund window?\"</span>",
+      "+<span id=\"question_desc\" style=\"font-size:21px;line-height:1.3;color:#9eadc3\">&quot;What is our refund window?&quot;</span>",
+      "@@ -156 +156 @@\n",
+      "-<span id=\"source_note\" style=\"font-size:16px;line-height:1.3;color:#6d84a5\">Pattern: Lewis et al., \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\" (2020), arXiv:2005.11401</span>",
+      "+<span id=\"source_note\" style=\"font-size:16px;line-height:1.3;color:#6d84a5\">Pattern: Lewis et al., &quot;Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks&quot; (2020), arXiv:2005.11401</span>"
+    ],
+    "complete_html_equal_after_entity_decoding": true
+  },
+  "cell-division": {
+    "diff_lines": 5,
+    "serializer_diff": [
+      "--- \n",
+      "+++ \n",
+      "@@ -104 +104 @@\n",
+      "-<span id=\"source_note\" style=\"font-size:16px;line-height:1.3;color:#6d84a5\">Reference: OpenStax, Biology 2e (2018), section 10.2 \"The Cell Cycle\", https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle</span>",
+      "+<span id=\"source_note\" style=\"font-size:16px;line-height:1.3;color:#6d84a5\">Reference: OpenStax, Biology 2e (2018), section 10.2 &quot;The Cell Cycle&quot;, https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle</span>"
+    ],
+    "complete_html_equal_after_entity_decoding": true
+  }
+}

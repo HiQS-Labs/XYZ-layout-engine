@@ -5,7 +5,7 @@
 // Scope guard: this is evidence collection for a backend decision, not an engine. No layout or font
 // metrics are computed here; every number comes from the backend under test.
 import fs from 'fs/promises';
-import { readFileSync, realpathSync, readdirSync } from 'fs';
+import { readFileSync, realpathSync, readdirSync, existsSync } from 'fs';
 import os from 'os';
 import path from 'path';
 import crypto from 'crypto';
@@ -13,23 +13,23 @@ import { execFileSync } from 'child_process';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import { Resvg } from '@resvg/resvg-js';
-import { chromium } from 'playwright';
+import { renderSatori, renderPlaywright, launchPlaywright, toDocument, outputRoot, publishStaged } from '../render.mjs';
 import { createScene, createHeroScene, NUTRITION_TEXT_IDS, HERO_TEXT_IDS, NUTRITION_CONTAINMENT, HERO_CONTAINMENT, DEFAULT_SIZES } from './scene.mjs';
 import { getFonts } from './assets.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 // Source limitation (observed, satori 0.36.0): the ESM bundle's wasm loader reads the CommonJS
 // global `__dirname`; without this shim `import('satori')` throws ERR_AMBIGUOUS_MODULE_SYNTAX on Node 22.
-globalThis.__dirname = HERE;
 
 // All evidence for one render run goes in output/<local YYYY-MM-DD>-<package name>/; a same-day
 // re-render overwrites that day's folder, earlier days' folders are left as they are.
 const RUN_DATE = new Date().toLocaleDateString('en-CA');
 const RUN_DIR = `${RUN_DATE}-${JSON.parse(readFileSync(path.join(HERE, '..', '..', 'package.json'), 'utf8')).name}`;
 // SPIKE_OUTPUT_ROOT relocates the physical output root (tests use a temp folder); recorded paths stay output/<run>/….
-const OUT = path.join(process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, 'output'), RUN_DIR);
+const OUTPUT_ROOT = process.env.SPIKE_OUTPUT_ROOT || path.join(HERE, '..', 'output', 'spike');
+const OUT = path.join(OUTPUT_ROOT, RUN_DIR);
 const rel = f => `output/${RUN_DIR}/${f}`;
+const STAGE_DIR = path.join(OUTPUT_ROOT, '.staging-' + crypto.randomUUID());
 const require = createRequire(import.meta.url);
 const RENDER_DEADLINE_MS = Number(process.env.SPIKE_RENDER_DEADLINE_MS || 240_000);
 const FIT_MAX_ITERATIONS = 10;
@@ -57,108 +57,9 @@ let satori;
 let deadlineHit = false;
 async function loadSatori() {
   const t0 = performance.now();
+  globalThis.__dirname = HERE;
   ({ default: satori } = await import('satori'));
   return performance.now() - t0;
-}
-
-async function renderSatori(scene, font, width, height) {
-  const nodes = [];
-  const missingSegments = [];
-  const t0 = performance.now();
-  const svg = await satori(scene, {
-    width, height,
-    fonts: [{ name: FONT_FAMILY, data: font.regular, weight: 400, style: 'normal' }, { name: FONT_FAMILY, data: font.bold, weight: 700, style: 'normal' }],
-    onNodeDetected: n => nodes.push(n),
-    // Fires once per text segment the pinned font cannot cover. Returning [] provides no fallback
-    // font, so the observation is: segment uncovered, glyphs not supplied by the pinned font.
-    loadAdditionalAsset: async (languageCode, segment) => { missingSegments.push({ languageCode, segment }); return []; }
-  });
-  const tLayout = performance.now();
-  const png = new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng();
-  const t1 = performance.now();
-  const bounds = {};
-  const textBoxes = {};
-  for (const n of nodes) {
-    const id = n.props?.id;
-    if (!id) continue;
-    bounds[id] = rect(n);
-    if (typeof n.textContent === 'string') textBoxes[id] = { ...rect(n), text: n.textContent };
-  }
-  return { svg, png, bounds, textBoxes, missingSegments, satoriMs: round(tLayout - t0), resvgMs: round(t1 - tLayout), stageMs: round(t1 - t0) };
-}
-
-// ---------------------------------------------------------------- Chromium (Playwright) --------
-function cssValue(k, v) {
-  const unitless = new Set(['fontWeight', 'lineHeight', 'flex', 'opacity', 'zIndex']);
-  return typeof v === 'number' && !unitless.has(k) ? `${v}px` : v;
-}
-function toHtml(node) {
-  if (node == null || node === false) return '';
-  if (typeof node === 'string') return node.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  if (Array.isArray(node)) return node.map(toHtml).join('');
-  const { type, props } = node;
-  const style = Object.entries(props.style || {})
-    .map(([k, v]) => `${k.replace(/[A-Z]/g, m => '-' + m.toLowerCase())}:${cssValue(k, v)}`)
-    .join(';');
-  const attrs = Object.entries(props)
-    .filter(([k]) => k !== 'children' && k !== 'style')
-    .map(([k, v]) => `${k}="${String(v).replace(/"/g, '&quot;')}"`)
-    .join(' ');
-  if (type === 'img') return `<img ${attrs} style="${style}">`;
-  return `<${type} ${attrs} style="${style}">${toHtml(props.children)}</${type}>`;
-}
-function toDocument(scene, font, width, height) {
-  return `<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face{font-family:'${FONT_FAMILY}';font-weight:400;src:url(data:font/ttf;base64,${font.regular.toString('base64')})}
-@font-face{font-family:'${FONT_FAMILY}';font-weight:700;src:url(data:font/ttf;base64,${font.bold.toString('base64')})}
-*{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}
-h1,h2,p{margin:0}span,div,p,h1,h2{display:flex}
-</style></head><body>${toHtml(scene)}</body></html>`;
-}
-
-async function renderPlaywright(context, scene, font, width, height) {
-  const page = await context.newPage();
-  try {
-    const t0 = performance.now();
-    const html = toDocument(scene, font, width, height);
-    await page.setContent(html, { waitUntil: 'load' });
-    await page.evaluate(() => document.fonts.ready);
-    const evidence = await page.evaluate(({ family }) => {
-      const canvasEl = document.getElementById('canvas');
-      const bounds = {};
-      const textBoxes = {};
-      for (const el of document.querySelectorAll('[id]')) {
-        const r = el.getBoundingClientRect();
-        bounds[el.id] = { x: r.x, y: r.y, width: r.width, height: r.height };
-        const ownText = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
-        if (ownText.length) {
-          const range = document.createRange();
-          range.selectNodeContents(el);
-          const tr = range.getBoundingClientRect();
-          textBoxes[el.id] = {
-            x: tr.x, y: tr.y, width: tr.width, height: tr.height,
-            text: el.textContent,
-            scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
-            scrollHeight: el.scrollHeight, clientHeight: el.clientHeight,
-            lineCount: range.getClientRects().length
-          };
-        }
-      }
-      const fontCheck = document.fonts.check(`16px '${family}'`);
-      return {
-        bounds, textBoxes, fontLoaded: fontCheck,
-        document: { scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight },
-        canvas: canvasEl ? { scrollWidth: canvasEl.scrollWidth, scrollHeight: canvasEl.scrollHeight } : null
-      };
-    }, { family: FONT_FAMILY });
-    const png = await page.screenshot({ clip: { x: 0, y: 0, width, height }, fullPage: false });
-    const stageMs = round(performance.now() - t0);
-    for (const k of Object.keys(evidence.bounds)) evidence.bounds[k] = rect(evidence.bounds[k]);
-    for (const [k, v] of Object.entries(evidence.textBoxes)) evidence.textBoxes[k] = { ...rect(v), text: v.text, scrollWidth: v.scrollWidth, clientWidth: v.clientWidth, scrollHeight: v.scrollHeight, clientHeight: v.clientHeight, lineCount: v.lineCount };
-    return { png, html, ...evidence, stageMs };
-  } finally {
-    await page.close();
-  }
 }
 
 // ---------------------------------------------------------------- Text fitting evidence -------
@@ -234,7 +135,7 @@ function pkgInfo(name, hostName = null) {
     return { name, version: null, license: null, verified: false, error: e.message };
   }
 }
-function chromiumInfo(browser) {
+async function chromiumInfo(browser) {
   // Playwright ships "Chrome for Testing", a Google Chrome build, not a bare Chromium build. Its
   // bundle root carries an ABOUT file pointing at chrome://credits; no standalone LICENSE/credits file
   // is present at the bundle root, so third-party notices are not vendored and are recorded as such.
@@ -244,6 +145,7 @@ function chromiumInfo(browser) {
     const core = path.join(nodeModulesAncestor(pwDir), 'playwright-core');
     const entry = JSON.parse(readFileSync(path.join(core, 'browsers.json'), 'utf8')).browsers.find(b => b.name === 'chromium');
     info.title = entry?.title ?? null; info.revision = entry?.revision ?? null; info.browserVersionPinned = entry?.browserVersion ?? null;
+    const { chromium } = await import('playwright');
     const exe = chromium.executablePath();
     const bundleRoot = exe.slice(0, exe.indexOf('.app/')).replace(/\/[^/]*$/, '');
     const rootFiles = readdirSync(bundleRoot);
@@ -283,7 +185,9 @@ function stats(arr) {
 
 // ---------------------------------------------------------------- Main -----------------------
 async function main() {
-  await fs.mkdir(OUT, { recursive: true });
+  const authorizedRoot = process.env.SPIKE_OUTPUT_ROOT || process.cwd();
+  await outputRoot(OUTPUT_ROOT, authorizedRoot);
+  await fs.mkdir(STAGE_DIR, { recursive: true });
   const fixture = JSON.parse(await fs.readFile(path.join(HERE, 'fixture.json'), 'utf8'));
   const heroFixture = JSON.parse(await fs.readFile(path.join(HERE, 'hero-fixture.json'), 'utf8'));
   const font = await getFonts();
@@ -362,8 +266,8 @@ async function main() {
 
     // ---- Playwright cold
     const tColdP = performance.now();
-    browser = await chromium.launch({ headless: true });
-    runtime.dependencies.chromium = chromiumInfo(browser);
+    browser = await launchPlaywright();
+    runtime.dependencies.chromium = await chromiumInfo(browser);
     runtime.licenseNotes = licenseNotes(runtime.dependencies);
     // Failure-path control (operator-only): SPIKE_INJECT_FAILURE=1 throws here, after the browser is
     // up, to prove the finally block closes it. Never set in normal runs.
@@ -393,12 +297,12 @@ async function main() {
         if (b === 'playwright' && (c.w !== W || c.h !== H)) { await context.close(); context = await browser.newContext({ viewport: { width: c.w, height: c.h }, deviceScaleFactor: 1 }); }
         const fit = await fitCase(b, scene => be.render(scene, c.w, c.h), c.build, c.ids, c.containment, c.w, c.h);
         const png = fit.result.png;
-        await fs.writeFile(path.join(OUT, c.file(b)), png);
+        await fs.writeFile(path.join(STAGE_DIR, c.file(b)), png);
         // Chromium's input is an HTML document: save exactly what page.setContent loaded (fonts and
         // illustrations inline as data URLs, so the file reproduces the render offline when opened).
         const htmlFile = b === 'playwright' ? c.file(b).replace(/\.png$/, '.html') : null;
-        if (htmlFile) await fs.writeFile(path.join(OUT, htmlFile), fit.result.html);
-        if (b === 'satori' && c.name === 'baseline') await fs.writeFile(path.join(OUT, 'satori.svg'), fit.result.svg);
+        if (htmlFile) await fs.writeFile(path.join(STAGE_DIR, htmlFile), fit.result.html);
+        if (b === 'satori' && c.name === 'baseline') await fs.writeFile(path.join(STAGE_DIR, 'satori.svg'), fit.result.svg);
         measurements.cases[c.name][b] = {
           png: rel(c.file(b)), pngSize: pngSize(png), sha256: sha256(png),
           html: htmlFile ? { path: rel(htmlFile), bytes: Buffer.byteLength(fit.result.html), sha256: sha256(fit.result.html) } : undefined,
@@ -420,7 +324,7 @@ async function main() {
         repeat: sha256(again.png),
         override: measurements.cases.override[b].sha256,
         deterministic: sha256(again.png) === measurements.cases.baseline[b].sha256,
-        svgRepeat: b === 'satori' ? sha256(again.svg) === sha256((await fs.readFile(path.join(OUT, 'satori.svg')))) : undefined
+        svgRepeat: b === 'satori' ? sha256(again.svg) === sha256((await fs.readFile(path.join(STAGE_DIR, 'satori.svg')))) : undefined
       };
     }
 
@@ -433,8 +337,8 @@ async function main() {
     await context.close(); context = await browser.newContext({ viewport: { width: 600, height: 400 }, deviceScaleFactor: 1 });
     const sProbe = await renderSatori(probeScene(SCRIPT_PROBES), font, 600, 400);
     const pProbe = await renderPlaywright(context, probeScene(SCRIPT_PROBES), font, 600, 400);
-    await fs.writeFile(path.join(OUT, 'probe-satori.png'), sProbe.png);
-    await fs.writeFile(path.join(OUT, 'probe-playwright.png'), pProbe.png);
+    await fs.writeFile(path.join(STAGE_DIR, 'probe-satori.png'), sProbe.png);
+    await fs.writeFile(path.join(STAGE_DIR, 'probe-playwright.png'), pProbe.png);
     measurements.probeArtifacts = {
       satori: { png: rel('probe-satori.png'), pngSize: pngSize(sProbe.png), sha256: sha256(sProbe.png) },
       playwright: { png: rel('probe-playwright.png'), pngSize: pngSize(pProbe.png), sha256: sha256(pProbe.png) }
@@ -534,18 +438,34 @@ async function main() {
       return eligible.length ? { status: 'candidates', eligible, note: 'Recommendation is written in Phase 3 REPORT.md from this evidence; human artwork acceptance remains pending.' } : { status: 'BLOCKED', eligible: [], note: 'No backend passed every mandatory check; do not select a backend.' };
     })();
 
-    await fs.writeFile(path.join(OUT, 'measurements.json'), JSON.stringify(measurements, null, 2));
-    await fs.writeFile(path.join(OUT, 'runtime.json'), JSON.stringify(runtime, null, 2));
+    await fs.writeFile(path.join(STAGE_DIR, 'measurements.json'), JSON.stringify(measurements, null, 2));
+    await fs.writeFile(path.join(STAGE_DIR, 'runtime.json'), JSON.stringify(runtime, null, 2));
     console.log(`render: wrote ${Object.keys(measurements.cases).length} cases x 2 backends, probes, digests to tools/spike/output/${RUN_DIR}/`);
     for (const [b, c] of Object.entries(measurements.capabilities)) console.log(`render: ${b}: ${c.status}${c.failedMandatory.length ? ' (' + c.failedMandatory.join(', ') + ')' : ''}`);
     console.log(`render: selection ${measurements.selection.status}${measurements.selection.eligible.length ? ': ' + measurements.selection.eligible.join(', ') : ''}`);
+    
+    if (Object.values(measurements.capabilities).some(cap => !cap.eligibleForRecommendation)) throw new Error('Capability validation failed; preserving last-good run');
+    for (const per of Object.values(measurements.cases)) for (const record of Object.values(per)) {
+      const png = await fs.readFile(path.join(STAGE_DIR, path.basename(record.png)));
+      if (sha256(png) !== record.sha256 || JSON.stringify(pngSize(png)) !== JSON.stringify(record.pngSize)) throw new Error('Artifact validation failed');
+    }
+    await publishStaged(STAGE_DIR, OUT, { root: authorizedRoot, failBeforeCommit: process.env.RENDER_INJECT_PUBLICATION_FAILURE === '1' });
   } finally {
     clearTimeout(deadline);
     if (browser) await browser.close().catch(() => {});
+    // remove orphan staging files safely if publish didn't happen
+    await fs.rm(STAGE_DIR, { recursive: true, force: true }).catch(() => {});
   }
 }
 
-main().catch(err => {
-  console.error('render: FAILED', err?.stack || err);
-  process.exit(deadlineHit ? 2 : 1);
-});
+if (process.argv[1] && existsSync(process.argv[1]) && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if (process.argv.length > 2) {
+    console.error('Use node tools/render.mjs <fixture> --out <directory> for the local CLI');
+    process.exitCode = 1;
+  } else {
+    main().catch(err => {
+      console.error('render: FAILED', err?.stack || err);
+      process.exit(deadlineHit ? 2 : 1);
+    });
+  }
+}

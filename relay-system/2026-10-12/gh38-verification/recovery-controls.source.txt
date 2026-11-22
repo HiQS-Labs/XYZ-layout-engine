@@ -1,0 +1,15 @@
+import fs from'node:fs/promises';import{existsSync}from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{runCLI,SCHEMA}from'../tools/catalog.mjs';
+const results=[],root=process.cwd();
+for(const kind of['missing-log-rollback','partial-write','post-rename-cleanup','rollback-failure']){
+const dir=await fs.realpath(await fs.mkdtemp(path.join(root,'.relay-scratch/catalog-')));await fs.mkdir(path.join(dir,'tools'));await fs.mkdir(path.join(dir,'examples/audit'),{recursive:true});const dump=SCHEMA+'INSERT INTO schema_migrations VALUES (1);\nINSERT INTO schema_migrations VALUES (2);\n';await fs.writeFile(path.join(dir,'tools/catalog.sql'),dump);await fs.copyFile('examples/2026-10-11-belief-updating/fixture.json',path.join(dir,'examples/audit/fixture.json'));await fs.copyFile('examples/2026-10-11-belief-updating/belief-updating.png',path.join(dir,'examples/audit/image.png'));
+const args=['design','add','2026-10-12-recovery-control','--fixture','examples/audit/fixture.json','--artifact','examples/audit/image.png','--friction','GH38 control'];
+const original={rename:fs.rename,rm:fs.rm,open:fs.open};let logRenames=0,rmCalls=0,result;
+if(kind==='missing-log-rollback'||kind==='rollback-failure')fs.rename=async(from,to)=>{if(path.basename(to)==='catalog.sql')throw Error('injected catalog rename failure');if(path.basename(to)==='design-log.jsonl'&&++logRenames===2&&kind==='rollback-failure')throw Error('injected log rollback failure');return original.rename(from,to);};
+if(kind==='rollback-failure')await fs.writeFile(path.join(dir,'tools/design-log.jsonl'),'');
+if(kind==='partial-write')fs.open=async(...params)=>{const h=await original.open(...params);if(String(params[0]).includes('design-log.jsonl.')&&String(params[0]).endsWith('.tmp'))h.writeFile=async()=>{await h.write('partial');throw Error('injected partial staged log write');};return h;};
+if(kind==='post-rename-cleanup')fs.rm=async(...params)=>{if(String(params[0]).endsWith('.tmp')){rmCalls++;throw Error('injected obsolete temp cleanup failure');}return original.rm(...params);};
+try{try{result=await runCLI(args,{root:dir});}catch(e){result={code:1,error:e.message};}}finally{Object.assign(fs,original);}
+if(kind==='post-rename-cleanup'){assert.equal(result.code,0);assert.equal(rmCalls,0);assert.equal((await runCLI(['verify'],{root:dir})).code,0);}else{assert.equal(result.code,1);assert.equal(await fs.readFile(path.join(dir,'tools/catalog.sql'),'utf8'),dump);assert.ok(!existsSync(path.join(dir,'tools/.catalog.lock')));if(kind==='rollback-failure')assert.match(result.error,/rollback failed:.*recovery required/);else{assert.equal(existsSync(path.join(dir,'tools/design-log.jsonl')),false);assert.equal((await runCLI(args,{root:dir})).code,0);assert.equal((await runCLI(['verify'],{root:dir})).code,0);}}
+results.push({kind,result,logRenames,rmCalls,passed:true});
+}
+await fs.writeFile('relay-system/2026-10-12/gh38-verification/recovery-controls.json',JSON.stringify(results,null,2)+'\n');console.log('4 recovery controls PASS');

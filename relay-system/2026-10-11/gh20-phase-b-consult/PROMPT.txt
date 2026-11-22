@@ -1,0 +1,24 @@
+You are an independent advisor on a plan for an early-stage, public, single-developer repo: XYZ Layout Engine, a deterministic JSON-to-image layout and render engine (Node ESM, Satori and Playwright backends). This is advisory only; do not edit files.
+
+Read `PROJECT/2-WORKING/GH-20-PHASE-B-GRID-CORE.md` in full. Then check its claims against the code it cites, at minimum:
+- `examples/2026-10-09-rag-system/render-diagram.mjs`
+- `examples/2026-10-09-cell-division/render-diagram.mjs`
+- `tools/request.mjs:55-100`
+- `tools/catalog.mjs` and `tools/catalog.sql` (the designs table, triggers and `verify` checks)
+- `tools/design-log.jsonl`
+- `PROJECT/2-WORKING/SPECS-PRD.md` §6
+- `tools/spike/test/canaries.test.mjs` and `test-budget.json` (the ratchet: one test file, 4 tests, 60 s, no new tests)
+
+The plan this refines is the "Finalized plan" comment on issue #20, and its Phase B section is quoted in the plan's goal. Three constraints govern it:
+1. Early project: don't paint ourselves into the future.
+2. It must be immediately usable.
+3. It must be maintainable and flexible.
+
+You may run read-only probes, for example `node -e` arithmetic or `git grep`. Write nothing outside `$TMPDIR`.
+
+Answer the six "Consult questions" at the end of the plan. For each, say agree, disagree or modify, and give the evidence (file:line, or a computed value). Then list:
+- **Blocking**: a defect or a false claim in the plan that must be fixed before building. Cite the evidence.
+- **Worth doing**: improvements that fit the constraints.
+- **Skip**: ideas you considered and reject, with the reason.
+
+Be concrete. Flag any arithmetic in the plan you could not reproduce. Challenge over-building. Keep it under 600 words.

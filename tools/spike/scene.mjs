@@ -64,7 +64,8 @@ export async function createScene(fixture, sizes = {}) {
   const s = { ...DEFAULT_SIZES, ...sizes };
   const { palette } = fixture.theme;
   const { header, hero, items, benefitsPanel, footer } = fixture.sections;
-  const R = id => resolveIllustration(id);
+  const budget = { bytes: 0, pixels: 0 };
+  const R = id => resolveIllustration(id, budget);
   const [ornament, heroImage, footerOrnament, footerEnd] = await Promise.all([R(header.ornamentId), R(hero.illustrationId), R(footer.ornamentId), R(footer.endIconId)]);
   const calloutImages = await Promise.all(hero.callouts.map(c => R(c.illustrationId)));
   const itemImages = await Promise.all(items.map(i => R(i.illustrationId)));

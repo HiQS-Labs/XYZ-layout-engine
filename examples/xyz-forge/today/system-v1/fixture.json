@@ -1,0 +1,159 @@
+{
+  "id": "xyz-forge-system",
+  "width": 2000,
+  "height": 1570,
+  "title": "XYZ FORGE: FROM SPECIFIED WORK TO VERIFIED DELIVERY",
+  "subtitle": "How a task moves through intake, planning, one execution mode, verification gates and delivery, and what each stage records.",
+  "theme": {
+    "palette": {
+      "background": "#f5f3ec",
+      "ink": "#30373a",
+      "muted": "#657075",
+      "rule": "#cbd0d0",
+      "surface": "#eff2f1",
+      "accent": "#dbe5e8",
+      "accentEdge": "#9cb8c5"
+    }
+  },
+  "stages": [
+    {
+      "id": "intake",
+      "number": 1,
+      "formula": [
+        "Capture",
+        "Rate"
+      ],
+      "token": "",
+      "label": "Intake & prioritization",
+      "caption": "Captures specified work, scores the backlog and selects the target repository."
+    },
+    {
+      "id": "plan",
+      "number": 2,
+      "formula": [
+        "Plan",
+        "Preflight"
+      ],
+      "token": "Plan",
+      "label": "Planning & preflight",
+      "caption": "Groups compatible work into waves; checks dependencies, path conflicts and readiness."
+    },
+    {
+      "id": "execute",
+      "number": 3,
+      "formula": [
+        "Execute"
+      ],
+      "token": "Execute",
+      "label": "Execution harness",
+      "caption": "Runs each task in one of four modes."
+    },
+    {
+      "id": "gate",
+      "number": 4,
+      "formula": [
+        "Gate"
+      ],
+      "token": "Gate",
+      "label": "Verification gates",
+      "caption": "Tests, doc checks and review evidence. Pass, send back, or escalate."
+    },
+    {
+      "id": "deliver",
+      "number": 5,
+      "formula": [
+        "Land",
+        "Record"
+      ],
+      "token": "Land",
+      "label": "Delivery & reconciliation",
+      "caption": "Lands verified work through the authorized PR workflow, then records it."
+    }
+  ],
+  "external": {
+    "header": "External",
+    "token": "GitHub",
+    "label": "GitHub",
+    "caption": "Issues, pull requests and hosted CI. Not the coordination bus."
+  },
+  "operator": {
+    "label": "Human operator",
+    "caption": "Directs work, approves, resolves escalations."
+  },
+  "skills": "Reusable skills: operator and agent procedures, available at every stage",
+  "modes": [
+    {
+      "token": "Consult",
+      "caption": "parallel advice"
+    },
+    {
+      "token": "Relay",
+      "caption": "build and review loop"
+    },
+    {
+      "token": "Swarm",
+      "caption": "disjoint work lanes"
+    },
+    {
+      "token": "Marathon",
+      "caption": "phased queue"
+    }
+  ],
+  "runtime": {
+    "workspaces": {
+      "label": "Scoped workspaces",
+      "caption": "Path allowlists, timeouts, controlled commits. Worktree or clone per lane."
+    },
+    "adapters": {
+      "label": "Agent CLI adapters",
+      "caption": "Codex, agy, Claude Code; also CommandCode, DeepSeek, GLM, Qwen."
+    },
+    "tick": {
+      "label": "tick kernel",
+      "caption": "Coordination kernel: local event log to derived state; locks, claims, turn ownership."
+    }
+  },
+  "edges": {
+    "directs": "directs work",
+    "blocked": "blocked / decision needed",
+    "approvals": "approvals",
+    "revise": "revise / retry within limits",
+    "verified": "verified",
+    "github": "PRs, CI, merge status",
+    "dispatch": "dispatch / results",
+    "claims": "claims and handoffs",
+    "workIn": "work inside",
+    "intakeRec": "writes ledger",
+    "planRec": "reads ledger and docs",
+    "gateRec": "checks doc contracts, writes evidence",
+    "deliverRec": "records evidence, updates ledger and status"
+  },
+  "records": {
+    "label": "DURABLE RECORDS",
+    "entries": [
+      {
+        "token": "A",
+        "label": "Roadmap & release ledger",
+        "caption": "releases.db: backlog, waves, shipped work."
+      },
+      {
+        "token": "B",
+        "label": "PDDA project documents",
+        "caption": "Plans, status, handoff context. Governs; does not dispatch."
+      },
+      {
+        "token": "C",
+        "label": "Review & run evidence",
+        "caption": "Relay threads, test receipts, telemetry. tick owns turns, not content."
+      }
+    ]
+  },
+  "legend": {
+    "control": "control flow",
+    "records": "reads and writes records"
+  },
+  "footer": {
+    "note": "Schematic: shows control and record flows, not deployment topology or timing. Icons are hand-drawn vectors; no images were generated.",
+    "source": "Redrawn from the XYZ Forge system diagram (HiQS-Labs/XYZ-forge) in the visual language of the October 12 belief-updating reference."
+  }
+}

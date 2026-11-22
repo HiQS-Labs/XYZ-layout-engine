@@ -1,0 +1,57 @@
+{
+  "title": "Retrieval-Augmented Generation",
+  "eyebrow": "HOW IT WORKS",
+  "subtitle": "A language model that looks things up in your documents before it answers.",
+  "width": 2400,
+  "height": 1660,
+  "lanes": {
+    "ingest": {
+      "label": "A  /  INDEX YOUR KNOWLEDGE  /  DONE AHEAD OF TIME",
+      "color": "#6fb1ff"
+    },
+    "store": {
+      "color": "#b69cff"
+    },
+    "query": {
+      "label": "B  /  ANSWER A QUESTION  /  EVERY TIME SOMEONE ASKS",
+      "color": "#f2c078"
+    }
+  },
+  "stages": [
+    {"id": "docs", "lane": "ingest", "col": 0, "step": "01", "title": "Documents", "desc": "PDFs, wikis, tickets and notes"},
+    {"id": "chunk", "lane": "ingest", "col": 1, "step": "02", "title": "Chunk", "desc": "Split into passages; keep each source ID"},
+    {"id": "embed_index", "lane": "ingest", "col": 2, "step": "03", "title": "Embed", "desc": "A model turns each chunk into a vector"},
+    {"id": "store", "lane": "store", "col": 2, "step": "04", "title": "Vector store", "desc": "Vectors, chunk text and source IDs"},
+    {"id": "question", "lane": "query", "col": 0, "step": "05", "title": "Question", "desc": "\"What is our refund window?\""},
+    {"id": "embed_query", "lane": "query", "col": 1, "step": "06", "title": "Embed", "desc": "Same model, same vector space"},
+    {"id": "retrieve", "lane": "query", "col": 2, "step": "07", "title": "Retrieve", "desc": "Nearest chunks to the question"},
+    {"id": "augment", "lane": "query", "col": 3, "step": "08", "title": "Augment", "desc": "Question plus retrieved chunks and IDs"},
+    {"id": "llm", "lane": "query", "col": 4, "step": "09", "title": "Generate", "desc": "Answers using only the given context"},
+    {"id": "answer", "lane": "query", "col": 5, "step": "10", "title": "Answer", "desc": "Cites its sources: [1] [2]"}
+  ],
+  "edges": {
+    "write": "vector + text + source ID",
+    "queryVector": "query vector",
+    "chunks": "top-k chunks + source IDs",
+    "question": "the original question travels with the retrieved context"
+  },
+  "panels": {
+    "stored": {
+      "title": "WHAT GETS STORED",
+      "body": "Each chunk is saved three ways: its text, its embedding vector, and the ID of the source it came from."
+    },
+    "why": {
+      "title": "WHY RETRIEVE FIRST",
+      "body": "The model answers from your documents, not only from its training, and can point to where each fact came from."
+    },
+    "how": {
+      "title": "HOW RETRIEVAL WORKS",
+      "body": "The question becomes a vector. The store returns the k chunks whose vectors sit nearest to it; k is a setting you choose."
+    }
+  },
+  "footerMessage": "INDEX ONCE  /  RETRIEVE  /  AUGMENT  /  GENERATE",
+  "disclaimer": "Conceptual diagram: real systems differ in chunk size, embedding model, store and ranking. Icons are hand-drawn vector art; no images were generated.",
+  "sources": [
+    "https://arxiv.org/abs/2005.11401"
+  ]
+}

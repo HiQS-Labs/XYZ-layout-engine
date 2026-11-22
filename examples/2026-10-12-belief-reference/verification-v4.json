@@ -1,0 +1,42 @@
+{
+  "sourceCommit": "36a2f7c",
+  "runtime": {
+    "node": "v22.22.3",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "renders": [
+    {
+      "backend": "satori",
+      "valid": true,
+      "files": 15,
+      "bytes": 2545856,
+      "recipe": "recursive-process@4.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "f6e21053668475f27d88e7a993c164e9f7dd46687e0ecde3a470837a48a903c1",
+        "svg": "88132ee91a05dd1b78199e45e3a790f6e9ca662cdf414b808f53711f82594296",
+        "html": "ceabf0d015fbfe8682a36600c8494d03442cdef3f8b99327537e189c8d3aeb02",
+        "html-inline": "e028ce2d24169c2a2567753256a97b220fa54d6e88b8e92fa0a7aa576c9d480c"
+      }
+    },
+    {
+      "backend": "playwright",
+      "valid": true,
+      "files": 14,
+      "bytes": 1474237,
+      "recipe": "recursive-process@4.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "3497b52391f1d0b9a2f370ce033ccd3cdd6270dd3e31d116b29e9cb1f069c3c3",
+        "html": "ceabf0d015fbfe8682a36600c8494d03442cdef3f8b99327537e189c8d3aeb02",
+        "html-inline": "e028ce2d24169c2a2567753256a97b220fa54d6e88b8e92fa0a7aa576c9d480c"
+      }
+    }
+  ],
+  "receiptSanitization": "Only home-directory prefix replaced by ~; raw export result digest retained in export-manifest.json. Retained file hashes in SHA256SUMS."
+}

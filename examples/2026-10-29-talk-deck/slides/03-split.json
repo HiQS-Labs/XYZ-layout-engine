@@ -1,0 +1,25 @@
+{
+  "layout": "split",
+  "number": "03",
+  "eyebrow": "1:30 – 4:00 · THE SPLIT",
+  "title": "SPLIT THE WORK: TASTE VS GEOMETRY",
+  "columns": [
+    {
+      "owner": "ai",
+      "label": "AI OWNS",
+      "items": ["Taste and art direction", "Copy", "Isolated cutouts: true-alpha PNG", "or inline vector SVG"],
+      "note": "From a DESIGN.md brief or a reference image. Done once per design."
+    },
+    {
+      "owner": "engine",
+      "label": "THE ENGINE OWNS",
+      "items": ["Exact geometry", "Typography from bundled fonts", "Collision and clipping checks", "Export: PNG, SVG, HTML + manifest.json"],
+      "note": "Offline and deterministic, with no AI at runtime. Done on every render."
+    }
+  ],
+  "handoff": {
+    "label": "THE HAND-OFF",
+    "items": ["tools/recipes/<slug>.mjs", "fixture.json", "cutouts"],
+    "note": "a versioned recipe, a schema-validated fixture and pinned artwork: files on disk"
+  }
+}

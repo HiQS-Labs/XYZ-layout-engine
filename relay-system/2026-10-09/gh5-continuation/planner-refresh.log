@@ -1,0 +1,11 @@
+wrote PROJECT/2-WORKING/MARATHON-PLAN-2026-10-09.md
+marathon-plan · 2026-10-09 · policy=quick-wins · weights{eff:2,cx:1,risk:2,dep:3,zone:1} · gh=live
+  ledger items : 3  (queue 0 · in-progress 1)
+  active lanes : 0 across 0 wave(s)   held: 0
+
+FLAGS (deterministic signals — never auto-resolved)
+  WARN [undocumented-partial-completion]  GH-5 · MVP foundation: reusable recipes, resumable image generation, and faster rendering
+        2 signals of work not reflected in ledger status: some-artifacts-exist, branch-matches-slug
+        → human: reconcile — confirm scope done vs remaining, update ledger status
+
+SUMMARY [marathon-plan] items=3 active=0 waves=0 drift=false held=0 (exit 0)

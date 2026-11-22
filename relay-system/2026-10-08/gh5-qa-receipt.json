@@ -50,15 +50,15 @@
     "attested_at": "2026-10-09T05:52:30Z",
     "driver_pid": 90907,
     "isolated": true,
-    "relay_file": "/Users/noelsaw/marathon-clones/xyz-gh5-agy-qa.FqScmc/relay-system/2026-10-08/gh5-mvp-plan-agy-qa.md",
+    "relay_file": "~/marathon-clones/xyz-gh5-agy-qa.FqScmc/relay-system/2026-10-08/gh5-mvp-plan-agy-qa.md",
     "relay_file_rel": "relay-system/2026-10-08/gh5-mvp-plan-agy-qa.md",
     "reviewed_head": "10469bde095f22d7eab1afe09b2d55b055b9a4dc",
     "reviewer": "agy",
     "schema": "relay-drive/attest@1",
     "status": "Approved",
-    "target_repo": "/Users/noelsaw/marathon-clones/xyz-gh5-agy-qa.FqScmc",
+    "target_repo": "~/marathon-clones/xyz-gh5-agy-qa.FqScmc",
     "task": "RELAY-GH5-AGY-QA-FqScmc-r3",
     "trailer_sha256": "baeb53cfcd32e0e6642fbbbd275f94e7f757f84f6ec8ffc8c0531e483188f161",
-    "transcript_repo": "/Users/noelsaw/marathon-clones/xyz-gh5-agy-qa.FqScmc"
+    "transcript_repo": "~/marathon-clones/xyz-gh5-agy-qa.FqScmc"
   }
 }

@@ -1,0 +1,17 @@
+{
+  "candidate": "b0b47ce",
+  "observed_at": "2026-10-10T06:27:41.782844+00:00",
+  "clone": "gh5-phase5-fresh-proof-20261009",
+  "full_clone": true,
+  "install": "independent node_modules; frozen lockfile; reused global package store",
+  "operations": 18,
+  "all_exit_zero": true,
+  "scope": "Satori local edit/export/rerender; browser blocks HTTP(S); no paid calls; install bootstrap is not network-isolation evidence",
+  "unchanged_tracked_sources": true,
+  "suite": {
+    "command": "pnpm test",
+    "exit": 0,
+    "receipt": "fresh-canaries.log",
+    "owner": "coordinator fresh proof clone; does not accept native Phase 5"
+  }
+}

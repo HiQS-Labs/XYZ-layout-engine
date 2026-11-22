@@ -1,0 +1,16 @@
+{
+  "authorized_at": "2026-10-10T03:17:36.299423+00:00",
+  "operator_answer": "Authorize one additional attempt",
+  "phase_id": "gh5-p3",
+  "relay_task": "MARATHON-GH5-P3-TURN",
+  "prior_recorded_fires": 3,
+  "additional_fires_authorized": 1,
+  "repaired_source_review": "fdcea1efcdc5b96814fa394087bc119d94aa5a42",
+  "next_phases": [
+    "gh5-p4",
+    "gh5-p5"
+  ],
+  "monitor_seconds": 600,
+  "monitor_checks": 6,
+  "no_counter_reset": true
+}

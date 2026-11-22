@@ -1,0 +1,10 @@
+WARN [pdda-check-governance] ROUTER.md:82 dead reference '.claude/skills/pdda/SKILL.md' — no file at .claude/skills/pdda/SKILL.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:596 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:602 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:605 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:660 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:806 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] PROJECT/PDDA.md:808 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] utils/pdda/PDDA-INSTALL.md:169 dead reference 'RELEASES.md' — no file at RELEASES.md
+WARN [pdda-check-governance] utils/pdda/PDDA-INSTALL.md:347 governance doc references env var 'PDDA_SYNC_TMP' which no shipped script in this install reads or sets
+SUMMARY [pdda-check-governance] errors=0 warns=9 info=0

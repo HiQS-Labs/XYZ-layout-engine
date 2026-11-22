@@ -76,7 +76,7 @@
       "verified": false,
       "source": "playwright-managed download",
       "browserVersionPinned": "156.0.8078.4",
-      "bundleRoot": "/Users/noelsaw/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64",
+      "bundleRoot": "~/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64",
       "noticeFilesAtBundleRoot": [
         "ABOUT"
       ],

@@ -1,0 +1,13 @@
+{
+  "main_rows_preserved": 63,
+  "incoming_recipe_rows_and_original_gids_preserved": 10,
+  "main_design_log_prefix_exact": true,
+  "formats_compared": 35,
+  "compact_assets_and_fit_steps_equal": true,
+  "published_modules_and_examples_unchanged": true,
+  "font_binaries_unchanged": true,
+  "font_SOURCE_notes_from_reviewed_PR": true,
+  "baseline_commit": "ca1332763d48348ce9cb003ec79efa562be1517c",
+  "merged_source_commit": "484513108d206c46cf00ace8655e8e70a83d8331",
+  "original_pr_commit": "026679195c33507d50de5cb0f2f6f7c9cdda1f38"
+}

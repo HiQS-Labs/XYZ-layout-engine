@@ -1,0 +1,17 @@
+{
+  "layout": "designmd",
+  "number": "09",
+  "eyebrow": "11:30 – 15:00 · DESIGN.md",
+  "title": "DESIGN.md IS TRANSLATED, NOT PARSED",
+  "lead": "Google Labs' alpha DESIGN.md format: ordered design rationale plus optional YAML tokens. An agent translates it into settings, artwork prompts and a data-only fixture. The engine never reads the Markdown; it pins the source hash and checks that every requirement quotes it.",
+  "flow": [
+    { "id": "caps", "title": "node tools/intake.mjs capabilities", "text": "what design-intake@1.0.5 can take" },
+    { "id": "check", "title": "node tools/intake.mjs check <fixture>", "text": "ready, unsupported or pending" },
+    { "id": "render", "title": "node tools/render.mjs <fixture>", "text": "the standard fit, font and export checks" }
+  ],
+  "stories": [
+    { "label": "THE LINE-HEIGHT STORY", "text": "A 1.1 headline line height put the glyphs above their box. The Chromium render refused the clipped text. The fix was in the data-only recipe (the fixture's display line height), 1.1 to 1.3. No fit guard was loosened." },
+    { "label": "BLOCKED, NOT SIMPLIFIED", "text": "A brief the engine cannot support (a second font family, gradients, arbitrary CSS) comes back as a blocked intake with the unsupported fields named, never as a silently simplified render." }
+  ],
+  "example": "Worked example: examples/2026-10-12-design-intake/ (DESIGN.md, fixture.json, both backend renders)"
+}

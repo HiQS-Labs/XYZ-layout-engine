@@ -1,0 +1,176 @@
+{
+  "sequence": [
+    {
+      "type": "P",
+      "id": "intake_text_eyebrow",
+      "text": "RIDGELINE / FIELD NOTES"
+    },
+    {
+      "type": "H1",
+      "id": "intake_text_title",
+      "text": "READ THE RIDGE"
+    },
+    {
+      "type": "Figure",
+      "id": "intake_image_ridge",
+      "alt": "Schematic ridge with a rust divide and two dark slopes."
+    },
+    {
+      "type": "P",
+      "id": "intake_text_takeaway",
+      "text": "A ridge divides the direction water flows."
+    },
+    {
+      "type": "P",
+      "id": "intake_text_explanation",
+      "text": "Follow the shape of the land: water moves down either side of the divide."
+    },
+    {
+      "type": "P",
+      "id": "intake_text_disclosure",
+      "text": "Schematic illustration. Synthetic PNG; no image model used."
+    }
+  ],
+  "contrast": [
+    {
+      "id": "intake_text_eyebrow",
+      "tag": "p",
+      "text": "RIDGELINE / FIELD NOTES",
+      "fontSize": 28,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 4.21,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "intake_text_title",
+      "tag": "h1",
+      "text": "READ THE RIDGE",
+      "fontSize": 80,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 9.28,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "intake_text_takeaway",
+      "tag": "p",
+      "text": "A ridge divides the direction water flows.",
+      "fontSize": 28,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.28,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "intake_text_explanation",
+      "tag": "p",
+      "text": "Follow the shape of the land: water moves down either side o",
+      "fontSize": 28,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.28,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "intake_text_disclosure",
+      "tag": "p",
+      "text": "Schematic illustration. Synthetic PNG; no image model used.",
+      "fontSize": 28,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 9.28,
+      "required": 3,
+      "pass": true
+    }
+  ],
+  "visual": {
+    "changedPixels": 1,
+    "totalPixels": 832000
+  },
+  "report": {
+    "pages": 1,
+    "pageSize": [
+      0,
+      0,
+      600,
+      780
+    ],
+    "marked": true,
+    "hasStructTree": true,
+    "lang": "en",
+    "title": "Read the ridge",
+    "displayDocTitle": true,
+    "tabsStructure": true,
+    "structureTypes": [
+      "Document",
+      "Figure",
+      "H1",
+      "NonStruct",
+      "P"
+    ],
+    "order": [
+      {
+        "type": "P",
+        "text": "RIDGELINE / FIELD NOTES"
+      },
+      {
+        "type": "H1",
+        "text": "READ THE RIDGE"
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Schematic ridge with a rust divide and two dark slopes."
+      },
+      {
+        "type": "P",
+        "text": "A ridge divides the direction water flows."
+      },
+      {
+        "type": "P",
+        "text": "Follow the shape of the land: water moves down either side of the divide."
+      },
+      {
+        "type": "P",
+        "text": "Schematic illustration. Synthetic PNG; no image model used."
+      }
+    ],
+    "figures": [
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "Schematic ridge with a rust divide and two dark slopes."
+      }
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": {
+      "single page at the canvas size": true,
+      "tagged (MarkInfo /Marked true, StructTreeRoot)": true,
+      "document language set": true,
+      "title set and shown in the title bar": true,
+      "tab order follows structure": true,
+      "exactly one H1": true,
+      "headings do not skip levels": true,
+      "every figure has alt text": true,
+      "all non-decorative images are tagged figures": true,
+      "tag order matches the reading order (text decoded from the PDF)": true,
+      "all text meets WCAG AA contrast": true,
+      "semantic page paints like the plain export": true
+    },
+    "firstMismatch": null,
+    "contrastFailures": []
+  },
+  "provenance": {
+    "recipe": "design-intake",
+    "version": "1.0.3",
+    "inputPath": "examples/2026-10-12-design-intake/fixture.json",
+    "svgSha256": "159163c33d402dff24673e9d0a2e26034b225e02fa35e0c23199c5fcc711ee59"
+  }
+}

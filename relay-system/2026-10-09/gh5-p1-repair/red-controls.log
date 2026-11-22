@@ -1,0 +1,9 @@
+oversized logical canvas admitted: {
+  inputPath: 'tools/spike/fixture.json',
+  width: 8192,
+  height: 8192,
+  format: 'png',
+  backend: 'satori',
+  scale: 0.1
+}
+style markup injection: true

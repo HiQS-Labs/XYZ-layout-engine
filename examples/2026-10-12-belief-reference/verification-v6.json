@@ -1,0 +1,44 @@
+{
+  "sourceCommit": "bdf4e6f",
+  "runtime": {
+    "node": "v22.22.3",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "renders": [
+    {
+      "backend": "satori",
+      "valid": true,
+      "files": 14,
+      "bytes": 1813732,
+      "recipe": "recursive-process@6.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "svg": "d452225dd3e51620355c125c13aa25a29e4c5cd256e82bb5caa2bfa1f0a30406",
+        "html": "44039670fa59a42162953ca59ad51dcf063d885017ac6d1446d50c3fcd22eb4b",
+        "html-inline": "8687c1fe3b858894a3b0c40da672db91bebaa8d2d249b3368f5f72eafdbc38bc"
+      }
+    },
+    {
+      "backend": "playwright",
+      "valid": true,
+      "files": 14,
+      "bytes": 1158707,
+      "recipe": "recursive-process@6.0.0",
+      "catalogVerified": true,
+      "fit": true,
+      "attempts": 1,
+      "digests": {
+        "png": "6577da9c9f04046a8ea13f23b76ad3083864eac5d9bcf0428b66e6f76fc77fde",
+        "html": "44039670fa59a42162953ca59ad51dcf063d885017ac6d1446d50c3fcd22eb4b",
+        "html-inline": "8687c1fe3b858894a3b0c40da672db91bebaa8d2d249b3368f5f72eafdbc38bc"
+      }
+    }
+  ],
+  "artwork": "six transparent lossless WebP (cwebp 1.6.0 -lossless -exact), 128,652 bytes vs 221,372 bytes PNG (42% smaller); inspectWebp header check and inspect-alpha real_alpha true for all six",
+  "satoriPng": "refused by design: resvg-js 2.6.2 does not rasterize WebP; PNG comes from Chromium",
+  "v5Comparison": "Chromium PNG vs renders-v5/playwright/render.png: 13,142 of 2,144,000 pixels differ, max channel delta 1/255",
+  "receiptSanitization": "Only home-directory prefix replaced by ~; raw export result digest retained in export-manifest.json. Retained file hashes in SHA256SUMS."
+}

@@ -1,0 +1,19 @@
+{
+  "added_len": 3176,
+  "added_sha256": "25774784df4ca53c324ff8b74f74663fef32b83a0a33b9263a0034ec15af8c2a",
+  "added_start": 13439,
+  "artifact_sha256": "e7ed8ca266e014212f938e91b1cf11de720aef84b71daabf0bd6fc3d9f66acec",
+  "attested_at": "2026-10-14T05:22:33Z",
+  "driver_pid": 38281,
+  "isolated": true,
+  "relay_file": "~/Documents/GitHub/XYZ-layout-engine-gh46-shadow-tuning-2026-10-13/relay-system/2026-10-13/gh46-plan.codex.md",
+  "relay_file_rel": "relay-system/2026-10-13/gh46-plan.codex.md",
+  "reviewed_head": "4b1fd4ab08619a1ad9b3265679afaefd56f41464",
+  "reviewer": "codex",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "~/Documents/GitHub/XYZ-layout-engine-gh46-shadow-tuning-2026-10-13",
+  "task": "GH46-PLAN-20261013",
+  "trailer_sha256": "ca3b628e1757818ee090576b7760c396a487ecc261ea8d21ec1aabbb555bf081",
+  "transcript_repo": "~/Documents/GitHub/XYZ-layout-engine-gh46-shadow-tuning-2026-10-13"
+}

@@ -1,0 +1,59 @@
+{
+  "rules": [
+    {
+      "name": "broken-ref",
+      "severity": "error",
+      "description": "Broken/circular references and unknown component sub-tokens."
+    },
+    {
+      "name": "missing-primary",
+      "severity": "warning",
+      "description": "Missing primary color — warns when colors are defined but no 'primary' exists."
+    },
+    {
+      "name": "contrast-ratio",
+      "severity": "warning",
+      "description": "WCAG contrast ratio — warns when component backgroundColor/textColor pairs fall below the AA minimum of 4.5:1."
+    },
+    {
+      "name": "orphaned-tokens",
+      "severity": "warning",
+      "description": "Orphaned tokens — tokens defined but never referenced by any component."
+    },
+    {
+      "name": "token-summary",
+      "severity": "info",
+      "description": "Token count summary — emits an info diagnostic summarizing how many tokens are defined."
+    },
+    {
+      "name": "missing-sections",
+      "severity": "info",
+      "description": "Missing sections — notes when optional sections (spacing, rounded) are absent."
+    },
+    {
+      "name": "missing-typography",
+      "severity": "warning",
+      "description": "Missing typography — warns when colors are defined but no typography tokens exist."
+    },
+    {
+      "name": "section-order",
+      "severity": "warning",
+      "description": "Section order — warns when sections are out of canonical order."
+    },
+    {
+      "name": "unknown-key",
+      "severity": "warning",
+      "description": "Unknown key — warns when a top-level YAML key looks like a typo of a known schema key."
+    },
+    {
+      "name": "token-like-ignored",
+      "severity": "warning",
+      "description": "Warns when a top-level YAML key looks like a design-token map but is not part of the recognized export schema and will be silently ignored."
+    },
+    {
+      "name": "omitted-rules",
+      "severity": "info",
+      "description": "Validates omitted sections and alerts on redundant or unknown entries."
+    }
+  ]
+}

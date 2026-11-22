@@ -1,0 +1,11 @@
+{
+  "current": "runs/38640ee9-b7b5-4606-8e2a-368f6aebde3d",
+  "files": [
+    "render.svg",
+    "result.json"
+  ],
+  "digests": {
+    "render.svg": "fbe0090ad0e992d29788f132820bf9e38ee18f5fb1ee07404d19fbe386f86c19",
+    "result.json": "0b03dac16046deb5f2f816195d5577358048144b1b7c5173b68718b03434e5e7"
+  }
+}

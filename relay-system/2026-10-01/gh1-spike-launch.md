@@ -2,13 +2,13 @@
 
 Operator repeated the launch request after the exact Phase 0 scope/order/pairing was presented; confirmation accepted. Preparation inputs and ledger snapshot matched the primary repository. Umbrella issue #1 remains OPEN.
 
-Launched in `/Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike`, branch `marathon/gh-1-renderer-spike`, using relay-xyz:
+Launched in `~/marathon-clones/marathon-gh-1-renderer-spike`, branch `marathon/gh-1-renderer-spike`, using relay-xyz:
 
 ```bash
 XYZ_HARNESS="$PWD/.xyz" XYZ_SESSION_ID=xyz-layout-engine-gh1-phase0 .xyz/relay-automation/marathon.sh --plan PROJECT/2-WORKING/renderer-spike/MARATHON.yaml --builder agy --pre-advance-cmd 'pnpm run spike:verify'
 ```
 
-Native exec session: 37061 (still running at handoff). Durable run log: `/Users/noelsaw/marathon-clones/marathon-gh-1-renderer-spike/relay-system/run-logs/2026-10-01/marathon-MARATHON_-222443-10428.log`.
+Native exec session: 37061 (still running at handoff). Durable run log: `~/marathon-clones/marathon-gh-1-renderer-spike/relay-system/run-logs/2026-10-01/marathon-MARATHON_-222443-10428.log`.
 
 Observed token `MARATHON-GH1-SPIKE-P1-TURN`: status claimed, claimer agy, exact Phase 1 artifact paths. Worktree isolation ON. Three phases execute sequentially; no completion yet.
 

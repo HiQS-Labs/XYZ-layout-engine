@@ -1,0 +1,19 @@
+{
+  "added_len": 3630,
+  "added_sha256": "6ec6c5a4689691e7fc87f27b8de22956cb15bee7b00961b254e254a72cc53610",
+  "added_start": 28924,
+  "artifact_sha256": "526c81a6ffbcbd5089acfe001d95ae252fb95d0e06e11c791bdb09e11149e75e",
+  "attested_at": "2026-10-14T03:23:23Z",
+  "driver_pid": 77691,
+  "isolated": true,
+  "relay_file": "~/Documents/GitHub/XYZ-layout-engine-gh44-nutrition-design-2026-10-13/relay-system/2026-10-13/gh44-plan.codex.md",
+  "relay_file_rel": "relay-system/2026-10-13/gh44-plan.codex.md",
+  "reviewed_head": "d90cca5aed247aa195b314d6b3405de3b433b43f",
+  "reviewer": "codex",
+  "schema": "relay-drive/attest@1",
+  "status": "Approved",
+  "target_repo": "~/Documents/GitHub/XYZ-layout-engine-gh44-nutrition-design-2026-10-13",
+  "task": "GH44-PLAN-20261013",
+  "trailer_sha256": "2f842672b9ec22b54b1cb6db56f447649abb6cdd3d3876ba273194a8c5efdf24",
+  "transcript_repo": "~/Documents/GitHub/XYZ-layout-engine-gh44-nutrition-design-2026-10-13"
+}

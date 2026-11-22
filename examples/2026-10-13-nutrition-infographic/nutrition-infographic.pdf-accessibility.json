@@ -1,0 +1,567 @@
+{
+  "sequence": [
+    {
+      "type": "H1",
+      "id": "header_headline",
+      "text": "FUEL WELL. LIVE WELL."
+    },
+    {
+      "type": "P",
+      "id": "header_subtitle",
+      "text": "Optimized Nutrition. Sustained Energy."
+    },
+    {
+      "type": "Figure",
+      "id": "callout_1_img",
+      "alt": "A balance scale holding leafy greens, avocado, nuts and blueberries on one side and grains, chickpeas and salmon on the other."
+    },
+    {
+      "type": "H2",
+      "id": "callout_1_title",
+      "text": "BALANCED NUTRITION"
+    },
+    {
+      "type": "P",
+      "id": "callout_1_text",
+      "text": "The right fuel for your body and mind."
+    },
+    {
+      "type": "Figure",
+      "id": "hero_img",
+      "alt": "A large, glowing green leaf."
+    },
+    {
+      "type": "Figure",
+      "id": "callout_2_img",
+      "alt": "A soda cup, a bag of chips and a glazed donut behind a red \"no\" symbol."
+    },
+    {
+      "type": "H2",
+      "id": "callout_2_title",
+      "text": "SKIP THE SPIKE"
+    },
+    {
+      "type": "P",
+      "id": "callout_2_text",
+      "text": "Avoid sugary drinks and processed snacks."
+    },
+    {
+      "type": "Figure",
+      "id": "item_1_img",
+      "alt": "A glass jar of yogurt parfait layered with oats, strawberries and blueberries."
+    },
+    {
+      "type": "H2",
+      "id": "item_1_title",
+      "text": "NUTRITIOUS"
+    },
+    {
+      "type": "P",
+      "id": "item_1_caption",
+      "text": "Real, whole foods that nourish."
+    },
+    {
+      "type": "Figure",
+      "id": "item_2_img",
+      "alt": "A clear snack container filled with green grapes and mixed nuts."
+    },
+    {
+      "type": "H2",
+      "id": "item_2_title",
+      "text": "PORTABLE"
+    },
+    {
+      "type": "P",
+      "id": "item_2_caption",
+      "text": "Easy to take wherever you go."
+    },
+    {
+      "type": "Figure",
+      "id": "item_3_img",
+      "alt": "A wrap filled with chicken, tomatoes and lettuce."
+    },
+    {
+      "type": "H2",
+      "id": "item_3_title",
+      "text": "CONVENIENT"
+    },
+    {
+      "type": "P",
+      "id": "item_3_caption",
+      "text": "Simple choices for your busy day."
+    },
+    {
+      "type": "Figure",
+      "id": "item_4_img",
+      "alt": "A green reusable water bottle."
+    },
+    {
+      "type": "H2",
+      "id": "item_4_title",
+      "text": "HYDRATED"
+    },
+    {
+      "type": "P",
+      "id": "item_4_caption",
+      "text": "Water fuels your cells and keeps you going."
+    },
+    {
+      "type": "P",
+      "id": "benefit_1",
+      "text": "SUSTAINED ENERGY"
+    },
+    {
+      "type": "P",
+      "id": "benefit_2",
+      "text": "SHARP FOCUS"
+    },
+    {
+      "type": "P",
+      "id": "benefit_3",
+      "text": "STRONG IMMUNITY"
+    },
+    {
+      "type": "P",
+      "id": "benefit_4",
+      "text": "BETTER WELL-BEING"
+    },
+    {
+      "type": "P",
+      "id": "footer_text",
+      "text": "GOOD FUEL. EVERY DAY. EVERY WHERE."
+    },
+    {
+      "type": "P",
+      "id": "footer_tagline",
+      "text": "Small choices. Big impact."
+    }
+  ],
+  "contrast": [
+    {
+      "id": "header_headline",
+      "tag": "h1",
+      "text": "FUEL WELL. LIVE WELL.",
+      "fontSize": 50,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 6.91,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "header_subtitle",
+      "tag": "p",
+      "text": "Optimized Nutrition. Sustained Energy.",
+      "fontSize": 24,
+      "fontWeight": 400,
+      "large": true,
+      "ratio": 7.07,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "callout_1_title",
+      "tag": "h2",
+      "text": "BALANCED NUTRITION",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.01,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "callout_1_text",
+      "tag": "p",
+      "text": "The right fuel for your body and mind.",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.86,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "callout_2_title",
+      "tag": "h2",
+      "text": "SKIP THE SPIKE",
+      "fontSize": 20,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.02,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "callout_2_text",
+      "tag": "p",
+      "text": "Avoid sugary drinks and processed snacks.",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.85,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_1_title",
+      "tag": "h2",
+      "text": "NUTRITIOUS",
+      "fontSize": 18,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 6.54,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_1_caption",
+      "tag": "p",
+      "text": "Real, whole foods that nourish.",
+      "fontSize": 14,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.25,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_2_title",
+      "tag": "h2",
+      "text": "PORTABLE",
+      "fontSize": 18,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 6.83,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_2_caption",
+      "tag": "p",
+      "text": "Easy to take wherever you go.",
+      "fontSize": 14,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.55,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_3_title",
+      "tag": "h2",
+      "text": "CONVENIENT",
+      "fontSize": 18,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 6.95,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_3_caption",
+      "tag": "p",
+      "text": "Simple choices for your busy day.",
+      "fontSize": 14,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.77,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_4_title",
+      "tag": "h2",
+      "text": "HYDRATED",
+      "fontSize": 18,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 6.89,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "item_4_caption",
+      "tag": "p",
+      "text": "Water fuels your cells and keeps you going.",
+      "fontSize": 14,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 8.63,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "benefit_1",
+      "tag": "p",
+      "text": "SUSTAINED ENERGY",
+      "fontSize": 15,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 7.17,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "benefit_2",
+      "tag": "p",
+      "text": "SHARP FOCUS",
+      "fontSize": 15,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 7.17,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "benefit_3",
+      "tag": "p",
+      "text": "STRONG IMMUNITY",
+      "fontSize": 15,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 7.17,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "benefit_4",
+      "tag": "p",
+      "text": "BETTER WELL-BEING",
+      "fontSize": 15,
+      "fontWeight": 700,
+      "large": false,
+      "ratio": 7.17,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "id": "footer_text",
+      "tag": "p",
+      "text": "GOOD FUEL. EVERY DAY. EVERY WHERE.",
+      "fontSize": 21,
+      "fontWeight": 700,
+      "large": true,
+      "ratio": 7.17,
+      "required": 3,
+      "pass": true
+    },
+    {
+      "id": "footer_tagline",
+      "tag": "p",
+      "text": "Small choices. Big impact.",
+      "fontSize": 17,
+      "fontWeight": 400,
+      "large": false,
+      "ratio": 9.12,
+      "required": 4.5,
+      "pass": true
+    }
+  ],
+  "visual": {
+    "changedPixels": 0,
+    "totalPixels": 1000000
+  },
+  "report": {
+    "pages": 1,
+    "pageSize": [
+      0,
+      0,
+      750,
+      750
+    ],
+    "marked": true,
+    "hasStructTree": true,
+    "lang": "en",
+    "title": "Fuel well. Live well. Nutrition infographic",
+    "displayDocTitle": true,
+    "tabsStructure": true,
+    "structureTypes": [
+      "Document",
+      "Figure",
+      "H1",
+      "H2",
+      "NonStruct",
+      "P"
+    ],
+    "order": [
+      {
+        "type": "H1",
+        "text": "FUEL WELL. LIVE WELL."
+      },
+      {
+        "type": "P",
+        "text": "Optimized Nutrition. Sustained Energy."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A balance scale holding leafy greens, avocado, nuts and blueberries on one side and grains, chickpeas and salmon on the other."
+      },
+      {
+        "type": "H2",
+        "text": "BALANCED NUTRITION"
+      },
+      {
+        "type": "P",
+        "text": "The right fuel for your body and mind."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A large, glowing green leaf."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A soda cup, a bag of chips and a glazed donut behind a red \"no\" symbol."
+      },
+      {
+        "type": "H2",
+        "text": "SKIP THE SPIKE"
+      },
+      {
+        "type": "P",
+        "text": "Avoid sugary drinks and processed snacks."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A glass jar of yogurt parfait layered with oats, strawberries and blueberries."
+      },
+      {
+        "type": "H2",
+        "text": "NUTRITIOUS"
+      },
+      {
+        "type": "P",
+        "text": "Real, whole foods that nourish."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A clear snack container filled with green grapes and mixed nuts."
+      },
+      {
+        "type": "H2",
+        "text": "PORTABLE"
+      },
+      {
+        "type": "P",
+        "text": "Easy to take wherever you go."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A wrap filled with chicken, tomatoes and lettuce."
+      },
+      {
+        "type": "H2",
+        "text": "CONVENIENT"
+      },
+      {
+        "type": "P",
+        "text": "Simple choices for your busy day."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A green reusable water bottle."
+      },
+      {
+        "type": "H2",
+        "text": "HYDRATED"
+      },
+      {
+        "type": "P",
+        "text": "Water fuels your cells and keepsyou going."
+      },
+      {
+        "type": "P",
+        "text": "SUSTAINED ENERGY"
+      },
+      {
+        "type": "P",
+        "text": "SHARP FOCUS"
+      },
+      {
+        "type": "P",
+        "text": "STRONG IMMUNITY"
+      },
+      {
+        "type": "P",
+        "text": "BETTER WELL-BEING"
+      },
+      {
+        "type": "P",
+        "text": "GOOD FUEL. EVERY DAY. EVERY WHERE."
+      },
+      {
+        "type": "P",
+        "text": "Small choices. Big impact."
+      }
+    ],
+    "figures": [
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A balance scale holding leafy greens, avocado, nuts and blueberries on one side and grains, chickpeas and salmon on the other."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A large, glowing green leaf."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A soda cup, a bag of chips and a glazed donut behind a red \"no\" symbol."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A glass jar of yogurt parfait layered with oats, strawberries and blueberries."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A clear snack container filled with green grapes and mixed nuts."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A wrap filled with chicken, tomatoes and lettuce."
+      },
+      {
+        "type": "Figure",
+        "text": "",
+        "alt": "A green reusable water bottle."
+      }
+    ]
+  },
+  "verdict": {
+    "pass": true,
+    "checks": {
+      "single page at the canvas size": true,
+      "tagged (MarkInfo /Marked true, StructTreeRoot)": true,
+      "document language set": true,
+      "title set and shown in the title bar": true,
+      "tab order follows structure": true,
+      "exactly one H1": true,
+      "headings do not skip levels": true,
+      "every figure has alt text": true,
+      "all non-decorative images are tagged figures": true,
+      "tag order matches the reading order (text decoded from the PDF)": true,
+      "all text meets WCAG AA contrast": true,
+      "semantic page paints like the plain export": true
+    },
+    "firstMismatch": null,
+    "contrastFailures": []
+  },
+  "provenance": {
+    "recipe": "nutrition",
+    "version": "3.0.0",
+    "inputPath": "examples/2026-10-13-nutrition-infographic/fixture.json",
+    "svgSha256": "708d351dab0467df32c91eb9c2f1f8ed3216c1fc3d8da3ec0f57b2381309d373"
+  }
+}

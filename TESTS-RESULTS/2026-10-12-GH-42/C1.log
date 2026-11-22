@@ -1,0 +1,20 @@
+TAP version 13
+# (node:60514) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# \# C1 intake: both backends, offline exports, source/assets/capabilities, ID namespace, fit and failed-publication controls passed
+# \# C1: import/space CLI, admission, HTML, cleanup, publication, Solar fitting and generation recovery passed
+# Subtest: guards: render pipeline breaks on a clean checkout
+ok 1 - guards: render pipeline breaks on a clean checkout
+  ---
+  duration_ms: 36124.884334
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36229.835084

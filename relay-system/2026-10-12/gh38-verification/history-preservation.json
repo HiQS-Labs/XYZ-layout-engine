@@ -1,0 +1,9 @@
+{
+  "retained_old_rows": 76,
+  "old_design_pins_retained": true,
+  "design_log_byte_identical": true,
+  "new_patch_versions": [
+    "solar-system@1.0.1",
+    "mangajdm-promo@1.0.1"
+  ]
+}
