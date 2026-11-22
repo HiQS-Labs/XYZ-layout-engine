@@ -1,0 +1,41 @@
+{
+  "palette": {
+    "paper": "#F5EBD6",
+    "ink": "#211B11",
+    "muted": "#52432C",
+    "accent": "#9D371C",
+    "rule": "#BEAA82",
+    "cover": "#102725",
+    "coverInk": "#FFF4DD",
+    "coverAccent": "#F6BD54",
+    "coverRule": "#A87934",
+    "coverSun": "#E95327"
+  },
+  "type": {
+    "headline": {
+      "pct": 0.082,
+      "weight": 300,
+      "lineHeight": 1.02
+    },
+    "section": {
+      "pct": 0.042,
+      "weight": 700,
+      "lineHeight": 1.1
+    },
+    "label": {
+      "pct": 0.026,
+      "weight": 500,
+      "lineHeight": 1.2
+    },
+    "body": {
+      "pct": 0.0333,
+      "weight": 400,
+      "lineHeight": 1.35
+    }
+  },
+  "fontProfile": "neo-mirai",
+  "alternatingBackgrounds": [
+    "maple-railway.png",
+    "eclipse-garden.png"
+  ]
+}

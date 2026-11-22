@@ -1,0 +1,191 @@
+{
+  "width": 1280,
+  "height": 720,
+  "themeSha256": "cbd9d97e2f907177b3d4220bfa5ad98052684f2007d5eacec9914c005680505d",
+  "slides": [
+    {
+      "id": "welcome",
+      "textCount": 4,
+      "satori": {
+        "headlineWidthPct": 36.3,
+        "pngSha256": "83e03dc705e7eabe9042afa6c86f21e8c79173be2e6dc9d0e623ad44db18fbd8"
+      },
+      "chromium": {
+        "headlineWidthPct": 36.3,
+        "pngSha256": "5da03cf6528019c910acfe917485d7098942974f85db2515eb2e4ae1d7483601"
+      }
+    },
+    {
+      "id": "purpose",
+      "textCount": 6,
+      "satori": {
+        "headlineWidthPct": 36.1,
+        "pngSha256": "5c02c33f3e50ffae409da9c90e3099c9ec7dea8a8bf13527a3fb106e8cba90e1"
+      },
+      "chromium": {
+        "headlineWidthPct": 36.1,
+        "pngSha256": "9669f865686838d8245aa4b9efb3127ae9647ec974064bfaca32688405e10ad5"
+      }
+    },
+    {
+      "id": "problem",
+      "textCount": 9,
+      "satori": {
+        "headlineWidthPct": 74.1,
+        "pngSha256": "31d3c2bab172f3ddd3a20f332ff6d43642d1fc9c4e709c687984d20f57d27588"
+      },
+      "chromium": {
+        "headlineWidthPct": 74.1,
+        "pngSha256": "b46fad327b28940ec57818af597cb883cf68d529f4d139292311f911ff6ee830"
+      }
+    },
+    {
+      "id": "solution",
+      "textCount": 7,
+      "satori": {
+        "headlineWidthPct": 63.4,
+        "pngSha256": "07a55486fcaffd6f2a23c81b683c0049ad9448284b5c312f8abcb6fa8f8ead25"
+      },
+      "chromium": {
+        "headlineWidthPct": 63.4,
+        "pngSha256": "04b951adcce7dd77a4074edf2105b372142c31f36b0f035122505fad03390e20"
+      }
+    },
+    {
+      "id": "components",
+      "textCount": 7,
+      "satori": {
+        "headlineWidthPct": 64,
+        "pngSha256": "a6e8b2aeba2cc50baa6dfbb2c9de63775dafdbd56f5de3bf38782624e71472e2"
+      },
+      "chromium": {
+        "headlineWidthPct": 64,
+        "pngSha256": "1ea439dfbc84e176db12c084b31e6f9ceaf516e28596947b456dd51970640997"
+      }
+    },
+    {
+      "id": "pipeline",
+      "textCount": 15,
+      "satori": {
+        "headlineWidthPct": 55.1,
+        "pngSha256": "e58be43a8cd35583f2284306821a42a337d6a684ad5a3cf2b708f037737db53b"
+      },
+      "chromium": {
+        "headlineWidthPct": 55,
+        "pngSha256": "64b4414b70af8484aedf704425841e0cbfaed2b07673aa5beb34ba8044c7a117"
+      }
+    },
+    {
+      "id": "render-loop",
+      "textCount": 16,
+      "satori": {
+        "headlineWidthPct": 54.8,
+        "pngSha256": "8c3bfceca6ac33c6c7d5016fc89480bbeadd4fa53eafd57cbaef71e2c8f5b3b2"
+      },
+      "chromium": {
+        "headlineWidthPct": 54.8,
+        "pngSha256": "279f173882a3371c1c27644d19dac0a874f5b049f48cce201dcd132f56ae3182"
+      }
+    },
+    {
+      "id": "value",
+      "textCount": 7,
+      "satori": {
+        "headlineWidthPct": 71.4,
+        "pngSha256": "34e3d09b76491f778bd7916fbaf22f1b6799618f0d0f91a11e74da1c2716f117"
+      },
+      "chromium": {
+        "headlineWidthPct": 71.4,
+        "pngSha256": "2f8c8ad5c111b57483eb0a98c9d1e0715541ec9f7bdc6fc6ba6a6dc2d9433c4e"
+      }
+    },
+    {
+      "id": "difference",
+      "textCount": 9,
+      "satori": {
+        "headlineWidthPct": 68.4,
+        "pngSha256": "83d6580336052f41d95bec038d883e7ed6cd66bf9411e7f6c00f3a8447b01732"
+      },
+      "chromium": {
+        "headlineWidthPct": 68.4,
+        "pngSha256": "0de2491094fecc8ff7f637003c985954fee437250a1147d9b42271a852458a5d"
+      }
+    },
+    {
+      "id": "future",
+      "textCount": 10,
+      "satori": {
+        "headlineWidthPct": 62.7,
+        "pngSha256": "868dc53b6c97f306b756076419ee7c8075fe61992aec4e2ca2d4cf9edf3212f3"
+      },
+      "chromium": {
+        "headlineWidthPct": 62.7,
+        "pngSha256": "35bc3b6b4989d51ab4028e17d74b89777bec8b0f998ede7530d76e1ef79dcc1c"
+      }
+    },
+    {
+      "id": "use-cases",
+      "textCount": 10,
+      "satori": {
+        "headlineWidthPct": 57.2,
+        "pngSha256": "c5479a2fa70c03f572fe57e040a9f59243b496588ec89c9cb1450c12f66ffc67"
+      },
+      "chromium": {
+        "headlineWidthPct": 57.1,
+        "pngSha256": "fe7072c64fde8daa31133ebc421b795c080c7a1be6c8a1f0722b6921bd6971c7"
+      }
+    },
+    {
+      "id": "design-integrations",
+      "textCount": 8,
+      "satori": {
+        "headlineWidthPct": 69.7,
+        "pngSha256": "b17b62f88d966ff7236fcea300fe28c089d30208ba42e6f2fac58162c8247573"
+      },
+      "chromium": {
+        "headlineWidthPct": 69.7,
+        "pngSha256": "191a89966d106581990be83d8f2339c44cea0ee330d2e120009c33cb8f0b6fb0"
+      }
+    },
+    {
+      "id": "tech-specs",
+      "textCount": 10,
+      "satori": {
+        "headlineWidthPct": 57.7,
+        "pngSha256": "4728b099233682040d731be0e292e02098a72c5c0da065f163c31efa515a7f66"
+      },
+      "chromium": {
+        "headlineWidthPct": 57.6,
+        "pngSha256": "e94b78441e1c779a6e721321147f66e00f408ff9377e3f96ae9498f240277a5e"
+      }
+    },
+    {
+      "id": "sponsors",
+      "textCount": 6,
+      "satori": {
+        "headlineWidthPct": 18.4,
+        "pngSha256": "21ed17972522418e1d89cb76eca3bc05301b0cce6165283fd8ef648342797cfe"
+      },
+      "chromium": {
+        "headlineWidthPct": 18.4,
+        "pngSha256": "458335efd136d0676929900a33d8bfd03e0f00d1463a266e5f1281bbe5306651"
+      }
+    },
+    {
+      "id": "thanks",
+      "textCount": 5,
+      "satori": {
+        "headlineWidthPct": 20.5,
+        "pngSha256": "39c343e84dc630f30b97b15a098c08be2ecb4a98ff5ca5b8967fd25cc8abfaef"
+      },
+      "chromium": {
+        "headlineWidthPct": 20.5,
+        "pngSha256": "58f62693c18d6a95faf70074aedb4b37183a154e27e8736c9004bae2f49d0b0e"
+      }
+    }
+  ],
+  "exports": {
+    "deck.html": "3b779c96551e8718cee70865962778fbe02af8cc9b97d5b5af8998b5022b1f1c",
+    "deck.pdf": "4596eb8bd4879379fca78272b1a86ec6cd8b8d7c4e932f68470ed5dbd7770fd3"
+  }
+}

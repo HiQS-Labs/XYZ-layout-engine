@@ -1,0 +1,35 @@
+{
+  "palette": {
+    "paper": "#FBF8EE",
+    "ink": "#182236",
+    "muted": "#4B5061",
+    "accent": "#AB2F23",
+    "rule": "#C9B9A8",
+    "cover": "#182236",
+    "coverInk": "#FBF8EE",
+    "coverAccent": "#FF806F",
+    "coverRule": "#B27772"
+  },
+  "type": {
+    "headline": {
+      "pct": 0.097,
+      "weight": 700,
+      "lineHeight": 1.02
+    },
+    "section": {
+      "pct": 0.042,
+      "weight": 700,
+      "lineHeight": 1.1
+    },
+    "label": {
+      "pct": 0.026,
+      "weight": 700,
+      "lineHeight": 1.2
+    },
+    "body": {
+      "pct": 0.0333,
+      "weight": 400,
+      "lineHeight": 1.35
+    }
+  }
+}

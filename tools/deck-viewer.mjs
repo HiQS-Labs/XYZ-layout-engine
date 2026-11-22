@@ -13,15 +13,8 @@
 // Exits 1 when deck.json or any Satori frame is missing: a viewer with broken frames must not be published.
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { existsSync } from 'node:fs';
-
-const args = process.argv.slice(2);
-const dir = args.find(a => !a.startsWith('--'));
-const outFlag = args.indexOf('--out');
-if (!dir) { console.error('usage: node tools/deck-viewer.mjs <deck-dir> [--out <file>]'); process.exit(1); }
-const ROOT = path.resolve(dir);
-const OUT = outFlag >= 0 ? path.resolve(args[outFlag + 1]) : path.join(ROOT, 'index.html');
-const rel = p => path.relative(path.dirname(OUT), path.join(ROOT, p)).split(path.sep).join('/');
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const readJson = async p => JSON.parse(await fs.readFile(p, 'utf8'));
@@ -52,12 +45,15 @@ export async function buildViewer(root) {
   return { deck, slides, backends, links };
 }
 
-export function viewerHtml({ deck, slides, backends, links }, rel) {
+export function viewerHtml({ deck, slides, backends, links }, rel, { frames, link } = {}) {
   const n = slides.length, W = deck.width, H = deck.height;
-  const data = slides.map(s => ({ slug: s.slug, title: s.title, eyebrow: s.eyebrow, fixture: s.fixture, png: rel(`renders/${s.slug}.png`) }));
+  const data = slides.map(s => ({ slug: s.slug, title: s.title, eyebrow: s.eyebrow, fixture: s.fixture, png: frames ? frames.get(s.slug) : rel(`renders/${s.slug}.png`) }));
   const alt = s => `Slide ${s.slug}: ${s.eyebrow ? s.eyebrow + ' · ' : ''}${s.title}`;
-  const thumbs = slides.map((s, i) => `<button class="thumb" data-i="${i}" aria-label="Go to slide ${i + 1}"><img src="${esc(rel(`renders/${s.slug}.png`))}" alt="" loading="lazy" width="${W}" height="${H}"><span>${i + 1}</span></button>`).join('');
-  const grid = slides.map((s, i) => `<figure><a href="${esc(rel(`renders/${s.slug}.png`))}"><img src="${esc(rel(`renders/${s.slug}.png`))}" alt="${esc(alt(s))}" loading="lazy" width="${W}" height="${H}"></a><figcaption><b>${i + 1}</b> ${esc(s.title)}${s.fixture ? ` <code>${esc(s.fixture)}</code>` : ''}</figcaption></figure>`).join('');
+  if (data.some(s => !s.png)) throw Error('Missing embedded slide frame');
+  const frameAttr = (attr, slide, index) => frames ? `data-frame-${attr}="${index}"` :
+    `${attr}="${esc(rel(`renders/${slide.slug}.png`))}"`;
+  const thumbs = slides.map((s, i) => `<button class="thumb" data-i="${i}" aria-label="Go to slide ${i + 1}"><img ${frameAttr('src', s, i)} alt="" loading="lazy" width="${W}" height="${H}"><span>${i + 1}</span></button>`).join('');
+  const grid = slides.map((s, i) => `<figure><a ${frameAttr('href', s, i)}><img ${frameAttr('src', s, i)} alt="${esc(alt(s))}" loading="lazy" width="${W}" height="${H}"></a><figcaption><b>${i + 1}</b> ${esc(s.title)}${s.fixture ? ` <code>${esc(s.fixture)}</code>` : ''}</figcaption></figure>`).join('');
   const backendUI = backends.length > 1
     ? `<fieldset class="seg" id="backend"><legend>Backend</legend>${backends.map((b, i) => `<label><input type="radio" name="backend" value="${esc(b.key)}"${i === 0 ? ' checked' : ''}>${esc(b.name)}</label>`).join('')}</fieldset>`
     : `<span class="meta">${esc(backends[0].name)}</span>`;
@@ -93,40 +89,73 @@ figcaption{margin:8px 0 0;color:var(--muted)}
 code{font-size:14px}
 body.grid-mode .stage,body.grid-mode .caption,body.grid-mode .strip{display:none}
 body.grid-mode .grid{display:grid}
+.stage{position:relative}
+.profile-link{position:absolute}
+:root:fullscreen{background:black}
+:root:fullscreen body{margin:0;padding:0;background:black}
+:root:fullscreen main{height:100vh;display:grid;place-items:center;max-width:none}
+:root:fullscreen main>:not(.stage){display:none}
+:root:fullscreen main>.stage{display:block;margin:0;border:0;width:min(100vw,calc(100vh * ${W} / ${H}))}
 @media(max-width:800px){body{padding:12px}.grid{grid-template-columns:1fr}}
 </style></head><body><main>
 <h1>${esc(deck.title)}</h1>
 <p class="meta">${n} slides · ${W} × ${H} · rendered by XYZ Layout Engine</p>
 ${linkRow ? `<p class="links">${linkRow}</p>` : ''}
+${frames ? '<noscript><p>Open the <a href="deck.pdf">PDF edition</a> to view all slides.</p></noscript>' : ''}
 <div class="bar">
 <button id="prev" aria-label="Previous slide">← Prev</button><span class="counter" id="counter">1 / ${n}</span><button id="next" aria-label="Next slide">Next →</button>
 ${backendUI}
 <button id="mode" aria-pressed="false">Grid</button>
-<span class="meta">Keys: ← → Home End · G grid</span>
+<button id="fullscreen" type="button" aria-keyshortcuts="F">Full screen</button>
+<span class="meta">Keys: ← → Home End · G grid · F full screen · Esc exit</span>
+<span role="status" id="viewer-status"></span>
 </div>
-<div class="stage"><a id="full" href="${esc(data[0].png)}"><img id="frame" src="${esc(data[0].png)}" alt="${esc(alt(slides[0]))}" width="${W}" height="${H}"></a></div>
+<div class="stage"><a id="full" ${frameAttr('href', slides[0], 0)}><img id="frame" src="${esc(data[0].png)}" alt="${esc(alt(slides[0]))}" width="${W}" height="${H}"></a>${link ? `<a class="profile-link" hidden href="${esc(link.url)}" aria-label="${esc(link.label)}" style="left:${100*link.x/W}%;top:${100*link.y/H}%;width:${100*link.w/W}%;height:${100*link.h/H}%"></a>` : ''}</div>
 <p class="caption"><span><b id="cap-title"></b> <span id="cap-eyebrow"></span></span><span id="cap-file"></span></p>
 <div class="strip" id="strip">${thumbs}</div>
 <div class="grid">${grid}</div>
 </main>
 <script>
-const S=${JSON.stringify(data)};const N=S.length;let i=0,backend='';
+const S=${JSON.stringify(data).replaceAll('<', '\\u003c')};const N=S.length;let i=0,backend='';
 const $=id=>document.getElementById(id);
 const src=s=>backend?s.png.replace(/\\.png$/,backend+'.png'):s.png;
+for(const attr of ['href','src']){
+  for(const el of document.querySelectorAll('[data-frame-'+attr+']')){
+    el.setAttribute(attr,S[Number(el.getAttribute('data-frame-'+attr))].png);
+  }
+}
 function show(k){i=(k+N)%N;const s=S[i];$('frame').src=src(s);$('full').href=src(s);
 $('frame').alt='Slide '+s.slug+': '+(s.eyebrow?s.eyebrow+' · ':'')+s.title;
 $('counter').textContent=(i+1)+' / '+N;$('cap-title').textContent=s.title;$('cap-eyebrow').textContent=s.eyebrow;
 $('cap-file').textContent=s.fixture||s.slug;
+${link ? `document.querySelector('.profile-link').hidden=s.slug!==${JSON.stringify(link.id)};` : ''}
 document.querySelectorAll('.thumb').forEach((t,k)=>t.setAttribute('aria-current',k===i?'true':'false'));
 history.replaceState(null,'','#'+(i+1)+(backend?'/'+backend.slice(1):''));}
 function mode(on){document.body.classList.toggle('grid-mode',on);$('mode').setAttribute('aria-pressed',String(on));$('mode').textContent=on?'Slides':'Grid';}
 $('prev').onclick=()=>show(i-1);$('next').onclick=()=>show(i+1);
 $('mode').onclick=()=>mode(!document.body.classList.contains('grid-mode'));
 $('strip').addEventListener('click',e=>{const t=e.target.closest('.thumb');if(t){mode(false);show(+t.dataset.i);}});
+async function toggleFullscreen(){
+  try {
+    if(document.fullscreenElement) await document.exitFullscreen();
+    else {
+      mode(false);
+      await document.documentElement.requestFullscreen();
+    }
+    $('viewer-status').textContent='';
+  } catch {
+    $('viewer-status').textContent='Open this HTML file in a standalone browser window to use full screen.';
+  }
+}
+$('fullscreen').onclick=toggleFullscreen;
+$('full').addEventListener('click',e=>{
+  if(document.fullscreenElement){e.preventDefault();show(i+(e.clientX<innerWidth/2?-1:1));}
+});
 const bk=$('backend');if(bk)bk.addEventListener('change',e=>{backend=e.target.value;show(i);});
 addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey)return;
-if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')show(i+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
-else if(e.key==='Home')show(0);else if(e.key==='End')show(N-1);else if(e.key==='g'||e.key==='G')mode(!document.body.classList.contains('grid-mode'));else return;e.preventDefault();});
+if(e.key.toLowerCase()==='f'){if(!e.repeat)toggleFullscreen();}
+else if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')show(i+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
+else if(e.key==='Home')show(0);else if(e.key==='End')show(N-1);else if(e.key==='g'||e.key==='G'){if(!document.fullscreenElement)mode(!document.body.classList.contains('grid-mode'));}else return;e.preventDefault();});
 function init(){const m=/^#(\\d+)(?:\\/(\\w+))?/.exec(location.hash);
 if(m&&bk&&m[2]){const r=bk.querySelector('input[value="-'+m[2]+'"]');if(r){r.checked=true;backend=r.value;}}
 show(m?Math.min(N,Math.max(1,+m[1]))-1:0);}
@@ -135,9 +164,19 @@ addEventListener('hashchange',init);init();
 `;
 }
 
-let model;
-try { model = await buildViewer(ROOT); } catch (err) { console.error(err.message); process.exit(1); }
-const html = viewerHtml(model, rel);
-await fs.mkdir(path.dirname(OUT), { recursive: true });
-await fs.writeFile(OUT, html);
-console.log(`${path.relative(process.cwd(), OUT)}: ${model.slides.length} slides, ${model.backends.length} backend${model.backends.length > 1 ? 's' : ''}, ${html.length} bytes`);
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  const args = process.argv.slice(2);
+  const dir = args.find(a => !a.startsWith('--'));
+  const outFlag = args.indexOf('--out');
+  if (!dir) { console.error('usage: node tools/deck-viewer.mjs <deck-dir> [--out <file>]'); process.exit(1); }
+  const ROOT = path.resolve(dir);
+  const OUT = outFlag >= 0 ? path.resolve(args[outFlag + 1]) : path.join(ROOT, 'index.html');
+  const rel = p => path.relative(path.dirname(OUT), path.join(ROOT, p)).split(path.sep).join('/');
+
+  let model;
+  try { model = await buildViewer(ROOT); } catch (err) { console.error(err.message); process.exit(1); }
+  const html = viewerHtml(model, rel);
+  await fs.mkdir(path.dirname(OUT), { recursive: true });
+  await fs.writeFile(OUT, html);
+  console.log(`${path.relative(process.cwd(), OUT)}: ${model.slides.length} slides, ${model.backends.length} backend${model.backends.length > 1 ? 's' : ''}, ${html.length} bytes`);
+}
