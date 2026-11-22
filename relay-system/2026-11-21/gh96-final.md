@@ -118,4 +118,13 @@ Reversibility: Easy — v2 remains opt-in. Reviewed against live GH-96 acceptanc
 
 relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-11-22T04:16:35Z
+task: RELAY-GH96-EDITORIAL-FINAL
+reviewer: codex
+status: Approved
+reviewed-head: e51df1cd76b9d5e4cd0888adbe67ac1d71a772c6
+added-range: 8928+4246
+added-sha256: 151375395173c06a2048fd50d6b0c022e74e0805d1c8f01ff78d0937eec5781c
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
