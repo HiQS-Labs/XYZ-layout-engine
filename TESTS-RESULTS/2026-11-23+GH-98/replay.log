@@ -1,0 +1,24 @@
++ git rev-parse HEAD
+6b1fd6100e9255b513c05b93f910d343a2b30c02
++ d=examples/2026-11-23-forge-scroll-v3
++ python3 examples/2026-11-23-forge-scroll-v3/score.py examples/2026-11-23-forge-scroll-v3
+opus ineligible
+neon · 510.928s · comprehension/craft/appeal/speed (3, 2, 2.5, 2) · 2.50/3
+sol · 95.180s · comprehension/craft/appeal/speed (3, 3, 3, 3) · 3.00/3
++ python3 - examples/2026-11-23-forge-scroll-v3
+opus ineligible
+neon · 100.000s · comprehension/craft/appeal/speed (3, 2, 2.5, 3) · 2.60/3
+sol · 109.000s · comprehension/craft/appeal/speed (3, 3, 3, 3) · 3.00/3
+
+opus ineligible
+neon · 100.000s · comprehension/craft/appeal/speed (3, 2, 2.5, 3) · 2.60/3
+sol · 109.000s · comprehension/craft/appeal/speed (2.5, 3, 3, 3) · 2.80/3
+
+opus ineligible
+neon · 100.000s · comprehension/craft/appeal/speed (3, 2, 2.5, 3) · 2.60/3
+sol provisional
+
++ node examples/2026-11-23-forge-scroll-v3/publish.mjs
++ python3 -
+Verified bundle: ['neon.html', 'opus.html', 'results.md', 'review.json', 'sol.html']
+Exit status: 0
