@@ -24,3 +24,10 @@ Check valid offline delivery, 4–5 discernible sections, readable mobile and de
 
 Smoke normal, ties, missing/failing submission, and an unsupported located claim; ensure these cannot earn an unqualified winning result. Include readable reproducibility notes, short results and the actual offline pages. Easy rollback: one example and its task records. Avoid arbitrary word count or theme prescription. Rating priority/severity/appeal/cheapness 60/35/50/60, recoverable comparative evidence; #96 prior adjacent pilot, unknown recurrence trend. No renderer changes.
 Publish the comparison and usable offline pages (including local dependencies) via tools/review.mjs publishForReview into REVIEW/forge-scroll-v3 with index listing as the last render step. Retain ballots and receipts only in the example.
+
+## Source key used for adjudication
+
+Source is handout/FORGE.md from Forge 877c2be0d. Accept equivalent explanations.
+- Problem: lines 3–16, 131–148. Multiple coding agents need scoped coordination and verifiable, recoverable delivery. Both readers pointed to each hero and the specific collision or verification mechanism.
+- Walkthrough: lines 13–16, 86–110 and 135–149. Require one identifiable request, scope or execution choice, then a real check with an outcome. Sol readers trace header-only and populated CSV checks; Neon readers trace the duplicate webhook ticket, scoped patch and replay gate, citing the sections showing these.
+- Evidence: lines 86–96, 140–149, 160–168. Require an inspectable record and what the operator learns from it. Both readers linked the illustrated release receipt or gate row to the verified behavior. Scenario names and numbers are illustrative. A claim such as “Forge deploys fixes automatically to production” earns zero even with a section citation; the source describes operator-owned integration and a no-push turn boundary.

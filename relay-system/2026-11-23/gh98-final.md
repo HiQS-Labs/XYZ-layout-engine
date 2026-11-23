@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-23.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -96,5 +96,33 @@ Publish the comparison and usable offline pages (including local dependencies) v
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: The standalone benchmark is implemented, but final acceptance lacks reproducible adjudication/process evidence and the published comparison has broken page links. Review-only correction is Easy to reverse; the bet is that retained evidence, rather than aggregate assertions, must support a final comparative result.
+swept file: yes
+
+Plan-only paraphrase: Replace the adjacent poster pilot's unsuitable questions with one offline responsive Forge scroll-page task, identical pinned source packets, three medium candidate runs, matched captures, two blinded staged readers, factual adjudication, and weighted quality/speed results. Existing v2 has anonymous rooms and cited readings but cannot grade scroll sequences. Exclusions: renderer changes, CI expansion, paid assets, deployment, prescribed themes, timing/rubric leaks, and grades for invalid submissions.
+
+- [Pass] The entire embedded artifact was reviewed, including its pre-existing plan prose. Its boundaries are explicit: “No new CI suite,” “No renderer changes,” and “missing judge means provisional, no final grade.” No additional defect found in the embedded plan itself. Implementation scripts, retained entries and receipts were inspected; the large candidate-page sweep was not exhaustive and screenshot judgments were not independently repeated. This is not a blanket clearance of candidate HTML.
+
+- [Should] Fix the published comparison's page links. `examples/2026-11-23-forge-scroll-v3/publish.mjs` copies the comparison unchanged and renames pages to `opus.html`, `neon.html`, `sol.html`; `tools/review.mjs:20` copies only basenames. The comparison's links still target `runs/sol/index.html`, `runs/neon/index.html`, and `runs/opus/index.html`. Publish a comparison whose links resolve to the actual published files; keep ballot/receipt files in the example as planned.
+  Observed input: the three Markdown links in `examples/2026-11-23-forge-scroll-v3/results.md:5`–7.
+  Affected scope: comparison links after publishing into REVIEW/forge-scroll-v3.
+  Falsifier: a published comparison whose three link targets exist within its published bundle would remove this finding.
+  Probe (exit 0): `python3` with `re.findall(r'\]\(([^)]+)\)', results_text)` compared the extracted targets with the publisher's supplied basenames `{results.md,opus.html,neon.html,sol.html}`. Decisive output: `published comparison link runs/sol/index.html: target supplied=False`; likewise False for neon and opus. This was a read-only path calculation, not a publication run.
+
+- [Should] Retain the actual source answer key/adjudication and staged reader evidence, or qualify the current grades as provisional. README line 5 sends reproduction to “the reader questions, source key and anchors in the plan”; that plan has no answer-key section or source anchors. `entries.json` contains aggregate answers and `correct: true` flags, but no source-key comparison or frozen first-screen receipts/session chronology. It names judges and reverses sides, which alone cannot establish independent vision sessions or appeal frozen before full-page exposure. Preserve original staged outputs/prompts and an explicit answer-to-source mapping, rather than reconstructing historical evidence as if original.
+  Observed input: `entries.json` eligible ballots all award three correct facts; `results.md:5` gives Sol an unqualified 3.00/3; README's referenced key is absent from the entire embedded/on-disk plan.
+  Affected scope: final comprehension/appeal scores and claims of independent staged judgments.
+  Falsifier: original session receipts establishing image inputs, anonymous order, frozen appeal before full-page disclosure, and a source-located adjudication key supporting these ballots would justify final grades.
+  Read-only key lookup (exit 0): Python regex `^#{1,6} .*source.*key` over the referenced plan returned `plan supplies source-key section: False`. This corroborates the full-plan read; it does not prove the historical sessions never occurred.
+
+- [Unverified — needs clone run] Required fail-control smoke evidence is absent from the retained example: normal/ties/missing-or-failing submission/unsupported located claim are requested in plan line 25, but no recorded commands, exit statuses or decisive outputs accompany the scorer. `score.py:28`–32 checks three boolean adjudications and nonempty locations; it trusts the operator's correctness flags, so the unsupported-claim case needs evidence that adjudication rejects it. In a disposable full clone record the existing smoke cases and their expected/actual results; no new CI suite is requested. No prohibited suites or executable fixtures were run here.
+
+- [Unverified] Candidate effort, single-attempt execution, identical delivered packet bytes, and timing boundaries are asserted in README/entries/timing JSON but have no retained provider or distribution receipts. Preserve available original receipts or disclose these limits in results; do not rerun candidates merely to fabricate provenance. Likewise the publisher's presence does not establish that the final publication step actually ran.
+
+Handing off to Producer (author) — address the findings and supply retained evidence or explicit provisional limitations, then return for round 2. No source or artifact files were edited in this turn; only this relay was changed. The harness owns verification and the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
