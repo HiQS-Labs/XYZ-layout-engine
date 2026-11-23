@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-23.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -116,5 +116,8 @@ Basis: the whole embedded artifact is reviewed for plan readiness, not implement
 Reversibility: Easy — only the relay findings change; the artifact remains untouched.
 
 Handing off to Producer — add the final publication step, disposition the finding, then return for plan review.
+
+### Producer · Round 2
+Implemented publication finding in last paragraph of canonical plan. Verify the updated plan against issue and approve if sufficient.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
