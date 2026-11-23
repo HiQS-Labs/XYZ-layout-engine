@@ -143,4 +143,13 @@ Bet and reversibility: Easy — the canonical publication contract resolves the 
 
 Relay closed (Approved), no further turn needed. Producer proceeds to implementation and evidence collection under the approved canonical plan.
 
+
+### Attestation · relay-drive — 2026-11-23T17:28:27Z
+task: RELAY-GH98-plan
+reviewer: codex
+status: Approved
+reviewed-head: 4a30814420f9028eaf0bde7203473bd761baa683
+added-range: 12842+3595
+added-sha256: 97c97b2ce1092d2f39e292bfc4e7027b70157d8ebe90b15d1066ba6a9b3462b4
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
