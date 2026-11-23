@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-23.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Escalated
 ROUND: 3 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -152,5 +152,20 @@ Handing off to Producer (author) — supply the original evidence and clone-run 
 
 ### Producer · Round 3
 The R2 evidence search only inventoried examples/. Original receipts ARE tracked outside it under TESTS-RESULTS/2026-11-23+GH-98/ per repo convention. Read that exact directory now, including judge-x/appeal.json, judge-x/reading.json, judge-x/disclosure.txt and judge-y equivalents, provider-runs.json, handout-one.sha256 through handout-three.sha256, smoke.txt and README.md. Compare timestamps and original answers. Updated results now link the exact location. No new candidates or synthetic historical receipts. If worktree excludes evidence, read tracked git blobs at HEAD for these paths.
+
+### Reviewer · Round 3
+
+VERDICT: FAIL
+Basis: The repository-level evidence resolves the missing-ballot and provenance findings. Required smoke execution and final publication remain unverified: their retained outputs lack a replayable command/exit-status receipt. At the round limit this is Escalated, not a request to rerun candidates. The bet is that a small execution receipt can establish final acceptance without enlarging this pilot; correction is Easy.
+swept file: yes
+
+Plan-only paraphrase: Replace the poster pilot with three identical-source, medium-effort offline scroll-page submissions, matched responsive captures, two anonymous staged readers, source-adjudicated comprehension and weighted quality/speed results. Existing poster questions cannot assess scroll sequence. Exclusions remain renderer changes, new CI, paid assets, deployment, prescribed themes and candidate-visible timing/rubric clues. I reread the entire embedded and on-disk plan, complete scoring/capture/publication scripts, entries, results, instructions and every file in the named evidence directory. No additional pre-existing defect found in those scripts or the embedded plan. Candidate HTML and visual judgments were not exhaustively re-audited; this is not blanket clearance of candidate pages.
+
+- [Pass] Earlier evidence-location criticism is resolved. `TESTS-RESULTS/2026-11-23+GH-98/judge-x/appeal.json` and `reading.json`, and judge-y equivalents, contain separate first-impression and full-reading ballots. Both disclosure files place appeal before HTML disclosure and reading afterwards. Reversed A/B image hashes match the retained captures. This supports the reported staging; these are coordinator-recorded modification times, not an independent access audit. README explicitly identifies the two noncandidate judges and describes the disclosure procedure.
+- [Pass] Read-only probe command: `PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'` using `json.loads`, `hashlib.sha256`, and `datetime.fromisoformat` to compare the named evidence files against `entries.json`, handout files and run PNGs (no scorer or fixture executed). Corrected probe exit 0; decisive output: `x staged timestamps: True`, `y staged timestamps: True`, all four ballot comparisons True, both `all eight image hashes match: True`, provider durations `187.843`, `510.928`, `95.18`. Separate packet comparison (before an image-filename probe error) returned both `BRIEF.md all three match: True` and `FORGE.md all three match: True`; the corrected probe supersedes that failed image-path calculation. Citations: `provider-runs.json` startedAt/completedAt fields, all three `handout-*.sha256`, and each judge's `disclosure.txt`. These corroborate retained records; medium effort remains an operator assertion in entries/README rather than a launch-parameter receipt.
+- [Unverified — needs clone run] `TESTS-RESULTS/2026-11-23+GH-98/smoke.txt` now retains normal, tie, false-claim and missing-ballot outputs, resolving the claim that no output exists. However, its entire 16-line transcript contains no invocation, fixture construction, exit status or clone identity. README's “Manual negative controls” summary is not a replay command. In particular, the false-claim output is comprehension 2.5 after averaging, consistent with changing one reader's adjudication; preserve the actual input construction so another operator can reproduce that result. Supply a disposable-clone command, exit status and decisive output for the required cases, without adding CI or rerunning candidates. No prohibited suite or executable fixture was run here.
+- [Unverified] Publication execution still has no retained command/status or resulting bundle inventory in the supplied evidence. `smoke.txt` ends with `Published links: ['sol.html', 'neon.html', 'opus.html']`, which establishes intended names, not that `publishForReview` ran and updated the index. The publisher's complete source supplies those files and removes repository-only evidence links, but the ignored REVIEW bundle is absent in this seeded worktree. Preserve a publication receipt from the authorized producer/harness run; absence here does not prove publication failed.
+
+Handing off to Producer (author) / operator — resolve the two remaining execution receipts through the disposable-clone/harness workflow and adjudicate this escalated final QA. Only this relay file was edited; the harness owns verification and the file-scoped commit.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
