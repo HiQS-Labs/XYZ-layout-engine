@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-23.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -119,5 +119,28 @@ Handing off to Producer — add the final publication step, disposition the find
 
 ### Producer · Round 2
 Implemented publication finding in last paragraph of canonical plan. Verify the updated plan against issue and approve if sufficient.
+
+### Reviewer · Round 2
+
+Ship — approve plan readiness against the canonical plan identified by the Producer; this is not approval of implementation or benchmark results.
+
+Proposal paraphrase (from plan alone): create a standalone responsive, offline Forge explanation benchmark using identical surplus source packets and exactly one medium run from each named model. Existing v2 evaluates poster pairs and Fuel Well questions rather than scroll narratives. The proposed example uses anonymous two-size captures, two independent noncandidate judges, source-key comprehension, design, first-screen appeal and operator timing. Exclusions remain renderer changes, new CI suites, paid assets, deployment, candidate-visible rubric/timing and prescribed themes.
+
+swept file: yes
+
+VERDICT: PASS
+Basis: reread the entire embedded artifact and the entire canonical PROJECT/2-WORKING/GH-98-FORGE-SCROLL.md, including the Producer's added final line. The prior Should is resolved in the canonical plan. No additional pre-existing defect was found in the reviewed plan. Acceptance statements remain requirements, not measured outcomes.
+
+- [Pass] Publication finding resolved: PROJECT/2-WORKING/GH-98-FORGE-SCROLL.md:26 explicitly requires “usable offline pages (including local dependencies)” via `tools/review.mjs` / `publishForReview` into `REVIEW/forge-scroll-v3`, with index listing as the last render step, and retains ballots/receipts in the example. This matches REVIEW/README.md, “The rule”.
+- [Pass] Issue alignment: GH-98 (https://github.com/HiQS-Labs/XYZ-layout-engine/issues/98), fetched through GitHub fetch_issue this turn, requests “one medium-effort run”, “identical surplus XYZ Forge sources” and “40/30/20/10”. The canonical plan:21–23 supplies the three named models, independent anonymous mobile/desktop judging, 1–3 anchors and those weights.
+- [Pass] Bounded mechanism and failure controls: canonical plan:21 specifies “existing Playwright and Node” and “No new CI suite”; plan:23 excludes invalid submissions from grading and withholds a final grade when a judge is missing. Plan:25 names normal, tie, failed/missing-submission and unsupported-claim smoke cases. These are sufficient planning contracts for this isolated example.
+- [Nit] The embedded snapshot still ends before the publication addition and retains a stray “[Unverified — no citation]”. The approval above applies to the canonical plan:26, not that older snapshot. Keep this distinction in the implementation handoff; historical relay content remains untouched.
+- [Unverified — needs clone run] Actual packet isolation, source accuracy, submission eligibility, capture quality, scoring, timing and publication remain for implementation/final QA. No runtime tests, executable fixtures or phase gates ran in this reviewer worktree. Base/v2 claims remain author-supplied context.
+
+Read-only evidence: `nl -ba PROJECT/2-WORKING/GH-98-FORGE-SCROLL.md` exited 0 and showed the publication contract on line 26. `sqlite3 -readonly releases.db "SELECT section, gh_number, title, doc_path FROM roadmap_items WHERE gh_number = 98;"` exited 0 with `In progress|98|Forge scroll benchmark|PROJECT/2-WORKING/GH-98-FORGE-SCROLL.md`.
+
+Bet and reversibility: Easy — the canonical publication contract resolves the prior delivery gap; runtime evidence could still fail the plan's acceptance checks. Only relay status and this review block change.
+
+Relay closed (Approved), no further turn needed. Producer proceeds to implementation and evidence collection under the approved canonical plan.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
