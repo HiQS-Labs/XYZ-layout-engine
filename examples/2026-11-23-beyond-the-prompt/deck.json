@@ -1,0 +1,226 @@
+{
+  "title": "Beyond the Prompt: Engineering Mindset for Vibe-Coding UX Designers",
+  "project": "beyond-the-prompt",
+  "slides": [
+    {
+      "id": "beyond-the-prompt",
+      "layout": "bookend",
+      "section": "UX DESIGN WORKSHOP",
+      "title": "Beyond the Prompt: Engineering Mindset for Vibe-Coding UX Designers",
+      "lead": "Moving from \"it works on my screen\" to resilient, scalable, and maintainable interfaces.",
+      "note": "Our working example: a list of saved projects."
+    },
+    {
+      "id": "design-to-code",
+      "layout": "rows",
+      "section": "01 / FROM FRAME TO FEATURE",
+      "title": "What a static frame leaves open",
+      "lead": "A Figma frame shows six saved projects. What should someone see before those projects arrive?",
+      "items": [
+        {
+          "title": "State",
+          "body": "The frame captures one moment. Code needs rules for waiting, missing data, and transitions."
+        },
+        {
+          "title": "Speed",
+          "body": "AI can draw six convincing rows in seconds. The data contract and tests still need decisions."
+        },
+        {
+          "title": "Intent",
+          "body": "Design asks what the user expects. Engineering specifies the behavior each input should trigger."
+        }
+      ]
+    },
+    {
+      "id": "inflection-point",
+      "layout": "split",
+      "section": "02 / THE FIRST DEMO",
+      "title": "The demo works. What did it prove?",
+      "lead": "Cursor, v0, and Claude can turn a design idea into a working interface in one session.",
+      "items": [
+        {
+          "title": "What you can learn",
+          "body": "With six sample projects, you can watch someone find a title, open a row, and return to the list."
+        },
+        {
+          "title": "What to test next",
+          "body": "Try a slow connection and a second account. Check who can read each project and how many files a change touches."
+        }
+      ],
+      "note": "A happy-path demo can hide a permissions bug or a component that is hard to change."
+    },
+    {
+      "id": "systems",
+      "layout": "split",
+      "section": "03 / SYSTEMS OVER SCREENS",
+      "title": "Give the component a contract",
+      "lead": "Start with the flow and visual hierarchy. Then describe the data and events that drive the screen.",
+      "items": [
+        {
+          "title": "A screen prompt",
+          "body": "“Build a saved-projects page with a title, a list of projects, and an Open button.”"
+        },
+        {
+          "title": "A component prompt",
+          "body": "“ProjectList takes projects with an id and title, a request status, and an onOpen(id) callback. Show what happens when a request fails.”"
+        }
+      ]
+    },
+    {
+      "id": "unhappy-paths",
+      "layout": "rows",
+      "section": "04 / UI STATES",
+      "title": "Design the four unhappy paths",
+      "lead": "Ask the AI to render each of these alongside the populated list before building the next feature.",
+      "items": [
+        {
+          "title": "Loading",
+          "body": "Show skeleton rows during the first request so the layout stays steady."
+        },
+        {
+          "title": "Empty",
+          "body": "After a successful request with zero results, offer “Create a project.”"
+        },
+        {
+          "title": "Error",
+          "body": "If the network request fails, explain what happened and offer “Try again.”"
+        },
+        {
+          "title": "Partial",
+          "body": "Keep available projects visible. Use a fallback for each missing thumbnail."
+        }
+      ]
+    },
+    {
+      "id": "architecture",
+      "layout": "flow",
+      "section": "05 / SEPARATION OF CONCERNS",
+      "title": "Split the work by responsibility",
+      "lead": "An 800-line file mixing API requests, business rules, and Tailwind classes makes a small change risky.",
+      "items": [
+        {
+          "title": "Fetch",
+          "body": "A data function requests projects and translates the API response into the agreed shape."
+        },
+        {
+          "title": "Manage state",
+          "body": "A hook tracks the request, applies visibility rules to authorized data, and handles retry."
+        },
+        {
+          "title": "Present",
+          "body": "A small, pure ProjectList renders its props and reports clicks. Reuse it with sample data in a preview."
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "layout": "rows",
+      "section": "06 / PROMPT HYGIENE",
+      "title": "Give the next edit a clear boundary",
+      "lead": "A vague request and a whole-repo dump leave room for invented APIs and accidental rewrites.",
+      "items": [
+        {
+          "title": "Set the rules",
+          "body": "Use project rules or a system prompt to name the stack, token library, and test command."
+        },
+        {
+          "title": "Name the files",
+          "body": "Point to ProjectList.tsx and the existing request hook. Include their relevant contracts."
+        },
+        {
+          "title": "Give one task",
+          "body": "“Add retry to the error state. Reuse the hook. Show the diff and the check you ran.”"
+        }
+      ],
+      "note": "If an interface is missing, ask the agent to identify the gap before it edits."
+    },
+    {
+      "id": "git",
+      "layout": "flow",
+      "section": "07 / VERSION CONTROL",
+      "title": "Make a save point before AI edits",
+      "lead": "Before a broad change, inspect git status and commit the working baseline. Start the experiment on a branch.",
+      "items": [
+        {
+          "title": "Build one behavior",
+          "body": "Add retry, then test a failed request followed by a successful one."
+        },
+        {
+          "title": "Read the diff",
+          "body": "Use git diff to spot unrelated edits. Stage only the changes that belong to this behavior."
+        },
+        {
+          "title": "Commit the result",
+          "body": "Use git commit for each working micro-feature. If the experiment fails, return to the saved baseline."
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "layout": "rows",
+      "section": "08 / CODE REVIEW",
+      "title": "Read the diff and repeat the audit",
+      "lead": "You can review generated code even when you supplied none of the implementation.",
+      "items": [
+        {
+          "title": "Look for red flags",
+          "body": "Check for hardcoded API keys, looping useEffect calls, lost keyboard focus, and new dependencies."
+        },
+        {
+          "title": "Get a fresh review",
+          "body": "Give a fresh AI session the diff. Ask a staff engineer to identify risks by file and suggest a test for each."
+        },
+        {
+          "title": "Save the checklist",
+          "body": "Put recurring accessibility, security, and component checks in SKILL.md or a custom command. Run it on each diff."
+        }
+      ]
+    },
+    {
+      "id": "handoff",
+      "layout": "split",
+      "section": "09 / DEVELOPER HANDOFF",
+      "title": "Agree on what engineering inherits",
+      "lead": "Decide together whether the prototype is disposable or intended as production scaffolding.",
+      "items": [
+        {
+          "title": "Proof of concept",
+          "body": "Record what users tried and what you learned. Label mock data and simulated permissions so engineering can rebuild deliberately."
+        },
+        {
+          "title": "Production scaffolding",
+          "body": "Agree on tokens and shared components early. Remove dead code and hand over the data contract, decision notes, tests, and known gaps."
+        }
+      ]
+    },
+    {
+      "id": "hire-able-designer",
+      "layout": "rows",
+      "section": "10 / YOUR DESIGN CAREER",
+      "title": "Engineering fluency strengthens your design portfolio",
+      "lead": "Even if vibe coding isn’t for you, you can show a hiring team how you think through a design.",
+      "items": [
+        {
+          "title": "• Show a tradeoff",
+          "body": "Walk through two ways to build a feature. Explain what each would cost users and why you chose one."
+        },
+        {
+          "title": "• Show a failure state",
+          "body": "Include the screen someone sees when a save fails. Show how they can retry without losing their work."
+        },
+        {
+          "title": "• Show collaboration",
+          "body": "Share a before-and-after from handoff. Point to the engineer’s feedback and the design decision it changed."
+        }
+      ]
+    },
+    {
+      "id": "next-build",
+      "layout": "bookend",
+      "section": "YOUR NEXT AI BUILD",
+      "title": "Choose one habit for the next build",
+      "lead": "AI gets a working interface into your hands. Engineering habits help the next person change it safely.",
+      "note": "Commit one tested change. Design all four UI states. Or save one review skill."
+    }
+  ]
+}

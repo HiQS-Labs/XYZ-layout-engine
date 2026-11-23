@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 — Beyond the Prompt workshop deck
+
+- Added a twelve-slide UX workshop with editable copy. The presentation renderer accepts a separate deck manifest and publishes its PDF and offline viewer under the manifest’s project name.
+
 ## 2026-11-21 — Integration QA for #94
 
 - Moved the tree-of-life variant artwork outside the pinned nutrition asset directory and indexed the three newly landed examples in the README.

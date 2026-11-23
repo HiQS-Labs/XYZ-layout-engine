@@ -10,9 +10,15 @@ import { fontFamily, height, sceneFor, width } from './recipe.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const readJson = async file => JSON.parse(await fs.readFile(file, 'utf8'));
-const { slides } = await readJson(new URL('deck.json', import.meta.url));
-const theme = await readJson(process.env.THEME ?? new URL('theme.json', import.meta.url));
-const out = path.resolve(process.env.OUT_DIR ?? path.join(root, 'temp/layout-engine-deck'));
+const customDeck = process.env.DECK;
+const manifest = await readJson(customDeck ?? new URL('deck.json', import.meta.url));
+const { slides } = manifest;
+const title = customDeck ? manifest.title : 'XYZ Layout Engine';
+const project = customDeck ? manifest.project : 'layout-engine-deck';
+assert.ok(typeof title === 'string' && title.trim());
+assert.match(project, /^[a-z0-9-]+$/);
+const theme = await readJson(process.env.THEME ?? new URL(customDeck ? 'theme-riso.json' : 'theme.json', import.meta.url));
+const out = path.resolve(process.env.OUT_DIR ?? path.join(root, 'temp', project));
 const publish = !process.env.OUT_DIR && !process.env.THEME;
 // The shared renderer accepts one family with multiple registered faces. Use the
 // deck’s type-role weights to select the three embedded Neo-Mirai font files.
@@ -30,7 +36,6 @@ const fonts = neoMirai ? {
   regular: await font('barlow-condensed/BarlowCondensed-Regular.ttf'),
   bold: await font('barlow-condensed/BarlowCondensed-Bold.ttf'),
 };
-const title = 'XYZ Layout Engine';
 const ids = slides.map(slide => slide.id);
 assert.ok(ids.length > 0, 'Expected at least one slide');
 assert.equal(new Set(ids).size, ids.length, 'Expected distinct slide IDs');
@@ -56,14 +61,17 @@ if (neoMirai) {
     slideArt.set(id, dataUri('image/png', bytes));
   }
 }
-const mugFile = 'coffee-mug.png';
-const mug = await fs.readFile(new URL('assets/' + mugFile, import.meta.url));
-const mugReceipt = (await readJson(new URL('assets/provenance.json', import.meta.url)))[mugFile];
-assert.equal(digest(mug), mugReceipt.original.sha256, 'Coffee mug digest mismatch');
-slideArt.set('sponsors', dataUri('image/png', mug));
-const bookendQr = dataUri('image/png', await fs.readFile(new URL('assets/bookend-qr.png', import.meta.url)));
-const nutritionPreview = dataUri('image/png', await fs.readFile(new URL(
-  '../2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png', import.meta.url)));
+let bookendQr, nutritionPreview;
+if (!customDeck) {
+  const mugFile = 'coffee-mug.png';
+  const mug = await fs.readFile(new URL('assets/' + mugFile, import.meta.url));
+  const mugReceipt = (await readJson(new URL('assets/provenance.json', import.meta.url)))[mugFile];
+  assert.equal(digest(mug), mugReceipt.original.sha256, 'Coffee mug digest mismatch');
+  slideArt.set('sponsors', dataUri('image/png', mug));
+  bookendQr = dataUri('image/png', await fs.readFile(new URL('assets/bookend-qr.png', import.meta.url)));
+  nutritionPreview = dataUri('image/png', await fs.readFile(new URL(
+    '../2026-10-13-nutrition-infographic/renders-v4/satori/thumbnail.png', import.meta.url)));
+}
 let profileLink;
 const vectors = [];
 const viewerFrames = new Map();
@@ -142,11 +150,12 @@ try {
     return '<section><img src="' + src + '">' + link + '</section>';
   }).join('');
   await page.setContent(`<!doctype html><html lang="en"><meta charset="utf-8">
-    <title>${title}</title><style>
+    <title></title><style>
     @page{size:${width}px ${height}px;margin:0}body{margin:0}
     section{position:relative;break-after:page}section:last-child{break-after:auto}
     img{display:block;width:${width}px;height:${height}px}
     </style><body>${frames}</body></html>`, { waitUntil: 'load' });
+  await page.evaluate(value => { document.title = value; }, title);
   await page.pdf({ path: path.join(out, 'deck.pdf'), preferCSSPageSize: true, printBackground: true });
 } finally {
   await browser.close();
@@ -165,7 +174,7 @@ const offline = viewerHtml(model, relative, {
 });
 const viewer = path.join(out, 'deck.html');
 await fs.writeFile(viewer, offline);
-if (process.argv.includes('--release')) {
+if (!customDeck && process.argv.includes('--release')) {
   const edition = neoMirai ? 'neo-mirai' : 'riso';
   const releaseDir = fileURLToPath(new URL('renders/' + edition + '/', import.meta.url));
   await fs.mkdir(releaseDir, { recursive: true });
@@ -180,7 +189,7 @@ if (process.argv.includes('--release')) {
     JSON.stringify({ ...receipt, exports }, null, 2) + '\n');
 }
 if (publish) {
-  console.log(await publishForReview('layout-engine-deck', [
+  console.log(await publishForReview(project, [
     path.join(out, 'deck.pdf'), viewer,
-  ], { note: `XYZ Layout Engine overview presented by Noel Saw. ${ids.length} slides.` }));
+  ], { note: `${title}. ${ids.length} slides.` }));
 }

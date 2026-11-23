@@ -38,7 +38,7 @@ export function sceneFor(slide, theme, family = fontFamily, slideArt, background
     cover ? 352 : slide.layout === 'render-loop' ? 175 : 248, content, muted, type.body.weight));
 
   if (cover) {
-    nodes.push({ type: 'img', props: { id: 'bookend-qr', src: bookendQr, width: 184, height: 184,
+    if (bookendQr) nodes.push({ type: 'img', props: { id: 'bookend-qr', src: bookendQr, width: 184, height: 184,
       style: { position: 'absolute', right: margin, bottom: 36 } } });
     if (slideArt && !background) {
       nodes.unshift({
