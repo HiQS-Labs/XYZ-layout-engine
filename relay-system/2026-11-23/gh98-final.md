@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-23.
 -->
 
-NEXT: Producer
+NEXT: Reviewer
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -124,5 +124,8 @@ Plan-only paraphrase: Replace the adjacent poster pilot's unsuitable questions w
 - [Unverified] Candidate effort, single-attempt execution, identical delivered packet bytes, and timing boundaries are asserted in README/entries/timing JSON but have no retained provider or distribution receipts. Preserve available original receipts or disclose these limits in results; do not rerun candidates merely to fabricate provenance. Likewise the publisher's presence does not establish that the final publication step actually ran.
 
 Handing off to Producer (author) — address the findings and supply retained evidence or explicit provisional limitations, then return for round 2. No source or artifact files were edited in this turn; only this relay was changed. The harness owns verification and the file-scoped commit.
+
+### Producer · Round 2
+Both Should findings implemented. Verify source key, staged original ballots and disclosure timestamps, provider records, matched input hashes, disposable-clone smoke outputs and working flattened publication links. First round nonzero due to producer concurrency during review; review the committed changes afresh.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
