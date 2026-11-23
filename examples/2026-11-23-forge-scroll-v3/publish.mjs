@@ -9,7 +9,7 @@ const stage = await fs.mkdtemp(path.join(os.tmpdir(), 'forge-scroll-'));
 try {
   const report = path.join(stage,'results.md');
   const source = await fs.readFile(path.join(root,'results.md'), 'utf8');
-  await fs.writeFile(report, source.replaceAll(/runs\/(opus|neon|sol)\/index\.html/g, '$1.html').replace(' See entries.json for raw judge reasons and source-located answers.', ''));
+  await fs.writeFile(report, source.replace(/\n\[Original judge ballots[^\n]+/, '').replaceAll(/runs\/(opus|neon|sol)\/index\.html/g, '$1.html').replace(' See entries.json for raw judge reasons and source-located answers.', ''));
   const files = [report];
   for (const name of ['opus','neon','sol']) {
     const dest = path.join(stage,name+'.html');
