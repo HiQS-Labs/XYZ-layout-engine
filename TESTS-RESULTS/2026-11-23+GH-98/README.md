@@ -1,0 +1,5 @@
+# GH-98 verification
+
+Each candidate received handout/ from the same committed source revision. Compared both input files with cmp on return. Chromium captures at 1440×900 and 390×844 denied network resources, checked document width, images and page exceptions, and captured both the opening and complete page. All loaded with zero recorded errors and matched viewport width. Opus returned six visible editorial sections rather than the required four or five and remains inspectable but ineligible. Actual timings and measured viewport heights are preserved beside all three submissions.
+
+Manual negative controls on score.py: two eligible times of 100 and 109 seconds tied at speed 3. An unsupported third answer with a cited location but adjudicated false reduced comprehension to 2. Removing the ballots printed provisional; a 12-second ineligible delivery received no score. Four existing core canaries passed in 31.2 seconds. PDDA reported 0 errors and 35 warnings. Evidence of judging and report replay lives in the example.

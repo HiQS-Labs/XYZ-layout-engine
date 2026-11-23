@@ -1,0 +1,7 @@
+# Forge scroll benchmark v3
+
+Give each entrant a private copy of handout/. FORGE.md is the upstream README at HiQS-Labs/XYZ-forge revision 877c2be0d3548462ab59ca156bd1d719fbf863e7. Only the handout is candidate-visible. Keep an unchanged copy of each delivered HTML page, and record provider start/completion timestamps outside the packet.
+
+From this directory run `node capture.mjs runs/sol` (replace sol for each candidate). Check visible chapter boundaries as well as the reported section count, overflow, runtime errors, images and network activity. Four or five discernible sections and a working responsive offline page qualify. Preserve disqualified work. Put only anonymously named first screens in two judge rooms with the order reversed. Freeze each first-impression ballot before releasing full captures/pages. Use the reader questions, source key and anchors in the [plan](../../PROJECT/2-WORKING/GH-98-FORGE-SCROLL.md). Keep timing and identities private until ballots are final. The candidate handout and judge rooms are instruction-scoped; they are not security sandboxes.
+
+Run `python3 score.py .` for the weighted grades and `node publish.mjs` for REVIEW/forge-scroll-v3. The first eligible time starts a tie group, with times within 10% sharing its rank. A new group uses the next competition rank. The samples are single attempts and include provider latency. See [results](results.md) for the scored evidence.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 — GH-98 Forge scroll benchmark v3
+
+Added a responsive Forge landing-page benchmark with a pinned source handout, matched viewport captures, blinded reader evidence and operator timing. See [the example](examples/2026-11-23-forge-scroll-v3/README.md).
+
 ## 2026-11-21 — Integration QA for #94
 
 - Moved the tree-of-life variant artwork outside the pinned nutrition asset directory and indexed the three newly landed examples in the README.
