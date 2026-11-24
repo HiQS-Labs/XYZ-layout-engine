@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-24.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -143,5 +143,21 @@ Disposable-clone gates at 379cf40: pnpm test passed all four canaries (30.4 seco
 6. The relay ends on **Approved** (Reviewer only). In a manual relay, end each turn by committing just this file; no push. In a driven turn the harness commits.
 
 ## Log
+
+### Reviewer · Round 1
+swept file: yes
+VERDICT: FAIL
+Basis: The previous acceptance-contract and auditability requests are addressed by the embedded four-item map, exact commands, pinned paths, navigation script and disposable-clone results. Compared all four requirements with issue 100 fetched through the GitHub connector. Read the entire embedded receipt, manifest, README, renderer and recipe; inspected all ten embedded viewer frames. One pre-existing visual-policy discrepancy remains undispositioned.
+
+- [Pass] Standalone thesis and career application: `examples/2026-11-23-beyond-the-prompt/deck.json:15` supplies the audience, `:33` the contents, and `:153` the portfolio application. `render-deck.mjs:86` derives previews in manifest order; `recipe.mjs:100` renders the numbered two-column contents. No Part II implementation is required by issue 100 (“A hands-on Part II is optional future work”).
+- [Pass] Study scope is explicit in the actual content: `deck.json:89` says “The study measured problem solving in the lab”; `:93` labels UX as “Our design application”; `:127` states the MRI changes diminished after practice stopped; `:131` says UX judgment is a separate question. Attribution appears at `:96` and `:134`; README links both primary sources. This passes the scope/separation requirement, without claiming these studies demonstrate improved UX judgment. The UCLA PDF URL returned a PDF; the DOI browser fetch failed at Nature's identity redirect, so live Nature access was not independently established.
+- [Pass] Delivered paths resolve locally. Read-only Python probe parsed `const S=...;const N=` from `examples/2026-11-23-beyond-the-prompt/renders/riso/deck.html`, compared every slug/title to `deck.json`, checked README relative targets with `Path.is_file()`, and counted PDF `/Type\s*/Page\b` objects. Exit 0: “10 embedded frames; IDs and titles match manifest order”; “renders/riso/deck.html True”; “renders/riso/deck.pdf True”; “PDF page objects 10”. This is structural export evidence, not an executed browser-navigation claim.
+- [Pass] Archive and gates are now auditable producer evidence: acceptance-map item 4 records the dated local archive's 14-slide count and viewer `cmp` exit 0; item 3 and the closing gate paragraph record both render commands at 379cf40, ten versus fifteen slides, offline navigation, four passing canaries and PDDA exit 0 with 35 warnings. Accept these as supplied disposable-clone results, not checks rerun here. The intentionally local archive is not present for independent inspection in this relay tree. Later pre-push commands are not a basis for this verdict.
+- [Should] Disposition the inherited AS-12 typography exception before claiming visual qualification. Observed input: `examples/2026-11-20-layout-engine-deck/theme-riso.json:15` sets headline pct 0.097 and `:30` body pct 0.0333; `recipe.mjs:2-5,26` uses S=720 and rounds these to 70 and 24 px. This contradicts SYSTEM-INSTRUCTIONS.md AS-12's “Headline : body ratio ≥ 4:1”. Reproducible non-mutating command: `python3 -c 'import json; t=json.load(open("examples/2026-11-20-layout-engine-deck/theme-riso.json"))["type"]; h=round(720*t["headline"]["pct"]); b=round(720*t["body"]["pct"]); print(h,b,h/b)'` → exit 0, `70 24 2.9166666666666665`. Affected scope: this thesis edition using the default Riso theme, including the inspected analogy frame; not a request to redesign all older decks. Falsifier: an existing explicit content-based AS-12 exception for this edition, or a qualified theme producing ratio ≥4 while preserving legibility and fit. Cheapest fix: document the deliberate presentation-type exception and its audience/readability rationale under SYSTEM-INSTRUCTIONS.md's permitted exception/report contract; alternatively adjust this edition and regenerate its exports in the disposable clone. Preserve the study limitations and avoid adding a test suite.
+
+Limits: no git, executable fixture, browser, test suite or PDDA command ran here; no phase gate is configured in this relay. The graph query was denied by the environment approval policy, so named source files were read directly. The first scratch extraction attempt failed because PIL is unavailable; the standard-library extraction then succeeded. Only Satori-derived embedded frames were visually available; no independent Chromium or phone-scale review is claimed. No additional pre-existing defect was identified in the swept receipt/source beyond the typography discrepancy above.
+
+Reversibility: Easy — a scoped visual-exception disposition can resolve this without runtime changes.
+Handing off to Producer (author) — disposition the AS-12 finding and return for review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
