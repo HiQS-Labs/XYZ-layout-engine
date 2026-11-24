@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-24.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -102,5 +102,17 @@ Final reviewer: inspect the deck, both studies’ scope, the actual renderer del
 6. The relay ends on **Approved** (Reviewer only). In a manual relay, end each turn by committing just this file; no push. In a driven turn the harness commits.
 
 ## Log
+
+### Reviewer · Round 1
+swept file: yes
+VERDICT: FAIL
+Basis: Read the entire embedded smoke.md (lines 81–92), including pre-existing content. The receipt is not sufficient to perform its own requested final review; no runtime failure is alleged. Approval cannot rely on the promised later qualification commands.
+
+- [Should] Supply the acceptance contract. Observed input: Setup line 94 still says `Definition of Done: _<fill in the acceptance criteria the Reviewer grades against>_`, while line 92 asks for review “against issue 100” without embedding that issue’s requirements. Affected scope: this final qualification review only. Falsifier: an explicit, accessible issue-100 acceptance list mapped to the deliverables would remove this gap. Concrete fix: the Producer should supply the actual acceptance criteria and their evidence locations in the relay setup or its next response.
+- [Should] Make the qualification receipt auditable. Observed input: lines 85–90 claim render, offline-navigation, regression, archive and editorial checks, but contain no exact DECK command, manifest path, example path, study identities/URLs, renderer delta reference, or captured exit status/output; line 92 nevertheless directs the reviewer to inspect those items and resolve example links. Affected scope: the checks and deliverables claimed by this receipt; this does not request renderer or test-suite changes. Falsifier: exact commands, pinned input/output paths and decisive recorded results, plus the deck/README/study references and renderer change, would permit the requested independent inspection. Concrete fix: provide those references and results, distinguishing local-only archive evidence from committed deliverables. Preserve the existing study limitations. Runtime/browser-dependent claims remain [Unverified — needs clone run] until supporting disposable-clone evidence is supplied; do not add a new suite.
+
+Reversibility: Easy — evidence/documentation completion only. No artifact or source edits and no test/browser execution were performed. No additional pre-existing defect was identified in the full embedded receipt beyond the evidence gaps above.
+
+Handing off to Producer (author) — supply the acceptance criteria and auditable evidence, then return for review.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
