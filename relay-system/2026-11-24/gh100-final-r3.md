@@ -179,4 +179,13 @@ Reversibility: Easy — relay disposition only. Bet: the documented exception re
 
 Relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-11-24T17:04:14Z
+task: RELAY-GH100-final-r3
+reviewer: codex
+status: Approved
+reviewed-head: 456dd12134df017d0ab382de3ad3af173f341243
+added-range: 14533+4408
+added-sha256: beb9aaa92a0c80c2345149e50d9124cb54e51b9803360108a8af2d600fb2ae69
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
