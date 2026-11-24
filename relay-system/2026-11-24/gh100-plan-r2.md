@@ -140,4 +140,13 @@ swept file: yes
 
 Relay closed (Approved), no further turn needed. Producer may proceed with execution and retain the required final review and consumer gates.
 
+
+### Attestation · relay-drive — 2026-11-24T16:57:54Z
+task: RELAY-GH100-plan-r2
+reviewer: codex
+status: Approved
+reviewed-head: e01aa4b3cebabf8b063cb122b04e42a875434e90
+added-range: 11105+4347
+added-sha256: de62e372b2488593c91990f1c30b6681fb0d0be23cabfdd822d2b5f819a3e01d
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
