@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-24 — Beyond the Prompt thesis edition (#100)
+
+- Added a ten-slide UX talk with editable copy, research sources, offline viewer and PDF. The overview renderer also accepts a separate manifest and can build a contents slide from its previews.
+
 ## 2026-11-21 — Integration QA for #94
 
 - Moved the tree-of-life variant artwork outside the pinned nutrition asset directory and indexed the three newly landed examples in the README.

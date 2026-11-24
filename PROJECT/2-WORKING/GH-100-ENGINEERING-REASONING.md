@@ -15,7 +15,7 @@ updated: 2026-11-24
 
 | What was just completed | What's next |
 |---|---|
-| Located the approved local draft and verified the workshop snapshot. | Independent plan review, render qualification, final review and PR. |
+| Plan review approved. Thesis and default render checks passed. | Final review, consumer gates, PR and merge decision. |
 
 ## Plan and acceptance
 
