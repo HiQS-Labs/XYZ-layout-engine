@@ -51,3 +51,5 @@ try {
 ~~~
 
 Disposable-clone gates at 379cf40: pnpm test passed all four canaries (30.4 seconds, 60-second budget). utils/pdda/pdda.sh run exited 0 with 35 warnings under issue-doc-sync and governance in the unvendored clone. Re-run the pre-push checks on the publication revision. These are local gates.
+
+Final round 2 accepted all four issue criteria and identified an inherited typography exception. Disposition: accepted and documented in the example README, under Presentation typography. The Riso 70 px / 24 px ratio is 2.92:1, intentionally retaining projected body legibility for the two research comparisons. This is an explicit AS-12 exception, not a 4:1 pass. No theme, layout, slide text, or export bytes changed. Check only this disposition and materially new evidence against the already accepted criteria.
