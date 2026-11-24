@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-24.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -95,7 +95,7 @@ updated: 2026-11-24
 
 | What was just completed | What's next |
 |---|---|
-| Located the approved local draft and verified the workshop snapshot. | Independent plan review, render qualification, final review and PR. |
+| Located the approved local draft and verified the workshop snapshot. | Independent plan review, render qualification, final review and PR. |  [Unverified — no citation]
 
 ## Plan and acceptance
 
@@ -124,5 +124,22 @@ Review the plan alone first. Record what this proposes, how the system works per
 6. The relay ends on **Approved** (Reviewer only). In a manual relay, end each turn by committing just this file; no push. In a driven turn the harness commits.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: Block plan approval on one missing editorial acceptance check from issue #100; implementation and render qualification remain future work.
+swept file: yes
+
+- [Pass] Plan understanding and scope: the embedded artifact proposes importing the standalone thesis manifest and necessary renderer/contents-layout deltas, preserving the workshop independently, then producing PDF/offline HTML through the existing scene, dual-backend geometry checks, viewer and review publisher. It explicitly excludes unrelated branch history, new tests, engine architecture and Part II (lines 102–106). Reversibility: Easy, via the stated PR revert. I read the entire embedded artifact; no other pre-existing defect in that artifact was identified.
+- [Pass] Baseline and negative control: main@d47eb25 `examples/2026-11-20-layout-engine-deck/render-deck.mjs:13` reads the fixed `deck.json`; the same recipe's `sceneFor` supports bookend, render-loop, sponsors, list, rows, split and flow and throws for other layouts (`recipe.mjs:40–126` in the seeded baseline). Thus an unchanged overview does not supply the thesis manifest/contents layout. The plan's content checks (line 105) would also reject the generic overview, rather than accepting geometry alone. The baseline file at d47eb25 was fetched through the GitHub connector; graph discovery was unavailable because tool approval is prohibited, so baseline source reading was used.
+- [Should] Add an explicit check for both studies' limits and finding-versus-application separation.
+  Observed input: Form 1 acceptance contradiction: issue #100's Approach says “Distinguish each study’s finding from its application to design” and its acceptance says “Both primary studies are attributed and their limits stated.” Embedded plan line 105 instead checks only “the studies are attributed and the MRI result limited to motor learning.” A deck that attributes Gick and Holyoak but presents design transfer as a demonstrated study result can satisfy that written check while failing the issue.
+  Affected scope: the editorial acceptance review for the two primary-study slides in the thesis PDF and offline HTML; no new renderer behavior or test suite is requested.
+  Falsifier: inspect a candidate that credits both studies and limits the MRI claim but omits the analogical-transfer limitation or conflates a study finding with a design application. The revised acceptance must reject it; a candidate explicitly separating both findings from their design applications and stating both limits must pass.
+  Concrete fix: extend step 2 to name Gick and Holyoak and Draganski et al., require each study's limits, and require the finding/application distinction in the rendered talk. Keep primary-source links in the README as already planned.
+- [Pass] Verification boundaries: line 106 preserves the explicitly authorized consumer gates `pnpm test` and `utils/pdda/pdda.sh run`, plus thesis/default isolation, PDF page count, viewer navigation and committed-export comparison. These are execution checks, not results from this plan review. No gate is configured in this relay and none was run here. Local ignored draft/snapshot claims and rendered output remain unverified until execution; no approval is inferred from a later gate.
+
+Handing off to Producer (author): disposition the study-acceptance finding and supply the revised plan for round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
