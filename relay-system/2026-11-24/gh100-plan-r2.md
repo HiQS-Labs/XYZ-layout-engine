@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-24.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -95,7 +95,7 @@ updated: 2026-11-24
 
 | What was just completed | What's next |
 |---|---|
-| Located the approved local draft and verified the workshop snapshot. | Independent plan review, render qualification, final review and PR. |
+| Located the approved local draft and verified the workshop snapshot. | Independent plan review, render qualification, final review and PR. |  [Unverified — no citation]
 
 ## Plan and acceptance
 
@@ -124,5 +124,20 @@ Review the plan alone first. Record what this proposes, how the system works per
 6. The relay ends on **Approved** (Reviewer only). In a manual relay, end each turn by committing just this file; no push. In a driven turn the harness commits.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: PASS
+Basis: Ship the plan for execution. Reviewed the complete embedded artifact, not just a diff; no pre-existing plan defects found. This approves planning readiness, not implementation, snapshot preservation, research accuracy in the eventual slides, or completed render/gate results.
+swept file: yes
+
+- [Pass] Proposal and mechanism: deliver a standalone thesis example by importing only needed manifest/recipe/renderer changes into main, then reuse scene generation → Satori/Chromium geometry checks → PDF/shared offline viewer → publishForReview. The plan explicitly excludes unrelated branch history, new tests, engine architecture and Part II (artifact, “Import only the required deck example and renderer deltas” and “No new tests, engine architecture or Part II exercise”). The reversible bet is that the existing example machinery suffices with manifest selection, optional QR and the contents layout; failure is caught by rendering both thesis and default overview independently. Reversibility: Easy, PR revert.
+- [Pass] Grounded against issue 100: its “Acceptance and boundaries” requires audience, per-slide contents, portfolio, study attribution/limits, verified PDF/offline HTML and recoverable workshop. Plan steps 1–3 cover these, including the 14-slide preservation requirement and explicit research-to-UX boundary. Source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/100 . The issue's first comment also asks for a visible decision and warns against treating juggling MRI as a design outcome; step 2 targets Saved vs Synced and appointment confirmation while rejecting slides implying demonstrated design judgment.
+- [Pass] Baseline validation: read the complete Nov 20 README, manifest, recipe and renderer at main baseline d47eb25 through GitHub fetch_file. The renderer literally reads `new URL('deck.json', import.meta.url)` and sets `const title = 'XYZ Layout Engine'`; the recipe dispatches its existing layouts and ends with `throw new Error('Unknown slide layout: ' + slide.layout)`. This supports the plan's claim that copy-only edits cannot select the proposed manifest or supply its missing contents layout. Sources: examples/2026-11-20-layout-engine-deck/render-deck.mjs:13,33 and recipe.mjs:125–126 at d47eb25. No renderer refactor or new framework is warranted by the plan.
+- [Pass] Negative control and observation targets: the baseline manifest opens with “XYZ Layout Engine” / “Reproducible graphics from structured data” and contains fifteen overview slides rather than the required audience, Saved/Synced, appointment and study-limit content (d47eb25:examples/2026-11-20-layout-engine-deck/deck.json). It therefore fails step 2 unchanged. Steps 1–3 separately observe the preserved workshop manifest/viewer, thesis PDF/offline HTML, default overview, page count, navigation and committed exports against fresh rendering; an unchanged workshop likewise cannot satisfy the standalone thesis criterion. These are acceptance checks to execute, not checks claimed run here.
+- [Pass] Consumer gate override preserved verbatim: step 3 says “Before push run pnpm test and utils/pdda/pdda.sh run as explicitly authorized for this consumer”. It does not replace that instruction with Forge hook installation or task-accounting admission. Both commands remain execution obligations; no gate is configured in this relay and approval assumes no later automatic gate.
+- Review limits: graph inventory was attempted but the MCP returned “requires approval, but approval policy is never”; baseline validation used explicit GitHub source reads instead. Live issue and comments were read successfully. Read-only ledger query `sqlite3 -readonly releases.db "SELECT section, gh_number, title, doc_path FROM roadmap_items WHERE gh_number=100"` exited 0 and returned `In progress|100|Beyond the Prompt thesis edition|PROJECT/2-WORKING/GH-100-ENGINEERING-REASONING.md`. Local ignored draft/snapshot claims remain execution inputs to verify under step 1, as the review boundary explicitly directs. No test, executable fixture, render, PDDA gate or git command was run in this reviewer worktree.
+
+Relay closed (Approved), no further turn needed. Producer may proceed with execution and retain the required final review and consumer gates.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
