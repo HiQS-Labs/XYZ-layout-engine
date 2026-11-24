@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-24.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -145,5 +145,38 @@ Final round 2 accepted all four issue criteria and identified an inherited typog
 6. The relay ends on **Approved** (Reviewer only). In a manual relay, end each turn by committing just this file; no push. In a driven turn the harness commits.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: PASS
+Basis: Ship. The final-round typography disposition is explicit and agrees with the theme. The four previously accepted requirements remain supported by the manifest, published exports and embedded qualification receipt; no materially new contradiction found. Approval is of this artifact and disposition, not a claim that future pre-push checks have run.
+swept file: yes
+
+- [Pass] Typography disposition closes the inherited exception: `examples/2026-11-23-beyond-the-prompt/README.md:22` expressly calls 2.92:1 an AS-12 exception and gives the projection-legibility reason. `examples/2026-11-20-layout-engine-deck/recipe.mjs:26` rounds shorter-side percentages; `theme-riso.json:15`, `:20`, `:25`, `:30` yield 70/30/19/24 px. SYSTEM-INSTRUCTIONS permits stated, content-serving exceptions. No request to shrink body text or alter exports.
+- [Pass] Accessible contract and standalone scope: README lines 3 and 10 expose downloads and the exact rebuild command. `deck.json:15`, `:33`, `:137` supply audience, contents and career application. `render-deck.mjs:86` supplies previews in manifest order and `recipe.mjs:100` lays out two columns. Read the entire embedded smoke artifact, manifest, README and both renderer/recipe files, including pre-existing branches; no additional pre-existing defect identified in that sweep. No git command was run; the historical renderer diff was not independently reconstructed.
+- [Pass] Both studies retain attribution and bounded claims: `deck.json:89` limits the analogy result to experimental problem solving, `:93` labels UX as our application, and `:127` / `:131` describe diminishing juggling-related changes and separate UX judgment. README lines 17–18 link the primary sources. This closes the editorial scope disposition; this turn does not claim a fresh full-paper scientific audit. External retrieval returned the UCLA PDF, while the Nature redirect was unavailable.
+- [Pass] Delivered export links and static consistency measured with the following non-mutating probe, exit 0: `10 slides; both export links resolve; 10 PDF page objects; all manifest titles present; type scale 70/30/19/24`. Source targets: README line 3 and its two relative export paths. This checks static contents, not browser navigation or visual rendering.
+
+```sh
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"
+python3 - <<'PROBE'
+from pathlib import Path
+import json,re
+b=Path("examples/2026-11-23-beyond-the-prompt"); m=json.loads((b/"deck.json").read_text()); h=(b/"renders/riso/deck.html").read_text(); p=(b/"renders/riso/deck.pdf").read_bytes(); t=json.loads(Path("examples/2026-11-20-layout-engine-deck/theme-riso.json").read_text())
+assert len(m["slides"])==10
+assert all((b/x).is_file() for x in ["renders/riso/deck.html","renders/riso/deck.pdf"])
+assert len(re.findall(rb"/Type\s*/Page\b",p))==10
+assert all(s["title"] in h for s in m["slides"])
+assert {k:round(720*v["pct"]) for k,v in t["type"].items()}==dict(headline=70,section=30,label=19,body=24)
+print("10 slides; both export links resolve; 10 PDF page objects; all manifest titles present; type scale 70/30/19/24")
+PROBE
+```
+
+- [Pass] Archive evidence is appropriately local rather than a missing public deliverable: embedded acceptance map item 4 reports the 14-slide count and viewer `cmp` exit 0, with “No Part II implementation.” Accepted as the already-reviewed operator-machine receipt; archive recoverability was not independently rerun here.
+- [Unverified — no citation] Executed gates are auditable as prior producer evidence: the embedded receipt states “pnpm test passed all four canaries (30.4 seconds, 60-second budget)” and “utils/pdda/pdda.sh run exited 0 with 35 warnings” at 379cf40. Its offline probe asserts the ten thesis IDs, counter, titles and 1280-pixel image width. Those results are accepted as recorded clone evidence, not independently executed this turn. Publication-revision pre-push checks remain the operator's separate requirement; no later gate is assumed for this approval.
+
+Reversibility: Easy — relay disposition only. Bet: the documented exception resolves the prior typography finding without changing product bytes; a theme/README mismatch would overturn this approval, and the static probe found none. No new tests, fixtures, source or artifact edits.
+
+Relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
