@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-25 — Lean multi-stage renderer Docker target (GH-102)
+
+- Converted `Dockerfile` to a multi-stage build (`base` → `renderer` → `studio` default) with `pnpm install --frozen-lockfile --ignore-scripts`, `PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`, and world-readable `/app` (`a+rX`) for non-root `--user` container runs.
+- Trimmed `.dockerignore` to exclude `tools/spike/output` and non-runtime governance directories/files explicitly while retaining `examples/` for `studio` and all `tools/` catalog-pinned Markdown/asset files (including `tools/recipes/design-intake.contract.md`).
+- Documented `docker build --target renderer`, recipe scope (`design-intake` in `renderer`; example-backed recipes in `studio`), and headless `docker run` invocation in `README.md`; `docker compose up --build` continues targeting `studio` unchanged. Easy reversal.
+- Verified via `pnpm test` (4/4 canaries within 60 s budget), `FRONTDOOR.md` (`FD-01`..`FD-10`), `utils/pdda/pdda.sh run` (0 errors), and live `linux/amd64` Docker runs (`docker build --target renderer` with 5.06 MB BuildKit context, headless non-root `--user` Playwright/Satori renders including arbitrary UID `12345:12345` with `catalog.verified: true`, and `docker compose up -d --build` Studio parity across all 4 recipes).
+
 ## 2026-11-23 — GH-98 Forge scroll benchmark v3
 
 Added a responsive Forge landing-page benchmark with a pinned source handout, matched viewport captures, blinded reader evidence and operator timing. See [the example](examples/2026-11-23-forge-scroll-v3/README.md).
