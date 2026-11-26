@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-26.
 -->
 
-NEXT: Reviewer
-STATUS: Open
+NEXT: Producer
+STATUS: Approved
 ROUND: 1 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -95,5 +95,59 @@ The November 12–26 review window includes #95 for prior missing examples and o
 6. The relay ends on **Approved** (Reviewer only). End each turn by committing just this file; no push.
 
 ## Log
+
+### Reviewer · Round 1 · codex
+
+VERDICT: PASS
+Basis: Ship. Both bounded fixes match the embedded plan; no additional pre-existing defects found in the whole-file sweep of the embedded artifact, README.md, score.py, and the smoke evidence source. Reversibility: Easy. Approval covers the seeded source and narrow probes; harness verification remains required as described below.
+swept file: yes
+
+- [Pass] Discovery: README.md:271 links the benchmark README in the existing worked-examples paragraph. The target exists. A read-only directory/link probe reported `link resolves; FD-06 missing folders: []`. No new navigation mechanism.
+- [Pass] Evidence guard: examples/2026-11-23-forge-scroll-v3/score.py:39–43 rejects missing, empty, whitespace and numeric answers for correct facts, before counting comprehension. Incorrect facts still short-circuit, the floor remains at line 43, provisional handling remains at lines 30–32, and weights remain at line 47. No additional suite or scoring subsystem.
+- [Pass] Independent scratch-only probe: command `export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.relay-scratch/tmp"; python3 - <<'PY'` using the following body (exit 0). Temporary entry copies were confined to TMPDIR; scorer execution is a narrow measurement, not the executable smoke fixture or replay suite.
+
+```python
+import contextlib, copy, io, json, pathlib, runpy, sys, tempfile
+root = pathlib.Path('examples/2026-11-23-forge-scroll-v3')
+original = json.loads((root/'entries.json').read_text())
+def score(data):
+    with tempfile.TemporaryDirectory() as tmp:
+        pathlib.Path(tmp, 'entries.json').write_text(json.dumps(data))
+        sys.argv = [str(root/'score.py'), tmp]
+        out = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(out):
+                runpy.run_path(str(root/'score.py'), run_name='__main__')
+            return 0, out.getvalue()
+        except ValueError as e:
+            return 1, str(e)
+rc, out = score(original)
+assert rc == 0 and '3.00/3' in out and '2.50/3' in out
+for value in ['', ' \t', None, 3]:
+    data = copy.deepcopy(original)
+    for b in data['sol']['ballots']:
+        for f in b['facts']:
+            if value is None: f.pop('answer')
+            else: f['answer'] = value
+    rc, out = score(data)
+    assert rc == 1 and 'nonblank' in out
+data = copy.deepcopy(original)
+for b in data['sol']['ballots']:
+    for f in b['facts']:
+        f['correct'] = False
+        f.pop('answer')
+rc, out = score(data)
+assert rc == 0 and '(1, 3, 3, 3)' in out
+data = copy.deepcopy(original)
+data['sol']['ballots'].pop()
+rc, out = score(data)
+assert rc == 0 and out.count('provisional') == 2
+```
+
+  Decisive observed output: original Neon `2.50/3`, Sol `3.00/3`; each of empty/whitespace/missing/number returned 1 with `sol: correct facts require a nonblank reader answer`; incorrect/missing floor returned 0 with `(1, 3, 3, 3)`; incomplete panel returned 0 with both eligible entries provisional.
+- [Pass] Proportional red controls: TESTS-RESULTS/2026-11-26+GH-104/smoke.py mutates all six Sol answers across four invalid classes and asserts acceptance at 3.00 on the base versus rejection after the change. smoke.txt records the four errors and states `On base 14300b4` they were accepted. This is recorded producer evidence, distinguished from the independent post-change probe above.
+- [Unverified — needs clone run] Full FRONTDOOR block, GH-98 replay and base red-control execution were not rerun here. smoke.txt reports zero-byte FRONTDOOR output and replay exit 0. The block includes Git commands, and replay/fixture execution is prohibited this turn; the harness must validate these claims. Committed-diff identity likewise was not independently checked because Git is explicitly forbidden. Graph discovery was attempted but denied by tool approval policy; source reads supplied the fallback.
+
+relay closed (Approved), no further turn needed.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
