@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-25 — XYZ Layout Engine licensing
+
+- Added the AGPL-3.0-only license and a commercial licensing guide covering hosted rendering, generated output and third-party notices.
+
 ## 2026-11-25 — Lean multi-stage renderer Docker target (GH-102)
 
 - Converted `Dockerfile` to a multi-stage build (`base` → `renderer` → `studio` default) with `pnpm install --frozen-lockfile --ignore-scripts`, `PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`, and world-readable `/app` (`a+rX`) for non-root `--user` container runs.

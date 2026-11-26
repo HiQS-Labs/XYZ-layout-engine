@@ -566,3 +566,7 @@ utils/pdda/                  document-governance checks
   - Barlow Condensed Regular 400 and Bold 700: [license](tools/fonts/barlow-condensed/OFL.txt),
     [source](tools/fonts/barlow-condensed/SOURCE.md)
   - Alegreya: [`tools/fonts/alegreya/`](tools/fonts/alegreya/)
+
+## License
+
+XYZ Layout Engine is available under [AGPL-3.0-only](LICENSE). For alternative terms, see [commercial licensing](LICENSE-COMMERCIAL.md). Separately licensed materials retain their own terms, including the [dependencies and fonts](#dependency-and-font-notices) and [PDDA tooling](utils/pdda/NOTICE.md).
