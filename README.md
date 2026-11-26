@@ -268,7 +268,7 @@ renders plus a `verification.json`)
 Scripts that make a Chromium render need Playwright's Chromium installed. The XYZ Forge README notes
 those scripts must run outside the Claude Code macOS sandbox.
 
-Additional worked examples include the [Tunnel Run art study](examples/2026-10-27-tunnel-run/README.md), the [alternate ten-slide talk](examples/2026-10-29-talk-deck-astra/README.md), and the [animated imaging pipeline and benchmark](examples/2026-11-21-imaging-layer-pipeline/README.md).
+Additional worked examples include the [Tunnel Run art study](examples/2026-10-27-tunnel-run/README.md), the [alternate ten-slide talk](examples/2026-10-29-talk-deck-astra/README.md), and the [animated imaging pipeline and benchmark](examples/2026-11-21-imaging-layer-pipeline/README.md). The [Forge scroll benchmark](examples/2026-11-23-forge-scroll-v3/README.md) compares three responsive landing pages.
 
 ## Authoring with an AI agent
 
