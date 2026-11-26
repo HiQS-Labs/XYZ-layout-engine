@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-26 — Forge scroll benchmark follow-up (#104, #105)
+
+Linked the example from the README and required written reader answers for facts marked correct.
+
 ## 2026-11-25 — Lean multi-stage renderer Docker target (GH-102)
 
 - Converted `Dockerfile` to a multi-stage build (`base` → `renderer` → `studio` default) with `pnpm install --frozen-lockfile --ignore-scripts`, `PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`, and world-readable `/app` (`a+rX`) for non-root `--user` container runs.

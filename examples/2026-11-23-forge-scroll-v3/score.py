@@ -36,6 +36,10 @@ for key, entry in entries.items():
             raise ValueError("Expected three adjudicated facts")
         if any(type(b[k]) is not int or not 1 <= b[k] <= 3 for k in ("craft", "appeal")):
             raise ValueError("Quality grades must be 1–3")
+        for fact in b["facts"]:
+            answer = fact.get("answer")
+            if fact["correct"] and (not isinstance(answer, str) or not answer.strip()):
+                raise ValueError(f"{key}: correct facts require a nonblank reader answer")
         readings.append(max(1,sum(f["correct"] and bool(f["location"].strip()) for f in b["facts"])))
         craft.append(b["craft"])
         appeal.append(b["appeal"])
