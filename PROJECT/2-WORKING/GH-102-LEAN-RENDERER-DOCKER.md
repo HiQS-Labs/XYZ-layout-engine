@@ -3,7 +3,7 @@ gh_issue: 102
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/102
 title: "Container runtime packaging: add lean multi-stage renderer Docker target and trim build context for headless consumers"
 goal: "Add a lean multi-stage renderer Docker target, trim non-runtime Docker build context without breaking catalog pins or Studio, and document headless container invocation"
-status: "Active (Plan drafted — pending Codex Plan QA)"
+status: "Active (Plan revised for Codex Plan QA Round 2)"
 created: 2026-11-25
 updated: 2026-11-25
 owner: Antigravity
@@ -21,7 +21,7 @@ phases: 1
 
 | What was just completed | What's next |
 |---|---|
-| Provisioned fresh full clone off `origin/main@d47eb25`, completed grounded recon of `Dockerfile`, `.dockerignore`, `compose.yaml`, `tools/studio.mjs`, `tools/render.mjs`, `tools/catalog.mjs`, `tools/catalog.sql`, `tools/recipes/design-intake.mjs`, and `tools/spike/assets.mjs`, registered GH-102 in `releases.db`, and drafted this surgical plan. | Run Codex relay Plan QA (`relay-system/2026-11-25/gh102-plan-qa.md`) and iterate to `STATUS: Approved` before editing `Dockerfile`, `.dockerignore`, and `README.md`. |
+| Addressed Codex Plan QA Round 1 findings (`R1` sibling-stage Studio smoke + explicit separation of mirror evidence vs Docker/UID container qualification; `R2` equal-duration 14-day inclusive recurrence windows). | Complete Codex Plan QA Round 2 (`relay-system/2026-11-25/gh102-plan-qa.md`) to `STATUS: Approved`, then implement `.dockerignore`, `Dockerfile`, and `README.md`. |
 
 ## Task Rating & Rationale (PRS)
 
@@ -30,8 +30,8 @@ phases: 1
 - **Priority (`75`):** Directly unblocks clean containerized headless rendering for downstream consumers and was explicitly scheduled via `/start-task`.
 - **Appeal (`50`):** Neutral per task rating policy (no explicit user score supplied).
 - **Effort / cheapness (`85`):** High cheapness — 3 small files (`Dockerfile`, `.dockerignore`, `README.md`), zero engine JS changes required.
-- **Recurrence evidence:** Window `2026-11-11..2026-11-25` vs `2026-10-28..2026-11-10` in `HiQS-Labs/XYZ-layout-engine`: 1 distinct incident (#102, opened 2026-11-25) vs 0 prior container-packaging issues (`Dockerfile` / Studio landed in PR `#87` on 2026-11-19). No prior open or merged PR covers this seam (`prior_art_recon.py --query Dockerfile`).
-- **Uncertainty:** Docker daemon is currently stopped on the local macOS host (`colima` / `desktop-linux` unreachable); local runtime verification will validate build context filtering, `cwd != /app` execution from a `tools/`-only mirror, `catalog.verified === true`, and `verifyPublication`, and record Docker build status truthfully.
+- **Recurrence evidence:** Two adjacent equal-duration 14-day inclusive windows in `HiQS-Labs/XYZ-layout-engine`: `2026-11-12..2026-11-25` (14 days inclusive: 1 distinct incident, `#102` opened `2026-11-25`) vs `2026-10-29..2026-11-11` (14 days inclusive: 0 incidents). Coverage limitation: `Dockerfile` and XYZ Studio only landed in PR `#87` on `2026-11-19`, so baseline container history is short. No prior open or merged PR covers this seam (`prior_art_recon.py --query Dockerfile`).
+- **Uncertainty:** Docker daemon is currently stopped on the local macOS host (`colima` / `desktop-linux` unreachable). If Docker remains unavailable during verification, mirror-based runtime verification proves `.dockerignore` filtering, `--ignore-scripts` install/render parity, `cwd != /app` `design-intake` rendering + `catalog.verified === true`, and `tools/studio.mjs` sibling-stage endpoints, while actual Docker image build / Linux arbitrary-UID container execution is recorded explicitly as `[Unverified — Docker daemon unavailable on host]`.
 
 ## Preflight Bet Check (Solution-Fit)
 
@@ -58,15 +58,15 @@ Verified read-only on `d47eb2530f3b37e867d591e277339137e04c6982`:
    - Non-runtime governance/docs currently sent in Docker build context: `relay-system/` (`5.3M`), `PROJECT/` (`2.2M`), `marathon-system/` (`408K`), `releases.db` (`284K`), `utils/` (`244K`), `releases.sql` (`124K`), `CHANGELOG.md` (`124K`), `TESTS-RESULTS/` (`108K`), `skills/` (`44K`), `README.md` (`36K`), `docs/` (`24K`), plus root governance `.md`/config files (`~80K`).
 2. **Studio seam (`compose.yaml`, `tools/studio.mjs`):**
    - `compose.yaml:4-9`: `build: .` (targets final stage), bind-mounts only `./.relay-scratch:/app/.relay-scratch` and `./temp:/app/temp`.
-   - `tools/studio.mjs:25-39`: `process.chdir(ROOT)`, `READ_ROOTS = ['examples', '.relay-scratch', 'temp']`, `STATIC` serves `tools/studio/*`, `node_modules/bootstrap/dist/*`, and `tools/fonts/barlow-condensed/*`. `POST /api/check` (`catalog`) calls `catalogCLI(['verify'])`, which verifies `tools/` and `examples/` paths in `tools/catalog.sql`.
-   - Conclusion: Keeping `examples/` out of `.dockerignore` and copying `examples/` in the final `studio` stage preserves `docker compose up --build` and `POST /api/check` with zero changes to `compose.yaml` or `tools/studio.mjs`.
+   - `tools/studio.mjs:25-39`: `process.chdir(ROOT)`, `READ_ROOTS = ['examples', '.relay-scratch', 'temp']`, `STATIC` serves `tools/studio/*`, `node_modules/bootstrap/dist/*`, and `tools/fonts/barlow-condensed/*`. `POST /api/check` (`catalog`, lines `188-189`) calls `catalogCLI(['verify'])`, which verifies all `tools/` and `examples/` paths in `tools/catalog.sql`.
+   - Conclusion: Keeping `examples/` out of `.dockerignore` and copying `examples/` in the final `studio` stage preserves the file set `compose.yaml` and `tools/studio.mjs` expect without editing either file.
 3. **Headless renderer seam (`tools/render.mjs`, `tools/catalog.mjs`, `tools/recipes/design-intake.mjs`, `tools/spike/assets.mjs`):**
    - `tools/catalog.mjs:9`: `const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')` resolves `tools/catalog.sql` and pinned `tools/*` files relative to the engine install dir (`/app`), independent of `process.cwd()`.
    - `tools/spike/assets.mjs:7`: `ASSETS_DIR = fileURLToPath(new URL('./assets', import.meta.url))` resolves Inter fonts and SVGs relative to `/app/tools/spike/assets`.
    - `tools/recipes/design-intake.mjs:12-13,61`: loads Barlow Condensed fonts via `import.meta.url`, resolves caller fixture/source/artwork pins relative to `options.root ?? process.cwd()`.
    - `tools/render.mjs:425-428` and `tools/request.mjs:156`: `outputRoot(target, authorizedRoot = process.cwd())` writes artifacts relative to `process.cwd()`; `historical = fileURLToPath(new URL('./spike/output', import.meta.url))` is purely a lexical `within()` guard and does not require `tools/spike/output` to exist on disk.
    - `tools/catalog.sql`: `design-intake@1.0.6` (`rcv-5efad770-687a-416a-b759-1900f383b200`) pins only files under `tools/` (including `tools/recipes/design-intake.contract.md`). `tools/render.mjs:374-390` filters verification errors to the active recipe's own pinned paths, so `design-intake` yields `catalog.verified === true` even without `examples/`.
-   - `pnpm-lock.yaml`: zero packages declare postinstall/build scripts (`@resvg/resvg-js` uses platform `optionalDependencies`), so `pnpm install --frozen-lockfile --ignore-scripts` installs cleanly without running lifecycle scripts.
+   - `pnpm-lock.yaml`: lists Playwright `1.64.0` and `@resvg/resvg-js` platform `optionalDependencies` with no build-script markers; actual acceptance evidence for `--ignore-scripts` comes from executing `pnpm install --frozen-lockfile --ignore-scripts` followed by Satori + Playwright renders.
 4. **Governance & test guardrails:**
    - `test-budget.json`: hard cap `testFiles: 1, tests: 4, maxSeconds: 60, ciWorkflows: 0`.
    - `FRONTDOOR.md` (`FD-02`): `package.json` must NOT contain `"packageManager"`; all relative links in `README.md` must resolve; `FD-01`..`FD-10` check block must print empty output.
@@ -74,16 +74,21 @@ Verified read-only on `d47eb2530f3b37e867d591e277339137e04c6982`:
 
 ## Bounded Test Scope & Explicit Non-Scope
 
-- **In scope:**
-  - Run existing 4 canaries via `npx --yes pnpm@10 test` (must pass within 60s budget).
-  - Run `utils/pdda/pdda.sh run` (must report 0 errors).
-  - Run `FRONTDOOR.md` deterministic read-only check block (must print empty output).
-  - Verify `.dockerignore` filtering rules (all `tools/catalog.sql` `tools/*` pins retained, `examples/` retained for `studio`, `tools/spike/output/` and governance directories/root `.md` excluded, `tools/` payload ~4.8 MB).
-  - Verify lean `renderer` runtime behavior:
-    - If Docker daemon is healthy on host: build `--target renderer` and `--target studio` and run headless render inside `renderer`.
-    - Regardless (and required when Docker daemon is unavailable): construct a clean `tools/`-only engine mirror (exact `renderer` stage file set: `package.json`, `pnpm-lock.yaml`, `node_modules`, `.dockerignore`-filtered `tools/` with zero `examples/` and zero `tools/spike/output/`), and run `node <engine>/tools/render.mjs` from a separate `/work`-style `cwd != /app` on a `design-intake` fixture (main path: `--backend playwright --format png,html`; adjacent path: `--backend satori --format png,svg,html,html-inline`), verifying `catalog.verified === true`, `validation.valid === true`, `fitting.fit === true`, and `verifyPublication` returning `{ valid: true }`.
-    - **Red control:** remove `tools/recipes/design-intake.contract.md` in a throwaway copy of the mirror and confirm `catalog.verified` flips to `false` (proving the verification catches a broken `.dockerignore` `*.md` exclusion).
-  - Record smoke/verification commands, outputs, and verdicts under `TESTS-RESULTS/2026-11-25+GH-102/`.
+- **In scope (zero new test files, tests, or CI workflows):**
+  1. **Repo qualification gates:**
+     - `npx --yes pnpm@10 install --frozen-lockfile --ignore-scripts` + `npx --yes pnpm@10 test` (all 4 existing canaries pass within 60s budget, proving `--ignore-scripts` install supports both Satori/resvg and Playwright).
+     - `utils/pdda/pdda.sh run` (0 errors).
+     - `FRONTDOOR.md` deterministic read-only check block (empty output).
+  2. **`.dockerignore` build-context & red-control verification:**
+     - Parse the actual committed `.dockerignore` and verify every `tools/*` path pinned in `tools/catalog.sql` survives filtering, `examples/` survives for `studio`, `tools/spike/output` and governance dirs/root `.md` files are excluded, and filtered `tools/` payload is ~4.8 MB.
+     - **Red control:** delete `tools/recipes/design-intake.contract.md` in a throwaway copy of the `renderer` mirror and confirm `design-intake` render flips `catalog.verified` from `true` to `false` (proving the check catches an accidental global `*.md` ignore).
+  3. **Renderer stage runtime verification (main path + adjacent path):**
+     - **When Docker daemon is healthy on host:** build `docker build --target renderer -t xyz-renderer .` and run the exact documented headless command under a non-`pwuser` UID (`--user "$(id -u):$(id -g)" -e HOME=/tmp -v ...:/work -w /work`) for both `--backend playwright --format png,html` (main path) and `--backend satori --format png,svg,html,html-inline` (adjacent path), checking `catalog.verified === true`, `validation.valid === true`, `fitting.fit === true`, and `verifyPublication` valid.
+     - **Mirror evidence (always run; sole runtime evidence when Docker daemon is unavailable):** build an isolated `renderer`-stage mirror containing ONLY `package.json`, `pnpm-lock.yaml`, `node_modules` (installed via `--frozen-lockfile --ignore-scripts`), and `.dockerignore`-filtered `tools/` (zero `examples/`, zero `tools/spike/output/`), and run `node <mirror>/tools/render.mjs` from a separate `/work`-style `cwd != <mirror>` for both `--backend playwright --format png,html` and `--backend satori --format png,svg,html,html-inline`, confirming `catalog.verified === true`, `validation.valid === true`, `fitting.fit === true`, and `verifyPublication` returning `{ valid: true }`.
+  4. **Studio sibling-stage verification:**
+     - **When Docker daemon is healthy on host:** build default `studio` stage (`docker build -t xyz-studio .`), start it, and verify `GET /` (200), `GET /vendor/bootstrap.min.css` (200), `GET /vendor/bootstrap.bundle.min.js` (200), authenticated `POST /api/check` (`{"kind":"catalog"}` -> `ok: true`), and a representative `POST /api/render` on an `examples/` fixture.
+     - **Mirror evidence (always run; fallback when Docker daemon is unavailable):** build an isolated `studio`-stage mirror containing ONLY `package.json`, `pnpm-lock.yaml`, `node_modules`, `.dockerignore`-filtered `tools/`, `.dockerignore`-filtered `examples/`, `.relay-scratch/`, and `temp/` (no governance dirs or `tools/spike/output/`), launch `node tools/studio.mjs` on an ephemeral loopback port, and verify `GET /` (200, extracts `__STUDIO_TOKEN__`), `GET /vendor/bootstrap.min.css` (200), `GET /vendor/bootstrap.bundle.min.js` (200), authenticated `POST /api/check` (`{"kind":"catalog"}` -> `ok: true`), and authenticated `POST /api/render` on `examples/2026-10-12-design-intake/fixture.json` (200, `receipt.validation.valid === true`).
+  5. **Truthful container-qualification labeling:** If Docker daemon is unavailable on the execution host, retain all mirror evidence and receipts under `TESTS-RESULTS/2026-11-25+GH-102/`, AND explicitly mark Docker image build, Linux non-`pwuser` `--user` container execution, and `docker compose up --build` as `[Unverified — Docker daemon unavailable on host]` in the receipt, Final QA packet, PR body, and issue closeout (never claiming Docker container qualification passed without running Docker).
 - **Explicit non-scope:** No new test files, no 5th canary test, no budget change to `test-budget.json`, no CI workflows, no speculative wrapper scripts.
 
 ## Ordered Implementation Plan
@@ -92,13 +97,13 @@ Verified read-only on `d47eb2530f3b37e867d591e277339137e04c6982`:
    - Keep existing entries (`.git`, `node_modules`, `.relay-scratch`, `temp`, `REVIEW`, `.claude`, `.aider`, `.DS_Store`, `tools/spike/assets/generated/*.png`).
    - Add explicit non-runtime directories and files: `.agents`, `.gemini`, `.xyz`, `.tick`, `tools/spike/output`, `relay-system`, `PROJECT`, `marathon-system`, `TESTS-RESULTS`, `skills`, `utils`, `docs`, `releases.db`, `releases.sql`, `.pdda-mode`, `.gitignore`, `test-budget.json`, `compose.yaml`, and explicit root Markdown docs (`AGENTS.md`, `CHANGELOG.md`, `DESIGN.md`, `FRONTDOOR.md`, `GUIDING-PRINCIPLES.md`, `README.md`, `ROUTER.md`, `SOP.md`, `SYSTEM-INSTRUCTIONS.md`).
    - Never add a global `*.md` pattern and never exclude `examples/`.
-   - *Inline verification:* check every `tools/*` path in `tools/catalog.sql` survives `.dockerignore` filtering; check `tools/spike/output` and governance dirs are excluded; check `examples/` survives for `studio`.
+   - *Inline verification:* evaluate the committed `.dockerignore` rules against the repo tree and `tools/catalog.sql`.
 
 2. **Convert `Dockerfile` to multi-stage (`base` -> `renderer` -> `studio` default):**
    - `FROM mcr.microsoft.com/playwright:v1.64.0-noble AS base`: `WORKDIR /app`, `RUN npm install -g pnpm@10 && chown pwuser:pwuser /app && chmod 755 /app`, `USER pwuser`, `COPY --chown=pwuser:pwuser package.json pnpm-lock.yaml ./`, `RUN pnpm install --frozen-lockfile --ignore-scripts && chmod -R a+rX /app/package.json /app/node_modules`, `ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`.
    - `FROM base AS renderer`: `COPY --chown=pwuser:pwuser tools ./tools`, `RUN chmod -R a+rX /app/tools`, `CMD ["node", "/app/tools/render.mjs"]`.
    - `FROM renderer AS studio` (final/default stage): `COPY --chown=pwuser:pwuser examples ./examples`, `RUN mkdir -p .relay-scratch temp`, `ENV STUDIO_HOST=0.0.0.0 STUDIO_PORT=4173`, `EXPOSE 4173`, `CMD ["node", "tools/studio.mjs"]`.
-   - *Inline verification:* static Dockerfile stage/instruction audit (`base` -> `renderer` -> `studio` final default, `PLAYWRIGHT_BROWSERS_PATH`, `--ignore-scripts`, `a+rX` permissions, `studio` unchanged for `compose.yaml`), plus Docker build/run if daemon is healthy.
+   - *Inline verification:* Dockerfile instruction/stage audit + Docker build/run when daemon is healthy (or explicit `[Unverified — Docker daemon unavailable on host]` alongside mirror parity runs).
 
 3. **Document headless container usage in `README.md`:**
    - Update the Docker paragraph under `### XYZ Studio (tools/studio.mjs): local browser front end` and add a concise `### Headless renderer container` subsection showing:
@@ -109,8 +114,7 @@ Verified read-only on `d47eb2530f3b37e867d591e277339137e04c6982`:
 
 4. **Update `CHANGELOG.md` and run final verification + smoke checks:**
    - Add a concise `CHANGELOG.md` entry per `PROJECT/PDDA.md`.
-   - Run `npx --yes pnpm@10 test`, `utils/pdda/pdda.sh run`, `FRONTDOOR.md` check block, and the lean `renderer` smoke + red-control verification; save receipt under `TESTS-RESULTS/2026-11-25+GH-102/`.
-   - Run Final Codex Relay QA on the committed diff and evidence.
+   - Execute all items in *Bounded Test Scope*, write receipts under `TESTS-RESULTS/2026-11-25+GH-102/`, and run Final Codex Relay QA on the committed diff and evidence.
 
 ## QA Gates
 

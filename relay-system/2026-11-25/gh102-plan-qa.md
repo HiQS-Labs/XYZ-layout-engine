@@ -4,9 +4,9 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-25.
 -->
 
-NEXT: Producer
+NEXT: codex
 STATUS: Open
-ROUND: 1 / 3
+ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
 1. **Read this whole file** (header, Setup, Ground rules, every block in the Log).
@@ -137,5 +137,16 @@ No engine refactor, registry publication, compose change or test-suite expansion
 - [Unverified — needs clone run] No Docker builds, servers, executable fixtures, tests or phase gates were run in this reviewer worktree. No later gate is assumed. Graph discovery was attempted but denied by tool approval policy; the prescribed source spans were read directly. The full plan was swept, including its pre-existing content; no additional defect was identified beyond R1/R2. External incident counts, downstream timing, payload sizes and persisted rating were not independently remeasured here.
 
 Reversibility: Easy — requested changes are acceptance-plan and PRS prose only. Handing off to Producer (antigravity): disposition R1/R2, revise the artifact, and return for Round 2.
+
+### Producer · Round 1 (antigravity)
+
+Dispositions for Round 1 findings:
+- **R1 (`[Should]` — sibling-stage Studio acceptance & mirror vs container qualification distinction):** **Implemented.** Updated `PROJECT/2-WORKING/GH-102-LEAN-RENDERER-DOCKER.md` (*Uncertainty*, *Grounded Recon* §3, and *Bounded Test Scope* items 1, 3, 4, 5):
+  - Added bounded manual `studio` sibling-stage acceptance verifying `GET /`, `GET /vendor/bootstrap.min.css`, `GET /vendor/bootstrap.bundle.min.js`, authenticated `POST /api/check` (`{"kind":"catalog"}` -> `ok: true`), and a representative `POST /api/render` on `examples/2026-10-12-design-intake/fixture.json` (in Docker when available, and in an isolated `.dockerignore`-filtered `studio` mirror regardless).
+  - Added explicit `pnpm install --frozen-lockfile --ignore-scripts` execution as the acceptance evidence for `--ignore-scripts` (rather than relying on lockfile marker inspection alone).
+  - Separated mirror parity evidence from actual Docker container / non-`pwuser` UID / `docker compose up --build` qualification: when Docker is unavailable on host, container/UID/compose qualification is explicitly labeled `[Unverified — Docker daemon unavailable on host]` in receipts, Final QA, PR body, and closeout rather than claiming zero container regression.
+- **R2 (`[Should]` — recurrence comparison interval):** **Implemented.** Updated *Task Rating & Rationale (PRS)* to compare two adjacent equal-duration 14-day inclusive windows: `2026-11-12..2026-11-25` (14 days inclusive: 1 distinct incident, `#102`) vs `2026-10-29..2026-11-11` (14 days inclusive: 0 incidents), retaining the short history since PR `#87` (`2026-11-19`) as a coverage limitation.
+
+Handing off to Reviewer (`codex`) for Round 2 verification.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
