@@ -4,7 +4,7 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-25.
 -->
 
-NEXT: Reviewer
+NEXT: Producer
 STATUS: Open
 ROUND: 1 / 3
 
@@ -113,5 +113,29 @@ Questions:
 6. The relay ends on **Approved** (Reviewer only). In a manual relay, end each turn by committing just this file; no push. In a driven turn the harness commits.
 
 ## Log
+
+### Reviewer · Round 1
+
+VERDICT: FAIL
+Basis: The packaging mechanism is surgical and plausible, but sibling-stage acceptance and the recurrence window need correction before implementation.
+swept file: yes
+
+**What this proposes**
+One Dockerfile shares dependencies through `base`, exposes a tools-only `renderer`, and adds examples in the final/default `studio`. Explicit ignores reduce context without deleting catalog-pinned Markdown or nested web assets.
+
+**How the existing system works, per this document**
+Studio needs examples, bundled fonts and Bootstrap. Renderer resources resolve from the engine installation while caller fixtures and output resolve from the authorized working directory; recipe-scoped catalog verification permits design-intake without examples.
+
+**What it's not**
+No engine refactor, registry publication, compose change or test-suite expansion.
+
+- [Should] **R1 — Add sibling-stage acceptance and distinguish mirror evidence from container qualification.** Observed input: the artifact's recon item 2 concludes Studio is preserved with “zero changes”, and lines 100–101 prescribe only a static stage audit; lines 82–85 require runtime rendering only for renderer, even when Docker is available. This leaves the explicitly requested Studio Checks/Bootstrap parity without an acceptance observation. `tools/studio.mjs:188–189` invokes full catalog verification, unlike renderer's recipe-filtered verification at `tools/render.mjs:384–387`; static assets are separately served at `tools/studio.mjs:34–41,226`. Affected scope: verification of the new default Studio image and arbitrary-UID renderer image, not engine behavior. Falsifier: an existing explicit acceptance step that exercises these sibling surfaces and records unavailable container qualification as unverified; none appears in the whole plan. Concrete fix: add bounded manual Studio smoke acceptance (default compose stage, page plus both Bootstrap assets, authenticated catalog check with `ok: true`, representative fixture render), and explicitly exercise the documented renderer command under a non-pwuser UID with `HOME=/tmp`, working directory `/work`. When Docker is unavailable, retain mirror evidence but label container/UID/Studio qualification `[Unverified — needs clone run]`, with a clear follow-up or escalation before claiming zero regression. No new test file or workflow is needed. This finding requests acceptance-plan coverage, not a claim that a runtime defect has reproduced.
+- [Should] **R2 — Correct the recurrence comparison interval.** Observed input: artifact line 33 compares inclusive `2026-11-11..2026-11-25` (15 days) with `2026-10-28..2026-11-10` (14 days). Affected scope: PRS recurrence evidence only. Falsifier: explicit half-open interval notation and equal-duration endpoints; the current notation supplies neither. Concrete fix: use adjacent equal-duration windows (for example `2026-11-12..2026-11-25` versus `2026-10-29..2026-11-11`, inclusive), recheck the counts, and retain the short history since Studio landed as a limitation. Appeal 50 is already neutral (artifact line 31).
+- [Pass] **Q1/Q2 — Static runtime seams support the design.** Existing `Dockerfile:4–20` has the pinned Playwright base, dependency install, whole-tree copy and Studio command; `compose.yaml:4–10` builds the final stage and mounts scratch/temp only. The proposed inheritance retains `tools/`, Bootstrap dependencies and examples. Engine-relative resources are present at `tools/catalog.mjs:9`, `tools/spike/assets.mjs:7`, `tools/recipes/design-intake.mjs:12–13`; caller-root input and output are at `tools/recipes/design-intake.mjs:61` and `tools/render.mjs:425–439,515–545`. No additional missing runtime file was identified in the inspected scope. Container execution and permissions were not run or proven.
+- [Pass] **Q3 — Proposed patterns retain the cited pins.** The existing pattern `tools/spike/assets/generated/*.png` matches direct PNG children, not the `generated/web/` descendants pinned at `tools/catalog.sql:100–106`. Explicit root Markdown exclusions do not match `tools/recipes/design-intake.contract.md` (`tools/catalog.sql:93`) or `tools/recipes/recursive-process.design.md` (`tools/catalog.sql:318`); examples are expressly retained (artifact lines 92–95). No conflicting proposed exclusion was identified.
+- [Pass] **Q4/Q5 — Bounded implementation and sensitivity check.** Artifact lines 81–87 require context inclusion/exclusion checks, a tools-only off-root mirror, publication checks, and a missing-contract red control, with zero new tests/workflows. This can detect unchanged ignores and broken recipe pins if executed against the actual resulting filter; it does not replace container qualification. `test-budget.json` caps 1 file/4 tests/60s/0 workflows; package.json has no packageManager or lifecycle script. `pnpm-lock.yaml:17–19,172–180` pins Playwright 1.64.0, and lines 241–254 list resvg platform optional dependencies. Absence of lockfile build markers alone does not prove every dependency has zero lifecycle scripts; successful frozen install/render with ignore-scripts remains the acceptance evidence. One shared base and no JS changes are proportionate (artifact lines 97–100).
+- [Unverified — needs clone run] No Docker builds, servers, executable fixtures, tests or phase gates were run in this reviewer worktree. No later gate is assumed. Graph discovery was attempted but denied by tool approval policy; the prescribed source spans were read directly. The full plan was swept, including its pre-existing content; no additional defect was identified beyond R1/R2. External incident counts, downstream timing, payload sizes and persisted rating were not independently remeasured here.
+
+Reversibility: Easy — requested changes are acceptance-plan and PRS prose only. Handing off to Producer (antigravity): disposition R1/R2, revise the artifact, and return for Round 2.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
