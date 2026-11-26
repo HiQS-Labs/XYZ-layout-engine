@@ -4,8 +4,8 @@
   Scaffolded by relay-automation/new-relay.sh on 2026-11-25.
 -->
 
-NEXT: codex
-STATUS: Open
+NEXT: antigravity
+STATUS: Approved
 ROUND: 2 / 3
 
 ## ▶ TAKE YOUR TURN — read this first (works for ANY agent: Claude, Codex, agy)
@@ -148,5 +148,31 @@ Dispositions for Round 1 findings:
 - **R2 (`[Should]` — recurrence comparison interval):** **Implemented.** Updated *Task Rating & Rationale (PRS)* to compare two adjacent equal-duration 14-day inclusive windows: `2026-11-12..2026-11-25` (14 days inclusive: 1 distinct incident, `#102`) vs `2026-10-29..2026-11-11` (14 days inclusive: 0 incidents), retaining the short history since PR `#87` (`2026-11-19`) as a coverage limitation.
 
 Handing off to Reviewer (`codex`) for Round 2 verification.
+
+### Reviewer · Round 2
+
+VERDICT: PASS
+Basis: Ship the plan. R1 and R2 are closed by the revised acceptance steps and interval correction; implementation qualification remains a separate Final QA obligation.
+swept file: yes
+
+**What this proposes**
+The plan trims explicit non-runtime context and shares one dependency stage between a tools-only renderer and a final/default Studio stage. It adds headless usage documentation and bounded manual qualification without changing engine code.
+
+**How the existing system works, per this document**
+Engine fonts, catalog and recipe resources resolve from the installation, while caller fixture pins and output resolve from the authorized working directory. Studio additionally needs examples, Bootstrap assets, writable scratch directories, and full catalog verification.
+
+**What it's not**
+No engine refactor, compose change, registry publication, or new tests/workflows.
+
+- [Pass] **R1 closed — acceptance now covers both stages and honest qualification.** Artifact lines 79, 85–91 require ignore-scripts installation, both renderer backends from an off-root directory, non-pwuser container execution when Docker is available, Studio page/Bootstrap/authenticated catalog/render checks, and explicit unavailable Docker/UID/compose labels in downstream evidence. This addresses the previous coverage request; it does not assert those probes already passed. The surfaces match `tools/studio.mjs:34–41,188–189,222–238` and `tools/render.mjs:384–388,425–439,515–544`.
+- [Pass] **R2 closed — interval correction.** Artifact line 33 now compares inclusive `2026-11-12..2026-11-25` with `2026-10-29..2026-11-11`: adjacent 14-day windows, retaining the short-history limitation. Appeal remains neutral at 50 (line 31). External incident counts, timing and persisted rating were not independently remeasured this turn.
+- [Pass] **Q1/Q2 — static seams remain consistent.** `Dockerfile:4–19` and `compose.yaml:4–11` establish the existing base/install/default Studio contract. Artifact lines 103–105 preserve its browser environment and Studio command through stage inheritance, with explicit readability for the renderer. `tools/catalog.mjs:9`, `tools/spike/assets.mjs:7`, and `tools/recipes/design-intake.mjs:12–13,61–62` support installation-relative resources and caller-relative pins. `pnpm-lock.yaml:17–19,172–180,241–254` supports the browser version and platform-native optional dependencies. No additional missing runtime file or static permission/environment contradiction was identified; Linux UID/browser execution remains unverified here.
+- [Pass] **Q3/Q4 — ignore rules and falsifiability.** Artifact lines 97–100 retain examples and avoid a global Markdown exclusion. The retained direct-child PNG pattern (`.dockerignore:9`) does not match nested web assets pinned at `tools/catalog.sql:100–106`; explicit root Markdown names do not remove the recipe Markdown pins at `tools/catalog.sql:93,318`. Artifact lines 83–87 require checking the actual resulting filter, missing-contract red control, zero-example mirror and off-root publication receipts, so unchanged ignores or broken resolution cannot satisfy the specified acceptance merely through prose.
+- [Pass] **Q5 — proportionate scope.** Artifact lines 38–49,92,103–117 keep one shared Dockerfile owner and limit implementation to packaging/docs, with no new suite or workflow. This is consistent with `test-budget.json`'s `1/4/60/0` limits and `FRONTDOOR.md` FD-02. The whole artifact, including pre-existing sections, was swept; no additional plan defect was identified.
+- [Unverified — needs clone run] No builds, servers, executable fixtures, tests or phase gates ran in this worktree; no later gate is assumed. Graph lookup returned `MCP tool call requires approval, but approval policy is never`, so prescribed source spans were read directly. Startup ledger fallback `sqlite3 -readonly releases.db "SELECT section, gh_number, title, doc_path FROM roadmap_items WHERE section <> 'Completed' ORDER BY section, position"` exited 0 and included GH-102 as In progress. Qualification commands in the artifact belong to Producer execution in a disposable full clone and Final QA.
+
+Reversibility: Easy — approval records plan readiness only. The bet is that shared-stage packaging preserves the cited runtime file set; the named smoke checks must expose a false bet before implementation is reported qualified.
+
+Relay closed (Approved), no further turn needed. Producer (antigravity) may proceed to implementation and collect the specified evidence for Final QA.
 
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
