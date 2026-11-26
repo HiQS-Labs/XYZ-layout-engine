@@ -150,4 +150,13 @@ assert rc == 0 and out.count('provisional') == 2
 
 relay closed (Approved), no further turn needed.
 
+
+### Attestation · relay-drive — 2026-11-26T17:55:13Z
+task: RELAY-GH104105-final
+reviewer: codex
+status: Approved
+reviewed-head: d719844abad45f796e58668e0d3b97528c56ff58
+added-range: 7539+3918
+added-sha256: f19d442104956c5c35a6beae088f1f301fdac244d3999b603babd8103a30ba6c
+gate-run: undeclared
 <!-- ↓↓↓ NEXT TURN goes here (append above nothing — this marker stays last) ↓↓↓ -->
