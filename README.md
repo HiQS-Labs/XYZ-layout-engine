@@ -204,7 +204,8 @@ docker run --rm --memory=2g --cpus=1.5 \
 `/app/tools` and `/app/node_modules` are world-readable (`a+rX`) so arbitrary non-root `--user` IDs can write
 outputs to a mounted `/work` directory without root-owned files. Because `design-intake` pins only files under
 `tools/` (including `tools/recipes/design-intake.contract.md`), `catalog.verified` stays `true` inside the
-`renderer` stage; `docker compose up --build` continues targeting the full `studio` stage with `examples/`.
+`renderer` stage. Example-backed recipes (`nutrition`, `solar-system`, `recursive-process`) read committed
+assets from `examples/` and require the default `studio` stage (`docker compose up --build`).
 
 ## Recipes
 

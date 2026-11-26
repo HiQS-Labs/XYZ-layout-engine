@@ -23,14 +23,18 @@ macOS).
 | Red control — missing contract doc | Throwaway copy of `renderer` mirror with `tools/recipes/design-intake.contract.md` deleted; same `design-intake` render | `catalog.verified: false` (`missing/unreadable declared file`), proving the check detects accidental global `*.md` exclusion | Rejects broken candidate |
 | `studio` sibling-stage mirror | Isolated `studio` mirror (`package.json`, `pnpm-lock.yaml`, `node_modules`, `.dockerignore`-filtered `tools/` + `examples/`, `.relay-scratch/`, `temp/`, zero governance dirs or `tools/spike/output/`); launched `node tools/studio.mjs` on ephemeral loopback port | `GET /` `200`, `GET /vendor/bootstrap.min.css` `200` (`232800 B`), `GET /vendor/bootstrap.bundle.min.js` `200` (`80721 B`), `POST /api/check` (`{"kind":"catalog"}`) `200` (`ok: true, errors: 0`), `POST /api/render` (`examples/2026-10-12-design-intake/fixture.json`) `200` (`118 ms`, `valid: true`, `catalogVerified: true`) | Pass (mirror) |
 
-## Unverified container checks (Docker daemon unavailable on host)
+## Verified container checks (live `linux/amd64` Docker on `ltvera-dev`, 2026-11-25)
 
-`docker info` exited 1 on the execution host (`Cannot connect to the Docker daemon` on both the default
-Colima socket and `desktop-linux`). Accordingly, actual container-runtime execution is explicitly recorded as
-unverified here rather than inferred from mirror runs:
+Executed against PR `#103` commit `5295e10a` on native `linux/amd64` (`Linux 6.1.0-56-cloud-amd64`, Docker `29.5.2`, BuildKit `v0.34.0`), closing the earlier local-host Docker daemon gap (all disposable containers/images removed after verification):
 
-- `[Unverified — Docker daemon unavailable on host]` `docker build --target renderer -t xyz-renderer .`
-- `[Unverified — Docker daemon unavailable on host]` `docker run --rm --memory=2g --cpus=1.5 --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD/job:/work" -w /work xyz-renderer node /app/tools/render.mjs ...` (Linux arbitrary non-`pwuser` UID permissions and `/ms-playwright` launch)
-- `[Unverified — Docker daemon unavailable on host]` `docker build -t xyz-studio .` and `docker compose up --build` (default `studio` stage image build and container startup)
+| Check | Command / Scope | Observed | Verdict |
+|---|---|---|---|
+| Lean `renderer` build & FS audit | `docker build --target renderer -t xyz-renderer .` | BuildKit context transfer `5.06 MB` (`0.1s`); image `1.02 GB` (`linux/amd64`), `/app/tools` = `5.1M`; `pwuser` = `1001:1001`; `tools/recipes/design-intake.contract.md` readable; `examples/`, `tools/spike/output/`, `PROJECT/`, `relay-system/`, `skills/`, `/app/README.md`, `/app/DESIGN.md`, `test-budget.json` all absent | Pass |
+| `renderer` Playwright (`--user 1000:1003 -e HOME=/tmp`) | `docker run --rm --memory=2g --cpus=1.5 --user "$(id -u):$(id -g)" -e HOME=/tmp -v ...:/work -w /work ... --recipe design-intake --backend playwright --format png,html` | Exit `0` in `2631 ms`; `validation.valid: true`, `fitting.fit: true`, `catalog.verified: true` (`design-intake@1.0.6`), `verifyPublication: { valid: true, files: 6, bytes: 266693 }`; host `manifest.json` owned by `1000:1003` | Pass |
+| `renderer` Satori (`--user 1000:1003 -e HOME=/tmp`) | Same container with `--backend satori --format png,svg,html,html-inline` | Exit `0` in `1370 ms`; `validation.valid: true`, `fitting.fit: true`, `catalog.verified: true`, `verifyPublication: { valid: true, files: 8, bytes: 720038 }` | Pass |
+| `renderer` Playwright arbitrary non-`/etc/passwd` UID (`12345:12345`) | `docker run --rm --memory=2g --cpus=1.5 --user 12345:12345 -e HOME=/tmp ... --backend playwright --format png,html` | Exit `0`; `validation.valid: true`, `fitting.fit: true`, `catalog.verified: true`; host `manifest.json` owned by `12345:12345` (proves `a+rX` + `/ms-playwright` Chromium launch under unlisted UID) | Pass |
+| `renderer` default `CMD` (no args) | `docker run --rm xyz-renderer` | Exits `1` cleanly: `Validation failed: [{"field":"inputPath","message":"missing input"}]` | Pass |
+| Default `studio` build & FS audit | `docker build -t xyz-studio .` | Image `1.25 GB` (`linux/amd64`); `examples/2026-10-13-nutrition-infographic/DESIGN.md` and `tools/recipes/design-intake.contract.md` present; root `/app/DESIGN.md`, `/app/README.md`, `PROJECT/`, `relay-system/`, `skills/`, `tools/spike/output/`, `test-budget.json` absent | Pass |
+| Live `docker compose up -d --build` Studio | Exact `compose.yaml` on `127.0.0.1:4173` | `GET /` `200`, Bootstrap CSS/JS + `app.js` + BarlowCondensed TTF `200`, `POST /api/check` (`catalog`) `200` (`ok: true`, `errors: []`), `POST /api/render` `200` (`valid: true`, `catalogVerified: true`) across all 4 recipes (`design-intake` PW `1541 ms`, `nutrition` Satori `1067 ms`, `solar-system` Satori `2710 ms`, `recursive-process` PW `839 ms`) | Pass |
 
 Not run: `utils/pdda/pdda.sh doc-ready` LLM review (self-skips without `PDDA_LLM_BIN`).

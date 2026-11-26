@@ -3,7 +3,7 @@ gh_issue: 102
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/102
 title: "Container runtime packaging: add lean multi-stage renderer Docker target and trim build context for headless consumers"
 goal: "Add a lean multi-stage renderer Docker target, trim non-runtime Docker build context without breaking catalog pins or Studio, and document headless container invocation"
-status: "Active (Implemented & verified; ready for Final QA)"
+status: "Active (PR #103 open; host + Linux Docker verified)"
 created: 2026-11-25
 updated: 2026-11-25
 owner: Antigravity
@@ -21,7 +21,7 @@ phases: 1
 
 | What was just completed | What's next |
 |---|---|
-| Completed Codex Plan QA Round 2 (`STATUS: Approved`), implemented `.dockerignore`, multi-stage `Dockerfile` (`base` -> `renderer` -> `studio`), `README.md` headless docs, and `CHANGELOG.md`, and verified all host gates + `renderer`/`studio` mirrors (`TESTS-RESULTS/2026-11-25+GH-102/README.md`). | Run Final Codex Relay QA (`relay-system/2026-11-25/gh102-final-qa.md`), then open ready PR targeting `main` and post closeout comment on `#102`. |
+| Final Codex Relay QA approved (`relay-system/2026-11-25/gh102-final-qa.md`), PR `#103` opened targeting `main`, live `linux/amd64` Docker verification passed (`renderer` build/run + arbitrary UID `12345:12345` + `docker compose up -d --build` Studio across all 4 recipes), and QA doc nits polished (`TESTS-RESULTS/2026-11-25+GH-102/README.md`). | Await operator merge of PR `#103`, then archive `GH-102` to `PROJECT/3-COMPLETED/` via `/merge-cleanup`. |
 
 ## Task Rating & Rationale (PRS)
 
@@ -125,4 +125,4 @@ Verified read-only on `d47eb2530f3b37e867d591e277339137e04c6982`:
 
 - Detailed receipts: [`TESTS-RESULTS/2026-11-25+GH-102/README.md`](../../TESTS-RESULTS/2026-11-25+GH-102/README.md) and [`provenance.jsonl`](../../TESTS-RESULTS/2026-11-25+GH-102/provenance.jsonl).
 - **Passed on host:** `pnpm install --frozen-lockfile --ignore-scripts` (`320 ms`), `pnpm test` (`4 canaries in 31.3s`, budget `60s`), `utils/pdda/pdda.sh run` (`0 errors`), `FRONTDOOR.md` deterministic read-only checks (empty output), `.dockerignore` catalog/payload audit (`24/24` `tools/*` pins and `39/39` `examples/*` pins retained; `tools/` = `4.81 MB`), `renderer` mirror smoke for Playwright (`png,html`) and Satori (`png,svg,html,html-inline`) from `cwd != engine` (`catalog.verified: true`, `verifyPublication.valid: true`), red control (removing `tools/recipes/design-intake.contract.md` flips `catalog.verified` to `false`), and `studio` sibling-stage mirror (`GET /`, Bootstrap assets, `POST /api/check` catalog `ok: true`, `POST /api/render` `200`).
-- **Explicitly unverified:** `[Unverified — Docker daemon unavailable on host]` for `docker build --target renderer`, `docker run --user "$(id -u):$(id -g)" ...`, `docker build` default `studio`, and `docker compose up --build` (`docker info` exited 1; Colima and `desktop-linux` daemons stopped).
+- **Passed on live `linux/amd64` Docker (`ltvera-dev`, Docker `29.5.2` / BuildKit `v0.34.0`, 2026-11-25):** `docker build --target renderer` (`5.06 MB` BuildKit context transfer, `1.02 GB` image, `/app/tools` = `5.1M`, zero `examples/` or `tools/spike/output/`), headless `docker run --memory=2g --cpus=1.5 --user` Playwright (`2631 ms`, `verifyPublication` 6 files) and Satori (`1370 ms`, `verifyPublication` 8 files) plus arbitrary non-`/etc/passwd` UID `12345:12345` Playwright (all `validation.valid: true`, `fitting.fit: true`, `catalog.verified: true`, non-root host ownership verified), default `CMD` clean exit `1`, `docker build` default `studio` (`1.25 GB`, `examples/2026-10-13-nutrition-infographic/DESIGN.md` retained while root `/app/DESIGN.md` excluded), and live `docker compose up -d --build` Studio smoke (`GET /` + Bootstrap assets `200`, `POST /api/check` catalog `ok: true`, `POST /api/render` `200` + `catalogVerified: true` across all 4 recipes).
