@@ -1,0 +1,30 @@
+{
+  "desktop": {
+    "sections": 5,
+    "headings": [
+      "Give every agent run a paper trail.",
+      "Turn a request into runnable work.",
+      "Give the edit a boundary.",
+      "Leave evidence someone can check.",
+      "Start with one turn."
+    ],
+    "width": 1440,
+    "height": 3424,
+    "brokenImages": 0,
+    "errors": []
+  },
+  "mobile": {
+    "sections": 5,
+    "headings": [
+      "Give every agent run a paper trail.",
+      "Turn a request into runnable work.",
+      "Give the edit a boundary.",
+      "Leave evidence someone can check.",
+      "Start with one turn."
+    ],
+    "width": 390,
+    "height": 4557,
+    "brokenImages": 0,
+    "errors": []
+  }
+}

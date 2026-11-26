@@ -1,0 +1,20 @@
+{
+  "A": {
+    "facts": [
+      {"answer":"Unattended coding agents can edit the same file or start work with a broken test command. Forge checks the plan and gate before dispatch and confines each agent to its assigned files.","location":"Before Turn 1, especially Wave Planner and Preflight Verdict"},
+      {"answer":"In the GH-148 example, a Stripe retry can capture a charge twice. The plan scopes the fix to the webhook handler and test. A builder patches in isolation, a second model critiques it, and the replay fixture must fail before the patch and pass afterwards. The capped test and document checks precede operator-approved landing.","location":"Walkthrough Dossier, GH-148.md Verification Contract, Inside the Turn, and Proof & Memory"},
+      {"answer":"The example PRS receipt reports two builder turns, one reviewer critique, an exit code of 0 for webhooks.test.ts within resource caps, and a PDDA pass. It identifies the SQLite ledger and its git-mergeable SQL dump and marks the local branch ready for push.","location":"Proof & Memory, green PRS Release Ledger card"}
+    ],
+    "craft":2,
+    "reason":"The issue number ties the dossier to a detailed receipt. On desktop the plan sits beside its verification contract. On mobile five guard cards and four execution modes intervene before the receipt, making the webhook story harder to follow."
+  },
+  "B": {
+    "facts": [
+      {"answer":"Forge gives an operator a way to coordinate coding agents across repositories, keep overlapping edits apart, and trace a landed change back to its issue and checks.","location":"Opening paragraph under Give every agent run a paper trail, and the Example Run diagram"},
+      {"answer":"Support wants a header when a CSV export has no rows. The issue becomes a capture document with acceptance criteria. The plan scopes edits to src/cli/export.ts and test/export.test.ts, queues conflicting writes, checks that the test can start, and isolates the edit in a worktree. The gate checks empty and populated exports before approved landing.","location":"Turn a request into runnable work, Give the edit a boundary, and Gate, Land & Record"},
+      {"answer":"The illustrative release record links the issue, landed change, and verification evidence through the ledger. Its Gate row gives both outcomes: zero rows produce only the header, and populated exports preserve their previous output.","location":"Leave evidence someone can check, Illustrative Release Record, Gate and Record rows"}
+    ],
+    "craft":3,
+    "reason":"The two acceptance cases reappear in the final Gate row, so I could check the outcome against the request. Desktop pairs each stage with its details, and mobile places those details immediately beneath the heading in the same order."
+  }
+}

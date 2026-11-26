@@ -1,0 +1,34 @@
+{
+  "desktop": {
+    "sections": 6,
+    "headings": [
+      "Your agents can write the code. Forge runs the shop around them.",
+      "Unattended agents fail for boring reasons. The first is a vague ticket.",
+      "Two lanes that touch the same file shouldn't run on the same night.",
+      "The agent drives through its own CLI. Forge sets the boundaries.",
+      "The reviewer said \"converged.\" The gate decides.",
+      "Beta, single-operator, and honest about it.",
+      "Prove the kernel in 60 seconds. Then try a relay."
+    ],
+    "width": 1440,
+    "height": 7664,
+    "brokenImages": 0,
+    "errors": []
+  },
+  "mobile": {
+    "sections": 6,
+    "headings": [
+      "Your agents can write the code. Forge runs the shop around them.",
+      "Unattended agents fail for boring reasons. The first is a vague ticket.",
+      "Two lanes that touch the same file shouldn't run on the same night.",
+      "The agent drives through its own CLI. Forge sets the boundaries.",
+      "The reviewer said \"converged.\" The gate decides.",
+      "Beta, single-operator, and honest about it.",
+      "Prove the kernel in 60 seconds. Then try a relay."
+    ],
+    "width": 390,
+    "height": 13036,
+    "brokenImages": 0,
+    "errors": []
+  }
+}
