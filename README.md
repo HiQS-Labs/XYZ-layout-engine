@@ -180,10 +180,31 @@ final type sizes and the PNG digest. Renders go to `.relay-scratch/studio/out/`;
 `.relay-scratch/` or `temp/`, never over committed examples. The Gallery lists every recognised fixture, and
 Checks runs catalog verify and craft lint.
 
-The Docker image ([`Dockerfile`](Dockerfile)) builds on the Playwright base image, so Satori and Chromium renders
-both work. [`compose.yaml`](compose.yaml) publishes the port on `127.0.0.1` only and mounts `.relay-scratch/` and
-`temp/`, so output appears in your checkout. Examples are baked into the image: rebuild after changing them, and
-keep the base image tag in step with the `playwright` version in `pnpm-lock.yaml`.
+The multi-stage [`Dockerfile`](Dockerfile) (`base` → `renderer` → `studio`, default) builds on the Playwright
+base image, so Satori and Chromium renders both work. `docker compose up --build` targets the default `studio`
+stage unchanged: [`compose.yaml`](compose.yaml) publishes the port on `127.0.0.1` only and mounts
+`.relay-scratch/` and `temp/`, so output appears in your checkout. Examples are baked into the `studio` stage:
+rebuild after changing them, and keep the base image tag in step with the `playwright` version in
+`pnpm-lock.yaml`.
+
+### Headless renderer container (`Dockerfile --target renderer`)
+
+Headless consumers that only need `tools/render.mjs` (pre-baked `node_modules`, Playwright Chromium, and
+`tools/` without `examples/` or `tools/spike/output/`) can build the lean `renderer` stage directly:
+
+```sh
+docker build --target renderer -t xyz-renderer .
+docker run --rm --memory=2g --cpus=1.5 \
+  --user "$(id -u):$(id -g)" -e HOME=/tmp \
+  -v "$PWD/job:/work" -w /work \
+  xyz-renderer \
+  node /app/tools/render.mjs fixture.json --recipe design-intake --backend playwright --format png,html --out out
+```
+
+`/app/tools` and `/app/node_modules` are world-readable (`a+rX`) so arbitrary non-root `--user` IDs can write
+outputs to a mounted `/work` directory without root-owned files. Because `design-intake` pins only files under
+`tools/` (including `tools/recipes/design-intake.contract.md`), `catalog.verified` stays `true` inside the
+`renderer` stage; `docker compose up --build` continues targeting the full `studio` stage with `examples/`.
 
 ## Recipes
 

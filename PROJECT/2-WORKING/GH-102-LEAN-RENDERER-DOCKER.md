@@ -3,7 +3,7 @@ gh_issue: 102
 source: https://github.com/HiQS-Labs/XYZ-layout-engine/issues/102
 title: "Container runtime packaging: add lean multi-stage renderer Docker target and trim build context for headless consumers"
 goal: "Add a lean multi-stage renderer Docker target, trim non-runtime Docker build context without breaking catalog pins or Studio, and document headless container invocation"
-status: "Active (Plan revised for Codex Plan QA Round 2)"
+status: "Active (Implemented & verified; ready for Final QA)"
 created: 2026-11-25
 updated: 2026-11-25
 owner: Antigravity
@@ -21,7 +21,7 @@ phases: 1
 
 | What was just completed | What's next |
 |---|---|
-| Addressed Codex Plan QA Round 1 findings (`R1` sibling-stage Studio smoke + explicit separation of mirror evidence vs Docker/UID container qualification; `R2` equal-duration 14-day inclusive recurrence windows). | Complete Codex Plan QA Round 2 (`relay-system/2026-11-25/gh102-plan-qa.md`) to `STATUS: Approved`, then implement `.dockerignore`, `Dockerfile`, and `README.md`. |
+| Completed Codex Plan QA Round 2 (`STATUS: Approved`), implemented `.dockerignore`, multi-stage `Dockerfile` (`base` -> `renderer` -> `studio`), `README.md` headless docs, and `CHANGELOG.md`, and verified all host gates + `renderer`/`studio` mirrors (`TESTS-RESULTS/2026-11-25+GH-102/README.md`). | Run Final Codex Relay QA (`relay-system/2026-11-25/gh102-final-qa.md`), then open ready PR targeting `main` and post closeout comment on `#102`. |
 
 ## Task Rating & Rationale (PRS)
 
@@ -120,3 +120,9 @@ Verified read-only on `d47eb2530f3b37e867d591e277339137e04c6982`:
 
 - **Pre-implementation Plan QA:** Codex relay review in `relay-system/2026-11-25/gh102-plan-qa.md` must reach `STATUS: Approved` before implementation edits begin.
 - **Final Implementation QA:** Codex relay review in `relay-system/2026-11-25/gh102-final-qa.md` must reach `STATUS: Approved` on the committed diff, smoke receipts, and qualification results before PR publication.
+
+## Verification Results
+
+- Detailed receipts: [`TESTS-RESULTS/2026-11-25+GH-102/README.md`](../../TESTS-RESULTS/2026-11-25+GH-102/README.md) and [`provenance.jsonl`](../../TESTS-RESULTS/2026-11-25+GH-102/provenance.jsonl).
+- **Passed on host:** `pnpm install --frozen-lockfile --ignore-scripts` (`320 ms`), `pnpm test` (`4 canaries in 31.3s`, budget `60s`), `utils/pdda/pdda.sh run` (`0 errors`), `FRONTDOOR.md` deterministic read-only checks (empty output), `.dockerignore` catalog/payload audit (`24/24` `tools/*` pins and `39/39` `examples/*` pins retained; `tools/` = `4.81 MB`), `renderer` mirror smoke for Playwright (`png,html`) and Satori (`png,svg,html,html-inline`) from `cwd != engine` (`catalog.verified: true`, `verifyPublication.valid: true`), red control (removing `tools/recipes/design-intake.contract.md` flips `catalog.verified` to `false`), and `studio` sibling-stage mirror (`GET /`, Bootstrap assets, `POST /api/check` catalog `ok: true`, `POST /api/render` `200`).
+- **Explicitly unverified:** `[Unverified — Docker daemon unavailable on host]` for `docker build --target renderer`, `docker run --user "$(id -u):$(id -g)" ...`, `docker build` default `studio`, and `docker compose up --build` (`docker info` exited 1; Colima and `desktop-linux` daemons stopped).

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-25 — Lean multi-stage renderer Docker target (GH-102)
+
+- Converted `Dockerfile` to a multi-stage build (`base` → `renderer` → `studio` default) with `pnpm install --frozen-lockfile --ignore-scripts`, `PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`, and world-readable `/app` (`a+rX`) for non-root `--user` container runs.
+- Trimmed `.dockerignore` to exclude `tools/spike/output` and non-runtime governance directories/files explicitly while retaining `examples/` for `studio` and all `tools/` catalog-pinned Markdown/asset files (including `tools/recipes/design-intake.contract.md`).
+- Documented `docker build --target renderer` and headless `docker run` invocation in `README.md`; `docker compose up --build` continues targeting `studio` unchanged. Easy reversal.
+
 ## 2026-11-21 — Integration QA for #94
 
 - Moved the tree-of-life variant artwork outside the pinned nutrition asset directory and indexed the three newly landed examples in the README.
