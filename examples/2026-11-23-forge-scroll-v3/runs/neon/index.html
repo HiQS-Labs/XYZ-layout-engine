@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XYZ Forge — Local-First Engineering Operations for AI Coding Agents</title>
+  <meta name="description" content="A local-first engineering operations system for running AI coding agents as a disciplined workforce: specified work, collision-free lanes, verification gates, and receipted records." />
+  <style>
+    :root {
+      --paper: #F5F2EB;
+      --paper-alt: #EDE8DC;
+      --surface: #FDFCF9;
+      --ink: #161513;
+      --ink-2: #4A463E;
+      --ink-3: #635D53;
+      --rule: #D6CFC1;
+      --rule-strong: #B8B0A0;
+      --accent: #B83A17;
+      --accent-soft: #F9EAE5;
+      --spruce: #1A6240;
+      --spruce-soft: #E5F2EB;
+      --amber: #8A4F08;
+      --amber-soft: #FAF1DF;
+      --term-bg: #171614;
+      --term-surface: #22201D;
+      --term-border: #36332E;
+      --term-ink: #EDEAE2;
+      --term-muted: #A39D91;
+      --term-green: #6AD29D;
+      --term-accent: #F07A56;
+      --term-amber: #E8B863;
+
+      --font-sans: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+      --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --font-mono: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+
+      --max-w: 1160px;
+      --radius: 6px;
+      --radius-lg: 10px;
+      --shadow-sm: 0 1px 2px rgba(22, 21, 19, 0.05);
+      --shadow-md: 0 8px 28px rgba(22, 21, 19, 0.07);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: clip;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--ink);
+    }
+
+    code, pre, kbd {
+      font-family: var(--font-mono);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--ink);
+      color: var(--surface);
+      padding: 0.65rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+    }
+
+    /* Container */
+    .wrap {
+      width: 100%;
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: clamp(1.25rem, 4vw, 2.75rem);
+    }
+
+    /* Sticky Top Navigation & Scroll Progress */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(245, 242, 235, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      min-height: 58px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px solid rgba(138, 79, 8, 0.25);
+      padding: 0.12rem 0.42rem;
+      border-radius: 3px;
+    }
+
+    .topbar-inner nav {
+      min-width: 0;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .topbar-inner nav::-webkit-scrollbar { display: none; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.38rem 0.62rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      white-space: nowrap;
+      transition: background 150ms ease, color 150ms ease;
+    }
+
+    .nav-links a .nav-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink-3);
+    }
+
+    .nav-links a:hover {
+      background: var(--paper-alt);
+      color: var(--ink);
+    }
+
+    .nav-links a[aria-current="true"] {
+      background: var(--ink);
+      color: var(--surface);
+    }
+    .nav-links a[aria-current="true"] .nav-num {
+      color: var(--term-accent);
+    }
+
+    .progress-track {
+      height: 2px;
+      width: 100%;
+      background: transparent;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 100ms linear;
+    }
+
+    /* Section Scaffold */
+    .section {
+      padding-block: clamp(4rem, 7.5vw, 6.75rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section--alt {
+      background: var(--paper-alt);
+    }
+
+    .section-kicker {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .section-index {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .stage-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      color: var(--ink);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .stage-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .stage-pill--green .dot {
+      background: var(--spruce);
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 4.2vw, 3.25rem);
+      font-weight: 750;
+      letter-spacing: -0.035em;
+      line-height: 1.07;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 3.2vw, 2.55rem);
+      font-weight: 720;
+      max-width: 24ch;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 680;
+      line-height: 1.28;
+    }
+
+    .lead {
+      font-size: clamp(1.06rem, 1.5vw, 1.22rem);
+      line-height: 1.62;
+      color: var(--ink-2);
+      max-width: 62ch;
+      margin: 1.15rem 0 0;
+    }
+
+    .section-header {
+      margin-bottom: clamp(2rem, 4vw, 3.25rem);
+    }
+
+    /* Inline code in prose */
+    p code, li code, td code {
+      font-size: 0.86em;
+      background: rgba(22, 21, 19, 0.07);
+      padding: 0.1em 0.38em;
+      border-radius: 3px;
+      color: var(--ink);
+    }
+
+    /* SECTION 01: HERO */
+    .hero {
+      padding-top: clamp(2.15rem, 4vw, 3.25rem);
+      padding-bottom: clamp(2.5rem, 4.5vw, 3.75rem);
+      border-bottom: 1px solid var(--rule);
+      background:
+        radial-gradient(circle at 85% 12%, rgba(184, 58, 23, 0.06), transparent 42%),
+        linear-gradient(180deg, var(--surface) 0%, var(--paper) 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr);
+      gap: clamp(2rem, 4.5vw, 4rem);
+      align-items: start;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-2);
+    }
+
+    .hero-eyebrow span.badge {
+      background: var(--ink);
+      color: var(--surface);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.72rem 1.2rem;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 120ms ease, background 150ms ease, border-color 150ms ease;
+    }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--surface);
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--rule-strong);
+    }
+    .btn-secondary:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .hero-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.35rem;
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--ink-3);
+    }
+    .hero-facts strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* Scenario Dossier Card */
+    .dossier {
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .dossier-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.8rem 1.15rem;
+      background: var(--term-bg);
+      color: var(--term-ink);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+    }
+
+    .dossier-head .tag {
+      color: var(--term-amber);
+      font-weight: 600;
+    }
+
+    .dossier-body {
+      padding: 1.25rem 1.25rem 1.35rem;
+    }
+
+    .dossier-id {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .dossier-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 0.35rem;
+      line-height: 1.3;
+    }
+
+    .dossier-desc {
+      margin: 0.6rem 0 1rem;
+      font-size: 0.9rem;
+      color: var(--ink-2);
+    }
+
+    .dossier-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      padding-top: 0.95rem;
+      border-top: 1px dashed var(--rule-strong);
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+    }
+
+    .dossier-meta dt {
+      color: var(--ink-3);
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .dossier-meta dd {
+      margin: 0.15rem 0 0;
+      color: var(--ink);
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .dossier-note {
+      margin: 0.95rem 0 0;
+      padding: 0.65rem 0.8rem;
+      background: var(--paper);
+      border-left: 3px solid var(--accent);
+      font-size: 0.8rem;
+      color: var(--ink-2);
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Loop Strip Schematic */
+    .loop-panel {
+      margin-top: clamp(1.75rem, 3vw, 2.35rem);
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.35rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .loop-panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .loop-panel-head h2 {
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      max-width: none;
+    }
+
+    .loop-panel-head p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--ink-2);
+    }
+
+    .loop-steps {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .loop-step {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.65rem 0.6rem;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+    }
+
+    .loop-step:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateY(-2px);
+      color: var(--ink);
+    }
+
+    .loop-step-n {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--ink-3);
+    }
+
+    .loop-step-verb {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .loop-step-sub {
+      font-size: 0.72rem;
+      line-height: 1.3;
+      color: var(--ink-2);
+    }
+
+    .loop-step--gate {
+      border-color: rgba(184, 58, 23, 0.35);
+    }
+
+    .loop-step--done {
+      border-color: rgba(26, 98, 64, 0.4);
+      background: var(--spruce-soft);
+    }
+
+    /* Two-column editorial layouts */
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: clamp(1.75rem, 4vw, 3.25rem);
+      align-items: start;
+    }
+
+    .split--even {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Principle Pull-quote */
+    .commitment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .commitment-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+    }
+
+    .commitment-card--accent {
+      border-top-color: var(--accent);
+    }
+
+    .commitment-card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .commitment-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--ink-2);
+    }
+
+    /* Timeline / Step list */
+    .step-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .step-verb {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+    }
+
+    .step-surface {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-3);
+    }
+
+    .step-card p {
+      margin: 0.35rem 0 0;
+      font-size: 0.9rem;
+      color: var(--ink-2);
+    }
+
+    /* Interactive Artifact Inspector (Terminal Box) */
+    .inspector {
+      background: var(--term-bg);
+      color: var(--term-ink);
+      border: 1px solid var(--term-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .inspector-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.55rem 0.7rem;
+      background: #100F0E;
+      border-bottom: 1px solid var(--term-border);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      appearance: none;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--term-muted);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 0.42rem 0.72rem;
+      border-radius: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 140ms ease, color 140ms ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--term-ink);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .tab-btn[aria-selected="true"] {
+      background: var(--term-surface);
+      color: var(--term-ink);
+      border-color: var(--term-border);
+    }
+
+    .inspector-panel {
+      padding: 1.15rem 1.25rem;
+    }
+
+    .inspector-panel[hidden] {
+      display: none;
+    }
+
+    .inspector-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--term-border);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--term-muted);
+    }
+
+    .inspector-status {
+      color: var(--term-green);
+      font-weight: 600;
+    }
+
+    .code-block {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 0.79rem;
+      line-height: 1.62;
+      color: var(--term-ink);
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .tok-k { color: var(--term-amber); }
+    .tok-s { color: var(--term-green); }
+    .tok-c { color: #8B8579; }
+    .tok-a { color: var(--term-accent); font-weight: 600; }
+
+    /* SVG Schematics */
+    @media (min-width: 1021px) {
+      .schematic-card {
+        position: sticky;
+        top: 82px;
+      }
+    }
+
+    .schematic-card {
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .schematic-card svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .schematic-footer {
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.82rem;
+      color: var(--ink-2);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* Section 03: Interactive Containment Explorer */
+    .guard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .guard-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--rule-strong);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+    }
+
+    .guard-btn:hover {
+      border-color: var(--ink-3);
+      background: #fff;
+    }
+
+    .guard-btn[aria-pressed="true"] {
+      border-color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .guard-btn-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .guard-btn-code {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: rgba(184, 58, 23, 0.1);
+      padding: 0.12rem 0.42rem;
+      border-radius: 3px;
+    }
+
+    .guard-btn-desc {
+      margin: 0.35rem 0 0;
+      font-size: 0.84rem;
+      line-height: 1.48;
+      color: var(--ink-2);
+    }
+
+    .svg-guard-node {
+      transition: opacity 180ms ease, filter 180ms ease;
+    }
+    .svg-guard-node.is-dim {
+      opacity: 0.32;
+    }
+    .svg-guard-node.is-active rect.guard-box {
+      stroke: #B83A17;
+      stroke-width: 2.2;
+    }
+
+    /* Four Modes Ladder */
+    .modes-block {
+      margin-top: clamp(2.5rem, 5vw, 3.75rem);
+    }
+
+    .modes-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .mode-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+
+    .mode-card--highlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(184, 58, 23, 0.18);
+    }
+
+    .mode-level {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+    }
+
+    .mode-card h4 {
+      font-size: 1.08rem;
+      margin-top: 0.25rem;
+    }
+
+    .mode-card p {
+      margin: 0.45rem 0 0;
+      font-size: 0.86rem;
+      color: var(--ink-2);
+    }
+
+    .mode-req {
+      padding-top: 0.7rem;
+      border-top: 1px dashed var(--rule);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink);
+    }
+    .mode-req span {
+      display: block;
+      color: var(--ink-3);
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+
+    .knob-bar {
+      margin-top: 1rem;
+      padding: 0.95rem 1.15rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 2rem;
+      font-size: 0.84rem;
+      color: var(--ink-2);
+    }
+    .knob-bar strong {
+      color: var(--ink);
+    }
+
+    /* Section 04: Verification, Docs as State, Receipt, Recovery */
+    .verify-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: clamp(1.5rem, 3.5vw, 2.75rem);
+      align-items: start;
+    }
+
+    .receipt-card {
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .receipt-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.2rem;
+      background: var(--spruce);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .receipt-body {
+      padding: 1.25rem;
+    }
+
+    .receipt-rows {
+      display: grid;
+      gap: 0.65rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .receipt-row {
+      display: grid;
+      grid-template-columns: 128px minmax(0, 1fr);
+      gap: 0.75rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px dashed var(--rule);
+      font-size: 0.84rem;
+    }
+    .receipt-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .receipt-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-3);
+      padding-top: 0.12rem;
+    }
+
+    .receipt-val {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .pill-pass {
+      display: inline-block;
+      background: var(--spruce-soft);
+      color: var(--spruce);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+    }
+
+    .callout-box {
+      margin-top: 1.25rem;
+      padding: 1.1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--ink);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .callout-box--warn {
+      background: var(--amber-soft);
+      border-color: rgba(138, 79, 8, 0.28);
+      border-left-color: var(--amber);
+    }
+
+    .callout-box h3 {
+      font-size: 0.96rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .callout-box p {
+      margin: 0;
+      font-size: 0.87rem;
+      color: var(--ink-2);
+    }
+
+    .quote-strip {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.4rem;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    /* Section 05: Candid Adoption, Hardware Sizing & 60s Proof */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .scope-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem 1.4rem;
+    }
+
+    .scope-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.05rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .scope-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--spruce);
+      flex: none;
+    }
+    .scope-dot--no {
+      background: var(--accent);
+    }
+
+    .clean-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .clean-list li {
+      position: relative;
+      padding-left: 1.15rem;
+      font-size: 0.9rem;
+      color: var(--ink-2);
+    }
+
+    .clean-list li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--ink-3);
+      font-family: var(--font-mono);
+    }
+
+    .clean-list strong {
+      color: var(--ink);
+    }
+
+    /* Hardware Sizing Widget */
+    .sizing-panel {
+      margin-top: 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+    }
+
+    .sizing-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .ram-pills {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .ram-pill {
+      appearance: none;
+      background: var(--paper);
+      border: 1px solid var(--rule-strong);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.42rem 0.78rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+    }
+
+    .ram-pill:hover {
+      border-color: var(--ink);
+    }
+
+    .ram-pill[aria-pressed="true"] {
+      background: var(--ink);
+      color: var(--surface);
+      border-color: var(--ink);
+    }
+
+    .ram-readout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 1.25rem;
+      padding: 1.05rem 1.15rem;
+      background: var(--paper);
+      border-radius: var(--radius);
+      border: 1px solid var(--rule);
+      align-items: center;
+    }
+
+    .ram-verdict-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .ram-verdict-copy {
+      margin: 0.3rem 0 0;
+      font-size: 0.87rem;
+      color: var(--ink-2);
+    }
+
+    .ram-meter {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--ink-3);
+    }
+
+    .meter-bar {
+      height: 10px;
+      background: var(--rule);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 28%;
+      background: var(--spruce);
+      border-radius: 999px;
+      transition: width 220ms ease, background 220ms ease;
+    }
+
+    .sizing-note {
+      margin: 0.9rem 0 0;
+      font-size: 0.83rem;
+      color: var(--ink-2);
+    }
+
+    /* Quickstart Proof Terminal */
+    .quickstart-grid {
+      margin-top: 1.75rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .terminal-card {
+      background: var(--term-bg);
+      color: var(--term-ink);
+      border: 1px solid var(--term-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .terminal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1rem;
+      background: #100F0E;
+      border-bottom: 1px solid var(--term-border);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--term-muted);
+    }
+
+    .copy-btn {
+      appearance: none;
+      background: var(--term-surface);
+      border: 1px solid var(--term-border);
+      color: var(--term-ink);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.28rem 0.62rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      border-color: var(--term-accent);
+      color: var(--term-accent);
+    }
+
+    .terminal-body {
+      padding: 1.15rem 1.2rem;
+      flex: 1;
+    }
+
+    .reality-card {
+      background: var(--surface);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .reality-dl {
+      margin: 0;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .reality-dl div {
+      padding-bottom: 0.65rem;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .reality-dl div:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .reality-dl dt {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+    }
+
+    .reality-dl dd {
+      margin: 0.2rem 0 0;
+      font-size: 0.86rem;
+      color: var(--ink);
+    }
+
+    /* Footer */
+    .footer {
+      padding-block: 2.5rem 3.25rem;
+      background: var(--paper);
+      font-size: 0.84rem;
+      color: var(--ink-3);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.5rem;
+    }
+
+    .footer-title {
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .footer-warranty {
+      max-width: 66ch;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .footer-meta {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      color: var(--ink-2);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1020px) {
+      .hero-grid,
+      .split,
+      .verify-grid,
+      .quickstart-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .loop-steps {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .modes-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .ram-readout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .brand-tag { display: none; }
+      .topbar-inner { gap: 0.65rem; }
+      .nav-links a { padding: 0.34rem 0.44rem; font-size: 0.75rem; }
+      .nav-links a .nav-num { display: none; }
+
+      .loop-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .commitment-grid,
+      .scope-grid,
+      .modes-grid,
+      .split--even {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .receipt-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.15rem;
+      }
+
+      .dossier-meta {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#overview">
+        <span class="brand-mark" aria-hidden="true">XYZ</span>
+        <span>XYZ Forge</span>
+        <span class="brand-tag">Beta · Local-First</span>
+      </a>
+      <nav aria-label="Page sections">
+        <ul class="nav-links">
+          <li><a href="#overview" data-nav="overview" aria-current="true"><span class="nav-num">01</span> Overview</a></li>
+          <li><a href="#prepare" data-nav="prepare"><span class="nav-num">02</span> Prepare</a></li>
+          <li><a href="#execute" data-nav="execute"><span class="nav-num">03</span> Execute</a></li>
+          <li><a href="#verify" data-nav="verify"><span class="nav-num">04</span> Verify</a></li>
+          <li><a href="#adopt" data-nav="adopt"><span class="nav-num">05</span> Adopt</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- =================================================================== -->
+    <!-- SECTION 01: OVERVIEW & CONCRETE SCENARIO                            -->
+    <!-- =================================================================== -->
+    <section id="overview" class="hero" aria-labelledby="hero-heading">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-eyebrow">
+              <span class="badge">ENGINEERING OPERATIONS</span>
+              <span>Claude Code · Codex · <code>agy</code> · Local Disk</span>
+            </div>
+            <h1 id="hero-heading">One AI agent is a superpower. Five unattended agents are a race condition.</h1>
+            <p class="lead">
+              <strong>XYZ Forge</strong> is a local-first operations system for running AI coding agents as a workforce against your own repositories. It supplies the boring, load-bearing machinery unattended runs actually fail without: specified work, collision-free lanes, hard turn containment, verification gates, and a receipted record of what landed.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#prepare">Follow a real change end to end &darr;</a>
+              <a class="btn btn-secondary" href="#adopt">60-second local proof</a>
+            </div>
+            <div class="hero-facts" aria-label="Core architectural facts">
+              <span><strong>Zero servers:</strong> every artifact lives on your disk</span>
+              <span><strong>No coordination API key:</strong> uses your existing agent CLIs</span>
+              <span><strong>Sole authority:</strong> operator gates every consequential write</span>
+            </div>
+          </div>
+
+          <aside class="dossier" aria-label="Concrete walkthrough scenario">
+            <div class="dossier-head">
+              <span>WALKTHROUGH DOSSIER</span>
+              <span class="tag">ILLUSTRATIVE SCENARIO</span>
+            </div>
+            <div class="dossier-body">
+              <div class="dossier-id">Issue GH-148 · Repo acme-payments</div>
+              <h2 class="dossier-title">Prevent duplicate Stripe webhook retries from double-charging accounts</h2>
+              <p class="dossier-desc">
+                You want a builder agent to add idempotency handling, a second model to critique the patch, your test suite to prove it under resource caps, and a verifiable receipt—while another lane works concurrently in <code>billing/invoices.ts</code>.
+              </p>
+              <dl class="dossier-meta">
+                <div>
+                  <dt>Target Write Set</dt>
+                  <dd>billing/webhooks.ts<br />test/webhooks.test.ts</dd>
+                </div>
+                <div>
+                  <dt>Execution Path</dt>
+                  <dd>Preflight &rarr; Relay Turn<br />&rarr; Gate &rarr; PRS Ledger</dd>
+                </div>
+              </dl>
+              <p class="dossier-note">
+                Every section below traces <strong>GH-148</strong> through Forge's real commands, lock files, containment guards, and failure modes.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <div class="loop-panel" aria-label="The eight-stage XYZ Forge loop">
+          <div class="loop-panel-head">
+            <h2>The Forge Operational Loop</h2>
+            <p>Every stage is a CLI verb or a skill. Click any stage to jump to its section.</p>
+          </div>
+          <div class="loop-steps">
+            <a class="loop-step" href="#prepare">
+              <span class="loop-step-n">01</span>
+              <span class="loop-step-verb">capture</span>
+              <span class="loop-step-sub">GH issue &rarr; capture doc</span>
+            </a>
+            <a class="loop-step" href="#prepare">
+              <span class="loop-step-n">02</span>
+              <span class="loop-step-verb">rate</span>
+              <span class="loop-step-sub">pri / sev / appeal / effort</span>
+            </a>
+            <a class="loop-step" href="#prepare">
+              <span class="loop-step-n">03</span>
+              <span class="loop-step-verb">plan</span>
+              <span class="loop-step-sub">Exact write-set lanes</span>
+            </a>
+            <a class="loop-step loop-step--gate" href="#prepare">
+              <span class="loop-step-n">04</span>
+              <span class="loop-step-verb">preflight</span>
+              <span class="loop-step-sub">Gate starts before turn 1</span>
+            </a>
+            <a class="loop-step" href="#execute">
+              <span class="loop-step-n">05</span>
+              <span class="loop-step-verb">execute</span>
+              <span class="loop-step-sub">Locked worktree turns</span>
+            </a>
+            <a class="loop-step loop-step--gate" href="#verify">
+              <span class="loop-step-n">06</span>
+              <span class="loop-step-verb">gate</span>
+              <span class="loop-step-sub">Capped suite + doc check</span>
+            </a>
+            <a class="loop-step" href="#verify">
+              <span class="loop-step-n">07</span>
+              <span class="loop-step-verb">land</span>
+              <span class="loop-step-sub">Operator-approved merge</span>
+            </a>
+            <a class="loop-step loop-step--done" href="#verify">
+              <span class="loop-step-n">08</span>
+              <span class="loop-step-verb">record</span>
+              <span class="loop-step-sub">Receipted PRS ledger</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 02: PREPARE — CAPTURE, RATE, PLAN, PREFLIGHT                -->
+    <!-- =================================================================== -->
+    <section id="prepare" class="section" aria-labelledby="prepare-heading">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-kicker">
+            <span class="section-index">02 / BEFORE TURN 1</span>
+            <span class="stage-pill"><span class="dot" aria-hidden="true"></span> capture &rarr; rate &rarr; plan &rarr; preflight</span>
+          </div>
+          <h2 id="prepare-heading">Stop bad runs before an agent ever opens a file.</h2>
+          <p class="lead">
+            Unattended agents rarely fail because the model is weak. They fail for boring operational reasons: the task was vague, two lanes edited the same file, or the verification command was broken from the start. Forge turns each of those failure modes into a deterministic check before turn 1.
+          </p>
+        </div>
+
+        <div class="split">
+          <div class="step-stack">
+            <article class="step-card">
+              <div class="step-card-head">
+                <span class="step-verb">1. Capture &amp; Rate</span>
+                <span class="step-surface">PROJECT/1-INBOX/ · PRS</span>
+              </div>
+              <h3>Write it down once, then score it honestly</h3>
+              <p>
+                <code>GH-148</code> starts as a GitHub issue, becomes a capture doc in <code>PROJECT/1-INBOX/</code> with a why, phases, and a verification contract, and lands as a parked row in the Product Release System (PRS) ledger scored on <code>pri</code>, <code>sev</code>, <code>appeal</code>, and <code>effort</code>. Forge does not invent your spec—you and your LLM author it, and Forge checks whether it is runnable.
+              </p>
+            </article>
+
+            <article class="step-card">
+              <div class="step-card-head">
+                <span class="step-verb">2. Wave Planner</span>
+                <span class="step-surface">Exact write-set intersection</span>
+              </div>
+              <h3>Prove two lanes cannot collide</h3>
+              <p>
+                Before dispatching, the wave planner checks exact write-set intersections, zone caps, and dependencies. <code>GH-148</code> touches <code>billing/webhooks.ts</code>; a second queued task touches <code>billing/invoices.ts</code>. Zero overlap means they can share a wave. A third task touching <code>billing/webhooks.ts</code> is held for the next wave automatically.
+              </p>
+            </article>
+
+            <article class="step-card">
+              <div class="step-card-head">
+                <span class="step-verb">3. Preflight Verdict</span>
+                <span class="step-surface">Schema-stamped JSON</span>
+              </div>
+              <h3>The gate must start before the builder starts</h3>
+              <p>
+                Preflight runs freshness probes, checks whether the fix already landed, and verifies the test gate can actually execute before turn 1. If a repo has known pre-existing test failures, <code>--pre-advance-baseline &lt;rc&gt;</code> lets the gate tolerate that exit code while still halting on any new regression.
+              </p>
+            </article>
+          </div>
+
+          <div>
+            <div class="inspector" aria-label="Interactive pre-execution artifacts for GH-148">
+              <div class="inspector-tabs" role="tablist" aria-label="GH-148 preparation artifacts">
+                <button class="tab-btn" role="tab" id="tab-capture" aria-selected="true" aria-controls="panel-capture">GH-148.md</button>
+                <button class="tab-btn" role="tab" id="tab-wave" aria-selected="false" aria-controls="panel-wave">wave-plan.svg</button>
+                <button class="tab-btn" role="tab" id="tab-preflight" aria-selected="false" aria-controls="panel-preflight">preflight.json</button>
+              </div>
+
+              <div class="inspector-panel" id="panel-capture" role="tabpanel" aria-labelledby="tab-capture">
+                <div class="inspector-caption">
+                  <span>PROJECT/1-INBOX/GH-148-webhook-idempotency.md</span>
+                  <span class="inspector-status">SCORED · READY</span>
+                </div>
+                <pre class="code-block"><span class="tok-c">---</span>
+<span class="tok-k">issue:</span> <span class="tok-s">GH-148</span>
+<span class="tok-k">status:</span> <span class="tok-s">1-INBOX</span>
+<span class="tok-k">prs_rating:</span> { pri: <span class="tok-a">5</span>, sev: <span class="tok-a">5</span>, appeal: <span class="tok-a">4</span>, effort: <span class="tok-a">2</span> }
+<span class="tok-k">write_set:</span>
+  - <span class="tok-s">billing/webhooks.ts</span>
+  - <span class="tok-s">test/webhooks.test.ts</span>
+<span class="tok-c">---</span>
+
+<span class="tok-k">## Why</span>
+Duplicate Stripe retry deliveries can execute charge capture
+twice when the handler lacks an idempotency key check.
+
+<span class="tok-k">## Verification Contract</span>
+- Gate cmd: <span class="tok-s">npm test -- test/webhooks.test.ts</span>
+- Must fail on unpatched replay fixture, pass after patch
+- Doc contract: frontmatter + PRS ledger row match</pre>
+              </div>
+
+              <div class="inspector-panel" id="panel-wave" role="tabpanel" aria-labelledby="tab-wave" hidden>
+                <div class="inspector-caption">
+                  <span>Wave Planner · Write-Set Intersection Check</span>
+                  <span class="inspector-status">2 DISJOINT · 1 HELD</span>
+                </div>
+                <svg viewBox="0 0 540 245" role="img" aria-label="Wave planner write-set intersection matrix showing GH-148 and GH-151 running in Wave 1 with disjoint files while GH-152 is serialized to Wave 2 due to overlap on billing/webhooks.ts">
+                  <title>Wave Planner Write-Set Intersection Matrix</title>
+                  <rect x="0" y="0" width="540" height="245" rx="6" fill="#1E1D1A" />
+                  <!-- Column headers -->
+                  <text x="16" y="28" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10.5" font-weight="600">QUEUED LANE</text>
+                  <text x="155" y="28" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10.5" font-weight="600">webhooks.ts</text>
+                  <text x="258" y="28" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10.5" font-weight="600">invoices.ts</text>
+                  <text x="360" y="28" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10.5" font-weight="600">webhooks.test</text>
+                  <text x="468" y="28" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10.5" font-weight="600">DISPATCH</text>
+                  <line x1="14" y1="39" x2="526" y2="39" stroke="#36332E" stroke-width="1" />
+
+                  <!-- Row 1: GH-148 -->
+                  <rect x="14" y="49" width="512" height="50" rx="4" fill="#262420" />
+                  <text x="24" y="71" fill="#EDEAE2" font-family="ui-monospace, monospace" font-size="12" font-weight="700">GH-148</text>
+                  <text x="24" y="88" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10">Idempotency</text>
+                  <rect x="164" y="62" width="54" height="24" rx="3" fill="#1A6240" />
+                  <text x="191" y="78" text-anchor="middle" fill="#FDFCF9" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700">WRITE</text>
+                  <text x="292" y="78" text-anchor="middle" fill="#635D53" font-family="ui-monospace, monospace" font-size="12">&middot;</text>
+                  <rect x="372" y="62" width="54" height="24" rx="3" fill="#1A6240" />
+                  <text x="399" y="78" text-anchor="middle" fill="#FDFCF9" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700">WRITE</text>
+                  <rect x="462" y="62" width="56" height="24" rx="3" fill="rgba(106,210,157,0.16)" stroke="#6AD29D" />
+                  <text x="490" y="78" text-anchor="middle" fill="#6AD29D" font-family="ui-monospace, monospace" font-size="10" font-weight="700">WAVE 1</text>
+
+                  <!-- Row 2: GH-151 -->
+                  <rect x="14" y="109" width="512" height="50" rx="4" fill="#262420" />
+                  <text x="24" y="131" fill="#EDEAE2" font-family="ui-monospace, monospace" font-size="12" font-weight="700">GH-151</text>
+                  <text x="24" y="148" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10">PDF tax line</text>
+                  <text x="191" y="138" text-anchor="middle" fill="#635D53" font-family="ui-monospace, monospace" font-size="12">&middot;</text>
+                  <rect x="265" y="122" width="54" height="24" rx="3" fill="#1A6240" />
+                  <text x="292" y="138" text-anchor="middle" fill="#FDFCF9" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700">WRITE</text>
+                  <text x="399" y="138" text-anchor="middle" fill="#635D53" font-family="ui-monospace, monospace" font-size="12">&middot;</text>
+                  <rect x="462" y="122" width="56" height="24" rx="3" fill="rgba(106,210,157,0.16)" stroke="#6AD29D" />
+                  <text x="490" y="138" text-anchor="middle" fill="#6AD29D" font-family="ui-monospace, monospace" font-size="10" font-weight="700">WAVE 1</text>
+
+                  <!-- Row 3: GH-152 -->
+                  <rect x="14" y="169" width="512" height="50" rx="4" fill="#2A201D" stroke="#6E3524" stroke-dasharray="4 3" />
+                  <text x="24" y="191" fill="#EDEAE2" font-family="ui-monospace, monospace" font-size="12" font-weight="700">GH-152</text>
+                  <text x="24" y="208" fill="#F07A56" font-family="ui-monospace, monospace" font-size="10">Retry logging</text>
+                  <rect x="160" y="182" width="62" height="24" rx="3" fill="#B83A17" />
+                  <text x="191" y="198" text-anchor="middle" fill="#FFF" font-family="ui-monospace, monospace" font-size="10" font-weight="700">OVERLAP</text>
+                  <text x="292" y="198" text-anchor="middle" fill="#635D53" font-family="ui-monospace, monospace" font-size="12">&middot;</text>
+                  <text x="399" y="198" text-anchor="middle" fill="#635D53" font-family="ui-monospace, monospace" font-size="12">&middot;</text>
+                  <rect x="462" y="182" width="56" height="24" rx="3" fill="rgba(232,184,99,0.14)" stroke="#E8B863" />
+                  <text x="490" y="198" text-anchor="middle" fill="#E8B863" font-family="ui-monospace, monospace" font-size="10" font-weight="700">WAVE 2</text>
+
+                  <text x="16" y="236" fill="#A39D91" font-family="ui-monospace, monospace" font-size="10">Rule: exact path intersection = 0 for parallel waves. Overlapping lanes serialize.</text>
+                </svg>
+              </div>
+
+              <div class="inspector-panel" id="panel-preflight" role="tabpanel" aria-labelledby="tab-preflight" hidden>
+                <div class="inspector-caption">
+                  <span>preflight-GH-148.json · Machine-Readable Boundary</span>
+                  <span class="inspector-status">VERDICT: PASS</span>
+                </div>
+                <pre class="code-block">{
+  <span class="tok-k">"schema_version"</span>: <span class="tok-s">"preflight.v1"</span>,
+  <span class="tok-k">"issue"</span>: <span class="tok-s">"GH-148"</span>,
+  <span class="tok-k">"already_landed"</span>: <span class="tok-a">false</span>,
+  <span class="tok-k">"freshness_ok"</span>: <span class="tok-s">true</span>,
+  <span class="tok-k">"gate_startable"</span>: <span class="tok-s">true</span>,
+  <span class="tok-k">"baseline_exit_code"</span>: <span class="tok-a">null</span>,
+  <span class="tok-k">"blocking_errors"</span>: [],
+  <span class="tok-k">"advisory_notes"</span>: [
+    <span class="tok-s">"LLM review suggested adding replay fixture for 409 status"</span>
+  ],
+  <span class="tok-k">"verdict"</span>: <span class="tok-s">"PASS"</span>
+}</pre>
+              </div>
+            </div>
+
+            <div class="commitment-grid">
+              <div class="commitment-card">
+                <h3>Machine-readable boundaries</h3>
+                <p>
+                  State crossing a subsystem boundary travels as a schema-stamped JSON artifact with explicit <code>null</code>s—never scraped out of terminal logs or prose.
+                </p>
+              </div>
+              <div class="commitment-card commitment-card--accent">
+                <h3>Deterministic before advisory</h3>
+                <p>
+                  Anything expressible as a regex, schema, or file check runs deterministically and <strong>may block</strong>. LLM review may warn, rank, or propose—it may <strong>never block</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 03: EXECUTE — TICK KERNEL, CONTAINMENT & 4 MODES            -->
+    <!-- =================================================================== -->
+    <section id="execute" class="section section--alt" aria-labelledby="execute-heading">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-kicker">
+            <span class="section-index">03 / INSIDE THE TURN</span>
+            <span class="stage-pill"><span class="dot" aria-hidden="true"></span> execute · tick kernel + relay-turn-lib.sh</span>
+          </div>
+          <h2 id="execute-heading">Containment enforced by the harness, not by polite prompting.</h2>
+          <p class="lead">
+            Once <code>GH-148</code> passes preflight, Forge drives headless turns through each agent's own CLI one turn at a time. A builder writes the patch; a separate reviewer critiques it. Neither model is trusted to police its own blast radius.
+          </p>
+        </div>
+
+        <div class="split">
+          <div class="schematic-card">
+            <svg id="containment-svg" viewBox="0 0 600 410" role="img" aria-label="Architecture diagram of a contained Relay turn for GH-148 showing tick O_EXCL lock, isolated throwaway worktree, path allowlist copy-back, commit-bypass guard, wall-clock watchdog, and blocked git push wall">
+              <title>XYZ Forge Turn Containment Architecture</title>
+              <defs>
+                <marker id="arrow-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#4A463E" />
+                </marker>
+                <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#B83A17" />
+                </marker>
+                <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#1A6240" />
+                </marker>
+              </defs>
+
+              <!-- Background grid frame -->
+              <rect x="0" y="0" width="600" height="410" rx="8" fill="#FAF8F3" stroke="#D6CFC1" />
+              <text x="18" y="24" fill="#635D53" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" letter-spacing="0.06em">RELAY TURN LIFECYCLE · GH-148 (relay-turn-lib.sh)</text>
+
+              <!-- 1. TICK KERNEL LOCK -->
+              <g class="svg-guard-node" data-guard="lock">
+                <rect class="guard-box" x="18" y="40" width="258" height="72" rx="6" fill="#FDFCF9" stroke="#161513" stroke-width="1.3" />
+                <text x="30" y="60" fill="#B83A17" font-family="ui-monospace, monospace" font-size="10" font-weight="700">01 · KERNEL LOCK (tick)</text>
+                <text x="30" y="79" fill="#161513" font-family="-apple-system, sans-serif" font-size="12.5" font-weight="700">O_EXCL path-scoped claim</text>
+                <text x="30" y="97" fill="#4A463E" font-family="ui-monospace, monospace" font-size="10">.tick/events/ &rarr; .tick/STATE.md</text>
+              </g>
+
+              <!-- Arrow Lock -> Worktree -->
+              <line x1="276" y1="76" x2="318" y2="76" stroke="#4A463E" stroke-width="1.6" marker-end="url(#arrow-dark)" />
+
+              <!-- 2. THROWAWAY WORKTREE -->
+              <g class="svg-guard-node" data-guard="worktree">
+                <rect class="guard-box" x="322" y="40" width="260" height="122" rx="6" fill="#171614" stroke="#36332E" stroke-width="1.5" />
+                <text x="336" y="60" fill="#E8B863" font-family="ui-monospace, monospace" font-size="10" font-weight="700">02 · THROWAWAY WORKTREE</text>
+                <text x="336" y="79" fill="#EDEAE2" font-family="-apple-system, sans-serif" font-size="12.5" font-weight="700">Builder runs in isolated copy</text>
+                <text x="336" y="99" fill="#A39D91" font-family="ui-monospace, monospace" font-size="9.5">Default: codex / agy (claude opt-in)</text>
+                <rect x="336" y="112" width="232" height="36" rx="4" fill="#22201D" stroke="#36332E" />
+                <text x="346" y="128" fill="#6AD29D" font-family="ui-monospace, monospace" font-size="9.5">edits: billing/webhooks.ts, test/...</text>
+                <text x="346" y="142" fill="#F07A56" font-family="ui-monospace, monospace" font-size="9.5">stray edit: package.json (dropped)</text>
+              </g>
+
+              <!-- 3. WATCHDOG & COMMIT GUARD -->
+              <g class="svg-guard-node" data-guard="watchdog">
+                <rect class="guard-box" x="18" y="132" width="258" height="80" rx="6" fill="#FDFCF9" stroke="#B8B0A0" stroke-width="1.3" />
+                <text x="30" y="152" fill="#B83A17" font-family="ui-monospace, monospace" font-size="10" font-weight="700">03 · WATCHDOG &amp; COMMIT GUARD</text>
+                <text x="30" y="171" fill="#161513" font-family="-apple-system, sans-serif" font-size="12" font-weight="700">Typed exits + mid-turn reset</text>
+                <text x="30" y="189" fill="#4A463E" font-family="ui-monospace, monospace" font-size="9.4">Timeout != defect · over-cap = exit 108</text>
+                <text x="30" y="203" fill="#4A463E" font-family="ui-monospace, monospace" font-size="9.4">Unauthorized commit? Repo auto-resets</text>
+              </g>
+
+              <!-- Dashed monitor link Watchdog -> Worktree -->
+              <line x1="276" y1="154" x2="320" y2="132" stroke="#B83A17" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-accent)" />
+
+              <!-- Arrow Worktree -> Allowlist Filter -->
+              <line x1="452" y1="162" x2="452" y2="198" stroke="#1A6240" stroke-width="1.8" marker-end="url(#arrow-green)" />
+
+              <!-- 4. PATH ALLOWLIST FILTER -->
+              <g class="svg-guard-node" data-guard="allowlist">
+                <rect class="guard-box" x="322" y="202" width="260" height="86" rx="6" fill="#E5F2EB" stroke="#1A6240" stroke-width="1.4" />
+                <text x="336" y="222" fill="#1A6240" font-family="ui-monospace, monospace" font-size="10" font-weight="700">04 · PATH ALLOWLIST COPY-BACK</text>
+                <text x="336" y="241" fill="#161513" font-family="-apple-system, sans-serif" font-size="12.5" font-weight="700">Only declared paths return</text>
+                <text x="336" y="259" fill="#1A6240" font-family="ui-monospace, monospace" font-size="10">&check; billing/webhooks.ts &rarr; checkout</text>
+                <text x="336" y="274" fill="#4A463E" font-family="ui-monospace, monospace" font-size="10">Reviewer allowlist tightened further</text>
+              </g>
+
+              <!-- Arrow Allowlist -> Reviewer Handoff -->
+              <line x1="322" y1="264" x2="280" y2="264" stroke="#4A463E" stroke-width="1.6" marker-end="url(#arrow-dark)" />
+
+              <!-- REVIEWER TURN BOX -->
+              <rect x="18" y="232" width="258" height="82" rx="6" fill="#FDFCF9" stroke="#B8B0A0" stroke-width="1.3" />
+              <text x="30" y="252" fill="#4A463E" font-family="ui-monospace, monospace" font-size="10" font-weight="700">CONVERGENCE LOOP · REVIEWER</text>
+              <text x="30" y="271" fill="#161513" font-family="-apple-system, sans-serif" font-size="12.5" font-weight="700">Second model critiques patch</text>
+              <text x="30" y="289" fill="#4A463E" font-family="ui-monospace, monospace" font-size="10">Builder cap: $3.00 / 40 turns</text>
+              <text x="30" y="303" fill="#4A463E" font-family="ui-monospace, monospace" font-size="10">Reviewer cap: $1.50 / 20 turns</text>
+
+              <!-- 5. HARD NO-PUSH WALL -->
+              <g class="svg-guard-node" data-guard="nopush">
+                <rect class="guard-box" x="18" y="334" width="564" height="58" rx="6" fill="#F9EAE5" stroke="#B83A17" stroke-width="1.6" />
+                <text x="34" y="357" fill="#B83A17" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700">05 · HARD BOUNDARY — NO PUSHES, EVER, FROM A TURN SHIM</text>
+                <text x="34" y="377" fill="#161513" font-family="-apple-system, sans-serif" font-size="12">Turn shims never touch origin. Work remains local on your branch until gates pass and you land it.</text>
+              </g>
+            </svg>
+            <div class="schematic-footer">
+              <span>Click any guard on the right to isolate it in the schematic.</span>
+              <span>Kernel source: <code>bin/tick</code> · <code>src/</code></span>
+            </div>
+          </div>
+
+          <div class="guard-list" role="group" aria-label="Turn containment controls">
+            <button type="button" class="guard-btn" data-target="all" aria-pressed="true">
+              <div class="guard-btn-top">
+                <span>Show full turn containment flow</span>
+                <span class="guard-btn-code">ALL 5 GUARDS</span>
+              </div>
+              <p class="guard-btn-desc">Inspect how <code>tick</code> and <code>relay-turn-lib.sh</code> isolate every agent turn on <code>GH-148</code>.</p>
+            </button>
+
+            <button type="button" class="guard-btn" data-target="lock" aria-pressed="false">
+              <div class="guard-btn-top">
+                <span>1. Path-scoped <code>O_EXCL</code> claims</span>
+                <span class="guard-btn-code">.tick/events/</span>
+              </div>
+              <p class="guard-btn-desc">A dependency-free Node CLI over an append-only event log. Two agents targeting overlapping paths serialize instead of racing; projection folds state into <code>.tick/STATE.md</code>. No server, no network traffic. <em>Known limit:</em> no stale-lock auto-detection yet—a hard kill mid-claim requires removing the lock file by hand.</p>
+            </button>
+
+            <button type="button" class="guard-btn" data-target="worktree" aria-pressed="false">
+              <div class="guard-btn-top">
+                <span>2. Throwaway worktree isolation</span>
+                <span class="guard-btn-code">DEFAULT ON</span>
+              </div>
+              <p class="guard-btn-desc">Under the driver, the builder edits a disposable worktree rather than your working tree. If it panics or wanders into unrelated files, your primary checkout never absorbs the collateral damage.</p>
+            </button>
+
+            <button type="button" class="guard-btn" data-target="watchdog" aria-pressed="false">
+              <div class="guard-btn-top">
+                <span>3. Watchdog, typed exits &amp; commit guard</span>
+                <span class="guard-btn-code">EXIT 108</span>
+              </div>
+              <p class="guard-btn-desc">A wall-clock watchdog and typed exit codes ensure a timeout is never misdiagnosed as a code defect. Over-budget gates exit <code>108</code> and escalate distinctly. If an agent tries to commit mid-turn, the commit-bypass guard resets the repo.</p>
+            </button>
+
+            <button type="button" class="guard-btn" data-target="allowlist" aria-pressed="false">
+              <div class="guard-btn-top">
+                <span>4. Role-tightened path allowlist</span>
+                <span class="guard-btn-code">COPY-BACK</span>
+              </div>
+              <p class="guard-btn-desc">Only allowlisted files (<code>billing/webhooks.ts</code>, <code>test/webhooks.test.ts</code>) copy back from the worktree. Reviewer turns run under an even tighter allowlist so a critique pass cannot silently alter production code.</p>
+            </button>
+
+            <button type="button" class="guard-btn" data-target="nopush" aria-pressed="false">
+              <div class="guard-btn-top">
+                <span>5. No pushes, ever, from a turn shim</span>
+                <span class="guard-btn-code">LOCAL ONLY</span>
+              </div>
+              <p class="guard-btn-desc">Turn shims have no push path. Every consequential remote action stays gated by the operator and local pre-push hooks.</p>
+            </button>
+          </div>
+        </div>
+
+        <div class="modes-block">
+          <div class="modes-head">
+            <h3>Four execution modes, in increasing order of autonomy</h3>
+            <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-3);">Start small. Add governance only when you want unattended runs.</span>
+          </div>
+          <div class="modes-grid">
+            <article class="mode-card">
+              <div>
+                <div class="mode-level">Mode 01 · Advisory</div>
+                <h4>Consult</h4>
+                <p>One question fans out to two models in parallel on isolated copies, then reconciles the answers. Nothing in your repo is modified.</p>
+              </div>
+              <div class="mode-req">
+                <span>Requires</span>
+                XYZ Forge repo only
+              </div>
+            </article>
+
+            <article class="mode-card mode-card--highlight">
+              <div>
+                <div class="mode-level">Mode 02 · GH-148 Path</div>
+                <h4>Relay</h4>
+                <p>Producer builds, Reviewer critiques, and they hand off turn-by-turn until the artifact converges—within explicit turn and API budget caps.</p>
+              </div>
+              <div class="mode-req">
+                <span>Requires</span>
+                XYZ Forge repo only
+              </div>
+            </article>
+
+            <article class="mode-card">
+              <div>
+                <div class="mode-level">Mode 03 · Concurrent</div>
+                <h4>Swarm</h4>
+                <p>Multiple agents run concurrently on disjoint, path-scoped lanes without stepping on each other's files.</p>
+              </div>
+              <div class="mode-req">
+                <span>Requires</span>
+                Separate clones per automated runner
+              </div>
+            </article>
+
+            <article class="mode-card">
+              <div>
+                <div class="mode-level">Mode 04 · Unattended</div>
+                <h4>Marathon</h4>
+                <p>A queue of preflighted work runs unattended, gated at every phase boundary, orchestrated across repos via <code>hq</code>.</p>
+              </div>
+              <div class="mode-req">
+                <span>Requires</span>
+                Tier A: PDDA governance + vendored <code>.xyz/</code>
+              </div>
+            </article>
+          </div>
+
+          <div class="knob-bar">
+            <span><strong>Builder defaults:</strong> Headless builders default to subscription-billed <code>codex</code> / <code>agy</code>; <code>--builder claude</code> is an explicit operator choice.</span>
+            <span><strong>Role turn caps (GH-1427):</strong> Builders <code>$3.00 / 40 turns</code>, reviewers <code>$1.50 / 20 turns</code> (API budget overrides via <code>CLAUDE_MAX_BUDGET</code> / <code>CLAUDE_MAX_TURNS</code>, not a subscription quota guarantee).</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 04: VERIFY, LAND & RECORD                                   -->
+    <!-- =================================================================== -->
+    <section id="verify" class="section" aria-labelledby="verify-heading">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-kicker">
+            <span class="section-index">04 / PROOF &amp; MEMORY</span>
+            <span class="stage-pill stage-pill--green"><span class="dot" aria-hidden="true"></span> gate &rarr; land &rarr; record</span>
+          </div>
+          <h2 id="verify-heading">"Done" means the suite is green <em>and</em> the doc contract holds.</h2>
+          <p class="lead">
+            When the builder and reviewer converge on <code>GH-148</code>, nothing is trusted on their say-so. A resource-capped verification gate runs, PDDA checks that disk docs match reality, and the PRS ledger writes a git-mergeable receipt so you can audit—or resume—tomorrow.
+          </p>
+        </div>
+
+        <div class="verify-grid">
+          <div>
+            <div class="step-stack">
+              <article class="step-card">
+                <div class="step-card-head">
+                  <span class="step-verb">Gate · Resource-Contained Proof</span>
+                  <span class="step-surface">CPU / Wall / RSS Caps</span>
+                </div>
+                <h3>Runaway test suites get killed cleanly, not misfiled as bugs</h3>
+                <p>
+                  Every phase boundary runs its verification gate under wall-clock, CPU, and RSS containment. If a test leaks memory or loops forever, Forge kills it with exit code <code>108</code> and escalates distinctly so a resource runaway is never triaged as a product defect.
+                </p>
+              </article>
+
+              <article class="step-card">
+                <div class="step-card-head">
+                  <span class="step-verb">PDDA · Docs as Runtime State</span>
+                  <span class="step-surface">PROJECT/**</span>
+                </div>
+                <h3>Not paperwork—serialized machine state</h3>
+                <p>
+                  Forge's built-in doc governance (PDDA, in <code>utils/pdda/</code>) validates frontmatter, status tables, and ledger coverage. Why enforce doc checks with teeth? Because unattended agent work must be stoppable, resumable, and handable to a fresh session from <code>PROJECT/**</code> alone. Drift between code and docs is a runtime defect, not untidiness.
+                </p>
+              </article>
+
+              <article class="step-card">
+                <div class="step-card-head">
+                  <span class="step-verb">Recovery · Honest Post-Crash Triage</span>
+                  <span class="step-surface">marathon-recover.sh</span>
+                </div>
+                <h3>If a run dies mid-flight, inspect without guessing</h3>
+                <p>
+                  Running <code>bash relay-automation/marathon-recover.sh /path/to/repo</code> produces a read-only report over phase records, the <code>tick</code> log, and reachable commits. Any phase that committed without an approval event is flagged as an <strong>UNGATED COMMIT</strong>—treat it as unverified. A stale <code>.git/relay-driver.lock</code> self-heals on the next start; a <code>LIVE</code> lock warns you another driver is still active.
+                </p>
+              </article>
+            </div>
+
+            <blockquote class="quote-strip">
+              "Several guards in this repo exist because an earlier version destroyed work. That is a point in its favor and a warning at once. Run it on a branch. Keep independent backups."
+            </blockquote>
+          </div>
+
+          <div>
+            <aside class="receipt-card" aria-label="Completed PRS receipt for GH-148">
+              <div class="receipt-banner">
+                <span>PRS RELEASE LEDGER · RECEIPTED</span>
+                <span>GH-148 VERIFIED</span>
+              </div>
+              <div class="receipt-body">
+                <ul class="receipt-rows">
+                  <li class="receipt-row">
+                    <span class="receipt-label">Work Item</span>
+                    <span class="receipt-val"><code>GH-148</code> — Webhook retry idempotency in <code>acme-payments</code></span>
+                  </li>
+                  <li class="receipt-row">
+                    <span class="receipt-label">Relay Outcome</span>
+                    <span class="receipt-val">Converged in 2 builder turns, 1 reviewer critique (allowlist clean)</span>
+                  </li>
+                  <li class="receipt-row">
+                    <span class="receipt-label">Gate Evidence</span>
+                    <span class="receipt-val"><span class="pill-pass">EXIT 0</span> <code>webhooks.test.ts</code> passed within wall/CPU/RSS caps</span>
+                  </li>
+                  <li class="receipt-row">
+                    <span class="receipt-label">Doc Contract</span>
+                    <span class="receipt-val"><span class="pill-pass">PDDA PASS</span> Frontmatter, status table &amp; ledger coverage aligned</span>
+                  </li>
+                  <li class="receipt-row">
+                    <span class="receipt-label">Ledger Store</span>
+                    <span class="receipt-val">SQLite + git-mergeable SQL dump updated with receipted write</span>
+                  </li>
+                  <li class="receipt-row">
+                    <span class="receipt-label">Remote State</span>
+                    <span class="receipt-val">Local branch ready; pre-push hook gates <code>git push</code></span>
+                  </li>
+                </ul>
+              </div>
+            </aside>
+
+            <div class="callout-box callout-box--warn">
+              <h3>About Flywheel (Beta)</h3>
+              <p>
+                Forge's <code>flywheel</code>, <code>conveyor</code>, <code>idea</code>, and <code>close-the-loop</code> skills connect intake, queued execution (Jog), independent review, and landing without adding another runner. Real fixes have landed through it, but <strong>two useful tasks advancing end-to-end without human/agent intervention remain unproven</strong>—admission mismatches and reviewer capacity still require assistance.
+              </p>
+            </div>
+
+            <div class="callout-box">
+              <h3>Multi-repo dispatch with HQ</h3>
+              <p>
+                Once you manage several repositories, <code>hq</code> resolves project names to local repos, previews writes before acting, and enforces capability tiers: <code>hq fire</code> refuses any repo that is not <strong>Tier A</strong> (both PDDA governance and a vendored <code>.xyz/</code> harness).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 05: CLEAR-EYED ADOPTION, SIZING & 60-SECOND PROOF           -->
+    <!-- =================================================================== -->
+    <section id="adopt" class="section section--alt" aria-labelledby="adopt-heading">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-kicker">
+            <span class="section-index">05 / CLEAR-EYED ADOPTION</span>
+            <span class="stage-pill"><span class="dot" aria-hidden="true"></span> scope · hardware · 60-second proof</span>
+          </div>
+          <h2 id="adopt-heading">Know what you are adopting—and prove the kernel in 60 seconds.</h2>
+          <p class="lead">
+            XYZ Forge is beta, single-operator software moving fast. Most commits are agent-authored, and local-first is a deliberate design constraint, not a roadmap gap. Decide with full facts before you wire it into a repository.
+          </p>
+        </div>
+
+        <div class="scope-grid">
+          <article class="scope-card">
+            <h3><span class="scope-dot" aria-hidden="true"></span> What Forge Is</h3>
+            <ul class="clean-list">
+              <li><strong>Local-first ops for a small human team</strong> directing a larger number of AI coding agents across their own repos.</li>
+              <li><strong>Gradual adoption:</strong> Consult and Relay need zero governance setup; add PDDA and vendored <code>.xyz/</code> only when you want Swarm/Marathon.</li>
+              <li><strong>~50 cadence-grouped skills</strong> (<code>1-hourly/</code> through <code>4-occasional/</code>) plus a Python runtime by default (with frozen Bash fallbacks).</li>
+              <li><strong>AGPL-3.0-only</strong> with a commercial license option (<code>LICENSE-COMMERCIAL.md</code>).</li>
+            </ul>
+          </article>
+
+          <article class="scope-card">
+            <h3><span class="scope-dot scope-dot--no" aria-hidden="true"></span> What Forge Deliberately Is Not</h3>
+            <ul class="clean-list">
+              <li><strong>Not enterprise ALM:</strong> No multi-user identity, RBAC, SSO, cross-team capacity planning, or regulatory traceability matrix. If you need Polarion or Azure DevOps, use them.</li>
+              <li><strong>Not a spec generator:</strong> It assumes specified work. Pair it with GitHub Spec Kit or Task Master if you want structured prompt-to-PRD generation; their output can land in <code>PROJECT/1-INBOX/</code>.</li>
+              <li><strong>Not hands-off magic:</strong> No release tags yet, Python static analysis is currently absent, and host-aware wave sizing stays the operator's job.</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Hardware Sizing Interactive Bar -->
+        <div class="sizing-panel" aria-labelledby="sizing-heading">
+          <div class="sizing-top">
+            <div>
+              <h3 id="sizing-heading">Hardware sizing for unattended runs</h3>
+              <p style="margin: 0.2rem 0 0; font-size: 0.85rem; color: var(--ink-2);">Select your host RAM to see the supported Marathon dispatch path.</p>
+            </div>
+            <div class="ram-pills" role="group" aria-label="Host RAM selector">
+              <button type="button" class="ram-pill" data-ram="16" aria-pressed="true">16 GB</button>
+              <button type="button" class="ram-pill" data-ram="24" aria-pressed="false">24 GB</button>
+              <button type="button" class="ram-pill" data-ram="32" aria-pressed="false">32 GB</button>
+              <button type="button" class="ram-pill" data-ram="64" aria-pressed="false">64 GB</button>
+            </div>
+          </div>
+
+          <div class="ram-readout" aria-live="polite">
+            <div>
+              <div class="ram-verdict-title" id="ram-title">16 GB RAM — Serial marathon only (recommended minimum)</div>
+              <p class="ram-verdict-copy" id="ram-copy">Supports <code>marathon.sh --plan</code> with one builder and its verification gate running serially with normal host reserve. Does not support per-lane parallel dispatch.</p>
+            </div>
+            <div class="ram-meter">
+              <div style="display:flex; justify-content:space-between;">
+                <span>DISPATCH HEADROOM</span>
+                <span id="ram-badge">SERIAL ONLY</span>
+              </div>
+              <div class="meter-bar" aria-hidden="true">
+                <div class="meter-fill" id="ram-fill"></div>
+              </div>
+              <span>Budget 1.5&ndash;2 GB / concurrent lane + your repo's test suite + host reserve.</span>
+            </div>
+          </div>
+
+          <p class="sizing-note">
+            <strong>Measured baseline:</strong> On a 32 GB M1 Max (138 samples at 10s intervals, builder + reviewer + 3 pytest gates), a serial marathon ran at <strong>2.19 GB average / 2.26 GB peak</strong>. The guard does not auto-clamp wave width to host RAM—wave sizing remains your responsibility.
+          </p>
+        </div>
+
+        <!-- 60-Second Proof & Operational Gotchas -->
+        <div class="quickstart-grid">
+          <div class="terminal-card">
+            <div class="terminal-head">
+              <span>PROVE THE KERNEL WORKS — 60 SECONDS, NO ACCOUNTS (NODE 18+ · GIT)</span>
+              <button type="button" class="copy-btn" id="copy-proof">Copy commands</button>
+            </div>
+            <div class="terminal-body">
+              <pre class="code-block" id="proof-code"><span class="tok-c"># 1. Verify the tick coordination kernel (~1s, 14 unit tests)</span>
+npm install
+npm run test:unit
+
+<span class="tok-c"># 2. Contributing? Wire the mandatory pre-push gate (once per clone)</span>
+bash githooks/install.sh
+./validate.sh              <span class="tok-c"># ~350 suites; budget 5-10 min parallel</span>
+
+<span class="tok-c"># 3. Install into another repository</span>
+./install.sh ../my-app/xyz-tick --repo ../my-app         <span class="tok-c"># kernel only</span>
+bash relay-automation/xyz-vendor.sh /path/to/target      <span class="tok-c"># full harness</span>
+bash utils/pdda/pdda-install.sh /path/to/target          <span class="tok-c"># Tier A governance</span></pre>
+            </div>
+          </div>
+
+          <div class="reality-card">
+            <div>
+              <h3>Two operational gotchas before your first run</h3>
+              <dl class="reality-dl" style="margin-top: 0.9rem;">
+                <div>
+                  <dt>Most Common False Alarm</dt>
+                  <dd><strong>Run <code>validate.sh</code> un-sandboxed.</strong> Under Claude Code's default Bash sandbox, <code>mktemp -d</code> scratch dirs are blocked: the suite prints nothing for minutes, then fails. Turn off the sandbox (<code>/sandbox</code>) before assuming it is broken.</dd>
+                </div>
+                <div>
+                  <dt>Mandatory Hook Per Clone</dt>
+                  <dd>The pre-push hook lives in <code>.git/hooks/</code> and does not travel with a clone. Run <code>bash githooks/install.sh</code> once per clone (check with <code>--check</code>) so fresh clones are never ungated.</dd>
+                </div>
+                <div>
+                  <dt>Gate Toolchain</dt>
+                  <dd>Full gates require <strong>Python &ge; 3.10</strong> (<code>PyYAML</code>, <code>pytest</code>, <code>requests</code>, pinned <code>mypy</code> via <code>requirements-dev.txt</code>). No accounts or API keys required to run <code>./validate.sh</code>.</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <div class="footer-title">XYZ Forge — Safety &amp; Warranty Notice</div>
+        <p class="footer-warranty">
+          Provided <strong>"AS IS," without warranty</strong>, under AGPL-3.0-only (commercial license available). Coding-agent automation is inherently risky: models may invoke commands through their own runtimes outside the intended harness workflow. Maintain tested, independent backups and run on branches.
+        </p>
+      </div>
+      <div class="footer-meta">
+        <span>Project site: hiqs-labs.github.io/XYZ-forge/</span>
+        <span>Walkthrough scenario GH-148 is illustrative; all system facts sourced from FORGE.md.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Reading progress bar + active nav tracking
+      var progressFill = document.getElementById('progress-fill');
+      var navLinks = Array.prototype.slice.call(document.querySelectorAll('[data-nav]'));
+      var sections = navLinks.map(function (link) {
+        return document.getElementById(link.getAttribute('data-nav'));
+      }).filter(Boolean);
+
+      function updateProgress() {
+        var doc = document.documentElement;
+        var scrollTop = window.scrollY || doc.scrollTop;
+        var maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
+        var pct = Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100));
+        if (progressFill) progressFill.style.width = pct.toFixed(1) + '%';
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+
+      if ('IntersectionObserver' in window && sections.length) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var id = entry.target.id;
+              navLinks.forEach(function (link) {
+                var active = link.getAttribute('data-nav') === id;
+                if (active) {
+                  link.setAttribute('aria-current', 'true');
+                } else {
+                  link.removeAttribute('aria-current');
+                }
+              });
+            }
+          });
+        }, { rootMargin: '-25% 0px -60% 0px', threshold: 0.01 });
+
+        sections.forEach(function (sec) { observer.observe(sec); });
+      }
+
+      // 2. Section 02 Artifact Inspector tabs
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          activateTab(tab);
+        });
+        tab.addEventListener('keydown', function (e) {
+          var idx = tabs.indexOf(tab);
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            var next = tabs[(idx + 1) % tabs.length];
+            activateTab(next);
+            next.focus();
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            var prev = tabs[(idx - 1 + tabs.length) % tabs.length];
+            activateTab(prev);
+            prev.focus();
+          }
+        });
+      });
+
+      function activateTab(selected) {
+        tabs.forEach(function (t) {
+          var isSel = t === selected;
+          t.setAttribute('aria-selected', isSel ? 'true' : 'false');
+          var panelId = t.getAttribute('aria-controls');
+          var panel = panelId ? document.getElementById(panelId) : null;
+          if (panel) panel.hidden = !isSel;
+        });
+      }
+
+      // 3. Section 03 Interactive Containment Guard Explorer
+      var guardButtons = Array.prototype.slice.call(document.querySelectorAll('.guard-btn'));
+      var svgNodes = Array.prototype.slice.call(document.querySelectorAll('.svg-guard-node'));
+
+      guardButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var target = btn.getAttribute('data-target');
+          guardButtons.forEach(function (b) {
+            b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+          });
+          svgNodes.forEach(function (node) {
+            var guard = node.getAttribute('data-guard');
+            if (target === 'all') {
+              node.classList.remove('is-dim', 'is-active');
+            } else if (guard === target) {
+              node.classList.remove('is-dim');
+              node.classList.add('is-active');
+            } else {
+              node.classList.remove('is-active');
+              node.classList.add('is-dim');
+            }
+          });
+        });
+      });
+
+      // 4. Section 05 Hardware RAM Sizing Selector
+      var ramData = {
+        '16': {
+          title: '16 GB RAM — Serial marathon only (recommended minimum)',
+          copy: 'Supports marathon.sh --plan with one builder and its verification gate running serially with normal host reserve. Does not support per-lane parallel dispatch.',
+          badge: 'SERIAL ONLY',
+          width: '28%',
+          color: '#8A4F08'
+        },
+        '24': {
+          title: '24 GB RAM — Serial; small parallel wave after manual budgeting',
+          copy: 'Comfortable for serial marathons and small parallel waves once you account for 1.5–2 GB per concurrent lane plus your repository test suite.',
+          badge: 'SMALL PARALLEL',
+          width: '50%',
+          color: '#1A6240'
+        },
+        '32': {
+          title: '32 GB RAM — Serial; per-lane parallel dispatch after manual budgeting',
+          copy: 'Proven baseline hardware: a 32 GB M1 Max measured 2.19 GB average / 2.26 GB peak for a serial marathon with 3 active pytest gates. Supports budgeted parallel lanes.',
+          badge: 'PER-LANE PARALLEL',
+          width: '74%',
+          color: '#1A6240'
+        },
+        '64': {
+          title: '64 GB RAM — Wider parallel dispatch (still operator-budgeted)',
+          copy: 'Headroom for wider concurrent waves across disjoint lanes. The guard still does not inspect host RAM or auto-clamp wave width—budget your test suite explicitly.',
+          badge: 'WIDE PARALLEL',
+          width: '96%',
+          color: '#1A6240'
+        }
+      };
+
+      var ramPills = Array.prototype.slice.call(document.querySelectorAll('.ram-pill'));
+      var ramTitle = document.getElementById('ram-title');
+      var ramCopy = document.getElementById('ram-copy');
+      var ramBadge = document.getElementById('ram-badge');
+      var ramFill = document.getElementById('ram-fill');
+
+      ramPills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          var key = pill.getAttribute('data-ram');
+          var cfg = ramData[key];
+          if (!cfg) return;
+          ramPills.forEach(function (p) {
+            p.setAttribute('aria-pressed', p === pill ? 'true' : 'false');
+          });
+          if (ramTitle) ramTitle.textContent = cfg.title;
+          if (ramCopy) ramCopy.textContent = cfg.copy;
+          if (ramBadge) ramBadge.textContent = cfg.badge;
+          if (ramFill) {
+            ramFill.style.width = cfg.width;
+            ramFill.style.background = cfg.color;
+          }
+        });
+      });
+
+      // 5. Copy commands button
+      var copyBtn = document.getElementById('copy-proof');
+      var proofCode = document.getElementById('proof-code');
+      if (copyBtn && proofCode) {
+        copyBtn.addEventListener('click', function () {
+          var text = proofCode.textContent || '';
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              copyBtn.textContent = 'Copied';
+              setTimeout(function () { copyBtn.textContent = 'Copy commands'; }, 1800);
+            }).catch(function () {
+              copyBtn.textContent = 'Select & copy';
+            });
+          } else {
+            copyBtn.textContent = 'Select & copy';
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

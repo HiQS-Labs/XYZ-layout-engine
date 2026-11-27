@@ -1,0 +1,34 @@
+{
+  "desktop": {
+    "sections": 5,
+    "headings": [
+      "One AI agent is a superpower. Five unattended agents are a race condition.",
+      "Prevent duplicate Stripe webhook retries from double-charging accounts",
+      "THE FORGE OPERATIONAL LOOP",
+      "Stop bad runs before an agent ever opens a file.",
+      "Containment enforced by the harness, not by polite prompting.",
+      "\"Done\" means the suite is green and the doc contract holds.",
+      "Know what you are adopting—and prove the kernel in 60 seconds."
+    ],
+    "width": 1440,
+    "height": 7248,
+    "brokenImages": 0,
+    "errors": []
+  },
+  "mobile": {
+    "sections": 5,
+    "headings": [
+      "One AI agent is a superpower. Five unattended agents are a race condition.",
+      "Prevent duplicate Stripe webhook retries from double-charging accounts",
+      "THE FORGE OPERATIONAL LOOP",
+      "Stop bad runs before an agent ever opens a file.",
+      "Containment enforced by the harness, not by polite prompting.",
+      "\"Done\" means the suite is green and the doc contract holds.",
+      "Know what you are adopting—and prove the kernel in 60 seconds."
+    ],
+    "width": 390,
+    "height": 13674,
+    "brokenImages": 0,
+    "errors": []
+  }
+}

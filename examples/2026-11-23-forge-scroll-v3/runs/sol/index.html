@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>XYZ Forge — Give every agent run a paper trail</title>
+<meta name="description" content="Follow a coding-agent task from a GitHub issue to a verified change with XYZ Forge, a local-first engineering operations system.">
+<style>
+:root{--paper:#f5f1e6;--ink:#172e28;--muted:#4f6158;--line:#c7cbbd;--dark:#142f29;--mint:#dce9c6;--orange:#fba672;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.6 system-ui,sans-serif}
+a{color:inherit}
+a:focus-visible{outline:3px solid #af451a;outline-offset:5px}
+h1,h2,p{margin:0}
+h1,h2{font-family:Georgia,serif;font-weight:400;letter-spacing:-.055em;line-height:.99;text-wrap:balance}
+h1{font-size:clamp(3.45rem,7.65vw,8.1rem)}
+h2{font-size:clamp(2.65rem,5.6vw,5.5rem)}
+h3{font-size:1.13rem;line-height:1.3;margin:0 0 .45rem}
+code,pre,.label,.mark,.stage,.status{font-family:var(--mono)}
+code{overflow-wrap:anywhere}
+.wrap{width:min(100% - clamp(2rem,8vw,9rem),81rem);margin-inline:auto}
+.skip{position:absolute;left:1rem;top:.5rem;transform:translateY(-200%);background:var(--paper);padding:.5rem;z-index:2}
+.skip:focus{transform:none}
+header{border-bottom:1px solid #ffffff2c;background:var(--dark);color:var(--paper)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4.5rem}
+.brand{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;font-weight:750;white-space:nowrap}
+.mark{display:grid;place-items:center;width:1.85rem;height:1.85rem;background:var(--orange);color:var(--dark);font-size:1.3rem;line-height:1}
+nav{display:flex;gap:clamp(.75rem,3vw,2.2rem);font-size:.83rem}
+nav a{text-decoration:none}
+nav a:hover{text-decoration:underline}
+.hero{color:var(--paper);background:var(--dark)}
+.hero-grid{display:grid;grid-template-columns:1.3fr .85fr;gap:clamp(2rem,6vw,7rem);align-items:center;padding-block:clamp(3.75rem,8.5vw,8rem)}
+.label{font-size:.72rem;line-height:1.5;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.hero .label,.gate .label{color:var(--orange)}
+.hero h1{margin:.85rem 0 1.4rem}
+.hero h1 em{font-weight:400;color:var(--mint)}
+.hero p:not(.label){color:#dae3d8;max-width:34rem;font-size:clamp(1rem,1.7vw,1.2rem)}
+.button{display:inline-flex;align-items:center;gap:1.1rem;margin-top:1.65rem;background:var(--orange);color:var(--dark);padding:.75rem 1.1rem;text-decoration:none;font-weight:750;font-size:.89rem}
+.button:hover{background:var(--mint)}
+.route{margin:0;min-width:0;background:linear-gradient(#ffffff0e 1px,transparent 1px),linear-gradient(90deg,#ffffff0e 1px,transparent 1px);background-size:22px 22px;border:1px solid #ffffff37;padding:clamp(.85rem,2.6vw,2rem)}
+.route figcaption{margin-bottom:1rem}
+.route ol{list-style:none;margin:0;padding:0;display:grid;gap:.65rem}
+.route li{background:#1d3b33;border:1px solid #637d6e;padding:.65rem .8rem;display:grid;grid-template-columns:1rem 1fr;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.82rem}
+.route li::before{content:"";background:var(--mint);width:.52rem;height:.52rem;transform:rotate(45deg);justify-self:center}
+.route li:nth-child(3)::before{background:var(--orange)}
+.route li:last-child{background:var(--mint);color:var(--dark);border-color:var(--mint)}
+.route li:last-child::before{background:var(--dark)}
+.route small{display:block;opacity:.85;font-size:.72rem}
+.section{padding-block:clamp(3.5rem,7vw,7rem)}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.7rem,8vw,9rem);align-items:start}
+.heading .label{margin-bottom:.85rem}
+.heading>p:last-child:not(.label){margin-top:1.1rem;max-width:31rem}
+.copy{max-width:35rem}
+.copy p+p{margin-top:.9rem}
+.spec{border-top:4px solid var(--ink);border-bottom:1px solid var(--line);margin-top:1.35rem}
+.spec div{display:grid;grid-template-columns:6.7rem 1fr;gap:.6rem;border-top:1px solid var(--line);padding:.7rem 0}
+.spec dt,.spec dd{margin:0}
+.spec dt{color:var(--muted);font-size:.74rem;text-transform:uppercase;font-family:var(--mono);padding-top:.15rem}
+.plan{background:#e5ead9}
+.steps{margin:0;padding:0;list-style:none;counter-reset:step}
+.steps li{counter-increment:step;position:relative;border-top:1px solid #a8b4a4;padding:.95rem 0 .95rem 2.3rem}
+.steps li::before{content:"0" counter(step);position:absolute;left:0;top:1.03rem;font:700 .77rem/1.5 var(--mono);color:var(--muted)}
+.steps li:last-child{border-bottom:1px solid #a8b4a4}
+.gate{background:var(--dark);color:var(--paper)}
+.gate .heading>p:last-child{color:#dae3d8}
+.receipt{background:var(--paper);color:var(--ink);min-width:0}
+.receipt-top{padding:1.15rem clamp(.9rem,3vw,1.6rem);border-bottom:1px dashed #8e9b8e;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem}
+.receipt-top .label{color:var(--ink)}
+.status{background:var(--mint);padding:.25rem .5rem;font-size:.7rem;font-weight:700}
+.receipt dl{margin:0;padding:.35rem clamp(.9rem,3vw,1.6rem) 1rem}
+.receipt dl div{display:grid;grid-template-columns:6.15rem 1fr;gap:.6rem;padding:.75rem 0;border-bottom:1px solid var(--line)}
+.receipt dl div:last-child{border:0}
+.receipt dt{font:700 .72rem/1.6 var(--mono);text-transform:uppercase;padding-top:.14rem;color:var(--muted)}
+.receipt dd{margin:0;font-size:.94rem}
+.adopt .heading{margin-bottom:2rem}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:2.75rem;border-block:1px solid var(--line)}
+.modes div{padding:1rem}
+.modes div:first-child{padding-left:0}
+.modes div+div{border-left:1px solid var(--line)}
+.modes p{font-size:.92rem;color:var(--muted)}
+.terminal{min-width:0}
+pre{margin:.7rem 0 0;background:#e5ead9;padding:1rem;font-size:.88rem;white-space:pre-wrap;overflow-wrap:anywhere}
+footer{border-top:1px solid var(--line);padding:1.2rem 0;font-size:.85rem;color:var(--muted)}
+.footer-row{display:flex;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+@media(max-width:760px){
+  .hero-grid,.layout{grid-template-columns:1fr}
+  .route{max-width:35rem;width:100%}
+  .modes{grid-template-columns:1fr 1fr}
+  .modes div:nth-child(3){padding-left:0;border-left:0}
+  .modes div:nth-child(n+3){border-top:1px solid var(--line)}
+}
+@media(max-width:365px){
+  .bar{align-items:flex-start;flex-direction:column;justify-content:center;gap:.45rem;padding-block:.65rem}
+  h1{font-size:3rem}
+  .spec div,.receipt dl div{grid-template-columns:1fr;gap:.1rem}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true">✳</span> XYZ Forge</a>
+    <nav aria-label="Page navigation"><a href="#request">Example</a><a href="#verification">Verification</a><a href="#try">Try Forge</a></nav>
+  </div>
+</header>
+<main id="main">
+  <section class="hero" aria-labelledby="title">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="label">Local-first engineering operations</p>
+        <h1 id="title">Give every agent run a <em>paper trail.</em></h1>
+        <p>XYZ Forge coordinates coding agents across your repositories. It carries an issue into a scoped plan, keeps parallel edits apart, and records the checks behind a landed change.</p>
+        <a class="button" href="#request">Follow one request <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="route">
+        <figcaption class="label">Example run · CLI export</figcaption>
+        <ol>
+          <li><span>Capture &amp; rate<small>GitHub issue → backlog</small></span></li>
+          <li><span>Plan &amp; preflight<small>Write scope + runnable checks</small></span></li>
+          <li><span>Execute &amp; gate<small>Scoped edit + test result</small></span></li>
+          <li><span>Land &amp; record<small>Commit + release ledger</small></span></li>
+        </ol>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="request" aria-labelledby="request-title">
+    <div class="wrap layout">
+      <div class="heading">
+        <p class="label">Capture &amp; rate</p>
+        <h2 id="request-title">Turn a request into runnable work.</h2>
+      </div>
+      <div class="copy">
+        <p>Suppose support reports that <code>export --format csv</code> produces an empty file when there are no rows. The importer expects a header. The request is to emit the header even when there’s nothing to export.</p>
+        <dl class="spec">
+          <div><dt>Capture</dt><dd>Link the GitHub issue to a project capture doc and park the work in the release ledger.</dd></div>
+          <div><dt>Acceptance</dt><dd>Empty exports contain one header line. Exports with rows retain the existing output.</dd></div>
+          <div><dt>Priority</dt><dd>Rate priority, severity, appeal, and effort alongside other backlog items.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section plan" id="execution" aria-labelledby="execution-title">
+    <div class="wrap layout">
+      <div class="heading">
+        <p class="label">Plan, preflight &amp; execute</p>
+        <h2 id="execution-title">Give the edit a boundary.</h2>
+        <p>The plan allows writes to <code>src/cli/export.ts</code> and <code>test/export.test.ts</code>. The gate covers empty and populated CSV exports.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Schedule around overlapping writes</h3><p>The wave planner compares planned write sets. Another issue touching <code>export.ts</code> waits. During execution, the local <code>tick</code> kernel serializes overlapping path claims.</p></li>
+        <li><h3>Prove the gate can start</h3><p>Preflight checks freshness, looks for work that already landed, and establishes whether the test command can start before the first agent turn.</p></li>
+        <li><h3>Run the turn in a worktree</h3><p>The driver isolates edits in a temporary worktree by default and copies back only allowlisted files. Turn shims cannot push.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section gate" id="verification" aria-labelledby="gate-title">
+    <div class="wrap layout">
+      <div class="heading">
+        <p class="label">Gate, land &amp; record</p>
+        <h2 id="gate-title">Leave evidence someone can check.</h2>
+        <p>A deterministic gate can stop advancement. An independent model reviewer can flag a concern for the operator. The release ledger records what shipped with evidence, and the project docs preserve the state needed for a handoff.</p>
+      </div>
+      <div class="receipt" aria-label="Illustrative release record">
+        <div class="receipt-top"><p class="label">Illustrative release record</p><span class="status">Gate passed</span></div>
+        <dl>
+          <div><dt>Change</dt><dd>CSV exports always include the header.</dd></div>
+          <div><dt>Gate</dt><dd>Zero rows → header only.<br>Populated export → existing output preserved.</dd></div>
+          <div><dt>Landing</dt><dd>Approved change lands through the repository workflow.</dd></div>
+          <div><dt>Record</dt><dd>Issue, landed change, and verification evidence are traceable in the release ledger.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section adopt" id="try" aria-labelledby="try-title">
+    <div class="wrap">
+      <div class="heading">
+        <p class="label">Adopting Forge</p>
+        <h2 id="try-title">Start with one turn.</h2>
+        <p>Coordination state lives on your machine and needs no Forge account or server. Live agent turns use your installed, authenticated agent CLIs.</p>
+      </div>
+      <div class="modes">
+        <div><h3>Consult</h3><p>Ask two models a question in parallel and reconcile their advice.</p></div>
+        <div><h3>Relay</h3><p>Hand off between a builder and a reviewer.</p></div>
+        <div><h3>Swarm</h3><p>Run agents in parallel on separate paths.</p></div>
+        <div><h3>Marathon</h3><p>Run a queue of preflighted work with gates at phase boundaries.</p></div>
+      </div>
+      <div class="layout">
+        <div class="terminal">
+          <h3>Try the kernel</h3>
+          <p>In a Forge checkout with Node 18+ and Git, run the 14 kernel unit tests.</p>
+          <pre><code>npm install
+npm run test:unit</code></pre>
+        </div>
+        <div class="copy">
+          <h3>Know the beta limits</h3>
+          <p>Forge is built around one operator. Consult and Relay work from the Forge checkout. Plan on installing PDDA document governance and vendoring Forge into the target repo for Swarm or Marathon.</p>
+          <p>Flywheel has landed reviewed fixes. End-to-end delivery of two useful tasks without intervention remains unproven. Run on a branch and keep independent, tested backups.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap footer-row"><span>XYZ Forge</span><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>

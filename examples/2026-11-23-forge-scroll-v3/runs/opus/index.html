@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XYZ Forge — follow one request from issue to verified change</title>
+<meta name="description" content="XYZ Forge is a local-first operations system for running AI coding agents as a workforce. Follow one request through capture, planning, execution, gates and the record.">
+<style>
+:root{
+  --paper:#f4f0e6; --paper-2:#ebe5d6; --ink:#1b1a17; --ink-2:#4a463d; --ink-3:#7a7366;
+  --rule:#d4ccb8; --oxide:#c2410c; --oxide-soft:#f6dccb; --moss:#3f6212; --moss-soft:#dfe8cc;
+  --slate:#22262b; --slate-2:#2e343a; --term:#e8e4d8;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --measure:38rem;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration-color:var(--oxide);text-underline-offset:3px}
+code,kbd,.mono{font-family:var(--mono);font-size:.86em}
+p code,li code,td code{background:var(--paper-2);padding:.08em .35em;border-radius:3px}
+.wrap{max-width:72rem;margin:0 auto;padding:0 1.5rem}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:var(--ink);color:var(--paper);padding:.5rem 1rem;z-index:10}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+.bar .wrap{display:flex;align-items:center;gap:1.25rem;height:52px}
+.brand{font-family:var(--mono);font-weight:700;letter-spacing:.02em;font-size:.95rem;white-space:nowrap}
+.brand b{color:var(--oxide)}
+.loop{display:flex;gap:.15rem;margin-left:auto;list-style:none;padding:0;overflow-x:auto;scrollbar-width:none}
+.loop::-webkit-scrollbar{display:none}
+.loop a{display:block;font:500 .74rem/1 var(--mono);padding:.42rem .55rem;border-radius:99px;color:var(--ink-3);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.loop a:hover{color:var(--ink)}
+.loop a.on{background:var(--ink);color:var(--paper)}
+@media (max-width:760px){.loop{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:5.5rem 0 4rem;border-bottom:1px solid var(--rule)}
+.kicker{font:600 .78rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--oxide);margin:0 0 1.4rem}
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,6.4vw,5.1rem);max-width:15ch}
+h1 em{font-style:italic;color:var(--oxide)}
+.lede{font-size:clamp(1.1rem,1.6vw,1.3rem);color:var(--ink-2);max-width:var(--measure);margin:1.6rem 0 0}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:3.5rem;align-items:end}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:2.5rem}}
+.ticket{background:#fffdf7;border:1px solid var(--rule);border-radius:6px;box-shadow:0 1px 0 var(--rule),0 18px 40px -24px rgba(40,30,10,.35);padding:1.3rem 1.4rem;font-size:.95rem;position:relative}
+.ticket .tag{position:absolute;top:-.7rem;left:1.2rem;background:var(--oxide);color:#fff;font:600 .68rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.35rem .55rem;border-radius:3px}
+.ticket .num{font:600 .8rem var(--mono);color:var(--ink-3)}
+.ticket h3{font-size:1.35rem;margin:.3rem 0 .6rem;font-family:var(--serif)}
+.ticket p{margin:.4rem 0;color:var(--ink-2)}
+.ticket .meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+.chip{font:500 .72rem/1 var(--mono);border:1px solid var(--rule);border-radius:99px;padding:.32rem .55rem;color:var(--ink-2);background:var(--paper)}
+.ill{display:inline-block;font:600 .64rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);border:1px dashed var(--ink-3);border-radius:3px;padding:.25rem .4rem;vertical-align:middle}
+
+.loopline{margin:3.5rem 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;font:500 .9rem var(--mono);color:var(--ink-2)}
+.loopline span{padding:.35rem .6rem;border:1px solid var(--rule);border-radius:4px;background:#fffdf7}
+.loopline i{font-style:normal;color:var(--oxide)}
+.under{font-size:.92rem;color:var(--ink-3);margin:.9rem 0 0;max-width:46rem}
+
+/* ---------- chapters ---------- */
+section.ch{padding:5.5rem 0;border-bottom:1px solid var(--rule)}
+section.ch.dark{background:var(--slate);color:var(--term);border-bottom:0}
+.ch-head{display:grid;grid-template-columns:9rem 1fr;gap:2rem;margin-bottom:3rem}
+@media (max-width:760px){.ch-head{grid-template-columns:1fr;gap:.8rem}}
+.ch-no{font:600 .78rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--oxide);padding-top:.6rem}
+.ch-no small{display:block;color:var(--ink-3);letter-spacing:.04em;text-transform:none;font-weight:500}
+.dark .ch-no small{color:#9aa0a6}
+h2{font-size:clamp(2rem,4vw,3.1rem);max-width:22ch}
+.ch-head p{max-width:var(--measure);color:var(--ink-2);font-size:1.08rem;margin:1.1rem 0 0}
+.dark .ch-head p{color:#c9c5ba}
+.cols{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
+.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-4{grid-column:span 4}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+@media (max-width:900px){.cols>*{grid-column:1/-1!important}}
+.prose p{margin:0 0 1rem;max-width:var(--measure)}
+.prose h3{font-size:1.35rem;margin:2rem 0 .6rem}
+.prose h3:first-child{margin-top:0}
+.prose ul{padding-left:1.1rem;margin:0 0 1rem}
+.prose li{margin:.35rem 0}
+.stage{display:inline-block;font:600 .7rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:.35rem .5rem;border-radius:3px;margin-bottom:.8rem}
+.dark .stage{background:var(--oxide);color:#fff}
+
+/* cards / artifacts */
+.card{background:#fffdf7;border:1px solid var(--rule);border-radius:6px;padding:1.25rem 1.35rem}
+.card + .card{margin-top:1.25rem}
+.card h4{margin:0 0 .5rem;font:600 .78rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;gap:1rem;align-items:center}
+.score{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:.6rem 0 .3rem}
+.score div{border:1px solid var(--rule);border-radius:4px;padding:.6rem .5rem;text-align:center;background:var(--paper)}
+.score b{display:block;font:700 1.5rem/1 var(--serif)}
+.score span{font:500 .7rem var(--mono);color:var(--ink-3)}
+.doc{font:13.5px/1.55 var(--mono);white-space:pre;overflow-x:auto;margin:0;color:var(--ink-2)}
+.doc .k{color:var(--oxide)}.doc .c{color:var(--ink-3)}
+.verdict{display:flex;align-items:center;gap:.7rem;margin-top:.9rem;padding:.7rem .85rem;border-radius:4px;background:var(--moss-soft);color:var(--moss);font:600 .85rem var(--mono)}
+.verdict.warn{background:var(--oxide-soft);color:var(--oxide)}
+.dot{width:.6rem;height:.6rem;border-radius:50%;background:currentColor;flex:none}
+
+figure{margin:0}
+figcaption{font-size:.85rem;color:var(--ink-3);margin-top:.7rem}
+.dark figcaption{color:#9aa0a6}
+svg text{font-family:var(--mono)}
+
+/* terminal */
+.term{background:#15181b;border:1px solid #3a4148;border-radius:8px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.term .tb{display:flex;align-items:center;gap:.4rem;padding:.6rem .8rem;background:#1e2226;border-bottom:1px solid #2c3238;font:500 .72rem var(--mono);color:#8b929a}
+.term .tb i{width:.62rem;height:.62rem;border-radius:50%;background:#3a4148;display:inline-block}
+.term .tb span{margin-left:.6rem}
+.term pre{margin:0;padding:1.1rem 1.2rem;font:13px/1.65 var(--mono);color:var(--term);overflow-x:auto;white-space:pre}
+.term .p{color:#8b929a}.term .ok{color:#a3d36b}.term .no{color:#f08a5d}.term .dim{color:#6b737b}.term .hl{color:#f3c969}
+
+.guards{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#3a4148;border:1px solid #3a4148;border-radius:6px;overflow:hidden}
+@media (max-width:600px){.guards{grid-template-columns:1fr}}
+.guards li{background:var(--slate-2);padding:1rem 1.1rem}
+.guards b{display:block;font-family:var(--serif);font-size:1.08rem;color:#fff;margin-bottom:.25rem;font-weight:600}
+.guards span{font-size:.9rem;color:#c0bcb1}
+
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:3rem}
+@media (max-width:900px){.modes{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.modes{grid-template-columns:1fr}}
+.mode{border:1px solid #3a4148;border-radius:6px;padding:1rem;position:relative}
+.mode.here{border-color:var(--oxide);background:rgba(194,65,12,.1)}
+.mode .lvl{display:flex;gap:3px;margin-bottom:.7rem}
+.mode .lvl i{height:4px;flex:1;background:#3a4148;border-radius:2px}
+.mode .lvl i.f{background:var(--oxide)}
+.mode b{font-family:var(--serif);font-size:1.15rem;color:#fff;font-weight:600}
+.mode p{margin:.35rem 0 0;font-size:.86rem;color:#c0bcb1}
+.mode .need{display:block;margin-top:.6rem;font:500 .7rem var(--mono);color:#8b929a}
+.mode .you{position:absolute;top:-.6rem;right:.8rem;background:var(--oxide);color:#fff;font:600 .62rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:.3rem .45rem;border-radius:3px}
+
+/* principles */
+.rule2{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--ink);border-radius:6px;overflow:hidden;margin:1.5rem 0}
+@media (max-width:600px){.rule2{grid-template-columns:1fr}}
+.rule2>div{padding:1.1rem 1.2rem}
+.rule2>div:first-child{background:var(--ink);color:var(--paper)}
+.rule2 b{font:600 .72rem var(--mono);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:.4rem;opacity:.75}
+.rule2 p{margin:0;font-family:var(--serif);font-size:1.15rem;line-height:1.35}
+
+.ledger{width:100%;border-collapse:collapse;font-size:.88rem}
+.ledger th,.ledger td{text-align:left;padding:.55rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+.ledger th{font:600 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ledger td:first-child{font-family:var(--mono);font-size:.8rem;white-space:nowrap;color:var(--ink-3)}
+.ok-t{color:var(--moss);font-weight:600}
+
+/* honesty */
+.honest{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+@media (max-width:900px){.honest{grid-template-columns:1fr}}
+.honest .card h3{font-size:1.25rem;margin:0 0 .6rem}
+.honest .card p{margin:0 0 .7rem;font-size:.95rem;color:var(--ink-2)}
+.honest .card p:last-child{margin:0}
+.is-not{list-style:none;padding:0;margin:0}
+.is-not li{padding:.45rem 0;border-bottom:1px dashed var(--rule);font-size:.95rem}
+.is-not li:last-child{border:0}
+.is-not li::before{content:"✕ ";color:var(--oxide);font-weight:700}
+.start{margin-top:3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+@media (max-width:900px){.start{grid-template-columns:1fr}}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;padding:0 0 1.1rem 2.6rem;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-.1rem;width:1.8rem;height:1.8rem;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font:600 .8rem var(--mono)}
+.steps b{display:block}
+.steps span{color:var(--ink-2);font-size:.95rem}
+.callout{border-left:3px solid var(--oxide);padding:.2rem 0 .2rem 1rem;margin:1.5rem 0;color:var(--ink-2);font-size:.95rem;max-width:var(--measure)}
+footer{padding:3rem 0 4rem;font-size:.85rem;color:var(--ink-3)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between}
+
+.reveal{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar" aria-label="Site">
+  <div class="wrap">
+    <div class="brand">XYZ<b>·</b>Forge</div>
+    <ol class="loop" aria-label="The loop, by section">
+      <li><a href="#capture" data-s="capture">capture</a></li>
+      <li><a href="#capture" data-s="capture">rate</a></li>
+      <li><a href="#plan" data-s="plan">plan</a></li>
+      <li><a href="#plan" data-s="plan">preflight</a></li>
+      <li><a href="#execute" data-s="execute">execute</a></li>
+      <li><a href="#gate" data-s="gate">gate</a></li>
+      <li><a href="#gate" data-s="gate">land</a></li>
+      <li><a href="#gate" data-s="gate">record</a></li>
+    </ol>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker">For engineering leads already running coding agents</p>
+    <div class="hero-grid">
+      <div>
+        <h1>Your agents can write the code. <em>Forge runs the shop around them.</em></h1>
+        <p class="lede">XYZ Forge is a local-first operations system for running Claude Code, Codex, <code>agy</code> and other agents as a workforce on your own repositories. It doesn't replace the agent. It handles the work around it: specified tasks, lanes that can't collide, gates that have to pass, and a receipted record of what landed.</p>
+      </div>
+      <figure>
+        <div class="ticket">
+          <span class="tag">The request we'll follow</span>
+          <div class="num">acme/api · GH-212 &nbsp;<span class="ill">illustrative</span></div>
+          <h3>CSV export times out for accounts with more than 50k rows</h3>
+          <p>Stream the export instead of buffering it. Keep the current response shape so existing callers don't break.</p>
+          <div class="meta"><span class="chip">opened by a human</span><span class="chip">built by agents</span><span class="chip">unattended overnight</span></div>
+        </div>
+        <figcaption>The rest of this page follows one invented ticket through the loop. Every Forge behaviour shown along the way comes from the project's own README.</figcaption>
+      </figure>
+    </div>
+
+    <div class="loopline" aria-label="The Forge loop">
+      <span>capture</span><i>→</i><span>rate</span><i>→</i><span>plan</span><i>→</i><span>preflight</span><i>→</i><span>execute</span><i>→</i><span>gate</span><i>→</i><span>land</span><i>→</i><span>record</span>
+    </div>
+    <p class="under">Each stage is a CLI verb or a skill, and each artifact is a file on your disk. The coordination layer needs no server, no account and no API key.</p>
+  </div>
+</section>
+
+<!-- ================= 1. CAPTURE + RATE ================= -->
+<section class="ch" id="capture" data-section="capture">
+  <div class="wrap">
+    <div class="ch-head reveal">
+      <div class="ch-no">01 · Capture &amp; rate<small>Is this work written down?</small></div>
+      <div>
+        <h2>Unattended agents fail for boring reasons. The first is a vague ticket.</h2>
+        <p>GH-212 is one line in an issue tracker. That's enough for a human to start on. An agent working overnight needs more, so Forge starts by turning the issue into a file.</p>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="span-5 prose reveal">
+        <span class="stage">capture</span>
+        <p><b>Issue-first intake.</b> The GitHub issue becomes a <b>capture doc</b> in <code>PROJECT/1-INBOX/</code>, plus a parked row in the release ledger. The capture doc records <i>why</i> the work matters, the phases, and a <b>verification contract</b>: how anyone, human or agent, can tell it's done.</p>
+        <p><code>/idea</code> and <code>/triage</code> scaffold that doc and draft a first "why." They are front doors, not a spec generator. You and your LLM still write the spec. Forge just won't run work that doesn't have one.</p>
+        <span class="stage" style="margin-top:1rem">rate</span>
+        <p><b>Scored backlog.</b> Every item is rated on four axes, so "what runs next" has a reason you can read. GH-212 is customer-facing and cheap, so it moves up.</p>
+      </div>
+      <div class="span-7 reveal">
+        <div class="card">
+          <h4><span>PROJECT/1-INBOX/GH-212-stream-csv-export.md</span><span class="ill">illustrative</span></h4>
+<pre class="doc"><span class="c">---</span>
+<span class="k">status:</span> parked
+<span class="k">issue:</span> GH-212
+<span class="c">---</span>
+<span class="k">## Why</span>
+Large accounts hit the 30s gateway timeout on
+/exports/csv; support tickets weekly.
+
+<span class="k">## Phases</span>
+1. Replace buffered writer with a row stream
+2. Preserve headers + column order
+
+<span class="k">## Write set</span>
+src/exports/csv.ts
+test/exports/csv.test.ts
+
+<span class="k">## Verification contract</span>
+npm test -- exports   <span class="c"># must exit 0</span>
+80k-row fixture completes under the gateway limit</pre>
+        </div>
+        <div class="card">
+          <h4><span>Backlog rating · GH-212</span><span class="ill">illustrative values</span></h4>
+          <div class="score">
+            <div><b>2</b><span>pri</span></div>
+            <div><b>3</b><span>sev</span></div>
+            <div><b>4</b><span>appeal</span></div>
+            <div><b>4</b><span>effort</span></div>
+          </div>
+          <figcaption style="margin-top:.4rem">Priority, severity, appeal and effort. The ranking can be read and argued with, which is the point.</figcaption>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2. PLAN + PREFLIGHT ================= -->
+<section class="ch" id="plan" data-section="plan">
+  <div class="wrap">
+    <div class="ch-head reveal">
+      <div class="ch-no">02 · Plan &amp; preflight<small>Can it run while I sleep?</small></div>
+      <div>
+        <h2>Two lanes that touch the same file shouldn't run on the same night.</h2>
+        <p>GH-212 isn't alone in the queue. The wave planner checks the exact write sets before anything is scheduled. Preflight then asks the question that matters before you leave: is this specified well enough to run unattended?</p>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="span-7 reveal">
+        <figure class="card" style="padding:1.25rem 1rem">
+          <h4 style="padding:0 .35rem"><span>Wave planner · tonight's queue</span><span class="ill">illustrative</span></h4>
+          <svg viewBox="0 0 640 300" width="100%" role="img" aria-labelledby="wv-t wv-d">
+            <title id="wv-t">Wave plan for three lanes</title>
+            <desc id="wv-d">GH-212 and GH-219 have disjoint write sets and share wave 1. GH-224 also writes src/exports/csv.ts, so it intersects GH-212 and is moved to wave 2.</desc>
+            <defs>
+              <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#c2410c" stroke-width="2" opacity=".45"/></pattern>
+            </defs>
+            <text x="10" y="22" font-size="11" fill="#7a7366" letter-spacing="1.5">WAVE 1</text>
+            <text x="380" y="22" font-size="11" fill="#7a7366" letter-spacing="1.5">WAVE 2</text>
+            <line x1="365" y1="10" x2="365" y2="290" stroke="#d4ccb8" stroke-dasharray="4 4"/>
+            <!-- lane 212 -->
+            <rect x="10" y="38" width="340" height="70" rx="6" fill="#1b1a17"/>
+            <text x="24" y="62" font-size="13" fill="#f4f0e6" font-weight="700">GH-212 · stream CSV export</text>
+            <text x="24" y="84" font-size="11" fill="#c9c5ba">writes  src/exports/csv.ts</text>
+            <text x="24" y="99" font-size="11" fill="#c9c5ba">        test/exports/csv.test.ts</text>
+            <!-- lane 219 -->
+            <rect x="10" y="122" width="340" height="56" rx="6" fill="#fffdf7" stroke="#1b1a17"/>
+            <text x="24" y="146" font-size="13" fill="#1b1a17" font-weight="700">GH-219 · audit-log retention</text>
+            <text x="24" y="166" font-size="11" fill="#4a463d">writes  src/audit/**</text>
+            <!-- lane 224 moved -->
+            <rect x="380" y="38" width="250" height="70" rx="6" fill="url(#hatch)" stroke="#c2410c"/>
+            <rect x="380" y="38" width="250" height="70" rx="6" fill="#fffdf7" opacity=".82"/>
+            <text x="394" y="62" font-size="13" fill="#1b1a17" font-weight="700">GH-224 · export i18n</text>
+            <text x="394" y="84" font-size="11" fill="#c2410c">writes  src/exports/csv.ts</text>
+            <text x="394" y="99" font-size="11" fill="#4a463d">        src/i18n/**</text>
+            <path d="M350 78 C 362 78, 362 78, 376 78" stroke="#c2410c" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#c2410c"/></marker></defs>
+            <!-- verdict box -->
+            <rect x="10" y="200" width="620" height="88" rx="6" fill="#f6dccb"/>
+            <text x="26" y="226" font-size="12" fill="#c2410c" font-weight="700">INTERSECTION  src/exports/csv.ts  (GH-212 ∩ GH-224)</text>
+            <text x="26" y="248" font-size="11.5" fill="#4a463d">Exact write-set intersection, not a guess from file names.</text>
+            <text x="26" y="266" font-size="11.5" fill="#4a463d">GH-224 waits for wave 2 and can also be gated on GH-212 landing.</text>
+          </svg>
+          <figcaption style="padding:0 .35rem">The planner also applies zone caps and dependency gating. It decides which lanes run together, not how wide your machine can go. Host-aware wave sizing is still your job.</figcaption>
+        </figure>
+      </div>
+      <div class="span-5 prose reveal">
+        <span class="stage">plan</span>
+        <p>Lanes are scheduled by the files they declare they will write. If two lanes overlap, they go in different waves. That one rule prevents most of the overnight merge mess.</p>
+        <span class="stage" style="margin-top:.6rem">preflight</span>
+        <p>Before a single turn starts, preflight runs <b>freshness probes</b>, checks whether the work has <b>already landed</b>, and confirms the verification gate can actually <i>start</i>. Its output is a readiness verdict.</p>
+        <div class="card" style="margin-top:1rem">
+          <h4><span>Preflight · GH-212</span><span class="ill">illustrative</span></h4>
+          <ul style="margin:.2rem 0 0;padding-left:1.1rem;font-size:.92rem">
+            <li>Capture doc has why, phases, contract</li>
+            <li>Not already landed on <code>development</code></li>
+            <li>Gate command starts in a clean worktree</li>
+            <li>Write set disjoint from wave-1 peers</li>
+          </ul>
+          <div class="verdict"><span class="dot"></span>READY — admitted to wave 1</div>
+        </div>
+        <p class="callout">No governance in a repo? Consult and Relay still work. Preflight downgrades its doc-shaped checks to advisory and still gives a verdict. Swarm and Marathon need PDDA installed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. EXECUTE ================= -->
+<section class="ch dark" id="execute" data-section="execute">
+  <div class="wrap">
+    <div class="ch-head reveal">
+      <div class="ch-no">03 · Execute<small>What is the agent allowed to touch?</small></div>
+      <div>
+        <h2>The agent drives through its own CLI. Forge sets the boundaries.</h2>
+        <p>GH-212 runs as a relay. A producer agent builds, a reviewer agent critiques, and they hand off one headless turn at a time until the change converges. Each turn runs inside the same containment.</p>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="span-6 reveal">
+        <div class="term" role="img" aria-label="Illustrative relay transcript for GH-212">
+          <div class="tb"><i></i><i></i><i></i><span>relay · GH-212 · illustrative transcript</span></div>
+<pre><span class="p">turn 1</span>  producer  <span class="dim">codex · worktree /tmp/…/gh-212</span>
+        claim   src/exports/csv.ts  <span class="ok">granted</span>
+        edit    src/exports/csv.ts
+        edit    test/exports/csv.test.ts
+        edit    src/server.ts     <span class="no">not allowlisted · dropped</span>
+        copy-back 2 files            <span class="ok">ok</span>
+
+<span class="p">turn 2</span>  reviewer  <span class="dim">tighter allowlist</span>
+        finding  stream not closed on client abort
+        verdict  <span class="hl">changes requested</span>
+
+<span class="p">turn 3</span>  producer
+        edit    src/exports/csv.ts
+        git commit                   <span class="no">blocked — repo reset</span>
+        copy-back 1 file             <span class="ok">ok</span>
+
+<span class="p">turn 4</span>  reviewer
+        verdict  <span class="ok">converged</span>   <span class="dim">→ hand to gate</span>
+<span class="dim">pushes this run: 0</span></pre>
+        </div>
+        <p style="font-size:.85rem;color:#9aa0a6;margin-top:.7rem">Illustrative output, not a real log format. The behaviours (copy-back of allowlisted files only, commit reset, no pushes) are the documented ones.</p>
+      </div>
+      <div class="span-6 reveal">
+        <ul class="guards">
+          <li><b>Path-scoped claims</b><span>The <code style="background:#15181b">tick</code> kernel serializes claims with an <code style="background:#15181b">O_EXCL</code> lock over an append-only event log, so two agents on overlapping paths take turns instead of racing.</span></li>
+          <li><b>Path allowlist</b><span>Each turn has an allowlist. Reviewer turns get a tighter one.</span></li>
+          <li><b>Worktree isolation</b><span>The agent writes to a throwaway worktree. Only allowlisted files are copied back.</span></li>
+          <li><b>Commit-bypass guard</b><span>If an agent commits in the middle of a turn, the repo is reset.</span></li>
+          <li><b>Watchdog &amp; typed exits</b><span>A wall-clock limit per turn, and exit codes that never report a timeout as a defect.</span></li>
+          <li><b>No pushes, ever</b><span>A turn shim never pushes. Landing is a separate step behind a gate.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modes reveal" aria-label="Execution modes, increasing autonomy">
+      <div class="mode"><div class="lvl"><i class="f"></i><i></i><i></i><i></i></div><b>Consult</b><p>One question goes to two models in parallel on isolated copies. The answers are reconciled. Nothing is modified.</p><span class="need">needs: Forge only</span></div>
+      <div class="mode here"><span class="you">GH-212</span><div class="lvl"><i class="f"></i><i class="f"></i><i></i><i></i></div><b>Relay</b><p>Producer builds, reviewer critiques, and they hand off until the artifact converges.</p><span class="need">needs: Forge only</span></div>
+      <div class="mode"><div class="lvl"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div><b>Swarm</b><p>Several agents work at once on disjoint, path-scoped lanes.</p><span class="need">needs: a separate clone per runner</span></div>
+      <div class="mode"><div class="lvl"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div><b>Marathon</b><p>A queue of preflighted work runs unattended, gated at every phase boundary.</p><span class="need">needs: PDDA governance</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. GATE, LAND, RECORD ================= -->
+<section class="ch" id="gate" data-section="gate">
+  <div class="wrap">
+    <div class="ch-head reveal">
+      <div class="ch-no">04 · Gate, land, record<small>Did anything prove it works?</small></div>
+      <div>
+        <h2>The reviewer said "converged." The gate decides.</h2>
+        <p>An agent agreeing with another agent isn't evidence. GH-212 lands only after the verification contract from the capture doc runs and passes. Then it's written into a ledger you can merge, audit and resume from.</p>
+      </div>
+    </div>
+
+    <div class="rule2 reveal" role="group" aria-label="Design commitment">
+      <div><b>Deterministic: may block</b><p>Anything expressible as a regex, schema or file check is checked mechanically, and it can stop the line.</p></div>
+      <div><b>Advisory: may not block</b><p>LLM review can warn, rank or propose. It can never block on its own.</p></div>
+    </div>
+
+    <div class="cols" style="margin-top:2.5rem">
+      <div class="span-6 prose reveal">
+        <span class="stage">gate</span>
+        <p>A gate has to be able to <b>start before turn 1</b>. Preflight already checked that. When it runs, it is capped on <b>CPU, wall clock and memory (RSS)</b>. A gate that goes over budget is killed and exits <code>108</code>, which escalates separately, so a runaway test suite is never mistaken for a broken change.</p>
+        <p>If your target repo already has failing tests, <code>--pre-advance-baseline &lt;rc&gt;</code> lets the gate accept that known exit code while still stopping on new regressions.</p>
+        <span class="stage" style="margin-top:.6rem">land</span>
+        <p>Only a gated phase lands. If a run is interrupted, <code>marathon-recover.sh</code> gives you a read-only report. Any commit that landed without an approval event is flagged <b>UNGATED COMMIT</b>: treat it as unverified, then re-run the gate or revert.</p>
+        <span class="stage" style="margin-top:.6rem">record</span>
+        <p>The <b>Product Release System</b> ledger is SQLite plus a git-mergeable SQL dump, with receipted writes. It answers two questions: what did we promise, and what shipped with evidence?</p>
+      </div>
+      <div class="span-6 reveal">
+        <div class="term">
+          <div class="tb"><i></i><i></i><i></i><span>gate · GH-212 · illustrative</span></div>
+<pre><span class="p">$</span> npm test -- exports
+  csv export
+    <span class="ok">✓</span> streams 80k rows under limit
+    <span class="ok">✓</span> preserves header order
+    <span class="ok">✓</span> closes stream on client abort
+<span class="dim">caps   cpu ok · wall 41s/600s · rss 512M/2G</span>
+<span class="ok">gate exit 0 → phase approved</span></pre>
+        </div>
+        <div class="card" style="margin-top:1.25rem">
+          <h4><span>Release ledger · GH-212</span><span class="ill">illustrative</span></h4>
+          <table class="ledger">
+            <thead><tr><th>Event</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td>parked</td><td>capture doc filed from issue</td></tr>
+              <tr><td>admitted</td><td>preflight READY · wave 1</td></tr>
+              <tr><td>approved</td><td>relay converged, 4 turns</td></tr>
+              <tr><td>gated</td><td><span class="ok-t">exit 0</span> · verification contract</td></tr>
+              <tr><td>shipped</td><td>receipt written · doc status updated</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="callout" style="margin-top:1.5rem"><b>Docs are runtime state.</b> Work has to be stoppable, resumable and hand-offable from <code>PROJECT/**</code> alone. Drift between the docs and the code counts as a defect, so "done" means the suite is green <i>and</i> the doc contract holds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. HONEST SCOPE + START ================= -->
+<section class="ch" id="adopt" data-section="adopt" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="ch-head reveal">
+      <div class="ch-no">05 · Before you adopt<small>Be clear-eyed</small></div>
+      <div>
+        <h2>Beta, single-operator, and honest about it.</h2>
+        <p>Forge has been used hard by its author on real repositories. Several of its guards exist because an earlier version destroyed work. That counts in its favour, and it's also a warning.</p>
+      </div>
+    </div>
+
+    <div class="honest reveal">
+      <div class="card">
+        <h3>Where it stands</h3>
+        <p><b>Beta.</b> One primary operator and a small set of collaborators. Most commits are written by agents. No published release tags yet.</p>
+        <p><b>Weakest areas:</b> the frozen Bash fallback paths, and Python static analysis, which doesn't exist yet. The <code>tick</code> kernel has no stale-lock detection, so a hard kill mid-claim leaves a lock you remove by hand.</p>
+        <p><b>Flywheel</b> (intake → execution → review → landing → next task) has landed real fixes. Two tasks advancing end to end <i>without intervention</i> is still unproven.</p>
+      </div>
+      <div class="card">
+        <h3>What it is not</h3>
+        <ul class="is-not">
+          <li>Application lifecycle management: no multi-user identity, RBAC or SSO</li>
+          <li>Compliance tooling: no certification or regulatory traceability matrix</li>
+          <li>A spec generator: it expects specified work and doesn't write the spec</li>
+          <li>A model sandbox: agents choose commands through their own runtimes</li>
+        </ul>
+        <p style="margin-top:.8rem">Local-first is a deliberate constraint, not a missing feature. The operator is the only decision authority.</p>
+      </div>
+      <div class="card">
+        <h3>Sizing an unattended run</h3>
+        <p><b>16 GB RAM</b> supports the serial marathon route. Plan on <b>32 GB</b> for per-lane parallel dispatch, after budgeting it yourself.</p>
+        <p>Measured on a 32 GB M1 Max: a serial marathon averaged <b>2.19 GB</b> (2.26 GB peak) with a builder, a reviewer and three pytest gates running. Budget 1.5–2 GB per lane, plus your own test suite's memory.</p>
+      </div>
+    </div>
+
+    <div class="start reveal">
+      <div>
+        <h2 style="font-size:clamp(1.7rem,3vw,2.3rem)">Prove the kernel in 60 seconds. Then try a relay.</h2>
+        <p style="color:var(--ink-2);max-width:var(--measure)">Needs Node 18+ and git. No accounts, no keys. Do it on a branch, and keep independent backups. Forge is provided as-is, and agent automation is inherently risky.</p>
+        <ol class="steps" style="margin-top:1.5rem">
+          <li><b>Run the 14 kernel tests</b><span>Sub-second. Checks that the claim/lock/projection core works on your machine.</span></li>
+          <li><b>Wire the pre-push gate</b><span>Once per clone. Git hooks don't travel with a clone, so a fresh clone has no gate until you install it.</span></li>
+          <li><b>Run the full suite, outside the sandbox</b><span>5–10 minutes in parallel mode. Under a sandboxed agent harness it prints nothing for minutes and then fails. That's the repo's most common false alarm.</span></li>
+          <li><b>Start with Consult or Relay</b><span>Neither needs governance. Add PDDA when you want Swarm or Marathon.</span></li>
+        </ol>
+      </div>
+      <div class="term">
+        <div class="tb"><i></i><i></i><i></i><span>~/XYZ-forge</span></div>
+<pre><span class="p">$</span> npm install
+<span class="p">$</span> npm run test:unit          <span class="dim"># ~1s · 14 kernel tests</span>
+
+<span class="p">$</span> bash githooks/install.sh   <span class="dim"># once per clone</span>
+<span class="p">$</span> bash githooks/install.sh --check
+
+<span class="p">$</span> ./validate.sh --print-mode <span class="dim"># parallel or sequential?</span>
+<span class="p">$</span> ./validate.sh              <span class="dim"># run un-sandboxed</span>
+
+<span class="dim"># then: relay-automation/README.md</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>XYZ Forge · AGPL-3.0-only, commercial license available · provided "as is," without warranty</span>
+    <span>GH-212, its files, ratings and transcripts are illustrative. Forge behaviours are as documented.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){io.observe(e)});
+  var links=[].slice.call(document.querySelectorAll('.loop a'));
+  var secs=[].slice.call(document.querySelectorAll('[data-section]'));
+  var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var id=e.target.dataset.section;links.forEach(function(l){l.classList.toggle('on',l.dataset.s===id)});}})},{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){so.observe(s)});
+})();
+</script>
+</body>
+</html>
