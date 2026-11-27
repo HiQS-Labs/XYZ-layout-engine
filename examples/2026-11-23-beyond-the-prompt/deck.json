@@ -1,0 +1,168 @@
+{
+  "title": "Beyond the Prompt: What Engineering Can Teach Designers",
+  "project": "beyond-the-prompt",
+  "slides": [
+    {
+      "id": "beyond-the-prompt",
+      "layout": "bookend",
+      "section": "BEYOND THE PROMPT  /  PART I",
+      "title": "What engineering can teach designers",
+      "preview": "Meet the thesis behind the talk.",
+      "lead": "Learning how a system decides what is true can change what you promise the person using it.",
+      "note": "Consider one familiar word on a screen: “Saved.”"
+    },
+    {
+      "id": "audience",
+      "layout": "split",
+      "section": "AUDIENCE",
+      "title": "Who this talk is for",
+      "preview": "Find your way into the question.",
+      "lead": "Think of the last time you chose a label, approved a prototype, or explained a decision in your portfolio.",
+      "items": [
+        {
+          "title": "If you work in Figma",
+          "body": "You already reason about what a person will see and infer. A question about timing can change the words you put in a frame."
+        },
+        {
+          "title": "If you prototype with AI",
+          "body": "A convincing demo gives you something to discuss. Engineering gives you questions to ask about the behavior behind it."
+        }
+      ]
+    },
+    {
+      "id": "contents",
+      "layout": "contents",
+      "section": "TABLE OF CONTENTS",
+      "title": "How a new way of thinking travels",
+      "preview": "See how the argument fits together."
+    },
+    {
+      "id": "promise",
+      "layout": "split",
+      "section": "THE DESIGN QUESTION",
+      "title": "When can we say “Saved”?",
+      "preview": "Hear the promise in a familiar label.",
+      "lead": "Someone edits a project on the train, sees “Saved,” closes their laptop, and opens it later on their phone.",
+      "items": [
+        {
+          "title": "What the person heard",
+          "body": "“I can close this now. My changes will be there when I come back.”"
+        },
+        {
+          "title": "What the prototype showed",
+          "body": "A green check appeared after a click. The demo never had to answer where the edit went when the connection dropped."
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "layout": "rows",
+      "section": "THE ENGINEERING QUESTION",
+      "title": "What would make that label true?",
+      "preview": "Match the words on screen to the evidence.",
+      "lead": "Three moments can look identical in a static frame. Each supports a different promise.",
+      "items": [
+        {
+          "title": "The person clicks",
+          "body": "“Saving…” tells them the request has started."
+        },
+        {
+          "title": "The device stores a copy",
+          "body": "“Saved on this device” tells them where their work is safe while they are offline."
+        },
+        {
+          "title": "The service confirms",
+          "body": "“Synced” tells them the service has accepted the edit. Another device can retrieve it when connected."
+        }
+      ]
+    },
+    {
+      "id": "analogy",
+      "layout": "split",
+      "section": "COGNITIVE PSYCHOLOGY",
+      "title": "How does a lesson travel?",
+      "preview": "See how comparing cases can reveal a shared rule.",
+      "lead": "In experiments by Mary Gick and Keith Holyoak, participants compared stories that shared a solution principle.",
+      "items": [
+        {
+          "title": "What the researchers saw",
+          "body": "Participants who identified the shared structure more often applied it to a new experimental problem. The study measured problem solving in the lab."
+        },
+        {
+          "title": "What that suggests for UX",
+          "body": "Our design application: compare two confirmations and name the promise they share. Then ask what evidence would justify each one."
+        }
+      ],
+      "note": "Gick & Holyoak (1983), Schema induction and analogical transfer. Cognitive Psychology 15, 1–38."
+    },
+    {
+      "id": "transfer",
+      "layout": "split",
+      "section": "TRANSFER IN DESIGN",
+      "title": "Now read “Appointment booked”",
+      "preview": "Carry the same question into a different flow.",
+      "lead": "A patient may arrange childcare as soon as those words appear. What event would justify that decision?",
+      "items": [
+        {
+          "title": "Back in the editor",
+          "body": "A tap starts a save. Confirmation from the service gives the designer grounds to say the edit has synced."
+        },
+        {
+          "title": "In the booking flow",
+          "body": "A tap submits a request. If the clinic still has to accept it, “Request sent” gives the patient an accurate basis for planning."
+        }
+      ],
+      "note": "The shared rule: identify what the person will rely on, then find the event that makes it true."
+    },
+    {
+      "id": "plasticity",
+      "layout": "split",
+      "section": "NEUROSCIENCE",
+      "title": "Adults can adapt through practice",
+      "preview": "Understand what adult plasticity looks like.",
+      "lead": "Neuroplasticity is the brain’s capacity to change with experience. Researchers made one kind of change visible by following adults learning to juggle.",
+      "items": [
+        {
+          "title": "What the scans showed",
+          "body": "After training, MRI scans showed selective changes in regions associated with visual motion. Those changes diminished after practice stopped."
+        },
+        {
+          "title": "What the study establishes",
+          "body": "An adult brain can adapt to a particular new demand. The study measured juggling-related changes. Whether a lesson improves UX judgment is a separate question."
+        }
+      ],
+      "note": "Draganski et al. (2004), Changes in grey matter induced by training. Nature 427, 311–312."
+    },
+    {
+      "id": "judgment",
+      "layout": "rows",
+      "section": "DESIGN JUDGMENT",
+      "title": "Where would better judgment show up?",
+      "preview": "Look for a changed decision in everyday work.",
+      "lead": "The practical test is whether the borrowed question changes a choice you can point to.",
+      "items": [
+        {
+          "title": "In critique",
+          "body": "Ask a colleague what they would feel safe doing after seeing “Saved.” Compare that answer with the system’s guarantee."
+        },
+        {
+          "title": "In research",
+          "body": "Watch when someone closes the editor. Ask what they expect to find later on another device."
+        },
+        {
+          "title": "In a portfolio",
+          "body": "Show the original label, the offline case you discovered, and the revised wording. A hiring team can follow your reasoning."
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "layout": "bookend",
+      "section": "BEYOND THE PROMPT  /  PART I",
+      "title": "What has to be true?",
+      "preview": "Leave with one question for your next critique.",
+      "lead": "At your next critique, choose one promise the interface makes. Ask what the person might do because they believe it.",
+      "note": "Then ask an engineer what has to happen before those words are true."
+    }
+  ]
+}

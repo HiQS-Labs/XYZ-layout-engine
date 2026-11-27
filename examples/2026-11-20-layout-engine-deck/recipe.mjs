@@ -38,7 +38,7 @@ export function sceneFor(slide, theme, family = fontFamily, slideArt, background
     cover ? 352 : slide.layout === 'render-loop' ? 175 : 248, content, muted, type.body.weight));
 
   if (cover) {
-    nodes.push({ type: 'img', props: { id: 'bookend-qr', src: bookendQr, width: 184, height: 184,
+    if (bookendQr) nodes.push({ type: 'img', props: { id: 'bookend-qr', src: bookendQr, width: 184, height: 184,
       style: { position: 'absolute', right: margin, bottom: 36 } } });
     if (slideArt && !background) {
       nodes.unshift({
@@ -97,6 +97,14 @@ export function sceneFor(slide, theme, family = fontFamily, slideArt, background
     });
     nodes.push({ type: 'img', props: { id: 'coffee-mug', src: slideArt, width: 430, height: 430,
       style: { position: 'absolute', left: 715, top: 156 } } });
+  } else if (slide.layout === 'contents') {
+    const rows = Math.ceil(slide.previews.length / 2);
+    slide.previews.forEach((preview, i) => {
+      const x = margin + Math.floor(i / rows) * 576;
+      const y = 206 + (i % rows) * 66;
+      nodes.push(text('page-' + i, String(i + 1).padStart(2, '0'), 'label', x, y + 4, 35, accent),
+        text('preview-' + i, preview, 'body', x + 42, y, 505, ink));
+    });
   } else if (slide.layout === 'list') {
     slide.items.forEach(({ title }, index) => {
       nodes.push(text('item-' + index, title, 'section', margin, 336 + index * 74, 640));
