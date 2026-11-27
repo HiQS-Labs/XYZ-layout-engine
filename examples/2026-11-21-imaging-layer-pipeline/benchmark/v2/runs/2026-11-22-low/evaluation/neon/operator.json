@@ -1,0 +1,1 @@
+{"rebuild":{"pass":true,"evidence":"Fresh copy reproduced both exports byte identically."},"edit":{"pass":true,"evidence":"Changed visible title in content.json, observed changed HTML and PNG, and confirmed edited HTML capture parity."}}

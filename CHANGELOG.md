@@ -712,3 +712,7 @@ Added a responsive Forge landing-page benchmark with a pinned source handout, ma
 - Pinned font (Inter) and dependencies, deferring Chromium packaging until terms are reviewed. 
 - Stage diagnostics, worker-based hard interruptions, remote HTTP/MCP, tenant isolation, private caches, durable service queues, and themes remain deferred to Later.
 - Added Phase 5 handoff documentation. Final QA, native gate test (`pnpm test`), and visual human approval remain pending independently.
+
+### GH-96 · Editorial judgment benchmark pilot
+
+Added a versioned Fuel Well candidate brief, blind image pair preparation, three calibration controls and a compact evidence report. See the [editorial evaluation instructions](examples/2026-11-21-imaging-layer-pipeline/evaluation/v2/README.md).

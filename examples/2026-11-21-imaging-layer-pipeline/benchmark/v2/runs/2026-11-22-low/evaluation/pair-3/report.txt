@@ -1,0 +1,6 @@
+first · png pass, html pass, sameDesign pass, rebuild pass, edit pass
+second · png pass, html pass, sameDesign pass, rebuild pass, edit pass
+codex · first · forward 3/3 vs 2/3 · reverse 3/3 vs 2/3 · missed second export · B visibly identifies the fitted SVG as the input rasterized into PNG bytes, resolving the causal gap in A's combined 'Satori + resvg' box. Its head…
+agy · first · forward 3/3 vs 2/3 · reverse 3/3 vs 2/3 · missed second export · Poster B directly answers all three newcomer questions—most critically the causal layout-to-PNG mechanism in box 3C ('renderSatori() builds SVG + h…
+Panel preference · first
+Evidence · examples/2026-11-21-imaging-layer-pipeline/benchmark/v2/runs/2026-11-22-low/evaluation/pair-3

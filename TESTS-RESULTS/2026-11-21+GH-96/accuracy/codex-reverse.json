@@ -1,0 +1,41 @@
+{
+  "thumbnail": "Both thumbnails have the same layout and readable editing instructions on the left, with the leaf poster on the right. The export sentence differs.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit the headline in the fixture to change the words at the top.",
+        "location": "A-native.png, upper-left, beneath “Change the headline”; the affected headline is at the top of the right-hand poster.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change the hero illustration ID to swap this artwork.",
+        "location": "A-native.png, middle-left, beneath “Replace the leaf”; the leaf is centered in the right-hand poster.",
+        "correct": true
+      },
+      "export": {
+        "answer": "resvg creates SVG. Satori turns it into PNG.",
+        "location": "A-native.png, lower-left instruction block, beneath “Export the poster”.",
+        "correct": false
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit the headline in the fixture to change the words at the top.",
+        "location": "B-native.png, upper-left, beneath “Change the headline”; the affected headline is at the top of the right-hand poster.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change the hero illustration ID to swap this artwork.",
+        "location": "B-native.png, middle-left, beneath “Replace the leaf”; the leaf is centered in the right-hand poster.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Satori creates SVG. resvg turns it into PNG.",
+        "location": "B-native.png, lower-left instruction block, beneath “Export the poster”.",
+        "correct": true
+      }
+    }
+  },
+  "choice": "B",
+  "reason": "Both identify where to edit the headline and how to replace the leaf equally clearly. B correctly orders the export pipeline: Satori creates SVG, then resvg converts it to PNG; A reverses those roles."
+}

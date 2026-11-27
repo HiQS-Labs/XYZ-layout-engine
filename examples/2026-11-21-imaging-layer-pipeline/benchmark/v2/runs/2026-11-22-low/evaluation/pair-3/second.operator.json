@@ -1,0 +1,1 @@
+{"rebuild":{"pass":true,"evidence":"Fresh packet copy, removed both exports, rebuilt both byte-identically."},"edit":{"pass":true,"evidence":"Edited the subtitle in content.json, rebuilt, found the changed subtitle in HTML and changed PNG bytes; edited artifacts passed screenshot parity."}}

@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "title": "How Fuel Well Is Made — Handoff Guide",
+    "width": 1600,
+    "height": 1000
+  },
+  "header": {
+    "eyebrow": "HANDOFF GUIDE  ·  FUEL WELL. LIVE WELL.",
+    "title": "HOW FUEL WELL IS MADE",
+    "subtitle": "Where to edit the headline, replace the hero artwork, and run one command to export a fresh PNG.",
+    "legend": [
+      { "num": "1", "label": "Edit headline", "tone": "headline" },
+      { "num": "2", "label": "Swap hero art", "tone": "hero" },
+      { "num": "3", "label": "Export PNG", "tone": "export" }
+    ]
+  },
+  "headlineCard": {
+    "badge": "1",
+    "title": "EDIT THE HEADLINE",
+    "filePath": "nutrition/fixture.json",
+    "jsonLines": [
+      { "text": "\"sections\": {", "highlight": false },
+      { "text": "  \"header\": {", "highlight": false },
+      { "text": "    \"headline\": \"FUEL WELL. LIVE WELL.\",", "highlight": true, "tag": "EDIT THIS" },
+      { "text": "    \"subtitle\": \"Optimized Nutrition. Sustained Energy.\"", "highlight": false },
+      { "text": "  }", "highlight": false },
+      { "text": "}", "highlight": false }
+    ],
+    "resultHeading": "WHAT CHANGES ON THE POSTER",
+    "beforeText": "FUEL WELL. LIVE WELL.",
+    "afterText": "YOUR NEW HEADLINE",
+    "caption": "Built by source/nutrition.mjs as #header_headline in Barlow Condensed Bold (66px). Auto-shrinks if wider than 830px."
+  },
+  "heroCard": {
+    "badge": "2",
+    "title": "REPLACE THE HERO ARTWORK",
+    "filePath": "nutrition/assets/web/leaf_glow.png",
+    "jsonLines": [
+      { "text": "\"hero\": {", "highlight": false },
+      { "text": "  \"illustrationId\": \"leaf_glow\",", "highlight": true, "tag": "ASSET ID" },
+      { "text": "  \"callouts\": [ \"balance_scale\", \"skip_spike\" ]", "highlight": false },
+      { "text": "}", "highlight": false }
+    ],
+    "swapSteps": [
+      {
+        "lead": "Fastest swap:",
+        "body": "Replace leaf_glow.png with a new transparent PNG (~2:3 portrait)."
+      },
+      {
+        "lead": "Or add a new ID:",
+        "body": "Register it in PNG_IDS (source/nutrition.mjs) and update illustrationId."
+      }
+    ],
+    "caption": "Placed at #hero_img (428×640 px) with warm HERO_SHADOW glow. Keep PNG format—default Satori/Resvg drops WebP.",
+    "assetPreviewTag": "TRANSPARENT PNG",
+    "assetPreviewLabel": "leaf_glow.png · 427×640"
+  },
+  "posterFrame": {
+    "title": "FINISHED POSTER",
+    "fileBadge": "nutrition/render.png · 1000×1000",
+    "headlinePinLabel": "1  #header_headline",
+    "heroPinLabel": "2  #hero_img",
+    "outputConnectorLabel": "WRITES PNG"
+  },
+  "pipeline": {
+    "badge": "3",
+    "title": "ONE WORKING ROUTE TO THE EXPORTED PNG",
+    "routeSummary": "SOURCE EDITS  →  CLI  →  SCENE  →  FIT & RASTERIZE  →  RENDER.PNG",
+    "inputConnectorLabel": "INPUTS",
+    "steps": [
+      {
+        "code": "3A",
+        "title": "RUN ONE COMMAND",
+        "module": "source/render.mjs (runCLI)",
+        "command": "node source/render.mjs nutrition/fixture.json --format png --out out/",
+        "note": "Quick test without editing JSON: add --set sections.header.headline=\"...\""
+      },
+      {
+        "code": "3B",
+        "title": "VALIDATE & BUILD SCENE",
+        "module": "source/nutrition.mjs",
+        "bullets": [
+          "validate() checks fixture schema & 1000×1000 budget.",
+          "buildScene() merges copy, Barlow Condensed font, and pinned PNGs."
+        ]
+      },
+      {
+        "code": "3C",
+        "title": "LAYOUT, FIT & RASTERIZE",
+        "module": "source/render.mjs (processRequest)",
+        "bullets": [
+          "renderSatori() builds SVG + hero <feDropShadow> and shrinks overflowing text (×0.9, max 10×).",
+          "@resvg/resvg-js rasterizes the fitted SVG into PNG bytes."
+        ]
+      },
+      {
+        "code": "3D",
+        "title": "PUBLISH VERIFIED PNG",
+        "module": "publishArtifacts() → publishStaged()",
+        "bullets": [
+          "Stages runs/<uuid>/render.png, result.json, and SHA-256 digests.",
+          "Atomically swaps manifest.json to publish the finished poster."
+        ]
+      }
+    ]
+  }
+}

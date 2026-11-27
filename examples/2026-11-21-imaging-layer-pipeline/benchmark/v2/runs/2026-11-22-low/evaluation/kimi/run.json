@@ -1,0 +1,19 @@
+{
+  "model": "kimi-code/k3.1-pro",
+  "provider": "acpRegistry_kimi_cli",
+  "thinking": "low",
+  "packetSha256": "2f48b2b94f6932255cec48e47c1de102cd59b950e86193ac018b05ec74c9916d",
+  "attempts": [
+    {
+      "mode": "provider default",
+      "status": "completed without an assistant result"
+    },
+    {
+      "mode": "auto",
+      "status": "completed without an assistant result"
+    }
+  ],
+  "observedOutputs": [],
+  "visualGrade": null,
+  "reason": "No poster or HTML submitted; no image was available for a blind comparison."
+}

@@ -1,0 +1,6 @@
+first · png pass, html pass, sameDesign pass, rebuild pass, edit pass
+second · png pass, html pass, sameDesign pass, rebuild pass, edit pass
+codex · order-sensitive · forward 2/3 vs 2/3 · reverse 2/3 vs 2/3 · missed first export, second export · B visibly connects fixture reading, scene construction, type layout and pixel painting in its bottom arrow strip. That causal explanation helps ans…
+agy · pending · reverse 2/3 vs 2/3 · missed first export, second export · For this newcomer task at native resolution, B answers all three questions more completely and causally: Card 2 tells a newcomer how to replace the…
+Panel preference · inconclusive
+Evidence · examples/2026-11-21-imaging-layer-pipeline/benchmark/v2/runs/2026-11-22-low/evaluation/pair-1

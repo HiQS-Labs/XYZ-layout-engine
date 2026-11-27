@@ -1,0 +1,6 @@
+first · png pass, html pass, sameDesign pass, rebuild pass, edit pass
+second · png pass, html pass, sameDesign pass, rebuild pass, edit pass
+codex · second · forward 2/3 vs 3/3 · reverse 2/3 vs 3/3 · missed first export · A visibly connects scene construction to SVG layout and Resvg rasterization into PNG bytes, answering how pixels are produced. B offers more readab…
+agy · second · forward 2/3 vs 3/3 · reverse 2/3 vs 3/3 · missed first export · Poster A wins for the newcomer task at native size because of three concrete visible aids that directly unblock the tasks rather than merely adding…
+Panel preference · second
+Evidence · examples/2026-11-21-imaging-layer-pipeline/benchmark/v2/runs/2026-11-22-low/evaluation/pair-2

@@ -49,3 +49,5 @@ Extract [the handout](benchmark/handout.zip) in a fresh workspace for each run. 
 For the open-ended track, distribute [the creative handout](benchmark/creative-handout.zip). It contains the same inputs and replaces only the prompt. Keep the workspace isolated. For tool-assisted runs, supply a scoped Higgsfield tool and the same written credit cap per model; record access and actual spend with the result.
 
 The [public scoring goals](benchmark/GOALS.md) ship in both handouts. Keep the [evaluator and ballot](evaluation/README.md) with the reviewer.
+
+The [editorial judgment benchmark](evaluation/v2/README.md) asks a newcomer to edit two parts of Fuel Well and trace a PNG export. Build its standalone handout and run a blind comparison from that guide.

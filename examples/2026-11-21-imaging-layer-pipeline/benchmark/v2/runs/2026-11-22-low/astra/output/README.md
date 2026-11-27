@@ -1,0 +1,1 @@
+From the handout packet, run `node output/build.cjs` with the supplied Node and Playwright runtime. Edit the captions and layout in build.cjs. The build embeds the packet’s finished nutrition poster and font into index.html, then renders that same guide as poster.png.
