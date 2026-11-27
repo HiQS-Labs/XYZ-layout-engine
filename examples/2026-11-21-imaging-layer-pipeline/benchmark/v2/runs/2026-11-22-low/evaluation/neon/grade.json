@@ -1,0 +1,155 @@
+{
+  "version": "1.0",
+  "automatedPercent": 52,
+  "technicalCoverage": [
+    {
+      "id": "editWords",
+      "points": 8
+    },
+    {
+      "id": "swapArt",
+      "points": 8
+    },
+    {
+      "id": "geometry",
+      "points": 0
+    },
+    {
+      "id": "runtime",
+      "points": 0
+    },
+    {
+      "id": "styling",
+      "points": 0
+    },
+    {
+      "id": "vector",
+      "points": 8
+    },
+    {
+      "id": "raster",
+      "points": 8
+    },
+    {
+      "id": "browser",
+      "points": 0
+    },
+    {
+      "id": "capture",
+      "points": 0
+    },
+    {
+      "id": "portable",
+      "points": 0
+    }
+  ],
+  "gradePercent": null,
+  "earned": 20,
+  "pending": 80,
+  "possible": 100,
+  "criteria": [
+    {
+      "id": "headline",
+      "possible": 6,
+      "earned": null,
+      "evidence": "A blind reader can identify the fixture headline as the place to edit the words."
+    },
+    {
+      "id": "artwork",
+      "possible": 6,
+      "earned": null,
+      "evidence": "A blind reader can identify the illustration asset or asset ID as the way to replace the leaf."
+    },
+    {
+      "id": "placement",
+      "possible": 8,
+      "earned": null,
+      "evidence": "A blind reader can point to one actual nutrition recipe property and correctly predict the visible effect of editing it."
+    },
+    {
+      "id": "scene",
+      "possible": 8,
+      "earned": null,
+      "evidence": "The diagram puts the recipe in Node.js at render time and connects its styled scene to CSS in the exported HTML."
+    },
+    {
+      "id": "satori",
+      "possible": 6,
+      "earned": null,
+      "evidence": "The reader correctly traces the Satori path through SVG, with resvg rasterizing SVG for PNG."
+    },
+    {
+      "id": "chromium",
+      "possible": 6,
+      "earned": null,
+      "evidence": "The reader correctly traces Playwright driving Chromium to lay out HTML and capture PNG."
+    },
+    {
+      "id": "delivery",
+      "possible": 5,
+      "earned": null,
+      "evidence": "The reader can distinguish selectable text in offline HTML from pixels in a PNG and understands either backend can export HTML."
+    },
+    {
+      "id": "depth",
+      "possible": 8,
+      "earned": null,
+      "evidence": "At least two distinguishable planes or equivalent depth cues visually relate recognizable parts of the nutrition poster."
+    },
+    {
+      "id": "annotation",
+      "possible": 6,
+      "earned": null,
+      "evidence": "At 400 CSS pixels wide, the reviewer can associate two legible annotations with the correct pictured components, without zoom."
+    },
+    {
+      "id": "visualInference",
+      "possible": 6,
+      "earned": null,
+      "evidence": "With explanatory prose covered, a blind reader can point to two separate components and explain one relationship that the composition communicates."
+    },
+    {
+      "id": "rebuild",
+      "possible": 10,
+      "earned": null,
+      "evidence": "In an isolated fresh copy of the packet, the documented single command regenerates both deliverables after the exported files are moved aside."
+    },
+    {
+      "id": "edit",
+      "possible": 5,
+      "earned": null,
+      "evidence": "In that isolated copy, one caption edit followed by the same render command changes the visible caption in both outputs."
+    },
+    {
+      "id": "png",
+      "possible": 6,
+      "earned": 6,
+      "evidence": {
+        "width": 1600,
+        "height": 1000,
+        "colors": 133
+      }
+    },
+    {
+      "id": "html",
+      "possible": 6,
+      "earned": 6,
+      "evidence": {
+        "title": "How Fuel Well Is Made — Handoff Guide",
+        "text": 2011,
+        "graphics": 6,
+        "imagesReady": true,
+        "paintedColors": 133,
+        "blocked": [],
+        "errors": [],
+        "meanChannelDifference": 0
+      }
+    },
+    {
+      "id": "sameDesign",
+      "possible": 8,
+      "earned": 8,
+      "evidence": "HTML viewport at PNG dimensions; 80×80 RGB mean error threshold 3/255."
+    }
+  ]
+}

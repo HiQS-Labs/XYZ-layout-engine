@@ -1,0 +1,12 @@
+{
+  "A": {
+    "advisor": "agy",
+    "answer_file": "answer-A.md",
+    "file": "forward.agy.md"
+  },
+  "B": {
+    "advisor": "codex",
+    "answer_file": "answer-B.md",
+    "file": "forward.codex.md"
+  }
+}

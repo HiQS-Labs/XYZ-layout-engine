@@ -1,0 +1,7 @@
+empty 1 ValueError: sol: correct facts require a nonblank reader answer
+whitespace 1 ValueError: sol: correct facts require a nonblank reader answer
+missing 1 ValueError: sol: correct facts require a nonblank reader answer
+number 1 ValueError: sol: correct facts require a nonblank reader answer
+On base 14300b4: python3 smoke.py before (from repo root with full script path) accepted all four malformed inputs at Sol 3.00/3. After change, the same fixtures fail as recorded above.
+The complete FRONTDOOR.md bash block printed FD-06 before, zero bytes after. README link resolves to the example README.
+GH-98 replay.sh exited 0, including the published rankings, altered-ballot controls and export checks.

@@ -1,0 +1,41 @@
+{
+  "thumbnail": "A's two edit instructions and short export strip are easier to read at thumbnail size. B makes the headline and leaf targets clear through orange and blue arrows, but its explanatory text is too small to read comfortably.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit sections.header.headline in nutrition/fixture.json.",
+        "location": "A-native.png: green SOURCE strip near the top and left-side step 1, 'Rewrite the title'; marker 1 identifies the poster headline.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change sections.hero.illustrationId from leaf_glow to parfait_jar to replace the central leaf with the jar.",
+        "location": "A-native.png: left-side step 2, 'Swap the leaf'; marker 2 sits on the central leaf.",
+        "correct": true
+      },
+      "export": {
+        "answer": "The pictured route says nutrition.mjs builds the scene by placing text and art, then render.mjs uses Playwright to screenshot the page, producing a 1000 × 1000 render.png. Cannot tell how the scene becomes a browser page or how layout is calculated; those steps are not explained.",
+        "location": "A-native.png: bottom 'From fixture to PNG' strip, with arrows from 'Build scene' to 'Playwright — Screenshot the page' to 'render.png'.",
+        "correct": false
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit sections.header.headline in nutrition/fixture.json, shown locally as header.headline. Type replacement words between the quotes; the poster says they are capitalized and shrunk to fit one line.",
+        "location": "B-native.png: upper-left 'CHANGE THE HEADLINE' card; orange connector points to the outlined headline on the right. The bottom quick-try text supplies the full sections.header.headline path.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Overwrite nutrition/assets/web/leaf_glow.png with the replacement picture, retaining the filename, transparent background and tall 427 × 640 shape. The shown hero.illustrationId remains leaf_glow. The poster says the file is pinned in provenance.json, but cannot tell whether that pin needs updating.",
+        "location": "B-native.png: lower-left 'SWAP THE HERO ARTWORK' card, including the asset path, illustrationId snippet and instructions beneath the leaf thumbnail; blue arrow identifies the central artwork.",
+        "correct": true
+      },
+      "export": {
+        "answer": "The pictured route starts with fixture.json holding words and artwork names. source/render.mjs runCLI reads it and applies command-line edits. source/nutrition.mjs buildScene checks the fixture and places words and pictures. render.mjs then calls Satori + resvg to lay out type and paint pixels, ending in render.png in the --out folder. Cannot tell the intermediate representation or the separate responsibilities of Satori and resvg. The printed command is an instruction, not evidence that execution succeeded.",
+        "location": "B-native.png: bottom 'ONE ROUTE TO THE PNG' five-stage arrow strip; 'RUN THIS' command immediately below.",
+        "correct": false
+      }
+    }
+  },
+  "choice": "B",
+  "reason": "B visibly connects fixture reading, scene construction, type layout and pixel painting in its bottom arrow strip. That causal explanation helps answer how PNG pixels are produced; A leaves the scene-to-browser-page transition unexplained. B's small thumbnail text hinders the initial reading."
+}

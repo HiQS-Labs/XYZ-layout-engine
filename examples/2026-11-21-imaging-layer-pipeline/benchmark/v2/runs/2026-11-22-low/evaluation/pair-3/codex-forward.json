@@ -1,0 +1,41 @@
+{
+  "thumbnail": "At 400px, B makes the two edits easier to follow through large numbered cards and matching arrows. A clearly separates editing from export, but its processing text is too small to read at thumbnail size.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit sections.header.headline in nutrition/fixture.json. The pictured example replaces “FUEL WELL. LIVE WELL.” with your new headline.",
+        "location": "A-native.png, upper-left panel 1: highlighted headline JSON row; orange arrow points to #header_headline on the finished poster.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Replace nutrition/assets/web/leaf_glow.png with a transparent PNG of roughly 2:3 proportions. Alternatively, register a new ID in PNG_IDS in source/nutrition.mjs and update hero.illustrationId.",
+        "location": "A-native.png, middle-left panel 2: filename badge, highlighted illustrationId row, and the two swap instructions below it; green arrow points to #hero_img.",
+        "correct": true
+      },
+      "export": {
+        "answer": "The pictured route starts with runCLI in source/render.mjs. source/nutrition.mjs validates the fixture and 1000×1000 budget, then buildScene merges copy, font, and pinned PNGs. renderSatori builds SVG with a hero drop shadow and shrinks overflowing text. @resvg/resvg-js rasterizes the fitted SVG into PNG bytes. Publishing stages render.png, result.json, and digests, then swaps manifest.json. This explicitly describes SVG rasterization; no browser screenshot is shown. Whether the printed command actually runs cannot be determined from the picture.",
+        "location": "A-native.png, bottom blue strip, boxes 3A through 3D, especially 3C “Layout, Fit & Rasterize.”",
+        "correct": true
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit the headline text in nutrition/fixture.json, between the highlighted quotes under header.headline. The poster says the text is capitalized and shrunk to fit one line; the bottom override example identifies sections.header.headline.",
+        "location": "B-native.png, upper-left “Change the headline” card and bottom “Quick try” override; orange arrows connect the edit to the poster headline.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Save a replacement over nutrition/assets/web/leaf_glow.png using the same filename, a transparent background, and a tall 427×640 shape. hero.illustrationId is shown as leaf_glow. The card says the file is pinned in provenance.json, but does not explain whether replacing it requires updating that pin.",
+        "location": "B-native.png, lower-left “Swap the hero artwork” card; blue arrows connect the asset to the central leaf.",
+        "correct": true
+      },
+      "export": {
+        "answer": "The bottom route says fixture.json supplies words and artwork names; render.mjs/runCLI reads it and applies command-line edits; nutrition.mjs/buildScene checks the fixture and places words and pictures; render.mjs calls Satori + resvg to lay out type and paint pixels, producing render.png in the --out folder. Cannot tell from this picture what intermediate representation connects Satori to resvg or precisely how their responsibilities divide. No browser screenshot is shown. Whether the printed command actually runs cannot be determined from the picture.",
+        "location": "B-native.png, bottom “One route to the PNG” chevrons, particularly the “Satori + resvg” stage and final render.png stage.",
+        "correct": false
+      }
+    }
+  },
+  "choice": "A",
+  "reason": "A answers the required pixel-production question with an explicit SVG-to-PNG rasterization step in box 3C. B’s larger edit cards help at thumbnail size, but “Satori + resvg … paints the pixels” leaves that causal handoff unexplained."
+}

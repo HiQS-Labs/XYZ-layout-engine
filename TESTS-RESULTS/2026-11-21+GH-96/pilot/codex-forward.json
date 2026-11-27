@@ -1,0 +1,41 @@
+{
+  "thumbnail": "Inspected A-400.png and B-400.png first. A shows a compartmentalized editing guide and pipeline; B shows a larger poster with editing callouts and a compact pipeline.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit sections.header.headline in nutrition/fixture.json.",
+        "location": "Upper-left yellow panel, “① EDIT HEADLINE,” beneath the JSON example.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change hero.illustrationId from \"leaf_glow\" or replace leaf_glow.png; the asset path shown is assets/web/leaf_glow.png.",
+        "location": "Left green panel, “② SWAP THE LEAF,” including its path badge and explanation beneath the asset preview.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Scene + TTFs → satori() → render.svg; new Resvg(svg).render() → render.png.",
+        "location": "Bottom pipeline, orange boxes “A1 · SATORI → SVG” and “A2 · RESVG → PNG.”",
+        "correct": true
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit sections.header.headline in fixture.json.",
+        "location": "Upper-left orange callout, “EDIT THE WORDS.”",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Set hero.illustrationId from \"leaf_glow\" to another illustration in nutrition/assets/web/.",
+        "location": "Lower-left green callout, “SWAP THE LEAF.”",
+        "correct": true
+      },
+      "export": {
+        "answer": "scene → Satori → SVG → resvg → PNG.",
+        "location": "Bottom-center panel, “TWO BACKENDS, ONE SCENE,” under “SATORI PATH.”",
+        "correct": true
+      }
+    }
+  },
+  "choice": "tie",
+  "reason": "Both originals explicitly answer all three tasks with identifiable pictured locations. A supplies additional filenames and a direct asset replacement option; B presents the requested instructions clearly. Density alone does not reduce A’s task performance."
+}

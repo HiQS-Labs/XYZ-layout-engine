@@ -1,0 +1,16 @@
+opus ineligible
+neon · 510.928s · comprehension/craft/appeal/speed (3, 2, 2.5, 2) · 2.50/3
+sol · 95.180s · comprehension/craft/appeal/speed (3, 3, 3, 3) · 3.00/3
+100/109 tie with third ineligible: opus ineligible
+neon · 100.000s · comprehension/craft/appeal/speed (3, 2, 2.5, 3) · 2.60/3
+sol · 109.000s · comprehension/craft/appeal/speed (3, 3, 3, 3) · 3.00/3
+
+Unsupported claim adjudicated against source key: opus ineligible
+neon · 100.000s · comprehension/craft/appeal/speed (3, 2, 2.5, 3) · 2.60/3
+sol · 109.000s · comprehension/craft/appeal/speed (2.5, 3, 3, 3) · 2.80/3
+
+Missing ballots: opus ineligible
+neon · 100.000s · comprehension/craft/appeal/speed (3, 2, 2.5, 3) · 2.60/3
+sol provisional
+
+Published links: ['sol.html', 'neon.html', 'opus.html']

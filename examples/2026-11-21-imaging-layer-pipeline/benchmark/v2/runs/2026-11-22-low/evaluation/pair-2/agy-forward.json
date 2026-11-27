@@ -1,0 +1,41 @@
+{
+  "thumbnail": "At 400px width (A-400.png vs B-400.png), Poster A is far more legible: its dark background, oversized display type, and short copy make the title, nutrition/fixture.json ribbon, sections.header.headline, sections.hero.illustrationId, and all three bottom pipeline cards readable even as a thumbnail. Poster B's macro layout, section titles, red/green callout arrows to the finished poster, and 3-step structure are immediately clear at 400px, but its JSON snippets, file paths, bullet instructions, and 3A-3D pipeline text blur out and require native resolution to read.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit the sections.header.headline field in nutrition/fixture.json to change the words across the top of the poster.",
+        "location": "Lime-green top ribbon ('SOURCE nutrition/fixture.json'), left-column section 1 ('Rewrite the title', 'sections.header.headline'), and matching coral badge '1' on the upper-left edge of the poster preview aligned with 'FUEL WELL. LIVE WELL.' in A-native.png.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Edit sections.hero.illustrationId in nutrition/fixture.json, changing leaf_glow to parfait_jar to place the jar in the center. Cannot tell from Poster A where the leaf image file lives on disk, what file format/dimensions it requires, or how to introduce a brand-new image file.",
+        "location": "Lime-green top ribbon ('SOURCE nutrition/fixture.json'), left-column section 2 ('Swap the leaf', 'sections.hero.illustrationId', 'Change leaf_glow to parfait_jar to put the jar in the center.'), and matching lime badge '2' on the central leaf in the poster preview in A-native.png.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Three-step chain shown: (1) nutrition.mjs builds the scene by placing text and art (from the fixture); (2) render.mjs uses Playwright to take a browser screenshot of the page; (3) this outputs a 1000 x 1000 finished poster at render.png. Cannot tell how the scene from nutrition.mjs becomes an HTML/DOM page for Playwright, what command runs the export, or what directory render.png is written to.",
+        "location": "Bottom 'From fixture to PNG' strip across three arrow-linked boxes: 'nutrition.mjs / Build scene / Place text and art.' -> 'render.mjs / Playwright / Screenshot the page.' -> '1000 x 1000 / render.png / Finished poster.' in A-native.png.",
+        "correct": false
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit sections.header.headline (currently \"FUEL WELL. LIVE WELL.\") in nutrition/fixture.json. The card also notes it is rendered by source/nutrition.mjs as #header_headline in Barlow Condensed Bold (66px) and auto-shrinks if wider than 830px.",
+        "location": "Top-left Card 1 ('1 EDIT THE HEADLINE') with 'nutrition/fixture.json' pill, highlighted JSON line '\"headline\": \"FUEL WELL. LIVE WELL.\"' badged 'EDIT THIS', 'WHAT CHANGES ON THE POSTER' sub-box, and red-orange arrow pointing directly to the red-boxed '1 #header_headline' region on the 'FINISHED POSTER' preview in B-native.png.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Two ways are shown: (1) fastest swap — overwrite nutrition/assets/web/leaf_glow.png with a new transparent PNG (~2:3 portrait; current file is 427x640, placed at #hero_img as 428x640 px with warm HERO_SHADOW glow; must stay PNG because default Satori/Resvg drops WebP); or (2) add a new ID — register it in PNG_IDS inside source/nutrition.mjs and update sections.hero.illustrationId in nutrition/fixture.json.",
+        "location": "Middle-left Card 2 ('2 REPLACE THE HERO ARTWORK') with 'nutrition/assets/web/leaf_glow.png' pill, highlighted JSON '\"illustrationId\": \"leaf_glow\"' badged 'ASSET ID', checkerboard 'TRANSPARENT PNG / leaf_glow.png · 427x640' tile, two bullet points and green format note below the snippet, and green arrow pointing directly to the green-boxed '2 #hero_img' leaf on the 'FINISHED POSTER' preview in B-native.png.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Four-step causal chain shown (without assuming the printed CLI command executes): (3A) source/render.mjs (runCLI) is the entry point, showing a printed command targeting nutrition/fixture.json (--format png --out out/) and optional --set override; (3B) source/nutrition.mjs runs validate() to check fixture schema and 1000x1000 budget, then buildScene() merges copy, Barlow Condensed font, and pinned PNGs; (3C) source/render.mjs (processRequest) runs renderSatori() to build an SVG plus hero <feDropShadow> and shrink overflowing text (x0.9, max 10x), then @resvg/resvg-js rasterizes the fitted SVG into PNG bytes; (3D) publishArtifacts() -> publishStaged() stages runs/<uuid>/render.png, result.json, and SHA-256 digests and atomically swaps manifest.json to publish the finished poster. Cannot tell from the poster alone how the three displayed output paths ('--out out/' in 3A, 'runs/<uuid>/render.png' in 3D, and 'nutrition/render.png' in the preview header) map to one another.",
+        "location": "Bottom full-width Card 3 ('3 ONE WORKING ROUTE TO THE EXPORTED PNG') linked from Card 2 by an 'INPUTS' arrow and up to 'FINISHED POSTER' ('nutrition/render.png · 1000x1000') by a 'WRITES PNG' arrow, across sub-cards 3A ('RUN ONE COMMAND'), 3B ('VALIDATE & BUILD SCENE'), 3C ('LAYOUT, FIT & RASTERIZE'), and 3D ('PUBLISH VERIFIED PNG') in B-native.png.",
+        "correct": true
+      }
+    }
+  },
+  "choice": "B",
+  "reason": "Poster B directly answers all three newcomer questions at native size, whereas Poster A fails the artwork-replacement task for custom art (showing only how to swap leaf_glow to parfait_jar with no asset file path, transparency/PNG requirement, or new-ID registration) and leaves a causal gap between 'Build scene' and 'Playwright: Screenshot the page'. B's red/green arrows directly framing #header_headline and #hero_img on the poster, its checkerboard transparency tile for nutrition/assets/web/leaf_glow.png, and its explicit layout-to-rasterization sequence in 3B-3C (buildScene -> renderSatori SVG + shrink loop -> @resvg/resvg-js PNG bytes) make it immediately actionable, even though its dense typography is unreadable at 400px thumbnail scale compared to A."
+}

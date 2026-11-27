@@ -1,0 +1,1 @@
+{"rebuild":{"pass":true,"evidence":"In a fresh packet copy with both exports removed, node output/build.cjs reproduced the original PNG and HTML byte for byte."},"edit":{"pass":true,"evidence":"Changed the visible heading to Editing Fuel Better. in the copied build.cjs. Chromium read the new h1, the PNG bytes changed, and the edited PNG passed the HTML capture parity check."}}

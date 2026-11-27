@@ -1,0 +1,41 @@
+{
+  "thumbnail": "Record the first thing visible at 400px for A and B",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Cannot tell",
+        "location": "Indicate the pictured region checked",
+        "correct": false
+      },
+      "artwork": {
+        "answer": "Cannot tell",
+        "location": "Indicate the pictured region checked",
+        "correct": false
+      },
+      "export": {
+        "answer": "Cannot tell",
+        "location": "Indicate the pictured region checked",
+        "correct": false
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Cannot tell",
+        "location": "Indicate the pictured region checked",
+        "correct": false
+      },
+      "artwork": {
+        "answer": "Cannot tell",
+        "location": "Indicate the pictured region checked",
+        "correct": false
+      },
+      "export": {
+        "answer": "Cannot tell",
+        "location": "Indicate the pictured region checked",
+        "correct": false
+      }
+    }
+  },
+  "choice": "abstain",
+  "reason": "Record the observed reason."
+}

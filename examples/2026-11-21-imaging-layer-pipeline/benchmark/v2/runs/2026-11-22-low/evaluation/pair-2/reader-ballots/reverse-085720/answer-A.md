@@ -1,0 +1,58 @@
+### 1. ANSWER
+
+**Choice: `A`** — At native resolution ([A-native.png](./A-native.png) vs [B-native.png](./B-native.png)), Poster **A** is clearly more effective for the newcomer handoff task because it anchors both edits directly onto the poster with arrows and tight bounding boxes, covers *replacing* the leaf with new artwork (file path, transparent PNG format rule, and ID registration) rather than only switching to one pre-existing ID, and traces a complete causal pipeline from scene building through SVG layout/text-fitting to PNG pixel rasterization. Poster **B** wins decisively at thumbnail legibility ([B-400.png](./B-400.png) vs [A-400.png](./A-400.png)), but leaves critical gaps on artwork replacement and the export bridge — and notably, the two posters describe mutually exclusive rendering engines (Satori SVG + `@resvg/resvg-js` rasterization in A vs. Playwright browser screenshot in B), which cannot be adjudicated from the images alone.
+
+```json
+{
+  "thumbnail": "At 400px (A-400.png vs B-400.png), B is dramatically more legible: every heading, file/key path (nutrition/fixture.json, sections.header.headline, sections.hero.illustrationId), swap instruction (leaf_glow to parfait_jar), numbered badge, and bottom pipeline card (nutrition.mjs Build scene -> render.mjs Playwright Screenshot the page -> render.png) is readable without zooming. A-400.png communicates its 3-panel structure and color-coded arrows from Panels 1-2 to the boxed headline and leaf on the poster preview, but its JSON snippets, file-path pills, artwork bullets, and all text inside cards 3A-3D are too small and blurry to read at thumbnail size.",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit the \"headline\" value (\"FUEL WELL. LIVE WELL.\") under sections.header in nutrition/fixture.json. source/nutrition.mjs renders it as #header_headline in Barlow Condensed Bold (66px) and auto-shrinks it if wider than 830px. For a quick test without editing JSON, A also shows an inline CLI override (--set sections.header.headline=\"...\"), though whether that printed command runs cannot be verified from the image.",
+        "location": "Panel 1 (\"1 EDIT THE HEADLINE\", top-left): top-right pill \"nutrition/fixture.json\", dark JSON block with the highlighted \"headline\" line badged \"EDIT THIS\", right-hand \"WHAT CHANGES ON THE POSTER\" box, orange arrow pointing to the red-outlined \"1 #header_headline\" region on \"FINISHED POSTER\" (top-right); CLI override note at the bottom of card \"3A RUN ONE COMMAND\" (bottom-left)."
+      },
+      "artwork": {
+        "answer": "Two pictured routes: (1) fastest swap: replace nutrition/assets/web/leaf_glow.png with a new transparent PNG (~2:3 portrait; must stay PNG because default Satori/Resvg drops WebP), or (2) add a new ID: register it in PNG_IDS inside source/nutrition.mjs and update hero.illustrationId (currently \"leaf_glow\") in nutrition/fixture.json.",
+        "location": "Panel 2 (\"2 REPLACE THE HERO ARTWORK\", middle-left): top-right pill \"nutrition/assets/web/leaf_glow.png\", dark JSON block highlighting \"illustrationId\": \"leaf_glow\" badged \"ASSET ID\", two bullets (\"Fastest swap:\" and \"Or add a new ID:\"), green note box below the bullets (\"Placed at #hero_img (428x640 px) with warm HERO_SHADOW glow. Keep PNG format—default Satori/Resvg drops WebP.\"), right-hand \"TRANSPARENT PNG\" checkerboard preview labeled \"leaf_glow.png · 427x640\", and green arrow pointing to the green-outlined \"2 #hero_img\" leaf box on \"FINISHED POSTER\"."
+      },
+      "export": {
+        "answer": "After invocation via source/render.mjs (runCLI) with nutrition/fixture.json: (1) source/nutrition.mjs runs validate() to check the fixture schema and 1000x1000 budget, then buildScene() merges copy, the Barlow Condensed font, and pinned PNGs into a scene; (2) source/render.mjs (processRequest) calls renderSatori() to build an SVG plus the hero <feDropShadow> and iteratively shrink overflowing text (x0.9, max 10x); (3) @resvg/resvg-js rasterizes the fitted SVG into PNG bytes; (4) publishArtifacts() -> publishStaged() stages runs/<uuid>/render.png, result.json, and SHA-256 digests, then atomically swaps manifest.json to publish the poster. Cannot tell from the image alone whether the printed CLI command actually runs or how --out out/ (3A), runs/<uuid>/render.png (3D), and nutrition/render.png (poster header) reconcile.",
+        "location": "Panel 3 (\"3 ONE WORKING ROUTE TO THE EXPORTED PNG\", full-width bottom band): top-right flow pill \"SOURCE EDITS -> CLI -> SCENE -> FIT & RASTERIZE -> RENDER.PNG\" and four arrow-linked cards left-to-right (\"3A RUN ONE COMMAND\", \"3B VALIDATE & BUILD SCENE\", \"3C LAYOUT, FIT & RASTERIZE\", \"3D PUBLISH VERIFIED PNG\"), connected downward from Panels 1-2 via \"INPUTS\" and upward to \"FINISHED POSTER\" via \"WRITES PNG\"."
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit sections.header.headline in nutrition/fixture.json to change the words across the top of the poster.",
+        "location": "Lime banner across upper-middle (\"SOURCE nutrition/fixture.json\"), left-column section \"1 Rewrite the title\" (listing \"sections.header.headline\" and \"Change the words across the top of the poster.\"), paired with coral circle badge \"1\" on the top-left border of the poster preview aligned with \"FUEL WELL. LIVE WELL.\"."
+      },
+      "artwork": {
+        "answer": "Edit sections.hero.illustrationId in nutrition/fixture.json, changing leaf_glow to parfait_jar to place the jar in the center. Cannot tell from B where the leaf image file is stored on disk, what image format/dimensions/transparency are required, or how to add and register a brand-new image instead of an existing ID.",
+        "location": "Lime banner (\"SOURCE nutrition/fixture.json\"), left-column section \"2 Swap the leaf\" (listing \"sections.hero.illustrationId\" and \"Change leaf_glow to parfait_jar to put the jar in the center.\"), paired with lime circle badge \"2\" placed over the center leaf on the poster preview."
+      },
+      "export": {
+        "answer": "nutrition.mjs builds the scene (\"Place text and art.\"), then render.mjs uses Playwright to \"Screenshot the page.\", producing a 1000 x 1000 render.png (\"Finished poster.\"). Cannot tell from B what directory nutrition.mjs, render.mjs, or render.png live in, how the built scene becomes a browser page for Playwright, or how to invoke the export.",
+        "location": "Bottom band titled \"From fixture to PNG\", across three arrow-connected cards left-to-right: \"nutrition.mjs / Build scene / Place text and art.\" -> \"render.mjs / Playwright / Screenshot the page.\" -> \"1000 x 1000 / render.png / Finished poster.\"."
+      }
+    }
+  },
+  "choice": "A",
+  "reason": "Poster A wins for the newcomer task at native size because of three concrete visible aids that directly unblock the tasks rather than merely adding detail: (1) in Panel 2, the file pill (nutrition/assets/web/leaf_glow.png), transparent-checkerboard preview, PNG-only note, and PNG_IDS bullet tell a newcomer how to replace the leaf with new art, whereas B's \"2 Swap the leaf\" only shows switching to one existing ID (parfait_jar) and never locates the artwork file; (2) A's color-coded arrows and tight bounding boxes (#header_headline and #hero_img) plus JSON snippets unambiguously tie edits to poster regions, whereas B floats badge 1 on the preview's outer margin; and (3) A's cards 3B-3C explicitly trace layout-to-pixel causality (buildScene -> renderSatori SVG -> @resvg/resvg-js rasterization) with full relative paths, whereas B jumps from \"Place text and art\" to \"Playwright: Screenshot the page\" with no directories or intermediate page step. B clearly beats A on 400px thumbnail legibility, and A's dense micro-type and unresolved output-path tension (nutrition/render.png vs --out out/ vs runs/<uuid>/render.png) hinder quick scanning, but A actually answers all three newcomer questions."
+}
+```
+
+---
+
+### 2. GRADED FINDINGS
+
+- **[Blocker] Mutually contradictory rendering mechanisms across A and B**: [A-native.png](./A-native.png) (card `3C`) states PNG pixels come from `renderSatori()` building an SVG rasterized by `@resvg/resvg-js`, whereas [B-native.png](./B-native.png) (bottom middle card) states `render.mjs` uses `Playwright` to `Screenshot the page`. At least one poster is factually wrong about the real engine; this cannot be verified from the images alone and must be checked against the codebase before shipping either poster.
+- **[Should] Poster B cannot guide true artwork replacement**: In [B-native.png](./B-native.png) (`2 Swap the leaf`), a newcomer only learns how to switch `leaf_glow` to `parfait_jar`. No asset directory, filename, format/transparency requirement, or ID-registration file is shown.
+- **[Should] Poster B omits directory paths and the scene-to-page causal bridge**: In [B-native.png](./B-native.png) (`From fixture to PNG`), `nutrition.mjs`, `render.mjs`, and `render.png` lack directory paths, no invocation mechanism is shown, and the transition from `Place text and art.` to `Playwright / Screenshot the page.` omits what intermediate representation is rendered.
+- **[Should] Poster A fails thumbnail legibility and carries an output-path tension**: In [A-400.png](./A-400.png), all JSON snippets, file badges, and Step 3A–3D body text become unreadable. At native size ([A-native.png](./A-native.png)), three different output paths appear (`nutrition/render.png` in the `FINISHED POSTER` pill, `--out out/` in `3A`, and `runs/<uuid>/render.png` in `3D`) without explaining how they connect.
+- **[Nit] Minor visual anchoring & dimension quirks**: On [B-native.png](./B-native.png), badge `1` sits on the preview border off to the left of the headline and `PRINT ↘` in the lime banner has no clear referent; on [A-native.png](./A-native.png) (Panel 2), the note cites `428×640 px` while the preview caption reads `427×640`.
+- **[Pass] Spatial visual wiring on A and typographic hierarchy on B**: [A-native.png](./A-native.png) excels at directly wiring source edits (`1`, `2`) to exact poster boxes (`#header_headline`, `#hero_img`) and showing the standalone transparent PNG asset; [B-400.png](./B-400.png) excels at instant glanceability and contrast at thumbnail scale.
+
+---
+
+### 3. RECOMMENDATION
+
+Choose **A** as the stronger newcomer handoff poster (it uniquely enables new artwork replacement and traces a real layout-to-PNG pipeline), while trimming Step 3's micro-copy, reconciling its three output paths (`nutrition/render.png`, `out/`, `runs/<uuid>/render.png`), and verifying against source code whether the engine truly uses Satori + `@resvg/resvg-js` rather than Playwright.

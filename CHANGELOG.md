@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-11-26 — Forge scroll benchmark follow-up (#104, #105)
+
+Linked the example from the README and required written reader answers for facts marked correct.
+
+## 2026-11-25 — Lean multi-stage renderer Docker target (GH-102)
+
+- Converted `Dockerfile` to a multi-stage build (`base` → `renderer` → `studio` default) with `pnpm install --frozen-lockfile --ignore-scripts`, `PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`, and world-readable `/app` (`a+rX`) for non-root `--user` container runs.
+- Trimmed `.dockerignore` to exclude `tools/spike/output` and non-runtime governance directories/files explicitly while retaining `examples/` for `studio` and all `tools/` catalog-pinned Markdown/asset files (including `tools/recipes/design-intake.contract.md`).
+- Documented `docker build --target renderer`, recipe scope (`design-intake` in `renderer`; example-backed recipes in `studio`), and headless `docker run` invocation in `README.md`; `docker compose up --build` continues targeting `studio` unchanged. Easy reversal.
+- Verified via `pnpm test` (4/4 canaries within 60 s budget), `FRONTDOOR.md` (`FD-01`..`FD-10`), `utils/pdda/pdda.sh run` (0 errors), and live `linux/amd64` Docker runs (`docker build --target renderer` with 5.06 MB BuildKit context, headless non-root `--user` Playwright/Satori renders including arbitrary UID `12345:12345` with `catalog.verified: true`, and `docker compose up -d --build` Studio parity across all 4 recipes).
+
+## 2026-11-23 — GH-98 Forge scroll benchmark v3
+
+Added a responsive Forge landing-page benchmark with a pinned source handout, matched viewport captures, blinded reader evidence and operator timing. See [the example](examples/2026-11-23-forge-scroll-v3/README.md).
+
 ## 2026-11-24 — Beyond the Prompt thesis edition (#100)
 
 - Added a ten-slide UX talk with editable copy, research sources, offline viewer and PDF. The overview renderer also accepts a separate manifest and can build a contents slide from its previews.
@@ -701,3 +716,7 @@
 - Pinned font (Inter) and dependencies, deferring Chromium packaging until terms are reviewed. 
 - Stage diagnostics, worker-based hard interruptions, remote HTTP/MCP, tenant isolation, private caches, durable service queues, and themes remain deferred to Later.
 - Added Phase 5 handoff documentation. Final QA, native gate test (`pnpm test`), and visual human approval remain pending independently.
+
+### GH-96 · Editorial judgment benchmark pilot
+
+Added a versioned Fuel Well candidate brief, blind image pair preparation, three calibration controls and a compact evidence report. See the [editorial evaluation instructions](examples/2026-11-21-imaging-layer-pipeline/evaluation/v2/README.md).

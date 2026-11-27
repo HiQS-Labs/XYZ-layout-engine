@@ -1,0 +1,41 @@
+{
+  "thumbnail": "Both A-400.png and B-400.png share the exact same clean two-column layout on a cream background: bold dark-green title 'Editing Fuel Well' at top-left, three legible left-column instruction blocks ('Change the headline', 'Replace the leaf', 'Export the poster'), and a square 'FUEL WELL. LIVE WELL.' green-leaf poster preview on the right whose smallest captions soften at 400px while the main instructions stay readable. Even in the thumbnails, the only visible difference is in the third left-column block: A prints 'resvg creates SVG. Satori turns it into PNG.' while B prints 'Satori creates SVG. resvg turns it into PNG.'",
+  "reading": {
+    "A": {
+      "headline": {
+        "answer": "Edit the headline in the fixture to change the words at the top (no specific file path or key name is printed).",
+        "location": "Upper-left column under the bold 'Change the headline' heading, first block below 'Editing Fuel Well'.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change the hero illustration ID to swap the leaf artwork (no specific file path or asset key is printed).",
+        "location": "Middle-left column under the bold 'Replace the leaf' heading, second block on the left.",
+        "correct": true
+      },
+      "export": {
+        "answer": "resvg creates SVG. Satori turns it into PNG.",
+        "location": "Lower-left column under the bold 'Export the poster' heading, third block on the left.",
+        "correct": false
+      }
+    },
+    "B": {
+      "headline": {
+        "answer": "Edit the headline in the fixture to change the words at the top (no specific file path or key name is printed).",
+        "location": "Upper-left column under the bold 'Change the headline' heading, first block below 'Editing Fuel Well'.",
+        "correct": true
+      },
+      "artwork": {
+        "answer": "Change the hero illustration ID to swap the leaf artwork (no specific file path or asset key is printed).",
+        "location": "Middle-left column under the bold 'Replace the leaf' heading, second block on the left.",
+        "correct": true
+      },
+      "export": {
+        "answer": "Satori creates SVG. resvg turns it into PNG.",
+        "location": "Lower-left column under the bold 'Export the poster' heading, third block on the left.",
+        "correct": true
+      }
+    }
+  },
+  "choice": "B",
+  "reason": "A and B are visually identical in layout, legibility, poster preview, and the headline and leaf instructions, but in the lower-left 'Export the poster' block B prints the accurate PNG route ('Satori creates SVG. resvg turns it into PNG.') while A prints the two tools in reversed order ('resvg creates SVG. Satori turns it into PNG.')."
+}
